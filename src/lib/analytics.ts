@@ -200,3 +200,19 @@ export function trackCalculatorComplete(params: {
     ...clean(params.result ?? {}),
   });
 }
+
+/** Genuine page view of the first-party Starter Guide. No PII. */
+export function trackStarterGuideView(params: { path: string }): void {
+  trackEvent("starter_guide_view", {
+    page_path: params.path,
+    content_slug: contentSlugFromPath(params.path),
+  });
+}
+
+/** User invoked the print action on the Starter Guide quick reference. No PII. */
+export function trackStarterGuidePrint(params: { path: string }): void {
+  trackEvent("starter_guide_print", {
+    page_path: params.path,
+    content_slug: contentSlugFromPath(params.path),
+  });
+}
