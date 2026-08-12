@@ -76,17 +76,60 @@ function IngredientsPage() {
           ))}
         </ul>
 
-        <p className="mt-16 text-sm text-muted-foreground">
-          Substituting duck fat for butter or oil? The{" "}
-          <Link to="/tools" className="text-primary underline underline-offset-4">
-            duck-fat substitution calculator
-          </Link>{" "}
-          is in development. Meanwhile, the{" "}
-          <Link to="/cook" className="text-primary underline underline-offset-4">
-            recipes
-          </Link>{" "}
-          list quantities by weight.
-        </p>
+        <div className="mt-16 rounded-sm border border-border bg-cream p-6 lg:p-8">
+          <h2 className="font-display text-2xl text-foreground">Go deeper</h2>
+          <ul className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+            <li>
+              <Link
+                to="/learn/how-to-render-duck-fat"
+                className="text-primary underline underline-offset-4"
+              >
+                How to render, strain and store duck fat
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/cook/ways-to-use-duck-fat"
+                className="text-primary underline underline-offset-4"
+              >
+                15 smart ways to cook with duck fat
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/cook/best-sauces-for-duck-breast"
+                className="text-primary underline underline-offset-4"
+              >
+                Best sauces for duck breast
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/cook/what-to-serve-with-duck-breast"
+                className="text-primary underline underline-offset-4"
+              >
+                What to serve with duck breast
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/buy/duck-fat-buying-guide"
+                className="text-primary underline underline-offset-4"
+              >
+                Duck fat buying guide
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/tools/duck-fat-substitution-calculator"
+                className="text-primary underline underline-offset-4"
+              >
+                Duck-fat substitution calculator
+              </Link>
+            </li>
+          </ul>
+        </div>
+
       </section>
     </>
   );

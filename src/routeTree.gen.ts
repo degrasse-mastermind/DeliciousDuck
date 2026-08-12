@@ -22,7 +22,36 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
+import { Route as BuyIndexRouteImport } from './routes/buy.index'
+import { Route as BuyDuckFatBuyingGuideRouteImport } from './routes/buy.duck-fat-buying-guide'
+import { Route as BuyWhereToBuyDuckOnlineRouteImport } from './routes/buy.where-to-buy-duck-online'
+import { Route as CookIndexRouteImport } from './routes/cook.index'
+import { Route as CookBestSaucesForDuckBreastRouteImport } from './routes/cook.best-sauces-for-duck-breast'
+import { Route as CookDuckLegConfitRouteImport } from './routes/cook.duck-leg-confit'
+import { Route as CookHowToCookDuckBreastRouteImport } from './routes/cook.how-to-cook-duck-breast'
+import { Route as CookHowToCookWildDuckBreastRouteImport } from './routes/cook.how-to-cook-wild-duck-breast'
+import { Route as CookWaysToUseDuckFatRouteImport } from './routes/cook.ways-to-use-duck-fat'
+import { Route as CookWhatToServeWithDuckBreastRouteImport } from './routes/cook.what-to-serve-with-duck-breast'
+import { Route as CookWholeRoastDuckRouteImport } from './routes/cook.whole-roast-duck'
+import { Route as GearIndexRouteImport } from './routes/gear.index'
+import { Route as GearBestKnifeForScoringDuckRouteImport } from './routes/gear.best-knife-for-scoring-duck'
+import { Route as GearBestPanForDuckBreastRouteImport } from './routes/gear.best-pan-for-duck-breast'
+import { Route as GearBestThermometerForDuckRouteImport } from './routes/gear.best-thermometer-for-duck'
+import { Route as LearnIndexRouteImport } from './routes/learn.index'
+import { Route as LearnDuckBreastTemperatureDonenessRouteImport } from './routes/learn.duck-breast-temperature-doneness'
+import { Route as LearnHowToCarveADuckRouteImport } from './routes/learn.how-to-carve-a-duck'
+import { Route as LearnHowToRenderDuckFatRouteImport } from './routes/learn.how-to-render-duck-fat'
+import { Route as LearnHowToScoreDuckBreastRouteImport } from './routes/learn.how-to-score-duck-breast'
+import { Route as LearnHowToThawDuckRouteImport } from './routes/learn.how-to-thaw-duck'
+import { Route as LearnWholeDuckCookingTimeRouteImport } from './routes/learn.whole-duck-cooking-time'
+import { Route as LearnWhyDuckSkinIsntCrispyRouteImport } from './routes/learn.why-duck-skin-isnt-crispy'
+import { Route as LearnWildDuckVsFarmedDuckRouteImport } from './routes/learn.wild-duck-vs-farmed-duck'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as ToolsDuckCookingTimePlannerRouteImport } from './routes/tools.duck-cooking-time-planner'
+import { Route as ToolsDuckDonenessGuideRouteImport } from './routes/tools.duck-doneness-guide'
+import { Route as ToolsDuckFatSubstitutionCalculatorRouteImport } from './routes/tools.duck-fat-substitution-calculator'
+import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
+import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
 
 const IndexRoute = IndexRouteImport.update({
@@ -90,9 +119,167 @@ const ToolsRoute = ToolsRouteImport.update({
   path: '/tools',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuyIndexRoute = BuyIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BuyRoute,
+} as any)
+const BuyDuckFatBuyingGuideRoute = BuyDuckFatBuyingGuideRouteImport.update({
+  id: '/duck-fat-buying-guide',
+  path: '/duck-fat-buying-guide',
+  getParentRoute: () => BuyRoute,
+} as any)
+const BuyWhereToBuyDuckOnlineRoute = BuyWhereToBuyDuckOnlineRouteImport.update({
+  id: '/where-to-buy-duck-online',
+  path: '/where-to-buy-duck-online',
+  getParentRoute: () => BuyRoute,
+} as any)
+const CookIndexRoute = CookIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CookRoute,
+} as any)
+const CookBestSaucesForDuckBreastRoute =
+  CookBestSaucesForDuckBreastRouteImport.update({
+    id: '/best-sauces-for-duck-breast',
+    path: '/best-sauces-for-duck-breast',
+    getParentRoute: () => CookRoute,
+  } as any)
+const CookDuckLegConfitRoute = CookDuckLegConfitRouteImport.update({
+  id: '/duck-leg-confit',
+  path: '/duck-leg-confit',
+  getParentRoute: () => CookRoute,
+} as any)
+const CookHowToCookDuckBreastRoute = CookHowToCookDuckBreastRouteImport.update({
+  id: '/how-to-cook-duck-breast',
+  path: '/how-to-cook-duck-breast',
+  getParentRoute: () => CookRoute,
+} as any)
+const CookHowToCookWildDuckBreastRoute =
+  CookHowToCookWildDuckBreastRouteImport.update({
+    id: '/how-to-cook-wild-duck-breast',
+    path: '/how-to-cook-wild-duck-breast',
+    getParentRoute: () => CookRoute,
+  } as any)
+const CookWaysToUseDuckFatRoute = CookWaysToUseDuckFatRouteImport.update({
+  id: '/ways-to-use-duck-fat',
+  path: '/ways-to-use-duck-fat',
+  getParentRoute: () => CookRoute,
+} as any)
+const CookWhatToServeWithDuckBreastRoute =
+  CookWhatToServeWithDuckBreastRouteImport.update({
+    id: '/what-to-serve-with-duck-breast',
+    path: '/what-to-serve-with-duck-breast',
+    getParentRoute: () => CookRoute,
+  } as any)
+const CookWholeRoastDuckRoute = CookWholeRoastDuckRouteImport.update({
+  id: '/whole-roast-duck',
+  path: '/whole-roast-duck',
+  getParentRoute: () => CookRoute,
+} as any)
+const GearIndexRoute = GearIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => GearRoute,
+} as any)
+const GearBestKnifeForScoringDuckRoute =
+  GearBestKnifeForScoringDuckRouteImport.update({
+    id: '/best-knife-for-scoring-duck',
+    path: '/best-knife-for-scoring-duck',
+    getParentRoute: () => GearRoute,
+  } as any)
+const GearBestPanForDuckBreastRoute =
+  GearBestPanForDuckBreastRouteImport.update({
+    id: '/best-pan-for-duck-breast',
+    path: '/best-pan-for-duck-breast',
+    getParentRoute: () => GearRoute,
+  } as any)
+const GearBestThermometerForDuckRoute =
+  GearBestThermometerForDuckRouteImport.update({
+    id: '/best-thermometer-for-duck',
+    path: '/best-thermometer-for-duck',
+    getParentRoute: () => GearRoute,
+  } as any)
+const LearnIndexRoute = LearnIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LearnRoute,
+} as any)
+const LearnDuckBreastTemperatureDonenessRoute =
+  LearnDuckBreastTemperatureDonenessRouteImport.update({
+    id: '/duck-breast-temperature-doneness',
+    path: '/duck-breast-temperature-doneness',
+    getParentRoute: () => LearnRoute,
+  } as any)
+const LearnHowToCarveADuckRoute = LearnHowToCarveADuckRouteImport.update({
+  id: '/how-to-carve-a-duck',
+  path: '/how-to-carve-a-duck',
+  getParentRoute: () => LearnRoute,
+} as any)
+const LearnHowToRenderDuckFatRoute = LearnHowToRenderDuckFatRouteImport.update({
+  id: '/how-to-render-duck-fat',
+  path: '/how-to-render-duck-fat',
+  getParentRoute: () => LearnRoute,
+} as any)
+const LearnHowToScoreDuckBreastRoute =
+  LearnHowToScoreDuckBreastRouteImport.update({
+    id: '/how-to-score-duck-breast',
+    path: '/how-to-score-duck-breast',
+    getParentRoute: () => LearnRoute,
+  } as any)
+const LearnHowToThawDuckRoute = LearnHowToThawDuckRouteImport.update({
+  id: '/how-to-thaw-duck',
+  path: '/how-to-thaw-duck',
+  getParentRoute: () => LearnRoute,
+} as any)
+const LearnWholeDuckCookingTimeRoute =
+  LearnWholeDuckCookingTimeRouteImport.update({
+    id: '/whole-duck-cooking-time',
+    path: '/whole-duck-cooking-time',
+    getParentRoute: () => LearnRoute,
+  } as any)
+const LearnWhyDuckSkinIsntCrispyRoute =
+  LearnWhyDuckSkinIsntCrispyRouteImport.update({
+    id: '/why-duck-skin-isnt-crispy',
+    path: '/why-duck-skin-isnt-crispy',
+    getParentRoute: () => LearnRoute,
+  } as any)
+const LearnWildDuckVsFarmedDuckRoute =
+  LearnWildDuckVsFarmedDuckRouteImport.update({
+    id: '/wild-duck-vs-farmed-duck',
+    path: '/wild-duck-vs-farmed-duck',
+    getParentRoute: () => LearnRoute,
+  } as any)
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsDuckCookingTimePlannerRoute =
+  ToolsDuckCookingTimePlannerRouteImport.update({
+    id: '/duck-cooking-time-planner',
+    path: '/duck-cooking-time-planner',
+    getParentRoute: () => ToolsRoute,
+  } as any)
+const ToolsDuckDonenessGuideRoute = ToolsDuckDonenessGuideRouteImport.update({
+  id: '/duck-doneness-guide',
+  path: '/duck-doneness-guide',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsDuckFatSubstitutionCalculatorRoute =
+  ToolsDuckFatSubstitutionCalculatorRouteImport.update({
+    id: '/duck-fat-substitution-calculator',
+    path: '/duck-fat-substitution-calculator',
+    getParentRoute: () => ToolsRoute,
+  } as any)
+const ToolsRecipeScalerRoute = ToolsRecipeScalerRouteImport.update({
+  id: '/recipe-scaler',
+  path: '/recipe-scaler',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsWhatShouldICookRoute = ToolsWhatShouldICookRouteImport.update({
+  id: '/what-should-i-cook',
+  path: '/what-should-i-cook',
   getParentRoute: () => ToolsRoute,
 } as any)
 const ToolsWholeDuckServingCalculatorRoute =
@@ -106,33 +293,87 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
-  '/buy': typeof BuyRoute
-  '/cook': typeof CookRoute
+  '/buy': typeof BuyRouteWithChildren
+  '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
-  '/gear': typeof GearRoute
+  '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRoute
-  '/learn': typeof LearnRoute
+  '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
+  '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
+  '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
+  '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
+  '/cook/duck-leg-confit': typeof CookDuckLegConfitRoute
+  '/cook/how-to-cook-duck-breast': typeof CookHowToCookDuckBreastRoute
+  '/cook/how-to-cook-wild-duck-breast': typeof CookHowToCookWildDuckBreastRoute
+  '/cook/ways-to-use-duck-fat': typeof CookWaysToUseDuckFatRoute
+  '/cook/what-to-serve-with-duck-breast': typeof CookWhatToServeWithDuckBreastRoute
+  '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
+  '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
+  '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
+  '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
+  '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
+  '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
+  '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
+  '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
+  '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
+  '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
+  '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
+  '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
+  '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
+  '/buy/': typeof BuyIndexRoute
+  '/cook/': typeof CookIndexRoute
+  '/gear/': typeof GearIndexRoute
+  '/learn/': typeof LearnIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
-  '/buy': typeof BuyRoute
-  '/cook': typeof CookRoute
   '/editorial-standards': typeof EditorialStandardsRoute
-  '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
-  '/learn': typeof LearnRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
+  '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
+  '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
+  '/cook/duck-leg-confit': typeof CookDuckLegConfitRoute
+  '/cook/how-to-cook-duck-breast': typeof CookHowToCookDuckBreastRoute
+  '/cook/how-to-cook-wild-duck-breast': typeof CookHowToCookWildDuckBreastRoute
+  '/cook/ways-to-use-duck-fat': typeof CookWaysToUseDuckFatRoute
+  '/cook/what-to-serve-with-duck-breast': typeof CookWhatToServeWithDuckBreastRoute
+  '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
+  '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
+  '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
+  '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
+  '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
+  '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
+  '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
+  '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
+  '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
+  '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
+  '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
+  '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
+  '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
+  '/buy': typeof BuyIndexRoute
+  '/cook': typeof CookIndexRoute
+  '/gear': typeof GearIndexRoute
+  '/learn': typeof LearnIndexRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
@@ -140,17 +381,46 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
-  '/buy': typeof BuyRoute
-  '/cook': typeof CookRoute
+  '/buy': typeof BuyRouteWithChildren
+  '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
-  '/gear': typeof GearRoute
+  '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRoute
-  '/learn': typeof LearnRoute
+  '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
+  '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
+  '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
+  '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
+  '/cook/duck-leg-confit': typeof CookDuckLegConfitRoute
+  '/cook/how-to-cook-duck-breast': typeof CookHowToCookDuckBreastRoute
+  '/cook/how-to-cook-wild-duck-breast': typeof CookHowToCookWildDuckBreastRoute
+  '/cook/ways-to-use-duck-fat': typeof CookWaysToUseDuckFatRoute
+  '/cook/what-to-serve-with-duck-breast': typeof CookWhatToServeWithDuckBreastRoute
+  '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
+  '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
+  '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
+  '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
+  '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
+  '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
+  '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
+  '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
+  '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
+  '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
+  '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
+  '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
+  '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
+  '/buy/': typeof BuyIndexRoute
+  '/cook/': typeof CookIndexRoute
+  '/gear/': typeof GearIndexRoute
+  '/learn/': typeof LearnIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
@@ -169,23 +439,77 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
+    | '/buy/duck-fat-buying-guide'
+    | '/buy/where-to-buy-duck-online'
+    | '/cook/best-sauces-for-duck-breast'
+    | '/cook/duck-leg-confit'
+    | '/cook/how-to-cook-duck-breast'
+    | '/cook/how-to-cook-wild-duck-breast'
+    | '/cook/ways-to-use-duck-fat'
+    | '/cook/what-to-serve-with-duck-breast'
+    | '/cook/whole-roast-duck'
+    | '/gear/best-knife-for-scoring-duck'
+    | '/gear/best-pan-for-duck-breast'
+    | '/gear/best-thermometer-for-duck'
+    | '/learn/duck-breast-temperature-doneness'
+    | '/learn/how-to-carve-a-duck'
+    | '/learn/how-to-render-duck-fat'
+    | '/learn/how-to-score-duck-breast'
+    | '/learn/how-to-thaw-duck'
+    | '/learn/whole-duck-cooking-time'
+    | '/learn/why-duck-skin-isnt-crispy'
+    | '/learn/wild-duck-vs-farmed-duck'
+    | '/tools/duck-cooking-time-planner'
+    | '/tools/duck-doneness-guide'
+    | '/tools/duck-fat-substitution-calculator'
+    | '/tools/recipe-scaler'
+    | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
+    | '/buy/'
+    | '/cook/'
+    | '/gear/'
+    | '/learn/'
     | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/affiliate-disclosure'
-    | '/buy'
-    | '/cook'
     | '/editorial-standards'
-    | '/gear'
     | '/ingredients'
-    | '/learn'
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
+    | '/buy/duck-fat-buying-guide'
+    | '/buy/where-to-buy-duck-online'
+    | '/cook/best-sauces-for-duck-breast'
+    | '/cook/duck-leg-confit'
+    | '/cook/how-to-cook-duck-breast'
+    | '/cook/how-to-cook-wild-duck-breast'
+    | '/cook/ways-to-use-duck-fat'
+    | '/cook/what-to-serve-with-duck-breast'
+    | '/cook/whole-roast-duck'
+    | '/gear/best-knife-for-scoring-duck'
+    | '/gear/best-pan-for-duck-breast'
+    | '/gear/best-thermometer-for-duck'
+    | '/learn/duck-breast-temperature-doneness'
+    | '/learn/how-to-carve-a-duck'
+    | '/learn/how-to-render-duck-fat'
+    | '/learn/how-to-score-duck-breast'
+    | '/learn/how-to-thaw-duck'
+    | '/learn/whole-duck-cooking-time'
+    | '/learn/why-duck-skin-isnt-crispy'
+    | '/learn/wild-duck-vs-farmed-duck'
+    | '/tools/duck-cooking-time-planner'
+    | '/tools/duck-doneness-guide'
+    | '/tools/duck-fat-substitution-calculator'
+    | '/tools/recipe-scaler'
+    | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
+    | '/buy'
+    | '/cook'
+    | '/gear'
+    | '/learn'
     | '/tools'
   id:
     | '__root__'
@@ -202,7 +526,36 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
+    | '/buy/duck-fat-buying-guide'
+    | '/buy/where-to-buy-duck-online'
+    | '/cook/best-sauces-for-duck-breast'
+    | '/cook/duck-leg-confit'
+    | '/cook/how-to-cook-duck-breast'
+    | '/cook/how-to-cook-wild-duck-breast'
+    | '/cook/ways-to-use-duck-fat'
+    | '/cook/what-to-serve-with-duck-breast'
+    | '/cook/whole-roast-duck'
+    | '/gear/best-knife-for-scoring-duck'
+    | '/gear/best-pan-for-duck-breast'
+    | '/gear/best-thermometer-for-duck'
+    | '/learn/duck-breast-temperature-doneness'
+    | '/learn/how-to-carve-a-duck'
+    | '/learn/how-to-render-duck-fat'
+    | '/learn/how-to-score-duck-breast'
+    | '/learn/how-to-thaw-duck'
+    | '/learn/whole-duck-cooking-time'
+    | '/learn/why-duck-skin-isnt-crispy'
+    | '/learn/wild-duck-vs-farmed-duck'
+    | '/tools/duck-cooking-time-planner'
+    | '/tools/duck-doneness-guide'
+    | '/tools/duck-fat-substitution-calculator'
+    | '/tools/recipe-scaler'
+    | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
+    | '/buy/'
+    | '/cook/'
+    | '/gear/'
+    | '/learn/'
     | '/tools/'
   fileRoutesById: FileRoutesById
 }
@@ -210,12 +563,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
-  BuyRoute: typeof BuyRoute
-  CookRoute: typeof CookRoute
+  BuyRoute: typeof BuyRouteWithChildren
+  CookRoute: typeof CookRouteWithChildren
   EditorialStandardsRoute: typeof EditorialStandardsRoute
-  GearRoute: typeof GearRoute
+  GearRoute: typeof GearRouteWithChildren
   IngredientsRoute: typeof IngredientsRoute
-  LearnRoute: typeof LearnRoute
+  LearnRoute: typeof LearnRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -315,11 +668,214 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/buy/': {
+      id: '/buy/'
+      path: '/'
+      fullPath: '/buy/'
+      preLoaderRoute: typeof BuyIndexRouteImport
+      parentRoute: typeof BuyRoute
+    }
+    '/buy/duck-fat-buying-guide': {
+      id: '/buy/duck-fat-buying-guide'
+      path: '/duck-fat-buying-guide'
+      fullPath: '/buy/duck-fat-buying-guide'
+      preLoaderRoute: typeof BuyDuckFatBuyingGuideRouteImport
+      parentRoute: typeof BuyRoute
+    }
+    '/buy/where-to-buy-duck-online': {
+      id: '/buy/where-to-buy-duck-online'
+      path: '/where-to-buy-duck-online'
+      fullPath: '/buy/where-to-buy-duck-online'
+      preLoaderRoute: typeof BuyWhereToBuyDuckOnlineRouteImport
+      parentRoute: typeof BuyRoute
+    }
+    '/cook/': {
+      id: '/cook/'
+      path: '/'
+      fullPath: '/cook/'
+      preLoaderRoute: typeof CookIndexRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/cook/best-sauces-for-duck-breast': {
+      id: '/cook/best-sauces-for-duck-breast'
+      path: '/best-sauces-for-duck-breast'
+      fullPath: '/cook/best-sauces-for-duck-breast'
+      preLoaderRoute: typeof CookBestSaucesForDuckBreastRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/cook/duck-leg-confit': {
+      id: '/cook/duck-leg-confit'
+      path: '/duck-leg-confit'
+      fullPath: '/cook/duck-leg-confit'
+      preLoaderRoute: typeof CookDuckLegConfitRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/cook/how-to-cook-duck-breast': {
+      id: '/cook/how-to-cook-duck-breast'
+      path: '/how-to-cook-duck-breast'
+      fullPath: '/cook/how-to-cook-duck-breast'
+      preLoaderRoute: typeof CookHowToCookDuckBreastRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/cook/how-to-cook-wild-duck-breast': {
+      id: '/cook/how-to-cook-wild-duck-breast'
+      path: '/how-to-cook-wild-duck-breast'
+      fullPath: '/cook/how-to-cook-wild-duck-breast'
+      preLoaderRoute: typeof CookHowToCookWildDuckBreastRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/cook/ways-to-use-duck-fat': {
+      id: '/cook/ways-to-use-duck-fat'
+      path: '/ways-to-use-duck-fat'
+      fullPath: '/cook/ways-to-use-duck-fat'
+      preLoaderRoute: typeof CookWaysToUseDuckFatRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/cook/what-to-serve-with-duck-breast': {
+      id: '/cook/what-to-serve-with-duck-breast'
+      path: '/what-to-serve-with-duck-breast'
+      fullPath: '/cook/what-to-serve-with-duck-breast'
+      preLoaderRoute: typeof CookWhatToServeWithDuckBreastRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/cook/whole-roast-duck': {
+      id: '/cook/whole-roast-duck'
+      path: '/whole-roast-duck'
+      fullPath: '/cook/whole-roast-duck'
+      preLoaderRoute: typeof CookWholeRoastDuckRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/gear/': {
+      id: '/gear/'
+      path: '/'
+      fullPath: '/gear/'
+      preLoaderRoute: typeof GearIndexRouteImport
+      parentRoute: typeof GearRoute
+    }
+    '/gear/best-knife-for-scoring-duck': {
+      id: '/gear/best-knife-for-scoring-duck'
+      path: '/best-knife-for-scoring-duck'
+      fullPath: '/gear/best-knife-for-scoring-duck'
+      preLoaderRoute: typeof GearBestKnifeForScoringDuckRouteImport
+      parentRoute: typeof GearRoute
+    }
+    '/gear/best-pan-for-duck-breast': {
+      id: '/gear/best-pan-for-duck-breast'
+      path: '/best-pan-for-duck-breast'
+      fullPath: '/gear/best-pan-for-duck-breast'
+      preLoaderRoute: typeof GearBestPanForDuckBreastRouteImport
+      parentRoute: typeof GearRoute
+    }
+    '/gear/best-thermometer-for-duck': {
+      id: '/gear/best-thermometer-for-duck'
+      path: '/best-thermometer-for-duck'
+      fullPath: '/gear/best-thermometer-for-duck'
+      preLoaderRoute: typeof GearBestThermometerForDuckRouteImport
+      parentRoute: typeof GearRoute
+    }
+    '/learn/': {
+      id: '/learn/'
+      path: '/'
+      fullPath: '/learn/'
+      preLoaderRoute: typeof LearnIndexRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/duck-breast-temperature-doneness': {
+      id: '/learn/duck-breast-temperature-doneness'
+      path: '/duck-breast-temperature-doneness'
+      fullPath: '/learn/duck-breast-temperature-doneness'
+      preLoaderRoute: typeof LearnDuckBreastTemperatureDonenessRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/how-to-carve-a-duck': {
+      id: '/learn/how-to-carve-a-duck'
+      path: '/how-to-carve-a-duck'
+      fullPath: '/learn/how-to-carve-a-duck'
+      preLoaderRoute: typeof LearnHowToCarveADuckRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/how-to-render-duck-fat': {
+      id: '/learn/how-to-render-duck-fat'
+      path: '/how-to-render-duck-fat'
+      fullPath: '/learn/how-to-render-duck-fat'
+      preLoaderRoute: typeof LearnHowToRenderDuckFatRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/how-to-score-duck-breast': {
+      id: '/learn/how-to-score-duck-breast'
+      path: '/how-to-score-duck-breast'
+      fullPath: '/learn/how-to-score-duck-breast'
+      preLoaderRoute: typeof LearnHowToScoreDuckBreastRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/how-to-thaw-duck': {
+      id: '/learn/how-to-thaw-duck'
+      path: '/how-to-thaw-duck'
+      fullPath: '/learn/how-to-thaw-duck'
+      preLoaderRoute: typeof LearnHowToThawDuckRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/whole-duck-cooking-time': {
+      id: '/learn/whole-duck-cooking-time'
+      path: '/whole-duck-cooking-time'
+      fullPath: '/learn/whole-duck-cooking-time'
+      preLoaderRoute: typeof LearnWholeDuckCookingTimeRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/why-duck-skin-isnt-crispy': {
+      id: '/learn/why-duck-skin-isnt-crispy'
+      path: '/why-duck-skin-isnt-crispy'
+      fullPath: '/learn/why-duck-skin-isnt-crispy'
+      preLoaderRoute: typeof LearnWhyDuckSkinIsntCrispyRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/wild-duck-vs-farmed-duck': {
+      id: '/learn/wild-duck-vs-farmed-duck'
+      path: '/wild-duck-vs-farmed-duck'
+      fullPath: '/learn/wild-duck-vs-farmed-duck'
+      preLoaderRoute: typeof LearnWildDuckVsFarmedDuckRouteImport
+      parentRoute: typeof LearnRoute
+    }
     '/tools/': {
       id: '/tools/'
       path: '/'
       fullPath: '/tools/'
       preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/duck-cooking-time-planner': {
+      id: '/tools/duck-cooking-time-planner'
+      path: '/duck-cooking-time-planner'
+      fullPath: '/tools/duck-cooking-time-planner'
+      preLoaderRoute: typeof ToolsDuckCookingTimePlannerRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/duck-doneness-guide': {
+      id: '/tools/duck-doneness-guide'
+      path: '/duck-doneness-guide'
+      fullPath: '/tools/duck-doneness-guide'
+      preLoaderRoute: typeof ToolsDuckDonenessGuideRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/duck-fat-substitution-calculator': {
+      id: '/tools/duck-fat-substitution-calculator'
+      path: '/duck-fat-substitution-calculator'
+      fullPath: '/tools/duck-fat-substitution-calculator'
+      preLoaderRoute: typeof ToolsDuckFatSubstitutionCalculatorRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/recipe-scaler': {
+      id: '/tools/recipe-scaler'
+      path: '/recipe-scaler'
+      fullPath: '/tools/recipe-scaler'
+      preLoaderRoute: typeof ToolsRecipeScalerRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/what-should-i-cook': {
+      id: '/tools/what-should-i-cook'
+      path: '/what-should-i-cook'
+      fullPath: '/tools/what-should-i-cook'
+      preLoaderRoute: typeof ToolsWhatShouldICookRouteImport
       parentRoute: typeof ToolsRoute
     }
     '/tools/whole-duck-serving-calculator': {
@@ -332,12 +888,104 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface BuyRouteChildren {
+  BuyDuckFatBuyingGuideRoute: typeof BuyDuckFatBuyingGuideRoute
+  BuyWhereToBuyDuckOnlineRoute: typeof BuyWhereToBuyDuckOnlineRoute
+  BuyIndexRoute: typeof BuyIndexRoute
+}
+
+const BuyRouteChildren: BuyRouteChildren = {
+  BuyDuckFatBuyingGuideRoute: BuyDuckFatBuyingGuideRoute,
+  BuyWhereToBuyDuckOnlineRoute: BuyWhereToBuyDuckOnlineRoute,
+  BuyIndexRoute: BuyIndexRoute,
+}
+
+const BuyRouteWithChildren = BuyRoute._addFileChildren(BuyRouteChildren)
+
+interface CookRouteChildren {
+  CookBestSaucesForDuckBreastRoute: typeof CookBestSaucesForDuckBreastRoute
+  CookDuckLegConfitRoute: typeof CookDuckLegConfitRoute
+  CookHowToCookDuckBreastRoute: typeof CookHowToCookDuckBreastRoute
+  CookHowToCookWildDuckBreastRoute: typeof CookHowToCookWildDuckBreastRoute
+  CookWaysToUseDuckFatRoute: typeof CookWaysToUseDuckFatRoute
+  CookWhatToServeWithDuckBreastRoute: typeof CookWhatToServeWithDuckBreastRoute
+  CookWholeRoastDuckRoute: typeof CookWholeRoastDuckRoute
+  CookIndexRoute: typeof CookIndexRoute
+}
+
+const CookRouteChildren: CookRouteChildren = {
+  CookBestSaucesForDuckBreastRoute: CookBestSaucesForDuckBreastRoute,
+  CookDuckLegConfitRoute: CookDuckLegConfitRoute,
+  CookHowToCookDuckBreastRoute: CookHowToCookDuckBreastRoute,
+  CookHowToCookWildDuckBreastRoute: CookHowToCookWildDuckBreastRoute,
+  CookWaysToUseDuckFatRoute: CookWaysToUseDuckFatRoute,
+  CookWhatToServeWithDuckBreastRoute: CookWhatToServeWithDuckBreastRoute,
+  CookWholeRoastDuckRoute: CookWholeRoastDuckRoute,
+  CookIndexRoute: CookIndexRoute,
+}
+
+const CookRouteWithChildren = CookRoute._addFileChildren(CookRouteChildren)
+
+interface GearRouteChildren {
+  GearBestKnifeForScoringDuckRoute: typeof GearBestKnifeForScoringDuckRoute
+  GearBestPanForDuckBreastRoute: typeof GearBestPanForDuckBreastRoute
+  GearBestThermometerForDuckRoute: typeof GearBestThermometerForDuckRoute
+  GearIndexRoute: typeof GearIndexRoute
+}
+
+const GearRouteChildren: GearRouteChildren = {
+  GearBestKnifeForScoringDuckRoute: GearBestKnifeForScoringDuckRoute,
+  GearBestPanForDuckBreastRoute: GearBestPanForDuckBreastRoute,
+  GearBestThermometerForDuckRoute: GearBestThermometerForDuckRoute,
+  GearIndexRoute: GearIndexRoute,
+}
+
+const GearRouteWithChildren = GearRoute._addFileChildren(GearRouteChildren)
+
+interface LearnRouteChildren {
+  LearnDuckBreastTemperatureDonenessRoute: typeof LearnDuckBreastTemperatureDonenessRoute
+  LearnHowToCarveADuckRoute: typeof LearnHowToCarveADuckRoute
+  LearnHowToRenderDuckFatRoute: typeof LearnHowToRenderDuckFatRoute
+  LearnHowToScoreDuckBreastRoute: typeof LearnHowToScoreDuckBreastRoute
+  LearnHowToThawDuckRoute: typeof LearnHowToThawDuckRoute
+  LearnWholeDuckCookingTimeRoute: typeof LearnWholeDuckCookingTimeRoute
+  LearnWhyDuckSkinIsntCrispyRoute: typeof LearnWhyDuckSkinIsntCrispyRoute
+  LearnWildDuckVsFarmedDuckRoute: typeof LearnWildDuckVsFarmedDuckRoute
+  LearnIndexRoute: typeof LearnIndexRoute
+}
+
+const LearnRouteChildren: LearnRouteChildren = {
+  LearnDuckBreastTemperatureDonenessRoute:
+    LearnDuckBreastTemperatureDonenessRoute,
+  LearnHowToCarveADuckRoute: LearnHowToCarveADuckRoute,
+  LearnHowToRenderDuckFatRoute: LearnHowToRenderDuckFatRoute,
+  LearnHowToScoreDuckBreastRoute: LearnHowToScoreDuckBreastRoute,
+  LearnHowToThawDuckRoute: LearnHowToThawDuckRoute,
+  LearnWholeDuckCookingTimeRoute: LearnWholeDuckCookingTimeRoute,
+  LearnWhyDuckSkinIsntCrispyRoute: LearnWhyDuckSkinIsntCrispyRoute,
+  LearnWildDuckVsFarmedDuckRoute: LearnWildDuckVsFarmedDuckRoute,
+  LearnIndexRoute: LearnIndexRoute,
+}
+
+const LearnRouteWithChildren = LearnRoute._addFileChildren(LearnRouteChildren)
+
 interface ToolsRouteChildren {
+  ToolsDuckCookingTimePlannerRoute: typeof ToolsDuckCookingTimePlannerRoute
+  ToolsDuckDonenessGuideRoute: typeof ToolsDuckDonenessGuideRoute
+  ToolsDuckFatSubstitutionCalculatorRoute: typeof ToolsDuckFatSubstitutionCalculatorRoute
+  ToolsRecipeScalerRoute: typeof ToolsRecipeScalerRoute
+  ToolsWhatShouldICookRoute: typeof ToolsWhatShouldICookRoute
   ToolsWholeDuckServingCalculatorRoute: typeof ToolsWholeDuckServingCalculatorRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
 
 const ToolsRouteChildren: ToolsRouteChildren = {
+  ToolsDuckCookingTimePlannerRoute: ToolsDuckCookingTimePlannerRoute,
+  ToolsDuckDonenessGuideRoute: ToolsDuckDonenessGuideRoute,
+  ToolsDuckFatSubstitutionCalculatorRoute:
+    ToolsDuckFatSubstitutionCalculatorRoute,
+  ToolsRecipeScalerRoute: ToolsRecipeScalerRoute,
+  ToolsWhatShouldICookRoute: ToolsWhatShouldICookRoute,
   ToolsWholeDuckServingCalculatorRoute: ToolsWholeDuckServingCalculatorRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }
@@ -348,12 +996,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
-  BuyRoute: BuyRoute,
-  CookRoute: CookRoute,
+  BuyRoute: BuyRouteWithChildren,
+  CookRoute: CookRouteWithChildren,
   EditorialStandardsRoute: EditorialStandardsRoute,
-  GearRoute: GearRoute,
+  GearRoute: GearRouteWithChildren,
   IngredientsRoute: IngredientsRoute,
-  LearnRoute: LearnRoute,
+  LearnRoute: LearnRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
