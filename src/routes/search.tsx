@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { PageHeader } from "@/components/site/PageHeader";
 import { GUIDES } from "@/data/guides";
+import { INGREDIENTS } from "@/data/ingredients";
 import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
 import { PILLARS } from "@/data/site";
@@ -31,6 +32,13 @@ export const SEARCH_INDEX: SearchDoc[] = [
     type: g.kind === "money" ? "Buying guide" : "Guide",
     summary: g.teaser,
     keywords: [g.pillar, g.cluster, g.kind, g.description].join(" "),
+  })),
+  ...INGREDIENTS.map((i) => ({
+    path: i.path,
+    title: i.title,
+    type: "Ingredients",
+    summary: i.teaser,
+    keywords: [i.cluster.replace(/-/g, " "), i.description].join(" "),
   })),
   ...TOOLS.filter((t) => t.status === "live" && t.to).map((t) => ({
     path: t.to!,

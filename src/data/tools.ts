@@ -9,6 +9,15 @@ export interface DuckTool {
 
 export const TOOLS: DuckTool[] = [
   {
+    slug: "duck-pairing-finder",
+    name: "Duck Pairing Finder",
+    summary:
+      "Pick cut, flavour direction, occasion and richness to get a sauce and acid family, a starch, a green, and seasoning ideas — with links to the guides behind each choice.",
+    status: "live",
+    to: "/tools/duck-pairing-finder",
+    useCase: "Building a full duck plate",
+  },
+  {
     slug: "duck-cooking-time-planner",
     name: "Duck Cooking-Time Planner",
     summary:

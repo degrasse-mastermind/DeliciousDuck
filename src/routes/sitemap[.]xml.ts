@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { GUIDES } from "@/data/guides";
+import { INGREDIENTS } from "@/data/ingredients";
 import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
 import { SITE } from "@/data/site";
@@ -35,6 +36,11 @@ export const Route = createFileRoute("/sitemap.xml")({
             path: g.path,
             changefreq: "monthly" as const,
             priority: g.kind === "money" ? "0.8" : "0.9",
+          })),
+          ...INGREDIENTS.map((i) => ({
+            path: i.path,
+            changefreq: "monthly" as const,
+            priority: "0.9",
           })),
           ...TOOLS.filter((t) => t.status === "live" && t.to).map((t) => ({
             path: t.to!,

@@ -123,6 +123,9 @@ export const GUIDES: GuideEntry[] = [
       "/cook/what-to-serve-with-duck-breast",
       "/cook/how-to-cook-duck-breast",
       "/learn/why-duck-skin-isnt-crispy",
+      "/ingredients/orange-with-duck",
+      "/ingredients/cherry-plum-with-duck",
+      "/ingredients/best-acid-for-duck",
     ],
   },
   {
@@ -140,6 +143,8 @@ export const GUIDES: GuideEntry[] = [
       "/cook/best-sauces-for-duck-breast",
       "/cook/ways-to-use-duck-fat",
       "/cook/how-to-cook-duck-breast",
+      "/ingredients/best-acid-for-duck",
+      "/tools/duck-pairing-finder",
     ],
   },
   {
@@ -159,6 +164,8 @@ export const GUIDES: GuideEntry[] = [
       "/tools/duck-cooking-time-planner",
       "/tools/whole-duck-serving-calculator",
       "/learn/how-to-render-duck-fat",
+      "/ingredients/dry-brine-duck",
+      "/ingredients/duck-seasoning-guide",
     ],
   },
   {
