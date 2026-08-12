@@ -87,6 +87,10 @@ export function recipeSchema(r: {
   cookTime: string;
   totalTime: string;
   recipeYield: string;
+  url?: string;
+  keywords?: string;
+  ingredients?: string[];
+  instructions?: { name: string; text: string }[];
 }) {
   return {
     "@context": "https://schema.org",
@@ -94,15 +98,40 @@ export function recipeSchema(r: {
     name: r.name,
     description: r.description,
     ...(r.image ? { image: r.image } : {}),
+    ...(r.url ? { url: r.url, mainEntityOfPage: r.url } : {}),
     recipeCategory: r.category,
     ...(r.cuisine ? { recipeCuisine: r.cuisine } : {}),
+    ...(r.keywords ? { keywords: r.keywords } : {}),
     prepTime: r.prepTime,
     cookTime: r.cookTime,
     totalTime: r.totalTime,
     recipeYield: r.recipeYield,
+    ...(r.ingredients ? { recipeIngredient: r.ingredients } : {}),
+    ...(r.instructions
+      ? {
+          recipeInstructions: r.instructions.map((s) => ({
+            "@type": "HowToStep",
+            name: s.name,
+            text: s.text,
+          })),
+        }
+      : {}),
     author: { "@type": "Organization", name: SITE.name },
   };
 }
+
+export function faqSchema(items: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+}
+
 
 export const ldScript = (data: unknown) => ({
   type: "application/ld+json",

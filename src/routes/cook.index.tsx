@@ -78,8 +78,13 @@ function CookPage() {
             The starter four
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            Full recipe pages with ingredients, method, and Recipe structured data are being
-            published cut by cut. These four come first.
+            Full recipe pages with ingredients, step-by-step method, temperature targets, and
+            Recipe structured data. Start here, then follow the technique guides above.
+          </p>
+          <p className="mt-3">
+            <Link to="/recipes" className="text-primary underline underline-offset-4">
+              Browse all duck recipes
+            </Link>
           </p>
           <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {RECIPES.map((recipe) => (
