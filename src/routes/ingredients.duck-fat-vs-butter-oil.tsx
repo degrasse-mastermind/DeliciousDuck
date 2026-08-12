@@ -139,7 +139,7 @@ function Page() {
           <strong>Searing and sautéing.</strong> Duck fat performs well and adds flavour. But if you
           are cooking a duck breast, you do not need any added fat at all — the breast renders its own,
           and adding fat at the start slows rendering. Start dry and cold; see the{" "}
-          <a href="/cook/duck-breast" className="text-primary underline underline-offset-4">
+          <a href="/cook/how-to-cook-duck-breast" className="text-primary underline underline-offset-4">
             duck breast guide
           </a>
           .
@@ -158,7 +158,7 @@ function Page() {
           rich result with a mild meatiness. It is a poor choice for laminated doughs, where butter's
           water content generates the steam that creates layers, and for sweet baking, where the
           flavour reads oddly. Because of the water difference, do not swap by volume — use the{" "}
-          <a href="/tools/duck-fat-substitution" className="text-primary underline underline-offset-4">
+          <a href="/tools/duck-fat-substitution-calculator" className="text-primary underline underline-offset-4">
             duck fat substitution calculator
           </a>
           .
@@ -198,7 +198,7 @@ function Page() {
             rendering guide
           </a>{" "}
           and{" "}
-          <a href="/learn/duck-fat-uses" className="text-primary underline underline-offset-4">
+          <a href="/cook/ways-to-use-duck-fat" className="text-primary underline underline-offset-4">
             what to do with duck fat
           </a>
           .
@@ -206,7 +206,7 @@ function Page() {
         <p>
           If you do want to buy rather than render — worth it if you cook potatoes in it often and do
           not roast whole birds — the{" "}
-          <a href="/buy/where-to-buy-duck-fat" className="text-primary underline underline-offset-4">
+          <a href="/buy/duck-fat-buying-guide" className="text-primary underline underline-offset-4">
             duck fat buying guide
           </a>{" "}
           covers what to look for and where it is normally sold.

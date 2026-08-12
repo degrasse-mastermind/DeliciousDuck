@@ -115,7 +115,7 @@ function Page() {
           modest amount of acid, and short rather than heroic in duration. Buttermilk or milk soaks
           are traditional and harmless; treat the claim that they neutralise strong flavour as folk
           practice rather than established fact. See the{" "}
-          <a href="/cook/wild-duck" className="text-primary underline underline-offset-4">
+          <a href="/cook/how-to-cook-wild-duck-breast" className="text-primary underline underline-offset-4">
             wild duck guide
           </a>{" "}
           for handling and cooking.

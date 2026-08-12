@@ -136,7 +136,7 @@ function Page() {
             duck sauce guide
           </a>{" "}
           for building the sauce itself, and the{" "}
-          <a href="/cook/duck-breast" className="text-primary underline underline-offset-4">
+          <a href="/cook/how-to-cook-duck-breast" className="text-primary underline underline-offset-4">
             duck breast guide
           </a>{" "}
           for timing it against the cook.
