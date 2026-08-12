@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
+import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { PANS, PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -64,6 +64,8 @@ function Page() {
       </p>
 
       <DisclosureBanner />
+
+      <EvaluationNote scope="pans" />
 
       <Section id="framework" heading="The decision framework">
         <p>

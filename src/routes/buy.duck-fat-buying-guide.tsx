@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
+import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_FAT_OPTIONS, DUCK_FAT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -64,6 +64,8 @@ function Page() {
       </p>
 
       <DisclosureBanner />
+
+      <EvaluationNote scope="duck fat" />
 
       <Section id="formats" heading="Formats compared: jar, tub, tin, or render it yourself">
         <p>
