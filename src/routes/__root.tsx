@@ -4,17 +4,17 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
-
-const GA_MEASUREMENT_ID = "G-E15CFY209D";
+import { GA_MEASUREMENT_ID, trackPageView } from "@/lib/analytics";
 
 function gtagInitScript(measurementId: string) {
   return `
@@ -147,6 +147,17 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  // gtag.js auto-tracks only the first load; send a page_view per SPA route.
+  const firstView = useRef(true);
+  useEffect(() => {
+    if (firstView.current) {
+      firstView.current = false;
+      return;
+    }
+    trackPageView(pathname, typeof document !== "undefined" ? document.title : undefined);
+  }, [pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
