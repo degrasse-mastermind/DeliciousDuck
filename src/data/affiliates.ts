@@ -83,8 +83,8 @@ export type CommerceLinkKind = "affiliate" | "direct" | "none";
 
 export interface CommerceLink {
   kind: CommerceLinkKind;
-  href?: string;
-  merchantName?: string;
+  href?: string | undefined;
+  merchantName?: string | undefined;
   /** Only true when `href` is a real affiliate tracking URL. */
   isAffiliate: boolean;
 }
@@ -96,10 +96,10 @@ export interface CommerceLink {
  * wins whenever a `merchantId` is present. Never returns a placeholder.
  */
 export function resolveCommerceLink(input: {
-  merchantId?: string;
-  affiliateUrl?: string;
-  directUrl?: string;
-  name?: string;
+  merchantId?: string | undefined;
+  affiliateUrl?: string | undefined;
+  directUrl?: string | undefined;
+  name?: string | undefined;
 }): CommerceLink {
   const merchant = merchantById(input.merchantId);
   const merchantName = merchant?.name ?? input.name;
