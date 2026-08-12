@@ -19,6 +19,7 @@ import { Route as GearRouteImport } from './routes/gear'
 import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RecipesRouteImport } from './routes/recipes'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
@@ -46,6 +47,8 @@ import { Route as LearnHowToThawDuckRouteImport } from './routes/learn.how-to-th
 import { Route as LearnWholeDuckCookingTimeRouteImport } from './routes/learn.whole-duck-cooking-time'
 import { Route as LearnWhyDuckSkinIsntCrispyRouteImport } from './routes/learn.why-duck-skin-isnt-crispy'
 import { Route as LearnWildDuckVsFarmedDuckRouteImport } from './routes/learn.wild-duck-vs-farmed-duck'
+import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
+import { Route as RecipesSlugRouteImport } from './routes/recipes.$slug'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsDuckCookingTimePlannerRouteImport } from './routes/tools.duck-cooking-time-planner'
 import { Route as ToolsDuckDonenessGuideRouteImport } from './routes/tools.duck-doneness-guide'
@@ -102,6 +105,11 @@ const LearnRoute = LearnRouteImport.update({
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecipesRoute = RecipesRouteImport.update({
+  id: '/recipes',
+  path: '/recipes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -250,6 +258,16 @@ const LearnWildDuckVsFarmedDuckRoute =
     path: '/wild-duck-vs-farmed-duck',
     getParentRoute: () => LearnRoute,
   } as any)
+const RecipesIndexRoute = RecipesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RecipesRoute,
+} as any)
+const RecipesSlugRoute = RecipesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => RecipesRoute,
+} as any)
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -300,6 +318,7 @@ export interface FileRoutesByFullPath {
   '/ingredients': typeof IngredientsRoute
   '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/recipes': typeof RecipesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
@@ -323,6 +342,7 @@ export interface FileRoutesByFullPath {
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
@@ -333,6 +353,7 @@ export interface FileRoutesByFullPath {
   '/cook/': typeof CookIndexRoute
   '/gear/': typeof GearIndexRoute
   '/learn/': typeof LearnIndexRoute
+  '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -364,6 +385,7 @@ export interface FileRoutesByTo {
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
@@ -374,6 +396,7 @@ export interface FileRoutesByTo {
   '/cook': typeof CookIndexRoute
   '/gear': typeof GearIndexRoute
   '/learn': typeof LearnIndexRoute
+  '/recipes': typeof RecipesIndexRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
@@ -388,6 +411,7 @@ export interface FileRoutesById {
   '/ingredients': typeof IngredientsRoute
   '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
+  '/recipes': typeof RecipesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
@@ -411,6 +435,7 @@ export interface FileRoutesById {
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
@@ -421,6 +446,7 @@ export interface FileRoutesById {
   '/cook/': typeof CookIndexRoute
   '/gear/': typeof GearIndexRoute
   '/learn/': typeof LearnIndexRoute
+  '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
@@ -436,6 +462,7 @@ export interface FileRouteTypes {
     | '/ingredients'
     | '/learn'
     | '/privacy'
+    | '/recipes'
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
@@ -459,6 +486,7 @@ export interface FileRouteTypes {
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
+    | '/recipes/$slug'
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
@@ -469,6 +497,7 @@ export interface FileRouteTypes {
     | '/cook/'
     | '/gear/'
     | '/learn/'
+    | '/recipes/'
     | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -500,6 +529,7 @@ export interface FileRouteTypes {
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
+    | '/recipes/$slug'
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
@@ -510,6 +540,7 @@ export interface FileRouteTypes {
     | '/cook'
     | '/gear'
     | '/learn'
+    | '/recipes'
     | '/tools'
   id:
     | '__root__'
@@ -523,6 +554,7 @@ export interface FileRouteTypes {
     | '/ingredients'
     | '/learn'
     | '/privacy'
+    | '/recipes'
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
@@ -546,6 +578,7 @@ export interface FileRouteTypes {
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
+    | '/recipes/$slug'
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
@@ -556,6 +589,7 @@ export interface FileRouteTypes {
     | '/cook/'
     | '/gear/'
     | '/learn/'
+    | '/recipes/'
     | '/tools/'
   fileRoutesById: FileRoutesById
 }
@@ -570,6 +604,7 @@ export interface RootRouteChildren {
   IngredientsRoute: typeof IngredientsRoute
   LearnRoute: typeof LearnRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
+  RecipesRoute: typeof RecipesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
@@ -645,6 +680,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recipes': {
+      id: '/recipes'
+      path: '/recipes'
+      fullPath: '/recipes'
+      preLoaderRoute: typeof RecipesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -836,6 +878,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnWildDuckVsFarmedDuckRouteImport
       parentRoute: typeof LearnRoute
     }
+    '/recipes/': {
+      id: '/recipes/'
+      path: '/'
+      fullPath: '/recipes/'
+      preLoaderRoute: typeof RecipesIndexRouteImport
+      parentRoute: typeof RecipesRoute
+    }
+    '/recipes/$slug': {
+      id: '/recipes/$slug'
+      path: '/$slug'
+      fullPath: '/recipes/$slug'
+      preLoaderRoute: typeof RecipesSlugRouteImport
+      parentRoute: typeof RecipesRoute
+    }
     '/tools/': {
       id: '/tools/'
       path: '/'
@@ -969,6 +1025,19 @@ const LearnRouteChildren: LearnRouteChildren = {
 
 const LearnRouteWithChildren = LearnRoute._addFileChildren(LearnRouteChildren)
 
+interface RecipesRouteChildren {
+  RecipesSlugRoute: typeof RecipesSlugRoute
+  RecipesIndexRoute: typeof RecipesIndexRoute
+}
+
+const RecipesRouteChildren: RecipesRouteChildren = {
+  RecipesSlugRoute: RecipesSlugRoute,
+  RecipesIndexRoute: RecipesIndexRoute,
+}
+
+const RecipesRouteWithChildren =
+  RecipesRoute._addFileChildren(RecipesRouteChildren)
+
 interface ToolsRouteChildren {
   ToolsDuckCookingTimePlannerRoute: typeof ToolsDuckCookingTimePlannerRoute
   ToolsDuckDonenessGuideRoute: typeof ToolsDuckDonenessGuideRoute
@@ -1003,6 +1072,7 @@ const rootRouteChildren: RootRouteChildren = {
   IngredientsRoute: IngredientsRoute,
   LearnRoute: LearnRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
+  RecipesRoute: RecipesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRouteWithChildren,
@@ -1010,3 +1080,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

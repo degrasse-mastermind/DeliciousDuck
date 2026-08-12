@@ -4,7 +4,7 @@ import { formatMinutes, totalTimeMinutes, type Recipe } from "@/data/recipes";
 export function RecipeCard({ recipe }: { recipe: Recipe }) {
   return (
     <article className="group">
-      <Link to="/cook" className="block">
+      <Link to="/recipes/$slug" params={{ slug: recipe.slug }} className="block">
         <div className="overflow-hidden rounded-sm bg-muted">
           <img
             src={recipe.image}

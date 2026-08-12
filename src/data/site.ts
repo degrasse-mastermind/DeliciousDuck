@@ -88,13 +88,17 @@ export const PILLARS: Pillar[] = [
   },
 ];
 
-export const NAV_LINKS = PILLARS.map((p) => ({ label: p.label.toUpperCase(), to: p.to }));
+export const NAV_LINKS = [
+  { label: "RECIPES", to: "/recipes" },
+  ...PILLARS.map((p) => ({ label: p.label.toUpperCase(), to: p.to })),
+];
 
 export const FOOTER_COLUMNS: { title: string; links: { label: string; to: string }[] }[] = [
   {
     title: "Cook",
     links: [
-      { label: "All recipes & techniques", to: "/cook" },
+      { label: "All recipes", to: "/recipes" },
+      { label: "Techniques & guides", to: "/cook" },
       { label: "How to cook duck breast", to: "/cook/how-to-cook-duck-breast" },
       { label: "Whole roast duck", to: "/cook/whole-roast-duck" },
       { label: "Duck leg confit", to: "/cook/duck-leg-confit" },
