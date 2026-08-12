@@ -16,6 +16,9 @@ declare global {
   }
 }
 
+/** Single source of truth for the GA4 property. */
+export const GA_MEASUREMENT_ID = "G-E15CFY209D";
+
 export const ANALYTICS_EVENTS = {
   affiliateClick: "affiliate_click",
   newsletterSignup: "newsletter_signup",
