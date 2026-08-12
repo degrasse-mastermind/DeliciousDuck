@@ -136,6 +136,9 @@ function TermsPage() {
         trail={[{ name: "Terms", to: "/terms" }]}
       />
       <section className="mx-auto max-w-3xl px-5 py-16 lg:px-8 lg:py-24">
+        <p className="mb-10 text-sm uppercase tracking-widest text-muted-foreground">
+          Last updated: August 2026 — informational, not attorney-reviewed
+        </p>
         <div className="space-y-10 text-base leading-relaxed text-muted-foreground">
           {SECTIONS.map((s) => (
             <div key={s.heading} className="space-y-3">
