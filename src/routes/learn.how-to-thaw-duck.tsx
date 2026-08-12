@@ -3,7 +3,7 @@ import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/learn/how-to-thaw-duck")!;
 
@@ -23,10 +23,26 @@ export const Route = createFileRoute("/learn/how-to-thaw-duck")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: HowToThawDuckPage,
 });
+
+const FAQ = [
+    {
+      q: "Can I cook a duck from frozen?",
+      a: "It's possible in an oven with roughly 50% more time, but uneven cooking and difficulty verifying internal temperature make it a poor default — thaw first whenever you can plan ahead.",
+    },
+    {
+      q: "Is a little pink ice inside the cavity a problem after thawing?",
+      a: "Small ice remnants near the cavity are common on a large bird and aren't a safety issue as long as the rest of the duck has thawed under refrigeration; give it more time before cooking.",
+    },
+    {
+      q: "Does thawing in the wrapper versus unwrapped matter?",
+      a: "Keep it wrapped. The packaging contains drip and limits surface exposure until you're ready to season and cook.",
+    },
+  ];
 
 function HowToThawDuckPage() {
   return (
@@ -135,22 +151,7 @@ function HowToThawDuckPage() {
         </p>
       </Callout>
 
-      <FaqList
-        items={[
-          {
-            q: "Can I cook a duck from frozen?",
-            a: "It's possible in an oven with roughly 50% more time, but uneven cooking and difficulty verifying internal temperature make it a poor default — thaw first whenever you can plan ahead.",
-          },
-          {
-            q: "Is a little pink ice inside the cavity a problem after thawing?",
-            a: "Small ice remnants near the cavity are common on a large bird and aren't a safety issue as long as the rest of the duck has thawed under refrigeration; give it more time before cooking.",
-          },
-          {
-            q: "Does thawing in the wrapper versus unwrapped matter?",
-            a: "Keep it wrapped. The packaging contains drip and limits surface exposure until you're ready to season and cook.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <SourceNotes ids={["usdaThawing", "usdaDangerZone", "usdaPoultryPrep"]} />
 

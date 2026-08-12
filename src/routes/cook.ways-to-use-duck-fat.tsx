@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, FaqList, Section } from "@/components/site/ArticleShell";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/cook/ways-to-use-duck-fat")!;
 
@@ -22,10 +22,22 @@ export const Route = createFileRoute("/cook/ways-to-use-duck-fat")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: WaysToUsePage,
 });
+
+const FAQ = [
+    {
+      q: "Can I substitute duck fat 1:1 for butter or oil?",
+      a: "Mostly yes by volume, but duck fat has no water content, so baked goods relying on butter's moisture may need a small adjustment. Use the substitution calculator to check specific swaps.",
+    },
+    {
+      q: "Does duck fat need to be melted before measuring?",
+      a: "For accuracy, yes — it's solid below about 68°F (20°C), and solid tablespoons pack differently than liquid ones.",
+    },
+  ];
 
 interface Use {
   name: string;
@@ -231,18 +243,7 @@ function WaysToUsePage() {
         </Callout>
       </Section>
 
-      <FaqList
-        items={[
-          {
-            q: "Can I substitute duck fat 1:1 for butter or oil?",
-            a: "Mostly yes by volume, but duck fat has no water content, so baked goods relying on butter's moisture may need a small adjustment. Use the substitution calculator to check specific swaps.",
-          },
-          {
-            q: "Does duck fat need to be melted before measuring?",
-            a: "For accuracy, yes — it's solid below about 68°F (20°C), and solid tablespoons pack differently than liquid ones.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <p className="mt-8">
         For exact swap ratios, use the{" "}

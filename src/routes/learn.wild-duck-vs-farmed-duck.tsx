@@ -3,7 +3,7 @@ import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/learn/wild-duck-vs-farmed-duck")!;
 
@@ -23,10 +23,22 @@ export const Route = createFileRoute("/learn/wild-duck-vs-farmed-duck")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: WildVsFarmedPage,
 });
+
+const FAQ = [
+    {
+      q: "Can I still use a duck-breast doneness chart written for farmed duck?",
+      a: "Internal temperature targets themselves still apply — 165°F (73.9°C) is the USDA minimum regardless of source, and the same culinary-convention ranges below that are still what chefs use. What changes is the method to get there, since a lean breast overshoots those targets faster.",
+    },
+    {
+      q: "Why does wild duck taste so different bird to bird?",
+      a: "Diet, species, age and season all shift flavour and fat noticeably more in wild ducks than in farmed ones, which are raised on a controlled feed to a consistent slaughter age.",
+    },
+  ];
 
 function WildVsFarmedPage() {
   return (
@@ -166,18 +178,7 @@ function WildVsFarmedPage() {
         harder on a thermometer than you would with a fattier farmed bird.
       </Callout>
 
-      <FaqList
-        items={[
-          {
-            q: "Can I still use a duck-breast doneness chart written for farmed duck?",
-            a: "Internal temperature targets themselves still apply — 165°F (73.9°C) is the USDA minimum regardless of source, and the same culinary-convention ranges below that are still what chefs use. What changes is the method to get there, since a lean breast overshoots those targets faster.",
-          },
-          {
-            q: "Why does wild duck taste so different bird to bird?",
-            a: "Diet, species, age and season all shift flavour and fat noticeably more in wild ducks than in farmed ones, which are raised on a controlled feed to a consistent slaughter age.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <RelatedGuides paths={GUIDE.related} />
       <SourceNotes ids={["fsisWildGame", "usdaPoultryTemp"]} />

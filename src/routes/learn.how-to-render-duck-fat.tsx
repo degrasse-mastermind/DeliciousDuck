@@ -5,7 +5,7 @@ import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/learn/how-to-render-duck-fat")!;
 
@@ -25,10 +25,22 @@ export const Route = createFileRoute("/learn/how-to-render-duck-fat")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: RenderFatPage,
 });
+
+const FAQ = [
+    {
+      q: "Can I render fat from raw skin without any trim?",
+      a: "Yes, though skin renders more slowly since it's a mix of fat and connective tissue. Cut it small and expect the cook to run toward the longer end of the range.",
+    },
+    {
+      q: "Do I need to add water every time?",
+      a: "No — it's a safety margin for anyone still learning how their stove behaves at low settings, not a required step.",
+    },
+  ];
 
 function RenderFatPage() {
   return (
@@ -258,18 +270,7 @@ function RenderFatPage() {
         ]}
       />
 
-      <FaqList
-        items={[
-          {
-            q: "Can I render fat from raw skin without any trim?",
-            a: "Yes, though skin renders more slowly since it's a mix of fat and connective tissue. Cut it small and expect the cook to run toward the longer end of the range.",
-          },
-          {
-            q: "Do I need to add water every time?",
-            a: "No — it's a safety margin for anyone still learning how their stove behaves at low settings, not a required step.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <RelatedGuides paths={GUIDE.related} />
       <SourceNotes ids={["fdaColdStorage", "usdaPoultryPrep"]} />

@@ -3,7 +3,7 @@ import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/learn/whole-duck-cooking-time")!;
 
@@ -23,10 +23,26 @@ export const Route = createFileRoute("/learn/whole-duck-cooking-time")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: WholeDuckCookingTimePage,
 });
+
+const FAQ = [
+    {
+      q: "Why did my duck take an hour longer than the chart said?",
+      a: "The most common causes are an oven running cooler than its dial, a bird that went in fridge-cold rather than tempered, or a filled cavity. All three add real time; none of them are unusual.",
+    },
+    {
+      q: "Is it safe to go by the clock alone if I trust my oven?",
+      a: "No. USDA guidance is to verify doneness with a food thermometer regardless of elapsed time, since bird size, shape and oven behavior all vary.",
+    },
+    {
+      q: "Should I baste to speed things up?",
+      a: "Basting doesn't meaningfully change cooking time and opening the oven repeatedly extends it slightly by dropping the internal temperature each time.",
+    },
+  ];
 
 function WholeDuckCookingTimePage() {
   return (
@@ -132,22 +148,7 @@ function WholeDuckCookingTimePage() {
         </p>
       </Section>
 
-      <FaqList
-        items={[
-          {
-            q: "Why did my duck take an hour longer than the chart said?",
-            a: "The most common causes are an oven running cooler than its dial, a bird that went in fridge-cold rather than tempered, or a filled cavity. All three add real time; none of them are unusual.",
-          },
-          {
-            q: "Is it safe to go by the clock alone if I trust my oven?",
-            a: "No. USDA guidance is to verify doneness with a food thermometer regardless of elapsed time, since bird size, shape and oven behavior all vary.",
-          },
-          {
-            q: "Should I baste to speed things up?",
-            a: "Basting doesn't meaningfully change cooking time and opening the oven repeatedly extends it slightly by dropping the internal temperature each time.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

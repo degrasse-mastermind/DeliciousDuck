@@ -3,7 +3,7 @@ import { ArticleShell, FaqList, Section, StepList } from "@/components/site/Arti
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/learn/how-to-carve-a-duck")!;
 
@@ -23,10 +23,26 @@ export const Route = createFileRoute("/learn/how-to-carve-a-duck")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: HowToCarveADuckPage,
 });
+
+const FAQ = [
+    {
+      q: "Should I carve at the table or in the kitchen?",
+      a: "Kitchen carving is easier to control for a whole duck because of the fat runoff; bring the platter to the table once it's plated.",
+    },
+    {
+      q: "Do I need a special carving knife?",
+      a: "A sharp chef's knife or a slim boning knife both work well; length matters less than a thin, controllable tip for following the keel bone.",
+    },
+    {
+      q: "Why is my duck harder to carve than a chicken?",
+      a: "Duck has a narrower ribcage relative to its breast meat and a thicker fat layer, both of which make the knife's path along the bone less obvious than on a chicken.",
+    },
+  ];
 
 function HowToCarveADuckPage() {
   return (
@@ -125,22 +141,7 @@ function HowToCarveADuckPage() {
         ]}
       />
 
-      <FaqList
-        items={[
-          {
-            q: "Should I carve at the table or in the kitchen?",
-            a: "Kitchen carving is easier to control for a whole duck because of the fat runoff; bring the platter to the table once it's plated.",
-          },
-          {
-            q: "Do I need a special carving knife?",
-            a: "A sharp chef's knife or a slim boning knife both work well; length matters less than a thin, controllable tip for following the keel bone.",
-          },
-          {
-            q: "Why is my duck harder to carve than a chicken?",
-            a: "Duck has a narrower ribcage relative to its breast meat and a thicker fat layer, both of which make the knife's path along the bone less obvious than on a chicken.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

@@ -6,7 +6,7 @@ import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/cook/duck-leg-confit")!;
 
@@ -26,10 +26,26 @@ export const Route = createFileRoute("/cook/duck-leg-confit")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: DuckLegConfitPage,
 });
+
+const FAQ = [
+    {
+      q: "Can I confit without curing the legs first?",
+      a: "You can skip the cure and season only at the surface, but the meat will taste flatter and slightly wetter; the cure is what carries seasoning through the muscle.",
+    },
+    {
+      q: "Why did my confit turn out tough instead of tender?",
+      a: "The fat likely ran too hot — a visible simmer toughens the muscle fibres instead of slowly breaking down connective tissue. Hold it at 190–210°F (88–99°C) and check with a thermometer.",
+    },
+    {
+      q: "Is it safe to store confit at room temperature the traditional way?",
+      a: "Modern food-safety guidance does not recommend it. Refrigerate confit, keeping the legs submerged in fat, and treat it like any other cooked poultry with a 1–2 week refrigerated window.",
+    },
+  ];
 
 function DuckLegConfitPage() {
   return (
@@ -184,22 +200,7 @@ function DuckLegConfitPage() {
         ]}
       />
 
-      <FaqList
-        items={[
-          {
-            q: "Can I confit without curing the legs first?",
-            a: "You can skip the cure and season only at the surface, but the meat will taste flatter and slightly wetter; the cure is what carries seasoning through the muscle.",
-          },
-          {
-            q: "Why did my confit turn out tough instead of tender?",
-            a: "The fat likely ran too hot — a visible simmer toughens the muscle fibres instead of slowly breaking down connective tissue. Hold it at 190–210°F (88–99°C) and check with a thermometer.",
-          },
-          {
-            q: "Is it safe to store confit at room temperature the traditional way?",
-            a: "Modern food-safety guidance does not recommend it. Refrigerate confit, keeping the legs submerged in fat, and treat it like any other cooked poultry with a 1–2 week refrigerated window.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <SourceNotes ids={["usdaPoultryTemp", "usdaLeftovers", "fdaColdStorage"]} />
 

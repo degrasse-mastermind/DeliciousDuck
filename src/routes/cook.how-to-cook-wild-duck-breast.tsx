@@ -5,7 +5,7 @@ import { QuackFix } from "@/components/site/QuackFix";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/cook/how-to-cook-wild-duck-breast")!;
 
@@ -25,10 +25,22 @@ export const Route = createFileRoute("/cook/how-to-cook-wild-duck-breast")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: WildDuckBreastPage,
 });
+
+const FAQ = [
+    {
+      q: "Should I brine every wild duck breast?",
+      a: "It's optional and helps most on very lean birds where moisture retention matters. A short 30–60 minute brine is enough; longer doesn't meaningfully improve results and can oversalt a small cut.",
+    },
+    {
+      q: "Is it safe to cook wild duck breast to a lower temperature like farmed duck breast?",
+      a: "The USDA minimum of 165°F (73.9°C) applies to duck regardless of source. Culinary conventions for lower temperatures on farmed duck breast are a chef's practice, not a food-safety recommendation, and wild-harvested birds carry their own handling considerations worth taking seriously.",
+    },
+  ];
 
 function WildDuckBreastPage() {
   return (
@@ -207,18 +219,7 @@ function WildDuckBreastPage() {
         ]}
       />
 
-      <FaqList
-        items={[
-          {
-            q: "Should I brine every wild duck breast?",
-            a: "It's optional and helps most on very lean birds where moisture retention matters. A short 30–60 minute brine is enough; longer doesn't meaningfully improve results and can oversalt a small cut.",
-          },
-          {
-            q: "Is it safe to cook wild duck breast to a lower temperature like farmed duck breast?",
-            a: "The USDA minimum of 165°F (73.9°C) applies to duck regardless of source. Culinary conventions for lower temperatures on farmed duck breast are a chef's practice, not a food-safety recommendation, and wild-harvested birds carry their own handling considerations worth taking seriously.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

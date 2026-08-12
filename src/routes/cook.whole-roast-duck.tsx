@@ -14,7 +14,7 @@ import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/cook/whole-roast-duck")!;
 
@@ -34,10 +34,26 @@ export const Route = createFileRoute("/cook/whole-roast-duck")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: WholeRoastDuckPage,
 });
+
+const FAQ = [
+    {
+      q: "Do I need to flip the duck while it roasts?",
+      a: "No. Breast-side up on a rack is standard; the rack keeps the underside from sitting in fat, so flipping isn't necessary.",
+    },
+    {
+      q: "Can I stuff the cavity?",
+      a: "You can, but a filled cavity slows heat penetration and complicates the thigh temperature check — see the cooking-time guide for how much longer to plan.",
+    },
+    {
+      q: "Why is my duck taking longer than the planning range?",
+      a: "Home ovens vary in real temperature by 15–25°F even when the dial says otherwise, and a fridge-cold bird starts slower than a tempered one. Trust the thermometer over the clock.",
+    },
+  ];
 
 function WholeRoastDuckPage() {
   return (
@@ -237,22 +253,7 @@ function WholeRoastDuckPage() {
         ]}
       />
 
-      <FaqList
-        items={[
-          {
-            q: "Do I need to flip the duck while it roasts?",
-            a: "No. Breast-side up on a rack is standard; the rack keeps the underside from sitting in fat, so flipping isn't necessary.",
-          },
-          {
-            q: "Can I stuff the cavity?",
-            a: "You can, but a filled cavity slows heat penetration and complicates the thigh temperature check — see the cooking-time guide for how much longer to plan.",
-          },
-          {
-            q: "Why is my duck taking longer than the planning range?",
-            a: "Home ovens vary in real temperature by 15–25°F even when the dial says otherwise, and a fridge-cold bird starts slower than a tempered one. Trust the thermometer over the clock.",
-          },
-        ]}
-      />
+      <FaqList items={FAQ} />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>
