@@ -180,3 +180,54 @@
     background: var(--color-gold);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Print styles — used by the Starter Guide quick reference. Keeps the
+   checklist / temperature / technique blocks readable on 1–2 sheets.
+   --------------------------------------------------------------------------- */
+@media print {
+  html,
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  header,
+  footer,
+  nav,
+  [data-print-hide] {
+    display: none !important;
+  }
+
+  a {
+    color: #111 !important;
+    text-decoration: none !important;
+  }
+
+  [data-print-block] {
+    break-inside: avoid;
+  }
+
+  h1 {
+    font-size: 22pt !important;
+  }
+
+  h2 {
+    font-size: 14pt !important;
+    break-after: avoid;
+  }
+
+  p,
+  li,
+  td,
+  th {
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+  }
+
+  main,
+  article,
+  section {
+    box-shadow: none !important;
+  }
+}
