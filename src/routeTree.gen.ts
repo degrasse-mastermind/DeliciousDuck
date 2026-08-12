@@ -39,6 +39,7 @@ import { Route as GearIndexRouteImport } from './routes/gear.index'
 import { Route as GearBestKnifeForScoringDuckRouteImport } from './routes/gear.best-knife-for-scoring-duck'
 import { Route as GearBestPanForDuckBreastRouteImport } from './routes/gear.best-pan-for-duck-breast'
 import { Route as GearBestThermometerForDuckRouteImport } from './routes/gear.best-thermometer-for-duck'
+import { Route as GuidesDuckCookingStarterGuideRouteImport } from './routes/guides.duck-cooking-starter-guide'
 import { Route as IngredientsIndexRouteImport } from './routes/ingredients.index'
 import { Route as IngredientsBestAcidForDuckRouteImport } from './routes/ingredients.best-acid-for-duck'
 import { Route as IngredientsBestHerbsSpicesForDuckRouteImport } from './routes/ingredients.best-herbs-spices-for-duck'
@@ -224,6 +225,12 @@ const GearBestThermometerForDuckRoute =
     id: '/best-thermometer-for-duck',
     path: '/best-thermometer-for-duck',
     getParentRoute: () => GearRoute,
+  } as any)
+const GuidesDuckCookingStarterGuideRoute =
+  GuidesDuckCookingStarterGuideRouteImport.update({
+    id: '/guides/duck-cooking-starter-guide',
+    path: '/guides/duck-cooking-starter-guide',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const IngredientsIndexRoute = IngredientsIndexRouteImport.update({
   id: '/',
@@ -415,6 +422,7 @@ export interface FileRoutesByFullPath {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/guides/duck-cooking-starter-guide': typeof GuidesDuckCookingStarterGuideRoute
   '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
   '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
@@ -469,6 +477,7 @@ export interface FileRoutesByTo {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/guides/duck-cooking-starter-guide': typeof GuidesDuckCookingStarterGuideRoute
   '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
   '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
@@ -531,6 +540,7 @@ export interface FileRoutesById {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/guides/duck-cooking-starter-guide': typeof GuidesDuckCookingStarterGuideRoute
   '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
   '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
@@ -594,6 +604,7 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/guides/duck-cooking-starter-guide'
     | '/ingredients/best-acid-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
     | '/ingredients/cherry-plum-with-duck'
@@ -648,6 +659,7 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/guides/duck-cooking-starter-guide'
     | '/ingredients/best-acid-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
     | '/ingredients/cherry-plum-with-duck'
@@ -709,6 +721,7 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/guides/duck-cooking-starter-guide'
     | '/ingredients/best-acid-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
     | '/ingredients/cherry-plum-with-duck'
@@ -759,6 +772,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
+  GuidesDuckCookingStarterGuideRoute: typeof GuidesDuckCookingStarterGuideRoute
   InternalKitchenTestSheetRoute: typeof InternalKitchenTestSheetRoute
 }
 
@@ -973,6 +987,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/gear/best-thermometer-for-duck'
       preLoaderRoute: typeof GearBestThermometerForDuckRouteImport
       parentRoute: typeof GearRoute
+    }
+    '/guides/duck-cooking-starter-guide': {
+      id: '/guides/duck-cooking-starter-guide'
+      path: '/guides/duck-cooking-starter-guide'
+      fullPath: '/guides/duck-cooking-starter-guide'
+      preLoaderRoute: typeof GuidesDuckCookingStarterGuideRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/ingredients/': {
       id: '/ingredients/'
@@ -1344,6 +1365,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRouteWithChildren,
+  GuidesDuckCookingStarterGuideRoute: GuidesDuckCookingStarterGuideRoute,
   InternalKitchenTestSheetRoute: InternalKitchenTestSheetRoute,
 }
 export const routeTree = rootRouteImport
