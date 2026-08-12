@@ -54,9 +54,10 @@ function ensureGtag(): ((...args: unknown[]) => void) | undefined {
   window.dataLayer = window.dataLayer || [];
   if (typeof window.gtag !== "function") {
     window.gtag = function gtagStub(...args: unknown[]) {
-      // gtag.js reads the raw `arguments` object, so push args as-is.
-      // eslint-disable-next-line prefer-rest-params
-      window.dataLayer!.push(arguments as unknown as IArguments);
+      // gtag.js slices whatever array-like it finds in the queue, so an args
+      // array is replayed the same way the official snippet's `arguments` is —
+      // and unlike `arguments`, it survives rest-parameter transpilation.
+      window.dataLayer!.push(args as unknown as IArguments);
     };
   }
   return window.gtag;
