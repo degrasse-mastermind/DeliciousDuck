@@ -11,7 +11,7 @@ import { subscribeSchema } from "./newsletter-schema";
  */
 
 export const subscribeToNewsletterFn = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => subscribeSchema.parse(input))
+  .validator((input: unknown) => subscribeSchema.parse(input))
   .handler(async ({ data }) => {
     const { rateLimited, persistSubscriber } = await import("./newsletter.server");
 
@@ -32,7 +32,7 @@ export const subscribeToNewsletterFn = createServerFn({ method: "POST" })
  * Not linked in any navigation. Returns counts only, never emails.
  */
 export const resyncNewsletterFn = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => {
+  .validator((input: unknown) => {
     const token = (input as { token?: unknown } | null)?.token;
     return { token: typeof token === "string" ? token : "" };
   })
