@@ -10,33 +10,83 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BuyRouteImport } from './routes/buy'
+import { Route as CookRouteImport } from './routes/cook'
+import { Route as GearRouteImport } from './routes/gear'
+import { Route as IngredientsRouteImport } from './routes/ingredients'
+import { Route as LearnRouteImport } from './routes/learn'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuyRoute = BuyRouteImport.update({
+  id: '/buy',
+  path: '/buy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookRoute = CookRouteImport.update({
+  id: '/cook',
+  path: '/cook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GearRoute = GearRouteImport.update({
+  id: '/gear',
+  path: '/gear',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IngredientsRoute = IngredientsRouteImport.update({
+  id: '/ingredients',
+  path: '/ingredients',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnRoute = LearnRouteImport.update({
+  id: '/learn',
+  path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/buy': typeof BuyRoute
+  '/cook': typeof CookRoute
+  '/gear': typeof GearRoute
+  '/ingredients': typeof IngredientsRoute
+  '/learn': typeof LearnRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/buy': typeof BuyRoute
+  '/cook': typeof CookRoute
+  '/gear': typeof GearRoute
+  '/ingredients': typeof IngredientsRoute
+  '/learn': typeof LearnRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/buy': typeof BuyRoute
+  '/cook': typeof CookRoute
+  '/gear': typeof GearRoute
+  '/ingredients': typeof IngredientsRoute
+  '/learn': typeof LearnRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/buy' | '/cook' | '/gear' | '/ingredients' | '/learn'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/buy' | '/cook' | '/gear' | '/ingredients' | '/learn'
+  id: '__root__' | '/' | '/buy' | '/cook' | '/gear' | '/ingredients' | '/learn'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuyRoute: typeof BuyRoute
+  CookRoute: typeof CookRoute
+  GearRoute: typeof GearRoute
+  IngredientsRoute: typeof IngredientsRoute
+  LearnRoute: typeof LearnRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,22 +98,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/buy': {
+      id: '/buy'
+      path: '/buy'
+      fullPath: '/buy'
+      preLoaderRoute: typeof BuyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cook': {
+      id: '/cook'
+      path: '/cook'
+      fullPath: '/cook'
+      preLoaderRoute: typeof CookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gear': {
+      id: '/gear'
+      path: '/gear'
+      fullPath: '/gear'
+      preLoaderRoute: typeof GearRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ingredients': {
+      id: '/ingredients'
+      path: '/ingredients'
+      fullPath: '/ingredients'
+      preLoaderRoute: typeof IngredientsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn': {
+      id: '/learn'
+      path: '/learn'
+      fullPath: '/learn'
+      preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuyRoute: BuyRoute,
+  CookRoute: CookRoute,
+  GearRoute: GearRoute,
+  IngredientsRoute: IngredientsRoute,
+  LearnRoute: LearnRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
