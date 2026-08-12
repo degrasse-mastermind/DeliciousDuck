@@ -5,7 +5,7 @@ import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { TOOLS } from "@/data/tools";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 
-export const Route = createFileRoute("/tools")({
+export const Route = createFileRoute("/tools/")({
   head: () => ({
     ...pageMeta({
       title: "Duck Cooking Tools & Calculators | DeliciousDuck",

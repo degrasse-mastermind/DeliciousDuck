@@ -10,15 +10,30 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as BuyRouteImport } from './routes/buy'
 import { Route as CookRouteImport } from './routes/cook'
 import { Route as GearRouteImport } from './routes/gear'
 import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as ToolsRouteImport } from './routes/tools'
+import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
+  id: '/affiliate-disclosure',
+  path: '/affiliate-disclosure',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BuyRoute = BuyRouteImport.update({
@@ -46,47 +61,113 @@ const LearnRoute = LearnRouteImport.update({
   path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsWholeDuckServingCalculatorRoute =
+  ToolsWholeDuckServingCalculatorRouteImport.update({
+    id: '/whole-duck-serving-calculator',
+    path: '/whole-duck-serving-calculator',
+    getParentRoute: () => ToolsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
   '/cook': typeof CookRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
   '/learn': typeof LearnRoute
+  '/tools': typeof ToolsRouteWithChildren
+  '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
   '/cook': typeof CookRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
   '/learn': typeof LearnRoute
+  '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
+  '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
   '/cook': typeof CookRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
   '/learn': typeof LearnRoute
+  '/tools': typeof ToolsRouteWithChildren
+  '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/buy' | '/cook' | '/gear' | '/ingredients' | '/learn'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/affiliate-disclosure'
+    | '/buy'
+    | '/cook'
+    | '/gear'
+    | '/ingredients'
+    | '/learn'
+    | '/tools'
+    | '/tools/whole-duck-serving-calculator'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/buy' | '/cook' | '/gear' | '/ingredients' | '/learn'
-  id: '__root__' | '/' | '/buy' | '/cook' | '/gear' | '/ingredients' | '/learn'
+  to:
+    | '/'
+    | '/about'
+    | '/affiliate-disclosure'
+    | '/buy'
+    | '/cook'
+    | '/gear'
+    | '/ingredients'
+    | '/learn'
+    | '/tools/whole-duck-serving-calculator'
+    | '/tools'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/affiliate-disclosure'
+    | '/buy'
+    | '/cook'
+    | '/gear'
+    | '/ingredients'
+    | '/learn'
+    | '/tools'
+    | '/tools/whole-duck-serving-calculator'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   BuyRoute: typeof BuyRoute
   CookRoute: typeof CookRoute
   GearRoute: typeof GearRoute
   IngredientsRoute: typeof IngredientsRoute
   LearnRoute: typeof LearnRoute
+  ToolsRoute: typeof ToolsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -96,6 +177,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/affiliate-disclosure': {
+      id: '/affiliate-disclosure'
+      path: '/affiliate-disclosure'
+      fullPath: '/affiliate-disclosure'
+      preLoaderRoute: typeof AffiliateDisclosureRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/buy': {
@@ -133,16 +228,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/': {
+      id: '/tools/'
+      path: '/'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/whole-duck-serving-calculator': {
+      id: '/tools/whole-duck-serving-calculator'
+      path: '/whole-duck-serving-calculator'
+      fullPath: '/tools/whole-duck-serving-calculator'
+      preLoaderRoute: typeof ToolsWholeDuckServingCalculatorRouteImport
+      parentRoute: typeof ToolsRoute
+    }
   }
 }
 
+interface ToolsRouteChildren {
+  ToolsWholeDuckServingCalculatorRoute: typeof ToolsWholeDuckServingCalculatorRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
+}
+
+const ToolsRouteChildren: ToolsRouteChildren = {
+  ToolsWholeDuckServingCalculatorRoute: ToolsWholeDuckServingCalculatorRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
+}
+
+const ToolsRouteWithChildren = ToolsRoute._addFileChildren(ToolsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   BuyRoute: BuyRoute,
   CookRoute: CookRoute,
   GearRoute: GearRoute,
   IngredientsRoute: IngredientsRoute,
   LearnRoute: LearnRoute,
+  ToolsRoute: ToolsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
