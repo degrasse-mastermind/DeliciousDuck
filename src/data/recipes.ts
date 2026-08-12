@@ -20,6 +20,13 @@ export interface Recipe {
   recipeYield: string;
   difficulty: "Easy" | "Intermediate" | "Advanced";
   keyTechnique: string;
+  /**
+   * Trust gate. "editorialDraft" = structured launch content following
+   * established technique and published safety guidance, not yet cooked and
+   * checked in our own kitchen. "kitchenVerified" may only be set once that
+   * hands-on validation is complete.
+   */
+  verification: "editorialDraft" | "kitchenVerified";
 }
 
 export const RECIPES: Recipe[] = [
@@ -36,6 +43,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "2 servings",
     difficulty: "Easy",
     keyTechnique: "Cold-pan rendering",
+    verification: "editorialDraft",
   },
   {
     slug: "duck-leg-confit",
@@ -50,6 +58,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Intermediate",
     keyTechnique: "Low-temperature fat poaching",
+    verification: "editorialDraft",
   },
   {
     slug: "roasted-whole-duck",
@@ -63,6 +72,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Intermediate",
     keyTechnique: "Two-stage roasting",
+    verification: "editorialDraft",
   },
   {
     slug: "smoked-duck-with-plum-sauce",
@@ -76,6 +86,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Advanced",
     keyTechnique: "Low-and-slow smoking",
+    verification: "editorialDraft",
   },
 ];
 

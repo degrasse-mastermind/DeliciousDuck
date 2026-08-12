@@ -129,19 +129,22 @@ function RecipePage() {
         className="aspect-[4/3] w-full rounded-sm object-cover"
       />
 
-      <aside className="rounded-sm border border-border bg-cream p-5">
-        <p className="eyebrow text-primary">Editorial working recipe</p>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          This is an editorial working recipe: the method, timings, and temperatures follow
-          established technique and published food-safety guidance, but it has not yet completed
-          our independent test-kitchen validation. Cook to the stated internal temperatures rather
-          than to time, and see our{" "}
-          <a href="/editorial-standards" className="text-primary underline underline-offset-4">
-            editorial standards
-          </a>{" "}
-          for how recipes move from working draft to tested.
-        </p>
-      </aside>
+      {recipe.verification === "editorialDraft" && (
+        <aside className="rounded-sm border border-border bg-cream p-5">
+          <p className="eyebrow text-primary">Editorial launch draft</p>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            This recipe is an editorial launch draft: the method, timings, and temperatures follow
+            established technique and published food-safety guidance, but it is still pending
+            DeliciousDuck kitchen verification. Cook to the stated internal temperatures rather
+            than to time, and see our{" "}
+            <a href="/editorial-standards" className="text-primary underline underline-offset-4">
+              editorial standards
+            </a>{" "}
+            for how a recipe moves from draft to kitchen-verified.
+          </p>
+        </aside>
+      )}
+
 
 
       <Section id="ingredients" heading="Ingredients">
