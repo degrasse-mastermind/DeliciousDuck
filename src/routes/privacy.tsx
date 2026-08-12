@@ -78,9 +78,10 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
       <p>
         We use data only to operate and improve the site and, where you have opted in, to send the
         content you asked for. We do not sell personal data and do not share it with advertisers.
-        Newsletter addresses are processed by Resend (resend.com), our email delivery and list
-        provider, acting on our instructions; site hosting providers process ordinary request data.
-        If those processors change, this page is updated before the change takes effect.
+        Newsletter addresses are held in our own database and, once synced, processed by Resend
+        (resend.com), our email delivery provider, acting on our instructions; site hosting and
+        database providers process ordinary request and record data. If those processors change,
+        this page is updated before the change takes effect.
       </p>
 
     ),
