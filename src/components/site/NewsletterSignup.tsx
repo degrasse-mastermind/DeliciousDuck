@@ -165,7 +165,8 @@ export function NewsletterSignup({
               </span>
               <h3 className="mt-4 font-display text-2xl">You&apos;re on the list</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Check your inbox for the Duck Cooking Starter Guide.
+                We&apos;ll email the Duck Cooking Starter Guide as soon as it&apos;s published,
+                then occasional recipes and guides. No confirmation email is sent right now.
               </p>
             </div>
           ) : (
@@ -182,6 +183,7 @@ export function NewsletterSignup({
                   type="email"
                   name="email"
                   autoComplete="email"
+                  maxLength={255}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onFocus={() => signalIntent("newsletter_form")}
@@ -196,17 +198,31 @@ export function NewsletterSignup({
                   </p>
                 )}
               </div>
+              {/* Bot trap: hidden from users and assistive tech; must stay empty. */}
+              <div aria-hidden="true" className="hidden">
+                <label htmlFor={`${id}-company`}>Company</label>
+                <input
+                  id={`${id}-company`}
+                  name="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={trap}
+                  onChange={(e) => setTrap(e.target.value)}
+                />
+              </div>
               <button
                 type="submit"
                 disabled={pending}
                 className="h-12 w-full rounded-sm bg-primary text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep disabled:opacity-70"
               >
-                {pending ? "Sending…" : "Send me the guide"}
+                {pending ? "Signing you up…" : "Join the list"}
               </button>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                One email with the guide, then occasional recipes and gear notes. Unsubscribe any
-                time.
+                You&apos;re signing up for DeliciousDuck emails: the Duck Cooking Starter Guide
+                when it&apos;s released, plus occasional recipes and guides. Sent from
+                hello@deliciousduck.com via Resend. Unsubscribe any time.
               </p>
+
             </form>
           )}
         </div>
