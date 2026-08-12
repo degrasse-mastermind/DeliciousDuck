@@ -14,9 +14,13 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as BuyRouteImport } from './routes/buy'
 import { Route as CookRouteImport } from './routes/cook'
+import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
 import { Route as GearRouteImport } from './routes/gear'
 import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
@@ -46,6 +50,11 @@ const CookRoute = CookRouteImport.update({
   path: '/cook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EditorialStandardsRoute = EditorialStandardsRouteImport.update({
+  id: '/editorial-standards',
+  path: '/editorial-standards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GearRoute = GearRouteImport.update({
   id: '/gear',
   path: '/gear',
@@ -59,6 +68,21 @@ const IngredientsRoute = IngredientsRouteImport.update({
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsRoute = ToolsRouteImport.update({
@@ -84,9 +108,13 @@ export interface FileRoutesByFullPath {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
   '/cook': typeof CookRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
   '/learn': typeof LearnRoute
+  '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/tools/': typeof ToolsIndexRoute
@@ -97,9 +125,13 @@ export interface FileRoutesByTo {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
   '/cook': typeof CookRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
   '/learn': typeof LearnRoute
+  '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/tools': typeof ToolsIndexRoute
 }
@@ -110,9 +142,13 @@ export interface FileRoutesById {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
   '/cook': typeof CookRoute
+  '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
   '/learn': typeof LearnRoute
+  '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/tools/': typeof ToolsIndexRoute
@@ -125,9 +161,13 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/buy'
     | '/cook'
+    | '/editorial-standards'
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/terms'
     | '/tools'
     | '/tools/whole-duck-serving-calculator'
     | '/tools/'
@@ -138,9 +178,13 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/buy'
     | '/cook'
+    | '/editorial-standards'
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/terms'
     | '/tools/whole-duck-serving-calculator'
     | '/tools'
   id:
@@ -150,9 +194,13 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/buy'
     | '/cook'
+    | '/editorial-standards'
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/terms'
     | '/tools'
     | '/tools/whole-duck-serving-calculator'
     | '/tools/'
@@ -164,9 +212,13 @@ export interface RootRouteChildren {
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   BuyRoute: typeof BuyRoute
   CookRoute: typeof CookRoute
+  EditorialStandardsRoute: typeof EditorialStandardsRoute
   GearRoute: typeof GearRoute
   IngredientsRoute: typeof IngredientsRoute
   LearnRoute: typeof LearnRoute
+  PrivacyRoute: typeof PrivacyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
 }
 
@@ -207,6 +259,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/editorial-standards': {
+      id: '/editorial-standards'
+      path: '/editorial-standards'
+      fullPath: '/editorial-standards'
+      preLoaderRoute: typeof EditorialStandardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gear': {
       id: '/gear'
       path: '/gear'
@@ -226,6 +285,27 @@ declare module '@tanstack/react-router' {
       path: '/learn'
       fullPath: '/learn'
       preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools': {
@@ -270,9 +350,13 @@ const rootRouteChildren: RootRouteChildren = {
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   BuyRoute: BuyRoute,
   CookRoute: CookRoute,
+  EditorialStandardsRoute: EditorialStandardsRoute,
   GearRoute: GearRoute,
   IngredientsRoute: IngredientsRoute,
   LearnRoute: LearnRoute,
+  PrivacyRoute: PrivacyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
   ToolsRoute: ToolsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
