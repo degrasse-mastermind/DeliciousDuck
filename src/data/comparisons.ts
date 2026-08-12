@@ -4,9 +4,12 @@
  * Rules baked into this shape:
  * - No prices, star ratings, review counts, or testing claims. None of these
  *   items has been hands-on tested by DeliciousDuck.
- * - `affiliateUrl` stays undefined until a real, approved affiliate link
- *   exists. `directUrl` is a plain, non-affiliate merchant/brand URL.
- * - `affiliateStatus` drives the CTA. Never render a placeholder "#" link.
+ * - Rows that map to a real merchant carry `merchantId` and get their
+ *   destination from the registry in src/data/affiliates.ts — that is the one
+ *   place a program is activated. `directUrl` here is only for rows with no
+ *   registry entry, and is always a plain, non-affiliate URL.
+ * - Never render a placeholder "#" link. A row with no legitimate destination
+ *   simply shows no CTA.
  */
 export type AffiliateStatus = "active" | "pending" | "none";
 
@@ -22,6 +25,8 @@ export interface ComparisonRow {
   decisionFactors: Record<string, string>;
   pros: string[];
   tradeoffs: string[];
+  /** Registry key in src/data/affiliates.ts. Activation happens there, not here. */
+  merchantId?: string;
   affiliateUrl?: string;
   directUrl?: string;
   affiliateStatus: AffiliateStatus;
@@ -71,7 +76,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
       "Frozen delivery means thaw planning — allow a full day or more in the fridge.",
     ],
     affiliateStatus: "none",
-    directUrl: "https://www.dartagnan.com/",
+    merchantId: "dartagnan",
     lastVerified: "2026-08",
     note: "Listed as a sourcing candidate based on public catalogue information. No affiliate relationship is in place, and we have not ordered from them for a hands-on review.",
   },
@@ -98,7 +103,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
       "Fewer duck-specific cuts than a speciality game supplier.",
     ],
     affiliateStatus: "none",
-    directUrl: "https://grasslandbeef.com/",
+    merchantId: "us-wellness-meats",
     lastVerified: "2026-08",
     note: "Listed as a sourcing candidate from public catalogue information. No affiliate relationship or hands-on order review yet.",
   },
@@ -233,7 +238,7 @@ export const THERMOMETERS: ComparisonRow[] = [
       "We have not hands-on tested any model, so treat this as a shortlist, not a verdict.",
     ],
     affiliateStatus: "none",
-    directUrl: "https://www.thermoworks.com/",
+    merchantId: "thermoworks",
     lastVerified: "2026-08",
     note: "Included as a research-stage brand candidate. No affiliate link is live and no unit has been tested by DeliciousDuck.",
   },

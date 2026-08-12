@@ -1,28 +1,41 @@
 import { useState } from "react";
 import { Check, Clock } from "lucide-react";
-import { trackNewsletterSignup } from "@/lib/analytics";
+import { trackNewsletterIntent, trackNewsletterSignup } from "@/lib/analytics";
+import { isNewsletterEnabled, subscribeToNewsletter } from "@/lib/newsletter";
 
 /**
  * Honest-by-default signup.
  *
- * With no `onSubscribe` handler there is no email backend, so no input is
- * rendered and no success state can be faked — the panel shows a Coming Soon
- * notice instead. Pass `onSubscribe` (e.g. a Resend-backed server function)
- * to enable the real form: validation runs first, and the success state only
- * appears after the handler resolves.
+ * The delivery backend is owned by `src/lib/newsletter.ts`. While no provider
+ * is connected there is no email backend, so no input is rendered and no
+ * success state can be faked — the panel explains the list is not open. Once
+ * that module exports a real `subscribeToNewsletter`, the form appears
+ * automatically: validation runs first, and both the success state and the GA4
+ * `newsletter_signup` conversion only fire after the handler resolves.
+ *
+ * GA4: `newsletter_intent` covers interaction either way; `newsletter_signup`
+ * is emitted once per successful subscription and never on mount.
  */
 export function NewsletterSignup({
   id = "starter-guide",
-  onSubscribe,
+  onSubscribe = subscribeToNewsletter,
 }: {
   id?: string;
-  onSubscribe?: (email: string) => Promise<void>;
+  onSubscribe?: ((email: string) => Promise<void>) | undefined;
 }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [pending, setPending] = useState(false);
-  const enabled = typeof onSubscribe === "function";
+  const [intentSent, setIntentSent] = useState(false);
+  const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
+
+  /** One intent event per component instance — no double-firing. */
+  function signalIntent(source: string) {
+    if (intentSent) return;
+    setIntentSent(true);
+    trackNewsletterIntent({ placement: id, source, listOpen: enabled });
+  }
 
   const valid = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
 
@@ -91,13 +104,16 @@ export function NewsletterSignup({
               >
                 <Clock className="size-6" />
               </span>
-              <h3 className="mt-4 font-display text-2xl">Coming soon</h3>
+              <h3 className="mt-4 font-display text-2xl">Not open yet</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                Email delivery isn&apos;t connected yet, so we&apos;re not collecting addresses —
-                signing up would go nowhere. The guide is being finished; when the list opens, the
-                form will appear here.
+                The list isn&apos;t open yet. Email delivery isn&apos;t connected, so
+                we&apos;re not collecting addresses — there is no form here because signing up
+                would go nowhere. When the guide and the list are ready, the form appears here.
               </p>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+              <p
+                className="mt-4 text-sm leading-relaxed text-muted-foreground"
+                onClick={() => signalIntent("closed_list_panel")}
+              >
                 In the meantime, everything the guide covers is already on the site: start with{" "}
                 <a
                   href="/learn/duck-breast-temperature-doneness"
@@ -141,6 +157,7 @@ export function NewsletterSignup({
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onFocus={() => signalIntent("newsletter_form")}
                   aria-invalid={error ? true : undefined}
                   aria-describedby={error ? `${id}-error` : undefined}
                   placeholder="you@example.com"

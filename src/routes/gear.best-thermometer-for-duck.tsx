@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
+import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { THERMOMETERS, THERMOMETER_FACTORS } from "@/data/comparisons";
@@ -66,6 +66,8 @@ function Page() {
       </p>
 
       <DisclosureBanner />
+
+      <EvaluationNote scope="thermometers" />
 
       <SafetyNote />
 

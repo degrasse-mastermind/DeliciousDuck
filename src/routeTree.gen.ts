@@ -48,6 +48,7 @@ import { Route as IngredientsDuckFatVsButterOilRouteImport } from './routes/ingr
 import { Route as IngredientsDuckMarinadeGuideRouteImport } from './routes/ingredients.duck-marinade-guide'
 import { Route as IngredientsDuckSeasoningGuideRouteImport } from './routes/ingredients.duck-seasoning-guide'
 import { Route as IngredientsOrangeWithDuckRouteImport } from './routes/ingredients.orange-with-duck'
+import { Route as InternalKitchenTestSheetRouteImport } from './routes/internal.kitchen-test-sheet'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnDuckBreastTemperatureDonenessRouteImport } from './routes/learn.duck-breast-temperature-doneness'
 import { Route as LearnHowToCarveADuckRouteImport } from './routes/learn.how-to-carve-a-duck'
@@ -276,6 +277,12 @@ const IngredientsOrangeWithDuckRoute =
     path: '/orange-with-duck',
     getParentRoute: () => IngredientsRoute,
   } as any)
+const InternalKitchenTestSheetRoute =
+  InternalKitchenTestSheetRouteImport.update({
+    id: '/internal/kitchen-test-sheet',
+    path: '/internal/kitchen-test-sheet',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LearnIndexRoute = LearnIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -416,6 +423,7 @@ export interface FileRoutesByFullPath {
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
   '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
+  '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -469,6 +477,7 @@ export interface FileRoutesByTo {
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
   '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
+  '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -530,6 +539,7 @@ export interface FileRoutesById {
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
   '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
+  '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -592,6 +602,7 @@ export interface FileRouteTypes {
     | '/ingredients/duck-marinade-guide'
     | '/ingredients/duck-seasoning-guide'
     | '/ingredients/orange-with-duck'
+    | '/internal/kitchen-test-sheet'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -645,6 +656,7 @@ export interface FileRouteTypes {
     | '/ingredients/duck-marinade-guide'
     | '/ingredients/duck-seasoning-guide'
     | '/ingredients/orange-with-duck'
+    | '/internal/kitchen-test-sheet'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -705,6 +717,7 @@ export interface FileRouteTypes {
     | '/ingredients/duck-marinade-guide'
     | '/ingredients/duck-seasoning-guide'
     | '/ingredients/orange-with-duck'
+    | '/internal/kitchen-test-sheet'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -746,6 +759,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
+  InternalKitchenTestSheetRoute: typeof InternalKitchenTestSheetRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1022,6 +1036,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/ingredients/orange-with-duck'
       preLoaderRoute: typeof IngredientsOrangeWithDuckRouteImport
       parentRoute: typeof IngredientsRoute
+    }
+    '/internal/kitchen-test-sheet': {
+      id: '/internal/kitchen-test-sheet'
+      path: '/internal/kitchen-test-sheet'
+      fullPath: '/internal/kitchen-test-sheet'
+      preLoaderRoute: typeof InternalKitchenTestSheetRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/learn/': {
       id: '/learn/'
@@ -1323,6 +1344,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRouteWithChildren,
+  InternalKitchenTestSheetRoute: InternalKitchenTestSheetRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
