@@ -74,7 +74,7 @@ function formatScaled(value: number, unit: string): string {
     6: "3/4",
     7: "7/8",
   };
-  const fraction = fractionMap[eighths];
+  const fraction = fractionMap[eighths] ?? "";
   return whole > 0 ? `${whole} ${fraction}` : fraction;
 }
 

@@ -74,7 +74,9 @@ export function CookingTimePlanner() {
 
   const prepStart = useMemo(() => {
     if (!result) return null;
-    const [h, m] = startTime.split(":").map(Number);
+    const [hRaw, mRaw] = startTime.split(":");
+    const h = Number(hRaw);
+    const m = Number(mRaw);
     if (!Number.isFinite(h) || !Number.isFinite(m)) return null;
     const serveMinutes = h * 60 + m;
     const totalNeeded = result.maxTotal + result.rest + 20; // 20 min margin for prep/carving

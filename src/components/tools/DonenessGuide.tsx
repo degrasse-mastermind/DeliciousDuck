@@ -113,10 +113,10 @@ export function DonenessGuide() {
 
   const activeMethod = availableMethods.some((m) => m.key === method)
     ? method
-    : availableMethods[0].key;
+    : availableMethods[0]!.key;
   const activeOutcome = availableOutcomes.some((o) => o.key === outcome)
     ? outcome
-    : availableOutcomes[0].key;
+    : availableOutcomes[0]!.key;
 
   const guidance = useMemo(
     () => getGuidance(cut, activeMethod, activeOutcome),
@@ -150,8 +150,8 @@ export function DonenessGuide() {
                   checked={cut === key}
                   onChange={() => {
                     setCut(key);
-                    setMethod(METHODS_BY_CUT[key][0].key);
-                    setOutcome(OUTCOMES_BY_CUT[key][0].key);
+                    setMethod(METHODS_BY_CUT[key][0]!.key);
+                    setOutcome(OUTCOMES_BY_CUT[key][0]!.key);
                   }}
                   className="sr-only"
                 />
