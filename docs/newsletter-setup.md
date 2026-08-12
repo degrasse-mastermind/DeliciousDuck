@@ -1,49 +1,50 @@
-# Newsletter activation checklist (internal)
+# Newsletter / email status note (internal — not served, not linked, no secrets)
 
-This file is documentation only. It is not served to visitors, not linked from
-the site, and contains no secrets.
+Last updated: August 2026
 
-Current state: **not connected**. `src/lib/newsletter.ts` exports
-`subscribeToNewsletter = undefined`, so every signup surface renders the
-"list isn't open yet" panel. No email addresses are collected or stored.
+## Current configuration
 
-## What is still required from the owner
+| Item | Value |
+| --- | --- |
+| Provider | Resend |
+| Sending domain | deliciousduck.com — **verified in Resend** |
+| Sender identity | DeliciousDuck &lt;hello@deliciousduck.com&gt; |
+| Segment / audience | DeliciousDuck Subscribers |
+| Segment ID | `0a4c8912-f401-400b-b230-2a993f0ec516` |
+| Server secret required | `RESEND_API_KEY` (server-side only) |
+| Live subscription operational | **Only once `RESEND_API_KEY` is set** in Project Settings → Secrets |
 
-1. **Choose a provider.** Resend (with an Audience), Buttondown, or
-   Cloud-only storage with manual sending.
-2. **Provide credentials.** The provider API key must be added as a project
-   secret (Project Settings → Secrets), never in code. Expected name:
-   `RESEND_API_KEY` (or the equivalent for the chosen provider).
-3. **Verify a sending domain** with the provider (DNS records on
-   deliciousduck.com) before any mail is sent.
-4. **Finish the lead magnet.** The signup copy promises "The Duck Cooking
-   Starter Guide" PDF — the file needs to exist and be hosted.
-5. **Decide double opt-in.** Recommended for deliverability and for the
-   consent language already in `/privacy`.
+The secret value is never stored in code, docs, logs, or client bundles. It is
+read inside the server function handler via `process.env.RESEND_API_KEY`.
 
-## Engineering steps once the above exists
+## How it works
 
-1. Enable Lovable Cloud and create `newsletter_subscribers`
-   (`id`, `email` unique, `created_at`, `source`, `confirmed_at`) with
-   grants + RLS: inserts through a server function only, no public select.
-2. Create `src/lib/newsletter.functions.ts` with a `createServerFn` that
-   zod-validates the email (trim, `.email()`, max 255), inserts the row, then
-   calls the provider API using the secret read inside `.handler()`.
-   It must throw on any failure.
-3. In `src/lib/newsletter.ts`: set `provider`, set
-   `status: "configured"`, and assign the server function to
-   `subscribeToNewsletter`.
-4. No UI change is needed. `NewsletterSignup` switches to the real form
-   automatically, and only then can the GA4 `newsletter_signup` conversion
-   fire (intent is already tracked as `newsletter_intent`).
-5. Update `/privacy` if the provider stores data outside the current
-   description.
+- UI: `src/components/site/NewsletterSignup.tsx` — client-side validation,
+  hidden honeypot field, success state only after the server call resolves.
+- Boundary: `src/lib/newsletter.ts` — `NEWSLETTER_CONFIG` (provider `resend`,
+  status `configured`) and `subscribeToNewsletter`.
+- Server: `src/lib/newsletter.functions.ts` — zod validation (trim, lowercase,
+  email, max 255), honeypot check, best-effort per-IP rate limit (5/min),
+  then `POST https://api.resend.com/audiences/<segment>/contacts`.
+  201 = new contact, 200/409 = already a member — both treated as success
+  (idempotent). Anything else logs status + provider detail (never the key)
+  and throws, so the UI shows an error and no GA4 conversion fires.
+
+## Fail-closed behavior
+
+If `RESEND_API_KEY` is absent, the handler throws `newsletter_not_configured`
+before touching Resend. The visitor sees "We couldn't sign you up just now",
+nothing is stored, and `newsletter_signup` does not fire.
+
+## Not yet true — do not claim otherwise in copy
+
+- No Starter Guide PDF exists yet. Copy promises the guide **when released**.
+- No welcome/confirmation email is sent yet (no broadcast or automation wired).
+- No double opt-in. Add it in Resend before heavy acquisition if desired.
 
 ## Analytics contract
 
-- `newsletter_intent` — fires on genuine interaction with a signup surface
-  (field focus, or clicking the reminder link while the list is closed).
-  Not a conversion.
-- `newsletter_signup` — fires ONLY after `subscribeToNewsletter` resolves.
-  Mark this one as the conversion in GA4. It never fires while the list is
-  closed.
+- `newsletter_intent` — genuine interaction with a signup surface (field focus).
+  Not a conversion. Deduped once per component instance.
+- `newsletter_signup` — fires ONLY after the server function resolves
+  successfully. Mark this one as the conversion in GA4.

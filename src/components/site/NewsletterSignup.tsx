@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { Check, Clock } from "lucide-react";
 import { trackNewsletterIntent, trackNewsletterSignup } from "@/lib/analytics";
-import { isNewsletterEnabled, subscribeToNewsletter } from "@/lib/newsletter";
+import {
+  isNewsletterEnabled,
+  subscribeToNewsletter,
+  type SubscribeInput,
+} from "@/lib/newsletter";
 
 /**
  * Honest-by-default signup.
  *
- * The delivery backend is owned by `src/lib/newsletter.ts`. While no provider
- * is connected there is no email backend, so no input is rendered and no
- * success state can be faked — the panel explains the list is not open. Once
- * that module exports a real `subscribeToNewsletter`, the form appears
- * automatically: validation runs first, and both the success state and the GA4
- * `newsletter_signup` conversion only fire after the handler resolves.
+ * The delivery backend is owned by `src/lib/newsletter.ts` (currently Resend).
+ * Validation runs client-side first, then the server function validates again,
+ * rate-limits, checks the honeypot, and upserts the contact into the Resend
+ * segment. The success state and the GA4 `newsletter_signup` conversion only
+ * fire after that server call resolves; any failure keeps the form open.
  *
  * GA4: `newsletter_intent` covers interaction either way; `newsletter_signup`
  * is emitted once per successful subscription and never on mount.
@@ -21,13 +24,15 @@ export function NewsletterSignup({
   onSubscribe = subscribeToNewsletter,
 }: {
   id?: string;
-  onSubscribe?: ((email: string) => Promise<void>) | undefined;
+  onSubscribe?: ((input: SubscribeInput) => Promise<void>) | undefined;
 }) {
   const [email, setEmail] = useState("");
+  const [trap, setTrap] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [pending, setPending] = useState(false);
   const [intentSent, setIntentSent] = useState(false);
+  const [signupSent, setSignupSent] = useState(false);
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
 
   /** One intent event per component instance — no double-firing. */
@@ -41,25 +46,30 @@ export function NewsletterSignup({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!onSubscribe) return;
-    if (!valid(email)) {
+    if (!onSubscribe || pending) return;
+    const cleaned = email.trim().toLowerCase();
+    if (!valid(cleaned) || cleaned.length > 255) {
       setError("Please enter a valid email address.");
       return;
     }
     setError(null);
     setPending(true);
     try {
-      await onSubscribe(email.trim());
+      await onSubscribe({ email: cleaned, source: "newsletter_form", placement: id, trap });
       // Success transition only — never on mount, never on a failed submit.
       // No email or other PII is sent to analytics.
-      trackNewsletterSignup({ placement: id, source: "newsletter_form" });
+      if (!signupSent) {
+        setSignupSent(true);
+        trackNewsletterSignup({ placement: id, source: "newsletter_form" });
+      }
       setDone(true);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("We couldn't sign you up just now. Please try again in a moment.");
     } finally {
       setPending(false);
     }
   }
+
 
   return (
     <section
@@ -69,7 +79,7 @@ export function NewsletterSignup({
     >
       <div className="grid gap-10 p-8 lg:grid-cols-2 lg:items-center lg:p-14">
         <div>
-          <span className="eyebrow text-accent">Free download</span>
+          <span className="eyebrow text-accent">Join the list</span>
           <h2
             id={`${id}-heading`}
             className="mt-3 font-display text-3xl leading-tight lg:text-[2.75rem]"
@@ -77,10 +87,12 @@ export function NewsletterSignup({
             The Duck Cooking Starter Guide
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/80">
-            A concise PDF covering the four duck cuts, target internal temperatures, how to render
-            a fat cap properly, and what to buy first. Written for home cooks making duck for the
-            first time.
+            The guide is still being written — a short reference covering the four duck cuts,
+            target internal temperatures, rendering a fat cap, and what to buy first. Join the
+            list and we&apos;ll send it the day it&apos;s published, plus occasional recipes and
+            guides in the meantime.
           </p>
+
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
             {[
               "Temperature targets for breast, legs, and whole birds",
@@ -93,6 +105,21 @@ export function NewsletterSignup({
               </li>
             ))}
           </ul>
+          <p className="mt-6 text-sm leading-relaxed text-forest-foreground/70">
+            Nothing to wait for today: the{" "}
+            <a
+              href="/learn/duck-breast-temperature-doneness"
+              className="underline underline-offset-4"
+            >
+              temperature and doneness guide
+            </a>{" "}
+            and the{" "}
+            <a href="/tools" className="underline underline-offset-4">
+              calculators
+            </a>{" "}
+            are already live.
+          </p>
+
         </div>
 
         <div className="rounded-sm bg-background/95 p-6 text-foreground lg:p-8">
@@ -138,7 +165,8 @@ export function NewsletterSignup({
               </span>
               <h3 className="mt-4 font-display text-2xl">You&apos;re on the list</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Check your inbox for the Duck Cooking Starter Guide.
+                We&apos;ll email the Duck Cooking Starter Guide as soon as it&apos;s published,
+                then occasional recipes and guides. No confirmation email is sent right now.
               </p>
             </div>
           ) : (
@@ -155,6 +183,7 @@ export function NewsletterSignup({
                   type="email"
                   name="email"
                   autoComplete="email"
+                  maxLength={255}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onFocus={() => signalIntent("newsletter_form")}
@@ -169,17 +198,31 @@ export function NewsletterSignup({
                   </p>
                 )}
               </div>
+              {/* Bot trap: hidden from users and assistive tech; must stay empty. */}
+              <div aria-hidden="true" className="hidden">
+                <label htmlFor={`${id}-company`}>Company</label>
+                <input
+                  id={`${id}-company`}
+                  name="company"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={trap}
+                  onChange={(e) => setTrap(e.target.value)}
+                />
+              </div>
               <button
                 type="submit"
                 disabled={pending}
                 className="h-12 w-full rounded-sm bg-primary text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep disabled:opacity-70"
               >
-                {pending ? "Sending…" : "Send me the guide"}
+                {pending ? "Signing you up…" : "Join the list"}
               </button>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                One email with the guide, then occasional recipes and gear notes. Unsubscribe any
-                time.
+                You&apos;re signing up for DeliciousDuck emails: the Duck Cooking Starter Guide
+                when it&apos;s released, plus occasional recipes and guides. Sent from
+                hello@deliciousduck.com via Resend. Unsubscribe any time.
               </p>
+
             </form>
           )}
         </div>

@@ -42,10 +42,12 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
           URL and may be recorded in ordinary web-server logs. They are not linked to an identity.
         </li>
         <li>
-          <strong className="text-foreground">Email address</strong> — only if and when the
-          newsletter is live and you choose to submit it. The signup form is currently disabled and
-          collects nothing.
+          <strong className="text-foreground">Email address</strong> — only if you submit the
+          newsletter form. We store the address itself (plus the date you joined) with our email
+          provider, Resend, in the DeliciousDuck subscriber list. We do not ask for your name and
+          do not attach the address to your browsing.
         </li>
+
         <li>
           <strong className="text-foreground">Technical request data</strong> — IP address, browser
           user agent, referring page, and pages requested, kept in short-lived server logs for
@@ -75,10 +77,11 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
       <p>
         We use data only to operate and improve the site and, where you have opted in, to send the
         content you asked for. We do not sell personal data and do not share it with advertisers.
-        Data may be processed by our hosting and (once live) email-delivery providers acting on our
-        instructions. If those processors change, this page is updated before the change takes
-        effect.
+        Newsletter addresses are processed by Resend (resend.com), our email delivery and list
+        provider, acting on our instructions; site hosting providers process ordinary request data.
+        If those processors change, this page is updated before the change takes effect.
       </p>
+
     ),
   },
   {
