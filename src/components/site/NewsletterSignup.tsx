@@ -10,11 +10,12 @@ import {
 /**
  * Honest-by-default signup.
  *
- * The delivery backend is owned by `src/lib/newsletter.ts` (currently Resend).
- * Validation runs client-side first, then the server function validates again,
- * rate-limits, checks the honeypot, and upserts the contact into the Resend
- * segment. The success state and the GA4 `newsletter_signup` conversion only
- * fire after that server call resolves; any failure keeps the form open.
+ * The backend is owned by `src/lib/newsletter.ts`. Validation runs client-side
+ * first, then the server function validates again, rate-limits, checks the
+ * honeypot, and durably upserts the subscriber into the project database (the
+ * source of truth) before best-effort syncing to Resend for delivery. The
+ * success state and the GA4 `newsletter_signup` conversion only fire after
+ * durable storage succeeds; any failure keeps the form open.
  *
  * GA4: `newsletter_intent` covers interaction either way; `newsletter_signup`
  * is emitted once per successful subscription and never on mount.
@@ -163,10 +164,11 @@ export function NewsletterSignup({
               >
                 <Check className="size-6" />
               </span>
-              <h3 className="mt-4 font-display text-2xl">You&apos;re on the list</h3>
+              <h3 className="mt-4 font-display text-2xl">You&apos;re on the DeliciousDuck list</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                We&apos;ll email the Duck Cooking Starter Guide as soon as it&apos;s published,
-                then occasional recipes and guides. No confirmation email is sent right now.
+                Your address is saved. We&apos;ll email the Duck Cooking Starter Guide as soon as
+                it&apos;s published, then occasional recipes and guides. No confirmation email is
+                sent right now.
               </p>
             </div>
           ) : (

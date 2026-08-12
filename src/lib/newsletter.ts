@@ -1,39 +1,43 @@
 /**
  * Newsletter integration boundary.
  *
- * This module is the single seam between the signup UI and the email provider.
+ * This module is the single seam between the signup UI and the backend.
  * Nothing else in the app should know how subscription works.
  *
- * CURRENT STATE: connected to Resend. deliciousduck.com is verified there and
- * subscribers are written to the "DeliciousDuck Subscribers" audience/segment.
- * The Resend token lives only in the server secret `RESEND_API_KEY` and is read
- * inside the server function handler — never in client code or the bundle.
- *
- * If `RESEND_API_KEY` is missing on the server, the server function throws and
- * the UI shows an error instead of a fake success (fail closed).
+ * CURRENT STATE: the project database is the durable source of truth for the
+ * subscriber list; Resend is the downstream delivery provider (deliciousduck.com
+ * is verified there, contacts land in "DeliciousDuck Subscribers"). A signup
+ * succeeds once the row is stored. If `RESEND_API_KEY` is absent the row is
+ * saved with sync status `pending` and can be resynced later — the visitor is
+ * still a real subscriber. Storage failures still fail closed: no success state,
+ * no conversion event. The Resend token exists only as a server secret.
  */
 
 import { subscribeToNewsletterFn } from "./newsletter.functions";
+import { RESEND_AUDIENCE_ID } from "./newsletter-schema";
 
-export type NewsletterProvider = "resend" | "buttondown" | "supabase-only";
+export type NewsletterProvider = "supabase+resend" | "resend" | "supabase-only";
 
 export interface NewsletterConfig {
   provider: NewsletterProvider | null;
   status: "not_configured" | "configured";
+  /** Durable record of the list. */
+  sourceOfTruth: "database";
   /** What the list actually delivers, used in UI copy. */
   leadMagnet: string;
   /** Visible sender identity configured in Resend. */
   senderIdentity: string;
-  /** Resend audience/segment that receives new contacts. */
+  /** Resend audience/segment that receives synced contacts. */
   segmentId: string;
 }
 
 export const NEWSLETTER_CONFIG: NewsletterConfig = {
-  provider: "resend",
+  provider: "supabase+resend",
   status: "configured",
+  sourceOfTruth: "database",
   leadMagnet: "The Duck Cooking Starter Guide",
   senderIdentity: "DeliciousDuck <hello@deliciousduck.com>",
-  segmentId: "0a4c8912-f401-400b-b230-2a993f0ec516",
+  segmentId: RESEND_AUDIENCE_ID,
 };
 
 export interface SubscribeInput {

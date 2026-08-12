@@ -43,9 +43,10 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
         </li>
         <li>
           <strong className="text-foreground">Email address</strong> — only if you submit the
-          newsletter form. We store the address itself (plus the date you joined) with our email
-          provider, Resend, in the DeliciousDuck subscriber list. We do not ask for your name and
-          do not attach the address to your browsing.
+          newsletter form. The address, the date you joined, and which page you signed up from are
+          stored in DeliciousDuck&apos;s own database, which is our record of the list. The address
+          is then passed to our email provider, Resend, so we can send the emails you asked for. We
+          do not ask for your name and do not attach the address to your browsing.
         </li>
 
         <li>
@@ -77,9 +78,10 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
       <p>
         We use data only to operate and improve the site and, where you have opted in, to send the
         content you asked for. We do not sell personal data and do not share it with advertisers.
-        Newsletter addresses are processed by Resend (resend.com), our email delivery and list
-        provider, acting on our instructions; site hosting providers process ordinary request data.
-        If those processors change, this page is updated before the change takes effect.
+        Newsletter addresses are held in our own database and, once synced, processed by Resend
+        (resend.com), our email delivery provider, acting on our instructions; site hosting and
+        database providers process ordinary request and record data. If those processors change,
+        this page is updated before the change takes effect.
       </p>
 
     ),
