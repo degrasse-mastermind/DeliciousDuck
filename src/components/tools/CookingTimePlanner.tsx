@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useCalculatorComplete } from "@/hooks/use-calculator-complete";
 
 type Unit = "kg" | "lb";
 type Preset = "low" | "standard" | "hot";
@@ -86,6 +87,20 @@ export function CookingTimePlanner() {
     const sm = Math.round(startMinutes % 60);
     return `${String(sh).padStart(2, "0")}:${String(sm).padStart(2, "0")}`;
   }, [result, startTime]);
+
+  useCalculatorComplete({
+    calculatorName: "Duck cooking time planner",
+    toolSlug: "duck-cooking-time-planner",
+    ready: Boolean(result),
+    result: {
+      preset,
+      unit,
+      stuffed,
+      from_fridge: fromFridge,
+      min_total_minutes: result ? Math.round(result.minTotal) : undefined,
+      max_total_minutes: result ? Math.round(result.maxTotal) : undefined,
+    },
+  });
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">

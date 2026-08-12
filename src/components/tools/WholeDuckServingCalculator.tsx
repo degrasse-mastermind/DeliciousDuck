@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useCalculatorComplete } from "@/hooks/use-calculator-complete";
 
 type Appetite = "light" | "standard" | "hearty";
 
@@ -54,6 +55,18 @@ export function WholeDuckServingCalculator() {
       perPerson: Math.round(perPerson),
     };
   }, [guests, appetite, leftovers, duckWeightKg]);
+
+  useCalculatorComplete({
+    calculatorName: "Whole duck serving calculator",
+    toolSlug: "whole-duck-serving-calculator",
+    result: {
+      appetite,
+      leftovers,
+      ducks: result.ducks,
+      raw_weight_kg: Number(result.rawWeightKg.toFixed(1)),
+      cooked_needed_g: result.cookedNeededG,
+    },
+  });
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">

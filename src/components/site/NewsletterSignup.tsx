@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Check, Clock } from "lucide-react";
+import { trackNewsletterSignup } from "@/lib/analytics";
 
 /**
  * Honest-by-default signup.
@@ -36,6 +37,9 @@ export function NewsletterSignup({
     setPending(true);
     try {
       await onSubscribe(email.trim());
+      // Success transition only — never on mount, never on a failed submit.
+      // No email or other PII is sent to analytics.
+      trackNewsletterSignup({ placement: id, source: "newsletter_form" });
       setDone(true);
     } catch {
       setError("Something went wrong. Please try again.");
