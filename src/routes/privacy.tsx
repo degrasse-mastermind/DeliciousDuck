@@ -42,10 +42,12 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
           URL and may be recorded in ordinary web-server logs. They are not linked to an identity.
         </li>
         <li>
-          <strong className="text-foreground">Email address</strong> — only if and when the
-          newsletter is live and you choose to submit it. The signup form is currently disabled and
-          collects nothing.
+          <strong className="text-foreground">Email address</strong> — only if you submit the
+          newsletter form. We store the address itself (plus the date you joined) with our email
+          provider, Resend, in the DeliciousDuck subscriber list. We do not ask for your name and
+          do not attach the address to your browsing.
         </li>
+
         <li>
           <strong className="text-foreground">Technical request data</strong> — IP address, browser
           user agent, referring page, and pages requested, kept in short-lived server logs for
