@@ -8,7 +8,7 @@ import { SITE } from "@/data/site";
 export function absUrl(pathOrUrl: string): string {
   if (/^(https?:)?\/\//i.test(pathOrUrl) || pathOrUrl.startsWith("data:")) return pathOrUrl;
   const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
-  return `${SITE.baseUrl}${path === "/" ? "/" : path.replace(/\/$/, "")}`;
+  return `${SITE.url}${path === "/" ? "/" : path.replace(/\/$/, "")}`;
 }
 
 export interface PageMetaInput {

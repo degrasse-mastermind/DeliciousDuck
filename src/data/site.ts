@@ -5,11 +5,16 @@ import gearImg from "@/assets/tile-gear.jpg";
 import ingredientsImg from "@/assets/tile-ingredients.jpg";
 import toolsImg from "@/assets/tile-tools.jpg";
 
+/** Production origin. Used to build absolute canonical, og, and schema URLs. */
+export const SITE_URL = "https://deliciousduck.com";
+
 export const SITE = {
   name: "DeliciousDuck",
   domain: "DeliciousDuck.com",
-  /** Production origin. Used to build absolute canonical, og, and schema URLs. */
-  baseUrl: "https://deliciousduck.com",
+  /** Production origin (canonical target even when QA runs on a preview host). */
+  url: SITE_URL,
+  /** @deprecated alias of `url`, kept for existing call sites. */
+  baseUrl: SITE_URL,
   tagline: "Better Duck. A More Delicious World.",
   description:
     "Duck recipes, step-by-step guides, buying advice, gear explainers, and practical cooking tools.",
