@@ -4,7 +4,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { FaqList } from "@/components/site/ArticleShell";
 import { Callout } from "@/components/site/ArticleShell";
 import { RecipeScaler } from "@/components/tools/RecipeScaler";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/tools/recipe-scaler")({
   head: () => ({
@@ -22,6 +22,7 @@ export const Route = createFileRoute("/tools/recipe-scaler")({
           { name: "Recipe Scaler", item: "/tools/recipe-scaler" },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: Page,

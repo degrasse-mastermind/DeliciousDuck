@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { FaqList } from "@/components/site/ArticleShell";
 import { FatSubstitutionCalculator } from "@/components/tools/FatSubstitutionCalculator";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/tools/duck-fat-substitution-calculator")({
   head: () => ({
@@ -24,6 +24,7 @@ export const Route = createFileRoute("/tools/duck-fat-substitution-calculator")(
           },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: Page,

@@ -4,7 +4,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { FaqList } from "@/components/site/ArticleShell";
 import { DonenessGuide } from "@/components/tools/DonenessGuide";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/tools/duck-doneness-guide")({
   head: () => ({
@@ -22,6 +22,7 @@ export const Route = createFileRoute("/tools/duck-doneness-guide")({
           { name: "Interactive Duck Doneness Guide", item: "/tools/duck-doneness-guide" },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: Page,

@@ -5,7 +5,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { FaqList } from "@/components/site/ArticleShell";
 import { CookingTimePlanner } from "@/components/tools/CookingTimePlanner";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/tools/duck-cooking-time-planner")({
   head: () => ({
@@ -23,6 +23,7 @@ export const Route = createFileRoute("/tools/duck-cooking-time-planner")({
           { name: "Duck Cooking-Time Planner", item: "/tools/duck-cooking-time-planner" },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: Page,

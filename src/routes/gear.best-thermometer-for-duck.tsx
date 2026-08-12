@@ -5,7 +5,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { THERMOMETERS, THERMOMETER_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/gear/best-thermometer-for-duck")!;
 
@@ -20,6 +20,7 @@ export const Route = createFileRoute("/gear/best-thermometer-for-duck")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: Page,

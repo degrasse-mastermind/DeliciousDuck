@@ -4,7 +4,7 @@ import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_FAT_OPTIONS, DUCK_FAT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/buy/duck-fat-buying-guide")!;
 
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/buy/duck-fat-buying-guide")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: Page,

@@ -3,7 +3,7 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { FaqList } from "@/components/site/ArticleShell";
 import { MethodFinder } from "@/components/tools/MethodFinder";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/tools/what-should-i-cook")({
   head: () => ({
@@ -21,6 +21,7 @@ export const Route = createFileRoute("/tools/what-should-i-cook")({
           { name: "What Should I Cook?", item: "/tools/what-should-i-cook" },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: Page,

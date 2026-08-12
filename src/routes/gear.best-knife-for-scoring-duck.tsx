@@ -4,7 +4,7 @@ import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { KNIVES, KNIFE_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/gear/best-knife-for-scoring-duck")!;
 
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/gear/best-knife-for-scoring-duck")({
           { name: GUIDE.title, item: GUIDE.path },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: Page,
