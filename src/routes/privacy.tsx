@@ -43,9 +43,10 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
         </li>
         <li>
           <strong className="text-foreground">Email address</strong> — only if you submit the
-          newsletter form. We store the address itself (plus the date you joined) with our email
-          provider, Resend, in the DeliciousDuck subscriber list. We do not ask for your name and
-          do not attach the address to your browsing.
+          newsletter form. The address, the date you joined, and which page you signed up from are
+          stored in DeliciousDuck&apos;s own database, which is our record of the list. The address
+          is then passed to our email provider, Resend, so we can send the emails you asked for. We
+          do not ask for your name and do not attach the address to your browsing.
         </li>
 
         <li>
