@@ -20,6 +20,7 @@ import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
@@ -110,6 +111,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const RecipesRoute = RecipesRouteImport.update({
   id: '/recipes',
   path: '/recipes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -319,6 +325,7 @@ export interface FileRoutesByFullPath {
   '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
+  '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
@@ -363,6 +370,7 @@ export interface FileRoutesByTo {
   '/editorial-standards': typeof EditorialStandardsRoute
   '/ingredients': typeof IngredientsRoute
   '/privacy': typeof PrivacyRoute
+  '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
@@ -412,6 +420,7 @@ export interface FileRoutesById {
   '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
+  '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
@@ -463,6 +472,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/privacy'
     | '/recipes'
+    | '/search'
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
@@ -507,6 +517,7 @@ export interface FileRouteTypes {
     | '/editorial-standards'
     | '/ingredients'
     | '/privacy'
+    | '/search'
     | '/sitemap.xml'
     | '/terms'
     | '/buy/duck-fat-buying-guide'
@@ -555,6 +566,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/privacy'
     | '/recipes'
+    | '/search'
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
@@ -605,6 +617,7 @@ export interface RootRouteChildren {
   LearnRoute: typeof LearnRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
+  SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
@@ -687,6 +700,13 @@ declare module '@tanstack/react-router' {
       path: '/recipes'
       fullPath: '/recipes'
       preLoaderRoute: typeof RecipesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -1073,6 +1093,7 @@ const rootRouteChildren: RootRouteChildren = {
   LearnRoute: LearnRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
+  SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRouteWithChildren,

@@ -271,7 +271,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     before: [
       {
         heading: "Plan backwards from dinner",
-        body: "Cure overnight (12–24 hours), poach for 2.5–3.5 hours, then either serve immediately or cool and refrigerate under the fat for up to two weeks. The crisping step at the end takes 10–15 minutes.",
+        body: "Cure overnight (12–24 hours), poach for 2.5–3.5 hours, then either serve immediately or cool and refrigerate under the fat for 3–4 days. The crisping step at the end takes 10–15 minutes.",
       },
       {
         heading: "Build a fat supply",
@@ -303,7 +303,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         title: "Cool and store, or crisp now",
-        body: "To store, cool the legs in their fat, then refrigerate submerged for up to two weeks. To serve, lift a leg out, scrape off excess fat, and crisp skin-side down in a dry hot pan or under a hot oven for 10–15 minutes until the skin shatters.",
+        body: "To store, cool the legs in their fat, then refrigerate submerged and use within 3–4 days. To serve, lift a leg out, scrape off excess fat, and crisp skin-side down in a dry hot pan or under a hot oven for 10–15 minutes until the skin shatters.",
         watchFor: "Fat-sealed storage is a refrigerator technique, not shelf-stable preservation. Keep it cold.",
       },
     ],
@@ -314,7 +314,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         ["Cure", "Refrigerated, 4°C / 39°F", "12–24 hours"],
         ["Poach", "190–210°F (88–99°C) fat", "2.5–3.5 hours"],
         ["Crisp to serve", "400–425°F (205–220°C) oven or hot pan", "10–15 minutes"],
-        ["Fridge storage under fat", "Below 4°C (39°F)", "Up to 2 weeks"],
+        ["Fridge storage under fat", "Below 4°C (39°F)", "3–4 days (USDA cooked-poultry guidance)"],
       ],
     },
     quackFix: [
@@ -360,7 +360,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         q: "How long does confit keep?",
-        a: "Refrigerated and fully submerged in fat, roughly two weeks. This is refrigerated storage, not a shelf-stable preserve — do not keep it at room temperature.",
+        a: "Treat it as cooked poultry: 3–4 days in the refrigerator, fully submerged in fat and held below 4°C (39°F). Traditional cellar-stored confit kept far longer, but we do not publish those durations as safe advice — freeze portions (under fat, up to 2–3 months) if you need to keep them longer, and never hold confit at room temperature.",
       },
       {
         q: "Can I confit in a slow cooker?",
@@ -686,7 +686,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         part: "Extra plum sauce",
-        use: "Keeps a week in the fridge; excellent with pork, cheese, or cold duck sandwiches.",
+        use: "Keeps 3–4 days in the fridge; excellent with pork, cheese, or cold duck sandwiches.",
       },
     ],
     faq: [

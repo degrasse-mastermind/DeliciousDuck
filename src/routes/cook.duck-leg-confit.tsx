@@ -183,9 +183,10 @@ function DuckLegConfitPage() {
           which made sense before refrigeration was universal and salt levels were often higher
           than modern recipes use. That is not a food-safety practice current guidance
           recommends. Cool the cooked legs, keep them submerged in their fat, and refrigerate —
-          properly chilled, fat-sealed confit keeps for about 1–2 weeks, and cooked poultry in
-          general should not be treated as shelf-stable at room temperature. If you want longer
-          storage, freeze the legs in their fat instead of relying on a room-temperature seal.
+          properly chilled, fat-sealed confit should be treated like any other cooked poultry:
+          use it within 3–4 days (USDA guidance for cooked poultry), and never hold it at room
+          temperature. If you want longer storage, freeze the legs in their fat — 2–3 months is
+          comfortable — instead of relying on a room-temperature seal.
         </p>
       </Section>
 

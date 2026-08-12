@@ -1,3 +1,4 @@
+import { ToolAssumptions } from "@/components/tools/ToolAssumptions";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
@@ -57,6 +58,18 @@ function Page() {
 
       <section className="mx-auto max-w-6xl px-5 py-14 lg:px-8 lg:py-20">
         <MethodFinder />
+
+        <div className="mt-12">
+          <ToolAssumptions
+            items={[
+            { label: "How matching works", value: "A transparent rule-based match against the options you select — no model, no randomness, no hidden ranking." },
+            { label: "Inputs considered", value: "Cut, available time, skill comfort, equipment, and the occasion you chose." },
+            { label: "Ordering", value: "Methods that satisfy every constraint appear first; the reasoning shown is the actual rule that matched." },
+            { label: "Not modelled", value: "Your ingredient budget, dietary restrictions, guest count, or local availability of a particular cut." },
+            ]}
+            note="This is a starting-point recommendation, not a doneness or safety judgement. Each linked method page carries its own temperatures and safety notes."
+          />
+        </div>
 
         <div className="mt-16 max-w-3xl">
           <h2 className="font-display text-3xl text-foreground">How this works</h2>

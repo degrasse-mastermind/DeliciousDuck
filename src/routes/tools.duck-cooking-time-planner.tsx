@@ -1,3 +1,4 @@
+import { ToolAssumptions } from "@/components/tools/ToolAssumptions";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { SafetyNote } from "@/components/site/SafetyNote";
@@ -59,6 +60,19 @@ function Page() {
 
       <section className="mx-auto max-w-6xl px-5 py-14 lg:px-8 lg:py-20">
         <CookingTimePlanner />
+
+        <div className="mt-12">
+          <ToolAssumptions
+            items={[
+            { label: "Base timings", value: "Per-kilo roasting ranges for a typical domestic oven at the stated temperature, drawn from established technique rather than lab testing." },
+            { label: "Stuffed birds", value: "Add 12% to total time as a planning allowance; a stuffed cavity also needs its own temperature check." },
+            { label: "Straight from the fridge", value: "Add 6% to total time for a bird that has not sat out to lose its chill." },
+            { label: "Resting", value: "A 20-minute rest is built into the schedule and assumed to be uncovered or loosely tented." },
+            { label: "Not modelled", value: "Oven calibration drift, convection versus conventional, bird shape, rack position, tray crowding, or altitude." },
+            ]}
+            note="This is a planning estimate, not a doneness test — real cooking time routinely differs by twenty minutes or more. Finish every bird on a calibrated instant-read thermometer, not on the clock."
+          />
+        </div>
 
         <div className="mt-16 rounded-sm border-l-2 border-primary bg-cream p-5">
           <SafetyNote heading="This is a planning range, not a doneness check">

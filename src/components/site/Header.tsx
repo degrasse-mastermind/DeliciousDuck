@@ -83,7 +83,7 @@ export function Header() {
               ))}
             </ul>
             <div className="mt-4 space-y-3">
-              <SearchField />
+              <SearchField id="mobile-search" onSubmit={() => setOpen(false)} />
               <Link
                 to="/tools"
                 hash="starter-guide"
@@ -100,15 +100,16 @@ export function Header() {
   );
 }
 
-function SearchField() {
+function SearchField({ id = "site-search", onSubmit }: { id?: string; onSubmit?: () => void }) {
   return (
     <form
       role="search"
-      action="/cook"
+      method="get"
+      action="/search"
+      onSubmit={onSubmit}
       className="relative flex items-center"
-      onSubmit={(e) => e.preventDefault()}
     >
-      <label htmlFor="site-search" className="sr-only">
+      <label htmlFor={id} className="sr-only">
         Search DeliciousDuck
       </label>
       <Search
@@ -116,9 +117,10 @@ function SearchField() {
         className="pointer-events-none absolute left-3 size-4 text-muted-foreground"
       />
       <input
-        id="site-search"
+        id={id}
         name="q"
         type="search"
+        required
         placeholder="Search duck recipes"
         className="h-10 w-full rounded-sm border border-input bg-card pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground lg:w-56"
       />

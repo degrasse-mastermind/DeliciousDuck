@@ -3,9 +3,9 @@ import type {} from "@tanstack/react-start";
 import { GUIDES } from "@/data/guides";
 import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
+import { SITE } from "@/data/site";
 
-// TODO: replace with your project URL once a project name or custom domain is set.
-const BASE_URL = "";
+const BASE_URL = SITE.baseUrl;
 
 interface SitemapEntry {
   path: string;

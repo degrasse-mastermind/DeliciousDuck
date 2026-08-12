@@ -1,3 +1,4 @@
+import { ToolAssumptions } from "@/components/tools/ToolAssumptions";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
@@ -63,6 +64,18 @@ function Page() {
 
       <section className="mx-auto max-w-6xl px-5 py-14 lg:px-8 lg:py-20">
         <FatSubstitutionCalculator />
+
+        <div className="mt-12">
+          <ToolAssumptions
+            items={[
+            { label: "Butter", value: "Treated as roughly 80% fat, 20% water and milk solids, so the swap matches actual fat weight rather than volume." },
+            { label: "Oils, lard, shortening", value: "Treated as essentially 100% fat, so the conversion is close to 1:1 by weight with a small density adjustment." },
+            { label: "Duck fat density", value: "A single typical value is used for volume conversions; rendered fat varies slightly with how it was rendered and how warm it is." },
+            { label: "Not modelled", value: "Smoke point, flavour intensity, browning behaviour, dairy solids needed for a sauce or pastry, or baking chemistry that depends on solid fat at a given temperature." },
+            ]}
+            note="This converts quantities only. Substituting a fat changes flavour, smoke point, and texture — in laminated pastry or emulsified sauces the swap may not work at any ratio."
+          />
+        </div>
 
         <div className="mt-16 max-w-3xl">
           <h2 className="font-display text-3xl text-foreground">Why the conversion isn't 1:1</h2>

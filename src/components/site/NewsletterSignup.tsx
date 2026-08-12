@@ -1,9 +1,14 @@
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Clock } from "lucide-react";
 
 /**
- * Client-side only for v1: validates and shows a success state.
- * `onSubscribe` is the seam where a Resend-backed server function is wired in.
+ * Honest-by-default signup.
+ *
+ * With no `onSubscribe` handler there is no email backend, so no input is
+ * rendered and no success state can be faked — the panel shows a Coming Soon
+ * notice instead. Pass `onSubscribe` (e.g. a Resend-backed server function)
+ * to enable the real form: validation runs first, and the success state only
+ * appears after the handler resolves.
  */
 export function NewsletterSignup({
   id = "starter-guide",
@@ -16,11 +21,13 @@ export function NewsletterSignup({
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [pending, setPending] = useState(false);
+  const enabled = typeof onSubscribe === "function";
 
   const valid = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!onSubscribe) return;
     if (!valid(email)) {
       setError("Please enter a valid email address.");
       return;
@@ -28,7 +35,7 @@ export function NewsletterSignup({
     setError(null);
     setPending(true);
     try {
-      await onSubscribe?.(email.trim());
+      await onSubscribe(email.trim());
       setDone(true);
     } catch {
       setError("Something went wrong. Please try again.");
@@ -72,7 +79,36 @@ export function NewsletterSignup({
         </div>
 
         <div className="rounded-sm bg-background/95 p-6 text-foreground lg:p-8">
-          {done ? (
+          {!enabled ? (
+            <div>
+              <span
+                aria-hidden="true"
+                className="flex size-12 items-center justify-center rounded-full bg-secondary text-primary"
+              >
+                <Clock className="size-6" />
+              </span>
+              <h3 className="mt-4 font-display text-2xl">Coming soon</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Email delivery isn&apos;t connected yet, so we&apos;re not collecting addresses —
+                signing up would go nowhere. The guide is being finished; when the list opens, the
+                form will appear here.
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                In the meantime, everything the guide covers is already on the site: start with{" "}
+                <a
+                  href="/learn/duck-breast-temperature-doneness"
+                  className="text-primary underline underline-offset-4"
+                >
+                  temperature and doneness
+                </a>{" "}
+                and the{" "}
+                <a href="/tools" className="text-primary underline underline-offset-4">
+                  calculators
+                </a>
+                .
+              </p>
+            </div>
+          ) : done ? (
             <div role="status" className="text-center">
               <span
                 aria-hidden="true"
@@ -80,10 +116,9 @@ export function NewsletterSignup({
               >
                 <Check className="size-6" />
               </span>
-              <h3 className="mt-4 font-display text-2xl">You're on the list</h3>
+              <h3 className="mt-4 font-display text-2xl">You&apos;re on the list</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                Check your inbox for the Duck Cooking Starter Guide. Email delivery is being
-                connected — you'll receive it as soon as it goes live.
+                Check your inbox for the Duck Cooking Starter Guide.
               </p>
             </div>
           ) : (

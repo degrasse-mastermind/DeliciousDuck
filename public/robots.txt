@@ -12,3 +12,6 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /search
+
+Sitemap: https://deliciousduck.com/sitemap.xml

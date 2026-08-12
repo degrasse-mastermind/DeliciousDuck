@@ -8,9 +8,11 @@ import toolsImg from "@/assets/tile-tools.jpg";
 export const SITE = {
   name: "DeliciousDuck",
   domain: "DeliciousDuck.com",
+  /** Production origin. Used to build absolute canonical, og, and schema URLs. */
+  baseUrl: "https://deliciousduck.com",
   tagline: "Better Duck. A More Delicious World.",
   description:
-    "Expert duck recipes, step-by-step guides, buying advice, gear reviews, and practical cooking tools.",
+    "Duck recipes, step-by-step guides, buying advice, gear explainers, and practical cooking tools.",
 };
 
 export type PillarKey = "cook" | "learn" | "buy" | "gear" | "ingredients" | "tools";
@@ -33,7 +35,7 @@ export const PILLARS: Pillar[] = [
     kicker: "Recipes & technique",
     headline: "Cook",
     blurb:
-      "Tested recipes and technique walkthroughs for breast, legs, whole birds, and everything rendered in between.",
+      "Detailed recipes and technique walkthroughs for breast, legs, whole birds, and everything rendered in between.",
     image: cookImg,
   },
   {
