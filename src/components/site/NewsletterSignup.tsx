@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { Check, Clock } from "lucide-react";
 import { trackNewsletterIntent, trackNewsletterSignup } from "@/lib/analytics";
-import { isNewsletterEnabled, subscribeToNewsletter } from "@/lib/newsletter";
+import {
+  isNewsletterEnabled,
+  subscribeToNewsletter,
+  type SubscribeInput,
+} from "@/lib/newsletter";
 
 /**
  * Honest-by-default signup.
  *
- * The delivery backend is owned by `src/lib/newsletter.ts`. While no provider
- * is connected there is no email backend, so no input is rendered and no
- * success state can be faked — the panel explains the list is not open. Once
- * that module exports a real `subscribeToNewsletter`, the form appears
- * automatically: validation runs first, and both the success state and the GA4
- * `newsletter_signup` conversion only fire after the handler resolves.
+ * The delivery backend is owned by `src/lib/newsletter.ts` (currently Resend).
+ * Validation runs client-side first, then the server function validates again,
+ * rate-limits, checks the honeypot, and upserts the contact into the Resend
+ * segment. The success state and the GA4 `newsletter_signup` conversion only
+ * fire after that server call resolves; any failure keeps the form open.
  *
  * GA4: `newsletter_intent` covers interaction either way; `newsletter_signup`
  * is emitted once per successful subscription and never on mount.
@@ -21,13 +24,15 @@ export function NewsletterSignup({
   onSubscribe = subscribeToNewsletter,
 }: {
   id?: string;
-  onSubscribe?: ((email: string) => Promise<void>) | undefined;
+  onSubscribe?: ((input: SubscribeInput) => Promise<void>) | undefined;
 }) {
   const [email, setEmail] = useState("");
+  const [trap, setTrap] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [pending, setPending] = useState(false);
   const [intentSent, setIntentSent] = useState(false);
+  const [signupSent, setSignupSent] = useState(false);
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
 
   /** One intent event per component instance — no double-firing. */
@@ -41,25 +46,30 @@ export function NewsletterSignup({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!onSubscribe) return;
-    if (!valid(email)) {
+    if (!onSubscribe || pending) return;
+    const cleaned = email.trim().toLowerCase();
+    if (!valid(cleaned) || cleaned.length > 255) {
       setError("Please enter a valid email address.");
       return;
     }
     setError(null);
     setPending(true);
     try {
-      await onSubscribe(email.trim());
+      await onSubscribe({ email: cleaned, source: "newsletter_form", placement: id, trap });
       // Success transition only — never on mount, never on a failed submit.
       // No email or other PII is sent to analytics.
-      trackNewsletterSignup({ placement: id, source: "newsletter_form" });
+      if (!signupSent) {
+        setSignupSent(true);
+        trackNewsletterSignup({ placement: id, source: "newsletter_form" });
+      }
       setDone(true);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("We couldn't sign you up just now. Please try again in a moment.");
     } finally {
       setPending(false);
     }
   }
+
 
   return (
     <section
