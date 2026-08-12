@@ -79,7 +79,7 @@ export function NewsletterSignup({
     >
       <div className="grid gap-10 p-8 lg:grid-cols-2 lg:items-center lg:p-14">
         <div>
-          <span className="eyebrow text-accent">Free download</span>
+          <span className="eyebrow text-accent">Join the list</span>
           <h2
             id={`${id}-heading`}
             className="mt-3 font-display text-3xl leading-tight lg:text-[2.75rem]"
@@ -87,10 +87,12 @@ export function NewsletterSignup({
             The Duck Cooking Starter Guide
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/80">
-            A concise PDF covering the four duck cuts, target internal temperatures, how to render
-            a fat cap properly, and what to buy first. Written for home cooks making duck for the
-            first time.
+            The guide is still being written — a short reference covering the four duck cuts,
+            target internal temperatures, rendering a fat cap, and what to buy first. Join the
+            list and we&apos;ll send it the day it&apos;s published, plus occasional recipes and
+            guides in the meantime.
           </p>
+
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
             {[
               "Temperature targets for breast, legs, and whole birds",
@@ -103,6 +105,21 @@ export function NewsletterSignup({
               </li>
             ))}
           </ul>
+          <p className="mt-6 text-sm leading-relaxed text-forest-foreground/70">
+            Nothing to wait for today: the{" "}
+            <a
+              href="/learn/duck-breast-temperature-doneness"
+              className="underline underline-offset-4"
+            >
+              temperature and doneness guide
+            </a>{" "}
+            and the{" "}
+            <a href="/tools" className="underline underline-offset-4">
+              calculators
+            </a>{" "}
+            are already live.
+          </p>
+
         </div>
 
         <div className="rounded-sm bg-background/95 p-6 text-foreground lg:p-8">
