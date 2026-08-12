@@ -1,3 +1,4 @@
+import { ToolAssumptions } from "@/components/tools/ToolAssumptions";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
@@ -58,6 +59,18 @@ function Page() {
 
       <section className="mx-auto max-w-6xl px-5 py-14 lg:px-8 lg:py-20">
         <RecipeScaler />
+
+        <div className="mt-12">
+          <ToolAssumptions
+            items={[
+            { label: "Starting list", value: "A generic pan-seared duck breast with cherry pan sauce, provided as an editable example — not a tested DeliciousDuck recipe." },
+            { label: "Rounding", value: "Volumes round to the nearest useful eighth of a unit; weights round to whole grams." },
+            { label: "Scaling model", value: "Strictly linear on quantity: every ingredient is multiplied by the same factor." },
+            { label: "Not modelled", value: "Cooking time, pan and oven capacity, salt and acid perception, reduction rates, or leavening — none of these scale linearly." },
+            ]}
+            note="Above roughly 2–3x the original batch, taste and adjust as you go, and cook in batches rather than crowding a pan."
+          />
+        </div>
 
         <div className="mt-16">
           <Callout label="Illustrative example">

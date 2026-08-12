@@ -1,3 +1,4 @@
+import { ToolAssumptions } from "@/components/tools/ToolAssumptions";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
@@ -58,6 +59,18 @@ function Page() {
 
       <section className="mx-auto max-w-6xl px-5 py-14 lg:px-8 lg:py-20">
         <DonenessGuide />
+
+        <div className="mt-12">
+          <ToolAssumptions
+            items={[
+            { label: "Pull temperatures", value: "The temperature to remove from heat, not the final temperature — carryover typically adds 2–5°F (1–3°C) during the rest." },
+            { label: "Where to measure", value: "The thickest part of the muscle, avoiding bone and fat, with a calibrated instant-read probe." },
+            { label: "Culinary versus USDA targets", value: "Medium-rare breast targets are a culinary convention below the USDA 165°F (73.9°C) poultry minimum, and are flagged as such in the results." },
+            { label: "Not modelled", value: "Thermometer calibration error, individual health risk factors, sous-vide time-at-temperature pasteurisation, or ground/mechanically tenderised duck." },
+            ]}
+            note="Anyone at higher risk from foodborne illness — pregnancy, young children, older adults, weakened immunity — should use the well-done target and follow local food-safety guidance over any culinary convention."
+          />
+        </div>
 
         <div className="mt-16 max-w-3xl">
           <h2 className="font-display text-3xl text-foreground">How to read the result</h2>

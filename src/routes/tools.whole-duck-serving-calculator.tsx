@@ -62,6 +62,18 @@ function CalculatorPage() {
       <section className="mx-auto max-w-6xl px-5 py-14 lg:px-8 lg:py-20">
         <WholeDuckServingCalculator />
 
+        <div className="mt-12">
+          <ToolAssumptions
+            items={[
+            { label: "Edible cooked yield", value: "40% of raw whole-bird weight, accounting for bone, rendered fat, and moisture loss. A very fatty or very lean bird can move this by several points." },
+            { label: "Cooked meat per person", value: "Light 140 g, standard 180 g, hearty 240 g. These are appetite assumptions, not nutritional recommendations." },
+            { label: "Bird weight", value: "Your entered raw, whole, oven-ready weight — before roasting and before any stuffing." },
+            { label: "Not modelled", value: "Number of courses, side-dish volume, planned leftovers, or carving losses from an unfamiliar bird." },
+            ]}
+            note="These are portion-planning assumptions only, with no food-safety component. When in doubt, size up: cold roast duck is far better than a short plate."
+          />
+        </div>
+
         <div className="mt-20 grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
           <div>
             <h2 className="font-display text-3xl text-foreground">How the numbers work</h2>
