@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useCalculatorComplete } from "@/hooks/use-calculator-complete";
 
 type FatType = "butter" | "oliveOil" | "neutralOil" | "lard";
 type Unit = "tsp" | "tbsp" | "cup" | "g" | "ml" | "oz";
@@ -87,6 +88,18 @@ export function FatSubstitutionCalculator() {
     // Duck fat is essentially 100% fat, so match pure-fat weight 1:1 by weight.
     return gramsToDisplay(pureFatGrams);
   }, [valid, amount, unit, fat]);
+
+  useCalculatorComplete({
+    calculatorName: "Duck fat substitution calculator",
+    toolSlug: "duck-fat-substitution-calculator",
+    ready: Boolean(result),
+    result: {
+      original_fat: fat,
+      unit,
+      duck_fat_grams: result?.grams,
+      duck_fat_tbsp: result?.tbsp,
+    },
+  });
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">

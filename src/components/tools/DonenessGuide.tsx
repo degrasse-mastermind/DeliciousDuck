@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useCalculatorComplete } from "@/hooks/use-calculator-complete";
 import { SafetyNote } from "@/components/site/SafetyNote";
 
 type Cut = "whole" | "breast" | "leg";
@@ -122,6 +123,12 @@ export function DonenessGuide() {
     () => getGuidance(cut, activeMethod, activeOutcome),
     [cut, activeMethod, activeOutcome],
   );
+
+  useCalculatorComplete({
+    calculatorName: "Duck doneness guide",
+    toolSlug: "duck-doneness-guide",
+    result: { cut, method: activeMethod, outcome: activeOutcome },
+  });
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">

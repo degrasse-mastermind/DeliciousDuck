@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useCalculatorComplete } from "@/hooks/use-calculator-complete";
 import { Link } from "@tanstack/react-router";
 
 type Cut = "whole" | "breast" | "legs" | "trim";
@@ -149,6 +150,21 @@ export function MethodFinder() {
       .slice(0, 3);
     return matched.length > 0 ? matched : [FALLBACK];
   }, [cut, skin, provenance, time, equipment]);
+
+  useCalculatorComplete({
+    calculatorName: "What should I cook",
+    toolSlug: "what-should-i-cook",
+    ready: recommendations.length > 0,
+    result: {
+      cut,
+      skin,
+      provenance,
+      time_available: time,
+      equipment_count: equipment.size,
+      top_method: recommendations[0]?.id,
+      match_count: recommendations.length,
+    },
+  });
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr]">
