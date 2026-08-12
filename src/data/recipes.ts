@@ -27,7 +27,43 @@ export interface Recipe {
    * hands-on validation is complete.
    */
   verification: "editorialDraft" | "kitchenVerified";
+  /** Internal validation record. Never rendered as a testing claim. */
+  validation: RecipeValidation;
 }
+
+/**
+ * Internal kitchen-validation record for a recipe.
+ *
+ * Filled in from a completed Kitchen Test Sheet (/internal/kitchen-test-sheet).
+ * `verification` may only be flipped to "kitchenVerified" when
+ * `lastKitchenTest` is a real date, `outcome` is "pass", and a photo exists.
+ * Nothing in here is used to emit review, rating, or testing schema.
+ */
+export interface RecipeValidation {
+  /** ISO date of the most recent hands-on test, or null if never cooked by us. */
+  lastKitchenTest: string | null;
+  /** Who cooked it. Null while untested. */
+  testedBy: string | null;
+  /** Content revision. Bump on any method/temperature change. */
+  revision: string;
+  /** Own-kitchen photography state. Launch images are illustrative. */
+  photoStatus: "none" | "stock-illustrative" | "own-kitchen";
+  outcome: "untested" | "pass" | "pass-with-revisions" | "fail";
+  /** Measured results from the test sheet, e.g. actual cook time, probe reads. */
+  measuredNotes: string[];
+  /** What the tester changed or wants changed next time. */
+  testerNotes: string[];
+}
+
+const UNTESTED = (revision: string): RecipeValidation => ({
+  lastKitchenTest: null,
+  testedBy: null,
+  revision,
+  photoStatus: "stock-illustrative",
+  outcome: "untested",
+  measuredNotes: [],
+  testerNotes: [],
+});
 
 export const RECIPES: Recipe[] = [
   {
@@ -44,6 +80,7 @@ export const RECIPES: Recipe[] = [
     difficulty: "Easy",
     keyTechnique: "Cold-pan rendering",
     verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
   },
   {
     slug: "duck-leg-confit",
@@ -59,6 +96,7 @@ export const RECIPES: Recipe[] = [
     difficulty: "Intermediate",
     keyTechnique: "Low-temperature fat poaching",
     verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
   },
   {
     slug: "roasted-whole-duck",
@@ -73,6 +111,7 @@ export const RECIPES: Recipe[] = [
     difficulty: "Intermediate",
     keyTechnique: "Two-stage roasting",
     verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
   },
   {
     slug: "smoked-duck-with-plum-sauce",
@@ -87,6 +126,7 @@ export const RECIPES: Recipe[] = [
     difficulty: "Advanced",
     keyTechnique: "Low-and-slow smoking",
     verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
   },
 ];
 
