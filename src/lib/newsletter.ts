@@ -48,11 +48,17 @@ export interface SubscribeInput {
   trap?: string;
 }
 
+export interface SubscribeResult {
+  /** True only when a welcome email was actually triggered for this address. */
+  welcomeTriggered: boolean;
+}
+
 /** Rejects on any failure. The UI only shows success when this resolves. */
-export const subscribeToNewsletter: ((input: SubscribeInput) => Promise<void>) | undefined = async (
-  input,
-) => {
-  await subscribeToNewsletterFn({ data: input });
+export const subscribeToNewsletter:
+  | ((input: SubscribeInput) => Promise<SubscribeResult>)
+  | undefined = async (input) => {
+  const result = await subscribeToNewsletterFn({ data: input });
+  return { welcomeTriggered: Boolean(result.welcomeTriggered) };
 };
 
 /** True only when a real delivery path exists. */
