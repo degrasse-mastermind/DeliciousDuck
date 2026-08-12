@@ -39,6 +39,13 @@ import { Route as GearIndexRouteImport } from './routes/gear.index'
 import { Route as GearBestKnifeForScoringDuckRouteImport } from './routes/gear.best-knife-for-scoring-duck'
 import { Route as GearBestPanForDuckBreastRouteImport } from './routes/gear.best-pan-for-duck-breast'
 import { Route as GearBestThermometerForDuckRouteImport } from './routes/gear.best-thermometer-for-duck'
+import { Route as IngredientsIndexRouteImport } from './routes/ingredients.index'
+import { Route as IngredientsBestHerbsSpicesForDuckRouteImport } from './routes/ingredients.best-herbs-spices-for-duck'
+import { Route as IngredientsDryBrineDuckRouteImport } from './routes/ingredients.dry-brine-duck'
+import { Route as IngredientsDuckFatVsButterOilRouteImport } from './routes/ingredients.duck-fat-vs-butter-oil'
+import { Route as IngredientsDuckMarinadeGuideRouteImport } from './routes/ingredients.duck-marinade-guide'
+import { Route as IngredientsDuckSeasoningGuideRouteImport } from './routes/ingredients.duck-seasoning-guide'
+import { Route as IngredientsOrangeWithDuckRouteImport } from './routes/ingredients.orange-with-duck'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnDuckBreastTemperatureDonenessRouteImport } from './routes/learn.duck-breast-temperature-doneness'
 import { Route as LearnHowToCarveADuckRouteImport } from './routes/learn.how-to-carve-a-duck'
@@ -54,6 +61,7 @@ import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsDuckCookingTimePlannerRouteImport } from './routes/tools.duck-cooking-time-planner'
 import { Route as ToolsDuckDonenessGuideRouteImport } from './routes/tools.duck-doneness-guide'
 import { Route as ToolsDuckFatSubstitutionCalculatorRouteImport } from './routes/tools.duck-fat-substitution-calculator'
+import { Route as ToolsDuckPairingFinderRouteImport } from './routes/tools.duck-pairing-finder'
 import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
 import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
@@ -214,6 +222,46 @@ const GearBestThermometerForDuckRoute =
     path: '/best-thermometer-for-duck',
     getParentRoute: () => GearRoute,
   } as any)
+const IngredientsIndexRoute = IngredientsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => IngredientsRoute,
+} as any)
+const IngredientsBestHerbsSpicesForDuckRoute =
+  IngredientsBestHerbsSpicesForDuckRouteImport.update({
+    id: '/best-herbs-spices-for-duck',
+    path: '/best-herbs-spices-for-duck',
+    getParentRoute: () => IngredientsRoute,
+  } as any)
+const IngredientsDryBrineDuckRoute = IngredientsDryBrineDuckRouteImport.update({
+  id: '/dry-brine-duck',
+  path: '/dry-brine-duck',
+  getParentRoute: () => IngredientsRoute,
+} as any)
+const IngredientsDuckFatVsButterOilRoute =
+  IngredientsDuckFatVsButterOilRouteImport.update({
+    id: '/duck-fat-vs-butter-oil',
+    path: '/duck-fat-vs-butter-oil',
+    getParentRoute: () => IngredientsRoute,
+  } as any)
+const IngredientsDuckMarinadeGuideRoute =
+  IngredientsDuckMarinadeGuideRouteImport.update({
+    id: '/duck-marinade-guide',
+    path: '/duck-marinade-guide',
+    getParentRoute: () => IngredientsRoute,
+  } as any)
+const IngredientsDuckSeasoningGuideRoute =
+  IngredientsDuckSeasoningGuideRouteImport.update({
+    id: '/duck-seasoning-guide',
+    path: '/duck-seasoning-guide',
+    getParentRoute: () => IngredientsRoute,
+  } as any)
+const IngredientsOrangeWithDuckRoute =
+  IngredientsOrangeWithDuckRouteImport.update({
+    id: '/orange-with-duck',
+    path: '/orange-with-duck',
+    getParentRoute: () => IngredientsRoute,
+  } as any)
 const LearnIndexRoute = LearnIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -296,6 +344,11 @@ const ToolsDuckFatSubstitutionCalculatorRoute =
     path: '/duck-fat-substitution-calculator',
     getParentRoute: () => ToolsRoute,
   } as any)
+const ToolsDuckPairingFinderRoute = ToolsDuckPairingFinderRouteImport.update({
+  id: '/duck-pairing-finder',
+  path: '/duck-pairing-finder',
+  getParentRoute: () => ToolsRoute,
+} as any)
 const ToolsRecipeScalerRoute = ToolsRecipeScalerRouteImport.update({
   id: '/recipe-scaler',
   path: '/recipe-scaler',
@@ -321,7 +374,7 @@ export interface FileRoutesByFullPath {
   '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRouteWithChildren
-  '/ingredients': typeof IngredientsRoute
+  '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
@@ -341,6 +394,12 @@ export interface FileRoutesByFullPath {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
+  '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
+  '/ingredients/duck-fat-vs-butter-oil': typeof IngredientsDuckFatVsButterOilRoute
+  '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
+  '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
+  '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -353,12 +412,14 @@ export interface FileRoutesByFullPath {
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/duck-pairing-finder': typeof ToolsDuckPairingFinderRoute
   '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
   '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy/': typeof BuyIndexRoute
   '/cook/': typeof CookIndexRoute
   '/gear/': typeof GearIndexRoute
+  '/ingredients/': typeof IngredientsIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -368,7 +429,6 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/editorial-standards': typeof EditorialStandardsRoute
-  '/ingredients': typeof IngredientsRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -385,6 +445,12 @@ export interface FileRoutesByTo {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
+  '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
+  '/ingredients/duck-fat-vs-butter-oil': typeof IngredientsDuckFatVsButterOilRoute
+  '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
+  '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
+  '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -397,12 +463,14 @@ export interface FileRoutesByTo {
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/duck-pairing-finder': typeof ToolsDuckPairingFinderRoute
   '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
   '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy': typeof BuyIndexRoute
   '/cook': typeof CookIndexRoute
   '/gear': typeof GearIndexRoute
+  '/ingredients': typeof IngredientsIndexRoute
   '/learn': typeof LearnIndexRoute
   '/recipes': typeof RecipesIndexRoute
   '/tools': typeof ToolsIndexRoute
@@ -416,7 +484,7 @@ export interface FileRoutesById {
   '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRouteWithChildren
-  '/ingredients': typeof IngredientsRoute
+  '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
@@ -436,6 +504,12 @@ export interface FileRoutesById {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
+  '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
+  '/ingredients/duck-fat-vs-butter-oil': typeof IngredientsDuckFatVsButterOilRoute
+  '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
+  '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
+  '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -448,12 +522,14 @@ export interface FileRoutesById {
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/duck-pairing-finder': typeof ToolsDuckPairingFinderRoute
   '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
   '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy/': typeof BuyIndexRoute
   '/cook/': typeof CookIndexRoute
   '/gear/': typeof GearIndexRoute
+  '/ingredients/': typeof IngredientsIndexRoute
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -488,6 +564,12 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/ingredients/best-herbs-spices-for-duck'
+    | '/ingredients/dry-brine-duck'
+    | '/ingredients/duck-fat-vs-butter-oil'
+    | '/ingredients/duck-marinade-guide'
+    | '/ingredients/duck-seasoning-guide'
+    | '/ingredients/orange-with-duck'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -500,12 +582,14 @@ export interface FileRouteTypes {
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
+    | '/tools/duck-pairing-finder'
     | '/tools/recipe-scaler'
     | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
     | '/buy/'
     | '/cook/'
     | '/gear/'
+    | '/ingredients/'
     | '/learn/'
     | '/recipes/'
     | '/tools/'
@@ -515,7 +599,6 @@ export interface FileRouteTypes {
     | '/about'
     | '/affiliate-disclosure'
     | '/editorial-standards'
-    | '/ingredients'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -532,6 +615,12 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/ingredients/best-herbs-spices-for-duck'
+    | '/ingredients/dry-brine-duck'
+    | '/ingredients/duck-fat-vs-butter-oil'
+    | '/ingredients/duck-marinade-guide'
+    | '/ingredients/duck-seasoning-guide'
+    | '/ingredients/orange-with-duck'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -544,12 +633,14 @@ export interface FileRouteTypes {
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
+    | '/tools/duck-pairing-finder'
     | '/tools/recipe-scaler'
     | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
     | '/buy'
     | '/cook'
     | '/gear'
+    | '/ingredients'
     | '/learn'
     | '/recipes'
     | '/tools'
@@ -582,6 +673,12 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/ingredients/best-herbs-spices-for-duck'
+    | '/ingredients/dry-brine-duck'
+    | '/ingredients/duck-fat-vs-butter-oil'
+    | '/ingredients/duck-marinade-guide'
+    | '/ingredients/duck-seasoning-guide'
+    | '/ingredients/orange-with-duck'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -594,12 +691,14 @@ export interface FileRouteTypes {
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
+    | '/tools/duck-pairing-finder'
     | '/tools/recipe-scaler'
     | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
     | '/buy/'
     | '/cook/'
     | '/gear/'
+    | '/ingredients/'
     | '/learn/'
     | '/recipes/'
     | '/tools/'
@@ -613,7 +712,7 @@ export interface RootRouteChildren {
   CookRoute: typeof CookRouteWithChildren
   EditorialStandardsRoute: typeof EditorialStandardsRoute
   GearRoute: typeof GearRouteWithChildren
-  IngredientsRoute: typeof IngredientsRoute
+  IngredientsRoute: typeof IngredientsRouteWithChildren
   LearnRoute: typeof LearnRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
@@ -835,6 +934,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GearBestThermometerForDuckRouteImport
       parentRoute: typeof GearRoute
     }
+    '/ingredients/': {
+      id: '/ingredients/'
+      path: '/'
+      fullPath: '/ingredients/'
+      preLoaderRoute: typeof IngredientsIndexRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
+    '/ingredients/best-herbs-spices-for-duck': {
+      id: '/ingredients/best-herbs-spices-for-duck'
+      path: '/best-herbs-spices-for-duck'
+      fullPath: '/ingredients/best-herbs-spices-for-duck'
+      preLoaderRoute: typeof IngredientsBestHerbsSpicesForDuckRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
+    '/ingredients/dry-brine-duck': {
+      id: '/ingredients/dry-brine-duck'
+      path: '/dry-brine-duck'
+      fullPath: '/ingredients/dry-brine-duck'
+      preLoaderRoute: typeof IngredientsDryBrineDuckRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
+    '/ingredients/duck-fat-vs-butter-oil': {
+      id: '/ingredients/duck-fat-vs-butter-oil'
+      path: '/duck-fat-vs-butter-oil'
+      fullPath: '/ingredients/duck-fat-vs-butter-oil'
+      preLoaderRoute: typeof IngredientsDuckFatVsButterOilRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
+    '/ingredients/duck-marinade-guide': {
+      id: '/ingredients/duck-marinade-guide'
+      path: '/duck-marinade-guide'
+      fullPath: '/ingredients/duck-marinade-guide'
+      preLoaderRoute: typeof IngredientsDuckMarinadeGuideRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
+    '/ingredients/duck-seasoning-guide': {
+      id: '/ingredients/duck-seasoning-guide'
+      path: '/duck-seasoning-guide'
+      fullPath: '/ingredients/duck-seasoning-guide'
+      preLoaderRoute: typeof IngredientsDuckSeasoningGuideRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
+    '/ingredients/orange-with-duck': {
+      id: '/ingredients/orange-with-duck'
+      path: '/orange-with-duck'
+      fullPath: '/ingredients/orange-with-duck'
+      preLoaderRoute: typeof IngredientsOrangeWithDuckRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
     '/learn/': {
       id: '/learn/'
       path: '/'
@@ -940,6 +1088,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsDuckFatSubstitutionCalculatorRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/tools/duck-pairing-finder': {
+      id: '/tools/duck-pairing-finder'
+      path: '/duck-pairing-finder'
+      fullPath: '/tools/duck-pairing-finder'
+      preLoaderRoute: typeof ToolsDuckPairingFinderRouteImport
+      parentRoute: typeof ToolsRoute
+    }
     '/tools/recipe-scaler': {
       id: '/tools/recipe-scaler'
       path: '/recipe-scaler'
@@ -1018,6 +1173,31 @@ const GearRouteChildren: GearRouteChildren = {
 
 const GearRouteWithChildren = GearRoute._addFileChildren(GearRouteChildren)
 
+interface IngredientsRouteChildren {
+  IngredientsBestHerbsSpicesForDuckRoute: typeof IngredientsBestHerbsSpicesForDuckRoute
+  IngredientsDryBrineDuckRoute: typeof IngredientsDryBrineDuckRoute
+  IngredientsDuckFatVsButterOilRoute: typeof IngredientsDuckFatVsButterOilRoute
+  IngredientsDuckMarinadeGuideRoute: typeof IngredientsDuckMarinadeGuideRoute
+  IngredientsDuckSeasoningGuideRoute: typeof IngredientsDuckSeasoningGuideRoute
+  IngredientsOrangeWithDuckRoute: typeof IngredientsOrangeWithDuckRoute
+  IngredientsIndexRoute: typeof IngredientsIndexRoute
+}
+
+const IngredientsRouteChildren: IngredientsRouteChildren = {
+  IngredientsBestHerbsSpicesForDuckRoute:
+    IngredientsBestHerbsSpicesForDuckRoute,
+  IngredientsDryBrineDuckRoute: IngredientsDryBrineDuckRoute,
+  IngredientsDuckFatVsButterOilRoute: IngredientsDuckFatVsButterOilRoute,
+  IngredientsDuckMarinadeGuideRoute: IngredientsDuckMarinadeGuideRoute,
+  IngredientsDuckSeasoningGuideRoute: IngredientsDuckSeasoningGuideRoute,
+  IngredientsOrangeWithDuckRoute: IngredientsOrangeWithDuckRoute,
+  IngredientsIndexRoute: IngredientsIndexRoute,
+}
+
+const IngredientsRouteWithChildren = IngredientsRoute._addFileChildren(
+  IngredientsRouteChildren,
+)
+
 interface LearnRouteChildren {
   LearnDuckBreastTemperatureDonenessRoute: typeof LearnDuckBreastTemperatureDonenessRoute
   LearnHowToCarveADuckRoute: typeof LearnHowToCarveADuckRoute
@@ -1062,6 +1242,7 @@ interface ToolsRouteChildren {
   ToolsDuckCookingTimePlannerRoute: typeof ToolsDuckCookingTimePlannerRoute
   ToolsDuckDonenessGuideRoute: typeof ToolsDuckDonenessGuideRoute
   ToolsDuckFatSubstitutionCalculatorRoute: typeof ToolsDuckFatSubstitutionCalculatorRoute
+  ToolsDuckPairingFinderRoute: typeof ToolsDuckPairingFinderRoute
   ToolsRecipeScalerRoute: typeof ToolsRecipeScalerRoute
   ToolsWhatShouldICookRoute: typeof ToolsWhatShouldICookRoute
   ToolsWholeDuckServingCalculatorRoute: typeof ToolsWholeDuckServingCalculatorRoute
@@ -1073,6 +1254,7 @@ const ToolsRouteChildren: ToolsRouteChildren = {
   ToolsDuckDonenessGuideRoute: ToolsDuckDonenessGuideRoute,
   ToolsDuckFatSubstitutionCalculatorRoute:
     ToolsDuckFatSubstitutionCalculatorRoute,
+  ToolsDuckPairingFinderRoute: ToolsDuckPairingFinderRoute,
   ToolsRecipeScalerRoute: ToolsRecipeScalerRoute,
   ToolsWhatShouldICookRoute: ToolsWhatShouldICookRoute,
   ToolsWholeDuckServingCalculatorRoute: ToolsWholeDuckServingCalculatorRoute,
@@ -1089,7 +1271,7 @@ const rootRouteChildren: RootRouteChildren = {
   CookRoute: CookRouteWithChildren,
   EditorialStandardsRoute: EditorialStandardsRoute,
   GearRoute: GearRouteWithChildren,
-  IngredientsRoute: IngredientsRoute,
+  IngredientsRoute: IngredientsRouteWithChildren,
   LearnRoute: LearnRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,

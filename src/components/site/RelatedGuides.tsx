@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { guideByPath } from "@/data/guides";
+import { ingredientByPath } from "@/data/ingredients";
 
 /**
  * Related Guides — driven by the structured `related` field in the guide
@@ -16,7 +17,7 @@ export function RelatedGuides({
   intro?: string;
 }) {
   const items = paths
-    .map((path) => guideByPath(path) ?? TOOL_FALLBACKS[path])
+    .map((path) => guideByPath(path) ?? ingredientByPath(path) ?? TOOL_FALLBACKS[path])
     .filter(Boolean) as { path: string; title: string; teaser: string }[];
 
   if (items.length === 0) return null;
@@ -56,6 +57,16 @@ export function RelatedGuides({
 
 /** Tool pages are not guides, but they belong in related modules. */
 const TOOL_FALLBACKS: Record<string, { path: string; title: string; teaser: string }> = {
+  "/tools/duck-pairing-finder": {
+    path: "/tools/duck-pairing-finder",
+    title: "Duck Pairing Finder",
+    teaser: "Cut, flavour direction and occasion in — sauce, acid, starch and greens out.",
+  },
+  "/recipes/smoked-duck-with-plum-sauce": {
+    path: "/recipes/smoked-duck-with-plum-sauce",
+    title: "Smoked Duck with Plum Sauce",
+    teaser: "Smoke, dark fruit and vinegar — currently an editorial working draft.",
+  },
   "/tools/whole-duck-serving-calculator": {
     path: "/tools/whole-duck-serving-calculator",
     title: "Whole-Duck Serving Calculator",
