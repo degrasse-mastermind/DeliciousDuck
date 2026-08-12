@@ -100,6 +100,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "DeliciousDuck" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "impact-site-verification",
+        value: "abefd171-51cd-42ed-9d74-b04a6b10ce75",
+      },
     ],
     links: [
       {
