@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { PageHeader } from "@/components/site/PageHeader";
 import { GUIDES } from "@/data/guides";
+import { STARTER_GUIDE } from "@/data/starter-guide";
 import { INGREDIENTS } from "@/data/ingredients";
 import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
@@ -26,6 +27,13 @@ export const SEARCH_INDEX: SearchDoc[] = [
     summary: r.description,
     keywords: [r.category, r.cuisine ?? "", r.keyTechnique, r.difficulty].join(" "),
   })),
+  {
+    path: STARTER_GUIDE.path,
+    title: STARTER_GUIDE.title,
+    type: "Guide",
+    summary: STARTER_GUIDE.teaser,
+    keywords: "starter guide beginner first duck checklist temperature technique",
+  },
   ...GUIDES.map((g) => ({
     path: g.path,
     title: g.title,
