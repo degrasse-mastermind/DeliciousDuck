@@ -95,32 +95,27 @@ function Hero() {
 }
 
 function JourneySection() {
-  const [cook, learn, buy, gear, ingredients, tools] = PILLARS;
   return (
-    <section aria-labelledby="journey-heading" className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+    <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
       <SectionHeader
         eyebrow="Start anywhere"
         title="Your Duck Journey Starts Here"
         intro="Six routes into duck, whether you are searching for a technique, comparing where to buy, or working out how much to cook tonight."
       />
       <div className="mt-12 grid gap-4 lg:grid-cols-3">
-        <div className="lg:col-span-2">
-          <CategoryTile pillar={cook} featured />
-        </div>
-        <CategoryTile pillar={learn} />
-        <CategoryTile pillar={buy} />
-        <CategoryTile pillar={gear} />
-        <CategoryTile pillar={ingredients} />
-        <div className="lg:col-span-3">
-          <CategoryTile pillar={tools} />
-        </div>
+        {PILLARS.map((pillar, i) => (
+          <div
+            key={pillar.key}
+            className={i === 0 ? "lg:col-span-2" : i === 5 ? "lg:col-span-3" : undefined}
+          >
+            <CategoryTile pillar={pillar} featured={i === 0} />
+          </div>
+        ))}
       </div>
-      <h2 id="journey-heading" className="sr-only">
-        Your duck journey starts here
-      </h2>
     </section>
   );
 }
+
 
 function PopularRecipes() {
   return (
