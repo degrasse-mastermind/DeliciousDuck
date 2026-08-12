@@ -73,6 +73,9 @@ export function trackEvent(name: string, params: GtagParams = {}): void {
   if (!gtag) return;
   gtag("event", name, {
     send_to: GA_MEASUREMENT_ID,
+    // sendBeacon survives the page being backgrounded or unloaded by an
+    // outbound click, which is exactly when affiliate events fire.
+    transport_type: "beacon",
     ...debugFlag(),
     ...clean(params),
   });
