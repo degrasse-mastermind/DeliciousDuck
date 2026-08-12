@@ -41,6 +41,7 @@ import { Route as GearBestPanForDuckBreastRouteImport } from './routes/gear.best
 import { Route as GearBestThermometerForDuckRouteImport } from './routes/gear.best-thermometer-for-duck'
 import { Route as IngredientsIndexRouteImport } from './routes/ingredients.index'
 import { Route as IngredientsBestHerbsSpicesForDuckRouteImport } from './routes/ingredients.best-herbs-spices-for-duck'
+import { Route as IngredientsCherryPlumWithDuckRouteImport } from './routes/ingredients.cherry-plum-with-duck'
 import { Route as IngredientsDryBrineDuckRouteImport } from './routes/ingredients.dry-brine-duck'
 import { Route as IngredientsDuckFatVsButterOilRouteImport } from './routes/ingredients.duck-fat-vs-butter-oil'
 import { Route as IngredientsDuckMarinadeGuideRouteImport } from './routes/ingredients.duck-marinade-guide'
@@ -233,6 +234,12 @@ const IngredientsBestHerbsSpicesForDuckRoute =
     path: '/best-herbs-spices-for-duck',
     getParentRoute: () => IngredientsRoute,
   } as any)
+const IngredientsCherryPlumWithDuckRoute =
+  IngredientsCherryPlumWithDuckRouteImport.update({
+    id: '/cherry-plum-with-duck',
+    path: '/cherry-plum-with-duck',
+    getParentRoute: () => IngredientsRoute,
+  } as any)
 const IngredientsDryBrineDuckRoute = IngredientsDryBrineDuckRouteImport.update({
   id: '/dry-brine-duck',
   path: '/dry-brine-duck',
@@ -395,6 +402,7 @@ export interface FileRoutesByFullPath {
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
+  '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
   '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
   '/ingredients/duck-fat-vs-butter-oil': typeof IngredientsDuckFatVsButterOilRoute
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
@@ -446,6 +454,7 @@ export interface FileRoutesByTo {
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
+  '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
   '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
   '/ingredients/duck-fat-vs-butter-oil': typeof IngredientsDuckFatVsButterOilRoute
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
@@ -505,6 +514,7 @@ export interface FileRoutesById {
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
+  '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
   '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
   '/ingredients/duck-fat-vs-butter-oil': typeof IngredientsDuckFatVsButterOilRoute
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
@@ -565,6 +575,7 @@ export interface FileRouteTypes {
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
+    | '/ingredients/cherry-plum-with-duck'
     | '/ingredients/dry-brine-duck'
     | '/ingredients/duck-fat-vs-butter-oil'
     | '/ingredients/duck-marinade-guide'
@@ -616,6 +627,7 @@ export interface FileRouteTypes {
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
+    | '/ingredients/cherry-plum-with-duck'
     | '/ingredients/dry-brine-duck'
     | '/ingredients/duck-fat-vs-butter-oil'
     | '/ingredients/duck-marinade-guide'
@@ -674,6 +686,7 @@ export interface FileRouteTypes {
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
+    | '/ingredients/cherry-plum-with-duck'
     | '/ingredients/dry-brine-duck'
     | '/ingredients/duck-fat-vs-butter-oil'
     | '/ingredients/duck-marinade-guide'
@@ -948,6 +961,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IngredientsBestHerbsSpicesForDuckRouteImport
       parentRoute: typeof IngredientsRoute
     }
+    '/ingredients/cherry-plum-with-duck': {
+      id: '/ingredients/cherry-plum-with-duck'
+      path: '/cherry-plum-with-duck'
+      fullPath: '/ingredients/cherry-plum-with-duck'
+      preLoaderRoute: typeof IngredientsCherryPlumWithDuckRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
     '/ingredients/dry-brine-duck': {
       id: '/ingredients/dry-brine-duck'
       path: '/dry-brine-duck'
@@ -1175,6 +1195,7 @@ const GearRouteWithChildren = GearRoute._addFileChildren(GearRouteChildren)
 
 interface IngredientsRouteChildren {
   IngredientsBestHerbsSpicesForDuckRoute: typeof IngredientsBestHerbsSpicesForDuckRoute
+  IngredientsCherryPlumWithDuckRoute: typeof IngredientsCherryPlumWithDuckRoute
   IngredientsDryBrineDuckRoute: typeof IngredientsDryBrineDuckRoute
   IngredientsDuckFatVsButterOilRoute: typeof IngredientsDuckFatVsButterOilRoute
   IngredientsDuckMarinadeGuideRoute: typeof IngredientsDuckMarinadeGuideRoute
@@ -1186,6 +1207,7 @@ interface IngredientsRouteChildren {
 const IngredientsRouteChildren: IngredientsRouteChildren = {
   IngredientsBestHerbsSpicesForDuckRoute:
     IngredientsBestHerbsSpicesForDuckRoute,
+  IngredientsCherryPlumWithDuckRoute: IngredientsCherryPlumWithDuckRoute,
   IngredientsDryBrineDuckRoute: IngredientsDryBrineDuckRoute,
   IngredientsDuckFatVsButterOilRoute: IngredientsDuckFatVsButterOilRoute,
   IngredientsDuckMarinadeGuideRoute: IngredientsDuckMarinadeGuideRoute,
