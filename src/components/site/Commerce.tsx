@@ -2,14 +2,18 @@ import { Link } from "@tanstack/react-router";
 import { ExternalLink, Info, ShoppingBag } from "lucide-react";
 import { DISCLOSURE_TEXT, type ComparisonRow } from "@/data/comparisons";
 import { trackAffiliateClick } from "@/lib/analytics";
+import { resolveCommerceLink } from "@/data/affiliates";
 
 /**
  * Commercial modules for money pages.
  *
- * CTA policy: an affiliate CTA renders only when `affiliateUrl` exists and
- * `affiliateStatus === "active"`. Otherwise we fall back to a neutral
- * "Visit seller" link when a legitimate direct URL exists, and to no link at
- * all when it does not. Placeholder "#" links are never rendered.
+ * CTA policy: the destination is resolved by `resolveCommerceLink` against the
+ * merchant registry (src/data/affiliates.ts). A sponsored affiliate CTA renders
+ * only when that registry says the program is active AND holds a real tracking
+ * URL. Otherwise the row falls back to a neutral "Visit seller" link, and to no
+ * link at all when there is no legitimate destination. Placeholder "#" links
+ * are never rendered, and a merchant is never treated as monetized just because
+ * an application was filed.
  */
 export function DisclosureBanner({ compact = false }: { compact?: boolean }) {
   return (
@@ -33,19 +37,27 @@ export function DisclosureBanner({ compact = false }: { compact?: boolean }) {
 }
 
 function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; placement?: string }) {
-  if (row.affiliateUrl && row.affiliateStatus === "active") {
+  const link = resolveCommerceLink({
+    merchantId: row.merchantId,
+    affiliateUrl: row.affiliateStatus === "active" ? row.affiliateUrl : undefined,
+    directUrl: row.directUrl,
+    name: row.name,
+  });
+
+  if (link.kind === "affiliate" && link.href) {
     return (
       <a
-        href={row.affiliateUrl}
+        href={link.href}
         rel="sponsored noopener noreferrer"
         target="_blank"
         onClick={() =>
           trackAffiliateClick({
-            linkUrl: row.affiliateUrl!,
+            linkUrl: link.href!,
             linkText: "Check availability",
-            merchant: row.name,
+            merchant: link.merchantName ?? row.name,
             placement,
             linkType: "affiliate",
+            destinationType: "affiliate_tracking",
           })
         }
         className="inline-flex items-center gap-2 rounded-sm bg-primary px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
@@ -55,19 +67,21 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
       </a>
     );
   }
-  if (row.directUrl) {
+
+  if (link.kind === "direct" && link.href) {
     return (
       <a
-        href={row.directUrl}
+        href={link.href}
         rel="noopener noreferrer nofollow"
         target="_blank"
         onClick={() =>
           trackAffiliateClick({
-            linkUrl: row.directUrl!,
+            linkUrl: link.href!,
             linkText: "Visit seller",
-            merchant: row.name,
+            merchant: link.merchantName ?? row.name,
             placement,
             linkType: "direct_seller",
+            destinationType: "merchant_direct",
           })
         }
         className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary underline-offset-4 hover:underline"
@@ -77,10 +91,49 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
       </a>
     );
   }
+
   return (
     <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
       No verified seller link yet
     </p>
+  );
+}
+
+/**
+ * Evaluation-methodology trust statement for commercial pages.
+ *
+ * States plainly how recommendations are formed today: desk research against
+ * published specifications and technique, not hands-on testing.
+ */
+export function EvaluationNote({ scope }: { scope: string }) {
+  return (
+    <aside
+      aria-label="How we evaluate"
+      className="mt-6 rounded-sm border border-border bg-cream p-5"
+    >
+      <h2 className="eyebrow text-primary">How we evaluate {scope}</h2>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        These recommendations are editorial. They come from published
+        specifications, manufacturer and merchant documentation, and duck-cooking
+        technique — not from hands-on testing in our kitchen. We do not publish
+        prices, star ratings, review counts, or test results we have not produced
+        ourselves, and we do not accept payment for placement. Where a category
+        matters more than a brand, we say so and let you shop the category. Once
+        we test equipment or place orders ourselves, those pages will say exactly
+        what was tested and when.
+      </p>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+        Read our{" "}
+        <Link to="/editorial-standards" className="text-primary underline underline-offset-4">
+          editorial standards
+        </Link>{" "}
+        and{" "}
+        <Link to="/affiliate-disclosure" className="text-primary underline underline-offset-4">
+          affiliate disclosure
+        </Link>
+        .
+      </p>
+    </aside>
   );
 }
 
