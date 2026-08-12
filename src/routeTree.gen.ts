@@ -47,6 +47,9 @@ import { Route as LearnWildDuckVsFarmedDuckRouteImport } from './routes/learn.wi
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsDuckCookingTimePlannerRouteImport } from './routes/tools.duck-cooking-time-planner'
 import { Route as ToolsDuckDonenessGuideRouteImport } from './routes/tools.duck-doneness-guide'
+import { Route as ToolsDuckFatSubstitutionCalculatorRouteImport } from './routes/tools.duck-fat-substitution-calculator'
+import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
+import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
 
 const IndexRoute = IndexRouteImport.update({
@@ -250,6 +253,22 @@ const ToolsDuckDonenessGuideRoute = ToolsDuckDonenessGuideRouteImport.update({
   path: '/duck-doneness-guide',
   getParentRoute: () => ToolsRoute,
 } as any)
+const ToolsDuckFatSubstitutionCalculatorRoute =
+  ToolsDuckFatSubstitutionCalculatorRouteImport.update({
+    id: '/duck-fat-substitution-calculator',
+    path: '/duck-fat-substitution-calculator',
+    getParentRoute: () => ToolsRoute,
+  } as any)
+const ToolsRecipeScalerRoute = ToolsRecipeScalerRouteImport.update({
+  id: '/recipe-scaler',
+  path: '/recipe-scaler',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsWhatShouldICookRoute = ToolsWhatShouldICookRouteImport.update({
+  id: '/what-should-i-cook',
+  path: '/what-should-i-cook',
+  getParentRoute: () => ToolsRoute,
+} as any)
 const ToolsWholeDuckServingCalculatorRoute =
   ToolsWholeDuckServingCalculatorRouteImport.update({
     id: '/whole-duck-serving-calculator',
@@ -291,6 +310,9 @@ export interface FileRoutesByFullPath {
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
+  '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
+  '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy/': typeof BuyIndexRoute
   '/cook/': typeof CookIndexRoute
@@ -327,6 +349,9 @@ export interface FileRoutesByTo {
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
+  '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
+  '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy': typeof BuyIndexRoute
   '/cook': typeof CookIndexRoute
@@ -369,6 +394,9 @@ export interface FileRoutesById {
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
+  '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
+  '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy/': typeof BuyIndexRoute
   '/cook/': typeof CookIndexRoute
@@ -412,6 +440,9 @@ export interface FileRouteTypes {
     | '/learn/wild-duck-vs-farmed-duck'
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
+    | '/tools/duck-fat-substitution-calculator'
+    | '/tools/recipe-scaler'
+    | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
     | '/buy/'
     | '/cook/'
@@ -448,6 +479,9 @@ export interface FileRouteTypes {
     | '/learn/wild-duck-vs-farmed-duck'
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
+    | '/tools/duck-fat-substitution-calculator'
+    | '/tools/recipe-scaler'
+    | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
     | '/buy'
     | '/cook'
@@ -489,6 +523,9 @@ export interface FileRouteTypes {
     | '/learn/wild-duck-vs-farmed-duck'
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
+    | '/tools/duck-fat-substitution-calculator'
+    | '/tools/recipe-scaler'
+    | '/tools/what-should-i-cook'
     | '/tools/whole-duck-serving-calculator'
     | '/buy/'
     | '/cook/'
@@ -781,6 +818,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsDuckDonenessGuideRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/tools/duck-fat-substitution-calculator': {
+      id: '/tools/duck-fat-substitution-calculator'
+      path: '/duck-fat-substitution-calculator'
+      fullPath: '/tools/duck-fat-substitution-calculator'
+      preLoaderRoute: typeof ToolsDuckFatSubstitutionCalculatorRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/recipe-scaler': {
+      id: '/tools/recipe-scaler'
+      path: '/recipe-scaler'
+      fullPath: '/tools/recipe-scaler'
+      preLoaderRoute: typeof ToolsRecipeScalerRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/what-should-i-cook': {
+      id: '/tools/what-should-i-cook'
+      path: '/what-should-i-cook'
+      fullPath: '/tools/what-should-i-cook'
+      preLoaderRoute: typeof ToolsWhatShouldICookRouteImport
+      parentRoute: typeof ToolsRoute
+    }
     '/tools/whole-duck-serving-calculator': {
       id: '/tools/whole-duck-serving-calculator'
       path: '/whole-duck-serving-calculator'
@@ -871,6 +929,9 @@ const LearnRouteWithChildren = LearnRoute._addFileChildren(LearnRouteChildren)
 interface ToolsRouteChildren {
   ToolsDuckCookingTimePlannerRoute: typeof ToolsDuckCookingTimePlannerRoute
   ToolsDuckDonenessGuideRoute: typeof ToolsDuckDonenessGuideRoute
+  ToolsDuckFatSubstitutionCalculatorRoute: typeof ToolsDuckFatSubstitutionCalculatorRoute
+  ToolsRecipeScalerRoute: typeof ToolsRecipeScalerRoute
+  ToolsWhatShouldICookRoute: typeof ToolsWhatShouldICookRoute
   ToolsWholeDuckServingCalculatorRoute: typeof ToolsWholeDuckServingCalculatorRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
@@ -878,6 +939,10 @@ interface ToolsRouteChildren {
 const ToolsRouteChildren: ToolsRouteChildren = {
   ToolsDuckCookingTimePlannerRoute: ToolsDuckCookingTimePlannerRoute,
   ToolsDuckDonenessGuideRoute: ToolsDuckDonenessGuideRoute,
+  ToolsDuckFatSubstitutionCalculatorRoute:
+    ToolsDuckFatSubstitutionCalculatorRoute,
+  ToolsRecipeScalerRoute: ToolsRecipeScalerRoute,
+  ToolsWhatShouldICookRoute: ToolsWhatShouldICookRoute,
   ToolsWholeDuckServingCalculatorRoute: ToolsWholeDuckServingCalculatorRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }
