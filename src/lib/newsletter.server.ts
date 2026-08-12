@@ -69,18 +69,37 @@ async function pushToResend(email: string, apiKey: string): Promise<string | nul
  * already has `welcome_event_status = "sent"`, so repeat signups don't spam.
  */
 async function sendWelcomeEvent(email: string, apiKey: string): Promise<void> {
-  const response = await fetch("https://api.resend.com/events", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      name: "newsletter.subscribed",
-      email,
-      data: { guide_url: STARTER_GUIDE_URL },
-    }),
-  });
+  const headers = {
+    "content-type": "application/json",
+    authorization: `Bearer ${apiKey}`,
+  };
+
+  const dispatch = () =>
+    fetch("https://api.resend.com/events/send", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        event: "newsletter.subscribed",
+        email,
+        data: { guide_url: STARTER_GUIDE_URL },
+      }),
+    });
+
+  let response = await dispatch();
+
+  // The event definition may not exist yet in Resend; register it once (409 =
+  // already registered, which is fine) and retry the dispatch.
+  if (response.status === 404 || response.status === 422) {
+    await fetch("https://api.resend.com/events", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        name: "newsletter.subscribed",
+        schema: { guide_url: "string" },
+      }),
+    });
+    response = await dispatch();
+  }
 
   if (!response.ok) {
     const detail = await response.text();
