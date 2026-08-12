@@ -126,6 +126,16 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* Google Analytics 4 — loaded once globally for every route */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: gtagInitScript(GA_MEASUREMENT_ID),
+          }}
+        />
       </head>
       <body>
         {children}
