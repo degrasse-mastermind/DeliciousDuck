@@ -30,6 +30,7 @@ import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnDuckBreastTemperatureDonenessRouteImport } from './routes/learn.duck-breast-temperature-doneness'
 import { Route as LearnHowToRenderDuckFatRouteImport } from './routes/learn.how-to-render-duck-fat'
 import { Route as LearnHowToScoreDuckBreastRouteImport } from './routes/learn.how-to-score-duck-breast'
+import { Route as LearnWhyDuckSkinIsntCrispyRouteImport } from './routes/learn.why-duck-skin-isnt-crispy'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
 
@@ -140,6 +141,12 @@ const LearnHowToScoreDuckBreastRoute =
     path: '/how-to-score-duck-breast',
     getParentRoute: () => LearnRoute,
   } as any)
+const LearnWhyDuckSkinIsntCrispyRoute =
+  LearnWhyDuckSkinIsntCrispyRouteImport.update({
+    id: '/why-duck-skin-isnt-crispy',
+    path: '/why-duck-skin-isnt-crispy',
+    getParentRoute: () => LearnRoute,
+  } as any)
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -170,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
+  '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy/': typeof BuyIndexRoute
   '/cook/': typeof CookIndexRoute
@@ -190,6 +198,7 @@ export interface FileRoutesByTo {
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
+  '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy': typeof BuyIndexRoute
   '/cook': typeof CookIndexRoute
@@ -216,6 +225,7 @@ export interface FileRoutesById {
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
+  '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/buy/': typeof BuyIndexRoute
   '/cook/': typeof CookIndexRoute
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
+    | '/learn/why-duck-skin-isnt-crispy'
     | '/tools/whole-duck-serving-calculator'
     | '/buy/'
     | '/cook/'
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
+    | '/learn/why-duck-skin-isnt-crispy'
     | '/tools/whole-duck-serving-calculator'
     | '/buy'
     | '/cook'
@@ -288,6 +300,7 @@ export interface FileRouteTypes {
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
+    | '/learn/why-duck-skin-isnt-crispy'
     | '/tools/whole-duck-serving-calculator'
     | '/buy/'
     | '/cook/'
@@ -461,6 +474,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnHowToScoreDuckBreastRouteImport
       parentRoute: typeof LearnRoute
     }
+    '/learn/why-duck-skin-isnt-crispy': {
+      id: '/learn/why-duck-skin-isnt-crispy'
+      path: '/why-duck-skin-isnt-crispy'
+      fullPath: '/learn/why-duck-skin-isnt-crispy'
+      preLoaderRoute: typeof LearnWhyDuckSkinIsntCrispyRouteImport
+      parentRoute: typeof LearnRoute
+    }
     '/tools/': {
       id: '/tools/'
       path: '/'
@@ -514,6 +534,7 @@ interface LearnRouteChildren {
   LearnDuckBreastTemperatureDonenessRoute: typeof LearnDuckBreastTemperatureDonenessRoute
   LearnHowToRenderDuckFatRoute: typeof LearnHowToRenderDuckFatRoute
   LearnHowToScoreDuckBreastRoute: typeof LearnHowToScoreDuckBreastRoute
+  LearnWhyDuckSkinIsntCrispyRoute: typeof LearnWhyDuckSkinIsntCrispyRoute
   LearnIndexRoute: typeof LearnIndexRoute
 }
 
@@ -522,6 +543,7 @@ const LearnRouteChildren: LearnRouteChildren = {
     LearnDuckBreastTemperatureDonenessRoute,
   LearnHowToRenderDuckFatRoute: LearnHowToRenderDuckFatRoute,
   LearnHowToScoreDuckBreastRoute: LearnHowToScoreDuckBreastRoute,
+  LearnWhyDuckSkinIsntCrispyRoute: LearnWhyDuckSkinIsntCrispyRoute,
   LearnIndexRoute: LearnIndexRoute,
 }
 
