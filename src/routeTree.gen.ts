@@ -40,6 +40,7 @@ import { Route as GearBestKnifeForScoringDuckRouteImport } from './routes/gear.b
 import { Route as GearBestPanForDuckBreastRouteImport } from './routes/gear.best-pan-for-duck-breast'
 import { Route as GearBestThermometerForDuckRouteImport } from './routes/gear.best-thermometer-for-duck'
 import { Route as IngredientsIndexRouteImport } from './routes/ingredients.index'
+import { Route as IngredientsBestAcidForDuckRouteImport } from './routes/ingredients.best-acid-for-duck'
 import { Route as IngredientsBestHerbsSpicesForDuckRouteImport } from './routes/ingredients.best-herbs-spices-for-duck'
 import { Route as IngredientsCherryPlumWithDuckRouteImport } from './routes/ingredients.cherry-plum-with-duck'
 import { Route as IngredientsDryBrineDuckRouteImport } from './routes/ingredients.dry-brine-duck'
@@ -228,6 +229,12 @@ const IngredientsIndexRoute = IngredientsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => IngredientsRoute,
 } as any)
+const IngredientsBestAcidForDuckRoute =
+  IngredientsBestAcidForDuckRouteImport.update({
+    id: '/best-acid-for-duck',
+    path: '/best-acid-for-duck',
+    getParentRoute: () => IngredientsRoute,
+  } as any)
 const IngredientsBestHerbsSpicesForDuckRoute =
   IngredientsBestHerbsSpicesForDuckRouteImport.update({
     id: '/best-herbs-spices-for-duck',
@@ -401,6 +408,7 @@ export interface FileRoutesByFullPath {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
   '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
   '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
@@ -453,6 +461,7 @@ export interface FileRoutesByTo {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
   '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
   '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
@@ -513,6 +522,7 @@ export interface FileRoutesById {
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
+  '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
   '/ingredients/best-herbs-spices-for-duck': typeof IngredientsBestHerbsSpicesForDuckRoute
   '/ingredients/cherry-plum-with-duck': typeof IngredientsCherryPlumWithDuckRoute
   '/ingredients/dry-brine-duck': typeof IngredientsDryBrineDuckRoute
@@ -574,6 +584,7 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/ingredients/best-acid-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
     | '/ingredients/cherry-plum-with-duck'
     | '/ingredients/dry-brine-duck'
@@ -626,6 +637,7 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/ingredients/best-acid-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
     | '/ingredients/cherry-plum-with-duck'
     | '/ingredients/dry-brine-duck'
@@ -685,6 +697,7 @@ export interface FileRouteTypes {
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-thermometer-for-duck'
+    | '/ingredients/best-acid-for-duck'
     | '/ingredients/best-herbs-spices-for-duck'
     | '/ingredients/cherry-plum-with-duck'
     | '/ingredients/dry-brine-duck'
@@ -954,6 +967,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IngredientsIndexRouteImport
       parentRoute: typeof IngredientsRoute
     }
+    '/ingredients/best-acid-for-duck': {
+      id: '/ingredients/best-acid-for-duck'
+      path: '/best-acid-for-duck'
+      fullPath: '/ingredients/best-acid-for-duck'
+      preLoaderRoute: typeof IngredientsBestAcidForDuckRouteImport
+      parentRoute: typeof IngredientsRoute
+    }
     '/ingredients/best-herbs-spices-for-duck': {
       id: '/ingredients/best-herbs-spices-for-duck'
       path: '/best-herbs-spices-for-duck'
@@ -1194,6 +1214,7 @@ const GearRouteChildren: GearRouteChildren = {
 const GearRouteWithChildren = GearRoute._addFileChildren(GearRouteChildren)
 
 interface IngredientsRouteChildren {
+  IngredientsBestAcidForDuckRoute: typeof IngredientsBestAcidForDuckRoute
   IngredientsBestHerbsSpicesForDuckRoute: typeof IngredientsBestHerbsSpicesForDuckRoute
   IngredientsCherryPlumWithDuckRoute: typeof IngredientsCherryPlumWithDuckRoute
   IngredientsDryBrineDuckRoute: typeof IngredientsDryBrineDuckRoute
@@ -1205,6 +1226,7 @@ interface IngredientsRouteChildren {
 }
 
 const IngredientsRouteChildren: IngredientsRouteChildren = {
+  IngredientsBestAcidForDuckRoute: IngredientsBestAcidForDuckRoute,
   IngredientsBestHerbsSpicesForDuckRoute:
     IngredientsBestHerbsSpicesForDuckRoute,
   IngredientsCherryPlumWithDuckRoute: IngredientsCherryPlumWithDuckRoute,
