@@ -24,7 +24,12 @@ export const subscribeToNewsletterFn = createServerFn({ method: "POST" })
     // Honeypot already enforced by the schema (must be empty).
     const result = await persistSubscriber(data);
     // Durable storage succeeded. Resend status is internal only.
-    return { subscribed: true as const, resendSync: result.resendSync };
+    // `welcomeTriggered` tells the UI whether an email was actually kicked off;
+    // provider internals stay on the server.
+    return {
+      subscribed: true as const,
+      welcomeTriggered: result.welcomeEvent === "sent" || result.welcomeEvent === "skipped",
+    };
   });
 
 /**

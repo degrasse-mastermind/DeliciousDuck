@@ -29,6 +29,8 @@ export type Database = {
           subscribed_at: string
           unsubscribed_at: string | null
           updated_at: string
+          welcome_event_at: string | null
+          welcome_event_status: string
         }
         Insert: {
           created_at?: string
@@ -44,6 +46,8 @@ export type Database = {
           subscribed_at?: string
           unsubscribed_at?: string | null
           updated_at?: string
+          welcome_event_at?: string | null
+          welcome_event_status?: string
         }
         Update: {
           created_at?: string
@@ -59,6 +63,8 @@ export type Database = {
           subscribed_at?: string
           unsubscribed_at?: string | null
           updated_at?: string
+          welcome_event_at?: string | null
+          welcome_event_status?: string
         }
         Relationships: []
       }

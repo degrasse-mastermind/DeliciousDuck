@@ -54,9 +54,10 @@ function ensureGtag(): ((...args: unknown[]) => void) | undefined {
   window.dataLayer = window.dataLayer || [];
   if (typeof window.gtag !== "function") {
     window.gtag = function gtagStub(...args: unknown[]) {
-      // gtag.js reads the raw `arguments` object, so push args as-is.
-      // eslint-disable-next-line prefer-rest-params
-      window.dataLayer!.push(arguments as unknown as IArguments);
+      // gtag.js slices whatever array-like it finds in the queue, so an args
+      // array is replayed the same way the official snippet's `arguments` is —
+      // and unlike `arguments`, it survives rest-parameter transpilation.
+      window.dataLayer!.push(args as unknown as IArguments);
     };
   }
   return window.gtag;
@@ -198,5 +199,21 @@ export function trackCalculatorComplete(params: {
     tool_slug: params.toolSlug,
     page_path: path,
     ...clean(params.result ?? {}),
+  });
+}
+
+/** Genuine page view of the first-party Starter Guide. No PII. */
+export function trackStarterGuideView(params: { path: string }): void {
+  trackEvent("starter_guide_view", {
+    page_path: params.path,
+    content_slug: contentSlugFromPath(params.path),
+  });
+}
+
+/** User invoked the print action on the Starter Guide quick reference. No PII. */
+export function trackStarterGuidePrint(params: { path: string }): void {
+  trackEvent("starter_guide_print", {
+    page_path: params.path,
+    content_slug: contentSlugFromPath(params.path),
   });
 }

@@ -5,7 +5,9 @@ import {
   isNewsletterEnabled,
   subscribeToNewsletter,
   type SubscribeInput,
+  type SubscribeResult,
 } from "@/lib/newsletter";
+import { STARTER_GUIDE } from "@/data/starter-guide";
 
 /**
  * Honest-by-default signup.
@@ -25,7 +27,7 @@ export function NewsletterSignup({
   onSubscribe = subscribeToNewsletter,
 }: {
   id?: string;
-  onSubscribe?: ((input: SubscribeInput) => Promise<void>) | undefined;
+  onSubscribe?: ((input: SubscribeInput) => Promise<SubscribeResult | void>) | undefined;
 }) {
   const [email, setEmail] = useState("");
   const [trap, setTrap] = useState("");
@@ -34,6 +36,7 @@ export function NewsletterSignup({
   const [pending, setPending] = useState(false);
   const [intentSent, setIntentSent] = useState(false);
   const [signupSent, setSignupSent] = useState(false);
+  const [welcomeTriggered, setWelcomeTriggered] = useState(false);
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
 
   /** One intent event per component instance — no double-firing. */
@@ -56,7 +59,14 @@ export function NewsletterSignup({
     setError(null);
     setPending(true);
     try {
-      await onSubscribe({ email: cleaned, source: "newsletter_form", placement: id, trap });
+      const result = await onSubscribe({
+        email: cleaned,
+        source: "newsletter_form",
+        placement: id,
+        trap,
+      });
+      // Only claim email delivery when the welcome email was actually triggered.
+      setWelcomeTriggered(Boolean(result && result.welcomeTriggered));
       // Success transition only — never on mount, never on a failed submit.
       // No email or other PII is sent to analytics.
       if (!signupSent) {
@@ -88,10 +98,13 @@ export function NewsletterSignup({
             The Duck Cooking Starter Guide
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/80">
-            The guide is still being written — a short reference covering the four duck cuts,
-            target internal temperatures, rendering a fat cap, and what to buy first. Join the
-            list and we&apos;ll send it the day it&apos;s published, plus occasional recipes and
-            guides in the meantime.
+            Subscribers get{" "}
+            <a href={STARTER_GUIDE.path} className="underline underline-offset-4">
+              the Duck Cooking Starter Guide
+            </a>{" "}
+            — a concise reference covering the four duck cuts, target internal temperatures,
+            rendering a fat cap, and what to buy first — plus occasional DeliciousDuck recipes
+            and guides.
           </p>
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
@@ -107,7 +120,7 @@ export function NewsletterSignup({
             ))}
           </ul>
           <p className="mt-6 text-sm leading-relaxed text-forest-foreground/70">
-            Nothing to wait for today: the{" "}
+            You can read the guide right now — the{" "}
             <a
               href="/learn/duck-breast-temperature-doneness"
               className="underline underline-offset-4"
@@ -165,11 +178,29 @@ export function NewsletterSignup({
                 <Check className="size-6" />
               </span>
               <h3 className="mt-4 font-display text-2xl">You&apos;re on the DeliciousDuck list</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Your address is saved. We&apos;ll email the Duck Cooking Starter Guide as soon as
-                it&apos;s published, then occasional recipes and guides. No confirmation email is
-                sent right now.
-              </p>
+              {welcomeTriggered ? (
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Check your inbox for the Starter Guide. You can also{" "}
+                  <a
+                    href={STARTER_GUIDE.path}
+                    className="text-primary underline underline-offset-4"
+                  >
+                    read it on the site
+                  </a>{" "}
+                  right now.
+                </p>
+              ) : (
+                <p className="mt-2 text-sm text-muted-foreground">
+                  You&apos;re subscribed. Read{" "}
+                  <a
+                    href={STARTER_GUIDE.path}
+                    className="text-primary underline underline-offset-4"
+                  >
+                    the Duck Cooking Starter Guide
+                  </a>{" "}
+                  here on the site, and watch for occasional recipes and guides.
+                </p>
+              )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-4">
@@ -220,8 +251,8 @@ export function NewsletterSignup({
                 {pending ? "Signing you up…" : "Join the list"}
               </button>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                You&apos;re signing up for DeliciousDuck emails: the Duck Cooking Starter Guide
-                when it&apos;s released, plus occasional recipes and guides. Sent from
+                You&apos;re signing up for DeliciousDuck emails: the Duck Cooking Starter Guide,
+                plus occasional recipes and guides. Sent from
                 hello@deliciousduck.com via Resend. Unsubscribe any time.
               </p>
 

@@ -1,4 +1,5 @@
 import { RESEND_AUDIENCE_ID, type SubscribePayload } from "./newsletter-schema";
+import { STARTER_GUIDE_URL } from "@/data/starter-guide";
 
 /**
  * Server-only newsletter logic.
@@ -13,6 +14,7 @@ import { RESEND_AUDIENCE_ID, type SubscribePayload } from "./newsletter-schema";
  */
 
 export type ResendSync = "pending" | "synced" | "error";
+export type WelcomeEvent = "pending" | "sent" | "error" | "skipped";
 
 /**
  * Best-effort in-memory rate limit. The worker runtime gives no shared store,
@@ -62,12 +64,58 @@ async function pushToResend(email: string, apiKey: string): Promise<string | nul
 }
 
 /**
+ * Fires the Resend custom event that triggers the welcome email carrying the
+ * Starter Guide link. Send-on-first-subscribe: callers skip this when the row
+ * already has `welcome_event_status = "sent"`, so repeat signups don't spam.
+ */
+async function sendWelcomeEvent(email: string, apiKey: string): Promise<void> {
+  const headers = {
+    "content-type": "application/json",
+    authorization: `Bearer ${apiKey}`,
+  };
+
+  const dispatch = () =>
+    fetch("https://api.resend.com/events/send", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        event: "newsletter.subscribed",
+        email,
+        data: { guide_url: STARTER_GUIDE_URL },
+      }),
+    });
+
+  let response = await dispatch();
+
+  // The event definition may not exist yet in Resend; register it once (409 =
+  // already registered, which is fine) and retry the dispatch.
+  if (response.status === 404 || response.status === 422) {
+    await fetch("https://api.resend.com/events", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        name: "newsletter.subscribed",
+        schema: { guide_url: "string" },
+      }),
+    });
+    response = await dispatch();
+  }
+
+  if (!response.ok) {
+    const detail = await response.text();
+    // Status + provider detail only — never the key.
+    throw new Error(`resend_event_${response.status}: ${detail.slice(0, 300)}`);
+  }
+}
+
+/**
  * Durably stores the subscriber, then best-effort syncs to Resend.
  * Throws only when durable storage fails.
  */
 export async function persistSubscriber(data: SubscribePayload): Promise<{
   subscribed: true;
   resendSync: ResendSync;
+  welcomeEvent: WelcomeEvent;
 }> {
   const emailNormalized = data.email.trim().toLowerCase();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -87,7 +135,7 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
       },
       { onConflict: "email_normalized" },
     )
-    .select("id")
+    .select("id, welcome_event_status")
     .single();
 
   if (error || !row) {
@@ -96,10 +144,11 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   }
 
   const apiKey = process.env["RESEND_API_KEY"];
-  if (!apiKey) return { subscribed: true, resendSync: "pending" };
+  if (!apiKey) return { subscribed: true, resendSync: "pending", welcomeEvent: "pending" };
 
+  let contactId: string | null = null;
   try {
-    const contactId = await pushToResend(emailNormalized, apiKey);
+    contactId = await pushToResend(emailNormalized, apiKey);
     await supabaseAdmin
       .from("newsletter_subscribers")
       .update({
@@ -108,7 +157,6 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
         last_resend_sync_at: new Date().toISOString(),
       })
       .eq("id", row.id);
-    return { subscribed: true, resendSync: "synced" };
   } catch (err) {
     console.error(`Resend sync failed: ${err instanceof Error ? err.message : "unknown"}`);
     await supabaseAdmin
@@ -118,7 +166,28 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
         last_resend_sync_at: new Date().toISOString(),
       })
       .eq("id", row.id);
-    return { subscribed: true, resendSync: "error" };
+    return { subscribed: true, resendSync: "error", welcomeEvent: "pending" };
+  }
+
+  // Already welcomed on a previous signup — durable success, no repeat event.
+  if (row.welcome_event_status === "sent") {
+    return { subscribed: true, resendSync: "synced", welcomeEvent: "skipped" };
+  }
+
+  try {
+    await sendWelcomeEvent(emailNormalized, apiKey);
+    await supabaseAdmin
+      .from("newsletter_subscribers")
+      .update({ welcome_event_status: "sent", welcome_event_at: new Date().toISOString() })
+      .eq("id", row.id);
+    return { subscribed: true, resendSync: "synced", welcomeEvent: "sent" };
+  } catch (err) {
+    console.error(`Welcome event failed: ${err instanceof Error ? err.message : "unknown"}`);
+    await supabaseAdmin
+      .from("newsletter_subscribers")
+      .update({ welcome_event_status: "error", welcome_event_at: new Date().toISOString() })
+      .eq("id", row.id);
+    return { subscribed: true, resendSync: "synced", welcomeEvent: "error" };
   }
 }
 

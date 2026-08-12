@@ -93,3 +93,21 @@ group by 1;
   Not a conversion. Deduped once per component instance.
 - `newsletter_signup` — fires ONLY after durable database persistence succeeds,
   even if Resend sync is `pending`. Mark this one as the conversion in GA4.
+
+## Starter Guide + welcome email (current behaviour)
+
+- The lead magnet is a real, indexable web guide: `/guides/duck-cooking-starter-guide`.
+  There is no PDF, so no copy anywhere promises a download.
+- After the subscriber row is durably stored and the Resend contact is synced, the
+  server fires the Resend custom event `newsletter.subscribed` for that email with
+  payload `{ guide_url: "https://deliciousduck.com/guides/duck-cooking-starter-guide" }`.
+  Configure the Resend automation to send the welcome email off that event.
+- Auditability lives on `newsletter_subscribers.welcome_event_status`
+  (`pending` | `sent` | `error` | `skipped`) plus `welcome_event_at`.
+  Send-on-first-subscribe: a row already marked `sent` is skipped, so repeat
+  signups never trigger repeat welcome events.
+- Failure isolation: a failed contact sync or failed event never undoes the
+  subscription. The client only receives `{ subscribed, welcomeTriggered }`; when
+  `welcomeTriggered` is false the UI links to the guide on-site instead of
+  claiming an email was sent.
+- `RESEND_API_KEY` is read inside server handlers only, never logged or returned.
