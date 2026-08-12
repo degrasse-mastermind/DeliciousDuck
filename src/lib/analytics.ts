@@ -16,6 +16,9 @@ declare global {
   }
 }
 
+/** Single source of truth for the GA4 property. */
+export const GA_MEASUREMENT_ID = "G-E15CFY209D";
+
 export const ANALYTICS_EVENTS = {
   affiliateClick: "affiliate_click",
   newsletterSignup: "newsletter_signup",
@@ -37,9 +40,57 @@ function clean(params: GtagParams): GtagParams {
   return out;
 }
 
+/**
+ * Make sure a `gtag` queue exists before we push.
+ *
+ * gtag.js loads async, so a fast click can happen before the library is ready.
+ * The standard snippet's stub pushes into `window.dataLayer`, which gtag.js
+ * replays once it loads — so recreating the stub here means no event is lost
+ * even if the inline snippet has not run yet.
+ */
+function ensureGtag(): ((...args: unknown[]) => void) | undefined {
+  if (typeof window === "undefined") return undefined;
+  window.dataLayer = window.dataLayer || [];
+  if (typeof window.gtag !== "function") {
+    window.gtag = function gtagStub(...args: unknown[]) {
+      // gtag.js reads the raw `arguments` object, so push args as-is.
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer!.push(arguments as unknown as IArguments);
+    };
+  }
+  return window.gtag;
+}
+
+/** Opt into GA4 DebugView with `?ga_debug=1` — no PII, no persistence. */
+function debugFlag(): GtagParams {
+  if (typeof window === "undefined") return {};
+  return window.location.search.includes("ga_debug=1") ? { debug_mode: true } : {};
+}
+
 export function trackEvent(name: string, params: GtagParams = {}): void {
-  if (typeof window === "undefined" || typeof window.gtag !== "function") return;
-  window.gtag("event", name, clean(params));
+  const gtag = ensureGtag();
+  if (!gtag) return;
+  gtag("event", name, {
+    send_to: GA_MEASUREMENT_ID,
+    // sendBeacon survives the page being backgrounded or unloaded by an
+    // outbound click, which is exactly when affiliate events fire.
+    transport_type: "beacon",
+    ...debugFlag(),
+    ...clean(params),
+  });
+}
+
+/** SPA route change page view — gtag.js only auto-tracks the first load. */
+export function trackPageView(path: string, title?: string): void {
+  const gtag = ensureGtag();
+  if (!gtag) return;
+  gtag("event", "page_view", {
+    send_to: GA_MEASUREMENT_ID,
+    page_path: path,
+    page_location: typeof window !== "undefined" ? window.location.href : undefined,
+    page_title: title,
+    ...debugFlag(),
+  });
 }
 
 /** Content classification for commercial events — parameters, not new event names. */
