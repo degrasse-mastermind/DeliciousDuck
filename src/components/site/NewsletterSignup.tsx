@@ -164,10 +164,11 @@ export function NewsletterSignup({
               >
                 <Check className="size-6" />
               </span>
-              <h3 className="mt-4 font-display text-2xl">You&apos;re on the list</h3>
+              <h3 className="mt-4 font-display text-2xl">You&apos;re on the DeliciousDuck list</h3>
               <p className="mt-2 text-sm text-muted-foreground">
-                We&apos;ll email the Duck Cooking Starter Guide as soon as it&apos;s published,
-                then occasional recipes and guides. No confirmation email is sent right now.
+                Your address is saved. We&apos;ll email the Duck Cooking Starter Guide as soon as
+                it&apos;s published, then occasional recipes and guides. No confirmation email is
+                sent right now.
               </p>
             </div>
           ) : (
