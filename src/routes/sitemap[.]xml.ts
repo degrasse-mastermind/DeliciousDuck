@@ -5,7 +5,7 @@ import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
 import { SITE } from "@/data/site";
 
-const BASE_URL = SITE.baseUrl;
+const BASE_URL = SITE.url;
 
 interface SitemapEntry {
   path: string;
