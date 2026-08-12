@@ -22,6 +22,7 @@ export const Route = createFileRoute("/tools/whole-duck-serving-calculator")({
           },
         ]),
       ),
+      ldScript(faqSchema(FAQ)),
     ],
   }),
   component: CalculatorPage,
