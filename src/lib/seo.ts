@@ -1,11 +1,24 @@
 import { SITE } from "@/data/site";
 
+/**
+ * Absolutises an internal path against the production origin.
+ * Already-absolute URLs (http/https, protocol-relative, or data URIs)
+ * are returned untouched so bundled asset URLs and external links survive.
+ */
+export function absUrl(pathOrUrl: string): string {
+  if (/^(https?:)?\/\//i.test(pathOrUrl) || pathOrUrl.startsWith("data:")) return pathOrUrl;
+  const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
+  return `${SITE.baseUrl}${path === "/" ? "/" : path.replace(/\/$/, "")}`;
+}
+
 export interface PageMetaInput {
   title: string;
   description: string;
   path: string;
   ogType?: "website" | "article";
   image?: string;
+  /** Set for query-driven or otherwise non-indexable pages. */
+  noindex?: boolean;
 }
 
 /** Builds the meta + links arrays for a route's head() option. */
@@ -15,24 +28,28 @@ export function pageMeta({
   path,
   ogType = "website",
   image,
+  noindex = false,
 }: PageMetaInput) {
+  const url = absUrl(path);
   const meta: Array<Record<string, string>> = [
     { title },
     { name: "description", content: description },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:type", content: ogType },
-    { property: "og:url", content: path },
+    { property: "og:url", content: url },
     { property: "og:site_name", content: SITE.name },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
   ];
+  if (noindex) meta.push({ name: "robots", content: "noindex, follow" });
   if (image) {
-    meta.push({ property: "og:image", content: image });
-    meta.push({ name: "twitter:image", content: image });
+    const imageUrl = absUrl(image);
+    meta.push({ property: "og:image", content: imageUrl });
+    meta.push({ name: "twitter:image", content: imageUrl });
   }
-  return { meta, links: [{ rel: "canonical", href: path }] };
+  return { meta, links: noindex ? [] : [{ rel: "canonical", href: url }] };
 }
 
 export const titleFor = (page: string) => `${page} | ${SITE.name}`;
@@ -44,7 +61,7 @@ export function websiteSchema() {
     name: SITE.name,
     alternateName: SITE.domain,
     description: SITE.description,
-    url: "/",
+    url: absUrl("/"),
     publisher: { "@type": "Organization", name: SITE.name },
   };
 }
@@ -57,7 +74,7 @@ export function breadcrumbSchema(trail: { name: string; item: string }[]) {
       "@type": "ListItem",
       position: i + 1,
       name: t.name,
-      item: t.item,
+      item: absUrl(t.item),
     })),
   };
 }
@@ -71,7 +88,7 @@ export function itemListSchema(name: string, items: { name: string; url: string 
       "@type": "ListItem",
       position: i + 1,
       name: it.name,
-      url: it.url,
+      url: absUrl(it.url),
     })),
   };
 }
@@ -97,8 +114,8 @@ export function recipeSchema(r: {
     "@type": "Recipe",
     name: r.name,
     description: r.description,
-    ...(r.image ? { image: r.image } : {}),
-    ...(r.url ? { url: r.url, mainEntityOfPage: r.url } : {}),
+    ...(r.image ? { image: absUrl(r.image) } : {}),
+    ...(r.url ? { url: absUrl(r.url), mainEntityOfPage: absUrl(r.url) } : {}),
     recipeCategory: r.category,
     ...(r.cuisine ? { recipeCuisine: r.cuisine } : {}),
     ...(r.keywords ? { keywords: r.keywords } : {}),
