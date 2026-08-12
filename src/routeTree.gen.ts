@@ -22,6 +22,8 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
+import { Route as CookHowToCookDuckBreastRouteImport } from './routes/cook.how-to-cook-duck-breast'
+import { Route as LearnDuckBreastTemperatureDonenessRouteImport } from './routes/learn.duck-breast-temperature-doneness'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
 
@@ -90,6 +92,17 @@ const ToolsRoute = ToolsRouteImport.update({
   path: '/tools',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CookHowToCookDuckBreastRoute = CookHowToCookDuckBreastRouteImport.update({
+  id: '/how-to-cook-duck-breast',
+  path: '/how-to-cook-duck-breast',
+  getParentRoute: () => CookRoute,
+} as any)
+const LearnDuckBreastTemperatureDonenessRoute =
+  LearnDuckBreastTemperatureDonenessRouteImport.update({
+    id: '/duck-breast-temperature-doneness',
+    path: '/duck-breast-temperature-doneness',
+    getParentRoute: () => LearnRoute,
+  } as any)
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -107,15 +120,17 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
-  '/cook': typeof CookRoute
+  '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
-  '/learn': typeof LearnRoute
+  '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
+  '/cook/how-to-cook-duck-breast': typeof CookHowToCookDuckBreastRoute
+  '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/tools/': typeof ToolsIndexRoute
 }
@@ -124,14 +139,16 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
-  '/cook': typeof CookRoute
+  '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
-  '/learn': typeof LearnRoute
+  '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/cook/how-to-cook-duck-breast': typeof CookHowToCookDuckBreastRoute
+  '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/tools': typeof ToolsIndexRoute
 }
@@ -141,15 +158,17 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRoute
-  '/cook': typeof CookRoute
+  '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRoute
   '/ingredients': typeof IngredientsRoute
-  '/learn': typeof LearnRoute
+  '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
+  '/cook/how-to-cook-duck-breast': typeof CookHowToCookDuckBreastRoute
+  '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/tools/whole-duck-serving-calculator': typeof ToolsWholeDuckServingCalculatorRoute
   '/tools/': typeof ToolsIndexRoute
 }
@@ -169,6 +188,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
+    | '/cook/how-to-cook-duck-breast'
+    | '/learn/duck-breast-temperature-doneness'
     | '/tools/whole-duck-serving-calculator'
     | '/tools/'
   fileRoutesByTo: FileRoutesByTo
@@ -185,6 +206,8 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/sitemap.xml'
     | '/terms'
+    | '/cook/how-to-cook-duck-breast'
+    | '/learn/duck-breast-temperature-doneness'
     | '/tools/whole-duck-serving-calculator'
     | '/tools'
   id:
@@ -202,6 +225,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
+    | '/cook/how-to-cook-duck-breast'
+    | '/learn/duck-breast-temperature-doneness'
     | '/tools/whole-duck-serving-calculator'
     | '/tools/'
   fileRoutesById: FileRoutesById
@@ -211,11 +236,11 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   BuyRoute: typeof BuyRoute
-  CookRoute: typeof CookRoute
+  CookRoute: typeof CookRouteWithChildren
   EditorialStandardsRoute: typeof EditorialStandardsRoute
   GearRoute: typeof GearRoute
   IngredientsRoute: typeof IngredientsRoute
-  LearnRoute: typeof LearnRoute
+  LearnRoute: typeof LearnRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -315,6 +340,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cook/how-to-cook-duck-breast': {
+      id: '/cook/how-to-cook-duck-breast'
+      path: '/how-to-cook-duck-breast'
+      fullPath: '/cook/how-to-cook-duck-breast'
+      preLoaderRoute: typeof CookHowToCookDuckBreastRouteImport
+      parentRoute: typeof CookRoute
+    }
+    '/learn/duck-breast-temperature-doneness': {
+      id: '/learn/duck-breast-temperature-doneness'
+      path: '/duck-breast-temperature-doneness'
+      fullPath: '/learn/duck-breast-temperature-doneness'
+      preLoaderRoute: typeof LearnDuckBreastTemperatureDonenessRouteImport
+      parentRoute: typeof LearnRoute
+    }
     '/tools/': {
       id: '/tools/'
       path: '/'
@@ -331,6 +370,27 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface CookRouteChildren {
+  CookHowToCookDuckBreastRoute: typeof CookHowToCookDuckBreastRoute
+}
+
+const CookRouteChildren: CookRouteChildren = {
+  CookHowToCookDuckBreastRoute: CookHowToCookDuckBreastRoute,
+}
+
+const CookRouteWithChildren = CookRoute._addFileChildren(CookRouteChildren)
+
+interface LearnRouteChildren {
+  LearnDuckBreastTemperatureDonenessRoute: typeof LearnDuckBreastTemperatureDonenessRoute
+}
+
+const LearnRouteChildren: LearnRouteChildren = {
+  LearnDuckBreastTemperatureDonenessRoute:
+    LearnDuckBreastTemperatureDonenessRoute,
+}
+
+const LearnRouteWithChildren = LearnRoute._addFileChildren(LearnRouteChildren)
 
 interface ToolsRouteChildren {
   ToolsWholeDuckServingCalculatorRoute: typeof ToolsWholeDuckServingCalculatorRoute
@@ -349,11 +409,11 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   BuyRoute: BuyRoute,
-  CookRoute: CookRoute,
+  CookRoute: CookRouteWithChildren,
   EditorialStandardsRoute: EditorialStandardsRoute,
   GearRoute: GearRoute,
   IngredientsRoute: IngredientsRoute,
-  LearnRoute: LearnRoute,
+  LearnRoute: LearnRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
@@ -362,13 +422,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
