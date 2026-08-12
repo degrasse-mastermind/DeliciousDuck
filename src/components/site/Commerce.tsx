@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ExternalLink, Info, ShoppingBag } from "lucide-react";
 import { DISCLOSURE_TEXT, type ComparisonRow } from "@/data/comparisons";
+import { trackAffiliateClick } from "@/lib/analytics";
 
 /**
  * Commercial modules for money pages.
@@ -31,13 +32,22 @@ export function DisclosureBanner({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function RowCta({ row }: { row: ComparisonRow }) {
+function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; placement?: string }) {
   if (row.affiliateUrl && row.affiliateStatus === "active") {
     return (
       <a
         href={row.affiliateUrl}
         rel="sponsored noopener noreferrer"
         target="_blank"
+        onClick={() =>
+          trackAffiliateClick({
+            linkUrl: row.affiliateUrl!,
+            linkText: "Check availability",
+            merchant: row.name,
+            placement,
+            linkType: "affiliate",
+          })
+        }
         className="inline-flex items-center gap-2 rounded-sm bg-primary px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
       >
         Check availability
@@ -51,6 +61,15 @@ function RowCta({ row }: { row: ComparisonRow }) {
         href={row.directUrl}
         rel="noopener noreferrer nofollow"
         target="_blank"
+        onClick={() =>
+          trackAffiliateClick({
+            linkUrl: row.directUrl!,
+            linkText: "Visit seller",
+            merchant: row.name,
+            placement,
+            linkType: "direct_seller",
+          })
+        }
         className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary underline-offset-4 hover:underline"
       >
         Visit seller
@@ -68,9 +87,11 @@ function RowCta({ row }: { row: ComparisonRow }) {
 export function ComparisonCard({
   row,
   factors,
+  placement = "comparison_card",
 }: {
   row: ComparisonRow;
   factors: readonly { key: string; label: string }[];
+  placement?: string;
 }) {
   return (
     <article className="rounded-sm border border-border bg-card p-6">
@@ -130,7 +151,7 @@ export function ComparisonCard({
       )}
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-        <RowCta row={row} />
+        <RowCta row={row} placement={placement} />
         <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
           Details checked {row.lastVerified}
         </p>

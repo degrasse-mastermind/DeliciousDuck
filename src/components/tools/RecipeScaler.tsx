@@ -1,4 +1,5 @@
 import { useId, useMemo, useState } from "react";
+import { useCalculatorComplete } from "@/hooks/use-calculator-complete";
 import { X } from "lucide-react";
 
 interface Ingredient {
@@ -102,6 +103,18 @@ export function RecipeScaler() {
   function removeRow(id: string) {
     setIngredients((rows) => rows.filter((r) => r.id !== id));
   }
+
+  useCalculatorComplete({
+    calculatorName: "Recipe scaler",
+    toolSlug: "recipe-scaler",
+    ready: factor != null,
+    result: {
+      original_servings: Number(originalServings) || undefined,
+      desired_servings: Number(desiredServings) || undefined,
+      scale_factor: factor != null ? Math.round(factor * 100) / 100 : undefined,
+      ingredient_count: ingredients.length,
+    },
+  });
 
   return (
     <div className="space-y-8">
