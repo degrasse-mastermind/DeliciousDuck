@@ -55,8 +55,8 @@ const FAQ = [
     a: "No. Confit depends on the connective tissue and fat structure of the leg, which breaks down over hours of low poaching. A breast cooked that way turns dry and grey rather than tender.",
   },
   {
-    q: "What is magret?",
-    a: "Magret is the breast of a Moulard duck — noticeably thicker and leaner than a Pekin breast. It is often sold under that name specifically, and it needs a longer, gentler render than a recipe written for Pekin assumes.",
+    q: "Does the breed on the label change which cut I should buy?",
+    a: "Not for this decision. Breed names are description rather than a defined labelling claim, and we publish no breed-by-breed cooking adjustments because our cited sources do not support them. Pick the cut from the dish, then judge the individual bird on its fat cap and skin.",
   },
 ];
 
@@ -103,7 +103,7 @@ function Page() {
               "Legs, rendered fat, and a carcass for stock",
             ],
             [
-              "Breast (or magret)",
+              "Breast",
               "Pan-searing, cold-pan render, skin-side first",
               "Lowest — one pan, well under an hour",
               "Enough rendered fat to cook a side dish in",

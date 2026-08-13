@@ -48,11 +48,11 @@ const FAQ = [
   },
   {
     q: "Does the colour of the meat tell me anything?",
-    a: "Duck breast is naturally dark — much darker than chicken — so redness is normal rather than a warning. What you are watching for is dullness, dryness at the edges, or grey patches under the skin.",
+    a: "Duck breast is naturally dark, so redness on its own is not a warning sign. In our own kitchen judgement we pass over birds that look dull or dried at the cut edges; colour is not a safety test, and safe handling and cooking temperature are what determine safety.",
   },
   {
     q: "Which label terms are worth reading?",
-    a: "The age class, whether the bird is sold fresh or frozen, and the pack or best-by date. Those are defined. 'Premium', 'gourmet' and 'artisan' are not defined and tell you nothing about how the bird will cook.",
+    a: "The age class, whether the bird is sold fresh or frozen, and the pack or best-by date. Those are defined. 'Premium', 'gourmet' and 'artisan' are not, and a named breed is description rather than a defined claim — we publish no cooking adjustments by breed.",
   },
   {
     q: "Should I buy a bigger or smaller duck?",
@@ -102,8 +102,10 @@ function Page() {
             has to go before the skin browns; a bird that is already dry saves you a step.
           </li>
           <li>
-            <span className="font-semibold text-foreground">Creamy, not grey.</span> Grey or dull
-            patches under the skin suggest age or a freeze-thaw the packaging didn't survive.
+            <span className="font-semibold text-foreground">Even in appearance.</span> This one is our
+            own kitchen preference rather than a graded standard: we pass over birds that look dried
+            out at the cut edges. Appearance is not a safety test — handling, storage time and cooking
+            temperature are.
           </li>
         </ul>
         <p>
@@ -141,16 +143,20 @@ function Page() {
               "Determines your schedule more than your quality expectations",
             ],
             ["Pack or best-by date", "Yes", "Read it before anything else on the front of the pack"],
-            ["Breed (Pekin, Moulard, Muscovy)", "Named, though not always stated", "Changes fat yield and rendering time"],
+            [
+              "A named breed",
+              "Not a defined labelling claim",
+              "Treat as description only — see the note below",
+            ],
             ["Premium, gourmet, artisan, select", "No", "Ignore entirely"],
           ]}
         />
         <p>
-          Breed is worth its own read if the listing names it —{" "}
-          <Link to="/buy/duck-breeds-for-cooking" className="text-primary underline underline-offset-4">
-            duck breeds for cooking
-          </Link>{" "}
-          covers the adjustments each one asks for.
+          Some packages and listings name a breed. We do not publish cooking adjustments by breed:
+          the sources we cite are labelling, handling and storage guidance, and they do not
+          substantiate breed-by-breed claims about fat cover, breast size or flavour. Until we can
+          support such a comparison, treat a breed name as description rather than instruction, and
+          judge the fat cap and skin actually in front of you using the checks above.
         </p>
       </Section>
 
