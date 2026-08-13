@@ -164,8 +164,10 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   // suppressed addresses can be detected before anything is written.
   const { data: existing } = await supabaseAdmin
     .from("newsletter_subscribers")
+    // `preference_token` is read server-side only, so an update path that
+    // returns no token can still be recognised before any provider call.
     .select(
-      "id, interests, signup_count, primary_interest, first_content_path, status, consent_record, welcome_event_status",
+      "id, interests, signup_count, primary_interest, first_content_path, status, consent_record, welcome_event_status, preference_token",
     )
     .eq("email_normalized", emailNormalized)
     .maybeSingle();
