@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Info } from "lucide-react";
 import type { AffiliateItem } from "@/data/products";
+import { HAS_ACTIVE_AFFILIATE_PROGRAM } from "@/data/affiliates";
 
 export function AffiliateCallout({ item }: { item: AffiliateItem }) {
   return (
