@@ -37,7 +37,7 @@ export interface AcquisitionPageMeta {
 
 const BYLINE = "DeliciousDuck Editorial";
 const REVIEWED = "Reviewed against our editorial standards before publication.";
-const UPDATED = "2026-08-14";
+const UPDATED = "2026-08-13";
 
 const CUTS: AcquisitionPageMeta = {
   path: "/buy/what-cut-of-duck-to-buy",
@@ -65,36 +65,6 @@ const CUTS: AcquisitionPageMeta = {
       to: "/buy/how-much-duck-per-person",
       label: "How much duck per person",
       why: "Turn the cut you chose into a shopping weight before you order.",
-    },
-  ],
-};
-
-const BREEDS: AcquisitionPageMeta = {
-  path: "/buy/duck-breeds-for-cooking",
-  intent: "What is the difference between Pekin, Moulard, and Muscovy duck for cooking?",
-  answer:
-    "Pekin is the standard commercial duck: smaller, fattier, mild, and forgiving. Moulard is a larger cross bred mainly for foie gras, giving the thick, leaner breast sold as magret. Muscovy is leaner again, with less fat under the skin and a firmer, more pronounced flavour. A recipe calibrated for Pekin will render less fat and cook faster on Muscovy or Moulard.",
-  byline: BYLINE,
-  reviewedBy: REVIEWED,
-  updated: UPDATED,
-  basedOn: [
-    "Breed and species differences already documented across our sourcing and wild-versus-farmed pages: fat cover, breast thickness, and flavour intensity.",
-    "USDA duck labelling guidance, including the age classes that change tenderness more than breed does.",
-    "The temperature and rendering requirements on our own duck breast pages.",
-  ],
-  notTested:
-    "We have not run a side-by-side tasting or measured fat yield by breed ourselves, and we name no producers or brands. Treat the differences below as direction for adjusting technique, not as measured figures.",
-  sourceIds: ["usdaPoultryPrep", "usdaPoultryTemp"],
-  funnel: [
-    {
-      to: "/buy/where-to-buy-duck-online",
-      label: "Where to buy duck online",
-      why: "Breed is only useful if the listing names it — this is how to read one that does.",
-    },
-    {
-      to: "/gear/best-thermometer-for-duck",
-      label: "Best thermometer for duck",
-      why: "A leaner breed shortens the window between rare and grey, which is a thermometer problem.",
     },
   ],
 };
@@ -191,7 +161,6 @@ const SELECTION: AcquisitionPageMeta = {
 
 export const ACQUISITION_PAGES: AcquisitionPageMeta[] = [
   CUTS,
-  BREEDS,
   QUANTITY,
   FRESH_FROZEN,
   SELECTION,

@@ -293,7 +293,6 @@ export const GUIDES: GuideEntry[] = [
     related: [
       "/cook/how-to-cook-wild-duck-breast",
       "/learn/duck-breast-temperature-doneness",
-      "/buy/duck-breeds-for-cooking",
       "/buy/where-to-buy-duck-online",
     ],
 
@@ -329,7 +328,6 @@ export const GUIDES: GuideEntry[] = [
     minutes: 11,
     related: [
       "/buy/what-cut-of-duck-to-buy",
-      "/buy/duck-breeds-for-cooking",
       "/buy/fresh-vs-frozen-duck",
       "/buy/how-to-choose-duck",
       "/learn/how-to-thaw-duck",
@@ -435,25 +433,6 @@ export const GUIDES: GuideEntry[] = [
       "/cook/whole-roast-duck",
       "/cook/duck-leg-confit",
       "/tools/what-should-i-cook",
-    ],
-  },
-  {
-    path: "/buy/duck-breeds-for-cooking",
-    title: "Pekin vs Moulard vs Muscovy",
-    seoTitle: "Pekin vs Moulard vs Muscovy Duck: What Changes in the Pan | DeliciousDuck",
-    description:
-      "How Pekin, Moulard and Muscovy duck differ where it matters — fat cover, breast thickness, flavour intensity — and how to adjust rendering time and doneness for each.",
-    teaser: "Three breeds, three fat profiles, three sets of adjustments.",
-    pillar: "buy",
-    cluster: "sourcing",
-    kind: "reference",
-    minutes: 9,
-    related: [
-      "/buy/where-to-buy-duck-online",
-      "/learn/wild-duck-vs-farmed-duck",
-      "/learn/duck-breast-temperature-doneness",
-      "/cook/how-to-cook-duck-breast",
-      "/gear/best-thermometer-for-duck",
     ],
   },
   {
