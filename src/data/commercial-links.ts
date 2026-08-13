@@ -346,6 +346,20 @@ export function auditCommercialLinks(
     }
   }
 
+  // Merchant destinations that exist in the codebase but were never registered
+  // here would be rendered outside the disclosure/rel/tracking system.
+  for (const merchant of MERCHANTS) {
+    const url = destinationForMerchant(merchant);
+    if (!url) continue;
+    if (!links.some((l) => l.merchantId === merchant.id)) {
+      issues.push({
+        severity: "warning",
+        code: "unregistered_merchant_destination",
+        detail: `${merchant.name} has a destination in src/data/affiliates.ts with no commercial-link entry.`,
+      });
+    }
+  }
+
   for (const placement of COMMERCIAL_PLACEMENTS) {
     for (const id of placement.linkIds) {
       if (!links.some((l) => l.id === id)) {
