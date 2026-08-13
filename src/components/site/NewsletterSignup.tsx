@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, Clock } from "lucide-react";
+import { Check, Clock, Download } from "lucide-react";
 import { trackNewsletterIntent, trackNewsletterSignup } from "@/lib/analytics";
 import {
   isNewsletterEnabled,
@@ -7,7 +7,7 @@ import {
   type SubscribeInput,
   type SubscribeResult,
 } from "@/lib/newsletter";
-import { STARTER_GUIDE } from "@/data/starter-guide";
+import { FIELD_GUIDE, STARTER_GUIDE } from "@/data/starter-guide";
 
 /**
  * Honest-by-default signup.
@@ -95,23 +95,20 @@ export function NewsletterSignup({
             id={`${id}-heading`}
             className="mt-3 font-display text-3xl leading-tight lg:text-[2.75rem]"
           >
-            The Duck Cooking Starter Guide
+            {FIELD_GUIDE.title}
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/80">
-            Subscribers get{" "}
-            <a href={STARTER_GUIDE.path} className="underline underline-offset-4">
-              the Duck Cooking Starter Guide
-            </a>{" "}
-            — a concise reference covering the four duck cuts, target internal temperatures,
-            rendering a fat cap, and what to buy first — plus occasional DeliciousDuck recipes
-            and guides.
+            {FIELD_GUIDE.description} Subscribers get it as a printable 16-page PDF, plus occasional
+            DeliciousDuck recipes and guides.
           </p>
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
             {[
-              "Temperature targets for breast, legs, and whole birds",
-              "A one-page shopping checklist",
-              "The three mistakes that make duck tough",
+              "The crisp-skin technique: scoring, cold-pan rendering, and fat management",
+              "Whole-duck and duck-breast workflows, start to carving",
+              "Troubleshooting for chewy skin, dry breast, and tough legs",
+              "A planning timeline from thawing to resting",
+              "A printable kitchen card with temperatures and timings",
             ].map((point) => (
               <li key={point} className="flex items-start gap-2.5">
                 <Check aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
@@ -120,7 +117,11 @@ export function NewsletterSignup({
             ))}
           </ul>
           <p className="mt-6 text-sm leading-relaxed text-forest-foreground/70">
-            You can read the guide right now — the{" "}
+            You can also read our companion article, the{" "}
+            <a href={STARTER_GUIDE.path} className="underline underline-offset-4">
+              Duck Cooking Starter Guide
+            </a>
+            , plus the{" "}
             <a
               href="/learn/duck-breast-temperature-doneness"
               className="underline underline-offset-4"
@@ -130,8 +131,8 @@ export function NewsletterSignup({
             and the{" "}
             <a href="/tools" className="underline underline-offset-4">
               calculators
-            </a>{" "}
-            are already live.
+            </a>
+            , right now.
           </p>
 
         </div>
@@ -178,29 +179,28 @@ export function NewsletterSignup({
                 <Check className="size-6" />
               </span>
               <h3 className="mt-4 font-display text-2xl">You&apos;re on the DeliciousDuck list</h3>
-              {welcomeTriggered ? (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Check your inbox for the Starter Guide. You can also{" "}
-                  <a
-                    href={STARTER_GUIDE.path}
-                    className="text-primary underline underline-offset-4"
-                  >
-                    read it on the site
-                  </a>{" "}
-                  right now.
-                </p>
-              ) : (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  You&apos;re subscribed. Read{" "}
-                  <a
-                    href={STARTER_GUIDE.path}
-                    className="text-primary underline underline-offset-4"
-                  >
-                    the Duck Cooking Starter Guide
-                  </a>{" "}
-                  here on the site, and watch for occasional recipes and guides.
-                </p>
-              )}
+              <p className="mt-2 text-sm text-muted-foreground">
+                {welcomeTriggered
+                  ? "Your welcome email is on its way — it carries the same download link. You can grab the field guide right now:"
+                  : "You're subscribed. You can download the field guide right now:"}
+              </p>
+              <a
+                href={FIELD_GUIDE.path}
+                target="_blank"
+                rel="noopener"
+                aria-label={`Download your field guide: ${FIELD_GUIDE.title} (PDF, 16 pages, opens in a new tab)`}
+                className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-sm bg-primary px-5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
+              >
+                <Download aria-hidden="true" className="size-4" />
+                Download your field guide
+              </a>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Printable PDF, 16 pages. You can also read the companion{" "}
+                <a href={STARTER_GUIDE.path} className="text-primary underline underline-offset-4">
+                  Duck Cooking Starter Guide
+                </a>{" "}
+                on the site.
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-4">
@@ -251,8 +251,8 @@ export function NewsletterSignup({
                 {pending ? "Signing you up…" : "Join the list"}
               </button>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                You&apos;re signing up for DeliciousDuck emails: the Duck Cooking Starter Guide,
-                plus occasional recipes and guides. Sent from
+                You&apos;re signing up for DeliciousDuck emails: Duck Fundamentals: The Field Guide
+                (printable 16-page PDF), plus occasional recipes and guides. Sent from
                 hello@deliciousduck.com via Resend. Unsubscribe any time.
               </p>
 
