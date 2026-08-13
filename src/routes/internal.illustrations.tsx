@@ -39,7 +39,7 @@ export const Route = createFileRoute("/internal/illustrations")({
       { name: "googlebot", content: "noindex, nofollow" },
     ],
   }),
-  component: IllustrationGallery;
+  component: IllustrationGallery,
 });
 
 type Variant = "plain" | "framed" | "bleed" | "backdrop";
