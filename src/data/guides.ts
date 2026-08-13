@@ -291,8 +291,10 @@ export const GUIDES: GuideEntry[] = [
     related: [
       "/cook/how-to-cook-wild-duck-breast",
       "/learn/duck-breast-temperature-doneness",
+      "/buy/duck-breeds-for-cooking",
       "/buy/where-to-buy-duck-online",
     ],
+
   },
   {
     path: "/cook/how-to-cook-wild-duck-breast",
