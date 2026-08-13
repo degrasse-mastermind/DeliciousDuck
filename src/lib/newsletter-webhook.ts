@@ -155,12 +155,32 @@ export interface WebhookStore {
     detail: string;
   }): Promise<"inserted" | "duplicate">;
   findSubscriber(email: string): Promise<{ id: string; status: string } | null>;
+/** Storage seam. Implemented for real by the server module, faked in tests. */
+export interface WebhookStore {
+  /** Must be idempotent on (provider, provider_event_id). */
+  insertEvent(event: {
+    providerEventId: string;
+    eventType: ProviderStatus;
+    email: string;
+    subscriberId: string | null;
+    occurredAt: string | null;
+    receivedAt: string;
+    detail: string;
+  }): Promise<"inserted" | "duplicate">;
+  findSubscriber(email: string): Promise<{ id: string; status: string } | null>;
+  /**
+   * Atomic conditional transition. MUST update the row only while its stored
+   * status is one of `fromStatuses`, in a single statement — no read-then-write.
+   * Returns "unchanged" when the guard did not match, which is the normal
+   * result of a retry or a concurrent delivery, not an error.
+   */
   applySuppression(input: {
     id: string;
     status: ProviderStatus;
+    fromStatuses: SubscriberStatus[];
     eventName: string;
     at: string;
-  }): Promise<void>;
+  }): Promise<"applied" | "unchanged">;
 }
 
 /** Verification seam. Throws on any invalid signature. */
@@ -171,6 +191,7 @@ export interface WebhookOutcome {
   status: number;
   /** Generic, non-revealing body text. */
   body: string;
+
   /** Internal only, for tests and internal logging. Never sent to the caller. */
   internal:
     | "no_secret"
