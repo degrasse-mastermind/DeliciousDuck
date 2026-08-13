@@ -14,7 +14,7 @@ export const CHECKER_STYLE = {
 
 function AlphaBadge({ candidate }: { candidate: Candidate }) {
   if (!candidate.alpha) return null;
-  const { transparent, reason, coverage } = candidate.alpha;
+  const { transparent, reason, transparentRatio } = candidate.alpha;
   return (
     <span
       className={`rounded-sm px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
