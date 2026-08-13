@@ -220,8 +220,10 @@ export const GUIDES: GuideEntry[] = [
     related: [
       "/cook/whole-roast-duck",
       "/learn/whole-duck-cooking-time",
+      "/buy/fresh-vs-frozen-duck",
       "/buy/where-to-buy-duck-online",
     ],
+
   },
   {
     path: "/cook/duck-leg-confit",
