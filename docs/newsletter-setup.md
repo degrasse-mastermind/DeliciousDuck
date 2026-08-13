@@ -83,7 +83,6 @@ group by 1;
 
 ## Not yet true — do not claim otherwise in copy
 
-- No Starter Guide PDF exists yet. Copy promises the guide **when released**.
 - No welcome/confirmation email is sent (no broadcast or automation wired).
 - No double opt-in. Add it in Resend before heavy acquisition if desired.
 
@@ -94,13 +93,16 @@ group by 1;
 - `newsletter_signup` — fires ONLY after durable database persistence succeeds,
   even if Resend sync is `pending`. Mark this one as the conversion in GA4.
 
-## Starter Guide + welcome email (current behaviour)
+## Lead magnet + welcome email (current behaviour)
 
-- The lead magnet is a real, indexable web guide: `/guides/duck-cooking-starter-guide`.
-  There is no PDF, so no copy anywhere promises a download.
+- The lead magnet is a printable 16-page PDF, "Duck Fundamentals: The Field Guide",
+  served as a stable public asset at `/downloads/duck-fundamentals-field-guide.pdf`
+  (`FIELD_GUIDE` in `src/data/starter-guide.ts`). The web article
+  `/guides/duck-cooking-starter-guide` stays as the free on-site companion.
+  The download button appears only in the post-signup success state.
 - After the subscriber row is durably stored and the Resend contact is synced, the
   server fires the Resend custom event `newsletter.subscribed` for that email with
-  payload `{ guide_url: "https://deliciousduck.com/guides/duck-cooking-starter-guide" }`.
+  payload `{ guide_url: "https://deliciousduck.com/downloads/duck-fundamentals-field-guide.pdf" }`.
   Configure the Resend automation to send the welcome email off that event.
 - Auditability lives on `newsletter_subscribers.welcome_event_status`
   (`pending` | `sent` | `error` | `skipped`) plus `welcome_event_at`.
