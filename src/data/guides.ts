@@ -11,7 +11,9 @@ export type GuideCluster =
   | "whole-duck"
   | "duck-fat"
   | "wild-duck"
-  | "commerce";
+  | "commerce"
+  | "sourcing";
+
 
 export type GuideKind = "technique" | "reference" | "diagnostic" | "pairing" | "money";
 
