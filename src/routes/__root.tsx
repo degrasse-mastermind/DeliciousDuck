@@ -8,7 +8,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, createElement, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -131,6 +131,10 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {createElement("meta", {
+          name: "impact-site-verification",
+          value: "0a7d07f1-b741-4412-8973-aefb551b0262",
+        } as any)}
         {/* Google Analytics 4 — loaded once globally for every route */}
         <script
           async
