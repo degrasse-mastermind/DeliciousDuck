@@ -251,8 +251,8 @@ export function NewsletterSignup({
                 {pending ? "Signing you up…" : "Join the list"}
               </button>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                You&apos;re signing up for DeliciousDuck emails: the Duck Cooking Starter Guide,
-                plus occasional recipes and guides. Sent from
+                You&apos;re signing up for DeliciousDuck emails: Duck Fundamentals: The Field Guide
+                (printable 16-page PDF), plus occasional recipes and guides. Sent from
                 hello@deliciousduck.com via Resend. Unsubscribe any time.
               </p>
 
