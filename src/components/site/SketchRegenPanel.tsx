@@ -74,10 +74,13 @@ export function SketchRegenPanel({
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [finalUrl, setFinalUrl] = useState<string | null>(null);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
 
   const subject = art.alt.replace(/^Colored-pencil sketch of\s*/i, "");
   const prompt = buildSketchPrompt(subject, options);
   const busy = status === "working";
+  const assetName = sketchNameFromSrc(art.src);
 
   const set = <K extends keyof SketchRegenOptions>(key: K, value: SketchRegenOptions[K]) =>
     setOptions((prev) => ({ ...prev, [key]: value }));
@@ -85,12 +88,32 @@ export function SketchRegenPanel({
   async function applyAndPreview() {
     setStatus("working");
     setError(null);
+    setFinalUrl(null);
+    setSaveState("idle");
     try {
-      await streamImage("/api/generate-sketch", prompt, onPreview);
+      await streamImage("/api/generate-sketch", prompt, (url, isFinal) => {
+        if (isFinal) setFinalUrl(url);
+        onPreview(url, isFinal);
+      });
       setStatus("done");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Generation failed");
       setStatus("error");
+    }
+  }
+
+  /** Overwrite the JPEG + WebP variants on disk with this render. */
+  async function replaceOriginal() {
+    if (!finalUrl || !assetName) return;
+    setSaveState("saving");
+    setError(null);
+    try {
+      await replaceSketchAsset(assetName, finalUrl);
+      setSaveState("saved");
+      onRevert(); // drop the session preview; the real asset now shows the new art
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save the image");
+      setSaveState("idle");
     }
   }
 
