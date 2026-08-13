@@ -7,6 +7,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/cook/duck-leg-confit")!;
 
@@ -204,6 +205,14 @@ function DuckLegConfitPage() {
       <FaqList items={FAQ} />
 
       <SourceNotes ids={["usdaPoultryTemp", "usdaLeftovers", "fdaColdStorage"]} />
+
+      <DecisionNextSteps
+        intro="Confit is the one duck cook where the shopping list is the hard part."
+        items={[
+          { to: "/buy/duck-fat-buying-guide", label: "Duck fat buying guide", why: "Which format actually gives you enough fat to submerge the legs, and when rendering your own wins." },
+          { to: "/gear/best-thermometer-for-duck", label: "Best thermometer for duck", why: "A long, low cook is easier to hold steady with a probe than with the oven dial alone." },
+        ]}
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

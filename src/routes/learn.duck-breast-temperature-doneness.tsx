@@ -7,6 +7,7 @@ import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/learn/duck-breast-temperature-doneness")!;
 
@@ -221,6 +222,15 @@ function Page() {
       />
 
       <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep"]} />
+      <DecisionNextSteps
+        heading="The tools these numbers assume"
+        intro="Every target on this page assumes you can read the temperature quickly and in the right spot."
+        items={[
+          { to: "/gear/best-thermometer-for-duck", label: "Best thermometer for duck", why: "Which type suits the cook you do most, and the specifications that decide it." },
+          { to: "/gear/best-pan-for-duck-breast", label: "Best pan for duck breast", why: "Carryover and render behaviour both change with the pan you are cooking in." },
+        ]}
+      />
+
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>
   );

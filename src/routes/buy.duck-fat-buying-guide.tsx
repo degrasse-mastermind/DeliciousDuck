@@ -1,12 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
+import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_FAT_OPTIONS, DUCK_FAT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { CommercialCallout } from "@/components/site/CommercialLink";
+import { decisionGuide } from "@/data/decision-guides";
+import {
+  BestForGrid,
+  DecisionMatrixTable,
+  EditorialByline,
+  MethodologyPanel,
+  QuickDecision,
+} from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/buy/duck-fat-buying-guide")!;
+const DG = decisionGuide("/buy/duck-fat-buying-guide")!;
 
 export const Route = createFileRoute("/buy/duck-fat-buying-guide")({
   head: () => ({
@@ -63,9 +73,13 @@ function Page() {
         you need before you open the jar.
       </p>
 
+      <EditorialByline guide={DG} />
+
+      <QuickDecision guide={DG} />
+
       <DisclosureBanner />
 
-      <EvaluationNote scope="duck fat" />
+      <MethodologyPanel guide={DG} />
 
       <Section id="formats" heading="Formats compared: jar, tub, tin, or render it yourself">
         <p>
@@ -171,6 +185,15 @@ function Page() {
         </p>
       </Section>
 
+      <Section id="matrix" heading="The decision matrix">
+        <p>
+          Four ways to end up with duck fat in your kitchen, compared on the things that decide it.
+        </p>
+        <DecisionMatrixTable guide={DG} />
+      </Section>
+
+      <BestForGrid guide={DG} />
+
       <Section id="compare" heading="Compare the formats">
         <ComparisonTable caption="Duck fat formats compared" rows={DUCK_FAT_OPTIONS} factors={DUCK_FAT_FACTORS} />
         <div className="mt-6 grid gap-6">
@@ -185,6 +208,20 @@ function Page() {
           </p>
         </Callout>
       </Section>
+
+      <CommercialCallout
+        heading="Sellers whose catalogues list rendered duck fat"
+        intro="Both are registered duck sources on this site. We name no brand of fat and have not ordered either for a hands-on review."
+        placement="duck_fat_sources"
+        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        criteria={[
+          "The ingredient list is duck fat and nothing else, unless you specifically want it seasoned.",
+          "The format matches the use — a small jar for pan cooking, a tub if confit is the plan.",
+          "The listing states how it should be stored once opened.",
+          "If you are already ordering duck, adding fat to the same box avoids a second shipping charge.",
+        ]}
+        footnote="We publish no prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
+      />
 
       <ShopThisGuide
         items={[

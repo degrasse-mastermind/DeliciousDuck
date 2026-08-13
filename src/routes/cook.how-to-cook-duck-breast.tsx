@@ -13,6 +13,7 @@ import { SKETCH } from "@/lib/sketch-art";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { DUCK_BREAST_CLUSTER } from "@/lib/duck-breast-cluster";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/cook/how-to-cook-duck-breast")!;
 
@@ -323,6 +324,15 @@ function Page() {
       <div className="mt-14">
         <NewsletterSignup id="field-guide" interest="duck-breast" />
       </div>
+
+      <DecisionNextSteps
+        intro="This method assumes three things in your kitchen. Each has its own decision guide."
+        items={[
+          { to: "/gear/best-pan-for-duck-breast", label: "Best pan for duck breast", why: "Cast iron, carbon steel or stainless clad — the trade-off each one makes across this sequence." },
+          { to: "/gear/best-thermometer-for-duck", label: "Best thermometer for duck", why: "The doneness window here is measured in seconds, so read speed and tip thickness matter." },
+          { to: "/buy/where-to-buy-duck-online", label: "Where to buy duck online", why: "Breed and cut change how this method behaves. This is how to shop for the right one." },
+        ]}
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

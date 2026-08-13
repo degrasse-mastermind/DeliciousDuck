@@ -6,6 +6,7 @@ import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/learn/why-duck-skin-isnt-crispy")!;
 
@@ -147,6 +148,14 @@ function Page() {
             .
           </>
         }
+      />
+
+      <DecisionNextSteps
+        intro="Two of the causes above are equipment problems rather than technique problems. These guides decide the equipment."
+        items={[
+          { to: "/gear/best-pan-for-duck-breast", label: "Best pan for duck breast", why: "If your render stalls or browns unevenly, the pan material is usually the variable." },
+          { to: "/gear/best-thermometer-for-duck", label: "Best thermometer for duck", why: "If you are pulling the breast by feel, a fast probe removes the guess that costs you the skin." },
+        ]}
       />
 
       <RelatedGuides paths={GUIDE.related} />
