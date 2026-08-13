@@ -46,11 +46,11 @@ export function SketchFigure({
     <img
       src={art.src}
       alt={art.alt}
-      width={1400}
-      height={800}
+      width={SKETCH_DIMENSIONS.width}
+      height={SKETCH_DIMENSIONS.height}
       loading={eager ? "eager" : "lazy"}
       decoding="async"
-      className={`select-none mix-blend-multiply ${sizing} ${className}`}
+      className={`${SKETCH_RENDER.blend} ${sizing} ${className}`}
     />
   );
 }
