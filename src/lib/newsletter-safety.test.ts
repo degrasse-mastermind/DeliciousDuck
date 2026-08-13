@@ -10,8 +10,11 @@ import {
   SUPPRESSED_STATUSES,
   decideSignup,
   isSuppressed,
+  providerPlan,
   PROVIDER_EVENT_STATUS,
 } from "./newsletter-status";
+import { SIGNUP_OUTCOMES, publicSubscribeResponse } from "./newsletter-response";
+
 
 /**
  * Newsletter safety rules: consent evidence + suppression-safe signup.
