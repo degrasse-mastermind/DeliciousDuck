@@ -212,13 +212,29 @@ export function SketchRegenPanel({
             >
               Copy prompt
             </button>
+            {finalUrl && assetName ? (
+              <button
+                type="button"
+                onClick={replaceOriginal}
+                disabled={saveState === "saving"}
+                className="rounded-sm border border-primary px-3 py-2 text-xs font-semibold uppercase tracking-wide text-primary disabled:opacity-60"
+              >
+                {saveState === "saving"
+                  ? "Replacing…"
+                  : `Replace ${assetName}.jpg`}
+              </button>
+            ) : null}
           </div>
 
           {error ? <p className="mt-2 text-xs text-destructive">{error}</p> : null}
-          {status === "done" ? (
+          {saveState === "saved" ? (
             <p className="mt-2 text-xs text-muted-foreground">
-              Preview only — right-click the image to save it, then replace the file in
-              src/assets/sketch/ to keep it.
+              Saved — {assetName}.jpg plus its 700w/1400w WebP variants were overwritten.
+            </p>
+          ) : status === "done" ? (
+            <p className="mt-2 text-xs text-muted-foreground">
+              Session preview. Hit “Replace {assetName}.jpg” to overwrite the real asset
+              (JPEG + WebP variants) so the change sticks site-wide.
             </p>
           ) : null}
 
