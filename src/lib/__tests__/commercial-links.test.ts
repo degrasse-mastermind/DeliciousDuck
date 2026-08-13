@@ -90,10 +90,12 @@ describe("registry integrity", () => {
         sample({ id: "dupe", url: "javascript:alert(1)" as string }),
         sample({ id: "dupe", url: "" }),
         sample({ id: "old", lastVerified: "2020-01" }),
+        sample({ id: "bad", url: "not-a-url" }),
       ],
       new Date("2026-08-13T00:00:00Z"),
     ).map((i) => i.code);
     expect(codes).toContain("duplicate_id");
+    expect(codes).toContain("unsafe_protocol");
     expect(codes).toContain("unparseable_url");
     expect(codes).toContain("missing_url");
     expect(codes).toContain("stale_verification");
