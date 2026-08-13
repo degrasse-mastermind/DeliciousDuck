@@ -155,19 +155,6 @@ export interface WebhookStore {
     detail: string;
   }): Promise<"inserted" | "duplicate">;
   findSubscriber(email: string): Promise<{ id: string; status: string } | null>;
-/** Storage seam. Implemented for real by the server module, faked in tests. */
-export interface WebhookStore {
-  /** Must be idempotent on (provider, provider_event_id). */
-  insertEvent(event: {
-    providerEventId: string;
-    eventType: ProviderStatus;
-    email: string;
-    subscriberId: string | null;
-    occurredAt: string | null;
-    receivedAt: string;
-    detail: string;
-  }): Promise<"inserted" | "duplicate">;
-  findSubscriber(email: string): Promise<{ id: string; status: string } | null>;
   /**
    * Atomic conditional transition. MUST update the row only while its stored
    * status is one of `fromStatuses`, in a single statement — no read-then-write.
