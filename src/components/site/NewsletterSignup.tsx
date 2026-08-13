@@ -2,25 +2,19 @@ import { useState } from "react";
 import { ArrowRight, Check, Clock, Download } from "lucide-react";
 import {
   trackNewsletterIntent,
-  trackNewsletterInterestSelected,
   trackNewsletterPostsignupClick,
   trackNewsletterSignup,
 } from "@/lib/analytics";
 import {
   isNewsletterEnabled,
-  setNewsletterInterest,
   subscribeToNewsletter,
   type SubscribeInput,
   type SubscribeResult,
 } from "@/lib/newsletter";
 import { FIELD_GUIDE, STARTER_GUIDE } from "@/data/starter-guide";
-import {
-  interestForPath,
-  newsletterContext,
-  NEWSLETTER_INTERESTS,
-  type NewsletterInterest,
-} from "@/data/newsletter-contexts";
-import { INTEREST_BLURBS, INTEREST_LABELS } from "@/data/duck-drop";
+import { interestForPath, newsletterContext } from "@/data/newsletter-contexts";
+import type { NewsletterInterest } from "@/data/newsletter-contexts";
+
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
 
 /**
@@ -60,13 +54,7 @@ export function NewsletterSignup({
   const [pending, setPending] = useState(false);
   const [intentSent, setIntentSent] = useState(false);
   const [signupSent, setSignupSent] = useState(false);
-  const [welcomeTriggered, setWelcomeTriggered] = useState(false);
-  /** Issued only to first-time subscribers, for in-session preference editing. */
-  const [preferenceToken, setPreferenceToken] = useState<string | null>(null);
-  const [chosenInterest, setChosenInterest] = useState<NewsletterInterest | null>(null);
-  const [savingInterest, setSavingInterest] = useState(false);
-  const [interestSaved, setInterestSaved] = useState(false);
-  const [interestError, setInterestError] = useState(false);
+
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
   const context = newsletterContext(interest);
 
@@ -92,7 +80,7 @@ export function NewsletterSignup({
     // Path only, never the query string — no PII leaves the page.
     const sourcePath = typeof window === "undefined" ? undefined : window.location.pathname;
     try {
-      const result = await onSubscribe({
+      await onSubscribe({
         email: cleaned,
         source: "newsletter_form",
         placement: id,
@@ -102,13 +90,9 @@ export function NewsletterSignup({
         consentVersion: NEWSLETTER_CONSENT.version,
         trap,
       });
-      // Only claim email delivery when the welcome email was actually triggered.
-      setWelcomeTriggered(Boolean(result && result.welcomeTriggered));
-      setPreferenceToken((result && result.preferenceToken) || null);
-      setChosenInterest(
-        (result && (result.primaryInterest as NewsletterInterest | null)) ??
-          (interest === "general" ? interestForPath(sourcePath) : interest),
-      );
+      // The server returns one constant shape for every accepted signup, so this
+      // panel never states or implies email/list state. The download link below
+      // is a static path and works regardless.
       // Success transition only — never on mount, never on a failed submit.
       // No email or other PII is sent to analytics.
       if (!signupSent) {
@@ -123,29 +107,6 @@ export function NewsletterSignup({
     }
   }
 
-  /**
-   * Applies an explicit interest choice using the token from this signup.
-   * Optional by design: skipping it keeps whatever the page context implied.
-   */
-  async function handleInterestChoice(next: NewsletterInterest) {
-    if (!preferenceToken || savingInterest || next === chosenInterest) return;
-    const previous = chosenInterest;
-    setSavingInterest(true);
-    setInterestError(false);
-    const ok = await setNewsletterInterest(preferenceToken, next);
-    setSavingInterest(false);
-    if (!ok) {
-      setInterestError(true);
-      return;
-    }
-    setChosenInterest(next);
-    setInterestSaved(true);
-    trackNewsletterInterestSelected({
-      placement: id,
-      interest: next,
-      previousInterest: previous ?? undefined,
-    });
-  }
 
   return (
     <section
@@ -241,10 +202,9 @@ export function NewsletterSignup({
                   You&apos;re on the DeliciousDuck list
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  {welcomeTriggered
-                    ? "Your welcome email is on its way — it carries the same download link. You can grab the field guide right now:"
-                    : "You're subscribed. You can download the field guide right now:"}
+                  You&apos;re subscribed. You can download the field guide right now:
                 </p>
+
                 <a
                   href={FIELD_GUIDE.path}
                   target="_blank"
@@ -256,7 +216,9 @@ export function NewsletterSignup({
                   Download your field guide
                 </a>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  Printable PDF, 16 pages. The welcome series follows over the next two weeks.
+                  Printable PDF, 16 pages — yours right now, no email needed. Any emails come
+                  from hello@deliciousduck.com.
+
                 </p>
               </div>
 
@@ -299,56 +261,16 @@ export function NewsletterSignup({
               </div>
 
               {/*
-                Optional interest selector. Offered only to first-time subscribers
-                in this session, authorised by a one-purpose token — we never let
-                the browser edit preferences by email address. Skipping it is
-                fine: the page context already set a sensible default, and every
-                subscriber receives the same weekly issue either way.
+                The in-session interest selector was removed on purpose. It only
+                appeared for first-time subscribers, which made "new" visibly
+                different from "already subscribed" — anyone could have used this
+                panel to test whether an address was on the list. Interest is
+                still recorded from the page cluster the visitor signed up on.
+                Explicit preference editing belongs on a future emailed,
+                token-linked preference page, where the emailed link itself is
+                proof of mailbox ownership.
               */}
-              {preferenceToken && (
-                <fieldset className="mt-6 border-t border-border pt-5">
-                  <legend className="text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
-                    What should we lead with? (optional)
-                  </legend>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                    This changes which examples lead in the weekly email. Everyone gets the same
-                    issue — nothing is hidden behind a choice.
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {NEWSLETTER_INTERESTS.map((option) => {
-                      const active = chosenInterest === option;
-                      return (
-                        <button
-                          key={option}
-                          type="button"
-                          onClick={() => handleInterestChoice(option)}
-                          disabled={savingInterest}
-                          aria-pressed={active}
-                          title={INTEREST_BLURBS[option]}
-                          className={`rounded-sm border px-3 py-2 text-xs font-semibold transition-colors disabled:opacity-60 ${
-                            active
-                              ? "border-primary bg-primary text-primary-foreground"
-                              : "border-input bg-card text-foreground hover:border-primary"
-                          }`}
-                        >
-                          {INTEREST_LABELS[option]}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <p role="status" className="mt-3 text-xs text-muted-foreground">
-                    {savingInterest
-                      ? "Saving your choice…"
-                      : interestError
-                        ? "We couldn't save that just now — your subscription is unaffected."
-                        : interestSaved
-                          ? `Saved. We'll lead with ${INTEREST_LABELS[chosenInterest ?? "general"].toLowerCase()}.`
-                          : chosenInterest
-                            ? `Currently set to ${INTEREST_LABELS[chosenInterest].toLowerCase()}, based on the page you signed up from.`
-                            : ""}
-                  </p>
-                </fieldset>
-              )}
+
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-4">

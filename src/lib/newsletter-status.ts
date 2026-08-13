@@ -84,6 +84,35 @@ export function decideSignup(existing: ExistingSubscriberState | null): SignupDe
 }
 
 /**
+ * What a signup may do at the email provider.
+ *
+ * Only a genuinely new local row may touch Resend. Every submission against an
+ * existing row — active duplicate or legacy active duplicate — performs zero
+ * provider calls: no contact upsert, no segment write, no custom event.
+ *
+ * Why: our local `status` can be stale, because no authenticated provider
+ * webhook exists yet, so Resend-side unsubscribes are not reflected here. The
+ * contact upsert sends `unsubscribed: false`, which would silently re-enable a
+ * contact the subscriber had already opted out of at the provider. A duplicate
+ * website form submission is not evidence strong enough to change provider
+ * contact state, so it changes nothing there.
+ */
+export interface ProviderPlan {
+  syncContact: boolean;
+  syncSegment: boolean;
+  sendWelcome: boolean;
+}
+
+export function providerPlan(decision: SignupDecision): ProviderPlan {
+  if (decision.action === "create") {
+    return { syncContact: true, syncSegment: true, sendWelcome: true };
+  }
+  // refresh (active/legacy duplicate) and blocked (suppressed) are both
+  // provider no-ops. Blocked additionally writes nothing locally.
+  return { syncContact: false, syncSegment: false, sendWelcome: false };
+}
+
+/**
  * Status a verified provider event maps to. Used by the future authenticated
  * webhook; no unauthenticated endpoint calls this in the current build.
  */
@@ -94,3 +123,4 @@ export const PROVIDER_EVENT_STATUS: Record<string, SuppressedStatus | null> = {
   suppressed: "suppressed",
   delivered: null,
 };
+

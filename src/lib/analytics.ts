@@ -281,24 +281,12 @@ export function trackDuckDropCtaClick(params: {
   });
 }
 
-/**
- * Subscriber explicitly picked an interest after signing up.
- * Records the chosen bucket only — no address, no token.
+/*
+ * `trackNewsletterInterestSelected` was removed with the in-session preference
+ * editor. The `newsletter_interest_selected` event name is kept in
+ * ANALYTICS_EVENTS for a future emailed preference page.
  */
-export function trackNewsletterInterestSelected(params: {
-  placement?: string;
-  interest: string;
-  previousInterest?: string | undefined;
-}): void {
-  const path = currentPagePath();
-  trackEvent(ANALYTICS_EVENTS.newsletterInterestSelected, {
-    placement: params.placement,
-    interest: params.interest,
-    previous_interest: params.previousInterest,
-    page_path: path,
-    content_slug: contentSlugFromPath(path),
-  });
-}
+
 
 /** Hostname as a coarse merchant label — never a partnership claim. */
 export function merchantFromUrl(url: string): string | undefined {

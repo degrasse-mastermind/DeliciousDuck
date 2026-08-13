@@ -13,7 +13,7 @@
  * no conversion event. The Resend token exists only as a server secret.
  */
 
-import { setNewsletterInterestFn, subscribeToNewsletterFn } from "./newsletter.functions";
+import { subscribeToNewsletterFn } from "./newsletter.functions";
 import { RESEND_AUDIENCE_ID } from "./newsletter-schema";
 
 export type NewsletterProvider = "supabase+resend" | "resend" | "supabase-only";
@@ -54,47 +54,27 @@ export interface SubscribeInput {
   trap?: string;
 }
 
+/**
+ * The only thing the browser learns from a signup.
+ *
+ * Deliberately one field. Welcome/email state, the stored interest, whether the
+ * address was already on the list, whether it is suppressed, and any preference
+ * token are all withheld: each is a signal someone could use to test an
+ * arbitrary address against our list. The Field Guide download works from a
+ * static path and needs none of them.
+ */
 export interface SubscribeResult {
-  /** True only when a welcome email was actually triggered for this address. */
-  welcomeTriggered: boolean;
-  /** Interest recorded on the row, or null when we genuinely don't know. */
-  primaryInterest?: string | null;
-  /**
-   * Opaque, single-purpose token issued only to a first-time subscriber, so the
-   * success panel in this session can adjust their interest. Never an email
-   * address: an email-keyed endpoint would let anyone rewrite a stranger's
-   * preferences.
-   */
-  preferenceToken?: string | null;
+  subscribed: true;
 }
 
 /** Rejects on any failure. The UI only shows success when this resolves. */
 export const subscribeToNewsletter:
   | ((input: SubscribeInput) => Promise<SubscribeResult>)
   | undefined = async (input) => {
-  const result = await subscribeToNewsletterFn({ data: input });
-  return {
-    welcomeTriggered: Boolean(result.welcomeTriggered),
-    primaryInterest: result.primaryInterest ?? null,
-    preferenceToken: result.preferenceToken ?? null,
-  };
+  await subscribeToNewsletterFn({ data: input });
+  return { subscribed: true };
 };
 
-/**
- * Records an explicit interest choice made right after signup, authorised by the
- * token issued with that signup. Resolves to false when the token is unusable.
- */
-export async function setNewsletterInterest(
-  token: string,
-  interest: string,
-): Promise<boolean> {
-  try {
-    const result = await setNewsletterInterestFn({ data: { token, interest } });
-    return Boolean(result.updated);
-  } catch {
-    return false;
-  }
-}
 
 /** True only when a real delivery path exists. */
 export function isNewsletterEnabled(): boolean {

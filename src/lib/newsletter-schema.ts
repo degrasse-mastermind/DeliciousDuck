@@ -30,14 +30,9 @@ export const subscribeSchema = z.object({
 
 export type SubscribePayload = z.infer<typeof subscribeSchema>;
 
-/**
- * Post-signup interest choice. Authorised by the opaque row token issued to the
- * browser that just subscribed — never by an email address, which anyone could
- * type on someone else's behalf.
+/*
+ * The post-signup interest-choice schema was removed with the in-session
+ * preference editor (see `newsletter.functions.ts`). A future emailed
+ * preference link will need its own schema, keyed on the emailed token.
  */
-export const interestChoiceSchema = z.object({
-  token: z.string().trim().uuid(),
-  interest: z.enum(NEWSLETTER_INTERESTS),
-});
 
-export type InterestChoicePayload = z.infer<typeof interestChoiceSchema>;

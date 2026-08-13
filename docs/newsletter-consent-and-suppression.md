@@ -51,14 +51,40 @@ while still `subscribed`, that new submission *is* a fresh consent act and is re
 Suppressed set (`SUPPRESSED_STATUSES`): `unsubscribed`, `bounced`, `complained`,
 `suppressed`.
 
-Form signup transitions (`decideSignup` in `src/lib/newsletter-status.ts`):
+Form signup transitions (`decideSignup` in `src/lib/newsletter-status.ts`), with provider
+effects from `providerPlan` in the same module:
 
-| Current state | Action | Writes | Welcome event |
-| --- | --- | --- | --- |
-| no row | `create` | insert row, `status = subscribed`, consent evidence | eligible (once) |
-| `subscribed` | `refresh` | update same row: attribution, merged interests, `signup_count + 1`, fresh consent evidence | only if `welcome_event_status <> 'sent'` |
-| `unsubscribed` / `bounced` / `complained` / `suppressed` | `blocked` | **nothing at all** | never |
-| unrecognised status | `blocked` (fail closed) | nothing | never |
+| Current state | Action | Local writes | Resend contact / segment | Welcome event |
+| --- | --- | --- | --- | --- |
+| no row | `create` | insert row, `status = subscribed`, consent evidence | yes (contact + segment) | eligible, once |
+| `subscribed`, consent `explicit` (active duplicate) | `refresh` | update same row: attribution, merged interests, `signup_count + 1`, fresh consent evidence | **none** | **never** |
+| `subscribed`, consent `unknown_legacy` (legacy duplicate) | `refresh` | same as above, and `consent_record` becomes `explicit` | **none** | **never** |
+| `unsubscribed` / `bounced` / `complained` / `suppressed` | `blocked` | **nothing at all** | **none** | never |
+| unrecognised status | `blocked` (fail closed) | nothing | **none** | never |
+
+### Provider idempotency
+
+Only a genuinely new local row may call Resend. Any submission against an existing row
+performs zero provider calls — no contact upsert, no segment write, no custom event —
+even when that row never received a welcome.
+
+Why: no authenticated Resend webhook exists yet, so local `status` can be stale relative to
+the provider. The contact upsert sends `unsubscribed: false`, which would silently re-enable
+a contact the subscriber had already opted out of at Resend. A duplicate website form
+submission is not strong enough evidence to change provider contact state.
+
+Consequence, stated plainly: an existing subscriber whose welcome event previously failed
+(`welcome_event_status` of `pending` or `error`) will **not** be retried by them signing up
+again. Recovering those rows needs a deliberate internal action; `resyncPendingSubscribers`
+(admin-token gated) re-syncs contacts but does not send welcome events.
+
+### Response indistinguishability
+
+`publicSubscribeResponse` in `src/lib/newsletter-response.ts` is the only mapping to the
+client, and it returns the constant `{ subscribed: true }` for every internal outcome:
+`created`, `active_duplicate`, `legacy_active_duplicate`, `blocked_suppressed`. No welcome
+state, stored interest, membership state, suppression state, or preference token crosses the
+boundary. Hard failures still reject, so the form can show an error.
 
 Additional guarantees:
 
@@ -69,10 +95,29 @@ Additional guarantees:
   suppressed address.
 - Uniqueness on `email_normalized` is enforced by a unique index; one address is always one
   row, so duplicates never create a second contact or a second provider event.
-- Blocked and active-duplicate responses are byte-identical in shape
-  (`{ subscribed: true, welcomeTriggered: false, primaryInterest: null, preferenceToken: null }`),
-  so the response cannot be used to enumerate list membership or account state. A
-  `preference_token` is still issued only to a genuinely new subscriber.
+- The blocked path logs a generic `"Newsletter signup ignored: address is not eligible for
+  signup"` — never the stored status and never the address, because logs are a side channel
+  that would reveal exactly the list state the response hides.
+
+### Removed: in-session preference editor (tradeoff)
+
+The success panel used to offer an interest selector, authorised by a `preference_token`
+issued to first-time subscribers only. That made a new signup visibly different from a
+duplicate one, so the panel itself could be used to test whether an address was already on
+the list. It is removed: `applyInterestChoice`, `setNewsletterInterestFn`,
+`setNewsletterInterest`, `interestChoiceSchema`, `trackNewsletterInterestSelected`, and the
+UI fieldset are all gone.
+
+Cost: subscribers can no longer change their interest immediately after signing up.
+Interest is still recorded from the page cluster they signed up on, and every subscriber
+receives the same weekly issue, so nothing is withheld. The replacement belongs on a future
+emailed, token-linked preference page, where the emailed link itself proves mailbox
+ownership. The `preference_token` column stays in the schema, unused, for that purpose.
+
+The Field Guide download is unaffected: it is a static path
+(`/downloads/duck-fundamentals-field-guide.pdf`) rendered on success, and never depended on
+any response field.
+
 
 ## Provider event model (prepared, not active)
 
@@ -92,9 +137,14 @@ added, no signature verification exists, and nothing writes to this table yet.
 - Provider-side unsubscribe and suppression synchronisation. Resend-side opt-outs are **not**
   reflected in our database. Do not claim provider-side unsubscribe protection until a
   signed webhook is implemented, deployed, and observed in production.
-- On-site unsubscribe/preference page.
+- On-site unsubscribe page, and any preference page (the in-session editor was removed).
+- Retry path for rows whose welcome event failed — duplicate signups deliberately no longer
+  retry it.
 - Resend welcome automation/broadcast (untouched by design).
 - Resend open/click tracking remains off.
+- No live signup has been executed against these rules: the create / duplicate / suppressed
+  paths are proven by unit tests over the real decision and response functions, not by an
+  observed database write.
 
 ## Controlled end-to-end test plan (not executed)
 
@@ -102,10 +152,12 @@ added, no signature verification exists, and nothing writes to this table yet.
    explicit`, `consented_at` set, `consent_text_version` matches the shipped version,
    `consent_source_path = /`.
 2. Submit the same address again from a different page. Expect: one row, `signup_count = 2`,
-   merged `interests`, refreshed consent timestamp, and **no** second welcome event.
+   merged `interests`, refreshed consent timestamp, **no** second welcome event, and no new
+   Resend activity for that contact.
 3. Manually set that row to `unsubscribed` in a controlled (non-production) row, submit again,
    and confirm: row untouched (`status` still `unsubscribed`, `signup_count` unchanged) and
    the UI shows the same generic success.
+
 4. Confirm the consent paragraph is visible without scrolling past the button at 390px and
    1280px, and that the privacy policy link resolves.
 5. Only after the above: implement the signed webhook, then re-test suppression sync.
