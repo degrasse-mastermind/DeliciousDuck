@@ -7,6 +7,8 @@ import {
   EVENT_REFERENCE,
   NO_PII_NOTE,
   WEEKLY_CHECKLIST,
+  EMAIL_METRIC_FIELDS,
+  EMAIL_READING_RULES,
   WEEKLY_METRIC_FIELDS,
   type TrustState,
 } from "@/data/growth-ops";
@@ -269,9 +271,41 @@ function GrowthDashboard() {
         </ul>
       </section>
 
-      {/* 5 — GA4 event reference */}
+      {/* 5 — Email economics */}
       <section className="mt-12 break-inside-avoid border-t border-border pt-8">
-        <SectionHeading eyebrow="5 · Measurement" title="GA4 event reference" />
+        <SectionHeading eyebrow="5 · Email" title="Email economics" />
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Contextual capture means each cluster asks for the email in its own words while delivering
+          the same field guide. These fields track whether that is working. Pull counts from GA4
+          (filtered by the <code>interest</code> and <code>source_path</code> parameters) and sync
+          status from the subscribers table.
+        </p>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2">
+          {EMAIL_METRIC_FIELDS.map((f) => (
+            <Field key={f.label} label={f.label} hint={f.hint} wide={f.wide} />
+          ))}
+        </div>
+        <h3 className="mt-8 text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+          How to read it
+        </h3>
+        <ul className="mt-4 space-y-3">
+          {EMAIL_READING_RULES.map((rule) => (
+            <li key={rule.signal} className="rounded-sm border border-border bg-cream p-4 text-sm">
+              <p className="font-semibold text-foreground">{rule.signal}</p>
+              <p className="mt-1 leading-relaxed text-muted-foreground">{rule.action}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+          Interest values and their promises live in{" "}
+          <code>src/data/newsletter-contexts.ts</code>. Changing a promise there changes the copy on
+          every page in that cluster; it never changes what subscribers actually receive.
+        </p>
+      </section>
+
+      {/* 6 — GA4 event reference */}
+      <section className="mt-12 break-inside-avoid border-t border-border pt-8">
+        <SectionHeading eyebrow="6 · Measurement" title="GA4 event reference" />
         <div className="mt-6 overflow-x-auto">
           <table className="w-full min-w-[40rem] border-collapse text-sm">
             <thead>

@@ -44,12 +44,17 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
         <li>
           <strong className="text-foreground">Email address</strong> — only if you submit the
           newsletter form. The address, the date you joined, and which page you signed up from are
-          stored in DeliciousDuck&apos;s own database, which is our record of the list. The address
-          is then passed to our email provider, Resend, so we can send you a welcome email
-          containing a download link for Duck Fundamentals: The Field Guide (a printable 16-page PDF) and
-          occasional recipes and guides. We do not ask for your name and do not attach the address
-          to your browsing.
+          stored in DeliciousDuck&apos;s own database, which is our record of the list. Alongside it
+          we store a topic label for that page (for example &ldquo;duck breast&rdquo; or
+          &ldquo;sourcing&rdquo;) and the page path itself, so the emails we send match what you
+          were reading; if you sign up from more than one page we keep the list of those topics. The
+          address is then passed to our email provider, Resend, so we can send you a welcome email
+          containing a download link for Duck Fundamentals: The Field Guide (a printable 16-page
+          PDF) and occasional recipes and guides. That topic label and page path are sent to Resend
+          with the welcome email so it can be tailored. We do not ask for your name and do not
+          attach the address to your browsing.
         </li>
+
 
         <li>
           <strong className="text-foreground">Technical request data</strong> — IP address, browser

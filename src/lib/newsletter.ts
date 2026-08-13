@@ -44,6 +44,10 @@ export interface SubscribeInput {
   email: string;
   source?: string;
   placement?: string;
+  /** Controlled interest enum from `@/data/newsletter-contexts`. */
+  interest?: string;
+  /** Path the signup happened on. No query string, no PII. */
+  sourcePath?: string;
   /** Honeypot value; must be empty for a real submission. */
   trap?: string;
 }

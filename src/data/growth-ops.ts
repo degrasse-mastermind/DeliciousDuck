@@ -277,6 +277,13 @@ export const EVENT_REFERENCE: EventRef[] = [
     dedupe: "Once per successful subscribe result",
   },
   {
+    name: "newsletter_postsignup_click",
+    meaning:
+      "A new subscriber clicked into on-site reading from the post-signup 'Start here' module.",
+    fires: "On a click inside the success-state link list",
+    dedupe: "1.5s window per link URL and page path",
+  },
+  {
     name: "starter_guide_view",
     meaning: "A genuine view of the on-site starter guide.",
     fires: "Once after hydration on /guides/duck-cooking-starter-guide",
@@ -345,4 +352,63 @@ export const WEEKLY_CHECKLIST: string[] = [
   "In GA4, inspect affiliate_click and outbound events for volume and correct link_type.",
   "Publish or update only where the data or a completed kitchen test justifies it.",
   "Log kitchen-test progress: what was cooked, what was measured, what photos exist.",
+];
+
+/* ------------------------------------------------------------------ *
+ * Email economics
+ *
+ * Manual-entry fields plus our own reading rules. Every number comes
+ * from GA4 or the subscribers table — nothing here is estimated, and
+ * none of it is a revenue projection.
+ * ------------------------------------------------------------------ */
+
+export const EMAIL_METRIC_FIELDS: { label: string; hint: string; wide?: boolean }[] = [
+  { label: "newsletter_intent (7d)", hint: "GA4 event count — engaged a signup form" },
+  { label: "newsletter_signup (7d)", hint: "GA4 event count — durably stored subscriptions" },
+  { label: "Signup rate", hint: "signups ÷ intent, as a percentage" },
+  {
+    label: "newsletter_postsignup_click (7d)",
+    hint: "New subscribers who kept reading on-site",
+  },
+  {
+    label: "Top signup interest",
+    hint: "Highest-count value of the interest parameter in GA4",
+  },
+  {
+    label: "Top source_path",
+    hint: "Page that produced the most signups this week",
+  },
+  {
+    label: "Resend sync failures",
+    hint: "Rows in the subscribers table with resend_sync_status = failed",
+    wide: true,
+  },
+];
+
+export const EMAIL_READING_RULES: { signal: string; action: string }[] = [
+  {
+    signal: "High intent, low signup rate on one cluster",
+    action:
+      "The promise doesn't match the page. Rewrite that cluster's promise line in newsletter-contexts.ts — do not weaken the form.",
+  },
+  {
+    signal: "One source_path dominates signups",
+    action:
+      "Give that cluster its own contextual capture placement if it lacks one, and prioritise it in the content update queue.",
+  },
+  {
+    signal: "Signups healthy, postsignup clicks near zero",
+    action:
+      "The 'Start here' links for that interest are wrong or too generic. Swap them for the specific next step a reader of that page needs.",
+  },
+  {
+    signal: "Any Resend sync failures",
+    action:
+      "Subscribers are stored but not receiving email. Re-run the sync utility; the database stays the source of truth so nothing is lost.",
+  },
+  {
+    signal: "A cluster shows no interest values at all",
+    action:
+      "That page's signup component is missing its interest prop. Check the placement before drawing any conclusion from the data.",
+  },
 ];

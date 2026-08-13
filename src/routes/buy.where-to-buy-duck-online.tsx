@@ -5,6 +5,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_MERCHANTS, MERCHANT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 
 const GUIDE = guideByPath("/buy/where-to-buy-duck-online")!;
 
@@ -230,6 +231,10 @@ function Page() {
       />
 
       <FaqList items={FAQ} />
+
+      <div className="mt-14">
+        <NewsletterSignup id="field-guide" interest="sourcing" />
+      </div>
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

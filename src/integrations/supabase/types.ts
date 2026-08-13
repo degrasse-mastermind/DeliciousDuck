@@ -20,11 +20,16 @@ export type Database = {
           email: string
           email_normalized: string
           id: string
+          interest: string | null
+          interests: string[]
           last_resend_sync_at: string | null
+          last_signup_at: string
           placement: string | null
           resend_contact_id: string | null
           resend_sync_status: string
+          signup_count: number
           source: string | null
+          source_path: string | null
           status: string
           subscribed_at: string
           unsubscribed_at: string | null
@@ -37,11 +42,16 @@ export type Database = {
           email: string
           email_normalized: string
           id?: string
+          interest?: string | null
+          interests?: string[]
           last_resend_sync_at?: string | null
+          last_signup_at?: string
           placement?: string | null
           resend_contact_id?: string | null
           resend_sync_status?: string
+          signup_count?: number
           source?: string | null
+          source_path?: string | null
           status?: string
           subscribed_at?: string
           unsubscribed_at?: string | null
@@ -54,11 +64,16 @@ export type Database = {
           email?: string
           email_normalized?: string
           id?: string
+          interest?: string | null
+          interests?: string[]
           last_resend_sync_at?: string | null
+          last_signup_at?: string
           placement?: string | null
           resend_contact_id?: string | null
           resend_sync_status?: string
+          signup_count?: number
           source?: string | null
+          source_path?: string | null
           status?: string
           subscribed_at?: string
           unsubscribed_at?: string | null

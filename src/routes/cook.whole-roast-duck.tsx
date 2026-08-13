@@ -15,6 +15,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 
 const GUIDE = guideByPath("/cook/whole-roast-duck")!;
 
@@ -268,6 +269,10 @@ function WholeRoastDuckPage() {
       />
 
       <FaqList items={FAQ} />
+
+      <div className="mt-14">
+        <NewsletterSignup id="field-guide" interest="whole-duck" />
+      </div>
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

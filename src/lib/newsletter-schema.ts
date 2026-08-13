@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { NEWSLETTER_INTERESTS } from "@/data/newsletter-contexts";
 
 /** Client-safe validation + shared constants for the newsletter flow. */
 
@@ -8,6 +9,15 @@ export const subscribeSchema = z.object({
   email: z.string().trim().toLowerCase().min(5).max(255).email(),
   source: z.string().trim().max(64).optional(),
   placement: z.string().trim().max(64).optional(),
+  /** Controlled enum only — never free text, never PII. */
+  interest: z.enum(NEWSLETTER_INTERESTS).optional(),
+  /** Same-origin path the signup happened on. Query strings are stripped. */
+  sourcePath: z
+    .string()
+    .trim()
+    .max(255)
+    .regex(/^\/[A-Za-z0-9\-/_.]*$/)
+    .optional(),
   /** Honeypot: must stay empty. Real users never see this field. */
   trap: z.string().max(0).optional(),
 });

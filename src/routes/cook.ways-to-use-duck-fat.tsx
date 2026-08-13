@@ -3,6 +3,7 @@ import { ArticleShell, Callout, FaqList, Section } from "@/components/site/Artic
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 
 const GUIDE = guideByPath("/cook/ways-to-use-duck-fat")!;
 
@@ -260,6 +261,10 @@ function WaysToUsePage() {
         </Link>
         .
       </p>
+
+      <div className="mt-14">
+        <NewsletterSignup id="field-guide" interest="duck-fat" />
+      </div>
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>
