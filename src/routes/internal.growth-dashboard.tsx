@@ -303,6 +303,49 @@ function GrowthDashboard() {
         </p>
       </section>
 
+      {/* 5b — The Duck Drop */}
+      <section className="mt-12 border-t border-border pt-8">
+        <SectionHeading eyebrow="5b · Retention" title="The Duck Drop (weekly)" />
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          List health is read live from our own database (aggregate counts only, never addresses).
+          Send, delivery, and click numbers come from the Resend broadcast summary and are typed in
+          — there is no live sync. Compose issues in the{" "}
+          <a href="/internal/duck-drop-studio" className="text-primary underline underline-offset-4">
+            Duck Drop Studio
+          </a>
+          .
+        </p>
+
+        <DuckDropListHealth />
+
+        <h3 className="mt-8 text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+          Per-issue numbers (manual entry)
+        </h3>
+        <div className="mt-4 grid gap-5 sm:grid-cols-2">
+          {DUCK_DROP_METRICS.filter((m) => m.source !== "live").map((m) => (
+            <Field
+              key={m.label}
+              label={`${m.label}${m.source === "future" ? " (not available yet)" : ""}`}
+              hint={m.hint}
+              wide={m.wide}
+            />
+          ))}
+        </div>
+
+        <h3 className="mt-8 text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+          How to read it
+        </h3>
+        <ul className="mt-4 space-y-3">
+          {DUCK_DROP_DECISIONS.map((rule) => (
+            <li key={rule.signal} className="rounded-sm border border-border bg-cream p-4 text-sm">
+              <p className="font-semibold text-foreground">{rule.signal}</p>
+              <p className="mt-1 leading-relaxed text-muted-foreground">{rule.action}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+
       {/* 6 — GA4 event reference */}
       <section className="mt-12 break-inside-avoid border-t border-border pt-8">
         <SectionHeading eyebrow="6 · Measurement" title="GA4 event reference" />
