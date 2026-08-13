@@ -72,6 +72,7 @@ import { Route as ToolsDuckPairingFinderRouteImport } from './routes/tools.duck-
 import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
 import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
+import { Route as ApiWebhooksResendRouteImport } from './routes/api.webhooks.resend'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -412,6 +413,11 @@ const ToolsWholeDuckServingCalculatorRoute =
     path: '/whole-duck-serving-calculator',
     getParentRoute: () => ToolsRoute,
   } as any)
+const ApiWebhooksResendRoute = ApiWebhooksResendRouteImport.update({
+  id: '/api/webhooks/resend',
+  path: '/api/webhooks/resend',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -477,6 +483,7 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -535,6 +542,7 @@ export interface FileRoutesByTo {
   '/learn': typeof LearnIndexRoute
   '/recipes': typeof RecipesIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -601,6 +609,7 @@ export interface FileRoutesById {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -668,6 +677,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/webhooks/resend'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -726,6 +736,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/recipes'
     | '/tools'
+    | '/api/webhooks/resend'
   id:
     | '__root__'
     | '/'
@@ -791,6 +802,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/webhooks/resend'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -814,6 +826,7 @@ export interface RootRouteChildren {
   InternalGrowthDashboardRoute: typeof InternalGrowthDashboardRoute
   InternalKitchenTestSheetRoute: typeof InternalKitchenTestSheetRoute
   InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
+  ApiWebhooksResendRoute: typeof ApiWebhooksResendRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1259,6 +1272,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsWholeDuckServingCalculatorRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/api/webhooks/resend': {
+      id: '/api/webhooks/resend'
+      path: '/api/webhooks/resend'
+      fullPath: '/api/webhooks/resend'
+      preLoaderRoute: typeof ApiWebhooksResendRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1431,6 +1451,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternalGrowthDashboardRoute: InternalGrowthDashboardRoute,
   InternalKitchenTestSheetRoute: InternalKitchenTestSheetRoute,
   InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
+  ApiWebhooksResendRoute: ApiWebhooksResendRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
