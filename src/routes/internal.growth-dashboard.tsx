@@ -43,7 +43,15 @@ const TRUST_LABEL: Record<TrustState, string> = {
   money: "Money page",
 };
 
-function Field({ label, hint, wide }: { label: string; hint?: string; wide?: boolean }) {
+function Field({
+  label,
+  hint,
+  wide,
+}: {
+  label: string;
+  hint?: string | undefined;
+  wide?: boolean | undefined;
+}) {
   return (
     <div className={wide ? "sm:col-span-2" : undefined}>
       <label className="text-sm font-semibold text-foreground">{label}</label>
