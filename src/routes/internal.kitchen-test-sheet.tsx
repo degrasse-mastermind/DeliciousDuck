@@ -477,6 +477,19 @@ function KitchenTestSheet() {
         )}
       </section>
 
+      <section className="mt-8 break-inside-avoid rounded-sm border border-border bg-card p-5">
+        <h2 className="text-sm font-semibold uppercase tracking-[0.14em] text-foreground">
+          Do not change the recipe yet
+        </h2>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          This sheet is evidence collection only. DeliciousDuck should update the published method,
+          timings, temperatures, or trust status only after the completed results have been reviewed
+          — never mid-cook and never from memory.
+        </p>
+      </section>
+
+      {slug === BREAST_SLUG && <BreastProtocol />}
+
       {SECTIONS.map((section) => (
         <section key={section.heading} className="mt-10 break-inside-avoid border-t border-border pt-8">
           <h2 className="font-display text-2xl text-foreground">{section.heading}</h2>
