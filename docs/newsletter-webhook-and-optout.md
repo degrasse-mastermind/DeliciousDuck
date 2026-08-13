@@ -212,8 +212,20 @@ POST https://api.resend.com/events/send
 - Failures throw a status classification (`welcome_event_unauthorized`,
   `welcome_event_rate_limited`, …). The provider's response body is never read
   into a log or error, because it can echo the submitted address.
-- The owner still controls whether the welcome template/automation references
-  the two variables; no template or automation was created or changed from code.
+### Owner-controlled, still REQUIRED before deployment
+
+Nothing in this sprint touched the live Resend event definition, template, or
+automation. Before the welcome email can render working links, the owner must:
+
+1. Update the existing `newsletter.subscribed` **event definition** to accept
+   `unsubscribe_url` and `preferences_url` as strings (the code's fallback
+   registration only fires on a 404/422 dispatch and was never called in testing).
+2. Add `{{unsubscribe_url}}` and `{{preferences_url}}` to the welcome
+   **template** footer, alongside the existing `{{guide_url}}`.
+3. Only then deploy and run the staged single-address test.
+
+Until step 1 is done, a dispatch may be rejected; the row is recorded
+`welcome_event_status = "error"` and the subscriber is still durably stored.
 
 ### No deprecated audience route remains
 
