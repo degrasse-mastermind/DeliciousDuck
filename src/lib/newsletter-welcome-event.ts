@@ -9,7 +9,7 @@
  * opaque `preference_token`. No email address goes in those URLs.
  */
 
-import { mailboxLinks } from "./newsletter-links";
+import { isPlausibleToken, mailboxLinks } from "./newsletter-links";
 
 export const WELCOME_EVENT_NAME = "newsletter.subscribed";
 export const WELCOME_EVENT_SEND_URL = "https://api.resend.com/events/send";
@@ -107,3 +107,66 @@ export function welcomeEventFailureReason(httpStatus: number): string {
   if (httpStatus >= 500) return "welcome_event_provider_unavailable";
   return `welcome_event_status_${httpStatus}`;
 }
+
+export type WelcomeDispatchDecision =
+  | { readonly dispatch: true; readonly token: string }
+  | { readonly dispatch: false; readonly reason: "not_new_row" | "already_sent" | "no_token" };
+
+/**
+ * Pure gate in front of every provider request. A row without a usable mailbox
+ * token would produce a welcome email with dead unsubscribe/preferences links,
+ * so we make zero provider calls and let the caller leave the row pending.
+ */
+export function decideWelcomeDispatch(input: {
+  readonly sendWelcome: boolean;
+  readonly welcomeEventStatus: string | null | undefined;
+  readonly token: unknown;
+}): WelcomeDispatchDecision {
+  if (!input.sendWelcome) return { dispatch: false, reason: "not_new_row" };
+  if (input.welcomeEventStatus === "sent") return { dispatch: false, reason: "already_sent" };
+  if (!isPlausibleToken(input.token)) return { dispatch: false, reason: "no_token" };
+  return { dispatch: true, token: input.token };
+}
+
+/** Minimal fetch seam so tests never touch the network. */
+export type JsonFetch = (
+  url: string,
+  init: { method: string; headers: Record<string, string>; body: string },
+) => Promise<{ ok: boolean; status: number }>;
+
+/**
+ * Dispatches the welcome event. Throws a status classification on failure —
+ * never the address, key, token, full URL, or provider body.
+ *
+ * The definition (re)registration retry exists because an event definition may
+ * predate the two link fields; it is attempted at most once per send.
+ */
+export async function dispatchWelcomeEvent(
+  input: WelcomeEventInput,
+  apiKey: string,
+  fetchImpl: JsonFetch,
+): Promise<void> {
+  const send = () => {
+    const request = buildWelcomeEventRequest(input, apiKey);
+    return fetchImpl(request.url, {
+      method: request.method,
+      headers: { ...request.headers },
+      body: request.body,
+    });
+  };
+
+  let response = await send();
+
+  if (response.status === 404 || response.status === 422) {
+    const definition = buildWelcomeEventDefinitionRequest(apiKey);
+    await fetchImpl(definition.url, {
+      method: definition.method,
+      headers: { ...definition.headers },
+      body: definition.body,
+    });
+    response = await send();
+  }
+
+  if (!response.ok) throw new Error(welcomeEventFailureReason(response.status));
+}
+

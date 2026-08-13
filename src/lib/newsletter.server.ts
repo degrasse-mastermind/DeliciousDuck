@@ -1,12 +1,7 @@
 import type { SubscribePayload } from "./newsletter-schema";
 import { createProviderContact } from "./newsletter-provider-contact";
-import {
-  buildWelcomeEventDefinitionRequest,
-  buildWelcomeEventRequest,
-  welcomeEventFailureReason,
-} from "./newsletter-welcome-event";
+import { decideWelcomeDispatch, dispatchWelcomeEvent } from "./newsletter-welcome-event";
 import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
-import { isPlausibleToken } from "./newsletter-links";
 import { decideSignup, providerPlan } from "./newsletter-status";
 import type { SignupOutcome } from "./newsletter-response";
 
@@ -106,8 +101,9 @@ async function pushToResend(email: string, apiKey: string): Promise<string | nul
  * preferences links. Send-on-first-subscribe: callers skip this when the row
  * already has `welcome_event_status = "sent"`, so repeat signups don't spam.
  *
- * Request shapes live in `./newsletter-welcome-event` so they are unit-testable
- * without network access.
+ * All request shapes, the definition-retry, and the status-only failure
+ * classification live in `./newsletter-welcome-event`, so they are unit-testable
+ * with an injected fetch and no network access.
  */
 async function sendWelcomeEvent(
   email: string,
@@ -118,43 +114,18 @@ async function sendWelcomeEvent(
     source_path?: string | undefined;
   },
 ): Promise<void> {
-  const input = {
-    email,
-    guideUrl: FIELD_GUIDE_URL,
-    baseUrl: SITE.baseUrl,
-    token: meta.token,
-    interest: meta.interest,
-    sourcePath: meta.source_path,
-  };
-
-  const send = () => {
-    const request = buildWelcomeEventRequest(input, apiKey);
-    return fetch(request.url, {
-      method: request.method,
-      headers: { ...request.headers },
-      body: request.body,
-    });
-  };
-
-  let response = await send();
-
-  // The event definition may not exist yet, or may predate the link fields;
-  // (re)register it once and retry the dispatch.
-  if (response.status === 404 || response.status === 422) {
-    const definition = buildWelcomeEventDefinitionRequest(apiKey);
-    await fetch(definition.url, {
-      method: definition.method,
-      headers: { ...definition.headers },
-      body: definition.body,
-    });
-    response = await send();
-  }
-
-  if (!response.ok) {
-    // Status classification only. The provider's body can echo the submitted
-    // address, so it never reaches a thrown error or a log.
-    throw new Error(welcomeEventFailureReason(response.status));
-  }
+  await dispatchWelcomeEvent(
+    {
+      email,
+      guideUrl: FIELD_GUIDE_URL,
+      baseUrl: SITE.baseUrl,
+      token: meta.token,
+      interest: meta.interest,
+      sourcePath: meta.source_path,
+    },
+    apiKey,
+    fetch as never,
+  );
 }
 
 /**
@@ -193,8 +164,10 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   // suppressed addresses can be detected before anything is written.
   const { data: existing } = await supabaseAdmin
     .from("newsletter_subscribers")
+    // `preference_token` is read server-side only, so an update path that
+    // returns no token can still be recognised before any provider call.
     .select(
-      "id, interests, signup_count, primary_interest, first_content_path, status, consent_record, welcome_event_status",
+      "id, interests, signup_count, primary_interest, first_content_path, status, consent_record, welcome_event_status, preference_token",
     )
     .eq("email_normalized", emailNormalized)
     .maybeSingle();
@@ -339,23 +312,26 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     await syncInterestSegment(emailNormalized, apiKey, (row.primary_interest as string | null) ?? null);
   }
 
-  // Belt and braces: a new row cannot already have been welcomed, but never
-  // fire a second event if it somehow has.
-  if (!plan.sendWelcome || row.welcome_event_status === "sent") {
+  // One gate in front of every welcome request: not a new row, already welcomed,
+  // or no usable mailbox token. A missing token would mean dead unsubscribe /
+  // preferences links, so we send nothing and leave the row pending instead.
+  const dispatch = decideWelcomeDispatch({
+    sendWelcome: plan.sendWelcome,
+    welcomeEventStatus: row.welcome_event_status,
+    token: row.preference_token,
+  });
+  if (!dispatch.dispatch) {
+    if (dispatch.reason === "no_token") {
+      // Reason only — never the token, the address, or the stored status.
+      console.warn("Welcome event skipped: no usable mailbox token on the stored row");
+      return { outcome, resendSync: "synced", welcomeEvent: "pending" };
+    }
     return { outcome, resendSync: "synced", welcomeEvent: "skipped" };
-  }
-
-  // No usable token means no working unsubscribe/preferences link, so we send
-  // nothing and leave the row "pending" rather than mail a dead-link welcome.
-  const token = (row.preference_token as string | null) ?? null;
-  if (!isPlausibleToken(token)) {
-    console.warn("Welcome event skipped: no usable mailbox token on the stored row");
-    return { outcome, resendSync: "synced", welcomeEvent: "pending" };
   }
 
   try {
     await sendWelcomeEvent(emailNormalized, apiKey, {
-      token,
+      token: dispatch.token,
       interest: data.interest,
       source_path: data.sourcePath,
     });
