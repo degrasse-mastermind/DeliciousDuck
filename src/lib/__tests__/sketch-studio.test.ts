@@ -216,13 +216,18 @@ describe("candidate state", () => {
     expect(visibleCandidates(job)).toHaveLength(3);
   });
 
-  it("selects the first ready candidate and honours explicit selection", () => {
+  it("only selects ready candidates, and only when asked", () => {
     let job = jobReducer(null, start) as Job;
+    expect(job.selectedId).toBeUndefined();
+    // A pending candidate cannot be selected.
+    job = jobReducer(job, { type: "select", candidateId: "job-1-c2" })!;
+    expect(job.selectedId).toBeUndefined();
     job = jobReducer(job, { type: "frame", candidateId: "job-1-c2", url: "b", final: true })!;
+    job = jobReducer(job, { type: "select", candidateId: "job-1-c2" })!;
     expect(job.selectedId).toBe("job-1-c2");
-    job = jobReducer(job, { type: "frame", candidateId: "job-1-c3", url: "c", final: true })!;
-    job = jobReducer(job, { type: "select", candidateId: "job-1-c3" })!;
-    expect(job.selectedId).toBe("job-1-c3");
+    // Discarding the winner clears the selection rather than showing dead art.
+    job = jobReducer(job, { type: "discard", candidateId: "job-1-c2" })!;
+    expect(job.selectedId).toBeUndefined();
   });
 
   it("discards without dropping the rest of the job", () => {
