@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { ACQUISITION_PAGES, acquisitionPage } from "@/data/acquisition-cluster";
