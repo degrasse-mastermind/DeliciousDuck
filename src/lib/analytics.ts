@@ -95,7 +95,12 @@ export function trackPageView(path: string, title?: string): void {
   gtag("event", "page_view", {
     send_to: GA_MEASUREMENT_ID,
     page_path: path,
-    page_location: typeof window !== "undefined" ? window.location.href : undefined,
+    // Path only, never `location.href`: token pages carry an opaque mailbox
+    // token in the query string, and GA must never receive it.
+    page_location:
+      typeof window !== "undefined"
+        ? `${window.location.origin}${window.location.pathname}`
+        : undefined,
     page_title: title,
     ...debugFlag(),
   });

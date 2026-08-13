@@ -55,14 +55,24 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
           attach the address to your browsing.
         </li>
         <li>
-          <strong className="text-foreground">Newsletter preferences</strong> — if you pick a topic
-          on the confirmation panel straight after signing up, we store that choice as your lead
-          topic and record when you made it. It only changes which examples lead in the weekly
-          email; every subscriber receives the same issue. We also keep a plain stage label
-          (&ldquo;welcome&rdquo; or &ldquo;active&rdquo;) so we know whether your welcome series has
-          finished, and a random internal reference that lets only the browser you signed up in
-          change that choice. We do not build a profile from opens.
+          <strong className="text-foreground">Newsletter preferences and opt-out link</strong> — each
+          subscriber row holds one random, opaque reference (no email address in it). That reference
+          is the only identifier placed in the unsubscribe and preference links inside our emails,
+          and possessing the link is what proves the request came from that mailbox. Using the
+          unsubscribe link retires the reference immediately, so the link cannot be reused. The
+          preference choice is a fixed topic label (for example &ldquo;duck breast&rdquo;) that only
+          changes which examples lead in an issue; every subscriber receives the same issue. We also
+          keep a plain stage label (&ldquo;welcome&rdquo; or &ldquo;active&rdquo;). We do not build a
+          profile from opens, and these links are never sent to analytics.
         </li>
+        <li>
+          <strong className="text-foreground">Delivery outcome records</strong> — when our email
+          provider reports that a message bounced, was marked as spam, or that an address opted out,
+          we store a short record of that outcome: the address, the outcome type, its timestamp, and
+          a signature-verified provider reference. We do not store the provider&apos;s full message
+          payload. These records exist so a suppressed address is never emailed again.
+        </li>
+
 
 
         <li>
@@ -103,15 +113,30 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
     ),
   },
   {
+    heading: "Opting out",
+    body: (
+      <p>
+        Unsubscribing takes effect in our own database first, which is the record that decides whether
+        you are emailed: your row is marked unsubscribed with the date, and the link you used is
+        retired. We then ask Resend to mark the same address as unsubscribed. If that provider request
+        fails, our own opt-out still stands and we retry it internally. You can also reply to any
+        email, or write to the address below, and we will action it by hand.
+      </p>
+    ),
+  },
+  {
     heading: "Retention",
     body: (
       <p>
         Server logs are retained for a short operational period and then discarded. Newsletter email
-        addresses, once collected, are kept until you unsubscribe or ask us to delete them,
-        whichever comes first. Every newsletter email will carry a one-click unsubscribe link.
+        addresses, once collected, are kept until you unsubscribe or ask us to delete them, whichever
+        comes first. Delivery outcome records (bounce, spam complaint, opt-out) are kept for as long
+        as the address remains suppressed, because they are the evidence for not emailing it. Every
+        newsletter email carries an unsubscribe link.
       </p>
     ),
   },
+
   {
     heading: "Your rights",
     body: (
