@@ -6,10 +6,15 @@ import { SKETCH_SIZES, sketchSrcSet } from "@/lib/sketch-sources";
 /** How tall a band crops its illustration. */
 export type SketchHeight = "short" | "medium" | "tall" | "auto";
 
+/**
+ * Bands are aspect-ratio boxes, not fixed pixel heights: the drawings are a
+ * single centered subject on paper, so a 160px `object-cover` crop decapitates
+ * them. Ratio box + `object-contain` keeps every subject whole at any width.
+ */
 const HEIGHT_CLASS: Record<Exclude<SketchHeight, "auto">, string> = {
-  short: "h-40 lg:h-48",
-  medium: "h-56 lg:h-72",
-  tall: "h-72 lg:h-[26rem]",
+  short: "aspect-[21/9]",
+  medium: "aspect-[2/1]",
+  tall: "aspect-[16/9] lg:aspect-[7/4]",
 };
 
 /** Where the crop keeps its focus when the band is shorter than the drawing. */
@@ -20,6 +25,11 @@ const FOCUS_CLASS: Record<SketchFocus, string> = {
   center: "object-center",
   bottom: "object-bottom",
 };
+
+/** Faint paper hatch so a lazy band never flashes as an empty rectangle. */
+export const SKETCH_PLACEHOLDER =
+  "bg-[repeating-linear-gradient(135deg,hsl(var(--border)/0.22)_0_1px,transparent_1px_10px)]";
+
 
 /**
  * Decorative colored-pencil illustration. Blend mode lets the drawing's paper
