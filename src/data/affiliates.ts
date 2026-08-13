@@ -52,11 +52,12 @@ export const MERCHANTS: Merchant[] = [
   {
     id: "dartagnan",
     name: "D'Artagnan",
-    status: "candidate",
+    program: "Awin",
+    status: "applied",
     directUrl: "https://www.dartagnan.com/",
     statusReviewed: "2026-08",
     internalNote:
-      "Editorial sourcing candidate only. No application filed and no affiliate relationship.",
+      "Delicious Duck Awin publisher account is activated (publisher ID 3034797); D'Artagnan advertiser program application has been submitted and is pending approval.",
   },
   {
     id: "thermoworks",
