@@ -344,8 +344,17 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     return { outcome, resendSync: "synced", welcomeEvent: "skipped" };
   }
 
+  // No usable token means no working unsubscribe/preferences link, so we send
+  // nothing and leave the row "pending" rather than mail a dead-link welcome.
+  const token = (row.preference_token as string | null) ?? null;
+  if (!isPlausibleToken(token)) {
+    console.warn("Welcome event skipped: no usable mailbox token on the stored row");
+    return { outcome, resendSync: "synced", welcomeEvent: "pending" };
+  }
+
   try {
     await sendWelcomeEvent(emailNormalized, apiKey, {
+      token,
       interest: data.interest,
       source_path: data.sourcePath,
     });
