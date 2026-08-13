@@ -140,7 +140,7 @@ export function SketchBackdrop({
         aria-hidden="true"
         loading="lazy"
         decoding="async"
-        className={`pointer-events-none absolute select-none mix-blend-multiply ${opacity} ${layer}`}
+        className={`pointer-events-none absolute ${SKETCH_RENDER.blend} ${opacity} ${layer}`}
       />
       <div className="relative">{children}</div>
     </section>
