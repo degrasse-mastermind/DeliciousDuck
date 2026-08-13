@@ -216,7 +216,8 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     return {
       subscribed: true,
       resendSync: "pending",
-      welcomeEvent: "skipped",
+      // No email is triggered, and the UI never claims one was.
+      welcomeEvent: "pending",
       primaryInterest: null,
       preferenceToken: null,
       suppressed: true,
