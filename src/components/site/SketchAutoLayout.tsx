@@ -2,7 +2,7 @@ import { Children, isValidElement, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { type SketchHeight } from "./SketchFigure";
 import { SketchSlot } from "./SketchSlot";
-import { alternateFrame, steppedIntensity } from "@/lib/sketch-variants";
+import { alternateFrame } from "@/lib/sketch-variants";
 import { sketchRotationForPath, type SketchArt } from "@/lib/sketch-art";
 
 /** How much room the content column has — drives crop height and framing. */
