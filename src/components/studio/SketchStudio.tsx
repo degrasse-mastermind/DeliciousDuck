@@ -422,10 +422,15 @@ export function SketchStudio({
                     </ul>
                     {usage && promoteMode === "replace" ? (
                       <p className="mt-1 text-[11px] text-muted-foreground">
-                        Affects {usage.paths.length} route
-                        {usage.paths.length === 1 ? "" : "s"}
-                        {usage.paths.length > 0 ? `: ${usage.paths.slice(0, 6).join(", ")}` : ""}
-                        {usage.paths.length > 6 ? "…" : ""}
+                        Affects {usage.total} route{usage.total === 1 ? "" : "s"}
+                        {usage.primary.length > 0
+                          ? ` — header art on ${usage.primary.slice(0, 4).join(", ")}${
+                              usage.primary.length > 4 ? "…" : ""
+                            }`
+                          : ""}
+                        {usage.rotation.length > 0
+                          ? `; in rotation on ${usage.rotation.length} more`
+                          : ""}
                       </p>
                     ) : null}
 
