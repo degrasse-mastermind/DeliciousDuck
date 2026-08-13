@@ -14,8 +14,65 @@ export type Database = {
   }
   public: {
     Tables: {
+      newsletter_provider_events: {
+        Row: {
+          created_at: string
+          detail: string | null
+          email_normalized: string
+          event_type: string
+          id: string
+          occurred_at: string | null
+          provider: string
+          provider_event_id: string | null
+          received_at: string
+          subscriber_id: string | null
+          updated_at: string
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          detail?: string | null
+          email_normalized: string
+          event_type: string
+          id?: string
+          occurred_at?: string | null
+          provider?: string
+          provider_event_id?: string | null
+          received_at?: string
+          subscriber_id?: string | null
+          updated_at?: string
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          detail?: string | null
+          email_normalized?: string
+          event_type?: string
+          id?: string
+          occurred_at?: string | null
+          provider?: string
+          provider_event_id?: string | null
+          received_at?: string
+          subscriber_id?: string | null
+          updated_at?: string
+          verified?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_provider_events_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "newsletter_subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       newsletter_subscribers: {
         Row: {
+          consent_record: string
+          consent_source_path: string | null
+          consent_text_version: string | null
+          consented_at: string | null
           created_at: string
           email: string
           email_normalized: string
@@ -30,6 +87,10 @@ export type Database = {
           placement: string | null
           preference_token: string
           primary_interest: string | null
+          privacy_policy_url: string | null
+          privacy_policy_version: string | null
+          provider_last_event: string | null
+          provider_last_event_at: string | null
           resend_contact_id: string | null
           resend_sync_status: string
           signup_count: number
@@ -37,12 +98,18 @@ export type Database = {
           source_path: string | null
           status: string
           subscribed_at: string
+          suppressed_at: string | null
+          suppression_reason: string | null
           unsubscribed_at: string | null
           updated_at: string
           welcome_event_at: string | null
           welcome_event_status: string
         }
         Insert: {
+          consent_record?: string
+          consent_source_path?: string | null
+          consent_text_version?: string | null
+          consented_at?: string | null
           created_at?: string
           email: string
           email_normalized: string
@@ -57,6 +124,10 @@ export type Database = {
           placement?: string | null
           preference_token?: string
           primary_interest?: string | null
+          privacy_policy_url?: string | null
+          privacy_policy_version?: string | null
+          provider_last_event?: string | null
+          provider_last_event_at?: string | null
           resend_contact_id?: string | null
           resend_sync_status?: string
           signup_count?: number
@@ -64,12 +135,18 @@ export type Database = {
           source_path?: string | null
           status?: string
           subscribed_at?: string
+          suppressed_at?: string | null
+          suppression_reason?: string | null
           unsubscribed_at?: string | null
           updated_at?: string
           welcome_event_at?: string | null
           welcome_event_status?: string
         }
         Update: {
+          consent_record?: string
+          consent_source_path?: string | null
+          consent_text_version?: string | null
+          consented_at?: string | null
           created_at?: string
           email?: string
           email_normalized?: string
@@ -84,6 +161,10 @@ export type Database = {
           placement?: string | null
           preference_token?: string
           primary_interest?: string | null
+          privacy_policy_url?: string | null
+          privacy_policy_version?: string | null
+          provider_last_event?: string | null
+          provider_last_event_at?: string | null
           resend_contact_id?: string | null
           resend_sync_status?: string
           signup_count?: number
@@ -91,6 +172,8 @@ export type Database = {
           source_path?: string | null
           status?: string
           subscribed_at?: string
+          suppressed_at?: string | null
+          suppression_reason?: string | null
           unsubscribed_at?: string | null
           updated_at?: string
           welcome_event_at?: string | null
