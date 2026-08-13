@@ -20,3 +20,19 @@ export const STARTER_GUIDE = {
 
 /** Absolute URL used in the Resend welcome event payload. */
 export const STARTER_GUIDE_URL = `${SITE_URL}${STARTER_GUIDE.path}`;
+
+
+/**
+ * Duck Fundamentals: The Field Guide — the printable 16-page PDF that
+ * subscribers receive. Served as a stable public asset.
+ */
+export const FIELD_GUIDE = {
+  path: "/downloads/duck-fundamentals-field-guide.pdf",
+  title: "Duck Fundamentals: The Field Guide",
+  description:
+    "A printable 16-page guide to buying, preparing, cooking, carving, troubleshooting, and making every part of the duck count.",
+  pages: 16,
+} as const;
+
+/** Absolute URL used in the Resend welcome event payload. */
+export const FIELD_GUIDE_URL = `${SITE_URL}${FIELD_GUIDE.path}`;

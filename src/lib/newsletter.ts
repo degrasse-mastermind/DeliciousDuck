@@ -35,7 +35,7 @@ export const NEWSLETTER_CONFIG: NewsletterConfig = {
   provider: "supabase+resend",
   status: "configured",
   sourceOfTruth: "database",
-  leadMagnet: "The Duck Cooking Starter Guide",
+  leadMagnet: "Duck Fundamentals: The Field Guide (printable 16-page PDF)",
   senderIdentity: "DeliciousDuck <hello@deliciousduck.com>",
   segmentId: RESEND_AUDIENCE_ID,
 };

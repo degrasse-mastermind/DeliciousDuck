@@ -1,5 +1,5 @@
 import { RESEND_AUDIENCE_ID, type SubscribePayload } from "./newsletter-schema";
-import { STARTER_GUIDE_URL } from "@/data/starter-guide";
+import { FIELD_GUIDE_URL } from "@/data/starter-guide";
 
 /**
  * Server-only newsletter logic.
@@ -65,7 +65,7 @@ async function pushToResend(email: string, apiKey: string): Promise<string | nul
 
 /**
  * Fires the Resend custom event that triggers the welcome email carrying the
- * Starter Guide link. Send-on-first-subscribe: callers skip this when the row
+ * Field Guide download link. Send-on-first-subscribe: callers skip this when the row
  * already has `welcome_event_status = "sent"`, so repeat signups don't spam.
  */
 async function sendWelcomeEvent(email: string, apiKey: string): Promise<void> {
@@ -81,7 +81,7 @@ async function sendWelcomeEvent(email: string, apiKey: string): Promise<void> {
       body: JSON.stringify({
         event: "newsletter.subscribed",
         email,
-        data: { guide_url: STARTER_GUIDE_URL },
+        data: { guide_url: FIELD_GUIDE_URL },
       }),
     });
 
