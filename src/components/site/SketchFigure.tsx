@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { SKETCH, sketchForPath, type SketchArt } from "@/lib/sketch-art";
+import { SKETCH_DIMENSIONS, SKETCH_RENDER } from "@/lib/sketch-style";
 
 /** How tall a band crops its illustration. */
 export type SketchHeight = "short" | "medium" | "tall" | "auto";
