@@ -137,9 +137,14 @@ added, no signature verification exists, and nothing writes to this table yet.
 - Provider-side unsubscribe and suppression synchronisation. Resend-side opt-outs are **not**
   reflected in our database. Do not claim provider-side unsubscribe protection until a
   signed webhook is implemented, deployed, and observed in production.
-- On-site unsubscribe/preference page.
+- On-site unsubscribe page, and any preference page (the in-session editor was removed).
+- Retry path for rows whose welcome event failed — duplicate signups deliberately no longer
+  retry it.
 - Resend welcome automation/broadcast (untouched by design).
 - Resend open/click tracking remains off.
+- No live signup has been executed against these rules: the create / duplicate / suppressed
+  paths are proven by unit tests over the real decision and response functions, not by an
+  observed database write.
 
 ## Controlled end-to-end test plan (not executed)
 
@@ -147,10 +152,12 @@ added, no signature verification exists, and nothing writes to this table yet.
    explicit`, `consented_at` set, `consent_text_version` matches the shipped version,
    `consent_source_path = /`.
 2. Submit the same address again from a different page. Expect: one row, `signup_count = 2`,
-   merged `interests`, refreshed consent timestamp, and **no** second welcome event.
+   merged `interests`, refreshed consent timestamp, **no** second welcome event, and no new
+   Resend activity for that contact.
 3. Manually set that row to `unsubscribed` in a controlled (non-production) row, submit again,
    and confirm: row untouched (`status` still `unsubscribed`, `signup_count` unchanged) and
    the UI shows the same generic success.
+
 4. Confirm the consent paragraph is visible without scrolling past the button at 390px and
    1280px, and that the privacy policy link resolves.
 5. Only after the above: implement the signed webhook, then re-test suppression sync.
