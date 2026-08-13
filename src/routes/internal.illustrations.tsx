@@ -21,6 +21,7 @@ import {
   type SketchHeight,
 } from "@/components/site/SketchFigure";
 import { SketchSlot } from "@/components/site/SketchSlot";
+import { SketchRegenPanel } from "@/components/site/SketchRegenPanel";
 import { SKETCH_CONTEXTS, type SketchContext } from "@/lib/sketch-variants";
 
 /**
@@ -102,6 +103,8 @@ const SAMPLE_COPY = (
 
 function Preview({
   art,
+  override,
+  overrideFinal,
   context,
   variant,
   height,
@@ -109,12 +112,28 @@ function Preview({
   intensity,
 }: {
   art: SketchArt;
+  override?: string | undefined;
+  overrideFinal?: boolean;
   context: ContextChoice;
   variant: Variant;
   height: SketchHeight;
   focus: SketchFocus;
   intensity: Intensity;
 }) {
+  if (override) {
+    return (
+      <div className="overflow-hidden rounded-2xl border border-primary/40 bg-cream">
+        <img
+          src={override}
+          alt={`Regenerated preview: ${art.alt}`}
+          className={`w-full select-none mix-blend-multiply transition-[filter] ${
+            overrideFinal ? "blur-0" : "blur-xl"
+          }`}
+        />
+      </div>
+    );
+  }
+
   if (context !== "custom") {
     return (
       <SketchSlot art={art} context={context} sizes={SKETCH_SIZES.half}>
@@ -153,6 +172,9 @@ function Preview({
 
 function IllustrationGallery() {
   const [context, setContext] = useState<ContextChoice>("custom");
+  const [previews, setPreviews] = useState<
+    Record<string, { url: string; final: boolean }>
+  >({});
   const [variant, setVariant] = useState<Variant>("framed");
   const [height, setHeight] = useState<SketchHeight>("medium");
   const [focus, setFocus] = useState<SketchFocus>("center");
@@ -327,6 +349,8 @@ function IllustrationGallery() {
           <figure key={key} className="min-w-0">
             <Preview
               art={SKETCH[key]}
+              override={previews[key]?.url}
+              overrideFinal={previews[key]?.final ?? false}
               context={context}
               variant={variant}
               height={height}
