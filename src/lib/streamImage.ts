@@ -5,16 +5,33 @@
  * callers can show a blurred partial preview and swap in the final render.
  * If the stream ends without producing a single frame, the request is replayed
  * once non-streaming (some runtimes swallow SSE frames).
+ *
+ * `options.reference` sends the current asset along as an image reference, which
+ * is what makes "refine this drawing" an actual edit rather than a re-roll.
+ * `options.signal` is wired to a user-facing Cancel button only — never a timer.
  */
+export type StreamImageOptions = {
+  model?: string;
+  reference?: string;
+  signal?: AbortSignal;
+};
+
 export async function streamImage(
   endpoint: string,
   prompt: string,
   onFrame: (dataUrl: string, isFinal: boolean) => void,
+  options: StreamImageOptions = {},
 ): Promise<void> {
+  const payload = {
+    prompt,
+    ...(options.model ? { model: options.model } : {}),
+    ...(options.reference ? { reference: options.reference } : {}),
+  };
   const res = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt }),
+    body: JSON.stringify(payload),
+    ...(options.signal ? { signal: options.signal } : {}),
   });
   if (!res.ok || !res.body) throw new Error((await res.text()) || "Generation failed");
 
