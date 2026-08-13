@@ -293,11 +293,8 @@ describe("webhook handler", () => {
     expect(applied).toHaveLength(0);
   });
 
-  it("returns a retryable generic error when storage fails", async () => {
-    const { store, applied } = makeStore(
-      { id: "sub-1", status: "subscribed" },
-      { throwOnInsert: true },
-    );
+  it("returns a retryable generic error when the event log fails", async () => {
+    const { store } = makeStore({ id: "sub-1", status: "subscribed" }, { throwOnInsert: true });
     const out = await handleResendWebhook({
       raw: "raw",
       headers: HEADERS,
@@ -308,6 +305,108 @@ describe("webhook handler", () => {
     expect(out.internal).toBe("storage_error");
     expect(out.status).toBe(500);
     expect(out.body).toBe("error");
-    expect(applied).toHaveLength(0);
   });
 });
+
+/**
+ * The retry hole this ordering exists to close: with the event logged first, a
+ * failure in between left a logged-but-unapplied suppression that every
+ * redelivery then dismissed as a replay.
+ */
+describe("crash-safety between the transition and the event log", () => {
+  it("persists the event on retry after an event-log failure, with no unsafe second mutation", async () => {
+    const seen = new Set<string>();
+    const row = { id: "sub-1", status: "subscribed" };
+
+    // Delivery 1: the guarded update lands, then the log write fails.
+    const first = makeStore(row, { throwOnInsert: true, seenEventIds: seen });
+    const out1 = await handleResendWebhook({
+      raw: "raw",
+      headers: HEADERS,
+      hasSecret: true,
+      verify: okVerify(bounce()),
+      store: first.store,
+    });
+    expect(out1.status).toBe(500);
+    expect(first.applied).toHaveLength(1);
+    expect(first.row?.status).toBe("bounced"); // suppression really is in effect
+    expect(seen.size).toBe(0); // nothing logged, so nothing can look like a replay
+
+    // Delivery 2 (Resend retry): same event id, row already suppressed.
+    const second = makeStore(first.row!, { seenEventIds: seen });
+    const out2 = await handleResendWebhook({
+      raw: "raw",
+      headers: HEADERS,
+      hasSecret: true,
+      verify: okVerify(bounce()),
+      store: second.store,
+    });
+    expect(out2.status).toBe(200);
+    expect(out2.internal).toBe("no_transition"); // guard refused; no double write
+    expect(second.row?.status).toBe("bounced"); // unchanged, not downgraded
+    expect(second.events).toHaveLength(1); // the event is finally persisted
+    expect(seen.has("msg_test_1")).toBe(true);
+  });
+
+  it("logs no event and returns 500 when the subscriber update fails", async () => {
+    const { store, events, applied, row } = makeStore(
+      { id: "sub-1", status: "subscribed" },
+      { throwOnUpdate: true },
+    );
+    const out = await handleResendWebhook({
+      raw: "raw",
+      headers: HEADERS,
+      hasSecret: true,
+      verify: okVerify(bounce()),
+      store,
+    });
+    expect(out.status).toBe(500);
+    expect(out.internal).toBe("storage_error");
+    expect(applied).toHaveLength(0);
+    expect(events).toHaveLength(0); // no logged-but-unapplied event
+    expect(row?.status).toBe("subscribed");
+  });
+
+  it("refuses a downgrade when the stored status changed after the lookup", async () => {
+    // Our read saw `subscribed`; a concurrent complaint lands before our write.
+    const { store, events, applied, row } = makeStore(
+      { id: "sub-1", status: "subscribed" },
+      { beforeUpdate: (r) => void (r.status = "complained") },
+    );
+    const out = await handleResendWebhook({
+      raw: "raw",
+      headers: HEADERS,
+      hasSecret: true,
+      verify: okVerify({
+        type: "contact.updated",
+        data: { email: "reader@example.com", unsubscribed: true },
+      }),
+      store,
+    });
+    expect(out.status).toBe(200);
+    expect(out.internal).toBe("no_transition");
+    expect(applied).toHaveLength(1); // the write was attempted...
+    expect(row?.status).toBe("complained"); // ...and the guard rejected it
+    expect(events).toHaveLength(1); // still recorded as evidence
+  });
+
+  it("keeps a duplicate delivery at 200 with the row untouched", async () => {
+    const seen = new Set(["msg_test_1"]);
+    const { store, applied, row } = makeStore(
+      { id: "sub-1", status: "bounced" },
+      { seenEventIds: seen },
+    );
+    const out = await handleResendWebhook({
+      raw: "raw",
+      headers: HEADERS,
+      hasSecret: true,
+      verify: okVerify(bounce()),
+      store,
+    });
+    expect(out.status).toBe(200);
+    expect(out.internal).toBe("replay");
+    expect(applied).toHaveLength(0); // equal status: no transition even attempted
+    expect(row?.status).toBe("bounced");
+  });
+});
+
