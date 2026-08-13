@@ -201,6 +201,9 @@ POST https://api.resend.com/events/send
   "preferences_url":"https://deliciousduck.com/newsletter/preferences?t=<token>"}}
 ```
 
+Custom event fields go in `payload`, which is what Resend Automations expose as
+`event.<field>` in step templates. A `data` wrapper renders as `undefined`.
+
 - `persistSubscriber` selects `preference_token` with the written row, so the
   token exists server-side for exactly the send that needs it. It is never
   returned to the browser.
