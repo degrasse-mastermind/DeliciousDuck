@@ -149,7 +149,7 @@ export function trackAffiliateClick(params: {
   linkText?: string;
   merchant?: string;
   /** Registry id from src/data/affiliates.ts, when the row maps to a merchant. */
-  merchantId?: string;
+  merchantId?: string | undefined;
   placement?: string;
   linkType?: "affiliate" | "direct_seller";
   /** Where the click lands: a tracking link, or the merchant's own site. */
