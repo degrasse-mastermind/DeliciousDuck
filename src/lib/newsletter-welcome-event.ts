@@ -9,7 +9,7 @@
  * opaque `preference_token`. No email address goes in those URLs.
  */
 
-import { mailboxLinks } from "./newsletter-links";
+import { isPlausibleToken, mailboxLinks } from "./newsletter-links";
 
 export const WELCOME_EVENT_NAME = "newsletter.subscribed";
 export const WELCOME_EVENT_SEND_URL = "https://api.resend.com/events/send";
