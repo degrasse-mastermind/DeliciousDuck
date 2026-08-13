@@ -6,8 +6,10 @@ import { SafetyNote } from "@/components/site/SafetyNote";
 import { ShopThisGuide } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { DUCK_BREAST_CLUSTER } from "@/lib/duck-breast-cluster";
 
 const GUIDE = guideByPath("/cook/how-to-cook-duck-breast")!;
 
@@ -150,6 +152,15 @@ function Page() {
         </p>
       </Section>
 
+      <DuckBreastJourney
+        id="choose-your-next-answer"
+        title="Choose your next answer"
+        intro="Whatever you need next — a number, a fix, a recipe, or a pan — it is one of these ten pages."
+        placement="hub_next_answer"
+        variant="grouped"
+        excludePath="/cook/how-to-cook-duck-breast"
+      />
+
       <Section id="temp-ladder" heading="The temperature ladder at a glance">
         <DataTable
           caption="Pan-stage heat and what's happening in the skin"
@@ -199,6 +210,57 @@ function Page() {
           },
         ]}
       />
+
+      <Section id="what-you-need" heading="What you actually need">
+        <p>
+          Duck breast is not an equipment-heavy cook. It is worth being blunt about which of these
+          things changes the outcome and which is a convenience, because the difference is large.
+        </p>
+        <h3 className="font-display text-xl text-foreground">Essential</h3>
+        <ul className="list-disc space-y-2 pl-5">
+          <li>
+            <strong>A heavy pan you already own.</strong> Cast iron or thick clad stainless is
+            ideal, but any pan with real thermal mass will hold the slow climb. If you have one,
+            you do not need another —{" "}
+            <a href="/gear/best-pan-for-duck-breast" className="text-primary underline underline-offset-4">
+              what to look for in a pan
+            </a>{" "}
+            matters only when you are replacing one.
+          </li>
+          <li>
+            <strong>A thermometer.</strong> This is the one item that genuinely changes results,
+            because pulling by clock alone is guesswork on a cut this thin. See{" "}
+            <a href="/gear/best-thermometer-for-duck" className="text-primary underline underline-offset-4">
+              thermometers for duck
+            </a>.
+          </li>
+          <li>
+            <strong>A sharp knife.</strong> Whatever knife you own, if it is sharp it will score
+            the fat cap. Sharpness matters more than shape.
+          </li>
+        </ul>
+        <h3 className="font-display text-xl text-foreground">Useful</h3>
+        <ul className="list-disc space-y-2 pl-5">
+          <li>
+            A heatproof container for the fat you pour off, so you can strain and keep it rather
+            than throwing away the best by-product of the cook.
+          </li>
+          <li>
+            A knife with good tip control, which makes scoring more consistent rather than merely
+            possible —{" "}
+            <a href="/gear/best-knife-for-scoring-duck" className="text-primary underline underline-offset-4">
+              blade shapes for scoring
+            </a>.
+          </li>
+          <li>A rack or warm plate to rest on, so the skin is not sitting in juices.</li>
+        </ul>
+        <h3 className="font-display text-xl text-foreground">Optional</h3>
+        <ul className="list-disc space-y-2 pl-5">
+          <li>A leave-in probe, which is convenience for multiple breasts rather than accuracy.</li>
+          <li>A splatter screen, purely for cleanup.</li>
+          <li>A fat separator or fine strainer, if you render often enough to care.</li>
+        </ul>
+      </Section>
 
       <ShopThisGuide
         items={[
