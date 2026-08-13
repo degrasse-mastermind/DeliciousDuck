@@ -25,7 +25,7 @@ function AlphaBadge({ candidate }: { candidate: Candidate }) {
       title={reason ?? undefined}
     >
       {transparent
-        ? `Alpha verified · ${Math.round(coverage * 100)}% ink`
+        ? `Alpha verified · ${Math.round(transparentRatio * 100)}% clear`
         : "Alpha failed"}
     </span>
   );
