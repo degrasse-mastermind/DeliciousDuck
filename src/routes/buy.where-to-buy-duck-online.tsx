@@ -7,6 +7,7 @@ import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 
 const GUIDE = guideByPath("/buy/where-to-buy-duck-online")!;
 
@@ -222,6 +223,20 @@ function Page() {
           ))}
         </div>
       </Section>
+
+      <CommercialCallout
+        heading="Where you can order duck right now"
+        intro="Two mail-order sellers whose public catalogues list duck, with what each is practically useful for. Neither has been ordered from for a hands-on review."
+        placement="buy_duck_options"
+        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        criteria={[
+          "The cut and breed are named on the product page, not just \"duck\".",
+          "Frozen shipping is packed and scheduled, with a delivery window you will be home for.",
+          "The order minimum and shipping cost make sense for the quantity you actually cook.",
+          "Duck fat is available separately, so a single order covers the render you will need later.",
+        ]}
+        footnote="We do not publish prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
+      />
 
       <ShopThisGuide
         items={[
