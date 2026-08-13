@@ -208,7 +208,10 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   }
 
   try {
-    await sendWelcomeEvent(emailNormalized, apiKey);
+    await sendWelcomeEvent(emailNormalized, apiKey, {
+      interest: data.interest,
+      source_path: data.sourcePath,
+    });
     await supabaseAdmin
       .from("newsletter_subscribers")
       .update({ welcome_event_status: "sent", welcome_event_at: new Date().toISOString() })
