@@ -150,6 +150,16 @@ describe("decideWelcomeDispatch", () => {
       });
     }
   });
+
+  it("refuses a missing or blank API key before any token check", () => {
+    for (const apiKey of [undefined, null, "", "   ", 42]) {
+      expect(decideWelcomeDispatch({ ...OK, apiKey })).toEqual({
+        dispatch: false,
+        reason: "no_api_key",
+      });
+    }
+    expect(decideWelcomeDispatch({ ...OK, apiKey: KEY })).toEqual({ dispatch: true, token: TOKEN });
+  });
 });
 
 describe("dispatchWelcomeEvent", () => {
