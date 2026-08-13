@@ -1,6 +1,10 @@
 import { useState } from "react";
-import { Check, Clock, Download } from "lucide-react";
-import { trackNewsletterIntent, trackNewsletterSignup } from "@/lib/analytics";
+import { ArrowRight, Check, Clock, Download } from "lucide-react";
+import {
+  trackNewsletterIntent,
+  trackNewsletterPostsignupClick,
+  trackNewsletterSignup,
+} from "@/lib/analytics";
 import {
   isNewsletterEnabled,
   subscribeToNewsletter,
@@ -8,9 +12,19 @@ import {
   type SubscribeResult,
 } from "@/lib/newsletter";
 import { FIELD_GUIDE, STARTER_GUIDE } from "@/data/starter-guide";
+import {
+  interestForPath,
+  newsletterContext,
+  type NewsletterInterest,
+} from "@/data/newsletter-contexts";
 
 /**
- * Honest-by-default signup.
+ * Honest-by-default signup, with contextual promises.
+ *
+ * One component, one data model, one real lead magnet: the Field Guide PDF.
+ * The `interest` prop selects a cluster-specific promise and post-signup link
+ * set from `@/data/newsletter-contexts` — it never changes what subscribers
+ * actually receive.
  *
  * The backend is owned by `src/lib/newsletter.ts`. Validation runs client-side
  * first, then the server function validates again, rate-limits, checks the
@@ -20,13 +34,18 @@ import { FIELD_GUIDE, STARTER_GUIDE } from "@/data/starter-guide";
  * durable storage succeeds; any failure keeps the form open.
  *
  * GA4: `newsletter_intent` covers interaction either way; `newsletter_signup`
- * is emitted once per successful subscription and never on mount.
+ * is emitted once per successful subscription and never on mount;
+ * `newsletter_postsignup_click` covers the "Start here" module. No event ever
+ * carries the email address.
  */
 export function NewsletterSignup({
   id = "starter-guide",
+  interest = "general",
   onSubscribe = subscribeToNewsletter,
 }: {
   id?: string;
+  /** Page-cluster context. Same asset, cluster-specific promise. */
+  interest?: NewsletterInterest;
   onSubscribe?: ((input: SubscribeInput) => Promise<SubscribeResult | void>) | undefined;
 }) {
   const [email, setEmail] = useState("");
@@ -38,12 +57,13 @@ export function NewsletterSignup({
   const [signupSent, setSignupSent] = useState(false);
   const [welcomeTriggered, setWelcomeTriggered] = useState(false);
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
+  const context = newsletterContext(interest);
 
   /** One intent event per component instance — no double-firing. */
   function signalIntent(source: string) {
     if (intentSent) return;
     setIntentSent(true);
-    trackNewsletterIntent({ placement: id, source, listOpen: enabled });
+    trackNewsletterIntent({ placement: id, source, interest, listOpen: enabled });
   }
 
   const valid = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
@@ -58,11 +78,15 @@ export function NewsletterSignup({
     }
     setError(null);
     setPending(true);
+    // Path only, never the query string — no PII leaves the page.
+    const sourcePath = typeof window === "undefined" ? undefined : window.location.pathname;
     try {
       const result = await onSubscribe({
         email: cleaned,
         source: "newsletter_form",
         placement: id,
+        interest: interest === "general" ? interestForPath(sourcePath) : interest,
+        ...(sourcePath ? { sourcePath } : {}),
         trap,
       });
       // Only claim email delivery when the welcome email was actually triggered.
@@ -71,7 +95,7 @@ export function NewsletterSignup({
       // No email or other PII is sent to analytics.
       if (!signupSent) {
         setSignupSent(true);
-        trackNewsletterSignup({ placement: id, source: "newsletter_form" });
+        trackNewsletterSignup({ placement: id, source: "newsletter_form", interest });
       }
       setDone(true);
     } catch {
@@ -81,7 +105,6 @@ export function NewsletterSignup({
     }
   }
 
-
   return (
     <section
       id={id}
@@ -90,7 +113,7 @@ export function NewsletterSignup({
     >
       <div className="grid gap-10 p-8 lg:grid-cols-2 lg:items-center lg:p-14">
         <div>
-          <span className="eyebrow text-accent">Join the list</span>
+          <span className="eyebrow text-accent">{context.eyebrow}</span>
           <h2
             id={`${id}-heading`}
             className="mt-3 font-display text-3xl leading-tight lg:text-[2.75rem]"
@@ -98,18 +121,12 @@ export function NewsletterSignup({
             {FIELD_GUIDE.title}
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/80">
-            {FIELD_GUIDE.description} Subscribers get it as a printable 16-page PDF, plus occasional
-            DeliciousDuck recipes and guides.
+            {context.promise} Subscribers get it as a printable 16-page PDF, plus a short welcome
+            series and occasional DeliciousDuck recipes and guides.
           </p>
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
-            {[
-              "The crisp-skin technique: scoring, cold-pan rendering, and fat management",
-              "Whole-duck and duck-breast workflows, start to carving",
-              "Troubleshooting for chewy skin, dry breast, and tough legs",
-              "A planning timeline from thawing to resting",
-              "A printable kitchen card with temperatures and timings",
-            ].map((point) => (
+            {context.bullets.map((point) => (
               <li key={point} className="flex items-start gap-2.5">
                 <Check aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
                 {point}
@@ -134,7 +151,6 @@ export function NewsletterSignup({
             </a>
             , right now.
           </p>
-
         </div>
 
         <div className="rounded-sm bg-background/95 p-6 text-foreground lg:p-8">
@@ -171,36 +187,74 @@ export function NewsletterSignup({
               </p>
             </div>
           ) : done ? (
-            <div role="status" className="text-center">
-              <span
-                aria-hidden="true"
-                className="mx-auto flex size-12 items-center justify-center rounded-full bg-secondary text-primary"
-              >
-                <Check className="size-6" />
-              </span>
-              <h3 className="mt-4 font-display text-2xl">You&apos;re on the DeliciousDuck list</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {welcomeTriggered
-                  ? "Your welcome email is on its way — it carries the same download link. You can grab the field guide right now:"
-                  : "You're subscribed. You can download the field guide right now:"}
-              </p>
-              <a
-                href={FIELD_GUIDE.path}
-                target="_blank"
-                rel="noopener"
-                aria-label={`Download your field guide: ${FIELD_GUIDE.title} (PDF, 16 pages, opens in a new tab)`}
-                className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-sm bg-primary px-5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
-              >
-                <Download aria-hidden="true" className="size-4" />
-                Download your field guide
-              </a>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Printable PDF, 16 pages. You can also read the companion{" "}
-                <a href={STARTER_GUIDE.path} className="text-primary underline underline-offset-4">
-                  Duck Cooking Starter Guide
-                </a>{" "}
-                on the site.
-              </p>
+            <div role="status">
+              <div className="text-center">
+                <span
+                  aria-hidden="true"
+                  className="mx-auto flex size-12 items-center justify-center rounded-full bg-secondary text-primary"
+                >
+                  <Check className="size-6" />
+                </span>
+                <h3 className="mt-4 font-display text-2xl">
+                  You&apos;re on the DeliciousDuck list
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {welcomeTriggered
+                    ? "Your welcome email is on its way — it carries the same download link. You can grab the field guide right now:"
+                    : "You're subscribed. You can download the field guide right now:"}
+                </p>
+                <a
+                  href={FIELD_GUIDE.path}
+                  target="_blank"
+                  rel="noopener"
+                  aria-label={`Download your field guide: ${FIELD_GUIDE.title} (PDF, 16 pages, opens in a new tab)`}
+                  className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-sm bg-primary px-5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
+                >
+                  <Download aria-hidden="true" className="size-4" />
+                  Download your field guide
+                </a>
+                <p className="mt-3 text-xs text-muted-foreground">
+                  Printable PDF, 16 pages. The welcome series follows over the next two weeks.
+                </p>
+              </div>
+
+              {/* Deepen the session honestly: on-site reading, not a claim about email. */}
+              <div className="mt-6 border-t border-border pt-5">
+                <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+                  Start here while you wait
+                </h4>
+                <ul className="mt-3 space-y-2.5">
+                  {context.startHere.map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        onClick={() =>
+                          trackNewsletterPostsignupClick({
+                            placement: id,
+                            interest,
+                            linkUrl: link.href,
+                            linkText: link.label,
+                          })
+                        }
+                        className="group flex items-start justify-between gap-3 text-sm"
+                      >
+                        <span>
+                          <span className="font-semibold text-primary underline-offset-4 group-hover:underline">
+                            {link.label}
+                          </span>
+                          <span className="mt-0.5 block text-xs text-muted-foreground">
+                            {link.note}
+                          </span>
+                        </span>
+                        <ArrowRight
+                          aria-hidden="true"
+                          className="mt-0.5 size-4 shrink-0 text-muted-foreground"
+                        />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-4">
@@ -248,14 +302,15 @@ export function NewsletterSignup({
                 disabled={pending}
                 className="h-12 w-full rounded-sm bg-primary text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep disabled:opacity-70"
               >
-                {pending ? "Signing you up…" : "Join the list"}
+                {pending ? "Signing you up…" : "Get the field guide"}
               </button>
               <p className="text-xs leading-relaxed text-muted-foreground">
                 You&apos;re signing up for DeliciousDuck emails: Duck Fundamentals: The Field Guide
-                (printable 16-page PDF), plus occasional recipes and guides. Sent from
+                (printable 16-page PDF), a six-part welcome series over about two weeks, and
+                occasional cooking guides, recipes, and buying guidance. We also record which page
+                you signed up from so the emails match what you were reading. Sent from
                 hello@deliciousduck.com via Resend. Unsubscribe any time.
               </p>
-
             </form>
           )}
         </div>
