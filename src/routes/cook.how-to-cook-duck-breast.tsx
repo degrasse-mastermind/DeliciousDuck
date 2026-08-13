@@ -8,6 +8,8 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { SketchBand } from "@/components/site/SketchFigure";
+import { SKETCH } from "@/lib/sketch-art";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { DUCK_BREAST_CLUSTER } from "@/lib/duck-breast-cluster";
 
@@ -283,6 +285,14 @@ function Page() {
             linkLabel: "Compare scoring knives",
           },
         ]}
+      />
+
+      <SketchBand
+        art={SKETCH.slicedBreast}
+        height="medium"
+        focus="center"
+        className="mt-14"
+        caption="Rested, then sliced against the grain — the payoff for a slow, patient render."
       />
 
       <div className="mt-14">

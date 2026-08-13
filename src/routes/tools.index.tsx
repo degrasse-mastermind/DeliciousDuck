@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { ToolListItem } from "@/components/site/ToolListItem";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { SketchInterlude } from "@/components/site/SketchFigure";
+import { SKETCH } from "@/lib/sketch-art";
 import { TOOLS } from "@/data/tools";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 
@@ -48,6 +50,21 @@ function ToolsPage() {
             <ToolListItem key={tool.slug} tool={tool} />
           ))}
         </ul>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 pb-16 lg:px-8">
+        <SketchInterlude
+          art={SKETCH.thermometer}
+          eyebrow="Why these exist"
+          title="Numbers first, then the pan"
+          position="right"
+        >
+          <p>
+            Every calculator here comes from the same place our guides do: measured internal
+            temperatures, weighed birds, and timings we can repeat. Start with a number, then cook to
+            what you see.
+          </p>
+        </SketchInterlude>
       </section>
 
       <section className="mx-auto max-w-7xl px-5 pb-24 lg:px-8">

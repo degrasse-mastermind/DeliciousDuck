@@ -24,7 +24,7 @@ import ovenRoast from "@/assets/sketch/oven-roast.jpg";
 export type SketchArt = { src: string; alt: string };
 
 /** Named colored-pencil illustrations, reusable anywhere on the site. */
-export const SKETCH: Record<string, SketchArt> = {
+export const SKETCH = {
   wholeRoastDuck: {
     src: wholeRoastDuck,
     alt: "Colored-pencil sketch of a whole roast duck resting on a platter with thyme",
@@ -113,7 +113,7 @@ export const SKETCH: Record<string, SketchArt> = {
     src: ovenRoast,
     alt: "Colored-pencil sketch of an open oven with a roasting tin under warm light",
   },
-};
+} satisfies Record<string, SketchArt>;
 
 /** Exact route path → illustration. */
 const BY_PATH: Record<string, keyof typeof SKETCH> = {
