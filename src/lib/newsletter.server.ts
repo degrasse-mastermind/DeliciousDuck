@@ -6,6 +6,7 @@ import {
   welcomeEventFailureReason,
 } from "./newsletter-welcome-event";
 import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
+import { isPlausibleToken } from "./newsletter-links";
 import { decideSignup, providerPlan } from "./newsletter-status";
 import type { SignupOutcome } from "./newsletter-response";
 
