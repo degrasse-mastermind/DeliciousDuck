@@ -197,11 +197,22 @@ const REQUIRED_HEADERS = ["svix-id", "svix-timestamp", "svix-signature"] as cons
 /**
  * The whole webhook decision path.
  *
- * Order matters and is load-bearing: the raw body is verified untouched before
- * any JSON parsing; the verified event is logged before any subscriber write;
- * and a duplicate delivery stops at the log, so a replay can never produce a
- * second status transition.
+ * Order matters and is load-bearing:
+ * 1. the raw body is verified untouched, before any JSON parsing;
+ * 2. the subscriber transition runs FIRST, as one atomic conditional update
+ *    guarded on strictly-weaker statuses;
+ * 3. only then is the verified event logged.
+ *
+ * The transition precedes the log deliberately. Logging first would create a
+ * retry hole: if the log succeeded and the transition then failed, the
+ * redelivery would match the unique event id, be treated as a replay, and
+ * return 200 having never applied the suppression. With this order a failure
+ * anywhere returns 500 with the event unlogged, so the redelivery re-runs the
+ * whole path. Safety rests on the conditional update being idempotent, not on
+ * the event log being a lock: re-running it against an already-transitioned row
+ * simply does not match and reports "unchanged".
  */
+
 export async function handleResendWebhook(input: {
   raw: string;
   headers: Record<string, string>;
