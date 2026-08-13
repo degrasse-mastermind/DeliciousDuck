@@ -53,8 +53,8 @@ export function SketchFigure({
 }) {
   const sizing =
     height === "auto"
-      ? "h-auto w-full"
-      : `w-full object-cover ${HEIGHT_CLASS[height]} ${FOCUS_CLASS[focus]}`;
+      ? "h-auto w-full object-contain"
+      : `h-full w-full object-contain ${HEIGHT_CLASS[height]} ${FOCUS_CLASS[focus]}`;
 
   const srcSet = sketchSrcSet(art.src);
 
@@ -84,6 +84,7 @@ export function SketchBand({
   height = "auto",
   focus = "center",
   variant = "framed",
+  eager = false,
 }: {
   art: SketchArt;
   caption?: string;
@@ -91,6 +92,8 @@ export function SketchBand({
   height?: SketchHeight;
   focus?: SketchFocus;
   variant?: "framed" | "bleed";
+  /** Set on the first band of a page so it doesn't pop in mid-scroll. */
+  eager?: boolean;
 }) {
   const frame =
     variant === "framed"
@@ -99,7 +102,9 @@ export function SketchBand({
 
   return (
     <figure className={`${frame} ${className}`}>
-      <SketchFigure art={art} height={height} focus={focus} />
+      <div className={height === "auto" ? "" : SKETCH_PLACEHOLDER}>
+        <SketchFigure art={art} height={height} focus={focus} eager={eager} />
+      </div>
       {caption ? (
         <figcaption
           className={`px-5 py-3 text-sm text-muted-foreground ${
@@ -112,6 +117,7 @@ export function SketchBand({
     </figure>
   );
 }
+
 
 /**
  * Editorial background band: the sketch sits behind the content at low
