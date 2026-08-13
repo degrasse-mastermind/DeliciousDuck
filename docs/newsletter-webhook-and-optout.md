@@ -157,9 +157,15 @@ index, `preference_token`, and the suppression columns already exist.
   bounces are still invisible locally.
 - Signature verification is only as good as the stored secret; there is no
   IP allowlist.
-- Provider opt-out sync is best-effort and not retried by a scheduled job yet.
+- Provider opt-out sync is best-effort, unvalidated in shape (above), and not
+  retried by a scheduled job yet.
+- The opaque token is present in the URL and may appear in framework hydration
+  state; see the privacy boundary above.
 - A rotated token cannot be re-issued to the reader from the site; a new emailed
   link is required.
+- The transition/event-log pair is not one transaction. The failure mode is now a
+  correctly suppressed row with a missing event row, resolved by the retry —
+  never an unapplied suppression.
 
 ## 6. Activation steps (owner-controlled, none performed)
 
@@ -168,7 +174,8 @@ index, `preference_token`, and the suppression columns already exist.
    `email.bounced`, `email.complained`, `email.suppressed`, `suppression.*`, and
    `contact.updated`.
 2. Copy the signing secret Resend shows and store it as `RESEND_WEBHOOK_SECRET`
-   in project secrets. Until it exists the endpoint intentionally returns 500.
+   in project secrets. Until it exists the endpoint intentionally returns 503.
+
 3. Deploy, then send Resend's test event and confirm a `200`; replay the same
    event and confirm a second `200` with no additional status change.
 4. Update the welcome/broadcast template footer to the absolute URLs from
