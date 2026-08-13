@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { ToolListItem } from "@/components/site/ToolListItem";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { SketchInterlude } from "@/components/site/SketchFigure";
+import { SKETCH } from "@/lib/sketch-art";
 import { TOOLS } from "@/data/tools";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 
