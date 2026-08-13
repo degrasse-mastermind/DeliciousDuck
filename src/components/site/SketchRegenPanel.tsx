@@ -11,6 +11,8 @@ import {
   type SketchRegenOptions,
 } from "@/lib/sketch-regen";
 import { streamImage } from "@/lib/streamImage";
+import { sketchNameFromSrc } from "@/lib/sketch-sources";
+import { replaceSketchAsset } from "@/lib/sketch-replace";
 
 type Status = "idle" | "working" | "done" | "error";
 
