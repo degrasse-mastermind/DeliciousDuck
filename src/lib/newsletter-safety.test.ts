@@ -146,7 +146,7 @@ describe("public subscribe response", () => {
 
   it("exposes no welcome, interest, membership, suppression, or token field", () => {
     for (const outcome of SIGNUP_OUTCOMES) {
-      const response = publicSubscribeResponse(outcome) as Record<string, unknown>;
+      const response = publicSubscribeResponse(outcome) as unknown as Record<string, unknown>;
       for (const leak of [
         "welcomeTriggered",
         "welcomeEvent",
