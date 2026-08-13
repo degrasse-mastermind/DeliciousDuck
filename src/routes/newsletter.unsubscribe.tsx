@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { createFileRoute, Link, useServerFn } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { unsubscribeByTokenFn } from "@/lib/newsletter-preferences.functions";
-import { PREFERENCES_PATH, TOKEN_PARAM } from "@/lib/newsletter-links";
+import { TOKEN_PARAM } from "@/lib/newsletter-links";
 
 /**
  * Mailbox-token unsubscribe page.
@@ -79,8 +80,8 @@ function UnsubscribePage() {
           <p>
             Prefer fewer, more relevant emails instead?{" "}
             <Link
-              to={PREFERENCES_PATH}
-              search={{ [TOKEN_PARAM]: token }}
+              to="/newsletter/preferences"
+              search={{ t: token }}
               className="font-medium text-primary underline"
             >
               Update what you get

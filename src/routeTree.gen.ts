@@ -62,6 +62,7 @@ import { Route as LearnHowToThawDuckRouteImport } from './routes/learn.how-to-th
 import { Route as LearnWholeDuckCookingTimeRouteImport } from './routes/learn.whole-duck-cooking-time'
 import { Route as LearnWhyDuckSkinIsntCrispyRouteImport } from './routes/learn.why-duck-skin-isnt-crispy'
 import { Route as LearnWildDuckVsFarmedDuckRouteImport } from './routes/learn.wild-duck-vs-farmed-duck'
+import { Route as NewsletterPreferencesRouteImport } from './routes/newsletter.preferences'
 import { Route as NewsletterUnsubscribeRouteImport } from './routes/newsletter.unsubscribe'
 import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
 import { Route as RecipesSlugRouteImport } from './routes/recipes.$slug'
@@ -361,6 +362,11 @@ const LearnWildDuckVsFarmedDuckRoute =
     path: '/wild-duck-vs-farmed-duck',
     getParentRoute: () => LearnRoute,
   } as any)
+const NewsletterPreferencesRoute = NewsletterPreferencesRouteImport.update({
+  id: '/newsletter/preferences',
+  path: '/newsletter/preferences',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsletterUnsubscribeRoute = NewsletterUnsubscribeRouteImport.update({
   id: '/newsletter/unsubscribe',
   path: '/newsletter/unsubscribe',
@@ -474,6 +480,7 @@ export interface FileRoutesByFullPath {
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/newsletter/preferences': typeof NewsletterPreferencesRoute
   '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
@@ -534,6 +541,7 @@ export interface FileRoutesByTo {
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/newsletter/preferences': typeof NewsletterPreferencesRoute
   '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
@@ -602,6 +610,7 @@ export interface FileRoutesById {
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
+  '/newsletter/preferences': typeof NewsletterPreferencesRoute
   '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
@@ -671,6 +680,7 @@ export interface FileRouteTypes {
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
+    | '/newsletter/preferences'
     | '/newsletter/unsubscribe'
     | '/recipes/$slug'
     | '/tools/duck-cooking-time-planner'
@@ -731,6 +741,7 @@ export interface FileRouteTypes {
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
+    | '/newsletter/preferences'
     | '/newsletter/unsubscribe'
     | '/recipes/$slug'
     | '/tools/duck-cooking-time-planner'
@@ -798,6 +809,7 @@ export interface FileRouteTypes {
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
+    | '/newsletter/preferences'
     | '/newsletter/unsubscribe'
     | '/recipes/$slug'
     | '/tools/duck-cooking-time-planner'
@@ -838,6 +850,7 @@ export interface RootRouteChildren {
   InternalGrowthDashboardRoute: typeof InternalGrowthDashboardRoute
   InternalKitchenTestSheetRoute: typeof InternalKitchenTestSheetRoute
   InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
+  NewsletterPreferencesRoute: typeof NewsletterPreferencesRoute
   NewsletterUnsubscribeRoute: typeof NewsletterUnsubscribeRoute
   ApiWebhooksResendRoute: typeof ApiWebhooksResendRoute
 }
@@ -1215,6 +1228,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnWildDuckVsFarmedDuckRouteImport
       parentRoute: typeof LearnRoute
     }
+    '/newsletter/preferences': {
+      id: '/newsletter/preferences'
+      path: '/newsletter/preferences'
+      fullPath: '/newsletter/preferences'
+      preLoaderRoute: typeof NewsletterPreferencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/newsletter/unsubscribe': {
       id: '/newsletter/unsubscribe'
       path: '/newsletter/unsubscribe'
@@ -1471,6 +1491,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternalGrowthDashboardRoute: InternalGrowthDashboardRoute,
   InternalKitchenTestSheetRoute: InternalKitchenTestSheetRoute,
   InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
+  NewsletterPreferencesRoute: NewsletterPreferencesRoute,
   NewsletterUnsubscribeRoute: NewsletterUnsubscribeRoute,
   ApiWebhooksResendRoute: ApiWebhooksResendRoute,
 }
