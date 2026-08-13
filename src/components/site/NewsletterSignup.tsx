@@ -7,7 +7,7 @@ import {
   type SubscribeInput,
   type SubscribeResult,
 } from "@/lib/newsletter";
-import { STARTER_GUIDE } from "@/data/starter-guide";
+import { FIELD_GUIDE, STARTER_GUIDE } from "@/data/starter-guide";
 
 /**
  * Honest-by-default signup.
