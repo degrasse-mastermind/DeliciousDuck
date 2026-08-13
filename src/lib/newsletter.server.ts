@@ -1,5 +1,10 @@
 import type { SubscribePayload } from "./newsletter-schema";
 import { createProviderContact } from "./newsletter-provider-contact";
+import {
+  buildWelcomeEventDefinitionRequest,
+  buildWelcomeEventRequest,
+  welcomeEventFailureReason,
+} from "./newsletter-welcome-event";
 import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
 import { decideSignup, providerPlan } from "./newsletter-status";
 import type { SignupOutcome } from "./newsletter-response";
