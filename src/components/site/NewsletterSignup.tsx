@@ -179,29 +179,28 @@ export function NewsletterSignup({
                 <Check className="size-6" />
               </span>
               <h3 className="mt-4 font-display text-2xl">You&apos;re on the DeliciousDuck list</h3>
-              {welcomeTriggered ? (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Check your inbox for the Starter Guide. You can also{" "}
-                  <a
-                    href={STARTER_GUIDE.path}
-                    className="text-primary underline underline-offset-4"
-                  >
-                    read it on the site
-                  </a>{" "}
-                  right now.
-                </p>
-              ) : (
-                <p className="mt-2 text-sm text-muted-foreground">
-                  You&apos;re subscribed. Read{" "}
-                  <a
-                    href={STARTER_GUIDE.path}
-                    className="text-primary underline underline-offset-4"
-                  >
-                    the Duck Cooking Starter Guide
-                  </a>{" "}
-                  here on the site, and watch for occasional recipes and guides.
-                </p>
-              )}
+              <p className="mt-2 text-sm text-muted-foreground">
+                {welcomeTriggered
+                  ? "Your welcome email is on its way — it carries the same download link. You can grab the field guide right now:"
+                  : "You're subscribed. You can download the field guide right now:"}
+              </p>
+              <a
+                href={FIELD_GUIDE.path}
+                target="_blank"
+                rel="noopener"
+                aria-label={`Download your field guide: ${FIELD_GUIDE.title} (PDF, 16 pages, opens in a new tab)`}
+                className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-sm bg-primary px-5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
+              >
+                <Download aria-hidden="true" className="size-4" />
+                Download your field guide
+              </a>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Printable PDF, 16 pages. You can also read the companion{" "}
+                <a href={STARTER_GUIDE.path} className="text-primary underline underline-offset-4">
+                  Duck Cooking Starter Guide
+                </a>{" "}
+                on the site.
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-4">
