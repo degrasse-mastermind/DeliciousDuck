@@ -5,8 +5,6 @@ import { DisclosureBanner } from "@/components/site/Commerce";
 import { guidesByPillar } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 
-const BUY_GUIDES = guidesByPillar("buy");
-
 const CHECKS = [
   {
     title: "Breed and size",
@@ -44,7 +42,7 @@ export const Route = createFileRoute("/buy/")({
       ldScript(
         itemListSchema(
           "Duck buying guides",
-          BUY_GUIDES.map((g) => ({ name: g.title, url: g.path })),
+          guidesByPillar("buy").map((g) => ({ name: g.title, url: g.path })),
         ),
       ),
     ],
@@ -68,7 +66,7 @@ function BuyPage() {
         </div>
 
         <h2 className="mt-14 font-display text-3xl text-foreground">Sourcing guides</h2>
-        <GuideGrid guides={BUY_GUIDES} />
+        <GuideGrid guides={guidesByPillar("buy")} />
 
         <h2 className="mt-20 font-display text-3xl text-foreground">
           Four things to check before you buy
