@@ -47,25 +47,16 @@ export const resyncNewsletterFn = createServerFn({ method: "POST" })
     return await resyncPendingSubscribers();
   });
 
-/**
- * Applies an explicit interest choice, authorised by the opaque token issued to
- * the browser that just completed a signup. No email address is accepted here.
+/*
+ * The in-session interest editor was removed deliberately. It required issuing a
+ * preference token to the browser for first-time subscribers only, which made a
+ * new signup distinguishable from a duplicate one — a list-state leak. Interest
+ * is still recorded from the page cluster the visitor signed up on; explicit
+ * preference editing belongs on a future emailed, token-linked preference page,
+ * where the link itself proves mailbox ownership.
  */
-export const setNewsletterInterestFn = createServerFn({ method: "POST" })
-  .validator((input: unknown) => interestChoiceSchema.parse(input))
-  .handler(async ({ data }) => {
-    const { rateLimited, applyInterestChoice } = await import("./newsletter.server");
 
-    const ip =
-      getRequestHeader("cf-connecting-ip") ??
-      getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim() ??
-      "unknown";
-    if (rateLimited(`interest:${ip}`)) throw new Error("newsletter_rate_limited");
 
-    const result = await applyInterestChoice(data.token, data.interest);
-    // Boolean only: an invalid token reveals nothing about who exists.
-    return { updated: result.updated };
-  });
 
 /**
  * Internal, token-gated list health. Aggregate counts only, never addresses.
