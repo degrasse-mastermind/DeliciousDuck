@@ -113,15 +113,30 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
     ),
   },
   {
+    heading: "Opting out",
+    body: (
+      <p>
+        Unsubscribing takes effect in our own database first, which is the record that decides whether
+        you are emailed: your row is marked unsubscribed with the date, and the link you used is
+        retired. We then ask Resend to mark the same address as unsubscribed. If that provider request
+        fails, our own opt-out still stands and we retry it internally. You can also reply to any
+        email, or write to the address below, and we will action it by hand.
+      </p>
+    ),
+  },
+  {
     heading: "Retention",
     body: (
       <p>
         Server logs are retained for a short operational period and then discarded. Newsletter email
-        addresses, once collected, are kept until you unsubscribe or ask us to delete them,
-        whichever comes first. Every newsletter email will carry a one-click unsubscribe link.
+        addresses, once collected, are kept until you unsubscribe or ask us to delete them, whichever
+        comes first. Delivery outcome records (bounce, spam complaint, opt-out) are kept for as long
+        as the address remains suppressed, because they are the evidence for not emailing it. Every
+        newsletter email carries an unsubscribe link.
       </p>
     ),
   },
+
   {
     heading: "Your rights",
     body: (
