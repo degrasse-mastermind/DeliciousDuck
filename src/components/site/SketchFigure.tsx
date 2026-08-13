@@ -130,7 +130,7 @@ export function SketchBackdrop({
 
   return (
     <section
-      className={`relative isolate overflow-hidden border border-border bg-cream ${
+      className={`relative isolate overflow-hidden border border-border ${SKETCH_RENDER.surface} ${
         rounded ? "rounded-2xl" : ""
       } ${className}`}
     >
