@@ -76,7 +76,9 @@ describe("buildWelcomeEventRequest", () => {
     const body = JSON.parse(buildWelcomeEventRequest(INPUT, KEY).body);
     expect(body.event).toBe(WELCOME_EVENT_NAME);
     expect(body.email).toBe("duck@example.com");
-    expect(Object.keys(body.data).sort()).toEqual([
+    expect(body.data).toBeUndefined();
+    expect(Object.keys(body).sort()).toEqual(["email", "event", "payload"]);
+    expect(Object.keys(body.payload).sort()).toEqual([
       "guide_url",
       "interest",
       "preferences_url",
@@ -167,9 +169,9 @@ describe("dispatchWelcomeEvent", () => {
     expect(calls[0]!.url).toBe("https://api.resend.com/events/send");
     expect(calls[0]!.method).toBe("POST");
     const body = JSON.parse(calls[0]!.body);
-    expect(body.data.guide_url).toBe(INPUT.guideUrl);
-    expect(body.data.unsubscribe_url).toContain(`?t=${TOKEN}`);
-    expect(body.data.preferences_url).toContain(`?t=${TOKEN}`);
+    expect(body.payload.guide_url).toBe(INPUT.guideUrl);
+    expect(body.payload.unsubscribe_url).toContain(`?t=${TOKEN}`);
+    expect(body.payload.preferences_url).toContain(`?t=${TOKEN}`);
   });
 
   it("registers the definition once and retries on 404", async () => {

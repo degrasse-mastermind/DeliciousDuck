@@ -68,7 +68,9 @@ export function buildWelcomeEventRequest(
     body: JSON.stringify({
       event: WELCOME_EVENT_NAME,
       email: input.email,
-      data: buildWelcomeEventData(input),
+      // Resend Automations reference custom event fields as `event.<field>`,
+      // which are sent under `payload` (not `data`).
+      payload: buildWelcomeEventData(input),
     }),
   };
 }
