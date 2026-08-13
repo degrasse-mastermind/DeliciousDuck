@@ -21,7 +21,12 @@ function gtagInitScript(measurementId: string) {
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '${measurementId}');
+    gtag('config', '${measurementId}', {
+      // Strip query strings from the automatic first page_view: mailbox-token
+      // links (/newsletter/unsubscribe?t=...) must never reach analytics.
+      page_location: window.location.origin + window.location.pathname,
+      page_path: window.location.pathname
+    });
   `;
 }
 
