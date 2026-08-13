@@ -284,7 +284,7 @@ export const GUIDES: GuideEntry[] = [
     title: "Wild Duck vs Farmed Duck",
     seoTitle: "Wild Duck vs Farmed Duck: Flavour, Fat & Cooking | DeliciousDuck",
     description:
-      "Why wild duck cooks nothing like a Pekin: fat cover, muscle use, species and diet variation, and which farmed-duck techniques transfer safely and which don't.",
+      "Why wild duck cooks nothing like a farmed duck: fat cover, muscle use, species and diet variation, and which farmed-duck techniques transfer safely and which don't.",
     teaser: "Why farmed-duck technique fails on a wild bird — and what to change.",
     pillar: "learn",
     cluster: "wild-duck",
