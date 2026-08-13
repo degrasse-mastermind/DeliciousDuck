@@ -114,22 +114,36 @@ write do we best-effort sync the opt-out to Resend; a failure records
 `resend_sync_status` internally and leaves local suppression intact. Rows
 already suppressed are never rewritten (monotonic).
 
-#### Unverified: the provider opt-out request shape
+#### Provider opt-out request shape (verified against the official API)
 
-`markUnsubscribedAtProvider` sends `PATCH https://api.resend.com/audiences/<id>/contacts`
-with `{ email, unsubscribed: true }`. **This exact endpoint/body pair is not
-verified against the live API and differs from the only contact-write shape this
-project has actually exercised** (`POST` to the same collection path, in
-`pushToResend`). Resend's contact update route is generally addressed per
-contact (`/audiences/<id>/contacts/<contact_id_or_email>`), so the collection-level
-`PATCH` may well be rejected.
+Resend audiences are deprecated. A global unsubscribe uses the Update Contact
+route:
 
-It has deliberately not been changed or guessed at: the call is best-effort, it
-never throws, and local suppression — the record that actually decides whether we
-send — is already committed before it runs. Validate it at activation time by
-watching for the `Provider opt-out sync incomplete: status <code>` warning on a
-real opt-out, then correct the path to the documented per-contact form if the
-provider rejects it.
+```http
+PATCH https://api.resend.com/contacts/{id-or-email}
+authorization: Bearer <RESEND_API_KEY>
+content-type: application/json
+
+{"unsubscribed":true}
+```
+
+The implementation lives in `src/lib/newsletter-provider-optout.ts`, kept pure so
+the URL and body are unit-testable with no network or credentials:
+
+- The path identifier is the stored `resend_contact_id` when present (it survives
+  an address change and keeps the address out of the URL), otherwise the
+  normalized email. A blank/whitespace contact id falls back to the email.
+- The identifier is `encodeURIComponent`-encoded, so `+` tags, `@`, and any `/`
+  cannot alter the path.
+- The body carries **only** `{"unsubscribed":true}` — no address, and no
+  consent-bearing field that could be silently rewritten.
+- The deprecated `/audiences/<id>/contacts` collection route is not used here.
+
+Behaviour is unchanged: local-first (the suppression row is already committed
+when this runs), best-effort, never throwing, and logging only a status code —
+never the address.
+
+
 
 
 ### Preference POST
@@ -157,8 +171,12 @@ index, `preference_token`, and the suppression columns already exist.
   bounces are still invisible locally.
 - Signature verification is only as good as the stored secret; there is no
   IP allowlist.
-- Provider opt-out sync is best-effort, unvalidated in shape (above), and not
-  retried by a scheduled job yet.
+- Provider opt-out sync is best-effort and has **no scheduled retry job**. A
+  failure is recorded as `resend_sync_status` and nothing re-attempts it, so a
+  contact can remain subscribed at Resend while locally suppressed. Local
+  suppression is what gates sending, so this cannot cause an unwanted send from
+  this app.
+
 - The opaque token is present in the URL and may appear in framework hydration
   state; see the privacy boundary above.
 - A rotated token cannot be re-issued to the reader from the site; a new emailed

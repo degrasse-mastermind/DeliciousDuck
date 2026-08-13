@@ -11,9 +11,9 @@
  * provider failure can never undo the suppression the reader asked for.
  */
 
-import { RESEND_AUDIENCE_ID } from "./newsletter-schema";
 import { DUCK_DROP } from "@/data/duck-drop";
 import type { NewsletterInterest } from "@/data/newsletter-contexts";
+import { sendProviderOptOut } from "./newsletter-provider-optout";
 
 /** One constant response shape for every token outcome. */
 export interface GenericTokenResult {
@@ -39,27 +39,6 @@ async function loadByToken(token: string): Promise<Row | null> {
   return data ? (data as Row) : null;
 }
 
-/** Best-effort provider opt-out. Never throws; never logs the address. */
-async function markUnsubscribedAtProvider(email: string): Promise<"synced" | "skipped" | "error"> {
-  const apiKey = process.env["RESEND_API_KEY"];
-  if (!apiKey) return "skipped";
-  try {
-    const response = await fetch(
-      `https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`,
-      {
-        method: "PATCH",
-        headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
-        body: JSON.stringify({ email, unsubscribed: true }),
-      },
-    );
-    if (response.ok) return "synced";
-    console.warn(`Provider opt-out sync incomplete: status ${response.status}`);
-    return "error";
-  } catch {
-    console.warn("Provider opt-out sync incomplete: request failed");
-    return "error";
-  }
-}
 
 /**
  * Token-gated unsubscribe.
@@ -104,7 +83,13 @@ export async function unsubscribeByToken(token: string): Promise<GenericTokenRes
     throw new Error("newsletter_storage_error");
   }
 
-  const sync = await markUnsubscribedAtProvider(row.email_normalized);
+  // Contact id preferred, normalized email as the documented fallback.
+  const sync = await sendProviderOptOut(
+    { contactId: row.resend_contact_id, email: row.email_normalized },
+    process.env["RESEND_API_KEY"],
+    fetch,
+  );
+
   if (sync !== "synced") {
     // Internal evidence only; local suppression already stands.
     await supabaseAdmin
