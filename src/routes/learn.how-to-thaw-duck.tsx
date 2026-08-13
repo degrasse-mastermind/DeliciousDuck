@@ -140,6 +140,25 @@ function HowToThawDuckPage() {
         </p>
       </Section>
 
+      <Section id="mail-order" heading="If the duck is arriving by post">
+        <p>
+          A mail-order bird makes the thaw a scheduling problem rather than a same-day one, because
+          the delivery date is not the cooking date. Build the calendar backward: cooking date, minus
+          the refrigerator thaw time above, minus the seller's stated transit window, minus one
+          buffer day for a courier that runs late. That last date is when you order.
+        </p>
+        <p>
+          Do not start counting thaw time from the moment the box arrives — count from the moment the
+          bird is actually in your refrigerator at 40°F (4.4°C) or below. For what to check on arrival
+          before any of this applies, see{" "}
+          <Link to="/buy/fresh-vs-frozen-duck" className="text-primary underline underline-offset-4">
+            fresh versus frozen duck
+          </Link>
+          , which covers receiving a cold-chain delivery.
+        </p>
+      </Section>
+
+
       <Callout label="Planning shortcut">
         <p>
           Work backward from your roast date using{" "}
