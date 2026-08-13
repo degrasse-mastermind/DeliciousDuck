@@ -1,5 +1,6 @@
 import { RESEND_AUDIENCE_ID, type SubscribePayload } from "./newsletter-schema";
 import { FIELD_GUIDE_URL } from "@/data/starter-guide";
+import { DUCK_DROP } from "@/data/duck-drop";
 
 /**
  * Server-only newsletter logic.
@@ -8,6 +9,10 @@ import { FIELD_GUIDE_URL } from "@/data/starter-guide";
  * subscriber row is durably stored. Resend is a downstream delivery sync layer,
  * tracked per row via `resend_sync_status` (pending | synced | error). A missing
  * or failing Resend key never costs us a subscriber.
+ *
+ * Segmentation lives here, not in Resend: the plan allows only three segments,
+ * so our database holds `primary_interest` / `interests` / `lifecycle_stage` and
+ * we mirror just the one interest segment the provider can hold.
  *
  * `RESEND_API_KEY` is read inside these functions only and is never returned,
  * logged, or exposed to the client.
@@ -33,6 +38,35 @@ export function rateLimited(key: string): boolean {
     for (const [k, v] of HITS) if (v.every((t) => now - t >= WINDOW_MS)) HITS.delete(k);
   }
   return recent.length > MAX_PER_WINDOW;
+}
+
+/**
+ * Mirrors the one interest segment the Resend plan can hold (duck breast).
+ * Best-effort by design: our database stays authoritative, and a provider that
+ * rejects or lacks the segment endpoint must never break a signup.
+ */
+async function syncInterestSegment(
+  email: string,
+  apiKey: string,
+  primaryInterest: string | null,
+): Promise<void> {
+  if (primaryInterest !== "duck-breast") return;
+  try {
+    const response = await fetch(
+      `https://api.resend.com/segments/${DUCK_DROP.breastSegmentId}/contacts`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
+        body: JSON.stringify({ email }),
+      },
+    );
+    if (!response.ok && response.status !== 409) {
+      // Status only — never the key, never the address.
+      console.warn(`Interest segment sync skipped: status ${response.status}`);
+    }
+  } catch {
+    console.warn("Interest segment sync skipped: request failed");
+  }
 }
 
 /**
@@ -125,11 +159,24 @@ async function sendWelcomeEvent(
  * creates a second row. It refreshes the latest source/placement/interest,
  * appends the interest to the accumulated `interests` array, and bumps
  * `signup_count`.
+ *
+ * Segmentation fields:
+ * - `primary_interest` is set from the signup page cluster on first subscribe and
+ *   then left alone; only an explicit subscriber choice changes it.
+ * - `first_content_path` records where the relationship began and never moves.
+ * - `lifecycle_stage` starts at `welcome` and is advanced deliberately, never
+ *   inferred from opens.
+ *
+ * Returns a `preferenceToken` ONLY for a brand-new subscriber, so the success
+ * panel in that same session can let them adjust their interest without us
+ * accepting an email address as proof of ownership.
  */
 export async function persistSubscriber(data: SubscribePayload): Promise<{
   subscribed: true;
   resendSync: ResendSync;
   welcomeEvent: WelcomeEvent;
+  primaryInterest: string | null;
+  preferenceToken: string | null;
 }> {
   const emailNormalized = data.email.trim().toLowerCase();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -138,7 +185,7 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   // being overwritten by whichever page the visitor signed up from last.
   const { data: existing } = await supabaseAdmin
     .from("newsletter_subscribers")
-    .select("id, interests, signup_count")
+    .select("id, interests, signup_count, primary_interest, first_content_path")
     .eq("email_normalized", emailNormalized)
     .maybeSingle();
 
@@ -146,6 +193,8 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   const mergedInterests = data.interest
     ? Array.from(new Set([...priorInterests, data.interest]))
     : priorInterests;
+  const isNew = !existing;
+  const primaryInterest = existing?.primary_interest ?? data.interest ?? null;
   const now = new Date().toISOString();
 
   const { data: row, error } = await supabaseAdmin
@@ -159,6 +208,13 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
         ...(data.placement ? { placement: data.placement } : {}),
         ...(data.interest ? { interest: data.interest } : {}),
         ...(data.sourcePath ? { source_path: data.sourcePath } : {}),
+        // First-touch only: never rewritten by a later signup.
+        ...(primaryInterest ? { primary_interest: primaryInterest } : {}),
+        ...(existing?.first_content_path
+          ? {}
+          : data.sourcePath
+            ? { first_content_path: data.sourcePath }
+            : {}),
         interests: mergedInterests,
         signup_count: (existing?.signup_count ?? 0) + 1,
         last_signup_at: now,
@@ -168,7 +224,7 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
       },
       { onConflict: "email_normalized" },
     )
-    .select("id, welcome_event_status")
+    .select("id, welcome_event_status, primary_interest, preference_token")
     .single();
 
   if (error || !row) {
@@ -176,8 +232,16 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     throw new Error("newsletter_storage_error");
   }
 
+  // In-session preference editing is offered to first-time subscribers only.
+  const preferenceToken = isNew ? (row.preference_token as string | null) : null;
+  const base = {
+    subscribed: true as const,
+    primaryInterest: (row.primary_interest as string | null) ?? null,
+    preferenceToken,
+  };
+
   const apiKey = process.env["RESEND_API_KEY"];
-  if (!apiKey) return { subscribed: true, resendSync: "pending", welcomeEvent: "pending" };
+  if (!apiKey) return { ...base, resendSync: "pending", welcomeEvent: "pending" };
 
   let contactId: string | null = null;
   try {
@@ -199,12 +263,14 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
         last_resend_sync_at: new Date().toISOString(),
       })
       .eq("id", row.id);
-    return { subscribed: true, resendSync: "error", welcomeEvent: "pending" };
+    return { ...base, resendSync: "error", welcomeEvent: "pending" };
   }
+
+  await syncInterestSegment(emailNormalized, apiKey, base.primaryInterest);
 
   // Already welcomed on a previous signup — durable success, no repeat event.
   if (row.welcome_event_status === "sent") {
-    return { subscribed: true, resendSync: "synced", welcomeEvent: "skipped" };
+    return { ...base, resendSync: "synced", welcomeEvent: "skipped" };
   }
 
   try {
@@ -216,14 +282,14 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
       .from("newsletter_subscribers")
       .update({ welcome_event_status: "sent", welcome_event_at: new Date().toISOString() })
       .eq("id", row.id);
-    return { subscribed: true, resendSync: "synced", welcomeEvent: "sent" };
+    return { ...base, resendSync: "synced", welcomeEvent: "sent" };
   } catch (err) {
     console.error(`Welcome event failed: ${err instanceof Error ? err.message : "unknown"}`);
     await supabaseAdmin
       .from("newsletter_subscribers")
       .update({ welcome_event_status: "error", welcome_event_at: new Date().toISOString() })
       .eq("id", row.id);
-    return { subscribed: true, resendSync: "synced", welcomeEvent: "error" };
+    return { ...base, resendSync: "synced", welcomeEvent: "error" };
   }
 }
 
@@ -277,4 +343,111 @@ export async function resyncPendingSubscribers(limit = 200): Promise<{
   }
 
   return { attempted: (rows ?? []).length, synced, failed, skipped: null };
+}
+
+/**
+ * Applies an explicit interest choice made by the subscriber in the same session
+ * they signed up in, authorised by the opaque row token issued at that moment.
+ *
+ * Deliberately token-based, not email-based: accepting `{ email, interest }` from
+ * the browser would let anyone rewrite a stranger's preferences by guessing an
+ * address. Tokens are single-purpose, carry no PII, and only ever reach the
+ * browser that just completed the signup.
+ */
+export async function applyInterestChoice(
+  token: string,
+  interest: string,
+): Promise<{ updated: boolean }> {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const now = new Date().toISOString();
+
+  const { data: row, error } = await supabaseAdmin
+    .from("newsletter_subscribers")
+    .select("id, interests")
+    .eq("preference_token", token)
+    .eq("status", "subscribed")
+    .maybeSingle();
+
+  if (error) throw new Error("newsletter_storage_error");
+  if (!row) return { updated: false };
+
+  const priorInterests: string[] = Array.isArray(row.interests) ? row.interests : [];
+  const { error: updateError } = await supabaseAdmin
+    .from("newsletter_subscribers")
+    .update({
+      primary_interest: interest,
+      interest,
+      interests: Array.from(new Set([...priorInterests, interest])),
+      last_engagement_at: now,
+      updated_at: now,
+    })
+    .eq("id", row.id);
+
+  if (updateError) throw new Error("newsletter_storage_error");
+
+  const apiKey = process.env["RESEND_API_KEY"];
+  if (apiKey) {
+    const { data: fresh } = await supabaseAdmin
+      .from("newsletter_subscribers")
+      .select("email_normalized")
+      .eq("id", row.id)
+      .maybeSingle();
+    if (fresh?.email_normalized) {
+      await syncInterestSegment(fresh.email_normalized, apiKey, interest);
+    }
+  }
+
+  return { updated: true };
+}
+
+/**
+ * Aggregate-only list health for the internal dashboard.
+ * Counts and bucket labels exclusively — never an address, name, or row ID.
+ */
+export async function newsletterAggregates(): Promise<{
+  total: number;
+  newLast7Days: number;
+  newLast30Days: number;
+  interestMix: { key: string; count: number }[];
+  sourceMix: { key: string; count: number }[];
+  lifecycleMix: { key: string; count: number }[];
+  syncPending: number;
+  welcomePending: number;
+  repeatSignups: number;
+}> {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data: rows, error } = await supabaseAdmin
+    .from("newsletter_subscribers")
+    .select(
+      "primary_interest, placement, source, lifecycle_stage, subscribed_at, resend_sync_status, welcome_event_status, signup_count, status",
+    )
+    .eq("status", "subscribed")
+    .limit(5000);
+
+  if (error) throw new Error("newsletter_storage_error");
+
+  const list = rows ?? [];
+  const since = (days: number) => Date.now() - days * 24 * 60 * 60 * 1000;
+  const tally = (values: (string | null | undefined)[]) => {
+    const counts = new Map<string, number>();
+    for (const raw of values) {
+      const key = raw && raw.trim() ? raw : "unknown";
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    return [...counts.entries()]
+      .map(([key, count]) => ({ key, count }))
+      .sort((a, b) => b.count - a.count);
+  };
+
+  return {
+    total: list.length,
+    newLast7Days: list.filter((r) => new Date(r.subscribed_at).getTime() >= since(7)).length,
+    newLast30Days: list.filter((r) => new Date(r.subscribed_at).getTime() >= since(30)).length,
+    interestMix: tally(list.map((r) => r.primary_interest)),
+    sourceMix: tally(list.map((r) => r.placement ?? r.source)),
+    lifecycleMix: tally(list.map((r) => r.lifecycle_stage)),
+    syncPending: list.filter((r) => r.resend_sync_status !== "synced").length,
+    welcomePending: list.filter((r) => r.welcome_event_status !== "sent").length,
+    repeatSignups: list.filter((r) => (r.signup_count ?? 1) > 1).length,
+  };
 }

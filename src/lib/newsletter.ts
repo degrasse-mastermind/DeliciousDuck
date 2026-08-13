@@ -13,7 +13,7 @@
  * no conversion event. The Resend token exists only as a server secret.
  */
 
-import { subscribeToNewsletterFn } from "./newsletter.functions";
+import { setNewsletterInterestFn, subscribeToNewsletterFn } from "./newsletter.functions";
 import { RESEND_AUDIENCE_ID } from "./newsletter-schema";
 
 export type NewsletterProvider = "supabase+resend" | "resend" | "supabase-only";
@@ -55,6 +55,15 @@ export interface SubscribeInput {
 export interface SubscribeResult {
   /** True only when a welcome email was actually triggered for this address. */
   welcomeTriggered: boolean;
+  /** Interest recorded on the row, or null when we genuinely don't know. */
+  primaryInterest?: string | null;
+  /**
+   * Opaque, single-purpose token issued only to a first-time subscriber, so the
+   * success panel in this session can adjust their interest. Never an email
+   * address: an email-keyed endpoint would let anyone rewrite a stranger's
+   * preferences.
+   */
+  preferenceToken?: string | null;
 }
 
 /** Rejects on any failure. The UI only shows success when this resolves. */
@@ -62,8 +71,28 @@ export const subscribeToNewsletter:
   | ((input: SubscribeInput) => Promise<SubscribeResult>)
   | undefined = async (input) => {
   const result = await subscribeToNewsletterFn({ data: input });
-  return { welcomeTriggered: Boolean(result.welcomeTriggered) };
+  return {
+    welcomeTriggered: Boolean(result.welcomeTriggered),
+    primaryInterest: result.primaryInterest ?? null,
+    preferenceToken: result.preferenceToken ?? null,
+  };
 };
+
+/**
+ * Records an explicit interest choice made right after signup, authorised by the
+ * token issued with that signup. Resolves to false when the token is unusable.
+ */
+export async function setNewsletterInterest(
+  token: string,
+  interest: string,
+): Promise<boolean> {
+  try {
+    const result = await setNewsletterInterestFn({ data: { token, interest } });
+    return Boolean(result.updated);
+  } catch {
+    return false;
+  }
+}
 
 /** True only when a real delivery path exists. */
 export function isNewsletterEnabled(): boolean {

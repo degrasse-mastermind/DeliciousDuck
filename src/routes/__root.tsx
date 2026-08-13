@@ -14,7 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
-import { GA_MEASUREMENT_ID, trackPageView } from "@/lib/analytics";
+import { GA_MEASUREMENT_ID, trackEmailLanding, trackPageView } from "@/lib/analytics";
 
 function gtagInitScript(measurementId: string) {
   return `
@@ -161,6 +161,8 @@ function RootComponent() {
   // gtag.js auto-tracks only the first load; send a page_view per SPA route.
   const firstView = useRef(true);
   useEffect(() => {
+    // Campaign-level newsletter attribution for this session (no PII).
+    trackEmailLanding();
     if (firstView.current) {
       firstView.current = false;
       return;

@@ -19,12 +19,17 @@ export type Database = {
           created_at: string
           email: string
           email_normalized: string
+          first_content_path: string | null
           id: string
           interest: string | null
           interests: string[]
+          last_engagement_at: string | null
           last_resend_sync_at: string | null
           last_signup_at: string
+          lifecycle_stage: string
           placement: string | null
+          preference_token: string
+          primary_interest: string | null
           resend_contact_id: string | null
           resend_sync_status: string
           signup_count: number
@@ -41,12 +46,17 @@ export type Database = {
           created_at?: string
           email: string
           email_normalized: string
+          first_content_path?: string | null
           id?: string
           interest?: string | null
           interests?: string[]
+          last_engagement_at?: string | null
           last_resend_sync_at?: string | null
           last_signup_at?: string
+          lifecycle_stage?: string
           placement?: string | null
+          preference_token?: string
+          primary_interest?: string | null
           resend_contact_id?: string | null
           resend_sync_status?: string
           signup_count?: number
@@ -63,12 +73,17 @@ export type Database = {
           created_at?: string
           email?: string
           email_normalized?: string
+          first_content_path?: string | null
           id?: string
           interest?: string | null
           interests?: string[]
+          last_engagement_at?: string | null
           last_resend_sync_at?: string | null
           last_signup_at?: string
+          lifecycle_stage?: string
           placement?: string | null
+          preference_token?: string
+          primary_interest?: string | null
           resend_contact_id?: string | null
           resend_sync_status?: string
           signup_count?: number

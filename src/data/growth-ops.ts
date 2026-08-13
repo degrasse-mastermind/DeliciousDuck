@@ -277,6 +277,25 @@ export const EVENT_REFERENCE: EventRef[] = [
     dedupe: "Once per successful subscribe result",
   },
   {
+    name: "newsletter_interest_selected",
+    meaning:
+      "A new subscriber explicitly chose which pillar the weekly issue should lead with.",
+    fires: "On a choice in the post-signup selector, after the server confirms the change",
+    dedupe: "Only fires when the chosen value actually differs",
+  },
+  {
+    name: "email_landing_view",
+    meaning: "A session arrived from an email link (utm_medium=email).",
+    fires: "First qualifying page of the session",
+    dedupe: "Once per browser session",
+  },
+  {
+    name: "duck_drop_cta_click",
+    meaning: "An email-attributed session clicked an on-site CTA.",
+    fires: "Only within sessions that arrived from the newsletter",
+    dedupe: "1.5s window per link URL and page path",
+  },
+  {
     name: "newsletter_postsignup_click",
     meaning:
       "A new subscriber clicked into on-site reading from the post-signup 'Start here' module.",
