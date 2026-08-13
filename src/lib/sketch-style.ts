@@ -60,13 +60,10 @@ export function sketchPrompt(subject: string): string {
  * (same paper tone behind transparent-ish whites, same edge softening).
  */
 export const SKETCH_RENDER = {
-  /** Wrapper for any sketch image. */
-  frame: "bg-white",
-  /** Applied to every <img>. */
-  image: "h-full w-full object-cover",
-  /** Softens the hard white edge of the artwork into the page. */
-  vignette:
-    "pointer-events-none absolute inset-0 bg-gradient-to-t from-background/25 via-transparent to-transparent",
+  /** Paper surface every sketch sits on. */
+  surface: "bg-cream",
+  /** Lets the drawing's white paper drop out against that surface. */
+  blend: "select-none mix-blend-multiply",
   /** Opacity levels used by SketchBackdrop intensities. */
-  intensity: { whisper: "opacity-[0.14]", soft: "opacity-[0.28]", bold: "opacity-50" },
+  intensity: { whisper: "opacity-15", soft: "opacity-25", bold: "opacity-45" },
 } as const;
