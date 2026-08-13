@@ -74,6 +74,7 @@ export function SketchSlot({
       variant={spec.frame}
       height={spec.height}
       focus={spec.focus}
+      eager={spec.eager}
       className={className}
       {...(caption ? { caption } : {})}
     />

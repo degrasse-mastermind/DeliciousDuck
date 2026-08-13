@@ -35,6 +35,34 @@ export const SKETCH_STYLE = {
 /** Standard output size for all header/band artwork. */
 export const SKETCH_DIMENSIONS = { width: 1400, height: 800 } as const;
 
+/**
+ * Canonical export contract. New art MUST follow this or it will show up as a
+ * grey rectangle on the cream page surface:
+ *
+ * 1. 1400x800 JPEG, ground painted pure #ffffff — never a tinted near-white
+ *    (#ededeb / #f5f5f5 both read as a visible box once multiplied).
+ * 2. Subject trimmed to its ink bounding box, then scaled to at most 74% of the
+ *    canvas width and 80% of its height and centered, so density matches the
+ *    rest of the collection.
+ * 3. Ship `<name>-700.webp` and `<name>-1400.webp` beside the JPEG; the
+ *    responsive resolver in `sketch-sources.ts` keys off that exact naming.
+ *
+ * Surface caveat: the render pipeline knocks the paper out with
+ * `mix-blend-multiply`, which only works on LIGHT surfaces. A sketch placed on
+ * a dark background needs a genuine alpha (transparent PNG) export instead —
+ * multiply on dark turns the drawing into a black rectangle.
+ */
+export const SKETCH_EXPORT = {
+  width: 1400,
+  height: 800,
+  ground: "#ffffff",
+  maxSubjectWidth: 0.74,
+  maxSubjectHeight: 0.8,
+  variants: [700, 1400],
+  lightSurfacesOnly: true,
+} as const;
+
+
 /** The exact suffix appended to every illustration prompt. */
 export const SKETCH_STYLE_SUFFIX = [
   SKETCH_STYLE.medium,

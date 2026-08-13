@@ -1,20 +1,23 @@
 import { Link } from "@tanstack/react-router";
 import { formatMinutes, totalTimeMinutes, type Recipe } from "@/data/recipes";
 
-export function RecipeCard({ recipe }: { recipe: Recipe }) {
+export function RecipeCard({ recipe, priority = false }: { recipe: Recipe; priority?: boolean }) {
   return (
     <article className="group">
       <Link to="/recipes/$slug" params={{ slug: recipe.slug }} className="block">
-        <div className="overflow-hidden rounded-sm bg-muted">
+        <div className="overflow-hidden rounded-sm bg-muted bg-[repeating-linear-gradient(135deg,hsl(var(--border)/0.22)_0_1px,transparent_1px_10px)]">
           <img
             src={recipe.image}
             alt={recipe.name}
-            loading="lazy"
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
+            decoding="async"
             width={1024}
             height={768}
             className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
         </div>
+
         <div className="mt-4">
           <span className="eyebrow text-primary">{recipe.category}</span>
           <h3 className="mt-2 font-display text-2xl leading-snug text-foreground transition-colors group-hover:text-primary">
