@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { PageHeader } from "./PageHeader";
 import type { Crumb } from "./Breadcrumbs";
+import { SketchAutoLayout } from "./SketchAutoLayout";
 
 /**
  * Long-form article shell: editorial page header, a readable single measure
@@ -14,6 +15,7 @@ export function ArticleShell({
   meta,
   children,
   sidebar,
+  autoSketch = true,
 }: {
   eyebrow: string;
   title: string;
@@ -22,6 +24,8 @@ export function ArticleShell({
   meta?: string;
   children: ReactNode;
   sidebar?: ReactNode;
+  /** Opt out of automatic in-body illustrations for this page. */
+  autoSketch?: boolean;
 }) {
   return (
     <>
@@ -36,11 +40,19 @@ export function ArticleShell({
       <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         {sidebar ? (
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
-            <article className="min-w-0 max-w-[46rem]">{children}</article>
+            <article className="min-w-0 max-w-[46rem]">
+              <SketchAutoLayout column="narrow" disabled={!autoSketch}>
+                {children}
+              </SketchAutoLayout>
+            </article>
             <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">{sidebar}</aside>
           </div>
         ) : (
-          <article className="mx-auto max-w-[46rem]">{children}</article>
+          <article className="mx-auto max-w-[46rem]">
+            <SketchAutoLayout column="wide" disabled={!autoSketch}>
+              {children}
+            </SketchAutoLayout>
+          </article>
         )}
       </div>
     </>
