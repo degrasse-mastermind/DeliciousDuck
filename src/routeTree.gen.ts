@@ -30,6 +30,7 @@ import { Route as ApiSketchBlobRouteImport } from './routes/api/sketch-blob'
 import { Route as BuyIndexRouteImport } from './routes/buy.index'
 import { Route as BuyDuckBreedsForCookingRouteImport } from './routes/buy.duck-breeds-for-cooking'
 import { Route as BuyDuckFatBuyingGuideRouteImport } from './routes/buy.duck-fat-buying-guide'
+import { Route as BuyHowMuchDuckPerPersonRouteImport } from './routes/buy.how-much-duck-per-person'
 import { Route as BuyWhatCutOfDuckToBuyRouteImport } from './routes/buy.what-cut-of-duck-to-buy'
 import { Route as BuyWhereToBuyDuckOnlineRouteImport } from './routes/buy.where-to-buy-duck-online'
 import { Route as CookIndexRouteImport } from './routes/cook.index'
@@ -186,6 +187,11 @@ const BuyDuckBreedsForCookingRoute = BuyDuckBreedsForCookingRouteImport.update({
 const BuyDuckFatBuyingGuideRoute = BuyDuckFatBuyingGuideRouteImport.update({
   id: '/duck-fat-buying-guide',
   path: '/duck-fat-buying-guide',
+  getParentRoute: () => BuyRoute,
+} as any)
+const BuyHowMuchDuckPerPersonRoute = BuyHowMuchDuckPerPersonRouteImport.update({
+  id: '/how-much-duck-per-person',
+  path: '/how-much-duck-per-person',
   getParentRoute: () => BuyRoute,
 } as any)
 const BuyWhatCutOfDuckToBuyRoute = BuyWhatCutOfDuckToBuyRouteImport.update({
@@ -494,6 +500,7 @@ export interface FileRoutesByFullPath {
   '/api/sketch-blob': typeof ApiSketchBlobRoute
   '/buy/duck-breeds-for-cooking': typeof BuyDuckBreedsForCookingRoute
   '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
+  '/buy/how-much-duck-per-person': typeof BuyHowMuchDuckPerPersonRoute
   '/buy/what-cut-of-duck-to-buy': typeof BuyWhatCutOfDuckToBuyRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
@@ -562,6 +569,7 @@ export interface FileRoutesByTo {
   '/api/sketch-blob': typeof ApiSketchBlobRoute
   '/buy/duck-breeds-for-cooking': typeof BuyDuckBreedsForCookingRoute
   '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
+  '/buy/how-much-duck-per-person': typeof BuyHowMuchDuckPerPersonRoute
   '/buy/what-cut-of-duck-to-buy': typeof BuyWhatCutOfDuckToBuyRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
@@ -638,6 +646,7 @@ export interface FileRoutesById {
   '/api/sketch-blob': typeof ApiSketchBlobRoute
   '/buy/duck-breeds-for-cooking': typeof BuyDuckBreedsForCookingRoute
   '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
+  '/buy/how-much-duck-per-person': typeof BuyHowMuchDuckPerPersonRoute
   '/buy/what-cut-of-duck-to-buy': typeof BuyWhatCutOfDuckToBuyRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
@@ -715,6 +724,7 @@ export interface FileRouteTypes {
     | '/api/sketch-blob'
     | '/buy/duck-breeds-for-cooking'
     | '/buy/duck-fat-buying-guide'
+    | '/buy/how-much-duck-per-person'
     | '/buy/what-cut-of-duck-to-buy'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
@@ -783,6 +793,7 @@ export interface FileRouteTypes {
     | '/api/sketch-blob'
     | '/buy/duck-breeds-for-cooking'
     | '/buy/duck-fat-buying-guide'
+    | '/buy/how-much-duck-per-person'
     | '/buy/what-cut-of-duck-to-buy'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
@@ -858,6 +869,7 @@ export interface FileRouteTypes {
     | '/api/sketch-blob'
     | '/buy/duck-breeds-for-cooking'
     | '/buy/duck-fat-buying-guide'
+    | '/buy/how-much-duck-per-person'
     | '/buy/what-cut-of-duck-to-buy'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
@@ -1091,6 +1103,13 @@ declare module '@tanstack/react-router' {
       path: '/duck-fat-buying-guide'
       fullPath: '/buy/duck-fat-buying-guide'
       preLoaderRoute: typeof BuyDuckFatBuyingGuideRouteImport
+      parentRoute: typeof BuyRoute
+    }
+    '/buy/how-much-duck-per-person': {
+      id: '/buy/how-much-duck-per-person'
+      path: '/how-much-duck-per-person'
+      fullPath: '/buy/how-much-duck-per-person'
+      preLoaderRoute: typeof BuyHowMuchDuckPerPersonRouteImport
       parentRoute: typeof BuyRoute
     }
     '/buy/what-cut-of-duck-to-buy': {
@@ -1463,6 +1482,7 @@ declare module '@tanstack/react-router' {
 interface BuyRouteChildren {
   BuyDuckBreedsForCookingRoute: typeof BuyDuckBreedsForCookingRoute
   BuyDuckFatBuyingGuideRoute: typeof BuyDuckFatBuyingGuideRoute
+  BuyHowMuchDuckPerPersonRoute: typeof BuyHowMuchDuckPerPersonRoute
   BuyWhatCutOfDuckToBuyRoute: typeof BuyWhatCutOfDuckToBuyRoute
   BuyWhereToBuyDuckOnlineRoute: typeof BuyWhereToBuyDuckOnlineRoute
   BuyIndexRoute: typeof BuyIndexRoute
@@ -1471,6 +1491,7 @@ interface BuyRouteChildren {
 const BuyRouteChildren: BuyRouteChildren = {
   BuyDuckBreedsForCookingRoute: BuyDuckBreedsForCookingRoute,
   BuyDuckFatBuyingGuideRoute: BuyDuckFatBuyingGuideRoute,
+  BuyHowMuchDuckPerPersonRoute: BuyHowMuchDuckPerPersonRoute,
   BuyWhatCutOfDuckToBuyRoute: BuyWhatCutOfDuckToBuyRoute,
   BuyWhereToBuyDuckOnlineRoute: BuyWhereToBuyDuckOnlineRoute,
   BuyIndexRoute: BuyIndexRoute,
