@@ -7,6 +7,7 @@ import { ShopThisGuide } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 
 const GUIDE = guideByPath("/cook/how-to-cook-duck-breast")!;
 
@@ -221,6 +222,10 @@ function Page() {
           },
         ]}
       />
+
+      <div className="mt-14">
+        <NewsletterSignup id="field-guide" interest="duck-breast" />
+      </div>
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>
