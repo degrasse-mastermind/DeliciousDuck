@@ -144,14 +144,20 @@ export function SketchBackdrop({
   const opacity = SKETCH_RENDER.intensity[intensity];
   const backdropSrcSet = sketchSrcSet(art.src);
 
+  /**
+   * Anchored (left/right/center) drawings shrink to an unreadable smudge in a
+   * phone-width band, so below `lg` they anchor as a low-opacity cover layer
+   * instead of a contained thumbnail.
+   */
   const layer =
     position === "cover"
-      ? "inset-0 w-full object-cover"
+      ? "inset-0 h-full w-full object-cover"
       : position === "center"
-        ? "inset-0 mx-auto h-full w-auto max-w-none object-contain"
+        ? "inset-0 h-full w-full object-cover lg:mx-auto lg:w-auto lg:max-w-none lg:object-contain"
         : position === "left"
-          ? "inset-y-0 left-0 h-full w-auto max-w-[70%] object-contain object-left"
-          : "inset-y-0 right-0 h-full w-auto max-w-[70%] object-contain object-right";
+          ? "inset-0 h-full w-full object-cover object-left lg:inset-y-0 lg:right-auto lg:w-auto lg:max-w-[70%] lg:object-contain"
+          : "inset-0 h-full w-full object-cover object-right lg:inset-y-0 lg:left-auto lg:w-auto lg:max-w-[70%] lg:object-contain";
+
 
   return (
     <section
