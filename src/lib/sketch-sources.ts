@@ -33,7 +33,8 @@ for (const [path, url] of Object.entries(webp)) {
  * WebP variants yet.
  */
 export function sketchNameFromSrc(src: string): string | null {
-  const file = src.split("/").pop();
+  // Dev URLs carry an HMR query (`?t=...`); strip it before parsing.
+  const file = src.split(/[?#]/)[0]!.split("/").pop();
   if (!file) return null;
   const base = file.replace(/\.(?:jpg|jpeg|webp|png)$/i, "").replace(/-(?:700|1400)$/, "");
 
