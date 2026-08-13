@@ -368,6 +368,7 @@ function IllustrationGallery() {
               </p>
               <SketchRegenPanel
                 art={SKETCH[key]}
+                context={context === "custom" ? "articleBreak" : context}
                 hasPreview={Boolean(previews[key])}
                 onPreview={(url, final) =>
                   setPreviews((prev) => ({ ...prev, [key]: { url, final } }))
