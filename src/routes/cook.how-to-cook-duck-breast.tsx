@@ -136,6 +136,19 @@ function Page() {
         </p>
       </SafetyNote>
 
+      <Section id="ready-to-cook" heading="Ready to cook it">
+        <p>
+          For the exact quantities, timings and rest in one place, use the{" "}
+          <a href="/recipes/pan-seared-duck-breast" className="text-primary underline underline-offset-4">
+            pan-seared duck breast recipe
+          </a>. If you still need the cut itself, the{" "}
+          <a href="/buy/where-to-buy-duck-online" className="text-primary underline underline-offset-4">
+            guide to buying duck online
+          </a>{" "}
+          covers which suppliers ship skin-on breasts and what to check on arrival.
+        </p>
+      </Section>
+
       <Section id="temp-ladder" heading="The temperature ladder at a glance">
         <DataTable
           caption="Pan-stage heat and what's happening in the skin"
