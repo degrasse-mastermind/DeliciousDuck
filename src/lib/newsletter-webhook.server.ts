@@ -62,7 +62,14 @@ export function createWebhookStore(): WebhookStore {
       throw new Error("provider_event_storage_error");
     },
 
-    async applySuppression({ id, status, eventName, at }) {
+    /**
+     * One statement, guarded on the stored status. `.in("status", fromStatuses)`
+     * is what makes this safe under concurrent deliveries and retries: Postgres
+     * re-evaluates it against the current row, so a row that already reached an
+     * equal or stronger status matches nothing and is returned as "unchanged".
+     * There is no read-then-write window to lose a race in.
+     */
+    async applySuppression({ id, status, fromStatuses, eventName, at }) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const patch: Record<string, unknown> = {
         status,
@@ -74,12 +81,16 @@ export function createWebhookStore(): WebhookStore {
       };
       if (status === "unsubscribed") patch["unsubscribed_at"] = at;
 
-      const { error } = await supabaseAdmin
+      const { data, error } = await supabaseAdmin
         .from("newsletter_subscribers")
         .update(patch as never)
-        .eq("id", id);
+        .eq("id", id)
+        .in("status", fromStatuses)
+        .select("id");
       if (error) throw new Error("subscriber_suppression_error");
+      return data && data.length > 0 ? "applied" : "unchanged";
     },
+
   };
 }
 
