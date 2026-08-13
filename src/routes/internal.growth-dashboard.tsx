@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Printer } from "lucide-react";
+import { DUCK_DROP_DECISIONS, DUCK_DROP_METRICS, INTEREST_LABELS } from "@/data/duck-drop";
+import { newsletterStatsFn } from "@/lib/newsletter.functions";
 import {
   AFFILIATE_ACTIVATION_CHECKLIST,
   CONTENT_QUEUE,
@@ -79,6 +82,131 @@ function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) 
       <p className="eyebrow text-primary">{eyebrow}</p>
       <h2 className="mt-2 font-display text-2xl text-foreground">{title}</h2>
     </>
+  );
+}
+
+type ListHealth = Awaited<ReturnType<typeof newsletterStatsFn>>;
+
+/**
+ * Live, aggregate-only list health.
+ *
+ * Token-gated: the owner pastes the project's newsletter admin token, which the
+ * server compares before returning anything. Counts and bucket labels only — no
+ * addresses ever leave the server, so this stays safe on an unauthenticated
+ * internal page.
+ */
+function DuckDropListHealth() {
+  const [token, setToken] = useState("");
+  const [stats, setStats] = useState<ListHealth | null>(null);
+  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+
+  async function load() {
+    if (!token.trim()) return;
+    setState("loading");
+    try {
+      setStats(await newsletterStatsFn({ data: { token: token.trim() } }));
+      setState("idle");
+    } catch {
+      setStats(null);
+      setState("error");
+    }
+  }
+
+  return (
+    <div className="mt-6 rounded-sm border border-border p-5">
+      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+        List health (live, aggregate only)
+      </p>
+      <div className="mt-3 flex flex-wrap items-end gap-3 print:hidden">
+        <label className="flex-1">
+          <span className="text-sm font-semibold text-foreground">Owner token</span>
+          <span className="mt-0.5 block text-xs text-muted-foreground">
+            Copy NEWSLETTER_ADMIN_TOKEN from the project&apos;s secrets. Not stored in the browser.
+          </span>
+          <input
+            type="password"
+            value={token}
+            onChange={(e) => setToken(e.target.value)}
+            className="mt-2 h-11 w-full rounded-sm border border-input bg-card px-3 text-base text-foreground"
+          />
+        </label>
+        <button
+          type="button"
+          onClick={load}
+          className="h-11 rounded-sm bg-primary px-5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground"
+        >
+          {state === "loading" ? "Loading…" : "Load counts"}
+        </button>
+      </div>
+      {state === "error" && (
+        <p role="alert" className="mt-3 text-sm text-destructive">
+          That token was rejected, or the token isn&apos;t configured yet.
+        </p>
+      )}
+      {stats && (
+        <div className="mt-5 grid gap-5 sm:grid-cols-2">
+          <dl className="space-y-2 text-sm">
+            <div className="flex justify-between gap-3">
+              <dt className="text-muted-foreground">Total subscribers</dt>
+              <dd className="font-semibold text-foreground">{stats.total}</dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt className="text-muted-foreground">New, last 7 days</dt>
+              <dd className="font-semibold text-foreground">{stats.newLast7Days}</dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt className="text-muted-foreground">New, last 30 days</dt>
+              <dd className="font-semibold text-foreground">{stats.newLast30Days}</dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt className="text-muted-foreground">Signed up more than once</dt>
+              <dd className="font-semibold text-foreground">{stats.repeatSignups}</dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt className="text-muted-foreground">Awaiting provider sync</dt>
+              <dd className="font-semibold text-foreground">{stats.syncPending}</dd>
+            </div>
+            <div className="flex justify-between gap-3">
+              <dt className="text-muted-foreground">Welcome email not yet triggered</dt>
+              <dd className="font-semibold text-foreground">{stats.welcomePending}</dd>
+            </div>
+          </dl>
+          <div className="text-sm">
+            <p className="font-semibold text-foreground">Primary interest mix</p>
+            <ul className="mt-2 space-y-1 text-muted-foreground">
+              {stats.interestMix.map((bucket) => (
+                <li key={bucket.key} className="flex justify-between gap-3">
+                  <span>
+                    {bucket.key === "unknown"
+                      ? "Unknown (not guessed)"
+                      : (INTEREST_LABELS[bucket.key as keyof typeof INTEREST_LABELS] ?? bucket.key)}
+                  </span>
+                  <span className="font-semibold text-foreground">{bucket.count}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 font-semibold text-foreground">Signup placement mix</p>
+            <ul className="mt-2 space-y-1 text-muted-foreground">
+              {stats.sourceMix.map((bucket) => (
+                <li key={bucket.key} className="flex justify-between gap-3">
+                  <span>{bucket.key}</span>
+                  <span className="font-semibold text-foreground">{bucket.count}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 font-semibold text-foreground">Lifecycle stage</p>
+            <ul className="mt-2 space-y-1 text-muted-foreground">
+              {stats.lifecycleMix.map((bucket) => (
+                <li key={bucket.key} className="flex justify-between gap-3">
+                  <span>{bucket.key}</span>
+                  <span className="font-semibold text-foreground">{bucket.count}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
