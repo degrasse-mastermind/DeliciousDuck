@@ -1,6 +1,8 @@
 import { Children, isValidElement, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { SketchBand, SketchBackdrop, type SketchHeight } from "./SketchFigure";
+import { type SketchHeight } from "./SketchFigure";
+import { SketchSlot } from "./SketchSlot";
+import { alternateFrame, steppedIntensity } from "@/lib/sketch-variants";
 import { sketchRotationForPath, type SketchArt } from "@/lib/sketch-art";
 
 /** How much room the content column has — drives crop height and framing. */
@@ -101,11 +103,12 @@ export function SketchAutoLayout({
       const chosen = pool[slot % pool.length];
       if (chosen) {
         out.push(
-          <SketchBand
+          <SketchSlot
             key={`sketch-${index}`}
             art={chosen}
+            context={slot % 2 === 0 ? "articleBreak" : "sectionBreak"}
             height={HEIGHT_BY_COLUMN[column]}
-            variant={slot % 2 === 0 ? "framed" : "bleed"}
+            frame={alternateFrame(slot)}
             {...(captions?.[slot] ? { caption: captions[slot] as string } : {})}
             className="my-12"
           />,
@@ -143,8 +146,8 @@ export function SketchTrailingBand({
   if (!art) return null;
 
   return (
-    <SketchBackdrop art={art} intensity={intensity} position="right" className={className}>
+    <SketchSlot art={art} context="trailingGap" intensity={intensity} className={className}>
       {children ? <div className="px-6 py-12 lg:px-10 lg:py-16">{children}</div> : <div className="h-40" />}
-    </SketchBackdrop>
+    </SketchSlot>
   );
 }
