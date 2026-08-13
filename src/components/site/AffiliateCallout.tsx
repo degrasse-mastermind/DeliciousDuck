@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Info } from "lucide-react";
 import type { AffiliateItem } from "@/data/products";
+import { HAS_ACTIVE_AFFILIATE_PROGRAM } from "@/data/affiliates";
 
 export function AffiliateCallout({ item }: { item: AffiliateItem }) {
   return (
@@ -24,6 +25,10 @@ export function AffiliateCallout({ item }: { item: AffiliateItem }) {
   );
 }
 
+/**
+ * Site-wide commercial-links note. Only claims commissions when at least one
+ * affiliate program is genuinely active in the merchant registry.
+ */
 export function AffiliateDisclosureNote({ compact = false }: { compact?: boolean }) {
   return (
     <aside
@@ -32,15 +37,27 @@ export function AffiliateDisclosureNote({ compact = false }: { compact?: boolean
       }`}
     >
       <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
-      <p>
-        Some links on DeliciousDuck may be affiliate links, which can earn us a commission at
-        no extra cost to you. We only describe products we can explain and never publish prices,
-        ratings, or claims we have not verified.{" "}
-        <Link to="/affiliate-disclosure" className="text-primary underline underline-offset-4">
-          Read our full disclosure
-        </Link>
-        .
-      </p>
+      {HAS_ACTIVE_AFFILIATE_PROGRAM ? (
+        <p>
+          Some links on DeliciousDuck are affiliate links, which can earn us a commission at no
+          extra cost to you. We only describe products we can explain and never publish prices,
+          ratings, or claims we have not verified.{" "}
+          <Link to="/affiliate-disclosure" className="text-primary underline underline-offset-4">
+            Read our full disclosure
+          </Link>
+          .
+        </p>
+      ) : (
+        <p>
+          DeliciousDuck earns no commission today — we have no active affiliate programs, and every
+          outbound link goes straight to the seller with no tracking. We only describe products we
+          can explain and never publish prices, ratings, or claims we have not verified.{" "}
+          <Link to="/affiliate-disclosure" className="text-primary underline underline-offset-4">
+            Read our full disclosure
+          </Link>
+          .
+        </p>
+      )}
     </aside>
   );
 }

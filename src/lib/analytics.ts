@@ -115,16 +115,41 @@ export function contentSlugFromPath(path = currentPagePath()): string | undefine
 }
 
 /**
+ * Dedupe window for outbound commercial clicks.
+ *
+ * A double-click, a keyboard activation that also fires a click, or a React
+ * StrictMode re-invocation would otherwise inflate click counts. Same merchant,
+ * placement, path and destination within this window counts once.
+ */
+const CLICK_DEDUPE_MS = 1500;
+const recentClicks = new Map<string, number>();
+
+function shouldSendClick(key: string): boolean {
+  const now = Date.now();
+  for (const [k, at] of recentClicks) {
+    if (now - at > CLICK_DEDUPE_MS) recentClicks.delete(k);
+  }
+  const last = recentClicks.get(key);
+  if (last !== undefined && now - last <= CLICK_DEDUPE_MS) return false;
+  recentClicks.set(key, now);
+  return true;
+}
+
+/**
  * Outbound commercial click.
  *
  * `affiliate` is true ONLY when the destination is a real affiliate tracking
  * URL. A plain merchant link reports `link_type: "direct_seller"` and
  * `affiliate: false`, so revenue reporting is never inflated by neutral links.
+ * No PII: merchant, placement, path, destination kind and the affiliate boolean
+ * only.
  */
 export function trackAffiliateClick(params: {
   linkUrl: string;
   linkText?: string;
   merchant?: string;
+  /** Registry id from src/data/affiliates.ts, when the row maps to a merchant. */
+  merchantId?: string | undefined;
   placement?: string;
   linkType?: "affiliate" | "direct_seller";
   /** Where the click lands: a tracking link, or the merchant's own site. */
@@ -135,15 +160,27 @@ export function trackAffiliateClick(params: {
   const path = currentPagePath();
   const linkType = params.linkType ?? "affiliate";
   const isAffiliate = linkType === "affiliate";
+  const destinationType =
+    params.destinationType ?? (isAffiliate ? "affiliate_tracking" : "merchant_direct");
+
+  const key = [
+    params.merchantId ?? params.merchant ?? merchantFromUrl(params.linkUrl),
+    params.placement,
+    path,
+    destinationType,
+    params.linkUrl,
+  ].join("|");
+  if (!shouldSendClick(key)) return;
+
   trackEvent(ANALYTICS_EVENTS.affiliateClick, {
     link_url: params.linkUrl,
     link_text: params.linkText,
     merchant: params.merchant ?? merchantFromUrl(params.linkUrl),
+    merchant_id: params.merchantId,
     merchant_domain: merchantFromUrl(params.linkUrl),
     placement: params.placement,
     link_type: linkType,
-    destination_type:
-      params.destinationType ?? (isAffiliate ? "affiliate_tracking" : "merchant_direct"),
+    destination_type: destinationType,
     affiliate: isAffiliate,
     content_type: params.contentType ?? contentTypeFromPath(path),
     content_slug: params.contentSlug ?? contentSlugFromPath(path),

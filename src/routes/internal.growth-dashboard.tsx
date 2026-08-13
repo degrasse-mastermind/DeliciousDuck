@@ -215,7 +215,12 @@ function GrowthDashboard() {
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Read-only mirror of <code>src/data/affiliates.ts</code>, which is the only place a
           merchant becomes monetized. Statuses are never rendered on public pages. Never mark a
-          program active from an assumption — read the approval in the network dashboard.
+          program active from an assumption — read the approval in the network dashboard. Full
+          activation workflow, deep-link slots, and the page-to-revenue map live on the{" "}
+          <a href="/internal/revenue-switchboard" className="text-primary underline underline-offset-4">
+            revenue switchboard
+          </a>
+          .
         </p>
         <div className="mt-6 space-y-4">
           {MERCHANTS.map((m) => (

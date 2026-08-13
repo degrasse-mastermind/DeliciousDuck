@@ -1,8 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { ExternalLink, Info, ShoppingBag } from "lucide-react";
-import { DISCLOSURE_TEXT, type ComparisonRow } from "@/data/comparisons";
+import {
+  DISCLOSURE_TEXT_ACTIVE,
+  DISCLOSURE_TEXT_PENDING,
+  type ComparisonRow,
+} from "@/data/comparisons";
 import { trackAffiliateClick } from "@/lib/analytics";
-import { resolveCommerceLink } from "@/data/affiliates";
+import { HAS_ACTIVE_AFFILIATE_PROGRAM, resolveCommerceLink } from "@/data/affiliates";
 
 /**
  * Commercial modules for money pages.
@@ -14,19 +18,27 @@ import { resolveCommerceLink } from "@/data/affiliates";
  * link at all when there is no legitimate destination. Placeholder "#" links
  * are never rendered, and a merchant is never treated as monetized just because
  * an application was filed.
+ *
+ * Disclosure policy: the banner claims commissions only when at least one
+ * program is genuinely active. While all programs are pending it states that no
+ * link on the page earns anything.
  */
 export function DisclosureBanner({ compact = false }: { compact?: boolean }) {
   return (
     <aside
-      aria-label="Affiliate disclosure"
+      aria-label={
+        HAS_ACTIVE_AFFILIATE_PROGRAM ? "Affiliate disclosure" : "Commercial links disclosure"
+      }
       className={`flex items-start gap-3 rounded-sm border border-accent/40 bg-accent/10 text-sm text-foreground/85 ${
         compact ? "p-3" : "p-4"
       }`}
     >
       <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-gold-foreground" />
       <p>
-        <span className="font-semibold">Affiliate disclosure. </span>
-        {DISCLOSURE_TEXT}{" "}
+        <span className="font-semibold">
+          {HAS_ACTIVE_AFFILIATE_PROGRAM ? "Affiliate disclosure. " : "How links here work. "}
+        </span>
+        {HAS_ACTIVE_AFFILIATE_PROGRAM ? DISCLOSURE_TEXT_ACTIVE : DISCLOSURE_TEXT_PENDING}{" "}
         <Link to="/affiliate-disclosure" className="text-primary underline underline-offset-4">
           Full disclosure
         </Link>
@@ -55,6 +67,7 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
             linkUrl: link.href!,
             linkText: "Check availability",
             merchant: link.merchantName ?? row.name,
+            merchantId: link.merchantId,
             placement,
             linkType: "affiliate",
             destinationType: "affiliate_tracking",
@@ -79,6 +92,7 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
             linkUrl: link.href!,
             linkText: "Visit seller",
             merchant: link.merchantName ?? row.name,
+            merchantId: link.merchantId,
             placement,
             linkType: "direct_seller",
             destinationType: "merchant_direct",
