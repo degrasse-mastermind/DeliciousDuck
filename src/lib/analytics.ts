@@ -24,6 +24,9 @@ export const ANALYTICS_EVENTS = {
   newsletterIntent: "newsletter_intent",
   newsletterSignup: "newsletter_signup",
   newsletterPostsignupClick: "newsletter_postsignup_click",
+  newsletterInterestSelected: "newsletter_interest_selected",
+  emailLandingView: "email_landing_view",
+  duckDropCtaClick: "duck_drop_cta_click",
   calculatorComplete: "calculator_complete",
   starterGuideView: "starter_guide_view",
   starterGuidePrint: "starter_guide_print",
@@ -186,6 +189,114 @@ export function trackAffiliateClick(params: {
     content_type: params.contentType ?? contentTypeFromPath(path),
     content_slug: params.contentSlug ?? contentSlugFromPath(path),
     page_path: path,
+    // Lets us tell whether newsletter traffic actually converts downstream,
+    // without ever identifying the subscriber.
+    email_attributed: isEmailAttributedSession(),
+    email_campaign: emailAttribution()?.campaign,
+  });
+}
+
+/* ------------------------------------------------------------------ *
+ * Email attribution (campaign-level only, never per-subscriber)
+ * ------------------------------------------------------------------ */
+
+const EMAIL_ATTRIBUTION_KEY = "dd_email_attribution";
+
+export interface EmailAttribution {
+  campaign?: string | undefined;
+  content?: string | undefined;
+}
+
+/**
+ * Reads the current session's email attribution, if any.
+ * Session-scoped and campaign-level: source, campaign and slot names only.
+ * Never an address, hash, or subscriber identifier.
+ */
+export function emailAttribution(): EmailAttribution | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(EMAIL_ATTRIBUTION_KEY);
+    return raw ? (JSON.parse(raw) as EmailAttribution) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function isEmailAttributedSession(): boolean {
+  return emailAttribution() !== null;
+}
+
+/**
+ * Records an email-sourced landing and fires `email_landing_view` once per
+ * session. Called on route changes; reads only UTM parameters we set ourselves.
+ */
+export function trackEmailLanding(): void {
+  if (typeof window === "undefined") return;
+  const params = new URLSearchParams(window.location.search);
+  const medium = params.get("utm_medium");
+  const campaign = params.get("utm_campaign") ?? undefined;
+  const content = params.get("utm_content") ?? undefined;
+  if (medium !== "email") return;
+
+  const existing = emailAttribution();
+  try {
+    window.sessionStorage.setItem(
+      EMAIL_ATTRIBUTION_KEY,
+      JSON.stringify({ campaign, content }),
+    );
+  } catch {
+    /* storage unavailable — attribution is best-effort only */
+  }
+  // One landing event per session; later clicks carry email_attributed instead.
+  if (existing) return;
+  trackEvent(ANALYTICS_EVENTS.emailLandingView, {
+    email_campaign: campaign,
+    email_slot: content,
+    page_path: currentPagePath(),
+    content_slug: contentSlugFromPath(),
+  });
+}
+
+/**
+ * Internal CTA click on a page reached from the newsletter. Fired only for
+ * email-attributed sessions, so it measures the issue's on-site follow-through.
+ */
+export function trackDuckDropCtaClick(params: {
+  linkUrl: string;
+  linkText?: string;
+  placement?: string;
+}): void {
+  const attribution = emailAttribution();
+  if (!attribution) return;
+  const path = currentPagePath();
+  if (!shouldSendClick(`duckdrop|${params.linkUrl}|${path}`)) return;
+  trackEvent(ANALYTICS_EVENTS.duckDropCtaClick, {
+    link_url: params.linkUrl,
+    link_text: params.linkText,
+    placement: params.placement,
+    email_campaign: attribution.campaign,
+    email_slot: attribution.content,
+    page_path: path,
+    content_slug: contentSlugFromPath(path),
+  });
+}
+
+/**
+ * Subscriber explicitly picked an interest after signing up.
+ * Records the chosen bucket only — no address, no token.
+ */
+export function trackNewsletterInterestSelected(params: {
+  placement?: string;
+  interest: string;
+  previousInterest?: string | undefined;
+}): void {
+  const path = currentPagePath();
+  trackEvent(ANALYTICS_EVENTS.newsletterInterestSelected, {
+    placement: params.placement,
+    interest: params.interest,
+    previous_interest: params.previousInterest,
+    page_path: path,
+    content_slug: contentSlugFromPath(path),
   });
 }
 

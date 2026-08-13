@@ -2,11 +2,13 @@ import { useState } from "react";
 import { ArrowRight, Check, Clock, Download } from "lucide-react";
 import {
   trackNewsletterIntent,
+  trackNewsletterInterestSelected,
   trackNewsletterPostsignupClick,
   trackNewsletterSignup,
 } from "@/lib/analytics";
 import {
   isNewsletterEnabled,
+  setNewsletterInterest,
   subscribeToNewsletter,
   type SubscribeInput,
   type SubscribeResult,
@@ -15,8 +17,10 @@ import { FIELD_GUIDE, STARTER_GUIDE } from "@/data/starter-guide";
 import {
   interestForPath,
   newsletterContext,
+  NEWSLETTER_INTERESTS,
   type NewsletterInterest,
 } from "@/data/newsletter-contexts";
+import { INTEREST_BLURBS, INTEREST_LABELS } from "@/data/duck-drop";
 
 /**
  * Honest-by-default signup, with contextual promises.
@@ -56,6 +60,12 @@ export function NewsletterSignup({
   const [intentSent, setIntentSent] = useState(false);
   const [signupSent, setSignupSent] = useState(false);
   const [welcomeTriggered, setWelcomeTriggered] = useState(false);
+  /** Issued only to first-time subscribers, for in-session preference editing. */
+  const [preferenceToken, setPreferenceToken] = useState<string | null>(null);
+  const [chosenInterest, setChosenInterest] = useState<NewsletterInterest | null>(null);
+  const [savingInterest, setSavingInterest] = useState(false);
+  const [interestSaved, setInterestSaved] = useState(false);
+  const [interestError, setInterestError] = useState(false);
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
   const context = newsletterContext(interest);
 
@@ -91,6 +101,11 @@ export function NewsletterSignup({
       });
       // Only claim email delivery when the welcome email was actually triggered.
       setWelcomeTriggered(Boolean(result && result.welcomeTriggered));
+      setPreferenceToken((result && result.preferenceToken) || null);
+      setChosenInterest(
+        (result && (result.primaryInterest as NewsletterInterest | null)) ??
+          (interest === "general" ? interestForPath(sourcePath) : interest),
+      );
       // Success transition only — never on mount, never on a failed submit.
       // No email or other PII is sent to analytics.
       if (!signupSent) {
@@ -103,6 +118,30 @@ export function NewsletterSignup({
     } finally {
       setPending(false);
     }
+  }
+
+  /**
+   * Applies an explicit interest choice using the token from this signup.
+   * Optional by design: skipping it keeps whatever the page context implied.
+   */
+  async function handleInterestChoice(next: NewsletterInterest) {
+    if (!preferenceToken || savingInterest || next === chosenInterest) return;
+    const previous = chosenInterest;
+    setSavingInterest(true);
+    setInterestError(false);
+    const ok = await setNewsletterInterest(preferenceToken, next);
+    setSavingInterest(false);
+    if (!ok) {
+      setInterestError(true);
+      return;
+    }
+    setChosenInterest(next);
+    setInterestSaved(true);
+    trackNewsletterInterestSelected({
+      placement: id,
+      interest: next,
+      previousInterest: previous ?? undefined,
+    });
   }
 
   return (
@@ -255,6 +294,58 @@ export function NewsletterSignup({
                   ))}
                 </ul>
               </div>
+
+              {/*
+                Optional interest selector. Offered only to first-time subscribers
+                in this session, authorised by a one-purpose token — we never let
+                the browser edit preferences by email address. Skipping it is
+                fine: the page context already set a sensible default, and every
+                subscriber receives the same weekly issue either way.
+              */}
+              {preferenceToken && (
+                <fieldset className="mt-6 border-t border-border pt-5">
+                  <legend className="text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
+                    What should we lead with? (optional)
+                  </legend>
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                    This changes which examples lead in the weekly email. Everyone gets the same
+                    issue — nothing is hidden behind a choice.
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {NEWSLETTER_INTERESTS.map((option) => {
+                      const active = chosenInterest === option;
+                      return (
+                        <button
+                          key={option}
+                          type="button"
+                          onClick={() => handleInterestChoice(option)}
+                          disabled={savingInterest}
+                          aria-pressed={active}
+                          title={INTEREST_BLURBS[option]}
+                          className={`rounded-sm border px-3 py-2 text-xs font-semibold transition-colors disabled:opacity-60 ${
+                            active
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-input bg-card text-foreground hover:border-primary"
+                          }`}
+                        >
+                          {INTEREST_LABELS[option]}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p role="status" className="mt-3 text-xs text-muted-foreground">
+                    {savingInterest
+                      ? "Saving your choice…"
+                      : interestError
+                        ? "We couldn't save that just now — your subscription is unaffected."
+                        : interestSaved
+                          ? `Saved. We'll lead with ${INTEREST_LABELS[chosenInterest ?? "general"].toLowerCase()}.`
+                          : chosenInterest
+                            ? `Currently set to ${INTEREST_LABELS[chosenInterest].toLowerCase()}, based on the page you signed up from.`
+                            : ""}
+                  </p>
+                </fieldset>
+              )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-4">

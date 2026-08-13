@@ -49,6 +49,7 @@ import { Route as IngredientsDuckFatVsButterOilRouteImport } from './routes/ingr
 import { Route as IngredientsDuckMarinadeGuideRouteImport } from './routes/ingredients.duck-marinade-guide'
 import { Route as IngredientsDuckSeasoningGuideRouteImport } from './routes/ingredients.duck-seasoning-guide'
 import { Route as IngredientsOrangeWithDuckRouteImport } from './routes/ingredients.orange-with-duck'
+import { Route as InternalDuckDropStudioRouteImport } from './routes/internal.duck-drop-studio'
 import { Route as InternalGrowthDashboardRouteImport } from './routes/internal.growth-dashboard'
 import { Route as InternalKitchenTestSheetRouteImport } from './routes/internal.kitchen-test-sheet'
 import { Route as InternalRevenueSwitchboardRouteImport } from './routes/internal.revenue-switchboard'
@@ -286,6 +287,11 @@ const IngredientsOrangeWithDuckRoute =
     path: '/orange-with-duck',
     getParentRoute: () => IngredientsRoute,
   } as any)
+const InternalDuckDropStudioRoute = InternalDuckDropStudioRouteImport.update({
+  id: '/internal/duck-drop-studio',
+  path: '/internal/duck-drop-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InternalGrowthDashboardRoute = InternalGrowthDashboardRouteImport.update({
   id: '/internal/growth-dashboard',
   path: '/internal/growth-dashboard',
@@ -444,6 +450,7 @@ export interface FileRoutesByFullPath {
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
   '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
+  '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
@@ -501,6 +508,7 @@ export interface FileRoutesByTo {
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
   '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
+  '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
@@ -566,6 +574,7 @@ export interface FileRoutesById {
   '/ingredients/duck-marinade-guide': typeof IngredientsDuckMarinadeGuideRoute
   '/ingredients/duck-seasoning-guide': typeof IngredientsDuckSeasoningGuideRoute
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
+  '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
@@ -632,6 +641,7 @@ export interface FileRouteTypes {
     | '/ingredients/duck-marinade-guide'
     | '/ingredients/duck-seasoning-guide'
     | '/ingredients/orange-with-duck'
+    | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
@@ -689,6 +699,7 @@ export interface FileRouteTypes {
     | '/ingredients/duck-marinade-guide'
     | '/ingredients/duck-seasoning-guide'
     | '/ingredients/orange-with-duck'
+    | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
@@ -753,6 +764,7 @@ export interface FileRouteTypes {
     | '/ingredients/duck-marinade-guide'
     | '/ingredients/duck-seasoning-guide'
     | '/ingredients/orange-with-duck'
+    | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
@@ -798,6 +810,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
   GuidesDuckCookingStarterGuideRoute: typeof GuidesDuckCookingStarterGuideRoute
+  InternalDuckDropStudioRoute: typeof InternalDuckDropStudioRoute
   InternalGrowthDashboardRoute: typeof InternalGrowthDashboardRoute
   InternalKitchenTestSheetRoute: typeof InternalKitchenTestSheetRoute
   InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
@@ -1084,6 +1097,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/ingredients/orange-with-duck'
       preLoaderRoute: typeof IngredientsOrangeWithDuckRouteImport
       parentRoute: typeof IngredientsRoute
+    }
+    '/internal/duck-drop-studio': {
+      id: '/internal/duck-drop-studio'
+      path: '/internal/duck-drop-studio'
+      fullPath: '/internal/duck-drop-studio'
+      preLoaderRoute: typeof InternalDuckDropStudioRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/internal/growth-dashboard': {
       id: '/internal/growth-dashboard'
@@ -1407,6 +1427,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRouteWithChildren,
   GuidesDuckCookingStarterGuideRoute: GuidesDuckCookingStarterGuideRoute,
+  InternalDuckDropStudioRoute: InternalDuckDropStudioRoute,
   InternalGrowthDashboardRoute: InternalGrowthDashboardRoute,
   InternalKitchenTestSheetRoute: InternalKitchenTestSheetRoute,
   InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
