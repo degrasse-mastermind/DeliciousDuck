@@ -11,6 +11,8 @@ import {
   type SketchRegenOptions,
 } from "@/lib/sketch-regen";
 import { streamImage } from "@/lib/streamImage";
+import { sketchNameFromSrc } from "@/lib/sketch-sources";
+import { replaceSketchAsset } from "@/lib/sketch-replace";
 
 type Status = "idle" | "working" | "done" | "error";
 
@@ -72,10 +74,13 @@ export function SketchRegenPanel({
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [finalUrl, setFinalUrl] = useState<string | null>(null);
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
 
   const subject = art.alt.replace(/^Colored-pencil sketch of\s*/i, "");
   const prompt = buildSketchPrompt(subject, options);
   const busy = status === "working";
+  const assetName = sketchNameFromSrc(art.src);
 
   const set = <K extends keyof SketchRegenOptions>(key: K, value: SketchRegenOptions[K]) =>
     setOptions((prev) => ({ ...prev, [key]: value }));
@@ -83,12 +88,32 @@ export function SketchRegenPanel({
   async function applyAndPreview() {
     setStatus("working");
     setError(null);
+    setFinalUrl(null);
+    setSaveState("idle");
     try {
-      await streamImage("/api/generate-sketch", prompt, onPreview);
+      await streamImage("/api/generate-sketch", prompt, (url, isFinal) => {
+        if (isFinal) setFinalUrl(url);
+        onPreview(url, isFinal);
+      });
       setStatus("done");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Generation failed");
       setStatus("error");
+    }
+  }
+
+  /** Overwrite the JPEG + WebP variants on disk with this render. */
+  async function replaceOriginal() {
+    if (!finalUrl || !assetName) return;
+    setSaveState("saving");
+    setError(null);
+    try {
+      await replaceSketchAsset(assetName, finalUrl);
+      setSaveState("saved");
+      onRevert(); // drop the session preview; the real asset now shows the new art
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save the image");
+      setSaveState("idle");
     }
   }
 
@@ -187,13 +212,29 @@ export function SketchRegenPanel({
             >
               Copy prompt
             </button>
+            {finalUrl && assetName ? (
+              <button
+                type="button"
+                onClick={replaceOriginal}
+                disabled={saveState === "saving"}
+                className="rounded-sm border border-primary px-3 py-2 text-xs font-semibold uppercase tracking-wide text-primary disabled:opacity-60"
+              >
+                {saveState === "saving"
+                  ? "Replacing…"
+                  : `Replace ${assetName}.jpg`}
+              </button>
+            ) : null}
           </div>
 
           {error ? <p className="mt-2 text-xs text-destructive">{error}</p> : null}
-          {status === "done" ? (
+          {saveState === "saved" ? (
             <p className="mt-2 text-xs text-muted-foreground">
-              Preview only — right-click the image to save it, then replace the file in
-              src/assets/sketch/ to keep it.
+              Saved — {assetName}.jpg plus its 700w/1400w WebP variants were overwritten.
+            </p>
+          ) : status === "done" ? (
+            <p className="mt-2 text-xs text-muted-foreground">
+              Session preview. Hit “Replace {assetName}.jpg” to overwrite the real asset
+              (JPEG + WebP variants) so the change sticks site-wide.
             </p>
           ) : null}
 

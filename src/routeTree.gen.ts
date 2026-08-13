@@ -25,6 +25,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as ApiGenerateSketchRouteImport } from './routes/api/generate-sketch'
+import { Route as ApiSaveSketchRouteImport } from './routes/api/save-sketch'
 import { Route as BuyIndexRouteImport } from './routes/buy.index'
 import { Route as BuyDuckFatBuyingGuideRouteImport } from './routes/buy.duck-fat-buying-guide'
 import { Route as BuyWhereToBuyDuckOnlineRouteImport } from './routes/buy.where-to-buy-duck-online'
@@ -156,6 +157,11 @@ const ToolsRoute = ToolsRouteImport.update({
 const ApiGenerateSketchRoute = ApiGenerateSketchRouteImport.update({
   id: '/api/generate-sketch',
   path: '/api/generate-sketch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSaveSketchRoute = ApiSaveSketchRouteImport.update({
+  id: '/api/save-sketch',
+  path: '/api/save-sketch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BuyIndexRoute = BuyIndexRouteImport.update({
@@ -460,6 +466,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
   '/api/generate-sketch': typeof ApiGenerateSketchRoute
+  '/api/save-sketch': typeof ApiSaveSketchRoute
   '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
@@ -523,6 +530,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/api/generate-sketch': typeof ApiGenerateSketchRoute
+  '/api/save-sketch': typeof ApiSaveSketchRoute
   '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
@@ -594,6 +602,7 @@ export interface FileRoutesById {
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
   '/api/generate-sketch': typeof ApiGenerateSketchRoute
+  '/api/save-sketch': typeof ApiSaveSketchRoute
   '/buy/duck-fat-buying-guide': typeof BuyDuckFatBuyingGuideRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
@@ -666,6 +675,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/api/generate-sketch'
+    | '/api/save-sketch'
     | '/buy/duck-fat-buying-guide'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
@@ -729,6 +739,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/api/generate-sketch'
+    | '/api/save-sketch'
     | '/buy/duck-fat-buying-guide'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
@@ -799,6 +810,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/tools'
     | '/api/generate-sketch'
+    | '/api/save-sketch'
     | '/buy/duck-fat-buying-guide'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
@@ -870,6 +882,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
   ApiGenerateSketchRoute: typeof ApiGenerateSketchRoute
+  ApiSaveSketchRoute: typeof ApiSaveSketchRoute
   GuidesDuckCookingStarterGuideRoute: typeof GuidesDuckCookingStarterGuideRoute
   InternalDuckDropStudioRoute: typeof InternalDuckDropStudioRoute
   InternalGrowthDashboardRoute: typeof InternalGrowthDashboardRoute
@@ -993,6 +1006,13 @@ declare module '@tanstack/react-router' {
       path: '/api/generate-sketch'
       fullPath: '/api/generate-sketch'
       preLoaderRoute: typeof ApiGenerateSketchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/save-sketch': {
+      id: '/api/save-sketch'
+      path: '/api/save-sketch'
+      fullPath: '/api/save-sketch'
+      preLoaderRoute: typeof ApiSaveSketchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/buy/': {
@@ -1527,6 +1547,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRouteWithChildren,
   ApiGenerateSketchRoute: ApiGenerateSketchRoute,
+  ApiSaveSketchRoute: ApiSaveSketchRoute,
   GuidesDuckCookingStarterGuideRoute: GuidesDuckCookingStarterGuideRoute,
   InternalDuckDropStudioRoute: InternalDuckDropStudioRoute,
   InternalGrowthDashboardRoute: InternalGrowthDashboardRoute,
