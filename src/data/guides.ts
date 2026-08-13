@@ -324,13 +324,17 @@ export const GUIDES: GuideEntry[] = [
     kind: "money",
     minutes: 11,
     related: [
+      "/buy/what-cut-of-duck-to-buy",
+      "/buy/duck-breeds-for-cooking",
+      "/buy/fresh-vs-frozen-duck",
+      "/buy/how-to-choose-duck",
       "/learn/how-to-thaw-duck",
-      "/learn/wild-duck-vs-farmed-duck",
       "/tools/whole-duck-serving-calculator",
       "/buy/duck-fat-buying-guide",
       "/cook/how-to-cook-duck-breast",
       "/gear/best-thermometer-for-duck",
     ],
+
   },
   {
     path: "/gear/best-thermometer-for-duck",
