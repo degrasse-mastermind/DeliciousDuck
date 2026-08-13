@@ -310,23 +310,26 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     await syncInterestSegment(emailNormalized, apiKey, (row.primary_interest as string | null) ?? null);
   }
 
-  // Belt and braces: a new row cannot already have been welcomed, but never
-  // fire a second event if it somehow has.
-  if (!plan.sendWelcome || row.welcome_event_status === "sent") {
+  // One gate in front of every welcome request: not a new row, already welcomed,
+  // or no usable mailbox token. A missing token would mean dead unsubscribe /
+  // preferences links, so we send nothing and leave the row pending instead.
+  const dispatch = decideWelcomeDispatch({
+    sendWelcome: plan.sendWelcome,
+    welcomeEventStatus: row.welcome_event_status,
+    token: row.preference_token,
+  });
+  if (!dispatch.dispatch) {
+    if (dispatch.reason === "no_token") {
+      // Reason only — never the token, the address, or the stored status.
+      console.warn("Welcome event skipped: no usable mailbox token on the stored row");
+      return { outcome, resendSync: "synced", welcomeEvent: "pending" };
+    }
     return { outcome, resendSync: "synced", welcomeEvent: "skipped" };
-  }
-
-  // No usable token means no working unsubscribe/preferences link, so we send
-  // nothing and leave the row "pending" rather than mail a dead-link welcome.
-  const token = (row.preference_token as string | null) ?? null;
-  if (!isPlausibleToken(token)) {
-    console.warn("Welcome event skipped: no usable mailbox token on the stored row");
-    return { outcome, resendSync: "synced", welcomeEvent: "pending" };
   }
 
   try {
     await sendWelcomeEvent(emailNormalized, apiKey, {
-      token,
+      token: dispatch.token,
       interest: data.interest,
       source_path: data.sourcePath,
     });
