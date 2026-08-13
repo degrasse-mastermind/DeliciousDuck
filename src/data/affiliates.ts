@@ -62,11 +62,12 @@ export const MERCHANTS: Merchant[] = [
   {
     id: "thermoworks",
     name: "ThermoWorks",
-    status: "candidate",
+    program: "Impact",
+    status: "applied",
     directUrl: "https://www.thermoworks.com/",
     statusReviewed: "2026-08",
     internalNote:
-      "Referenced as a widely available instrument brand. No application filed, no affiliate relationship, no hands-on testing.",
+      "ThermoWorks Impact application was submitted and is pending approval. Impact site-verification meta tag is installed. Do not set status to active until Impact issues an approved tracking URL; paste it into affiliateUrl at that point.",
   },
 ];
 
