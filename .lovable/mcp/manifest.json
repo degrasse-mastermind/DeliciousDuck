@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "sdk_version": "0.26.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "deliciousduck-hub",
+      "version": "0.1.0",
+      "title": "DeliciousDuck Hub"
+    },
+    "tools": [
+      {
+        "name": "search_duck_content",
+        "title": "Search duck content",
+        "description": "Search DeliciousDuck's published recipes, cooking guides, ingredient pages, and calculators. Returns titles, one-line summaries, and canonical URLs.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "What to look for, e.g. 'crispy skin' or 'duck fat substitute'."
+            },
+            "kind": {
+              "description": "Restrict results to one content type.",
+              "type": "string",
+              "enum": [
+                "recipe",
+                "guide",
+                "ingredient",
+                "tool"
+              ]
+            },
+            "limit": {
+              "description": "Max results to return (default 10).",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "query"
+          ]
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_duck_content",
+        "title": "List duck content",
+        "description": "List everything published on DeliciousDuck — recipes (with slugs), guides, ingredient pages, and live calculators — with canonical URLs.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "kind": {
+              "description": "Restrict the listing to one content type.",
+              "type": "string",
+              "enum": [
+                "recipe",
+                "guide",
+                "ingredient",
+                "tool"
+              ]
+            }
+          }
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_duck_recipe",
+        "title": "Get duck recipe",
+        "description": "Get one full DeliciousDuck recipe by slug: ingredients, equipment, step-by-step method, temperature table, troubleshooting, leftovers, and FAQ.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "description": "Recipe slug, e.g. 'pan-seared-duck-breast'. Use list_duck_content to find slugs."
+            }
+          },
+          "required": [
+            "slug"
+          ]
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
