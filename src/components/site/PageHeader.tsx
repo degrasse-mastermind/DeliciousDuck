@@ -53,7 +53,7 @@ export function PageHeader({
 
           {illustration ? (
             <div aria-hidden={false} className="order-first lg:order-none">
-              <SketchFigure art={illustration} eager />
+              <SketchFigure art={illustration} eager sizes={HEADER_SIZES} />
             </div>
           ) : null}
         </div>
