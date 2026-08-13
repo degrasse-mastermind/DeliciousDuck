@@ -75,31 +75,22 @@ async function syncInterestSegment(
 }
 
 /**
- * Creates/ensures the contact in the Resend audience.
- * 201 = new, 200/409 = already a member — all idempotent successes.
+ * Creates/ensures the contact via Resend's current Create Contact API
+ * (`POST /contacts`; audiences are deprecated). Body is email only: sending
+ * `unsubscribed: false` could reactivate a provider-suppressed contact.
+ *
+ * A 409 conflict is an idempotent success with no follow-up update. If no id
+ * can safely be read, we return `null` and keep the local record.
+ *
+ * Only genuinely new local rows reach this function — see `providerPlan`.
  */
 async function pushToResend(email: string, apiKey: string): Promise<string | null> {
-  const response = await fetch(`https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({ email, unsubscribed: false }),
-  });
-
-  if (response.ok || response.status === 409) {
-    try {
-      const body = (await response.json()) as { id?: string; data?: { id?: string } };
-      return body.id ?? body.data?.id ?? null;
-    } catch {
-      return null;
-    }
+  const outcome = await createProviderContact(email, apiKey, fetch as never);
+  if (outcome.status === "error") {
+    // Status classification only — never the key, address, or provider body.
+    throw new Error(outcome.reason);
   }
-
-  const detail = await response.text();
-  // Status + provider detail only — never the key.
-  throw new Error(`resend_${response.status}: ${detail.slice(0, 300)}`);
+  return outcome.contactId;
 }
 
 /**
