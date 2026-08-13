@@ -1,7 +1,12 @@
+import { preload } from "react-dom";
 import { useRouterState } from "@tanstack/react-router";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { SketchFigure } from "./SketchFigure";
 import { sketchForPath, type SketchArt } from "@/lib/sketch-art";
+import { sketchPreloadHref, sketchSrcSet } from "@/lib/sketch-sources";
+
+/** Header art is ~38% of the content column on desktop, full width on mobile. */
+const HEADER_SIZES = "(min-width: 1024px) 460px, 100vw";
 
 export function PageHeader({
   eyebrow,
