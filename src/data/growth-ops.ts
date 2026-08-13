@@ -33,8 +33,8 @@ export interface QueueCluster {
 
 export const CONTENT_QUEUE: QueueCluster[] = [
   {
-    cluster: "Duck breast — core technique",
-    note: "Highest-intent cluster on the site and the one the flagship kitchen test serves.",
+    cluster: "Duck breast — core technique (Phase 2, Sprint 1 priority)",
+    note: "Current Phase 2 priority. Highest-intent cluster on the site, the one the flagship kitchen test serves, and now wired as a single pathway: /cook/how-to-cook-duck-breast is the hub, every cluster page carries the DuckBreastJourney module, and internal navigation emits duck_breast_cluster_click (destination_slug, destination_group, source_path, placement) so we can see which route readers actually take. No live metrics are stored here — read the counts in GA4.",
     items: [
       {
         path: "/recipes/pan-seared-duck-breast",
