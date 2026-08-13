@@ -277,6 +277,13 @@ export const EVENT_REFERENCE: EventRef[] = [
     dedupe: "Once per successful subscribe result",
   },
   {
+    name: "newsletter_postsignup_click",
+    meaning:
+      "A new subscriber clicked into on-site reading from the post-signup 'Start here' module.",
+    fires: "On a click inside the success-state link list",
+    dedupe: "1.5s window per link URL and page path",
+  },
+  {
     name: "starter_guide_view",
     meaning: "A genuine view of the on-site starter guide.",
     fires: "Once after hydration on /guides/duck-cooking-starter-guide",
