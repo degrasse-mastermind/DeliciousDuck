@@ -6,7 +6,12 @@ import { createFileRoute } from "@tanstack/react-router";
  * POST only, and nothing mutates before the raw body is verified. GET (which
  * link scanners and browsers perform) is not implemented, so it cannot mutate.
  * Responses are generic: a caller learns nothing about our list.
+ *
+ * After verification the subscriber transition runs before the event log, so a
+ * crash can never leave an event recorded as handled while its suppression was
+ * never applied. See `@/lib/newsletter-webhook` for the ordering rationale.
  */
+
 export const Route = createFileRoute("/api/webhooks/resend")({
   server: {
     handlers: {

@@ -56,6 +56,20 @@ export function nextStatus(current: string, incoming: ProviderStatus): ProviderS
   return statusSeverity(incoming) > statusSeverity(current) ? incoming : null;
 }
 
+/**
+ * Every status strictly weaker than `target`.
+ *
+ * This is the guard set for the conditional subscriber UPDATE: the write may
+ * only match a row still sitting on one of these, so an equal or stronger
+ * stored status is never overwritten — including when two deliveries race, or
+ * when the row changed between our lookup and our write.
+ */
+export function weakerStatuses(target: ProviderStatus): SubscriberStatus[] {
+  const ceiling = SEVERITY[target];
+  return (Object.keys(SEVERITY) as SubscriberStatus[]).filter((s) => SEVERITY[s] < ceiling);
+}
+
+
 /** Conservative RFC-ish shape check; we never construct an address ourselves. */
 export function normalizeEmail(value: unknown): string | null {
   if (typeof value !== "string") return null;
@@ -141,12 +155,19 @@ export interface WebhookStore {
     detail: string;
   }): Promise<"inserted" | "duplicate">;
   findSubscriber(email: string): Promise<{ id: string; status: string } | null>;
+  /**
+   * Atomic conditional transition. MUST update the row only while its stored
+   * status is one of `fromStatuses`, in a single statement — no read-then-write.
+   * Returns "unchanged" when the guard did not match, which is the normal
+   * result of a retry or a concurrent delivery, not an error.
+   */
   applySuppression(input: {
     id: string;
     status: ProviderStatus;
+    fromStatuses: SubscriberStatus[];
     eventName: string;
     at: string;
-  }): Promise<void>;
+  }): Promise<"applied" | "unchanged">;
 }
 
 /** Verification seam. Throws on any invalid signature. */
@@ -157,6 +178,7 @@ export interface WebhookOutcome {
   status: number;
   /** Generic, non-revealing body text. */
   body: string;
+
   /** Internal only, for tests and internal logging. Never sent to the caller. */
   internal:
     | "no_secret"
@@ -175,11 +197,22 @@ const REQUIRED_HEADERS = ["svix-id", "svix-timestamp", "svix-signature"] as cons
 /**
  * The whole webhook decision path.
  *
- * Order matters and is load-bearing: the raw body is verified untouched before
- * any JSON parsing; the verified event is logged before any subscriber write;
- * and a duplicate delivery stops at the log, so a replay can never produce a
- * second status transition.
+ * Order matters and is load-bearing:
+ * 1. the raw body is verified untouched, before any JSON parsing;
+ * 2. the subscriber transition runs FIRST, as one atomic conditional update
+ *    guarded on strictly-weaker statuses;
+ * 3. only then is the verified event logged.
+ *
+ * The transition precedes the log deliberately. Logging first would create a
+ * retry hole: if the log succeeded and the transition then failed, the
+ * redelivery would match the unique event id, be treated as a replay, and
+ * return 200 having never applied the suppression. With this order a failure
+ * anywhere returns 500 with the event unlogged, so the redelivery re-runs the
+ * whole path. Safety rests on the conditional update being idempotent, not on
+ * the event log being a lock: re-running it against an already-transitioned row
+ * simply does not match and reports "unchanged".
  */
+
 export async function handleResendWebhook(input: {
   raw: string;
   headers: Record<string, string>;
@@ -221,6 +254,30 @@ export async function handleResendWebhook(input: {
   try {
     const subscriber = await input.store.findSubscriber(mapped.email);
 
+    // Transition first. `transition` records what actually happened to the row
+    // so the response can distinguish an applied change from a guard refusal,
+    // without either being an error.
+    let transition: "applied" | "unchanged" = "unchanged";
+
+    if (subscriber) {
+      const target = nextStatus(subscriber.status, mapped.status);
+      if (target) {
+        // The stored status is re-checked inside the write itself. Our earlier
+        // read is only a fast path; `fromStatuses` is the real guard, so a row
+        // that moved to an equal/stronger status in between is left alone.
+        transition = await input.store.applySuppression({
+          id: subscriber.id,
+          status: target,
+          fromStatuses: weakerStatuses(target),
+          eventName: mapped.name,
+          at: receivedAt,
+        });
+      }
+    }
+
+    // Logged only after the row is known to be in a safe state. If this insert
+    // throws we return 500 with nothing logged, and the redelivery re-runs the
+    // idempotent update before logging again.
     const insert = await input.store.insertEvent({
       providerEventId,
       eventType: mapped.status,
@@ -231,26 +288,21 @@ export async function handleResendWebhook(input: {
       detail: mapped.detail,
     });
 
-    // Replay/redelivery: the event log already holds this delivery, so the
-    // status transition must not run a second time.
+    // Replay/redelivery. The conditional update above already ran and refused,
+    // so acknowledging here cannot leave a transition unapplied.
     if (insert === "duplicate") return { status: 200, body: "ok", internal: "replay" };
 
     // An event for an address we do not hold is still kept as evidence; we never
     // create a subscriber from provider input.
     if (!subscriber) return { status: 200, body: "ok", internal: "no_subscriber" };
 
-    const target = nextStatus(subscriber.status, mapped.status);
-    if (!target) return { status: 200, body: "ok", internal: "no_transition" };
-
-    await input.store.applySuppression({
-      id: subscriber.id,
-      status: target,
-      eventName: mapped.name,
-      at: receivedAt,
-    });
-    return { status: 200, body: "ok", internal: "applied" };
+    return transition === "applied"
+      ? { status: 200, body: "ok", internal: "applied" }
+      : { status: 200, body: "ok", internal: "no_transition" };
   } catch {
-    // Retryable: Resend redelivers, and the unique event id keeps that safe.
+    // Retryable, and safe to retry: the transition is a guarded idempotent
+    // update and the event id is unique.
     return { status: 500, body: "error", internal: "storage_error" };
   }
 }
+
