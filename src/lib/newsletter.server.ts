@@ -68,7 +68,11 @@ async function pushToResend(email: string, apiKey: string): Promise<string | nul
  * Field Guide download link. Send-on-first-subscribe: callers skip this when the row
  * already has `welcome_event_status = "sent"`, so repeat signups don't spam.
  */
-async function sendWelcomeEvent(email: string, apiKey: string): Promise<void> {
+async function sendWelcomeEvent(
+  email: string,
+  apiKey: string,
+  meta: { interest?: string | undefined; source_path?: string | undefined },
+): Promise<void> {
   const headers = {
     "content-type": "application/json",
     authorization: `Bearer ${apiKey}`,
@@ -81,7 +85,12 @@ async function sendWelcomeEvent(email: string, apiKey: string): Promise<void> {
       body: JSON.stringify({
         event: "newsletter.subscribed",
         email,
-        data: { guide_url: FIELD_GUIDE_URL },
+        // Segment-ready, non-PII metadata for the 6-part welcome series.
+        data: {
+          guide_url: FIELD_GUIDE_URL,
+          interest: meta.interest ?? "general",
+          source_path: meta.source_path ?? "",
+        },
       }),
     });
 
@@ -95,7 +104,7 @@ async function sendWelcomeEvent(email: string, apiKey: string): Promise<void> {
       headers,
       body: JSON.stringify({
         name: "newsletter.subscribed",
-        schema: { guide_url: "string" },
+        schema: { guide_url: "string", interest: "string", source_path: "string" },
       }),
     });
     response = await dispatch();
@@ -111,6 +120,11 @@ async function sendWelcomeEvent(email: string, apiKey: string): Promise<void> {
 /**
  * Durably stores the subscriber, then best-effort syncs to Resend.
  * Throws only when durable storage fails.
+ *
+ * Idempotent by `email_normalized`: a repeat signup from a different page never
+ * creates a second row. It refreshes the latest source/placement/interest,
+ * appends the interest to the accumulated `interests` array, and bumps
+ * `signup_count`.
  */
 export async function persistSubscriber(data: SubscribePayload): Promise<{
   subscribed: true;
@@ -119,6 +133,20 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
 }> {
   const emailNormalized = data.email.trim().toLowerCase();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+  // Read the existing row (if any) so interest history accumulates instead of
+  // being overwritten by whichever page the visitor signed up from last.
+  const { data: existing } = await supabaseAdmin
+    .from("newsletter_subscribers")
+    .select("id, interests, signup_count")
+    .eq("email_normalized", emailNormalized)
+    .maybeSingle();
+
+  const priorInterests: string[] = Array.isArray(existing?.interests) ? existing.interests : [];
+  const mergedInterests = data.interest
+    ? Array.from(new Set([...priorInterests, data.interest]))
+    : priorInterests;
+  const now = new Date().toISOString();
 
   const { data: row, error } = await supabaseAdmin
     .from("newsletter_subscribers")
@@ -129,9 +157,14 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
         // Conservative: only overwrite attribution when we actually have it.
         ...(data.source ? { source: data.source } : {}),
         ...(data.placement ? { placement: data.placement } : {}),
+        ...(data.interest ? { interest: data.interest } : {}),
+        ...(data.sourcePath ? { source_path: data.sourcePath } : {}),
+        interests: mergedInterests,
+        signup_count: (existing?.signup_count ?? 0) + 1,
+        last_signup_at: now,
         status: "subscribed",
         unsubscribed_at: null,
-        updated_at: new Date().toISOString(),
+        updated_at: now,
       },
       { onConflict: "email_normalized" },
     )
