@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { NEWSLETTER_INTERESTS } from "@/data/newsletter-contexts";
+import { NEWSLETTER_CONSENT } from "./newsletter-consent";
 
 /** Client-safe validation + shared constants for the newsletter flow. */
 
@@ -18,6 +19,11 @@ export const subscribeSchema = z.object({
     .max(255)
     .regex(/^\/[A-Za-z0-9\-/_.]*$/)
     .optional(),
+  /**
+   * Version of the consent text the visitor was actually shown. Must match the
+   * version this build renders, so stored evidence can never drift from the UI.
+   */
+  consentVersion: z.literal(NEWSLETTER_CONSENT.version),
   /** Honeypot: must stay empty. Real users never see this field. */
   trap: z.string().max(0).optional(),
 });
