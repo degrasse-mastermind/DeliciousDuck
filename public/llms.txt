@@ -1,0 +1,36 @@
+# DeliciousDuck
+
+DeliciousDuck.com is a cooking authority site focused on buying, preparing, and cooking duck. It publishes detailed recipes, technique guides, ingredient explainers, gear reviews, and interactive calculators for home cooks and curious eaters.
+
+## What you can do here
+
+- Browse recipes for duck breast, duck legs, whole duck, and duck confit.
+- Read technique guides on scoring, rendering fat, doneness, resting, and carving.
+- Use interactive calculators: serving sizes, cooking time, doneness, fat substitutions, recipe scaling, and pairings.
+- Compare places to buy duck online and find the right pans, thermometers, and knives.
+
+## Key pages
+
+- Home: https://deliciousduck.com/
+- Recipes: https://deliciousduck.com/recipes
+- Starter guide: https://deliciousduck.com/guides/duck-cooking-starter-guide
+- How to cook duck breast: https://deliciousduck.com/cook/how-to-cook-duck-breast
+- Whole roast duck: https://deliciousduck.com/cook/whole-roast-duck
+- Duck leg confit: https://deliciousduck.com/cook/duck-leg-confit
+- Pan sauces: https://deliciousduck.com/cook/best-sauces-for-duck-breast
+- Where to buy duck online: https://deliciousduck.com/buy/where-to-buy-duck-online
+- Duck fat buying guide: https://deliciousduck.com/buy/duck-fat-buying-guide
+- Temperature & doneness: https://deliciousduck.com/learn/duck-breast-temperature-doneness
+- Tools hub: https://deliciousduck.com/tools
+- Affiliate disclosure: https://deliciousduck.com/affiliate-disclosure
+- Editorial standards: https://deliciousduck.com/editorial-standards
+
+## Content policies
+
+- Recipes marked `editorialDraft` follow established technique and published safety guidance but have not been kitchen-tested in the DeliciousDuck kitchen; they should never be described as tested.
+- Food safety guidance is conservative and sourced from USDA recommendations.
+- Affiliate links are disclosed on every monetized page and in the affiliate disclosure.
+
+## Sitemap
+
+https://deliciousduck.com/sitemap.xml
