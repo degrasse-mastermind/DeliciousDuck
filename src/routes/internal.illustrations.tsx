@@ -212,7 +212,9 @@ function IllustrationGallery() {
       <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
         Every sketch in the collection, rendered through the same components the
         site uses. Swap the variant, crop height and focus to see how each
-        drawing behaves before you place it on a page.
+        drawing behaves before you place it on a page — or open a card's
+        regeneration controls to nudge palette, line, background and shading and
+        preview a fresh render in one click.
       </p>
 
       <section className="mt-10 rounded-2xl border border-border bg-card p-5 lg:p-6">
