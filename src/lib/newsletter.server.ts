@@ -155,33 +155,32 @@ async function sendWelcomeEvent(
 }
 
 /**
- * Durably stores the subscriber, then best-effort syncs to Resend.
- * Throws only when durable storage fails.
+ * Durably stores the subscriber, then — for a genuinely new row only —
+ * best-effort syncs to Resend. Throws only when durable storage fails.
  *
  * Idempotent by `email_normalized`: a repeat signup from a different page never
  * creates a second row. It refreshes the latest source/placement/interest,
  * appends the interest to the accumulated `interests` array, and bumps
  * `signup_count`.
  *
+ * Provider-idempotent: a submission against an existing row performs zero
+ * Resend calls (no contact upsert, no segment write, no event). See
+ * `providerPlan` for why. Suppressed rows write nothing at all.
+ *
  * Segmentation fields:
  * - `primary_interest` is set from the signup page cluster on first subscribe and
- *   then left alone; only an explicit subscriber choice changes it.
+ *   then left alone.
  * - `first_content_path` records where the relationship began and never moves.
  * - `lifecycle_stage` starts at `welcome` and is advanced deliberately, never
  *   inferred from opens.
  *
- * Returns a `preferenceToken` ONLY for a brand-new subscriber, so the success
- * panel in that same session can let them adjust their interest without us
- * accepting an email address as proof of ownership.
+ * The return value is internal only. The public response is built by
+ * `publicSubscribeResponse` and is identical for every outcome.
  */
 export async function persistSubscriber(data: SubscribePayload): Promise<{
-  subscribed: true;
+  outcome: SignupOutcome;
   resendSync: ResendSync;
   welcomeEvent: WelcomeEvent;
-  primaryInterest: string | null;
-  preferenceToken: string | null;
-  /** Internal only: true when the address is in a suppressed state. Never surfaced. */
-  suppressed: boolean;
 }> {
   const emailNormalized = data.email.trim().toLowerCase();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -197,40 +196,44 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     .eq("email_normalized", emailNormalized)
     .maybeSingle();
 
+  const priorConsentRecord =
+    (existing as { consent_record?: string | null } | null)?.consent_record ?? null;
+
   const decision = decideSignup(
     existing
       ? {
           status: String(existing.status),
-          consent_record: (existing as { consent_record?: string | null }).consent_record ?? null,
+          consent_record: priorConsentRecord,
           welcome_event_status: existing.welcome_event_status ?? null,
         }
       : null,
   );
+  const plan = providerPlan(decision);
 
   // Suppression-safe: an unsubscribed / bounced / complained / suppressed address
   // is never reactivated, re-synced, or re-emailed by a form submission. We write
-  // nothing at all and return the same generic shape a fresh signup returns, so
-  // the response cannot be used to enumerate list membership or account state.
+  // nothing at all, and the caller returns the same constant response every other
+  // outcome returns, so the response cannot be used to enumerate list membership
+  // or account state.
   if (decision.action === "blocked") {
-    console.warn(`Newsletter signup ignored for suppressed address (status: ${decision.status})`);
-    return {
-      subscribed: true,
-      resendSync: "pending",
-      // No email is triggered, and the UI never claims one was.
-      welcomeEvent: "pending",
-      primaryInterest: null,
-      preferenceToken: null,
-      suppressed: true,
-    };
+    // Generic only: never log the stored status or the address, because logs are
+    // a side channel that would reveal exactly the list state the response hides.
+    console.warn("Newsletter signup ignored: address is not eligible for signup");
+    return { outcome: "blocked_suppressed", resendSync: "pending", welcomeEvent: "pending" };
   }
 
   const priorInterests: string[] = Array.isArray(existing?.interests) ? existing.interests : [];
   const mergedInterests = data.interest
     ? Array.from(new Set([...priorInterests, data.interest]))
     : priorInterests;
-  const isNew = !existing;
   const primaryInterest = existing?.primary_interest ?? data.interest ?? null;
   const now = new Date().toISOString();
+
+  const outcome: SignupOutcome = !existing
+    ? "created"
+    : priorConsentRecord === "explicit"
+      ? "active_duplicate"
+      : "legacy_active_duplicate";
 
   /**
    * Durable consent evidence for this accepted submission. The timestamp is
@@ -274,7 +277,7 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     ...consentEvidence,
   };
 
-  const selection = "id, welcome_event_status, primary_interest, preference_token";
+  const selection = "id, welcome_event_status, primary_interest";
   const { data: row, error } =
     decision.action === "create"
       ? await supabaseAdmin
@@ -296,19 +299,12 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     throw new Error("newsletter_storage_error");
   }
 
-  // In-session preference editing is offered to first-time subscribers only.
-  const preferenceToken = isNew ? (row.preference_token as string | null) : null;
-  const base = {
-    subscribed: true as const,
-    primaryInterest: (row.primary_interest as string | null) ?? null,
-    preferenceToken,
-    suppressed: false,
-  };
-
   const apiKey = process.env["RESEND_API_KEY"];
-  if (!apiKey) return { ...base, resendSync: "pending", welcomeEvent: "pending" };
-
-
+  // Existing-row submissions stop here: local fields are refreshed, the provider
+  // is untouched. This is the provider-idempotency guarantee.
+  if (!apiKey || !plan.syncContact) {
+    return { outcome, resendSync: "pending", welcomeEvent: "pending" };
+  }
 
   let contactId: string | null = null;
   try {
@@ -330,14 +326,17 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
         last_resend_sync_at: new Date().toISOString(),
       })
       .eq("id", row.id);
-    return { ...base, resendSync: "error", welcomeEvent: "pending" };
+    return { outcome, resendSync: "error", welcomeEvent: "pending" };
   }
 
-  await syncInterestSegment(emailNormalized, apiKey, base.primaryInterest);
+  if (plan.syncSegment) {
+    await syncInterestSegment(emailNormalized, apiKey, (row.primary_interest as string | null) ?? null);
+  }
 
-  // Already welcomed on a previous signup — durable success, no repeat event.
-  if (row.welcome_event_status === "sent") {
-    return { ...base, resendSync: "synced", welcomeEvent: "skipped" };
+  // Belt and braces: a new row cannot already have been welcomed, but never
+  // fire a second event if it somehow has.
+  if (!plan.sendWelcome || row.welcome_event_status === "sent") {
+    return { outcome, resendSync: "synced", welcomeEvent: "skipped" };
   }
 
   try {
@@ -349,16 +348,17 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
       .from("newsletter_subscribers")
       .update({ welcome_event_status: "sent", welcome_event_at: new Date().toISOString() })
       .eq("id", row.id);
-    return { ...base, resendSync: "synced", welcomeEvent: "sent" };
+    return { outcome, resendSync: "synced", welcomeEvent: "sent" };
   } catch (err) {
     console.error(`Welcome event failed: ${err instanceof Error ? err.message : "unknown"}`);
     await supabaseAdmin
       .from("newsletter_subscribers")
       .update({ welcome_event_status: "error", welcome_event_at: new Date().toISOString() })
       .eq("id", row.id);
-    return { ...base, resendSync: "synced", welcomeEvent: "error" };
+    return { outcome, resendSync: "synced", welcomeEvent: "error" };
   }
 }
+
 
 /**
  * Internal retry utility for rows that never reached Resend.
