@@ -194,7 +194,7 @@ holds the pure builders (no network, no credentials, no database):
 
 ```http
 POST https://api.resend.com/events/send
-{"event":"newsletter.subscribed","email":"<address>","data":{
+{"event":"newsletter.subscribed","email":"<address>","payload":{
   "guide_url":"…/downloads/duck-fundamentals-field-guide.pdf",
   "interest":"…","source_path":"…",
   "unsubscribe_url":"https://deliciousduck.com/newsletter/unsubscribe?t=<token>",
