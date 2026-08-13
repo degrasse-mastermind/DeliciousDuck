@@ -76,6 +76,8 @@ describe("buildWelcomeEventRequest", () => {
     const body = JSON.parse(buildWelcomeEventRequest(INPUT, KEY).body);
     expect(body.event).toBe(WELCOME_EVENT_NAME);
     expect(body.email).toBe("duck@example.com");
+    expect(body.data).toBeUndefined();
+    expect(Object.keys(body).sort()).toEqual(["email", "event", "payload"]);
     expect(Object.keys(body.payload).sort()).toEqual([
       "guide_url",
       "interest",
