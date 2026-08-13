@@ -201,10 +201,11 @@ export function sketchForPath(pathname: string): SketchArt | null {
   if (path.startsWith("/internal")) return null;
 
   const exact = BY_PATH[path];
-  if (exact) return SKETCH[exact];
+  if (exact) return SKETCH[exact] ?? null;
 
   const prefix = BY_PREFIX.find(([p]) => path === p || path.startsWith(`${p}/`));
-  if (prefix) return SKETCH[prefix[1]];
+  if (prefix) return SKETCH[prefix[1]] ?? null;
+
 
   return null;
 }
