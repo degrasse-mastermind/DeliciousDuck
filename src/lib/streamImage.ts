@@ -74,7 +74,8 @@ export async function streamImage(
   const fallback = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt, stream: false }),
+    body: JSON.stringify({ ...payload, stream: false }),
+    ...(options.signal ? { signal: options.signal } : {}),
   });
   if (!fallback.ok) throw new Error((await fallback.text()) || "Generation failed");
   const url = extractImage(await fallback.json());
