@@ -171,8 +171,12 @@ index, `preference_token`, and the suppression columns already exist.
   bounces are still invisible locally.
 - Signature verification is only as good as the stored secret; there is no
   IP allowlist.
-- Provider opt-out sync is best-effort, unvalidated in shape (above), and not
-  retried by a scheduled job yet.
+- Provider opt-out sync is best-effort and has **no scheduled retry job**. A
+  failure is recorded as `resend_sync_status` and nothing re-attempts it, so a
+  contact can remain subscribed at Resend while locally suppressed. Local
+  suppression is what gates sending, so this cannot cause an unwanted send from
+  this app.
+
 - The opaque token is present in the URL and may appear in framework hydration
   state; see the privacy boundary above.
 - A rotated token cannot be re-issued to the reader from the site; a new emailed
