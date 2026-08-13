@@ -80,15 +80,48 @@ function BuyPage() {
           ))}
         </dl>
 
+        <p className="mt-10 text-sm leading-relaxed text-muted-foreground">
+          Each of those checks has a page of its own:{" "}
+          <Link
+            to="/buy/duck-breeds-for-cooking"
+            className="text-primary underline underline-offset-4"
+          >
+            breeds and what they change
+          </Link>
+          ,{" "}
+          <Link to="/buy/fresh-vs-frozen-duck" className="text-primary underline underline-offset-4">
+            fresh versus frozen
+          </Link>
+          ,{" "}
+          <Link to="/buy/how-to-choose-duck" className="text-primary underline underline-offset-4">
+            judging skin, fat cap and labels
+          </Link>
+          , and{" "}
+          <Link
+            to="/buy/what-cut-of-duck-to-buy"
+            className="text-primary underline underline-offset-4"
+          >
+            which cut to buy for your dish
+          </Link>
+          .
+        </p>
+
         <p className="mt-16 text-sm text-muted-foreground">
           Working out quantities?{" "}
+          <Link
+            to="/buy/how-much-duck-per-person"
+            className="text-primary underline underline-offset-4"
+          >
+            How much duck per person
+          </Link>{" "}
+          and{" "}
           <Link
             to="/tools/whole-duck-serving-calculator"
             className="text-primary underline underline-offset-4"
           >
-            The whole-duck serving calculator
+            the serving calculator
           </Link>{" "}
-          turns a guest count into a shopping weight. Ordering frozen?{" "}
+          turn a guest count into a shopping weight. Ordering frozen?{" "}
           <Link to="/learn/how-to-thaw-duck" className="text-primary underline underline-offset-4">
             Plan the thaw first
           </Link>
@@ -98,6 +131,7 @@ function BuyPage() {
           </Link>
           .
         </p>
+
       </section>
     </>
   );
