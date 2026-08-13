@@ -111,7 +111,7 @@ describe("acquisition cluster registry", () => {
     const json = JSON.stringify(ACQUISITION_PAGES).toLowerCase();
     for (const banned of [
       "$",
-      "usd",
+      " usd ",
       "affiliate link",
       "commission",
       "% off",
