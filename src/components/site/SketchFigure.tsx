@@ -76,8 +76,8 @@ export function SketchBand({
 }) {
   const frame =
     variant === "framed"
-      ? "overflow-hidden rounded-2xl border border-border bg-cream"
-      : "overflow-hidden bg-cream";
+      ? `overflow-hidden rounded-2xl border border-border ${SKETCH_RENDER.surface}`
+      : `overflow-hidden ${SKETCH_RENDER.surface}`;
 
   return (
     <figure className={`${frame} ${className}`}>
