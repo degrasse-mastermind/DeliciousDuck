@@ -90,8 +90,11 @@ function StarterGuidePage() {
           Print the quick reference
         </button>
         <span className="text-sm text-muted-foreground">
-          Prints the checklist, temperatures, and technique block only. The printable 16-page
-          field guide is the free subscriber download — join the list below to get it.
+          Prints the checklist, temperatures, and technique block only. The printable 16-page{" "}
+          <Link to="/" hash="starter-guide" className="text-primary underline underline-offset-4">
+            field guide is the free subscriber download
+          </Link>
+          .
         </span>
       </div>
 
