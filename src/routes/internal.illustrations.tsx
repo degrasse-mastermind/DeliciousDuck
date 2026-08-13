@@ -111,7 +111,7 @@ function Preview({
   if (variant === "plain") {
     return (
       <div className="overflow-hidden rounded-2xl border border-border bg-cream">
-        <SketchFigure art={art} height={height} focus={focus} />
+        <SketchFigure art={art} height={height} focus={focus} sizes={SKETCH_SIZES.half} />
       </div>
     );
   }
