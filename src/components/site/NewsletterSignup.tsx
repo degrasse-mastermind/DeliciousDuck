@@ -2,25 +2,19 @@ import { useState } from "react";
 import { ArrowRight, Check, Clock, Download } from "lucide-react";
 import {
   trackNewsletterIntent,
-  trackNewsletterInterestSelected,
   trackNewsletterPostsignupClick,
   trackNewsletterSignup,
 } from "@/lib/analytics";
 import {
   isNewsletterEnabled,
-  setNewsletterInterest,
   subscribeToNewsletter,
   type SubscribeInput,
   type SubscribeResult,
 } from "@/lib/newsletter";
 import { FIELD_GUIDE, STARTER_GUIDE } from "@/data/starter-guide";
-import {
-  interestForPath,
-  newsletterContext,
-  NEWSLETTER_INTERESTS,
-  type NewsletterInterest,
-} from "@/data/newsletter-contexts";
-import { INTEREST_BLURBS, INTEREST_LABELS } from "@/data/duck-drop";
+import { interestForPath, newsletterContext } from "@/data/newsletter-contexts";
+import type { NewsletterInterest } from "@/data/newsletter-contexts";
+
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
 
 /**
