@@ -285,6 +285,14 @@ function Page() {
         ]}
       />
 
+      <SketchBand
+        art={SKETCH.slicedBreast}
+        height="medium"
+        focus="center"
+        className="mt-14"
+        caption="Rested, then sliced against the grain — the payoff for a slow, patient render."
+      />
+
       <div className="mt-14">
         <NewsletterSignup id="field-guide" interest="duck-breast" />
       </div>
