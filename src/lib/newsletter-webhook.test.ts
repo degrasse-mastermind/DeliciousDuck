@@ -111,7 +111,8 @@ describe("webhook handler", () => {
       store,
     });
     expect(out.internal).toBe("no_secret");
-    expect(out.status).toBe(500);
+    expect(out.status).toBe(503);
+
     expect(events).toHaveLength(0);
     expect(applied).toHaveLength(0);
   });
