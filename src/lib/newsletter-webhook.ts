@@ -254,6 +254,30 @@ export async function handleResendWebhook(input: {
   try {
     const subscriber = await input.store.findSubscriber(mapped.email);
 
+    // Transition first. `transition` records what actually happened to the row
+    // so the response can distinguish an applied change from a guard refusal,
+    // without either being an error.
+    let transition: "applied" | "unchanged" = "unchanged";
+
+    if (subscriber) {
+      const target = nextStatus(subscriber.status, mapped.status);
+      if (target) {
+        // The stored status is re-checked inside the write itself. Our earlier
+        // read is only a fast path; `fromStatuses` is the real guard, so a row
+        // that moved to an equal/stronger status in between is left alone.
+        transition = await input.store.applySuppression({
+          id: subscriber.id,
+          status: target,
+          fromStatuses: weakerStatuses(target),
+          eventName: mapped.name,
+          at: receivedAt,
+        });
+      }
+    }
+
+    // Logged only after the row is known to be in a safe state. If this insert
+    // throws we return 500 with nothing logged, and the redelivery re-runs the
+    // idempotent update before logging again.
     const insert = await input.store.insertEvent({
       providerEventId,
       eventType: mapped.status,
@@ -264,26 +288,21 @@ export async function handleResendWebhook(input: {
       detail: mapped.detail,
     });
 
-    // Replay/redelivery: the event log already holds this delivery, so the
-    // status transition must not run a second time.
+    // Replay/redelivery. The conditional update above already ran and refused,
+    // so acknowledging here cannot leave a transition unapplied.
     if (insert === "duplicate") return { status: 200, body: "ok", internal: "replay" };
 
     // An event for an address we do not hold is still kept as evidence; we never
     // create a subscriber from provider input.
     if (!subscriber) return { status: 200, body: "ok", internal: "no_subscriber" };
 
-    const target = nextStatus(subscriber.status, mapped.status);
-    if (!target) return { status: 200, body: "ok", internal: "no_transition" };
-
-    await input.store.applySuppression({
-      id: subscriber.id,
-      status: target,
-      eventName: mapped.name,
-      at: receivedAt,
-    });
-    return { status: 200, body: "ok", internal: "applied" };
+    return transition === "applied"
+      ? { status: 200, body: "ok", internal: "applied" }
+      : { status: 200, body: "ok", internal: "no_transition" };
   } catch {
-    // Retryable: Resend redelivers, and the unique event id keeps that safe.
+    // Retryable, and safe to retry: the transition is a guarded idempotent
+    // update and the event id is unique.
     return { status: 500, body: "error", internal: "storage_error" };
   }
 }
+
