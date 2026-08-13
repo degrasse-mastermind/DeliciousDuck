@@ -364,6 +364,20 @@ function IllustrationGallery() {
               <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                 {SKETCH[key].alt}
               </p>
+              <SketchRegenPanel
+                art={SKETCH[key]}
+                hasPreview={Boolean(previews[key])}
+                onPreview={(url, final) =>
+                  setPreviews((prev) => ({ ...prev, [key]: { url, final } }))
+                }
+                onRevert={() =>
+                  setPreviews((prev) => {
+                    const next = { ...prev };
+                    delete next[key];
+                    return next;
+                  })
+                }
+              />
             </figcaption>
           </figure>
         ))}
