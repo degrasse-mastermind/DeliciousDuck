@@ -117,8 +117,7 @@ export function SketchBackdrop({
   position?: "left" | "right" | "center" | "cover";
   rounded?: boolean;
 }) {
-  const opacity =
-    intensity === "whisper" ? "opacity-15" : intensity === "bold" ? "opacity-45" : "opacity-25";
+  const opacity = SKETCH_RENDER.intensity[intensity];
 
   const layer =
     position === "cover"
