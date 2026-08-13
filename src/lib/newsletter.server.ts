@@ -96,55 +96,58 @@ async function pushToResend(email: string, apiKey: string): Promise<string | nul
 
 /**
  * Fires the Resend custom event that triggers the welcome email carrying the
- * Field Guide download link. Send-on-first-subscribe: callers skip this when the row
+ * Field Guide download link plus the subscriber's absolute unsubscribe and
+ * preferences links. Send-on-first-subscribe: callers skip this when the row
  * already has `welcome_event_status = "sent"`, so repeat signups don't spam.
+ *
+ * Request shapes live in `./newsletter-welcome-event` so they are unit-testable
+ * without network access.
  */
 async function sendWelcomeEvent(
   email: string,
   apiKey: string,
-  meta: { interest?: string | undefined; source_path?: string | undefined },
+  meta: {
+    token: string;
+    interest?: string | undefined;
+    source_path?: string | undefined;
+  },
 ): Promise<void> {
-  const headers = {
-    "content-type": "application/json",
-    authorization: `Bearer ${apiKey}`,
+  const input = {
+    email,
+    guideUrl: FIELD_GUIDE_URL,
+    baseUrl: SITE.baseUrl,
+    token: meta.token,
+    interest: meta.interest,
+    sourcePath: meta.source_path,
   };
 
-  const dispatch = () =>
-    fetch("https://api.resend.com/events/send", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        event: "newsletter.subscribed",
-        email,
-        // Segment-ready, non-PII metadata for the 6-part welcome series.
-        data: {
-          guide_url: FIELD_GUIDE_URL,
-          interest: meta.interest ?? "general",
-          source_path: meta.source_path ?? "",
-        },
-      }),
+  const send = () => {
+    const request = buildWelcomeEventRequest(input, apiKey);
+    return fetch(request.url, {
+      method: request.method,
+      headers: { ...request.headers },
+      body: request.body,
     });
+  };
 
-  let response = await dispatch();
+  let response = await send();
 
-  // The event definition may not exist yet in Resend; register it once (409 =
-  // already registered, which is fine) and retry the dispatch.
+  // The event definition may not exist yet, or may predate the link fields;
+  // (re)register it once and retry the dispatch.
   if (response.status === 404 || response.status === 422) {
-    await fetch("https://api.resend.com/events", {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        name: "newsletter.subscribed",
-        schema: { guide_url: "string", interest: "string", source_path: "string" },
-      }),
+    const definition = buildWelcomeEventDefinitionRequest(apiKey);
+    await fetch(definition.url, {
+      method: definition.method,
+      headers: { ...definition.headers },
+      body: definition.body,
     });
-    response = await dispatch();
+    response = await send();
   }
 
   if (!response.ok) {
-    const detail = await response.text();
-    // Status + provider detail only — never the key.
-    throw new Error(`resend_event_${response.status}: ${detail.slice(0, 300)}`);
+    // Status classification only. The provider's body can echo the submitted
+    // address, so it never reaches a thrown error or a log.
+    throw new Error(welcomeEventFailureReason(response.status));
   }
 }
 
