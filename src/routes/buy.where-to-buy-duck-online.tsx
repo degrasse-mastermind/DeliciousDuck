@@ -43,8 +43,8 @@ const FAQ = [
     a: "Not necessarily. A well-frozen duck from a careful processor often beats a “fresh” bird that has sat several days in transit. What matters more is how it was frozen, how it's packed, and how long it spent above freezing before it reached you.",
   },
   {
-    q: "What's the difference between Pekin, Moulard, and Muscovy?",
-    a: "Pekin is the standard mild, fattier duck most home cooks know. Moulard is a larger cross bred mainly for foie gras and magret, with a meatier, leaner breast. Muscovy is leaner still, with a more pronounced, slightly gamey flavour. Recipes calibrated for Pekin will render less fat and cook faster on a Muscovy breast.",
+    q: "Does the breed named in a listing tell me how to cook the bird?",
+    a: "Not reliably, and we publish no breed-by-breed adjustments because our cited sources — labelling, handling and storage guidance — do not support them. The defined terms are the USDA age class and whether the duck is sold fresh or frozen. Judge fat cover and skin on the bird itself once it arrives.",
   },
   {
     q: "Should I trust production-method claims on a listing?",
@@ -94,24 +94,26 @@ function Page() {
       <Section id="cuts" heading="Cut availability">
         <p>
           Decide what you actually need before you shop. A whole duck is the easiest thing to find
-          anywhere. Named cuts — magret (a Moulard or Muscovy breast), leg quarters, or rendered fat
+          anywhere. Specific cuts — breast portions, leg quarters, or rendered fat
           sold on its own — are far less consistently stocked, and a seller that lists them clearly
           by name is doing you a real favour over one that just says "duck breast."
         </p>
       </Section>
 
-      <Section id="labelling" heading="Breed and species labelling: what it changes in your kitchen">
+      <Section id="labelling" heading="Breed and label terms: what they do and don't tell you">
         <p>
-          Breed isn't a marketing detail here — it changes how you cook the bird. <strong>Pekin</strong> is
-          the standard commercial duck: smaller, fattier, and forgiving. <strong>Moulard</strong> is bred
-          for a large, meaty breast (magret) and produces most of the foie gras supply; the breast is
-          thicker and leaner than Pekin and needs a longer, gentler render. <strong>Muscovy</strong> is
-          leaner again, with less subcutaneous fat and a firmer, more pronounced flavour — recipes
-          written for Pekin will overcook a Muscovy breast if you don't adjust.
+          Listings often name a breed, and buyers often assume the name implies fat cover, breast size
+          or flavour. We do not publish those comparisons: the sources we cite are labelling, handling
+          and storage guidance, and they do not substantiate breed-by-breed cooking claims. Treat a
+          breed name as description until you can see the bird.
         </p>
         <p>
-          If a listing doesn't name the breed, ask before you order, especially if you're planning a
-          specific recipe around expected fat yield. See{" "}
+          What is defined is the USDA age class — duckling for dry-heat cooking, mature duck for slower
+          moist cooking — along with whether the bird is sold fresh or frozen. Those two lines tell you
+          more about your cook than any breed name does.
+        </p>
+        <p>
+          If a listing is vague about the cut or the age class, ask before you order. See{" "}
           <Link to="/learn/wild-duck-vs-farmed-duck" className="text-primary underline underline-offset-4">
             wild duck vs. farmed duck
           </Link>{" "}
@@ -264,13 +266,13 @@ function Page() {
       <ShopThisGuide
         items={[
           {
-            label: "Whole duck, breed known",
+            label: "Whole duck",
             why: "The most flexible purchase — it covers roasting, confit legs, and stock from one bird.",
             to: "/cook/whole-roast-duck",
             linkLabel: "See the roasting method",
           },
           {
-            label: "Named magret or breast portions",
+            label: "Named breast portions",
             why: "Worth seeking out specifically if you cook breast more often than whole birds.",
             to: "/cook/how-to-cook-duck-breast",
             linkLabel: "See the breast method",
