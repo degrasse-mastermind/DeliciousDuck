@@ -54,13 +54,7 @@ export function NewsletterSignup({
   const [pending, setPending] = useState(false);
   const [intentSent, setIntentSent] = useState(false);
   const [signupSent, setSignupSent] = useState(false);
-  const [welcomeTriggered, setWelcomeTriggered] = useState(false);
-  /** Issued only to first-time subscribers, for in-session preference editing. */
-  const [preferenceToken, setPreferenceToken] = useState<string | null>(null);
-  const [chosenInterest, setChosenInterest] = useState<NewsletterInterest | null>(null);
-  const [savingInterest, setSavingInterest] = useState(false);
-  const [interestSaved, setInterestSaved] = useState(false);
-  const [interestError, setInterestError] = useState(false);
+
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
   const context = newsletterContext(interest);
 
