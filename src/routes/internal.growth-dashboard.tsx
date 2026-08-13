@@ -34,7 +34,7 @@ export const Route = createFileRoute("/internal/growth-dashboard")({
       { name: "googlebot", content: "noindex, nofollow" },
     ],
   }),
-  component: GrowthDashboard;
+  component: GrowthDashboard,
 });
 
 const TRUST_LABEL: Record<TrustState, string> = {
