@@ -54,6 +54,15 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
           with the welcome email so it can be tailored. We do not ask for your name and do not
           attach the address to your browsing.
         </li>
+        <li>
+          <strong className="text-foreground">Newsletter preferences</strong> — if you pick a topic
+          on the confirmation panel straight after signing up, we store that choice as your lead
+          topic and record when you made it. It only changes which examples lead in the weekly
+          email; every subscriber receives the same issue. We also keep a plain stage label
+          (&ldquo;welcome&rdquo; or &ldquo;active&rdquo;) so we know whether your welcome series has
+          finished, and a random internal reference that lets only the browser you signed up in
+          change that choice. We do not build a profile from opens.
+        </li>
 
 
         <li>
