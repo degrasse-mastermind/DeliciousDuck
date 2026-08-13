@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, Clock } from "lucide-react";
+import { Check, Clock, Download } from "lucide-react";
 import { trackNewsletterIntent, trackNewsletterSignup } from "@/lib/analytics";
 import {
   isNewsletterEnabled,
