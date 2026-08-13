@@ -233,8 +233,12 @@ describe("webhook handler", () => {
     expect(applied[0]).toMatchObject({ status: "unsubscribed" });
   });
 
-  it("treats a replay as success with no second transition", async () => {
-    const { store, applied } = makeStore({ id: "sub-1", status: "subscribed" }, { duplicate: true });
+  it("treats a replay of an already-applied event as success", async () => {
+    // Realistic replay: the row already carries the status this event set.
+    const { store, applied, row } = makeStore(
+      { id: "sub-1", status: "bounced" },
+      { duplicate: true },
+    );
     const out = await handleResendWebhook({
       raw: "raw",
       headers: HEADERS,
@@ -245,7 +249,9 @@ describe("webhook handler", () => {
     expect(out.internal).toBe("replay");
     expect(out.status).toBe(200);
     expect(applied).toHaveLength(0);
+    expect(row?.status).toBe("bounced");
   });
+
 
   it("acknowledges an unknown event type without touching the subscriber", async () => {
     const { store, events, applied } = makeStore({ id: "sub-1", status: "subscribed" });
