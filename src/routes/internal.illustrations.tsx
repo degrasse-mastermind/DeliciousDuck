@@ -12,6 +12,7 @@ import {
   SKETCH_PALETTE,
   SKETCH_STYLE_SUFFIX,
 } from "@/lib/sketch-style";
+import { SKETCH_SIZES } from "@/lib/sketch-sources";
 import {
   SketchBackdrop,
   SketchBand,
@@ -111,7 +112,7 @@ function Preview({
   if (variant === "plain") {
     return (
       <div className="overflow-hidden rounded-2xl border border-border bg-cream">
-        <SketchFigure art={art} height={height} focus={focus} />
+        <SketchFigure art={art} height={height} focus={focus} sizes={SKETCH_SIZES.half} />
       </div>
     );
   }

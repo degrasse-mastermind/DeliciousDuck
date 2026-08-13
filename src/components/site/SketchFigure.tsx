@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { SKETCH, sketchForPath, type SketchArt } from "@/lib/sketch-art";
 import { SKETCH_DIMENSIONS, SKETCH_RENDER } from "@/lib/sketch-style";
+import { SKETCH_SIZES, sketchSrcSet } from "@/lib/sketch-sources";
 
 /** How tall a band crops its illustration. */
 export type SketchHeight = "short" | "medium" | "tall" | "auto";
@@ -30,25 +31,32 @@ export function SketchFigure({
   eager = false,
   height = "auto",
   focus = "center",
+  sizes = SKETCH_SIZES.band,
 }: {
   art: SketchArt;
   className?: string;
   eager?: boolean;
   height?: SketchHeight;
   focus?: SketchFocus;
+  /** Layout width hint so the browser picks the smallest crisp variant. */
+  sizes?: string;
 }) {
   const sizing =
     height === "auto"
       ? "h-auto w-full"
       : `w-full object-cover ${HEIGHT_CLASS[height]} ${FOCUS_CLASS[focus]}`;
 
+  const srcSet = sketchSrcSet(art.src);
+
   return (
     <img
       src={art.src}
+      {...(srcSet ? { srcSet, sizes } : {})}
       alt={art.alt}
       width={SKETCH_DIMENSIONS.width}
       height={SKETCH_DIMENSIONS.height}
       loading={eager ? "eager" : "lazy"}
+      fetchPriority={eager ? "high" : "low"}
       decoding="async"
       className={`${SKETCH_RENDER.blend} ${sizing} ${className}`}
     />
@@ -118,6 +126,7 @@ export function SketchBackdrop({
   rounded?: boolean;
 }) {
   const opacity = SKETCH_RENDER.intensity[intensity];
+  const backdropSrcSet = sketchSrcSet(art.src);
 
   const layer =
     position === "cover"
@@ -136,9 +145,13 @@ export function SketchBackdrop({
     >
       <img
         src={art.src}
+        {...(backdropSrcSet
+          ? { srcSet: backdropSrcSet, sizes: SKETCH_SIZES.band }
+          : {})}
         alt=""
         aria-hidden="true"
         loading="lazy"
+        fetchPriority="low"
         decoding="async"
         className={`pointer-events-none absolute ${SKETCH_RENDER.blend} ${opacity} ${layer}`}
       />
@@ -201,7 +214,7 @@ export function SketchAside({
   const float = side === "left" ? "lg:float-left lg:mr-8" : "lg:float-right lg:ml-8";
   return (
     <figure className={`my-6 w-full lg:w-[42%] ${float} ${className}`}>
-      <SketchFigure art={art} />
+      <SketchFigure art={art} sizes={SKETCH_SIZES.aside} />
       {caption ? (
         <figcaption className="mt-2 text-sm text-muted-foreground">{caption}</figcaption>
       ) : null}

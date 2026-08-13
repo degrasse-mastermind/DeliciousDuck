@@ -1,7 +1,12 @@
+import { preload } from "react-dom";
 import { useRouterState } from "@tanstack/react-router";
 import { Breadcrumbs, type Crumb } from "./Breadcrumbs";
 import { SketchFigure } from "./SketchFigure";
 import { sketchForPath, type SketchArt } from "@/lib/sketch-art";
+import { sketchPreloadHref, sketchSrcSet } from "@/lib/sketch-sources";
+
+/** Header art is ~38% of the content column on desktop, full width on mobile. */
+const HEADER_SIZES = "(min-width: 1024px) 460px, 100vw";
 
 export function PageHeader({
   eyebrow,
@@ -20,6 +25,17 @@ export function PageHeader({
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const illustration = art === undefined ? sketchForPath(pathname) : art;
 
+  // The header illustration is the above-the-fold LCP candidate: ask the
+  // browser for it during head parsing instead of after hydration.
+  if (illustration) {
+    const srcSet = sketchSrcSet(illustration.src);
+    preload(sketchPreloadHref(illustration.src), {
+      as: "image",
+      fetchPriority: "high",
+      ...(srcSet ? { imageSrcSet: srcSet, imageSizes: HEADER_SIZES } : {}),
+    });
+  }
+
   return (
     <header className="border-b border-border bg-cream">
       <div className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
@@ -37,7 +53,7 @@ export function PageHeader({
 
           {illustration ? (
             <div aria-hidden={false} className="order-first lg:order-none">
-              <SketchFigure art={illustration} eager />
+              <SketchFigure art={illustration} eager sizes={HEADER_SIZES} />
             </div>
           ) : null}
         </div>
