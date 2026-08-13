@@ -106,8 +106,9 @@ async function pushToResend(email: string, apiKey: string): Promise<string | nul
  * preferences links. Send-on-first-subscribe: callers skip this when the row
  * already has `welcome_event_status = "sent"`, so repeat signups don't spam.
  *
- * Request shapes live in `./newsletter-welcome-event` so they are unit-testable
- * without network access.
+ * All request shapes, the definition-retry, and the status-only failure
+ * classification live in `./newsletter-welcome-event`, so they are unit-testable
+ * with an injected fetch and no network access.
  */
 async function sendWelcomeEvent(
   email: string,
@@ -118,43 +119,18 @@ async function sendWelcomeEvent(
     source_path?: string | undefined;
   },
 ): Promise<void> {
-  const input = {
-    email,
-    guideUrl: FIELD_GUIDE_URL,
-    baseUrl: SITE.baseUrl,
-    token: meta.token,
-    interest: meta.interest,
-    sourcePath: meta.source_path,
-  };
-
-  const send = () => {
-    const request = buildWelcomeEventRequest(input, apiKey);
-    return fetch(request.url, {
-      method: request.method,
-      headers: { ...request.headers },
-      body: request.body,
-    });
-  };
-
-  let response = await send();
-
-  // The event definition may not exist yet, or may predate the link fields;
-  // (re)register it once and retry the dispatch.
-  if (response.status === 404 || response.status === 422) {
-    const definition = buildWelcomeEventDefinitionRequest(apiKey);
-    await fetch(definition.url, {
-      method: definition.method,
-      headers: { ...definition.headers },
-      body: definition.body,
-    });
-    response = await send();
-  }
-
-  if (!response.ok) {
-    // Status classification only. The provider's body can echo the submitted
-    // address, so it never reaches a thrown error or a log.
-    throw new Error(welcomeEventFailureReason(response.status));
-  }
+  await dispatchWelcomeEvent(
+    {
+      email,
+      guideUrl: FIELD_GUIDE_URL,
+      baseUrl: SITE.baseUrl,
+      token: meta.token,
+      interest: meta.interest,
+      sourcePath: meta.source_path,
+    },
+    apiKey,
+    fetch as never,
+  );
 }
 
 /**
