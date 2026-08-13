@@ -54,7 +54,9 @@ export function sketchPreloadHref(src: string): string {
  * container, and the site's content column caps at ~1100px.
  */
 export const SKETCH_SIZES = {
-  /** Page header / full-width band. */
+  /** Route header art beside the H1 (~460px on desktop). */
+  header: "(min-width: 1024px) 460px, 100vw",
+  /** Full-width band. */
   band: "(min-width: 1024px) 1100px, 100vw",
   /** Half-width gallery or two-up grid. */
   half: "(min-width: 1024px) 550px, 100vw",
