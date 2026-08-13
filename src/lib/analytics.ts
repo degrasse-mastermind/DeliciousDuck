@@ -197,32 +197,68 @@ export function merchantFromUrl(url: string): string | undefined {
   }
 }
 
-/** Interaction with a signup surface. Intent, NOT a subscription conversion. */
+/**
+ * Interaction with a signup surface. Intent, NOT a subscription conversion.
+ *
+ * No email address or any other PII is ever passed here — the parameters are a
+ * placement label, a source label, the controlled interest enum, and the path.
+ */
 export function trackNewsletterIntent(params: {
   placement?: string;
   source?: string;
+  interest?: string;
   listOpen: boolean;
 }): void {
   const path = currentPagePath();
+  if (!shouldSendClick(`intent|${params.placement}|${params.source}|${path}`)) return;
   trackEvent(ANALYTICS_EVENTS.newsletterIntent, {
     placement: params.placement,
     source: params.source,
+    interest: params.interest,
     list_open: params.listOpen,
     page_path: path,
+    source_path: path,
     content_slug: contentSlugFromPath(path),
   });
 }
 
-/** Successful subscription only — fired after persistence resolves. */
+/**
+ * Successful subscription only — fired after durable persistence resolves.
+ * Never carries the email address or any other PII.
+ */
 export function trackNewsletterSignup(params: {
   placement?: string;
   source?: string;
+  interest?: string;
 }): void {
   const path = currentPagePath();
+  if (!shouldSendClick(`signup|${params.placement}|${path}`)) return;
   trackEvent(ANALYTICS_EVENTS.newsletterSignup, {
     placement: params.placement,
     source: params.source,
+    interest: params.interest,
     page_path: path,
+    source_path: path,
+    content_slug: contentSlugFromPath(path),
+  });
+}
+
+/** Click inside the post-signup "Start here while you wait" module. No PII. */
+export function trackNewsletterPostsignupClick(params: {
+  placement?: string;
+  interest?: string;
+  linkUrl: string;
+  linkText?: string;
+}): void {
+  const path = currentPagePath();
+  if (!shouldSendClick(`postsignup|${params.linkUrl}|${path}`)) return;
+  trackEvent(ANALYTICS_EVENTS.newsletterPostsignupClick, {
+    placement: params.placement,
+    interest: params.interest,
+    link_url: params.linkUrl,
+    link_text: params.linkText,
+    page_path: path,
+    source_path: path,
     content_slug: contentSlugFromPath(path),
   });
 }
