@@ -55,14 +55,24 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
           attach the address to your browsing.
         </li>
         <li>
-          <strong className="text-foreground">Newsletter preferences</strong> — if you pick a topic
-          on the confirmation panel straight after signing up, we store that choice as your lead
-          topic and record when you made it. It only changes which examples lead in the weekly
-          email; every subscriber receives the same issue. We also keep a plain stage label
-          (&ldquo;welcome&rdquo; or &ldquo;active&rdquo;) so we know whether your welcome series has
-          finished, and a random internal reference that lets only the browser you signed up in
-          change that choice. We do not build a profile from opens.
+          <strong className="text-foreground">Newsletter preferences and opt-out link</strong> — each
+          subscriber row holds one random, opaque reference (no email address in it). That reference
+          is the only identifier placed in the unsubscribe and preference links inside our emails,
+          and possessing the link is what proves the request came from that mailbox. Using the
+          unsubscribe link retires the reference immediately, so the link cannot be reused. The
+          preference choice is a fixed topic label (for example &ldquo;duck breast&rdquo;) that only
+          changes which examples lead in an issue; every subscriber receives the same issue. We also
+          keep a plain stage label (&ldquo;welcome&rdquo; or &ldquo;active&rdquo;). We do not build a
+          profile from opens, and these links are never sent to analytics.
         </li>
+        <li>
+          <strong className="text-foreground">Delivery outcome records</strong> — when our email
+          provider reports that a message bounced, was marked as spam, or that an address opted out,
+          we store a short record of that outcome: the address, the outcome type, its timestamp, and
+          a signature-verified provider reference. We do not store the provider&apos;s full message
+          payload. These records exist so a suppressed address is never emailed again.
+        </li>
+
 
 
         <li>
