@@ -8,6 +8,8 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { SketchBand } from "@/components/site/SketchFigure";
+import { SKETCH } from "@/lib/sketch-art";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { DUCK_BREAST_CLUSTER } from "@/lib/duck-breast-cluster";
 
