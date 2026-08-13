@@ -184,11 +184,45 @@ enum. Updates `primary_interest`/`interest`/`interests` locally; the single
 supported Resend segment (duck breast) is synced best-effort. Same generic
 response for every outcome.
 
-## 3. Link helpers for future templates
+## 3. Mailbox links in the welcome event
 
 `src/lib/newsletter-links.ts` builds absolute `unsubscribeUrl` / `preferencesUrl`
-containing only the opaque token. No Resend template or automation was created or
-changed in this sprint.
+containing only the opaque token — never the address.
+
+Those links are now part of the first-time welcome event. `src/lib/newsletter-welcome-event.ts`
+holds the pure builders (no network, no credentials, no database):
+
+```http
+POST https://api.resend.com/events/send
+{"event":"newsletter.subscribed","email":"<address>","data":{
+  "guide_url":"…/downloads/duck-fundamentals-field-guide.pdf",
+  "interest":"…","source_path":"…",
+  "unsubscribe_url":"https://deliciousduck.com/newsletter/unsubscribe?t=<token>",
+  "preferences_url":"https://deliciousduck.com/newsletter/preferences?t=<token>"}}
+```
+
+- `persistSubscriber` selects `preference_token` with the written row, so the
+  token exists server-side for exactly the send that needs it. It is never
+  returned to the browser.
+- If the row yields no plausible token, the event is **not** sent and
+  `welcome_event_status` stays `pending`, rather than mailing dead links.
+- The event definition registration (`POST /events`, retried once on 404/422)
+  declares `unsubscribe_url` and `preferences_url` as `string`, so the provider
+  cannot drop them silently.
+- Failures throw a status classification (`welcome_event_unauthorized`,
+  `welcome_event_rate_limited`, …). The provider's response body is never read
+  into a log or error, because it can echo the submitted address.
+- The owner still controls whether the welcome template/automation references
+  the two variables; no template or automation was created or changed from code.
+
+### No deprecated audience route remains
+
+Every active newsletter contact create/update flow uses the current
+`/contacts` API: creation via `POST /contacts` (`newsletter-provider-contact.ts`)
+and global opt-out via `PATCH /contacts/{id-or-email}`
+(`newsletter-provider-optout.ts`). The one remaining collection write is the
+supported segment route `POST /segments/{id}/contacts`, kept separate and
+best-effort.
 
 ## 4. Migration
 
