@@ -200,7 +200,16 @@ function RenderFatPage() {
         </p>
         <p>
           Keep it in a sealed glass jar away from light, and don't leave it at room temperature for
-          extended prep sessions — pull only what you need and return the jar to the fridge.
+          extended prep sessions — pull only what you need and return the jar to the fridge. Once
+          you have a jar, the{" "}
+          <a href="/cook/ways-to-use-duck-fat" className="text-primary underline underline-offset-4">
+            ways to use duck fat
+          </a>{" "}
+          guide covers what it is genuinely better at than butter or oil, and the{" "}
+          <a href="/buy/duck-fat-buying-guide" className="text-primary underline underline-offset-4">
+            duck fat buying guide
+          </a>{" "}
+          covers what to look for if you would rather buy it rendered.
         </p>
       </Section>
 

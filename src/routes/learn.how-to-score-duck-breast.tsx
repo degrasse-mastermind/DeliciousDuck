@@ -102,6 +102,17 @@ function Page() {
       </Section>
 
       <Section id="method" heading="Knife grip, angle and spacing">
+        <p>
+          Depth control is a knife problem before it is a technique problem — see{" "}
+          <a href="/gear/best-knife-for-scoring-duck" className="text-primary underline underline-offset-4">
+            knives for scoring duck skin
+          </a>{" "}
+          for blade shapes that give tip feedback. Once the skin is scored, the{" "}
+          <a href="/cook/how-to-cook-duck-breast" className="text-primary underline underline-offset-4">
+            cold-pan duck breast method
+          </a>{" "}
+          is what turns those channels into rendered fat.
+        </p>
         <StepList
           steps={[
             {

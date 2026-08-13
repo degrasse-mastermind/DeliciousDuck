@@ -152,7 +152,15 @@ function Page() {
           that duck breast doneness bands are often only 5–10°F wide, a small placement or
           calibration error can shift a reading from one doneness category into the next. Treat a
           single reading as an estimate and re-check in a second spot if the number looks
-          surprising.
+          surprising. If you are choosing a probe, our{" "}
+          <a href="/gear/best-thermometer-for-duck" className="text-primary underline underline-offset-4">
+            thermometer guide for duck
+          </a>{" "}
+          covers the side-probe access and response speed that matter for a breast, and the{" "}
+          <a href="/recipes/pan-seared-duck-breast" className="text-primary underline underline-offset-4">
+            pan-seared duck breast recipe
+          </a>{" "}
+          shows where these readings fall in the actual cook.
         </p>
         <p>
           Rest time matters independently of carryover: beyond letting temperature finish rising,

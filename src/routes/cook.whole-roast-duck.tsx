@@ -99,6 +99,20 @@ function WholeRoastDuckPage() {
         </p>
       </Section>
 
+      <Section id="sourcing" heading="Where the bird comes from">
+        <p>
+          If you do not have a local source, the{" "}
+          <a href="/buy/where-to-buy-duck-online" className="text-primary underline underline-offset-4">
+            guide to buying duck online
+          </a>{" "}
+          covers shipping, sizes and what to inspect on arrival, and{" "}
+          <a href="/learn/whole-duck-cooking-time" className="text-primary underline underline-offset-4">
+            whole duck cooking time
+          </a>{" "}
+          maps the weight you end up with to a realistic oven window.
+        </p>
+      </Section>
+
       <Section id="prep" heading="Drying, trimming and scoring">
         <p>
           Unwrap the duck as soon as you get it home, pat it dry, and set it uncovered on a rack
