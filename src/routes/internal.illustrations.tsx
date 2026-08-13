@@ -12,6 +12,7 @@ import {
   SKETCH_PALETTE,
   SKETCH_STYLE_SUFFIX,
 } from "@/lib/sketch-style";
+import { SKETCH_SIZES } from "@/lib/sketch-sources";
 import {
   SketchBackdrop,
   SketchBand,
