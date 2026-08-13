@@ -16,11 +16,7 @@ export function ToolListItem({ tool }: { tool: DuckTool }) {
       <span className="flex-1">
         <span className="flex flex-wrap items-center gap-3">
           <span className="font-display text-xl text-foreground">{tool.name}</span>
-          {live ? (
-            <span className="eyebrow rounded-full bg-accent/20 px-2.5 py-1 text-[0.625rem] text-gold-foreground">
-              Live
-            </span>
-          ) : (
+          {!live && (
             <span className="eyebrow rounded-full bg-muted px-2.5 py-1 text-[0.625rem] text-muted-foreground">
               In development
             </span>
