@@ -17,8 +17,8 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { recipeContentBySlug, recipeBySlug, recipePath } from "@/data/recipe-content";
 import { formatMinutes, isoDuration, totalTimeMinutes } from "@/data/recipes";
-import {
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import {
   breadcrumbSchema,
   faqSchema,
   ldScript,
