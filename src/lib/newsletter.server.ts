@@ -1,4 +1,7 @@
 import { RESEND_AUDIENCE_ID, type SubscribePayload } from "./newsletter-schema";
+import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
+import { decideSignup } from "./newsletter-status";
+import { SITE } from "@/data/site";
 import { FIELD_GUIDE_URL } from "@/data/starter-guide";
 import { DUCK_DROP } from "@/data/duck-drop";
 
