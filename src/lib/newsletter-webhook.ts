@@ -192,7 +192,10 @@ export async function handleResendWebhook(input: {
 
   // Fail closed: no configured secret means we cannot verify anything, so we
   // refuse rather than trust the body.
-  if (!input.hasSecret) return { status: 500, body: "unavailable", internal: "no_secret" };
+  // 503, not 500: the endpoint is simply not configured yet. It is a deliberate
+  // fail-closed refusal, not an application fault, and Svix retries 503 too.
+  if (!input.hasSecret) return { status: 503, body: "unavailable", internal: "no_secret" };
+
 
   const headers: Record<string, string> = {};
   for (const [key, value] of Object.entries(input.headers)) headers[key.toLowerCase()] = value;
