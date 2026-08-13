@@ -8,7 +8,7 @@ export function RecipeCard({ recipe, priority = false }: { recipe: Recipe; prior
         <div className="overflow-hidden rounded-sm bg-muted bg-[repeating-linear-gradient(135deg,hsl(var(--border)/0.22)_0_1px,transparent_1px_10px)]">
           <img
             src={recipe.image}
-            alt={recipe.name}
+            alt={`${recipe.name} being prepared in the kitchen`}
             loading={priority ? "eager" : "lazy"}
             fetchPriority={priority ? "high" : "auto"}
             decoding="async"
