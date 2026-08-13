@@ -44,7 +44,6 @@ export const Route = createFileRoute("/buy/how-to-choose-duck")({
 const FAQ = [
   {
     q: "What should duck skin look like?",
-    q2: undefined,
     a: "Intact, dry to the touch, and evenly thick across the breast, with a creamy rather than grey cast. Torn skin and thin patches never crisp evenly, because the fat underneath renders at different rates.",
   },
   {
