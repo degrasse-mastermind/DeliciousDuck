@@ -139,6 +139,36 @@ the URL and body are unit-testable with no network or credentials:
   consent-bearing field that could be silently rewritten.
 - The deprecated `/audiences/<id>/contacts` collection route is not used here.
 
+#### Contact creation request shape (verified against the official API)
+
+No deprecated audience route remains in any active newsletter contact
+create/update flow. Signup and internal resync both create the contact with:
+
+```http
+POST https://api.resend.com/contacts
+authorization: Bearer <RESEND_API_KEY>
+content-type: application/json
+
+{"email":"<normalized address>"}
+```
+
+The implementation lives in `src/lib/newsletter-provider-contact.ts`, kept pure
+with an injectable fetch seam so tests make no network calls:
+
+- The body carries **email only**. `unsubscribed: false` is never sent, because
+  that would reactivate a contact the provider has already suppressed.
+- A `409` conflict is an idempotent success: no follow-up update, no
+  reactivation. If the conflict body cannot safely supply an id we return `null`
+  and preserve the local record (resyncable later).
+- Provider failures surface a status classification only
+  (`provider_unauthorized`, `provider_rate_limited`, `provider_unavailable`, …).
+  The raw provider body, the API key, and the address never reach a log or a
+  thrown error.
+- Only genuinely new local rows reach the provider; existing, duplicate, or
+  suppressed form submissions make zero provider calls.
+- The duck-breast interest segment sync stays separate and best-effort on the
+  current segment-contact route.
+
 Behaviour is unchanged: local-first (the suppression row is already committed
 when this runs), best-effort, never throwing, and logging only a status code —
 never the address.
