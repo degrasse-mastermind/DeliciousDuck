@@ -112,20 +112,28 @@ export function welcomeEventFailureReason(httpStatus: number): string {
 
 export type WelcomeDispatchDecision =
   | { readonly dispatch: true; readonly token: string }
-  | { readonly dispatch: false; readonly reason: "not_new_row" | "already_sent" | "no_token" };
+  | {
+      readonly dispatch: false;
+      readonly reason: "not_new_row" | "already_sent" | "no_token" | "no_api_key";
+    };
 
 /**
  * Pure gate in front of every provider request. A row without a usable mailbox
  * token would produce a welcome email with dead unsubscribe/preferences links,
  * so we make zero provider calls and let the caller leave the row pending.
+ * A missing credential is treated the same way: fail closed, send nothing.
  */
 export function decideWelcomeDispatch(input: {
   readonly sendWelcome: boolean;
   readonly welcomeEventStatus: string | null | undefined;
   readonly token: unknown;
+  readonly apiKey?: unknown;
 }): WelcomeDispatchDecision {
   if (!input.sendWelcome) return { dispatch: false, reason: "not_new_row" };
   if (input.welcomeEventStatus === "sent") return { dispatch: false, reason: "already_sent" };
+  if ("apiKey" in input && (typeof input.apiKey !== "string" || input.apiKey.trim() === "")) {
+    return { dispatch: false, reason: "no_api_key" };
+  }
   if (!isPlausibleToken(input.token)) return { dispatch: false, reason: "no_token" };
   return { dispatch: true, token: input.token };
 }
