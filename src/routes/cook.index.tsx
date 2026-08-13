@@ -88,7 +88,7 @@ function CookPage() {
           </p>
           <div className="mt-10 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
             {RECIPES.map((recipe) => (
-              <RecipeCard key={recipe.slug} recipe={recipe} />
+              <RecipeCard key={recipe.slug} recipe={recipe} priority={index < 2} />
             ))}
           </div>
         </section>
