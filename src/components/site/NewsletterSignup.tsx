@@ -216,7 +216,9 @@ export function NewsletterSignup({
                   Download your field guide
                 </a>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  Printable PDF, 16 pages. The welcome series follows over the next two weeks.
+                  Printable PDF, 16 pages — yours right now, no email needed. Any emails come
+                  from hello@deliciousduck.com.
+
                 </p>
               </div>
 
