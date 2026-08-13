@@ -115,8 +115,11 @@ export const SKETCH = {
   },
 } satisfies Record<string, SketchArt>;
 
+/** Registry key for a named illustration. */
+export type SketchKey = keyof typeof SKETCH;
+
 /** Exact route path → illustration. */
-const BY_PATH: Record<string, keyof typeof SKETCH> = {
+const BY_PATH: Record<string, SketchKey> = {
   "/cook": "duckBreastPan",
   "/cook/how-to-cook-duck-breast": "duckBreastPan",
   "/cook/how-to-cook-wild-duck-breast": "wildVsFarmed",
