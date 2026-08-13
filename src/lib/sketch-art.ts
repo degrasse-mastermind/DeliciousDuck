@@ -329,3 +329,38 @@ export function sketchForPath(pathname: string): SketchArt | null {
 
   return SKETCH[SITE_DEFAULT];
 }
+
+/** Companion art per section, used when a page needs more than one drawing. */
+const SECTION_ROTATION: Array<[string, SketchKey[]]> = [
+  ["/cook", ["duckBreastPan", "renderingFat", "slicedBreast", "sides"]],
+  ["/learn", ["thermometer", "scoring", "carving", "ducksFlight"]],
+  ["/buy", ["buyingDuck", "wildVsFarmed", "duckFat", "ducksFlight"]],
+  ["/gear", ["gearFlatlay", "thermometer", "scoring", "toolsDesk"]],
+  ["/ingredients", ["spices", "fruitPairings", "dryBrine", "sauce"]],
+  ["/tools", ["toolsDesk", "thermometer", "ovenRoast", "ducksFlight"]],
+  ["/recipes", ["slicedBreast", "sauce", "sides", "wholeRoastDuck"]],
+  ["/guides", ["ducksFlight", "duckBreastPan", "thermometer", "sides"]],
+];
+
+const GENERIC_ROTATION: SketchKey[] = ["ducksFlight", "duckFat", "spices", "sides"];
+
+/**
+ * Ordered, de-duplicated art for a route: the route's own illustration first,
+ * then fitting companions so a long page can carry several bands without
+ * repeating the same drawing.
+ */
+export function sketchRotationForPath(pathname: string): SketchArt[] {
+  const primary = sketchForPath(pathname);
+  if (!primary) return [];
+
+  const path = normalize(pathname).toLowerCase();
+  const section = SECTION_ROTATION.find(([p]) => path === p || path.startsWith(`${p}/`));
+  const keys = section ? section[1] : GENERIC_ROTATION;
+
+  const out: SketchArt[] = [primary];
+  for (const key of keys) {
+    const art = SKETCH[key];
+    if (!out.includes(art)) out.push(art);
+  }
+  return out;
+}
