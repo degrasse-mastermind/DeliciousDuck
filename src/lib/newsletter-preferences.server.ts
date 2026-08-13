@@ -83,7 +83,13 @@ export async function unsubscribeByToken(token: string): Promise<GenericTokenRes
     throw new Error("newsletter_storage_error");
   }
 
-  const sync = await markUnsubscribedAtProvider(row.email_normalized);
+  // Contact id preferred, normalized email as the documented fallback.
+  const sync = await sendProviderOptOut(
+    { contactId: row.resend_contact_id, email: row.email_normalized },
+    process.env["RESEND_API_KEY"],
+    fetch,
+  );
+
   if (sync !== "synced") {
     // Internal evidence only; local suppression already stands.
     await supabaseAdmin
