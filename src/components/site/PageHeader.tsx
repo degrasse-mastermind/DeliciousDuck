@@ -25,6 +25,17 @@ export function PageHeader({
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const illustration = art === undefined ? sketchForPath(pathname) : art;
 
+  // The header illustration is the above-the-fold LCP candidate: ask the
+  // browser for it during head parsing instead of after hydration.
+  if (illustration) {
+    const srcSet = sketchSrcSet(illustration.src);
+    preload(sketchPreloadHref(illustration.src), {
+      as: "image",
+      fetchPriority: "high",
+      ...(srcSet ? { imageSrcSet: srcSet, imageSizes: HEADER_SIZES } : {}),
+    });
+  }
+
   return (
     <header className="border-b border-border bg-cream">
       <div className="mx-auto max-w-7xl px-5 py-10 lg:px-8 lg:py-16">
