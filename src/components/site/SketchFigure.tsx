@@ -30,25 +30,32 @@ export function SketchFigure({
   eager = false,
   height = "auto",
   focus = "center",
+  sizes = SKETCH_SIZES.band,
 }: {
   art: SketchArt;
   className?: string;
   eager?: boolean;
   height?: SketchHeight;
   focus?: SketchFocus;
+  /** Layout width hint so the browser picks the smallest crisp variant. */
+  sizes?: string;
 }) {
   const sizing =
     height === "auto"
       ? "h-auto w-full"
       : `w-full object-cover ${HEIGHT_CLASS[height]} ${FOCUS_CLASS[focus]}`;
 
+  const srcSet = sketchSrcSet(art.src);
+
   return (
     <img
       src={art.src}
+      {...(srcSet ? { srcSet, sizes } : {})}
       alt={art.alt}
       width={SKETCH_DIMENSIONS.width}
       height={SKETCH_DIMENSIONS.height}
       loading={eager ? "eager" : "lazy"}
+      fetchPriority={eager ? "high" : "low"}
       decoding="async"
       className={`${SKETCH_RENDER.blend} ${sizing} ${className}`}
     />
