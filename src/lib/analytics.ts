@@ -24,6 +24,8 @@ export const ANALYTICS_EVENTS = {
   newsletterIntent: "newsletter_intent",
   newsletterSignup: "newsletter_signup",
   calculatorComplete: "calculator_complete",
+  starterGuideView: "starter_guide_view",
+  starterGuidePrint: "starter_guide_print",
 } as const;
 
 /** Current path, safe on the server. */
@@ -204,7 +206,7 @@ export function trackCalculatorComplete(params: {
 
 /** Genuine page view of the first-party Starter Guide. No PII. */
 export function trackStarterGuideView(params: { path: string }): void {
-  trackEvent("starter_guide_view", {
+  trackEvent(ANALYTICS_EVENTS.starterGuideView, {
     page_path: params.path,
     content_slug: contentSlugFromPath(params.path),
   });
@@ -212,7 +214,7 @@ export function trackStarterGuideView(params: { path: string }): void {
 
 /** User invoked the print action on the Starter Guide quick reference. No PII. */
 export function trackStarterGuidePrint(params: { path: string }): void {
-  trackEvent("starter_guide_print", {
+  trackEvent(ANALYTICS_EVENTS.starterGuidePrint, {
     page_path: params.path,
     content_slug: contentSlugFromPath(params.path),
   });
