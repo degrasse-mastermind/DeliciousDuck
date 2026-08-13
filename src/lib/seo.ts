@@ -149,6 +149,38 @@ export function faqSchema(items: { q: string; a: string }[]) {
   };
 }
 
+/**
+ * Article schema for editorial guide pages.
+ *
+ * Deliberately limited to fields backed by content visible on the page:
+ * headline, description, canonical URL, the organisation as author/publisher,
+ * and the review date shown in the page's transparency block. No ratings,
+ * review counts, or person authors we cannot substantiate.
+ */
+export function articleSchema(a: {
+  headline: string;
+  description: string;
+  path: string;
+  /** ISO date shown to readers as "Updated" / "Reviewed". */
+  updated: string;
+  image?: string;
+}) {
+  const url = absUrl(a.path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: a.headline,
+    description: a.description,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    dateModified: a.updated,
+    ...(a.image ? { image: absUrl(a.image) } : {}),
+    author: { "@type": "Organization", name: SITE.name, url: absUrl("/") },
+    publisher: { "@type": "Organization", name: SITE.name, url: absUrl("/") },
+  };
+}
+
+
 
 export const ldScript = (data: unknown) => ({
   type: "application/ld+json",

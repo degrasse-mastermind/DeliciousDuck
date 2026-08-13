@@ -11,7 +11,9 @@ export type GuideCluster =
   | "whole-duck"
   | "duck-fat"
   | "wild-duck"
-  | "commerce";
+  | "commerce"
+  | "sourcing";
+
 
 export type GuideKind = "technique" | "reference" | "diagnostic" | "pairing" | "money";
 
@@ -218,8 +220,10 @@ export const GUIDES: GuideEntry[] = [
     related: [
       "/cook/whole-roast-duck",
       "/learn/whole-duck-cooking-time",
+      "/buy/fresh-vs-frozen-duck",
       "/buy/where-to-buy-duck-online",
     ],
+
   },
   {
     path: "/cook/duck-leg-confit",
@@ -289,8 +293,10 @@ export const GUIDES: GuideEntry[] = [
     related: [
       "/cook/how-to-cook-wild-duck-breast",
       "/learn/duck-breast-temperature-doneness",
+      "/buy/duck-breeds-for-cooking",
       "/buy/where-to-buy-duck-online",
     ],
+
   },
   {
     path: "/cook/how-to-cook-wild-duck-breast",
@@ -322,13 +328,17 @@ export const GUIDES: GuideEntry[] = [
     kind: "money",
     minutes: 11,
     related: [
+      "/buy/what-cut-of-duck-to-buy",
+      "/buy/duck-breeds-for-cooking",
+      "/buy/fresh-vs-frozen-duck",
+      "/buy/how-to-choose-duck",
       "/learn/how-to-thaw-duck",
-      "/learn/wild-duck-vs-farmed-duck",
       "/tools/whole-duck-serving-calculator",
       "/buy/duck-fat-buying-guide",
       "/cook/how-to-cook-duck-breast",
       "/gear/best-thermometer-for-duck",
     ],
+
   },
   {
     path: "/gear/best-thermometer-for-duck",
@@ -404,6 +414,102 @@ export const GUIDES: GuideEntry[] = [
       "/cook/duck-leg-confit",
       "/buy/where-to-buy-duck-online",
       "/ingredients/duck-fat-vs-butter-oil",
+      "/buy/fresh-vs-frozen-duck",
+    ],
+  },
+  {
+    path: "/buy/what-cut-of-duck-to-buy",
+    title: "What Cut of Duck to Buy",
+    seoTitle: "What Cut of Duck to Buy: Whole, Breast, Legs or Fat | DeliciousDuck",
+    description:
+      "Choose the duck cut your dish needs: whole bird, breast, leg quarters, or rendered fat — what each one is good at, what it costs you in effort, and which method it suits.",
+    teaser: "Match the cut to the dish before you match it to a seller.",
+    pillar: "buy",
+    cluster: "sourcing",
+    kind: "reference",
+    minutes: 9,
+    related: [
+      "/buy/how-much-duck-per-person",
+      "/buy/where-to-buy-duck-online",
+      "/cook/how-to-cook-duck-breast",
+      "/cook/whole-roast-duck",
+      "/cook/duck-leg-confit",
+      "/tools/what-should-i-cook",
+    ],
+  },
+  {
+    path: "/buy/duck-breeds-for-cooking",
+    title: "Pekin vs Moulard vs Muscovy",
+    seoTitle: "Pekin vs Moulard vs Muscovy Duck: What Changes in the Pan | DeliciousDuck",
+    description:
+      "How Pekin, Moulard and Muscovy duck differ where it matters — fat cover, breast thickness, flavour intensity — and how to adjust rendering time and doneness for each.",
+    teaser: "Three breeds, three fat profiles, three sets of adjustments.",
+    pillar: "buy",
+    cluster: "sourcing",
+    kind: "reference",
+    minutes: 9,
+    related: [
+      "/buy/where-to-buy-duck-online",
+      "/learn/wild-duck-vs-farmed-duck",
+      "/learn/duck-breast-temperature-doneness",
+      "/cook/how-to-cook-duck-breast",
+      "/gear/best-thermometer-for-duck",
+    ],
+  },
+  {
+    path: "/buy/how-much-duck-per-person",
+    title: "How Much Duck Per Person",
+    seoTitle: "How Much Duck Per Person? Portions by Cut | DeliciousDuck",
+    description:
+      "Duck portions by cut: cooked meat per person, the roughly 40% edible yield of a whole bird, one breast or one leg per plate, and how to plan leftovers on purpose.",
+    teaser: "Cooked-weight portions, whole-bird yield, and when to size up.",
+    pillar: "buy",
+    cluster: "sourcing",
+    kind: "reference",
+    minutes: 8,
+    related: [
+      "/tools/whole-duck-serving-calculator",
+      "/buy/what-cut-of-duck-to-buy",
+      "/buy/where-to-buy-duck-online",
+      "/learn/how-to-carve-a-duck",
+      "/cook/whole-roast-duck",
+    ],
+  },
+  {
+    path: "/buy/fresh-vs-frozen-duck",
+    title: "Fresh vs Frozen Duck",
+    seoTitle: "Fresh vs Frozen Duck: Which to Buy & How to Receive It | DeliciousDuck",
+    description:
+      "What the fresh and frozen labels actually mean on duck, why mail order ships frozen, how to check a cold-chain delivery on arrival, and how to plan the thaw around it.",
+    teaser: "Frozen isn't a downgrade — it's a scheduling decision.",
+    pillar: "buy",
+    cluster: "sourcing",
+    kind: "reference",
+    minutes: 9,
+    related: [
+      "/learn/how-to-thaw-duck",
+      "/buy/where-to-buy-duck-online",
+      "/buy/how-to-choose-duck",
+      "/cook/whole-roast-duck",
+    ],
+  },
+  {
+    path: "/buy/how-to-choose-duck",
+    title: "How to Choose a Duck",
+    seoTitle: "How to Choose a Duck: Skin, Fat Cap & Label Checks | DeliciousDuck",
+    description:
+      "A purchase checklist for duck: judging the fat cap and skin, the label terms that carry a defined meaning, what to reject outright, and how to store it once it's home.",
+    teaser: "What to look at, what to read, and what to walk away from.",
+    pillar: "buy",
+    cluster: "sourcing",
+    kind: "reference",
+    minutes: 8,
+    related: [
+      "/buy/fresh-vs-frozen-duck",
+      "/buy/where-to-buy-duck-online",
+      "/buy/what-cut-of-duck-to-buy",
+      "/learn/why-duck-skin-isnt-crispy",
+      "/learn/how-to-score-duck-breast",
     ],
   },
 ];
@@ -423,4 +529,6 @@ export const CLUSTER_LABELS: Record<GuideCluster, string> = {
   "duck-fat": "The duck fat cluster",
   "wild-duck": "Wild duck",
   commerce: "Buying & gear",
+  sourcing: "Sourcing & selection",
 };
+
