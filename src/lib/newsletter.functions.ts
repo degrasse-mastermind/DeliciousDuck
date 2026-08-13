@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeader } from "@tanstack/react-start/server";
-import { subscribeSchema, interestChoiceSchema } from "./newsletter-schema";
+import { subscribeSchema } from "./newsletter-schema";
+import { publicSubscribeResponse } from "./newsletter-response";
 
 /**
  * Newsletter server functions.
@@ -23,17 +24,12 @@ export const subscribeToNewsletterFn = createServerFn({ method: "POST" })
 
     // Honeypot already enforced by the schema (must be empty).
     const result = await persistSubscriber(data);
-    // Durable storage succeeded. Resend status is internal only.
-    // `welcomeTriggered` tells the UI whether an email was actually kicked off;
-    // provider internals stay on the server.
-    return {
-      subscribed: true as const,
-      welcomeTriggered: result.welcomeEvent === "sent" || result.welcomeEvent === "skipped",
-      primaryInterest: result.primaryInterest,
-      // Only issued to a brand-new subscriber, for in-session preference editing.
-      preferenceToken: result.preferenceToken,
-    };
+    // One constant shape for every accepted-looking outcome. Welcome/email state,
+    // stored interest, membership and suppression state stay on the server: each
+    // would let a caller probe whether an arbitrary address is on the list.
+    return publicSubscribeResponse(result.outcome);
   });
+
 
 /**
  * Internal, token-gated resync of subscribers that never reached Resend.
