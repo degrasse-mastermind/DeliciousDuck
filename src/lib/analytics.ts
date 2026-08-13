@@ -23,6 +23,7 @@ export const ANALYTICS_EVENTS = {
   affiliateClick: "affiliate_click",
   newsletterIntent: "newsletter_intent",
   newsletterSignup: "newsletter_signup",
+  newsletterPostsignupClick: "newsletter_postsignup_click",
   calculatorComplete: "calculator_complete",
   starterGuideView: "starter_guide_view",
   starterGuidePrint: "starter_guide_print",
