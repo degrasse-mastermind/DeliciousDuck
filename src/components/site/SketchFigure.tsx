@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { SKETCH, sketchForPath, type SketchArt } from "@/lib/sketch-art";
+import { SKETCH_DIMENSIONS, SKETCH_RENDER } from "@/lib/sketch-style";
 
 /** How tall a band crops its illustration. */
 export type SketchHeight = "short" | "medium" | "tall" | "auto";
@@ -45,11 +46,11 @@ export function SketchFigure({
     <img
       src={art.src}
       alt={art.alt}
-      width={1400}
-      height={800}
+      width={SKETCH_DIMENSIONS.width}
+      height={SKETCH_DIMENSIONS.height}
       loading={eager ? "eager" : "lazy"}
       decoding="async"
-      className={`select-none mix-blend-multiply ${sizing} ${className}`}
+      className={`${SKETCH_RENDER.blend} ${sizing} ${className}`}
     />
   );
 }
@@ -75,8 +76,8 @@ export function SketchBand({
 }) {
   const frame =
     variant === "framed"
-      ? "overflow-hidden rounded-2xl border border-border bg-cream"
-      : "overflow-hidden bg-cream";
+      ? `overflow-hidden rounded-2xl border border-border ${SKETCH_RENDER.surface}`
+      : `overflow-hidden ${SKETCH_RENDER.surface}`;
 
   return (
     <figure className={`${frame} ${className}`}>
@@ -116,8 +117,7 @@ export function SketchBackdrop({
   position?: "left" | "right" | "center" | "cover";
   rounded?: boolean;
 }) {
-  const opacity =
-    intensity === "whisper" ? "opacity-15" : intensity === "bold" ? "opacity-45" : "opacity-25";
+  const opacity = SKETCH_RENDER.intensity[intensity];
 
   const layer =
     position === "cover"
@@ -130,7 +130,7 @@ export function SketchBackdrop({
 
   return (
     <section
-      className={`relative isolate overflow-hidden border border-border bg-cream ${
+      className={`relative isolate overflow-hidden border border-border ${SKETCH_RENDER.surface} ${
         rounded ? "rounded-2xl" : ""
       } ${className}`}
     >
@@ -140,7 +140,7 @@ export function SketchBackdrop({
         aria-hidden="true"
         loading="lazy"
         decoding="async"
-        className={`pointer-events-none absolute select-none mix-blend-multiply ${opacity} ${layer}`}
+        className={`pointer-events-none absolute ${SKETCH_RENDER.blend} ${opacity} ${layer}`}
       />
       <div className="relative">{children}</div>
     </section>
