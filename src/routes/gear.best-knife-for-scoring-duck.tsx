@@ -5,6 +5,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { KNIVES, KNIFE_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 
 const GUIDE = guideByPath("/gear/best-knife-for-scoring-duck")!;
 
@@ -234,6 +235,14 @@ function Page() {
       />
 
       <FaqList items={FAQ} />
+
+      <DuckBreastJourney
+        id="cluster-scoring-in-context"
+        title="Scoring in context"
+        intro="Scoring is one cut inside a longer cook. Here is everything either side of it."
+        placement="knife_in_context"
+        excludePath="/gear/best-knife-for-scoring-duck"
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

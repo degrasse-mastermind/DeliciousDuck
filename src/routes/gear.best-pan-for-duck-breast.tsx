@@ -5,6 +5,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { PANS, PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 
 const GUIDE = guideByPath("/gear/best-pan-for-duck-breast")!;
 
@@ -180,6 +181,15 @@ function Page() {
           </p>
         </Callout>
       </Section>
+
+      <DuckBreastJourney
+        id="cluster-technique-first"
+        title="The technique this pan has to serve"
+        intro="Buy for the method, not the other way round. These are the pages that define what the pan has to do."
+        placement="pan_technique_first"
+        groups={["before", "stove", "troubleshooting"]}
+        excludePath="/gear/best-pan-for-duck-breast"
+      />
 
       <ShopThisGuide
         items={[

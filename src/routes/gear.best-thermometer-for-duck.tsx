@@ -6,6 +6,7 @@ import { SafetyNote } from "@/components/site/SafetyNote";
 import { THERMOMETERS, THERMOMETER_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 
 const GUIDE = guideByPath("/gear/best-thermometer-for-duck")!;
 
@@ -184,6 +185,16 @@ function Page() {
           .
         </p>
       </Section>
+
+      <DuckBreastJourney
+        id="cluster-where-numbers-come-from"
+        title="Where the numbers you'll be reading come from"
+        intro="A probe is only useful with a target. These pages supply the targets and the method around them."
+        placement="thermometer_numbers"
+        variant="grouped"
+        groups={["stove", "troubleshooting"]}
+        excludePath="/gear/best-thermometer-for-duck"
+      />
 
       <Section id="compare" heading="Compare instant-read, leave-in, and a brand candidate">
         <ComparisonTable

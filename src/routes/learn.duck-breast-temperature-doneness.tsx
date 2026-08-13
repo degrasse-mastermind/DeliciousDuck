@@ -5,6 +5,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 
 const GUIDE = guideByPath("/learn/duck-breast-temperature-doneness")!;
 
@@ -169,6 +170,15 @@ function Page() {
           5–8 minutes first.
         </p>
       </Section>
+
+      <DuckBreastJourney
+        id="cluster-by-stage"
+        title="Where the numbers fit in the wider method"
+        intro="Temperature is one decision inside a longer sequence. Here is the sequence."
+        placement="doneness_by_stage"
+        variant="grouped"
+        excludePath="/learn/duck-breast-temperature-doneness"
+      />
 
       <Section id="pink-is-fine" heading="Why 'pink is fine' is a culinary claim, not a safety one">
         <p>

@@ -4,6 +4,7 @@ import { DuckMatchmaker } from "@/components/site/DuckMatchmaker";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 
 const GUIDE = guideByPath("/cook/best-sauces-for-duck-breast")!;
 
@@ -216,6 +217,14 @@ function Page() {
             occasion: "Warm-weather weeknight",
           },
         ]}
+      />
+
+      <DuckBreastJourney
+        id="cluster-plate-to-pan"
+        title="From the plate back to the pan"
+        intro="A sauce is only as good as the breast under it. These pages cover the cook itself."
+        placement="sauces_pathway"
+        excludePath="/cook/best-sauces-for-duck-breast"
       />
 
       <RelatedGuides paths={GUIDE.related} />

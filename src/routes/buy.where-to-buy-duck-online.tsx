@@ -6,6 +6,7 @@ import { DUCK_MERCHANTS, MERCHANT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 
 const GUIDE = guideByPath("/buy/where-to-buy-duck-online")!;
 
@@ -198,6 +199,15 @@ function Page() {
       <Section id="compare" heading="Compare the routes side by side">
         <ComparisonTable caption="Duck sourcing routes compared" rows={DUCK_MERCHANTS} factors={MERCHANT_FACTORS} />
       </Section>
+
+      <DuckBreastJourney
+        id="cluster-what-to-do-with-it"
+        title="What to do with the breast when it lands"
+        intro="Sourcing is step one. These pages take it from the box to the plate."
+        placement="buy_after_delivery"
+        groups={["before", "stove", "troubleshooting"]}
+        excludePath="/buy/where-to-buy-duck-online"
+      />
 
       <Section id="candidates" heading="Sourcing candidates">
         <p>

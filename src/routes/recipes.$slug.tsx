@@ -18,6 +18,7 @@ import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { recipeContentBySlug, recipeBySlug, recipePath } from "@/data/recipe-content";
 import { formatMinutes, isoDuration, totalTimeMinutes } from "@/data/recipes";
 import {
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
   breadcrumbSchema,
   faqSchema,
   ldScript,
@@ -209,6 +210,17 @@ function RecipePage() {
         items={content.quackFix}
         intro="The four ways this recipe usually goes wrong, what to do about it mid-cook, and how to stop it happening again."
       />
+
+      {slug === "pan-seared-duck-breast" && (
+        <DuckBreastJourney
+          id="cluster-from-the-recipe"
+          title="The pages behind this recipe"
+          intro="Everything that explains, troubleshoots, or equips this cook — in the order it usually matters."
+          placement="recipe_pathway"
+          variant="grouped"
+          excludePath="/recipes/pan-seared-duck-breast"
+        />
+      )}
 
       <UseTheWholeDuck items={content.leftovers} />
 

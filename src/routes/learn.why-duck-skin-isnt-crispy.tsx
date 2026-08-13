@@ -4,6 +4,7 @@ import { QuackFix } from "@/components/site/QuackFix";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 
 const GUIDE = guideByPath("/learn/why-duck-skin-isnt-crispy")!;
 
@@ -93,6 +94,14 @@ function Page() {
             prevent: "Rest skin-side up, uncovered or loosely tented, and slice and plate promptly",
           },
         ]}
+      />
+
+      <DuckBreastJourney
+        id="cluster-after-diagnosis"
+        title="Once the skin is sorted, here's the rest of the cluster"
+        intro="This page fixes one failure. These are the pages that stop it happening, and the ones that follow it."
+        placement="crisp_skin_after_diagnosis"
+        excludePath="/learn/why-duck-skin-isnt-crispy"
       />
 
       <Section id="prevention-checklist" heading="Prevention checklist for next time">

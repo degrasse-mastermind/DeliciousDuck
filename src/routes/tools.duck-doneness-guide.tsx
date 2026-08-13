@@ -6,6 +6,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { FaqList } from "@/components/site/ArticleShell";
 import { DonenessGuide } from "@/components/tools/DonenessGuide";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 
 export const Route = createFileRoute("/tools/duck-doneness-guide")({
   head: () => ({
@@ -86,6 +87,14 @@ function Page() {
             uneven cooking, especially on the grill or in a hot pan where surface heat is uneven.
           </p>
         </div>
+
+        <DuckBreastJourney
+          id="cluster-from-the-tool"
+          title="Take the number back to the pan"
+          intro="The tool gives you a target. These pages cover everything around hitting it."
+          placement="doneness_tool_pathway"
+          excludePath="/tools/duck-doneness-guide"
+        />
 
         <FaqList items={FAQ} />
         <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep"]} />
