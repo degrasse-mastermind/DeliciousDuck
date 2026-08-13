@@ -51,6 +51,7 @@ import { Route as IngredientsDuckSeasoningGuideRouteImport } from './routes/ingr
 import { Route as IngredientsOrangeWithDuckRouteImport } from './routes/ingredients.orange-with-duck'
 import { Route as InternalGrowthDashboardRouteImport } from './routes/internal.growth-dashboard'
 import { Route as InternalKitchenTestSheetRouteImport } from './routes/internal.kitchen-test-sheet'
+import { Route as InternalRevenueSwitchboardRouteImport } from './routes/internal.revenue-switchboard'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnDuckBreastTemperatureDonenessRouteImport } from './routes/learn.duck-breast-temperature-doneness'
 import { Route as LearnHowToCarveADuckRouteImport } from './routes/learn.how-to-carve-a-duck'
@@ -296,6 +297,12 @@ const InternalKitchenTestSheetRoute =
     path: '/internal/kitchen-test-sheet',
     getParentRoute: () => rootRouteImport,
   } as any)
+const InternalRevenueSwitchboardRoute =
+  InternalRevenueSwitchboardRouteImport.update({
+    id: '/internal/revenue-switchboard',
+    path: '/internal/revenue-switchboard',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const LearnIndexRoute = LearnIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -439,6 +446,7 @@ export interface FileRoutesByFullPath {
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
+  '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -495,6 +503,7 @@ export interface FileRoutesByTo {
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
+  '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -559,6 +568,7 @@ export interface FileRoutesById {
   '/ingredients/orange-with-duck': typeof IngredientsOrangeWithDuckRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
+  '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
@@ -624,6 +634,7 @@ export interface FileRouteTypes {
     | '/ingredients/orange-with-duck'
     | '/internal/growth-dashboard'
     | '/internal/kitchen-test-sheet'
+    | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -680,6 +691,7 @@ export interface FileRouteTypes {
     | '/ingredients/orange-with-duck'
     | '/internal/growth-dashboard'
     | '/internal/kitchen-test-sheet'
+    | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -743,6 +755,7 @@ export interface FileRouteTypes {
     | '/ingredients/orange-with-duck'
     | '/internal/growth-dashboard'
     | '/internal/kitchen-test-sheet'
+    | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
@@ -787,6 +800,7 @@ export interface RootRouteChildren {
   GuidesDuckCookingStarterGuideRoute: typeof GuidesDuckCookingStarterGuideRoute
   InternalGrowthDashboardRoute: typeof InternalGrowthDashboardRoute
   InternalKitchenTestSheetRoute: typeof InternalKitchenTestSheetRoute
+  InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1083,6 +1097,13 @@ declare module '@tanstack/react-router' {
       path: '/internal/kitchen-test-sheet'
       fullPath: '/internal/kitchen-test-sheet'
       preLoaderRoute: typeof InternalKitchenTestSheetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/internal/revenue-switchboard': {
+      id: '/internal/revenue-switchboard'
+      path: '/internal/revenue-switchboard'
+      fullPath: '/internal/revenue-switchboard'
+      preLoaderRoute: typeof InternalRevenueSwitchboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/learn/': {
@@ -1388,6 +1409,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuidesDuckCookingStarterGuideRoute: GuidesDuckCookingStarterGuideRoute,
   InternalGrowthDashboardRoute: InternalGrowthDashboardRoute,
   InternalKitchenTestSheetRoute: InternalKitchenTestSheetRoute,
+  InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

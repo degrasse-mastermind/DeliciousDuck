@@ -36,8 +36,16 @@ export interface ComparisonRow {
   note?: string;
 }
 
-export const DISCLOSURE_TEXT =
+/**
+ * Disclosure copy. Two variants, chosen by whether ANY affiliate program is
+ * genuinely active. While every program is pending, the copy must not claim we
+ * currently earn commissions — it states the plain truth instead.
+ */
+export const DISCLOSURE_TEXT_ACTIVE =
   "DeliciousDuck may earn a commission from qualifying purchases made through links on this page, at no extra cost to you. We do not accept payment for placement, and we do not publish prices, ratings, or test results we have not verified ourselves.";
+
+export const DISCLOSURE_TEXT_PENDING =
+  "We currently earn no commission from any link on this page. Outbound links go straight to the seller, with no affiliate tracking. If that changes, this notice will say so before the first paid link. We do not accept payment for placement, and we do not publish prices, ratings, or test results we have not verified ourselves.";
 
 /* ------------------------------------------------------------------ */
 /* Where to buy duck online                                            */
