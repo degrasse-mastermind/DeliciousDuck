@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it, vi, afterEach } from "vitest";
 import {
   COMMERCIAL_LINKS,
@@ -201,5 +203,31 @@ describe("placements and journeys", () => {
   it("derives hosts without www", () => {
     expect(destinationHost("https://www.dartagnan.com/")).toBe("dartagnan.com");
     expect(destinationHost("not a url")).toBe("");
+  });
+});
+
+describe("internal QA route metadata and exclusion", () => {
+  const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
+
+  it("is marked noindex/nofollow/noarchive and gated to development", () => {
+    const source = read("src/routes/internal.commercial-links.tsx");
+    expect(source).toContain('{ name: "robots", content: "noindex, nofollow, noarchive" }');
+    expect(source).toContain('{ name: "googlebot", content: "noindex, nofollow" }');
+    expect(source).toContain("import.meta.env.DEV");
+  });
+
+  it("is absent from the sitemap, public navigation and site search", () => {
+    for (const file of [
+      "src/routes/sitemap[.]xml.ts",
+      "src/components/site/Header.tsx",
+      "src/components/site/Footer.tsx",
+      "src/routes/search.tsx",
+    ]) {
+      expect(read(file)).not.toContain("/internal/commercial-links");
+    }
+  });
+
+  it("keeps /internal/ disallowed for crawlers", () => {
+    expect(read("public/robots.txt")).toContain("/internal/");
   });
 });
