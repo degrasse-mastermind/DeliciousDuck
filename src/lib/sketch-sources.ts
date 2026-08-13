@@ -23,11 +23,29 @@ for (const [path, url] of Object.entries(webp)) {
   (BY_NAME[name!] ??= {})[Number(width)] = url;
 }
 
-/** Extract the illustration basename from any built asset URL. */
+/**
+ * Extract the illustration basename from any built asset URL.
+ *
+ * Built filenames look like `confit-Bk3xQ1.jpg` or `wild-vs-farmed-Bk3xQ1.jpg`,
+ * so a bare "strip the last hyphenated chunk" rule eats real words out of
+ * hyphenated names. Resolve against the known registry keys instead, longest
+ * match first, and only fall back to pattern-stripping for art that has no
+ * WebP variants yet.
+ */
 export function sketchNameFromSrc(src: string): string | null {
-  const match = /\/?([^/]+?)(?:-\d+)?(?:-[A-Za-z0-9_]{6,})?\.(?:jpg|jpeg|webp)$/.exec(src);
-  return match ? match[1]!.replace(/-(?:700|1400)$/, "") : null;
+  const file = src.split("/").pop();
+  if (!file) return null;
+  const base = file.replace(/\.(?:jpg|jpeg|webp|png)$/i, "").replace(/-(?:700|1400)$/, "");
+
+  const known = Object.keys(BY_NAME)
+    .filter((name) => base === name || base.startsWith(`${name}-`))
+    .sort((a, b) => b.length - a.length)[0];
+  if (known) return known;
+
+  // Unknown art: drop a trailing Vite content hash (mixed-case/digit token).
+  return base.replace(/-(?=[^-]*\d)[A-Za-z0-9_-]{6,}$/, "") || base;
 }
+
 
 /**
  * srcset for a sketch, or null when no WebP variants exist for it.
