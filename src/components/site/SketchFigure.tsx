@@ -126,6 +126,7 @@ export function SketchBackdrop({
   rounded?: boolean;
 }) {
   const opacity = SKETCH_RENDER.intensity[intensity];
+  const backdropSrcSet = sketchSrcSet(art.src);
 
   const layer =
     position === "cover"
