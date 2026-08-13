@@ -1,4 +1,5 @@
-import { RESEND_AUDIENCE_ID, type SubscribePayload } from "./newsletter-schema";
+import type { SubscribePayload } from "./newsletter-schema";
+import { createProviderContact } from "./newsletter-provider-contact";
 import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
 import { decideSignup, providerPlan } from "./newsletter-status";
 import type { SignupOutcome } from "./newsletter-response";
