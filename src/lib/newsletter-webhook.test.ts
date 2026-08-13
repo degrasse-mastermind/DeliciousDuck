@@ -19,27 +19,53 @@ const HEADERS = {
   "svix-signature": "v1,fake",
 };
 
+/**
+ * Stateful fake store. It models the one property the real implementation
+ * depends on: `applySuppression` is a guarded conditional write, so it mutates
+ * the row only while the stored status is still in `fromStatuses`. That makes
+ * retries and concurrent-delivery races observable without a database.
+ */
 function makeStore(
   subscriber: { id: string; status: string } | null,
-  opts: { duplicate?: boolean; throwOnInsert?: boolean } = {},
+  opts: {
+    duplicate?: boolean;
+    throwOnInsert?: boolean;
+    throwOnUpdate?: boolean;
+    /** Simulates another delivery winning the race after our lookup. */
+    beforeUpdate?: (row: { id: string; status: string }) => void;
+    /** Event ids already present in the log, for replay simulation. */
+    seenEventIds?: Set<string>;
+  } = {},
 ) {
-  const events: unknown[] = [];
+  const row = subscriber ? { ...subscriber } : null;
+  const events: { providerEventId: string }[] = [];
   const applied: unknown[] = [];
+  const seen = opts.seenEventIds ?? new Set<string>();
+
   const store: WebhookStore = {
     async findSubscriber() {
-      return subscriber;
+      return row ? { ...row } : null;
     },
     async insertEvent(event) {
       if (opts.throwOnInsert) throw new Error("boom");
+      if (opts.duplicate || seen.has(event.providerEventId)) return "duplicate";
+      seen.add(event.providerEventId);
       events.push(event);
-      return opts.duplicate ? "duplicate" : "inserted";
+      return "inserted";
     },
     async applySuppression(input) {
+      if (opts.throwOnUpdate) throw new Error("boom");
+      if (row) opts.beforeUpdate?.(row);
       applied.push(input);
+      // The guard is re-evaluated against the CURRENT row, as Postgres would.
+      if (!row || !input.fromStatuses.includes(row.status as never)) return "unchanged";
+      row.status = input.status;
+      return "applied";
     },
   };
-  return { store, events, applied };
+  return { store, events, applied, row, seen };
 }
+
 
 const okVerify = (payload: unknown) => async () => payload;
 const failVerify = async () => {
