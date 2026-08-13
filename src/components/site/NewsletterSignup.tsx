@@ -80,7 +80,7 @@ export function NewsletterSignup({
     // Path only, never the query string — no PII leaves the page.
     const sourcePath = typeof window === "undefined" ? undefined : window.location.pathname;
     try {
-      const result = await onSubscribe({
+      await onSubscribe({
         email: cleaned,
         source: "newsletter_form",
         placement: id,
