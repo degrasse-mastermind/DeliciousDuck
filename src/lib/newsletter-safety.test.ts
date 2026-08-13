@@ -127,30 +127,106 @@ describe("signup decisions", () => {
   });
 });
 
-describe("generic responses", () => {
+describe("public subscribe response", () => {
   /**
-   * Mirrors the two branches of `persistSubscriber` that reach the client. Both
-   * must be indistinguishable in shape so a caller cannot learn whether an
-   * address is already on the list, suppressed, or brand new.
+   * Exercises the real mapping function the server wrapper returns, for every
+   * internal outcome, instead of re-declaring hoped-for objects.
    */
-  const suppressedResponse = {
-    subscribed: true,
-    welcomeTriggered: false,
-    primaryInterest: null,
-    preferenceToken: null,
-  };
-  const activeDuplicateResponse = {
-    subscribed: true,
-    welcomeTriggered: false,
-    primaryInterest: null,
-    preferenceToken: null,
-  };
+  it("returns one identical response for every accepted-looking outcome", () => {
+    const responses = SIGNUP_OUTCOMES.map((outcome) => publicSubscribeResponse(outcome));
+    for (const response of responses) {
+      expect(response).toEqual(responses[0]);
+      expect(JSON.stringify(response)).toBe(JSON.stringify(responses[0]));
+      expect(Object.keys(response)).toEqual(["subscribed"]);
+    }
+  });
 
-  it("returns the same shape and no account state for both", () => {
-    expect(Object.keys(suppressedResponse).sort()).toEqual(
-      Object.keys(activeDuplicateResponse).sort(),
+  it("exposes no welcome, interest, membership, suppression, or token field", () => {
+    for (const outcome of SIGNUP_OUTCOMES) {
+      const response = publicSubscribeResponse(outcome) as Record<string, unknown>;
+      for (const leak of [
+        "welcomeTriggered",
+        "welcomeEvent",
+        "primaryInterest",
+        "interest",
+        "preferenceToken",
+        "resendSync",
+        "suppressed",
+        "status",
+        "existing",
+        "signupCount",
+      ]) {
+        expect(response[leak]).toBeUndefined();
+      }
+      expect(JSON.stringify(response)).not.toMatch(
+        /suppress|unsubscrib|bounce|complain|welcome|token|interest|duplicate|legacy/i,
+      );
+    }
+  });
+
+  it("covers the suppressed outcome with the same response as a new signup", () => {
+    expect(publicSubscribeResponse("blocked_suppressed")).toEqual(
+      publicSubscribeResponse("created"),
     );
-    expect(suppressedResponse).toEqual(activeDuplicateResponse);
-    expect(JSON.stringify(suppressedResponse)).not.toMatch(/suppress|unsubscrib|bounce|complain/i);
+    expect(publicSubscribeResponse("legacy_active_duplicate")).toEqual(
+      publicSubscribeResponse("active_duplicate"),
+    );
   });
 });
+
+describe("provider idempotency", () => {
+  it("only a genuinely new local row may call the provider", () => {
+    expect(providerPlan(decideSignup(null))).toEqual({
+      syncContact: true,
+      syncSegment: true,
+      sendWelcome: true,
+    });
+  });
+
+  it("active duplicates perform zero provider calls, even if never welcomed", () => {
+    for (const welcome of ["sent", "pending", "error", null]) {
+      const plan = providerPlan(
+        decideSignup({
+          status: "subscribed",
+          consent_record: "explicit",
+          welcome_event_status: welcome,
+        }),
+      );
+      expect(plan).toEqual({ syncContact: false, syncSegment: false, sendWelcome: false });
+    }
+  });
+
+  it("legacy active duplicates perform zero provider calls", () => {
+    expect(
+      providerPlan(
+        decideSignup({
+          status: "subscribed",
+          consent_record: "unknown_legacy",
+          welcome_event_status: "pending",
+        }),
+      ),
+    ).toEqual({ syncContact: false, syncSegment: false, sendWelcome: false });
+  });
+
+  it("suppressed and unknown states perform zero provider calls", () => {
+    for (const status of [...SUPPRESSED_STATUSES, "weird_state"]) {
+      expect(providerPlan(decideSignup({ status }))).toEqual({
+        syncContact: false,
+        syncSegment: false,
+        sendWelcome: false,
+      });
+    }
+  });
+
+  it("no plan ever enables a welcome without a contact sync", () => {
+    for (const existing of [
+      null,
+      { status: "subscribed", welcome_event_status: "pending" },
+      { status: "unsubscribed", welcome_event_status: "sent" },
+    ]) {
+      const plan = providerPlan(decideSignup(existing));
+      if (plan.sendWelcome) expect(plan.syncContact).toBe(true);
+    }
+  });
+});
+
