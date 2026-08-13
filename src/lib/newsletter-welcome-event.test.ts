@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
   WELCOME_EVENT_DEFINE_URL,
   WELCOME_EVENT_NAME,
@@ -7,6 +7,8 @@ import {
   buildWelcomeEventData,
   buildWelcomeEventDefinitionRequest,
   buildWelcomeEventRequest,
+  decideWelcomeDispatch,
+  dispatchWelcomeEvent,
   welcomeEventFailureReason,
 } from "./newsletter-welcome-event";
 import { isPlausibleToken } from "./newsletter-links";
@@ -113,5 +115,87 @@ describe("welcomeEventFailureReason", () => {
       expect(reason).not.toContain("@");
       expect(reason).not.toContain("re_");
     }
+  });
+});
+
+describe("decideWelcomeDispatch", () => {
+  const OK = { sendWelcome: true, welcomeEventStatus: "pending", token: TOKEN };
+
+  it("dispatches only for a new, unwelcomed row with a usable token", () => {
+    expect(decideWelcomeDispatch(OK)).toEqual({ dispatch: true, token: TOKEN });
+  });
+
+  it("makes zero provider calls for duplicate and suppressed submissions", () => {
+    // providerPlan gives sendWelcome=false for every non-new row.
+    expect(decideWelcomeDispatch({ ...OK, sendWelcome: false })).toEqual({
+      dispatch: false,
+      reason: "not_new_row",
+    });
+  });
+
+  it("never re-sends to an already welcomed row", () => {
+    expect(decideWelcomeDispatch({ ...OK, welcomeEventStatus: "sent" })).toEqual({
+      dispatch: false,
+      reason: "already_sent",
+    });
+  });
+
+  it("refuses a missing or malformed token", () => {
+    for (const token of [null, undefined, "", "  ", "short", "has spaces in it here", 42, {}]) {
+      expect(decideWelcomeDispatch({ ...OK, token })).toEqual({
+        dispatch: false,
+        reason: "no_token",
+      });
+    }
+  });
+});
+
+describe("dispatchWelcomeEvent", () => {
+  const calls: Array<{ url: string; method: string; body: string }> = [];
+  const fetchImpl = (status: number) => (url: string, init: { method: string; headers: Record<string, string>; body: string }) => {
+    calls.push({ url, method: init.method, body: init.body });
+    return Promise.resolve({ ok: status >= 200 && status < 300, status });
+  };
+
+  beforeEach(() => {
+    calls.length = 0;
+  });
+
+  it("sends exactly one POST to /events/send on success", async () => {
+    await dispatchWelcomeEvent(INPUT, KEY, fetchImpl(200));
+    expect(calls).toHaveLength(1);
+    expect(calls[0]!.url).toBe("https://api.resend.com/events/send");
+    expect(calls[0]!.method).toBe("POST");
+    const body = JSON.parse(calls[0]!.body);
+    expect(body.data.guide_url).toBe(INPUT.guideUrl);
+    expect(body.data.unsubscribe_url).toContain(`?t=${TOKEN}`);
+    expect(body.data.preferences_url).toContain(`?t=${TOKEN}`);
+  });
+
+  it("registers the definition once and retries on 404", async () => {
+    await expect(dispatchWelcomeEvent(INPUT, KEY, fetchImpl(404))).rejects.toThrow(
+      "welcome_event_not_registered",
+    );
+    expect(calls.map((c) => c.url)).toEqual([
+      "https://api.resend.com/events/send",
+      "https://api.resend.com/events",
+      "https://api.resend.com/events/send",
+    ]);
+    expect(JSON.parse(calls[1]!.body).schema.unsubscribe_url).toBe("string");
+    expect(JSON.parse(calls[1]!.body).schema.preferences_url).toBe("string");
+  });
+
+  it("throws a status classification only, with no body, address, or token", async () => {
+    const err = await dispatchWelcomeEvent(INPUT, KEY, fetchImpl(429)).catch((e: Error) => e);
+    expect((err as Error).message).toBe("welcome_event_rate_limited");
+    expect((err as Error).message).not.toContain(INPUT.email);
+    expect((err as Error).message).not.toContain(TOKEN);
+    expect((err as Error).message).not.toContain(KEY);
+  });
+
+  it("percent-encodes an opaque token that needs it", () => {
+    const data = buildWelcomeEventData({ ...INPUT, token: "a b/c?d&e" });
+    expect(data.unsubscribe_url).toContain("?t=a%20b%2Fc%3Fd%26e");
+    expect(data.preferences_url).toContain("?t=a%20b%2Fc%3Fd%26e");
   });
 });
