@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { ACQUISITION_PAGES, acquisitionPage } from "@/data/acquisition-cluster";
@@ -7,7 +8,6 @@ import { COMMERCIAL_LINKS } from "@/data/commercial-links";
 
 const ROUTE_FILE: Record<string, string> = {
   "/buy/what-cut-of-duck-to-buy": "src/routes/buy.what-cut-of-duck-to-buy.tsx",
-  "/buy/duck-breeds-for-cooking": "src/routes/buy.duck-breeds-for-cooking.tsx",
   "/buy/how-much-duck-per-person": "src/routes/buy.how-much-duck-per-person.tsx",
   "/buy/fresh-vs-frozen-duck": "src/routes/buy.fresh-vs-frozen-duck.tsx",
   "/buy/how-to-choose-duck": "src/routes/buy.how-to-choose-duck.tsx",
@@ -259,7 +259,6 @@ describe("cluster discoverability and back-links", () => {
       expect(hub.includes(page.path), `buy hub does not link ${page.path}`).toBe(true);
     }
     expect(sourcing.related).toContain("/buy/what-cut-of-duck-to-buy");
-    expect(sourcing.related).toContain("/buy/duck-breeds-for-cooking");
     expect(sourcing.related).toContain("/buy/fresh-vs-frozen-duck");
   });
 
@@ -269,5 +268,30 @@ describe("cluster discoverability and back-links", () => {
     expect(acquisitionPage("/buy/fresh-vs-frozen-duck")!.funnel.map((f) => f.to)).toContain(
       "/learn/how-to-thaw-duck",
     );
+  });
+});
+
+describe("breed claim containment", () => {
+  const BREED_WORDS = /pekin|moulard|muscovy|magret/i;
+
+  it("publishes no breed-specific cooking claims on the acquisition cluster or sourcing guide", () => {
+    const files = [
+      ...Object.values(ROUTE_FILE),
+      "src/routes/buy.where-to-buy-duck-online.tsx",
+      "src/routes/buy.index.tsx",
+      "src/data/acquisition-cluster.ts",
+    ];
+    for (const file of files) {
+      const body = readFileSync(resolve(process.cwd(), file), "utf8");
+      expect(BREED_WORDS.test(body), `breed-specific claim in ${file}`).toBe(false);
+    }
+  });
+
+  it("does not route to the retired breed page anywhere", () => {
+    const files = [...Object.values(ROUTE_FILE), "src/data/guides.ts", "src/data/acquisition-cluster.ts"];
+    for (const file of files) {
+      const body = readFileSync(resolve(process.cwd(), file), "utf8");
+      expect(body.includes("duck-breeds-for-cooking"), file).toBe(false);
+    }
   });
 });

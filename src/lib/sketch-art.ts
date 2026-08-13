@@ -143,7 +143,6 @@ const BY_PATH: Record<string, SketchKey> = {
   "/buy/where-to-buy-duck-online": "buyingDuck",
   "/buy/duck-fat-buying-guide": "duckFat",
   "/buy/what-cut-of-duck-to-buy": "buyingDuck",
-  "/buy/duck-breeds-for-cooking": "wildVsFarmed",
   "/buy/how-much-duck-per-person": "wholeRoastDuck",
   "/buy/fresh-vs-frozen-duck": "thawing",
   "/buy/how-to-choose-duck": "buyingDuck",

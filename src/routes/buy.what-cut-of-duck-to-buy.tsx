@@ -55,8 +55,8 @@ const FAQ = [
     a: "No. Confit depends on the connective tissue and fat structure of the leg, which breaks down over hours of low poaching. A breast cooked that way turns dry and grey rather than tender.",
   },
   {
-    q: "What is magret?",
-    a: "Magret is the breast of a Moulard duck — noticeably thicker and leaner than a Pekin breast. It is often sold under that name specifically, and it needs a longer, gentler render than a recipe written for Pekin assumes.",
+    q: "Does the breed on the label change which cut I should buy?",
+    a: "Not for this decision. Breed names are description rather than a defined labelling claim, and we publish no breed-by-breed cooking adjustments because our cited sources do not support them. Pick the cut from the dish, then judge the individual bird on its fat cap and skin.",
   },
 ];
 
@@ -103,7 +103,7 @@ function Page() {
               "Legs, rendered fat, and a carcass for stock",
             ],
             [
-              "Breast (or magret)",
+              "Breast",
               "Pan-searing, cold-pan render, skin-side first",
               "Lowest — one pan, well under an hour",
               "Enough rendered fat to cook a side dish in",
@@ -190,21 +190,24 @@ function Page() {
 
       <Section id="labels" heading="The label terms that change the cut you're getting">
         <p>
-          Two things on a package change how your cut behaves, and neither is the brand name. The
-          first is breed — a Moulard breast sold as magret is a different cooking job from a Pekin
-          breast, and{" "}
-          <Link to="/buy/duck-breeds-for-cooking" className="text-primary underline underline-offset-4">
-            the breed guide
-          </Link>{" "}
-          covers the adjustments. The second is the age class in the USDA labelling vocabulary:
-          younger birds sold as duckling are tender enough for dry heat, while a bird labelled as a
-          mature duck is better suited to slower, moist cooking.
+          The term worth finding on the package is the age class in the USDA labelling vocabulary for
+          duck: younger birds sold as duckling are tender enough for dry-heat cooking such as
+          roasting, while a bird labelled as a mature duck is better suited to slower, moist cooking.
+          That distinction is defined by the labelling rules, so it is one you can actually act on.
         </p>
         <p>
           Everything else — “premium,” “gourmet,” “select” — has no defined meaning and tells you
-          nothing about what will happen in your pan.
+          nothing about what will happen in your pan. Some listings also name a breed. We have not
+          verified breed-by-breed cooking differences against a source we would stand behind, so we
+          do not publish adjustments by breed; judge the bird in front of you on its fat cap and skin
+          instead, using{" "}
+          <Link to="/buy/how-to-choose-duck" className="text-primary underline underline-offset-4">
+            our selection checks
+          </Link>
+          .
         </p>
       </Section>
+
 
       <Section id="safety" heading="One number that applies to every cut">
         <p>

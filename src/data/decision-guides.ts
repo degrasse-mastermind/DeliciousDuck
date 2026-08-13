@@ -70,7 +70,7 @@ const SOURCING: DecisionGuideMeta = {
     "We compare sourcing routes, not sellers, on the handful of factors that change what lands in your kitchen: which cuts you can actually get, whether the breed is named, how the bird travels, and what the order commits you to.",
   methodology: [
     "Publicly published catalogue and shipping information from the sellers named on this page, read on the date below.",
-    "Duck cooking requirements from our own technique pages — expected fat yield by breed, thaw time by weight, and cut-to-method fit.",
+    "Duck cooking requirements from our own technique pages — cut-to-method fit and thaw time by weight — plus USDA labelling and handling guidance.",
     "Cold-chain handling and inspection practice that applies to any frozen meat shipment.",
   ],
   notTested:
@@ -85,7 +85,7 @@ const SOURCING: DecisionGuideMeta = {
       why: "No shipping window to plan around, and you can see the fat cap before you pay for it.",
     },
     {
-      situation: "You need a named cut — magret, leg quarters, or rendered fat",
+      situation: "You need a specific cut — breast portions, leg quarters, or rendered fat",
       choice: "Mail order from a specialty distributor",
       why: "Named cuts are the thing general retailers stock least consistently.",
     },
@@ -104,7 +104,7 @@ const SOURCING: DecisionGuideMeta = {
     {
       option: "Local butcher",
       forWhom: "Cooks who want to inspect the bird, ask questions in person, and skip shipping entirely.",
-      notFor: "Anyone hunting a specific breed or a named cut a butcher doesn't routinely order.",
+      notFor: "Anyone hunting a specific cut a butcher doesn't routinely order.",
     },
     {
       option: "Specialty grocer",
@@ -177,7 +177,7 @@ const SOURCING: DecisionGuideMeta = {
           "Pan-seared breast on short notice",
           "A first duck breast, cooked midweek",
           "Whole roast where provenance matters to you",
-          "Confit, magret, or a multi-cut cooking plan",
+          "Confit, breast portions, or a multi-cut cooking plan",
         ],
       },
     ],

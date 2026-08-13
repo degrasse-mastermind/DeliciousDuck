@@ -216,7 +216,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     sourcing: [
       {
         label: "Buying duck breast",
-        why: "Pekin breasts are smaller and milder; Moulard breasts are much larger and denser, and need a longer render.",
+        why: "Breast weights vary widely between suppliers, so render to the look of the fat cap and check temperature rather than following a fixed time.",
         to: "/buy/where-to-buy-duck-online",
         linkLabel: "Where to buy duck online",
       },

@@ -48,7 +48,7 @@ const FAQ = [
   },
   {
     q: "Is one duck breast enough per person?",
-    a: "Yes, for a plated main with sides. A Moulard breast sold as magret is large enough to serve two smaller portions sliced, and a Pekin breast is comfortably one.",
+    a: "Yes, for a plated main with sides. Breast weights vary a lot between suppliers, so check the pack weight against the 180 g standard portion below if you are catering tightly.",
   },
   {
     q: "Why is duck yield lower than chicken?",
@@ -126,8 +126,8 @@ function Page() {
           caption="Portion planning by cut"
           columns={["Cut", "Per person", "Note"]}
           rows={[
-            ["Duck breast (Pekin)", "1 breast", "Plated main with sides; slices into a fan of 5–7 pieces"],
-            ["Magret (Moulard breast)", "1 breast serves 1–2", "Larger and thicker; slice thin and serve as part of a plate"],
+            ["Duck breast", "1 breast", "Plated main with sides; check the pack weight if it looks small"],
+            ["A large breast (over roughly 350 g)", "1 breast serves 1–2", "Slice thin and serve as part of a fuller plate"],
             ["Leg quarters, confit", "1 leg", "Rich enough that a second is often untouched"],
             ["Leg meat, shredded into a sauce or filling", "roughly 1 leg per 2 people", "The meat goes further once it is off the bone"],
             ["Rendered duck fat, for roasting potatoes", "a generous spoonful per person", "Buy or render more than you think; it keeps"],

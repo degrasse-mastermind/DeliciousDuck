@@ -7,8 +7,8 @@ import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo"
 
 const CHECKS = [
   {
-    title: "Breed and size",
-    body: "Pekin is the common supermarket duck: milder, fattier, forgiving. Muscovy and Moulard breasts are larger and leaner, and cook closer to steak.",
+    title: "Kind and size",
+    body: "Read the USDA age class — duckling for dry heat, mature duck for slower moist cooking. Size mainly sets your serving count and roasting time. Breed names on a label are description, not a defined claim.",
   },
   {
     title: "Fresh or frozen",
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/buy/")({
     ...pageMeta({
       title: "Buy Duck: Sourcing Guides & Quality Checks | DeliciousDuck",
       description:
-        "How to source duck well: comparing online sellers, judging quality on arrival, understanding breed and label terms, and buying duck fat sensibly.",
+        "How to source duck well: comparing online sellers, judging quality on arrival, reading the label terms that are actually defined, and buying duck fat sensibly.",
       path: "/buy",
     }),
     scripts: [
@@ -82,13 +82,6 @@ function BuyPage() {
 
         <p className="mt-10 text-sm leading-relaxed text-muted-foreground">
           Each of those checks has a page of its own:{" "}
-          <Link
-            to="/buy/duck-breeds-for-cooking"
-            className="text-primary underline underline-offset-4"
-          >
-            breeds and what they change
-          </Link>
-          ,{" "}
           <Link to="/buy/fresh-vs-frozen-duck" className="text-primary underline underline-offset-4">
             fresh versus frozen
           </Link>
