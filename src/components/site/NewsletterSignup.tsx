@@ -95,23 +95,20 @@ export function NewsletterSignup({
             id={`${id}-heading`}
             className="mt-3 font-display text-3xl leading-tight lg:text-[2.75rem]"
           >
-            The Duck Cooking Starter Guide
+            {FIELD_GUIDE.title}
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/80">
-            Subscribers get{" "}
-            <a href={STARTER_GUIDE.path} className="underline underline-offset-4">
-              the Duck Cooking Starter Guide
-            </a>{" "}
-            — a concise reference covering the four duck cuts, target internal temperatures,
-            rendering a fat cap, and what to buy first — plus occasional DeliciousDuck recipes
-            and guides.
+            {FIELD_GUIDE.description} Subscribers get it as a printable 16-page PDF, plus occasional
+            DeliciousDuck recipes and guides.
           </p>
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
             {[
-              "Temperature targets for breast, legs, and whole birds",
-              "A one-page shopping checklist",
-              "The three mistakes that make duck tough",
+              "The crisp-skin technique: scoring, cold-pan rendering, and fat management",
+              "Whole-duck and duck-breast workflows, start to carving",
+              "Troubleshooting for chewy skin, dry breast, and tough legs",
+              "A planning timeline from thawing to resting",
+              "A printable kitchen card with temperatures and timings",
             ].map((point) => (
               <li key={point} className="flex items-start gap-2.5">
                 <Check aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-accent" />
@@ -120,7 +117,11 @@ export function NewsletterSignup({
             ))}
           </ul>
           <p className="mt-6 text-sm leading-relaxed text-forest-foreground/70">
-            You can read the guide right now — the{" "}
+            You can also read our companion article, the{" "}
+            <a href={STARTER_GUIDE.path} className="underline underline-offset-4">
+              Duck Cooking Starter Guide
+            </a>
+            , plus the{" "}
             <a
               href="/learn/duck-breast-temperature-doneness"
               className="underline underline-offset-4"
@@ -130,8 +131,8 @@ export function NewsletterSignup({
             and the{" "}
             <a href="/tools" className="underline underline-offset-4">
               calculators
-            </a>{" "}
-            are already live.
+            </a>
+            , right now.
           </p>
 
         </div>
