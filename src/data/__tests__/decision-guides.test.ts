@@ -161,7 +161,8 @@ describe("decision-guide pages", () => {
     for (const p of DECISION_PAGES) {
       const src = readRoute(p);
       for (const m of src.matchAll(/to="(\/[^"]*)"/g)) {
-        expect(KNOWN_PATHS.has(m[1]), `${p} links to unknown route ${m[1]}`).toBe(true);
+        const target = m[1] ?? "";
+        expect(KNOWN_PATHS.has(target), `${p} links to unknown route ${target}`).toBe(true);
       }
     }
   });
