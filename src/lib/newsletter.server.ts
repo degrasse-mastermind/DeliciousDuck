@@ -414,60 +414,14 @@ export async function resyncPendingSubscribers(limit = 200): Promise<{
   return { attempted: (rows ?? []).length, synced, failed, skipped: null };
 }
 
-/**
- * Applies an explicit interest choice made by the subscriber in the same session
- * they signed up in, authorised by the opaque row token issued at that moment.
- *
- * Deliberately token-based, not email-based: accepting `{ email, interest }` from
- * the browser would let anyone rewrite a stranger's preferences by guessing an
- * address. Tokens are single-purpose, carry no PII, and only ever reach the
- * browser that just completed the signup.
+/*
+ * `applyInterestChoice` was removed with the in-session preference editor: it
+ * was only reachable via a preference token handed to first-time subscribers,
+ * and issuing that token made a new signup distinguishable from a duplicate.
+ * The `preference_token` column is left in place unused, ready for a future
+ * emailed preference link (where the emailed link proves mailbox ownership).
  */
-export async function applyInterestChoice(
-  token: string,
-  interest: string,
-): Promise<{ updated: boolean }> {
-  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const now = new Date().toISOString();
 
-  const { data: row, error } = await supabaseAdmin
-    .from("newsletter_subscribers")
-    .select("id, interests")
-    .eq("preference_token", token)
-    .eq("status", "subscribed")
-    .maybeSingle();
-
-  if (error) throw new Error("newsletter_storage_error");
-  if (!row) return { updated: false };
-
-  const priorInterests: string[] = Array.isArray(row.interests) ? row.interests : [];
-  const { error: updateError } = await supabaseAdmin
-    .from("newsletter_subscribers")
-    .update({
-      primary_interest: interest,
-      interest,
-      interests: Array.from(new Set([...priorInterests, interest])),
-      last_engagement_at: now,
-      updated_at: now,
-    })
-    .eq("id", row.id);
-
-  if (updateError) throw new Error("newsletter_storage_error");
-
-  const apiKey = process.env["RESEND_API_KEY"];
-  if (apiKey) {
-    const { data: fresh } = await supabaseAdmin
-      .from("newsletter_subscribers")
-      .select("email_normalized")
-      .eq("id", row.id)
-      .maybeSingle();
-    if (fresh?.email_normalized) {
-      await syncInterestSegment(fresh.email_normalized, apiKey, interest);
-    }
-  }
-
-  return { updated: true };
-}
 
 /**
  * Aggregate-only list health for the internal dashboard.
