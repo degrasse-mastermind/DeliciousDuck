@@ -178,7 +178,7 @@ const BY_PATH: Record<string, keyof typeof SKETCH> = {
 };
 
 /** Section fallbacks so every page still gets a fitting illustration. */
-const BY_PREFIX: Array<[string, keyof typeof SKETCH]> = [
+const BY_PREFIX: Array<[string, SketchKey]> = [
   ["/cook", "duckBreastPan"],
   ["/learn", "thermometer"],
   ["/buy", "buyingDuck"],
@@ -190,22 +190,139 @@ const BY_PREFIX: Array<[string, keyof typeof SKETCH]> = [
   ["/newsletter", "newsletter"],
 ];
 
+/**
+ * Keyword rules for routes we haven't mapped by hand yet. Matched against the
+ * whole slug, longest keyword wins, so `/cook/duck-fat-confit-legs` resolves to
+ * the confit drawing rather than the generic section art.
+ */
+const BY_KEYWORD: Array<[string, SketchKey]> = [
+  ["confit", "confit"],
+  ["render", "renderingFat"],
+  ["duck-fat", "duckFat"],
+  ["fat", "duckFat"],
+  ["whole-duck", "wholeRoastDuck"],
+  ["whole-roast", "wholeRoastDuck"],
+  ["roast", "ovenRoast"],
+  ["oven", "ovenRoast"],
+  ["breast", "duckBreastPan"],
+  ["sear", "duckBreastPan"],
+  ["skin", "duckBreastPan"],
+  ["crisp", "duckBreastPan"],
+  ["score", "scoring"],
+  ["scoring", "scoring"],
+  ["knife", "scoring"],
+  ["slice", "slicedBreast"],
+  ["carve", "carving"],
+  ["carving", "carving"],
+  ["temperature", "thermometer"],
+  ["temp", "thermometer"],
+  ["doneness", "thermometer"],
+  ["thermometer", "thermometer"],
+  ["probe", "thermometer"],
+  ["thaw", "thawing"],
+  ["freeze", "thawing"],
+  ["frozen", "thawing"],
+  ["store", "thawing"],
+  ["storage", "thawing"],
+  ["brine", "dryBrine"],
+  ["salt", "dryBrine"],
+  ["cure", "dryBrine"],
+  ["season", "spices"],
+  ["spice", "spices"],
+  ["herb", "spices"],
+  ["marinade", "spices"],
+  ["rub", "spices"],
+  ["sauce", "sauce"],
+  ["glaze", "sauce"],
+  ["gravy", "sauce"],
+  ["reduction", "sauce"],
+  ["orange", "fruitPairings"],
+  ["cherry", "fruitPairings"],
+  ["plum", "fruitPairings"],
+  ["fruit", "fruitPairings"],
+  ["berry", "fruitPairings"],
+  ["acid", "fruitPairings"],
+  ["vinegar", "fruitPairings"],
+  ["pairing", "fruitPairings"],
+  ["wine", "fruitPairings"],
+  ["serve-with", "sides"],
+  ["side", "sides"],
+  ["vegetable", "sides"],
+  ["potato", "duckFat"],
+  ["wild", "wildVsFarmed"],
+  ["farmed", "wildVsFarmed"],
+  ["pekin", "wildVsFarmed"],
+  ["muscovy", "wildVsFarmed"],
+  ["moulard", "wildVsFarmed"],
+  ["breed", "wildVsFarmed"],
+  ["buy", "buyingDuck"],
+  ["where-to", "buyingDuck"],
+  ["price", "buyingDuck"],
+  ["cost", "buyingDuck"],
+  ["butcher", "buyingDuck"],
+  ["pan", "gearFlatlay"],
+  ["skillet", "gearFlatlay"],
+  ["gear", "gearFlatlay"],
+  ["equipment", "gearFlatlay"],
+  ["best-", "gearFlatlay"],
+  ["calculator", "toolsDesk"],
+  ["planner", "toolsDesk"],
+  ["scaler", "toolsDesk"],
+  ["tool", "toolsDesk"],
+  ["time", "toolsDesk"],
+  ["newsletter", "newsletter"],
+  ["subscribe", "newsletter"],
+  ["duck-drop", "newsletter"],
+  ["email", "newsletter"],
+  ["recipe", "slicedBreast"],
+  ["leg", "confit"],
+  ["duck", "ducksFlight"],
+];
+
+/** Routes that should stay illustration-free (internal, legal, utility). */
+const NO_ART_PREFIXES = ["/internal", "/privacy", "/terms", "/legal", "/api"];
+
+/** Last-resort art for any content route we can't classify. */
+const SITE_DEFAULT: SketchKey = "ducksFlight";
+
 function normalize(pathname: string): string {
   if (pathname.length > 1 && pathname.endsWith("/")) return pathname.slice(0, -1);
   return pathname;
 }
 
-/** Resolve the illustration for a route path, or null for internal/legal pages. */
+function byKeyword(path: string): SketchKey | null {
+  let best: SketchKey | null = null;
+  let bestLength = 0;
+  for (const [keyword, key] of BY_KEYWORD) {
+    if (keyword.length > bestLength && path.includes(keyword)) {
+      best = key;
+      bestLength = keyword.length;
+    }
+  }
+  return best;
+}
+
+/**
+ * Resolve the illustration for a route path.
+ *
+ * Resolution order: exact mapping → slug keywords → section prefix → site
+ * default. Returns null only for the home page and opted-out routes, so any
+ * new route ships with fitting art without touching this file.
+ */
 export function sketchForPath(pathname: string): SketchArt | null {
-  const path = normalize(pathname);
-  if (path.startsWith("/internal")) return null;
+  const path = normalize(pathname).toLowerCase();
+
+  if (path === "/" || path === "") return null;
+  if (NO_ART_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`))) return null;
 
   const exact = BY_PATH[path];
-  if (exact) return SKETCH[exact] ?? null;
+  if (exact) return SKETCH[exact];
+
+  const keyword = byKeyword(path);
+  if (keyword) return SKETCH[keyword];
 
   const prefix = BY_PREFIX.find(([p]) => path === p || path.startsWith(`${p}/`));
-  if (prefix) return SKETCH[prefix[1]] ?? null;
+  if (prefix) return SKETCH[prefix[1]];
 
-
-  return null;
+  return SKETCH[SITE_DEFAULT];
 }
