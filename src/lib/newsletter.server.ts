@@ -279,7 +279,10 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     ...consentEvidence,
   };
 
-  const selection = "id, welcome_event_status, primary_interest";
+  // `preference_token` is selected because the welcome email must carry working
+  // unsubscribe/preferences links. It never leaves the server except inside the
+  // provider event payload; it is never returned to the browser.
+  const selection = "id, welcome_event_status, primary_interest, preference_token";
   const { data: row, error } =
     decision.action === "create"
       ? await supabaseAdmin
