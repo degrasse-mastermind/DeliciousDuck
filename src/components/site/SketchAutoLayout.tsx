@@ -76,14 +76,17 @@ export function SketchAutoLayout({
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const rotation = art ?? sketchRotationForPath(pathname);
 
-  const blocks = Children.toArray(children).filter(
-    (child) => child !== null && child !== false && child !== "",
-  );
+  const blocks = Children.toArray(children).filter((child) => child !== "");
 
   const slots =
     disabled || rotation.length === 0
       ? []
-      : sketchPlacements({ sections: blocks.length, every, max, minSections });
+      : sketchPlacements({
+          sections: blocks.length,
+          ...(every === undefined ? {} : { every }),
+          ...(max === undefined ? {} : { max }),
+          ...(minSections === undefined ? {} : { minSections }),
+        });
 
   if (slots.length === 0) return <div className={className}>{blocks}</div>;
 
@@ -103,7 +106,7 @@ export function SketchAutoLayout({
             art={chosen}
             height={HEIGHT_BY_COLUMN[column]}
             variant={slot % 2 === 0 ? "framed" : "bleed"}
-            caption={captions?.[slot]}
+            {...(captions?.[slot] ? { caption: captions[slot] as string } : {})}
             className="my-12"
           />,
         );
