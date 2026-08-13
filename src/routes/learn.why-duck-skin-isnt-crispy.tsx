@@ -5,6 +5,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 
 const GUIDE = guideByPath("/learn/why-duck-skin-isnt-crispy")!;
 
@@ -123,6 +124,30 @@ function Page() {
           </a>.
         </Callout>
       </Section>
+
+      <CommercialCallout
+        heading="If the fix keeps failing, measure instead of guessing"
+        intro="Most crisp-skin failures are heat management, not equipment. A probe is the exception: it tells you whether you pulled early or ran the pan too hot."
+        placement="crisp_skin_gear"
+        linkIds={["thermoworks-thermometer"]}
+        criteria={[
+          "Fast enough to check mid-render without leaving the pan unattended.",
+          "Readable at a glance when your hands are busy pouring off fat.",
+        ]}
+        footnote={
+          <>
+            Pan choice matters second; see{" "}
+            <a href="/gear/best-pan-for-duck-breast" className="text-primary underline underline-offset-4">
+              best pan for duck breast
+            </a>{" "}
+            and the full method in{" "}
+            <a href="/cook/how-to-cook-duck-breast" className="text-primary underline underline-offset-4">
+              how to cook duck breast
+            </a>
+            .
+          </>
+        }
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

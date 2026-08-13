@@ -12,6 +12,7 @@ import { SketchBand } from "@/components/site/SketchFigure";
 import { SKETCH } from "@/lib/sketch-art";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { DUCK_BREAST_CLUSTER } from "@/lib/duck-breast-cluster";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 
 const GUIDE = guideByPath("/cook/how-to-cook-duck-breast")!;
 
@@ -285,6 +286,30 @@ function Page() {
             linkLabel: "Compare scoring knives",
           },
         ]}
+      />
+
+      <CommercialCallout
+        heading="Two next steps that change the result"
+        intro="One sourcing step and one measurement step. Everything else on this page works with the pan you already own."
+        placement="duck_breast_next_steps"
+        linkIds={["dartagnan-duck", "thermoworks-thermometer"]}
+        criteria={[
+          "Buy breast with the fat cap intact and the cut named, so scoring depth is predictable.",
+          "Use a fast instant-read probe: the pull window between 130°F and 165°F is narrow enough that a slow reading costs you doneness.",
+        ]}
+        footnote={
+          <>
+            Deciding between pans or probes first? Compare the options in our{" "}
+            <a href="/gear/best-pan-for-duck-breast" className="text-primary underline underline-offset-4">
+              pan guide
+            </a>{" "}
+            and{" "}
+            <a href="/gear/best-thermometer-for-duck" className="text-primary underline underline-offset-4">
+              thermometer guide
+            </a>
+            .
+          </>
+        }
       />
 
       <SketchBand

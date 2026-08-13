@@ -12,6 +12,8 @@ import {
   CLUSTER_CLICK_EVENT,
   type ClusterGroup,
 } from "./duck-breast-cluster";
+import { buildCommercialClickEvent, COMMERCIAL_EVENTS } from "./commercial-events";
+import type { CommercialLinkEntry } from "@/data/commercial-links";
 
 type GtagParams = Record<string, string | number | boolean | undefined>;
 
@@ -26,7 +28,8 @@ declare global {
 export const GA_MEASUREMENT_ID = "G-E15CFY209D";
 
 export const ANALYTICS_EVENTS = {
-  affiliateClick: "affiliate_click",
+  affiliateClick: COMMERCIAL_EVENTS.affiliateClick,
+  merchantClick: COMMERCIAL_EVENTS.merchantClick,
   newsletterIntent: "newsletter_intent",
   newsletterSignup: "newsletter_signup",
   newsletterPostsignupClick: "newsletter_postsignup_click",
@@ -434,4 +437,38 @@ export function trackDuckBreastClusterClick(params: {
   ].join("|");
   if (!shouldSendClick(key)) return;
   trackEvent(event.name, { ...event.params });
+}
+
+/* ------------------------------------------------------------------ *
+ * Outbound commerce (commercial-link registry)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Fire an outbound-commerce event for a registry link.
+ *
+ * `affiliate_click` is used only for genuinely monetized destinations;
+ * everything else reports `merchant_click`. Tracking never blocks navigation:
+ * any failure is swallowed so the click proceeds.
+ */
+export function trackCommercialClick(input: {
+  link: CommercialLinkEntry;
+  placement: string;
+}): void {
+  try {
+    const event = buildCommercialClickEvent({
+      link: input.link,
+      placement: input.placement,
+      sourcePath: currentPagePath(),
+    });
+    const key = [
+      "commercial",
+      event.params.commercial_link_id,
+      event.params.placement,
+      event.params.source_path,
+    ].join("|");
+    if (!shouldSendClick(key)) return;
+    trackEvent(event.name, { ...event.params });
+  } catch {
+    // Analytics is best-effort. Never let it break an outbound click.
+  }
 }

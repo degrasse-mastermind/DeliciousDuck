@@ -6,6 +6,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 
 const GUIDE = guideByPath("/learn/duck-breast-temperature-doneness")!;
 
@@ -197,6 +198,27 @@ function Page() {
           one worth reconsidering for very young, elderly, pregnant, or immunocompromised diners.
         </p>
       </Section>
+
+      <CommercialCallout
+        heading="The one tool these numbers depend on"
+        intro="Every temperature on this page assumes a probe you can trust to read quickly and repeatably at the thickest part of the breast."
+        placement="temperature_gear"
+        linkIds={["thermoworks-thermometer"]}
+        criteria={[
+          "A reading settles in a few seconds, so the breast is not overshooting while you wait.",
+          "The probe tip is thin enough to enter from the side without tearing the fat cap.",
+          "Stated accuracy is tight enough that a 130°F target is not really a 135°F one.",
+        ]}
+        footnote={
+          <>
+            Then use those readings inside the method in{" "}
+            <a href="/cook/how-to-cook-duck-breast" className="text-primary underline underline-offset-4">
+              how to cook duck breast
+            </a>
+            .
+          </>
+        }
+      />
 
       <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep"]} />
       <RelatedGuides paths={GUIDE.related} />
