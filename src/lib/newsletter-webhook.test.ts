@@ -172,7 +172,7 @@ describe("webhook handler", () => {
     expect(applied).toHaveLength(0);
   });
 
-  it("applies a verified bounce: event logged first, then suppression", async () => {
+  it("applies a verified bounce: guarded suppression, then the event log", async () => {
     const { store, events, applied } = makeStore({ id: "sub-1", status: "subscribed" });
     const out = await handleResendWebhook({
       raw: "raw",
