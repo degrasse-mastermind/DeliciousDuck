@@ -7,6 +7,12 @@
  * Event names are stable snake_case and defined in one place.
  */
 
+import {
+  buildClusterClickEvent,
+  CLUSTER_CLICK_EVENT,
+  type ClusterGroup,
+} from "./duck-breast-cluster";
+
 type GtagParams = Record<string, string | number | boolean | undefined>;
 
 declare global {
@@ -30,6 +36,7 @@ export const ANALYTICS_EVENTS = {
   calculatorComplete: "calculator_complete",
   starterGuideView: "starter_guide_view",
   starterGuidePrint: "starter_guide_print",
+  duckBreastClusterClick: CLUSTER_CLICK_EVENT,
 } as const;
 
 /** Current path, safe on the server. */
@@ -396,4 +403,35 @@ export function trackStarterGuidePrint(params: { path: string }): void {
     page_path: params.path,
     content_slug: contentSlugFromPath(params.path),
   });
+}
+
+/* ------------------------------------------------------------------ *
+ * Duck-breast cluster wayfinding
+ * ------------------------------------------------------------------ */
+
+/**
+ * Internal cluster navigation click. One stable event, four parameters, built
+ * by the pure builder in `@/lib/duck-breast-cluster` so the shape is testable
+ * without a browser. Never an address, token, query string, or full URL, and
+ * completely separate from `affiliate_click`, which is unchanged.
+ */
+export function trackDuckBreastClusterClick(params: {
+  destinationPath: string;
+  destinationGroup: ClusterGroup;
+  placement: string;
+}): void {
+  const event = buildClusterClickEvent({
+    destinationPath: params.destinationPath,
+    destinationGroup: params.destinationGroup,
+    sourcePath: currentPagePath(),
+    placement: params.placement,
+  });
+  const key = [
+    "cluster",
+    event.params.destination_slug,
+    event.params.placement,
+    event.params.source_path,
+  ].join("|");
+  if (!shouldSendClick(key)) return;
+  trackEvent(event.name, { ...event.params });
 }
