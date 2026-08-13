@@ -7,6 +7,8 @@ import {
   EVENT_REFERENCE,
   NO_PII_NOTE,
   WEEKLY_CHECKLIST,
+  EMAIL_METRIC_FIELDS,
+  EMAIL_READING_RULES,
   WEEKLY_METRIC_FIELDS,
   type TrustState,
 } from "@/data/growth-ops";
