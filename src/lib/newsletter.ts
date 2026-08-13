@@ -48,6 +48,8 @@ export interface SubscribeInput {
   interest?: string;
   /** Path the signup happened on. No query string, no PII. */
   sourcePath?: string;
+  /** Consent text version the visitor was shown. Required by the server. */
+  consentVersion?: string;
   /** Honeypot value; must be empty for a real submission. */
   trap?: string;
 }

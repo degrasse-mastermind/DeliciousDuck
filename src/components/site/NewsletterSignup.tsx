@@ -21,6 +21,7 @@ import {
   type NewsletterInterest,
 } from "@/data/newsletter-contexts";
 import { INTEREST_BLURBS, INTEREST_LABELS } from "@/data/duck-drop";
+import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
 
 /**
  * Honest-by-default signup, with contextual promises.
@@ -97,6 +98,8 @@ export function NewsletterSignup({
         placement: id,
         interest: interest === "general" ? interestForPath(sourcePath) : interest,
         ...(sourcePath ? { sourcePath } : {}),
+        // Exact version of the consent text rendered below the submit button.
+        consentVersion: NEWSLETTER_CONSENT.version,
         trap,
       });
       // Only claim email delivery when the welcome email was actually triggered.
@@ -391,16 +394,29 @@ export function NewsletterSignup({
               <button
                 type="submit"
                 disabled={pending}
+                aria-describedby={`${id}-consent`}
                 className="h-12 w-full rounded-sm bg-primary text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep disabled:opacity-70"
               >
                 {pending ? "Signing you up…" : "Get the field guide"}
               </button>
-              <p className="text-xs leading-relaxed text-muted-foreground">
-                You&apos;re signing up for DeliciousDuck emails: Duck Fundamentals: The Field Guide
-                (printable 16-page PDF), a six-part welcome series over about two weeks, and
-                occasional cooking guides, recipes, and buying guidance. We also record which page
-                you signed up from so the emails match what you were reading. Sent from
-                hello@deliciousduck.com via Resend. Unsubscribe any time.
+              {/*
+                Consent language. Rendered verbatim from the shared module that
+                also versions the server-side consent record, so the wording a
+                subscriber saw and the evidence we store cannot diverge.
+              */}
+              <p
+                id={`${id}-consent`}
+                data-consent-version={NEWSLETTER_CONSENT.version}
+                className="text-xs leading-relaxed text-muted-foreground"
+              >
+                {NEWSLETTER_CONSENT.text}{" "}
+                <a
+                  href={NEWSLETTER_CONSENT.privacyPolicyPath}
+                  className="text-primary underline underline-offset-4"
+                >
+                  Privacy policy
+                </a>{" "}
+                (version {NEWSLETTER_CONSENT.privacyPolicyVersion}).
               </p>
             </form>
           )}

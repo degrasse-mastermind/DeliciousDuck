@@ -1,4 +1,7 @@
 import { RESEND_AUDIENCE_ID, type SubscribePayload } from "./newsletter-schema";
+import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
+import { decideSignup } from "./newsletter-status";
+import { SITE } from "@/data/site";
 import { FIELD_GUIDE_URL } from "@/data/starter-guide";
 import { DUCK_DROP } from "@/data/duck-drop";
 
@@ -177,17 +180,49 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   welcomeEvent: WelcomeEvent;
   primaryInterest: string | null;
   preferenceToken: string | null;
+  /** Internal only: true when the address is in a suppressed state. Never surfaced. */
+  suppressed: boolean;
 }> {
   const emailNormalized = data.email.trim().toLowerCase();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
   // Read the existing row (if any) so interest history accumulates instead of
-  // being overwritten by whichever page the visitor signed up from last.
+  // being overwritten by whichever page the visitor signed up from last, and so
+  // suppressed addresses can be detected before anything is written.
   const { data: existing } = await supabaseAdmin
     .from("newsletter_subscribers")
-    .select("id, interests, signup_count, primary_interest, first_content_path")
+    .select(
+      "id, interests, signup_count, primary_interest, first_content_path, status, consent_record, welcome_event_status",
+    )
     .eq("email_normalized", emailNormalized)
     .maybeSingle();
+
+  const decision = decideSignup(
+    existing
+      ? {
+          status: String(existing.status),
+          consent_record: (existing as { consent_record?: string | null }).consent_record ?? null,
+          welcome_event_status: existing.welcome_event_status ?? null,
+        }
+      : null,
+  );
+
+  // Suppression-safe: an unsubscribed / bounced / complained / suppressed address
+  // is never reactivated, re-synced, or re-emailed by a form submission. We write
+  // nothing at all and return the same generic shape a fresh signup returns, so
+  // the response cannot be used to enumerate list membership or account state.
+  if (decision.action === "blocked") {
+    console.warn(`Newsletter signup ignored for suppressed address (status: ${decision.status})`);
+    return {
+      subscribed: true,
+      resendSync: "pending",
+      // No email is triggered, and the UI never claims one was.
+      welcomeEvent: "pending",
+      primaryInterest: null,
+      preferenceToken: null,
+      suppressed: true,
+    };
+  }
 
   const priorInterests: string[] = Array.isArray(existing?.interests) ? existing.interests : [];
   const mergedInterests = data.interest
@@ -197,35 +232,64 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   const primaryInterest = existing?.primary_interest ?? data.interest ?? null;
   const now = new Date().toISOString();
 
-  const { data: row, error } = await supabaseAdmin
-    .from("newsletter_subscribers")
-    .upsert(
-      {
-        email: emailNormalized,
-        email_normalized: emailNormalized,
-        // Conservative: only overwrite attribution when we actually have it.
-        ...(data.source ? { source: data.source } : {}),
-        ...(data.placement ? { placement: data.placement } : {}),
-        ...(data.interest ? { interest: data.interest } : {}),
-        ...(data.sourcePath ? { source_path: data.sourcePath } : {}),
-        // First-touch only: never rewritten by a later signup.
-        ...(primaryInterest ? { primary_interest: primaryInterest } : {}),
-        ...(existing?.first_content_path
-          ? {}
-          : data.sourcePath
-            ? { first_content_path: data.sourcePath }
-            : {}),
-        interests: mergedInterests,
-        signup_count: (existing?.signup_count ?? 0) + 1,
-        last_signup_at: now,
-        status: "subscribed",
-        unsubscribed_at: null,
-        updated_at: now,
-      },
-      { onConflict: "email_normalized" },
-    )
-    .select("id, welcome_event_status, primary_interest, preference_token")
-    .single();
+  /**
+   * Durable consent evidence for this accepted submission. The timestamp is
+   * generated server-side (never trusted from the client), and the version is
+   * the one the schema validated against the text the form actually rendered.
+   * No IP address is stored: abuse protection uses a per-instance in-memory
+   * counter keyed on the request IP that is never persisted or logged.
+   */
+  const consentEvidence = {
+    consented_at: now,
+    consent_text_version: NEWSLETTER_CONSENT.version,
+    consent_source_path: data.sourcePath ?? null,
+    privacy_policy_version: NEWSLETTER_CONSENT.privacyPolicyVersion,
+    privacy_policy_url: privacyPolicyUrl(SITE.baseUrl),
+    consent_record: "explicit" as const,
+  };
+
+  const payload = {
+    email: emailNormalized,
+    email_normalized: emailNormalized,
+    // Conservative: only overwrite attribution when we actually have it.
+    ...(data.source ? { source: data.source } : {}),
+    ...(data.placement ? { placement: data.placement } : {}),
+    ...(data.interest ? { interest: data.interest } : {}),
+    ...(data.sourcePath ? { source_path: data.sourcePath } : {}),
+    // First-touch only: never rewritten by a later signup.
+    ...(primaryInterest ? { primary_interest: primaryInterest } : {}),
+    ...(existing?.first_content_path
+      ? {}
+      : data.sourcePath
+        ? { first_content_path: data.sourcePath }
+        : {}),
+    interests: mergedInterests,
+    signup_count: (existing?.signup_count ?? 0) + 1,
+    last_signup_at: now,
+    // Only ever written for a row that is absent or already "subscribed";
+    // suppressed rows returned above and are never reached here.
+    status: "subscribed" as const,
+    unsubscribed_at: null,
+    updated_at: now,
+    ...consentEvidence,
+  };
+
+  const selection = "id, welcome_event_status, primary_interest, preference_token";
+  const { data: row, error } =
+    decision.action === "create"
+      ? await supabaseAdmin
+          .from("newsletter_subscribers")
+          .insert(payload)
+          .select(selection)
+          .single()
+      : await supabaseAdmin
+          .from("newsletter_subscribers")
+          .update(payload)
+          .eq("id", existing!.id)
+          // Defensive: refuse the write if the row changed state concurrently.
+          .eq("status", "subscribed")
+          .select(selection)
+          .single();
 
   if (error || !row) {
     console.error(`Newsletter storage failed: ${error?.message ?? "no row returned"}`);
@@ -238,10 +302,13 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     subscribed: true as const,
     primaryInterest: (row.primary_interest as string | null) ?? null,
     preferenceToken,
+    suppressed: false,
   };
 
   const apiKey = process.env["RESEND_API_KEY"];
   if (!apiKey) return { ...base, resendSync: "pending", welcomeEvent: "pending" };
+
+
 
   let contactId: string | null = null;
   try {
