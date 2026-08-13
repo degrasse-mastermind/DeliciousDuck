@@ -79,13 +79,29 @@ never created from provider input.
 
 - `/newsletter/unsubscribe?t=<opaque token>` and `/newsletter/preferences?t=<opaque token>`.
 - The token is the existing `preference_token` (a UUID). It reached the mailbox,
-  so possessing it is the proof of ownership. No email address appears in a URL,
-  in page HTML, in analytics, or in logs.
+  so possessing it is the proof of ownership.
 - **GET is read-only.** Email security scanners fetch every link, so nothing
   changes until the reader presses the button (a POST server function).
 - Both pages are `noindex, nofollow, noarchive` with `referrer: no-referrer`.
-- Analytics never receives query strings: the GA config and `trackPageView` send
-  `origin + pathname` only.
+
+### Exact privacy boundary of the token
+
+Stated precisely, because the looser claim is false:
+
+- **No email address** appears in the URL, in rendered UI, or in server logs.
+- **The opaque token is in the URL**, and because it is part of the route's
+  validated search state it may also be serialized into SSR/hydration state in
+  the page HTML. This has not been eliminated and must not be described as
+  eliminated. It is accepted for this sprint, mitigated by `no-referrer`,
+  `noindex`, single-use rotation on unsubscribe, and the token being an opaque
+  UUID that identifies no address by itself.
+- **Query strings never reach analytics.** The GA config and `trackPageView`
+  send `origin + pathname` only, so neither the token nor any other parameter is
+  transmitted to GA4.
+
+Anyone who can read the URL (browser history, a shared screenshot, a forwarded
+email) can therefore act on that subscription. That is the same trust level as
+any mailbox-link opt-out, and it is why the link is single-use.
 
 ### Unsubscribe POST
 
@@ -94,9 +110,27 @@ same `{ ok: true }`, so the page cannot be used to test whether an address is on
 the list. For a row still `subscribed`: status → `unsubscribed`,
 `unsubscribed_at`/`suppressed_at` set, `suppression_reason = mailbox_token_unsubscribe`,
 and **the token is rotated** so the link is single-use. Only after that local
-write do we best-effort `PATCH` the Resend contact to `unsubscribed: true`; a
-failure records `resend_sync_status` internally and leaves local suppression
-intact. Rows already suppressed are never rewritten (monotonic).
+write do we best-effort sync the opt-out to Resend; a failure records
+`resend_sync_status` internally and leaves local suppression intact. Rows
+already suppressed are never rewritten (monotonic).
+
+#### Unverified: the provider opt-out request shape
+
+`markUnsubscribedAtProvider` sends `PATCH https://api.resend.com/audiences/<id>/contacts`
+with `{ email, unsubscribed: true }`. **This exact endpoint/body pair is not
+verified against the live API and differs from the only contact-write shape this
+project has actually exercised** (`POST` to the same collection path, in
+`pushToResend`). Resend's contact update route is generally addressed per
+contact (`/audiences/<id>/contacts/<contact_id_or_email>`), so the collection-level
+`PATCH` may well be rejected.
+
+It has deliberately not been changed or guessed at: the call is best-effort, it
+never throws, and local suppression — the record that actually decides whether we
+send — is already committed before it runs. Validate it at activation time by
+watching for the `Provider opt-out sync incomplete: status <code>` warning on a
+real opt-out, then correct the path to the documented per-contact form if the
+provider rejects it.
+
 
 ### Preference POST
 
