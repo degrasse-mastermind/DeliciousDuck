@@ -144,9 +144,13 @@ export function SketchBackdrop({
     >
       <img
         src={art.src}
+        {...(backdropSrcSet
+          ? { srcSet: backdropSrcSet, sizes: SKETCH_SIZES.band }
+          : {})}
         alt=""
         aria-hidden="true"
         loading="lazy"
+        fetchPriority="low"
         decoding="async"
         className={`pointer-events-none absolute ${SKETCH_RENDER.blend} ${opacity} ${layer}`}
       />
