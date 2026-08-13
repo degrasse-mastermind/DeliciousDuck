@@ -1,13 +1,22 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
+import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { PANS, PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { decisionGuide } from "@/data/decision-guides";
+import {
+  BestForGrid,
+  DecisionMatrixTable,
+  EditorialByline,
+  MethodologyPanel,
+  QuickDecision,
+} from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/gear/best-pan-for-duck-breast")!;
+const DG = decisionGuide("/gear/best-pan-for-duck-breast")!;
 
 export const Route = createFileRoute("/gear/best-pan-for-duck-breast")({
   head: () => ({
@@ -64,9 +73,13 @@ function Page() {
         answer — there's a right pan for your method.
       </p>
 
+      <EditorialByline guide={DG} />
+
+      <QuickDecision guide={DG} />
+
       <DisclosureBanner />
 
-      <EvaluationNote scope="pans" />
+      <MethodologyPanel guide={DG} />
 
       <Section id="framework" heading="The decision framework">
         <p>
@@ -166,6 +179,16 @@ function Page() {
           part of your regular routine and you want to build it in the same pan you seared in.
         </p>
       </Section>
+
+      <Section id="matrix" heading="The decision matrix">
+        <p>
+          The whole sequence, material by material. Read down the column for the pan you already own
+          to see which step it will fight you on.
+        </p>
+        <DecisionMatrixTable guide={DG} />
+      </Section>
+
+      <BestForGrid guide={DG} />
 
       <Section id="compare" heading="Compare the four categories">
         <ComparisonTable caption="Pan categories for duck breast" rows={PANS} factors={PAN_FACTORS} />

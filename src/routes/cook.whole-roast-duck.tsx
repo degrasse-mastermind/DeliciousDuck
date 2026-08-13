@@ -16,6 +16,7 @@ import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/cook/whole-roast-duck")!;
 
@@ -273,6 +274,14 @@ function WholeRoastDuckPage() {
       <div className="mt-14">
         <NewsletterSignup id="field-guide" interest="whole-duck" />
       </div>
+
+      <DecisionNextSteps
+        intro="A whole-duck roast puts different demands on your kitchen than a breast does."
+        items={[
+          { to: "/gear/best-thermometer-for-duck", label: "Best thermometer for duck", why: "A long roast rewards continuous monitoring over opening the oven every twenty minutes." },
+          { to: "/buy/where-to-buy-duck-online", label: "Where to buy duck online", why: "Whole birds vary by breed, and breed changes fat yield and timing." },
+        ]}
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

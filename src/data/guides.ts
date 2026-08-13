@@ -326,6 +326,8 @@ export const GUIDES: GuideEntry[] = [
       "/learn/wild-duck-vs-farmed-duck",
       "/tools/whole-duck-serving-calculator",
       "/buy/duck-fat-buying-guide",
+      "/cook/how-to-cook-duck-breast",
+      "/gear/best-thermometer-for-duck",
     ],
   },
   {
@@ -344,6 +346,8 @@ export const GUIDES: GuideEntry[] = [
       "/tools/duck-doneness-guide",
       "/learn/whole-duck-cooking-time",
       "/cook/how-to-cook-duck-breast",
+      "/gear/best-pan-for-duck-breast",
+      "/tools/duck-cooking-time-planner",
     ],
   },
   {
@@ -361,6 +365,8 @@ export const GUIDES: GuideEntry[] = [
       "/cook/how-to-cook-duck-breast",
       "/learn/why-duck-skin-isnt-crispy",
       "/learn/how-to-render-duck-fat",
+      "/learn/duck-breast-temperature-doneness",
+      "/gear/best-thermometer-for-duck",
     ],
   },
   {
@@ -396,6 +402,8 @@ export const GUIDES: GuideEntry[] = [
       "/tools/duck-fat-substitution-calculator",
       "/cook/ways-to-use-duck-fat",
       "/cook/duck-leg-confit",
+      "/buy/where-to-buy-duck-online",
+      "/ingredients/duck-fat-vs-butter-oil",
     ],
   },
 ];

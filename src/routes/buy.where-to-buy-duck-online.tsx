@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
+import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_MERCHANTS, MERCHANT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -8,8 +8,17 @@ import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { decisionGuide } from "@/data/decision-guides";
+import {
+  BestForGrid,
+  DecisionMatrixTable,
+  EditorialByline,
+  MethodologyPanel,
+  QuickDecision,
+} from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/buy/where-to-buy-duck-online")!;
+const DG = decisionGuide("/buy/where-to-buy-duck-online")!;
 
 export const Route = createFileRoute("/buy/where-to-buy-duck-online")({
   head: () => ({
@@ -66,9 +75,13 @@ function Page() {
         won't tell you what you actually need to know. A short list of concrete questions will.
       </p>
 
+      <EditorialByline guide={DG} />
+
+      <QuickDecision guide={DG} />
+
       <DisclosureBanner />
 
-      <EvaluationNote scope="duck sellers" />
+      <MethodologyPanel guide={DG} />
 
       <Section id="framework" heading="The comparison framework">
         <p>
@@ -196,6 +209,16 @@ function Page() {
           substitute for a product listing.
         </p>
       </Section>
+
+      <Section id="matrix" heading="The four sourcing routes, side by side">
+        <p>
+          Butcher, specialty grocer, farm, mail order. Read down the column for the route you were
+          leaning toward and check the rows you actually care about for this cook.
+        </p>
+        <DecisionMatrixTable guide={DG} />
+      </Section>
+
+      <BestForGrid guide={DG} />
 
       <Section id="compare" heading="Compare the routes side by side">
         <ComparisonTable caption="Duck sourcing routes compared" rows={DUCK_MERCHANTS} factors={MERCHANT_FACTORS} />

@@ -1,14 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
+import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { THERMOMETERS, THERMOMETER_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { CommercialCallout } from "@/components/site/CommercialLink";
+import { decisionGuide } from "@/data/decision-guides";
+import {
+  BestForGrid,
+  DecisionMatrixTable,
+  EditorialByline,
+  MethodologyPanel,
+  QuickDecision,
+} from "@/components/site/DecisionGuide";
 
 const GUIDE = guideByPath("/gear/best-thermometer-for-duck")!;
+const DG = decisionGuide("/gear/best-thermometer-for-duck")!;
 
 export const Route = createFileRoute("/gear/best-thermometer-for-duck")({
   head: () => ({
@@ -66,9 +76,13 @@ function Page() {
         unit.
       </p>
 
+      <EditorialByline guide={DG} />
+
+      <QuickDecision guide={DG} />
+
       <DisclosureBanner />
 
-      <EvaluationNote scope="thermometers" />
+      <MethodologyPanel guide={DG} />
 
       <SafetyNote />
 
@@ -196,6 +210,16 @@ function Page() {
         excludePath="/gear/best-thermometer-for-duck"
       />
 
+      <Section id="matrix" heading="The decision matrix">
+        <p>
+          Four categories, and the specification that decides each one. Nothing here is a ranking —
+          the rows are the questions to ask, not scores.
+        </p>
+        <DecisionMatrixTable guide={DG} />
+      </Section>
+
+      <BestForGrid guide={DG} />
+
       <Section id="compare" heading="Compare instant-read, leave-in, and a brand candidate">
         <ComparisonTable
           caption="Thermometer categories compared"
@@ -216,6 +240,20 @@ function Page() {
           </p>
         </Callout>
       </Section>
+
+      <CommercialCallout
+        heading="Where to look for an instant-read"
+        intro="One registered destination whose published catalogue lists fast-read thermometers. We name no model, and we have not tested one."
+        placement="thermometer_instant_read"
+        linkIds={["thermoworks-thermometer"]}
+        criteria={[
+          "A stated read time in low single-digit seconds, published by the manufacturer.",
+          "A thin probe tip, so a duck breast does not drain through the hole you just made.",
+          "A stated accuracy figure, plus user calibration if the model allows it.",
+          "A water-resistance rating that covers how you actually intend to clean it.",
+        ]}
+        footnote="We publish no prices, ratings, or stock claims. Check the manufacturer's own page for current specifications and terms."
+      />
 
       <ShopThisGuide
         items={[
