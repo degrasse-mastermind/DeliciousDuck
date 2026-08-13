@@ -1,0 +1,212 @@
+[
+  {
+    "version": "v1",
+    "at": "2026-08-13T05:47:47.127Z",
+    "asset": "whole-roast-duck",
+    "mode": "replace",
+    "files": [
+      "whole-roast-duck.jpg",
+      "whole-roast-duck-1400.webp",
+      "whole-roast-duck-700.webp"
+    ],
+    "backups": [
+      "whole-roast-duck__v1__2026-08-13_05-47-47.jpg",
+      "whole-roast-duck-1400__v1__2026-08-13_05-47-47.webp",
+      "whole-roast-duck-700__v1__2026-08-13_05-47-47.webp"
+    ],
+    "prompt": "a whole roast duck resting on a platter with thyme. Loose colored-pencil and fine ink-line illustration on a plain solid white background, 7:4 landscape-safe framing at about 1400x800, subject centered in the frame, sitting on the vertical centre line, subject occupying about 74% of the frame width, at least 6% clear padding on every edge so nothing crops, the subject facing the viewer straight on, generous but balanced empty paper around the subject, loose searching pencil outlines with overlapping construction strokes and open corners, hand-drawn texture, no digital gradients, muted natural palette of warm terracotta, cream, kraft tan and soft charcoal, one faint horizontal pencil line suggesting a table edge, light paper-grain hatching, on a plain solid pure white #ffffff background, no photorealism, no photography, no 3D render, no text, no watermark, no border, no colored or textured background.",
+    "settings": {
+      "intent": "variation",
+      "output": "white",
+      "aspect": "7:4",
+      "scale": 74,
+      "placement": "center",
+      "vertical": "middle",
+      "padding": 6,
+      "focal": "center",
+      "grounding": "house",
+      "negativeSpace": "balanced",
+      "palette": "house",
+      "line": "sketchy",
+      "shading": "house",
+      "temperature": "neutral",
+      "saturation": "house",
+      "contrast": "house",
+      "paperTexture": "light",
+      "detail": "house",
+      "fidelity": "faithful",
+      "model": "google/gemini-2.5-flash-image",
+      "candidates": 2
+    },
+    "model": "google/gemini-2.5-flash-image",
+    "alpha": false
+  },
+  {
+    "version": "v2",
+    "at": "2026-08-13T05:48:24.413Z",
+    "asset": "whole-roast-duck",
+    "mode": "replace",
+    "files": [
+      "whole-roast-duck.jpg",
+      "whole-roast-duck-1400.webp",
+      "whole-roast-duck-700.webp"
+    ],
+    "backups": [
+      "whole-roast-duck__v2__2026-08-13_05-48-24.jpg",
+      "whole-roast-duck-1400__v2__2026-08-13_05-48-24.webp",
+      "whole-roast-duck-700__v2__2026-08-13_05-48-24.webp"
+    ],
+    "prompt": "a whole roast duck resting on a platter with thyme. Loose colored-pencil and fine ink-line illustration on a plain solid white background, 7:4 landscape-safe framing at about 1400x800, subject centered in the frame, sitting on the vertical centre line, subject occupying about 74% of the frame width, at least 6% clear padding on every edge so nothing crops, the subject facing the viewer straight on, generous but balanced empty paper around the subject, loose searching pencil outlines with overlapping construction strokes and open corners, hand-drawn texture, no digital gradients, muted natural palette of warm terracotta, cream, kraft tan and soft charcoal, one faint horizontal pencil line suggesting a table edge, light paper-grain hatching, on a plain solid pure white #ffffff background, no photorealism, no photography, no 3D render, no text, no watermark, no border, no colored or textured background.",
+    "settings": {
+      "intent": "variation",
+      "output": "white",
+      "aspect": "7:4",
+      "scale": 74,
+      "placement": "center",
+      "vertical": "middle",
+      "padding": 6,
+      "focal": "center",
+      "grounding": "house",
+      "negativeSpace": "balanced",
+      "palette": "house",
+      "line": "sketchy",
+      "shading": "house",
+      "temperature": "neutral",
+      "saturation": "house",
+      "contrast": "house",
+      "paperTexture": "light",
+      "detail": "house",
+      "fidelity": "faithful",
+      "model": "google/gemini-2.5-flash-image",
+      "candidates": 2
+    },
+    "model": "google/gemini-2.5-flash-image",
+    "alpha": false
+  },
+  {
+    "version": "v3",
+    "at": "2026-08-13T05:48:54.496Z",
+    "asset": "whole-roast-duck",
+    "mode": "replace",
+    "files": [
+      "whole-roast-duck.jpg",
+      "whole-roast-duck-1400.webp",
+      "whole-roast-duck-700.webp"
+    ],
+    "backups": [
+      "whole-roast-duck__v3__2026-08-13_05-48-54.jpg",
+      "whole-roast-duck-1400__v3__2026-08-13_05-48-54.webp",
+      "whole-roast-duck-700__v3__2026-08-13_05-48-54.webp"
+    ],
+    "prompt": "a whole roast duck resting on a platter with thyme. Loose colored-pencil and fine ink-line illustration on a plain solid white background, 7:4 landscape-safe framing at about 1400x800, subject centered in the frame, sitting on the vertical centre line, subject occupying about 74% of the frame width, at least 6% clear padding on every edge so nothing crops, the subject facing the viewer straight on, generous but balanced empty paper around the subject, loose searching pencil outlines with overlapping construction strokes and open corners, hand-drawn texture, no digital gradients, muted natural palette of warm terracotta, cream, kraft tan and soft charcoal, one faint horizontal pencil line suggesting a table edge, light paper-grain hatching, on a plain solid pure white #ffffff background, no photorealism, no photography, no 3D render, no text, no watermark, no border, no colored or textured background.",
+    "settings": {
+      "intent": "variation",
+      "output": "white",
+      "aspect": "7:4",
+      "scale": 74,
+      "placement": "center",
+      "vertical": "middle",
+      "padding": 6,
+      "focal": "center",
+      "grounding": "house",
+      "negativeSpace": "balanced",
+      "palette": "house",
+      "line": "sketchy",
+      "shading": "house",
+      "temperature": "neutral",
+      "saturation": "house",
+      "contrast": "house",
+      "paperTexture": "light",
+      "detail": "house",
+      "fidelity": "faithful",
+      "model": "google/gemini-2.5-flash-image",
+      "candidates": 2
+    },
+    "model": "google/gemini-2.5-flash-image",
+    "alpha": false
+  },
+  {
+    "version": "v4",
+    "at": "2026-08-13T05:49:17.656Z",
+    "asset": "whole-roast-duck",
+    "mode": "replace",
+    "files": [
+      "whole-roast-duck.jpg",
+      "whole-roast-duck-1400.webp",
+      "whole-roast-duck-700.webp"
+    ],
+    "backups": [
+      "whole-roast-duck__v4__2026-08-13_05-49-17.jpg",
+      "whole-roast-duck-1400__v4__2026-08-13_05-49-17.webp",
+      "whole-roast-duck-700__v4__2026-08-13_05-49-17.webp"
+    ],
+    "prompt": "a whole roast duck resting on a platter with thyme. Loose colored-pencil and fine ink-line illustration on a plain solid white background, 7:4 landscape-safe framing at about 1400x800, subject centered in the frame, sitting on the vertical centre line, subject occupying about 74% of the frame width, at least 6% clear padding on every edge so nothing crops, the subject facing the viewer straight on, generous but balanced empty paper around the subject, loose searching pencil outlines with overlapping construction strokes and open corners, hand-drawn texture, no digital gradients, muted natural palette of warm terracotta, cream, kraft tan and soft charcoal, one faint horizontal pencil line suggesting a table edge, light paper-grain hatching, on a plain solid pure white #ffffff background, no photorealism, no photography, no 3D render, no text, no watermark, no border, no colored or textured background.",
+    "settings": {
+      "intent": "variation",
+      "output": "white",
+      "aspect": "7:4",
+      "scale": 74,
+      "placement": "center",
+      "vertical": "middle",
+      "padding": 6,
+      "focal": "center",
+      "grounding": "house",
+      "negativeSpace": "balanced",
+      "palette": "house",
+      "line": "sketchy",
+      "shading": "house",
+      "temperature": "neutral",
+      "saturation": "house",
+      "contrast": "house",
+      "paperTexture": "light",
+      "detail": "house",
+      "fidelity": "faithful",
+      "model": "google/gemini-2.5-flash-image",
+      "candidates": 2
+    },
+    "model": "google/gemini-2.5-flash-image",
+    "alpha": false
+  },
+  {
+    "version": "v1",
+    "at": "2026-08-13T05:52:08.000Z",
+    "asset": "duck-breast-pan",
+    "mode": "replace",
+    "files": [
+      "duck-breast-pan.jpg",
+      "duck-breast-pan-1400.webp",
+      "duck-breast-pan-700.webp"
+    ],
+    "backups": [
+      "duck-breast-pan__v1__2026-08-13_05-52-08.jpg",
+      "duck-breast-pan-1400__v1__2026-08-13_05-52-08.webp",
+      "duck-breast-pan-700__v1__2026-08-13_05-52-08.webp"
+    ],
+    "prompt": "a scored duck breast rendering skin-side down in a skillet. Loose colored-pencil and fine ink-line illustration on a plain solid white background, 7:4 landscape-safe framing at about 1400x800, subject centered in the frame, sitting on the vertical centre line, subject occupying about 74% of the frame width, at least 6% clear padding on every edge so nothing crops, the subject facing the viewer straight on, generous but balanced empty paper around the subject, loose searching pencil outlines with overlapping construction strokes and open corners, hand-drawn texture, no digital gradients, muted natural palette of warm terracotta, cream, kraft tan and soft charcoal, one faint horizontal pencil line suggesting a table edge plus a soft pencil-hatched cast shadow under the subject, light paper-grain hatching, on a plain solid pure white #ffffff background, no photorealism, no photography, no 3D render, no text, no watermark, no border, no colored or textured background.",
+    "settings": {
+      "intent": "variation",
+      "output": "white",
+      "aspect": "7:4",
+      "scale": 74,
+      "placement": "center",
+      "vertical": "middle",
+      "padding": 6,
+      "focal": "center",
+      "grounding": "shadow",
+      "negativeSpace": "balanced",
+      "palette": "house",
+      "line": "sketchy",
+      "shading": "house",
+      "temperature": "neutral",
+      "saturation": "house",
+      "contrast": "house",
+      "paperTexture": "light",
+      "detail": "house",
+      "fidelity": "faithful",
+      "model": "google/gemini-2.5-flash-image",
+      "candidates": 2
+    },
+    "model": "google/gemini-2.5-flash-image",
+    "alpha": false
+  }
+]

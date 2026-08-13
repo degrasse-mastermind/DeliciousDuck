@@ -319,11 +319,12 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     sendWelcome: plan.sendWelcome,
     welcomeEventStatus: row.welcome_event_status,
     token: row.preference_token,
+    apiKey,
   });
   if (!dispatch.dispatch) {
-    if (dispatch.reason === "no_token") {
+    if (dispatch.reason === "no_token" || dispatch.reason === "no_api_key") {
       // Reason only — never the token, the address, or the stored status.
-      console.warn("Welcome event skipped: no usable mailbox token on the stored row");
+      console.warn(`Welcome event skipped: ${dispatch.reason}`);
       return { outcome, resendSync: "synced", welcomeEvent: "pending" };
     }
     return { outcome, resendSync: "synced", welcomeEvent: "skipped" };
