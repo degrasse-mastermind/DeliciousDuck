@@ -109,6 +109,9 @@ export function SketchAutoLayout({
             context={slot % 2 === 0 ? "articleBreak" : "sectionBreak"}
             height={HEIGHT_BY_COLUMN[column]}
             frame={alternateFrame(slot)}
+            // First in-body band is close to the fold on long guides: load it
+            // eagerly so it never pops in as an empty frame mid-scroll.
+            eager={slot === 0}
             {...(captions?.[slot] ? { caption: captions[slot] as string } : {})}
             className="my-12"
           />,
