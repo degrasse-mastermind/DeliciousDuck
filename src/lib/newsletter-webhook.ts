@@ -56,6 +56,20 @@ export function nextStatus(current: string, incoming: ProviderStatus): ProviderS
   return statusSeverity(incoming) > statusSeverity(current) ? incoming : null;
 }
 
+/**
+ * Every status strictly weaker than `target`.
+ *
+ * This is the guard set for the conditional subscriber UPDATE: the write may
+ * only match a row still sitting on one of these, so an equal or stronger
+ * stored status is never overwritten — including when two deliveries race, or
+ * when the row changed between our lookup and our write.
+ */
+export function weakerStatuses(target: ProviderStatus): SubscriberStatus[] {
+  const ceiling = SEVERITY[target];
+  return (Object.keys(SEVERITY) as SubscriberStatus[]).filter((s) => SEVERITY[s] < ceiling);
+}
+
+
 /** Conservative RFC-ish shape check; we never construct an address ourselves. */
 export function normalizeEmail(value: unknown): string | null {
   if (typeof value !== "string") return null;
