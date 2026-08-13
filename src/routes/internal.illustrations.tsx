@@ -20,6 +20,8 @@ import {
   type SketchFocus,
   type SketchHeight,
 } from "@/components/site/SketchFigure";
+import { SketchSlot } from "@/components/site/SketchSlot";
+import { SKETCH_CONTEXTS, type SketchContext } from "@/lib/sketch-variants";
 
 /**
  * Internal illustration gallery — owner review tool, not site content.
@@ -44,6 +46,12 @@ export const Route = createFileRoute("/internal/illustrations")({
 });
 
 type Variant = "plain" | "framed" | "bleed" | "backdrop";
+type ContextChoice = SketchContext | "custom";
+
+const CONTEXTS: ContextChoice[] = [
+  "custom",
+  ...(Object.keys(SKETCH_CONTEXTS) as SketchContext[]),
+];
 type Intensity = "whisper" | "soft" | "bold";
 
 const VARIANTS: { value: Variant; label: string; hint: string }[] = [
@@ -79,19 +87,42 @@ function Control({
 const selectClass =
   "h-10 w-full rounded-sm border border-input bg-card px-3 text-sm text-foreground";
 
+const SAMPLE_COPY = (
+  <div className="px-6 py-10">
+    <p className="eyebrow text-primary">Backdrop check</p>
+    <h3 className="mt-2 font-display text-xl text-foreground">
+      Does body copy still read cleanly?
+    </h3>
+    <p className="mt-2 max-w-sm text-sm leading-relaxed text-muted-foreground">
+      Two lines of sample text at the same measure used on guide pages, so
+      contrast problems show up here rather than in production.
+    </p>
+  </div>
+);
+
 function Preview({
   art,
+  context,
   variant,
   height,
   focus,
   intensity,
 }: {
   art: SketchArt;
+  context: ContextChoice;
   variant: Variant;
   height: SketchHeight;
   focus: SketchFocus;
   intensity: Intensity;
 }) {
+  if (context !== "custom") {
+    return (
+      <SketchSlot art={art} context={context} sizes={SKETCH_SIZES.half}>
+        {SAMPLE_COPY}
+      </SketchSlot>
+    );
+  }
+
   if (variant === "backdrop") {
     return (
       <SketchBackdrop art={art} intensity={intensity} position="right">
@@ -121,6 +152,7 @@ function Preview({
 }
 
 function IllustrationGallery() {
+  const [context, setContext] = useState<ContextChoice>("custom");
   const [variant, setVariant] = useState<Variant>("framed");
   const [height, setHeight] = useState<SketchHeight>("medium");
   const [focus, setFocus] = useState<SketchFocus>("center");
@@ -162,12 +194,26 @@ function IllustrationGallery() {
       </p>
 
       <section className="mt-10 rounded-2xl border border-border bg-card p-5 lg:p-6">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+          <Control label="Layout context">
+            <select
+              className={selectClass}
+              value={context}
+              onChange={(e) => setContext(e.target.value as ContextChoice)}
+            >
+              {CONTEXTS.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </Control>
           <Control label="Variant">
             <select
               className={selectClass}
               value={variant}
               onChange={(e) => setVariant(e.target.value as Variant)}
+              disabled={context !== "custom"}
             >
               {VARIANTS.map((v) => (
                 <option key={v.value} value={v.value}>
@@ -281,6 +327,7 @@ function IllustrationGallery() {
           <figure key={key} className="min-w-0">
             <Preview
               art={SKETCH[key]}
+              context={context}
               variant={variant}
               height={height}
               focus={focus}
