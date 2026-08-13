@@ -131,13 +131,10 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
-        {
-          // @ts-ignore — Impact verification uses a non-standard `value` attribute.
-          <meta
-            name="impact-site-verification"
-            value="0a7d07f1-b741-4412-8973-aefb551b0262"
-          />
-        }
+        {createElement("meta", {
+          name: "impact-site-verification",
+          value: "0a7d07f1-b741-4412-8973-aefb551b0262",
+        } as any)}
         {/* Google Analytics 4 — loaded once globally for every route */}
         <script
           async
