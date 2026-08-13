@@ -214,7 +214,7 @@ export function SketchAside({
   const float = side === "left" ? "lg:float-left lg:mr-8" : "lg:float-right lg:ml-8";
   return (
     <figure className={`my-6 w-full lg:w-[42%] ${float} ${className}`}>
-      <SketchFigure art={art} />
+      <SketchFigure art={art} sizes={SKETCH_SIZES.aside} />
       {caption ? (
         <figcaption className="mt-2 text-sm text-muted-foreground">{caption}</figcaption>
       ) : null}
