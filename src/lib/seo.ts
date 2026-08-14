@@ -13,7 +13,7 @@ import { SITE } from "@/data/site";
  */
 export function absUrl(pathOrUrl: string): string {
   if (/^(https?:)?\/\//i.test(pathOrUrl) || pathOrUrl.startsWith("data:")) return pathOrUrl;
-  const bare = pathOrUrl.split("#")[0].split("?")[0];
+  const bare = (pathOrUrl.split("#")[0] ?? "").split("?")[0] ?? "";
   const path = bare.startsWith("/") ? bare : `/${bare}`;
   const normalized = path.replace(/\/+$/, "");
   return `${SITE.url}${normalized === "" ? "/" : normalized}`;
