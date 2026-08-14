@@ -184,10 +184,11 @@ function RootComponent() {
   useEffect(() => {
     // Campaign-level newsletter attribution for this session (no PII).
     trackEmailLanding();
-    // One `commercial_page_view` per client-visible commercial route visit.
-    // Deduped per path inside the helper, so hydration and repeat SPA
-    // navigations to the same path never double-count, and non-commercial
-    // routes emit nothing.
+    // One `commercial_page_view` per navigation that enters a commercial
+    // route. The helper suppresses effect replay for the same navigation, so
+    // A -> B -> A still counts twice for A, and non-commercial routes emit
+    // nothing.
+
     trackCommercialPageView({ path: pathname });
     if (firstView.current) {
       firstView.current = false;
