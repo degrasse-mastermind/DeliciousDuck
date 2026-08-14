@@ -185,7 +185,7 @@ function RootComponent() {
     // Campaign-level newsletter attribution for this session (no PII).
     trackEmailLanding();
     // One `commercial_page_view` per client-visible commercial route visit.
-    // Deduped per path inside the helper, so hydration and repeat SPA
+    // One per navigation that enters a commercial route; the helper suppresses
     // navigations to the same path never double-count, and non-commercial
     // routes emit nothing.
     trackCommercialPageView({ path: pathname });

@@ -162,7 +162,7 @@ describe("commercial_page_view", () => {
   it("emits A, B, A for a legitimate return navigation", () => {
     const calls = captureEvents();
     const paths = () =>
-      calls.filter((c) => c.name === "commercial_page_view").map((c) => c.params.page_path);
+      calls.filter((c) => c.name === "commercial_page_view").map((c) => c.params["page_path"]);
     trackCommercialPageView({ path: "/buy/fresh-vs-frozen-duck" });
     trackCommercialPageView({ path: "/gear/best-pan-for-duck-breast" });
     trackCommercialPageView({ path: "/buy/fresh-vs-frozen-duck" });
