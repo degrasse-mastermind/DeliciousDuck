@@ -13,6 +13,12 @@ import {
   type ClusterGroup,
 } from "./duck-breast-cluster";
 import { buildCommercialClickEvent, COMMERCIAL_EVENTS } from "./commercial-events";
+import {
+  buildCommercialPageViewEvent,
+  buildLeadMagnetDownloadEvent,
+  buildOutboundSocialClickEvent,
+  ENGAGEMENT_EVENTS,
+} from "./engagement-events";
 import type { CommercialLinkEntry } from "@/data/commercial-links";
 
 type GtagParams = Record<string, string | number | boolean | undefined>;
@@ -40,6 +46,9 @@ export const ANALYTICS_EVENTS = {
   starterGuideView: "starter_guide_view",
   starterGuidePrint: "starter_guide_print",
   duckBreastClusterClick: CLUSTER_CLICK_EVENT,
+  commercialPageView: ENGAGEMENT_EVENTS.commercialPageView,
+  leadMagnetDownload: ENGAGEMENT_EVENTS.leadMagnetDownload,
+  outboundSocialClick: ENGAGEMENT_EVENTS.outboundSocialClick,
 } as const;
 
 /** Current path, safe on the server. */
@@ -470,5 +479,89 @@ export function trackCommercialClick(input: {
     trackEvent(event.name, { ...event.params });
   } catch {
     // Analytics is best-effort. Never let it break an outbound click.
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Engagement events (DEL-8): commercial page views, lead-magnet
+ * downloads, outbound social clicks.
+ *
+ * Payloads come from the pure builders in `@/lib/engagement-events`, which
+ * emit a fixed, allowlisted parameter set. No caller-supplied parameter bag is
+ * ever spread in, so these events cannot carry an email address, subscriber id,
+ * mailbox token, full URL, or query string.
+ * ------------------------------------------------------------------ */
+
+/**
+ * One `commercial_page_view` per client-visible visit to a commercial route.
+ *
+ * Deduped per normalized path for the lifetime of the document, so neither
+ * hydration (effect running once for the initial route) nor a repeated SPA
+ * navigation to the same path double-counts. This is deliberately separate from
+ * the automatic gtag.js `page_view` and from `trackPageView`, which stay as-is.
+ *
+ * Non-commercial routes emit nothing at all: the builder returns `null`.
+ */
+const commercialPageViewsSent = new Set<string>();
+
+export function resetCommercialPageViewDedupe(): void {
+  commercialPageViewsSent.clear();
+}
+
+export function trackCommercialPageView(params: { path?: string | undefined } = {}): void {
+  try {
+    const event = buildCommercialPageViewEvent({ path: params.path ?? currentPagePath() });
+    if (!event) return;
+    if (commercialPageViewsSent.has(event.params.page_path)) return;
+    commercialPageViewsSent.add(event.params.page_path);
+    trackEvent(event.name, { ...event.params });
+  } catch {
+    // Analytics is best-effort and must never affect rendering.
+  }
+}
+
+/**
+ * The visitor actually clicked a lead-magnet download link (the Duck
+ * Fundamentals Field Guide PDF). Never fired on render or on signup success —
+ * only on the click itself.
+ */
+export function trackLeadMagnetDownload(params: {
+  assetId: string;
+  assetPath: string;
+  placement: string;
+}): void {
+  try {
+    const event = buildLeadMagnetDownloadEvent({
+      assetId: params.assetId,
+      assetPath: params.assetPath,
+      placement: params.placement,
+      sourcePath: currentPagePath(),
+    });
+    const key = ["lead_magnet", event.params.asset_id, event.params.placement, event.params.source_path].join("|");
+    if (!shouldSendClick(key)) return;
+    trackEvent(event.name, { ...event.params });
+  } catch {
+    // Never block the download.
+  }
+}
+
+/** Outbound click on a real public social profile link. Host only, no PII. */
+export function trackOutboundSocialClick(params: {
+  platform: string;
+  url: string;
+  placement: string;
+}): void {
+  try {
+    const event = buildOutboundSocialClickEvent({
+      platform: params.platform,
+      url: params.url,
+      placement: params.placement,
+      sourcePath: currentPagePath(),
+    });
+    const key = ["social", event.params.platform, event.params.placement, event.params.source_path].join("|");
+    if (!shouldSendClick(key)) return;
+    trackEvent(event.name, { ...event.params });
+  } catch {
+    // Never block the outbound click.
   }
 }

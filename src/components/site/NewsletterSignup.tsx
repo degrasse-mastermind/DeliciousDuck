@@ -16,6 +16,7 @@ import { interestForPath, newsletterContext } from "@/data/newsletter-contexts";
 import type { NewsletterInterest } from "@/data/newsletter-contexts";
 
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
+import { LeadMagnetDownloadLink } from "@/components/site/TrackedLinks";
 
 /**
  * Honest-by-default signup, with contextual promises.
@@ -205,8 +206,13 @@ export function NewsletterSignup({
                   You&apos;re subscribed. You can download the field guide right now:
                 </p>
 
-                <a
-                  href={FIELD_GUIDE.path}
+                {/*
+                  Download surface for the one first-party lead magnet. The
+                  shared tracked link emits `lead_magnet_download` on the real
+                  click only — no email, token, or query string.
+                */}
+                <LeadMagnetDownloadLink
+                  placement={`${id}_postsignup`}
                   target="_blank"
                   rel="noopener"
                   aria-label={`Download your field guide: ${FIELD_GUIDE.title} (PDF, 16 pages, opens in a new tab)`}
@@ -214,7 +220,7 @@ export function NewsletterSignup({
                 >
                   <Download aria-hidden="true" className="size-4" />
                   Download your field guide
-                </a>
+                </LeadMagnetDownloadLink>
                 <p className="mt-3 text-xs text-muted-foreground">
                   Printable PDF, 16 pages — yours right now, no email needed. Any emails come
                   from hello@deliciousduck.com.
