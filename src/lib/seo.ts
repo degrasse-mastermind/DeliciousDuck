@@ -19,7 +19,6 @@ export function absUrl(pathOrUrl: string): string {
   return `${SITE.url}${normalized === "" ? "/" : normalized}`;
 }
 
-
 export interface PageMetaInput {
   title: string;
   description: string;
