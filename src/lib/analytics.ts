@@ -493,32 +493,37 @@ export function trackCommercialClick(input: {
  * ------------------------------------------------------------------ */
 
 /**
- * One `commercial_page_view` per client-visible visit to a commercial route.
+ * One `commercial_page_view` per navigation that enters a commercial route.
  *
- * Deduped per normalized path for the lifetime of the document, so neither
- * hydration (effect running once for the initial route) nor a repeated SPA
- * navigation to the same path double-counts. This is deliberately separate from
- * the automatic gtag.js `page_view` and from `trackPageView`, which stay as-is.
+ * Semantics are per-navigation occurrence, not lifetime-unique paths: we only
+ * remember the path of the last route this helper saw. A repeated call for the
+ * same path (effect replay, StrictMode double-invoke, re-render, same-path
+ * no-op navigation) is suppressed, while a genuine return visit
+ * (A -> B -> A, or A -> non-commercial -> A) emits again.
  *
- * Non-commercial routes emit nothing at all: the builder returns `null`.
+ * Non-commercial routes emit nothing at all (the builder returns `null`) but
+ * still update the last-seen path, so leaving and coming back counts.
  */
-const commercialPageViewsSent = new Set<string>();
+let lastSeenPagePath: string | null = null;
 
 export function resetCommercialPageViewDedupe(): void {
-  commercialPageViewsSent.clear();
+  lastSeenPagePath = null;
 }
 
 export function trackCommercialPageView(params: { path?: string | undefined } = {}): void {
   try {
-    const event = buildCommercialPageViewEvent({ path: params.path ?? currentPagePath() });
+    const path = params.path ?? currentPagePath();
+    const event = buildCommercialPageViewEvent({ path });
+    const seenKey = event ? event.params.page_path : (path ?? "");
+    if (lastSeenPagePath === seenKey) return;
+    lastSeenPagePath = seenKey;
     if (!event) return;
-    if (commercialPageViewsSent.has(event.params.page_path)) return;
-    commercialPageViewsSent.add(event.params.page_path);
     trackEvent(event.name, { ...event.params });
   } catch {
     // Analytics is best-effort and must never affect rendering.
   }
 }
+
 
 /**
  * The visitor actually clicked a lead-magnet download link (the Duck
