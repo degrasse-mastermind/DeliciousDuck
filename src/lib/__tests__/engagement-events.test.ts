@@ -144,22 +144,51 @@ describe("commercial_page_view", () => {
     expect(buildCommercialPageViewEvent({ path: undefined })).toBeNull();
   });
 
-  it("fires once per route and does not double-fire on repeat visits", () => {
+  it("fires once per navigation and suppresses replay for the same navigation", () => {
     const calls = captureEvents();
+    const only = () => calls.filter((c) => c.name === "commercial_page_view");
+    // Initial hydration + StrictMode/effect replay for the same navigation.
     trackCommercialPageView({ path: "/gear/best-pan-for-duck-breast" });
     trackCommercialPageView({ path: "/gear/best-pan-for-duck-breast" });
+    // Same normalized path with a query string is still the same navigation.
     trackCommercialPageView({ path: "/gear/best-pan-for-duck-breast?utm_medium=email" });
-    expect(calls.filter((c) => c.name === "commercial_page_view")).toHaveLength(1);
+    expect(only()).toHaveLength(1);
 
+    // A later SPA navigation into another commercial route.
     trackCommercialPageView({ path: "/buy/fresh-vs-frozen-duck" });
-    expect(calls.filter((c) => c.name === "commercial_page_view")).toHaveLength(2);
+    expect(only()).toHaveLength(2);
   });
 
-  it("emits nothing for a non-commercial route", () => {
+  it("emits A, B, A for a legitimate return navigation", () => {
     const calls = captureEvents();
+    const paths = () =>
+      calls.filter((c) => c.name === "commercial_page_view").map((c) => c.params.page_path);
+    trackCommercialPageView({ path: "/buy/fresh-vs-frozen-duck" });
+    trackCommercialPageView({ path: "/gear/best-pan-for-duck-breast" });
+    trackCommercialPageView({ path: "/buy/fresh-vs-frozen-duck" });
+    expect(paths()).toEqual([
+      "/buy/fresh-vs-frozen-duck",
+      "/gear/best-pan-for-duck-breast",
+      "/buy/fresh-vs-frozen-duck",
+    ]);
+  });
+
+  it("re-emits after a detour through a non-commercial route", () => {
+    const calls = captureEvents();
+    const only = () => calls.filter((c) => c.name === "commercial_page_view");
+    trackCommercialPageView({ path: "/buy/fresh-vs-frozen-duck" });
+    trackCommercialPageView({ path: "/tools/recipe-scaler" });
+    trackCommercialPageView({ path: "/buy/fresh-vs-frozen-duck" });
+    expect(only()).toHaveLength(2);
+  });
+
+  it("emits nothing for a non-commercial route, even on replay", () => {
+    const calls = captureEvents();
+    trackCommercialPageView({ path: "/tools/recipe-scaler" });
     trackCommercialPageView({ path: "/tools/recipe-scaler" });
     expect(calls).toHaveLength(0);
   });
+
 
   it("is wired to client route changes in the root route, separate from page_view", () => {
     const root = read("src/routes/__root.tsx");
