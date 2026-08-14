@@ -2,14 +2,23 @@ import { SITE } from "@/data/site";
 
 /**
  * Absolutises an internal path against the production origin.
+ *
+ * Query strings and hash fragments are stripped and trailing slashes are
+ * removed (except for the homepage, which canonicalises to
+ * `https://deliciousduck.com/`), so canonical and og:url always point at the
+ * one preferred, indexable form of the page.
+ *
  * Already-absolute URLs (http/https, protocol-relative, or data URIs)
  * are returned untouched so bundled asset URLs and external links survive.
  */
 export function absUrl(pathOrUrl: string): string {
   if (/^(https?:)?\/\//i.test(pathOrUrl) || pathOrUrl.startsWith("data:")) return pathOrUrl;
-  const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
-  return `${SITE.url}${path === "/" ? "/" : path.replace(/\/$/, "")}`;
+  const bare = (pathOrUrl.split("#")[0] ?? "").split("?")[0] ?? "";
+  const path = bare.startsWith("/") ? bare : `/${bare}`;
+  const normalized = path.replace(/\/+$/, "");
+  return `${SITE.url}${normalized === "" ? "/" : normalized}`;
 }
+
 
 export interface PageMetaInput {
   title: string;
