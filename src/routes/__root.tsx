@@ -20,6 +20,7 @@ import {
   trackEmailLanding,
   trackPageView,
 } from "@/lib/analytics";
+import { capturePostHogPageView, initPostHog } from "@/lib/posthog";
 
 function gtagInitScript(measurementId: string) {
   return `
@@ -181,6 +182,10 @@ function RootComponent() {
 
   // gtag.js auto-tracks only the first load; send a page_view per SPA route.
   const firstView = useRef(true);
+  // PostHog: initialize once at startup, alongside (never replacing) GA4.
+  useEffect(() => {
+    initPostHog();
+  }, []);
   useEffect(() => {
     // Campaign-level newsletter attribution for this session (no PII).
     trackEmailLanding();
@@ -190,6 +195,8 @@ function RootComponent() {
     // nothing.
 
     trackCommercialPageView({ path: pathname });
+    // Manual PostHog pageview per navigation, including the first load.
+    capturePostHogPageView(pathname);
     if (firstView.current) {
       firstView.current = false;
       return;
