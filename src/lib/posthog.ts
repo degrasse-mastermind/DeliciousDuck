@@ -27,8 +27,7 @@ export function initPostHog(): void {
       capture_pageview: false,
       capture_pageleave: true,
       autocapture: true,
-made_no_op: undefined as never,
-    } as Parameters<typeof posthog.init>[1]);
+    });
   } catch {
     // Analytics must never break the app.
   }
