@@ -20,6 +20,7 @@ import {
   ENGAGEMENT_EVENTS,
 } from "./engagement-events";
 import type { CommercialLinkEntry } from "@/data/commercial-links";
+import { captureEvent } from "./posthog";
 
 type GtagParams = Record<string, string | number | boolean | undefined>;
 
@@ -218,6 +219,21 @@ export function trackAffiliateClick(params: {
     email_attributed: isEmailAttributedSession(),
     email_campaign: emailAttribution()?.campaign,
   });
+
+  // PostHog mirror of the same non-sensitive properties.
+  captureEvent(ANALYTICS_EVENTS.affiliateClick, {
+    merchant: params.merchant ?? merchantFromUrl(params.linkUrl),
+    merchant_id: params.merchantId,
+    offer_label: params.linkText,
+    destination_host: merchantFromUrl(params.linkUrl),
+    placement: params.placement,
+    link_type: linkType,
+    destination_type: destinationType,
+    affiliate: isAffiliate,
+    content_type: params.contentType ?? contentTypeFromPath(path),
+    content_slug: params.contentSlug ?? contentSlugFromPath(path),
+    source_path: path,
+  });
 }
 
 /* ------------------------------------------------------------------ *
@@ -365,6 +381,15 @@ export function trackNewsletterSignup(params: {
     source_path: path,
     content_slug: contentSlugFromPath(path),
   });
+
+  // PostHog mirror — placement / lead magnet source and path only, no PII.
+  captureEvent(ANALYTICS_EVENTS.newsletterSignup, {
+    placement: params.placement,
+    source: params.source,
+    interest: params.interest,
+    source_path: path,
+    content_slug: contentSlugFromPath(path),
+  });
 }
 
 /** Click inside the post-signup "Start here while you wait" module. No PII. */
@@ -477,6 +502,7 @@ export function trackCommercialClick(input: {
     ].join("|");
     if (!shouldSendClick(key)) return;
     trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
   } catch {
     // Analytics is best-effort. Never let it break an outbound click.
   }
