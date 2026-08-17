@@ -89,10 +89,11 @@ function Page() {
 
       <Section id="verdict" heading="The verdict, before the detail">
         <p>
-          This is a table-size decision more than a taste decision. Turkey scales; duck does not.
-          One bird feeds roughly four people as a main course, so a duck Thanksgiving is a small
-          Thanksgiving — or a two-bird one.
+          This is a table-size decision more than a taste decision. Turkey scales; duck does not. A
+          duck gives you noticeably less edible meat per bird than a turkey of similar size, so a
+          duck Thanksgiving is usually a smaller Thanksgiving — or a two-bird one.
         </p>
+
         <Callout label="Choose duck if">
           <p>
             You are cooking for two to six, you want a centrepiece that tastes like a restaurant
