@@ -286,6 +286,195 @@ function Page() {
         </Callout>
       </Section>
 
+      <Section id="timing" heading="Oven time and oven space, using USDA's own planning ranges">
+        <p>
+          Both USDA guides publish approximate roasting ranges for meal planning. They are planning
+          numbers, not doneness rules: in every case the bird is done when a food thermometer reads
+          165°F (73.9°C) in the thickest part of the meat, away from bone.
+        </p>
+        <DataTable
+          caption="Approximate USDA planning ranges for whole birds — for scheduling only, subordinate to a thermometer reading"
+          columns={["Bird", "Oven", "Approximate range (USDA)"]}
+          rows={[
+            [
+              "Whole duckling, 4 to 6 lb",
+              "350°F",
+              "Approximately 30 to 35 min/lb. USDA's duck chart also says not to stuff a whole duckling.",
+            ],
+            [
+              "Unstuffed turkey, 8 to 12 pounds",
+              "325°F or higher",
+              "Approximately 2¾ to 3 hours.",
+            ],
+            [
+              "Unstuffed turkey, 20 to 24 pounds",
+              "325°F or higher",
+              "Approximately 4½ to 5 hours.",
+            ],
+          ]}
+        />
+        <p>
+          Read across those rows and the scaling difference becomes an oven problem rather than a
+          taste one. A bigger turkey mostly costs you time in the same pan. A bigger duck dinner costs
+          you hardware: a second bird needs its own space for air to circulate, its own share of the
+          rack, and somewhere for its rendering fat to collect. Before you commit to duck for a large
+          group, measure the rack and count the roasting pans you actually own.
+        </p>
+        <SourceNotes
+          ids={["usdaPoultryPrep", "usdaTurkeyRoasting"]}
+          id="timing-sources"
+          heading="Timing references"
+        />
+      </Section>
+
+      <Section id="method" heading="Our two-stage roast versus USDA's single-temperature chart">
+        <p>
+          The range above comes from USDA's single-temperature planning chart. Our own{" "}
+          <Link to="/cook/whole-roast-duck" className="text-primary underline underline-offset-4">
+            whole roast duck
+          </Link>{" "}
+          method is two-stage: a gentler first stretch to render the fat cap without setting the
+          skin, then a hot finish to crisp it. That is a recipe-method preference for texture — not a
+          safety alternative and not a claim that USDA's chart is wrong.
+        </p>
+        <p>
+          Because the oven temperature changes partway through, a two-stage roast will not track the
+          single-temperature range minute for minute. Use the chart to pick a serving time, then let
+          the thermometer decide when the bird comes out; our{" "}
+          <Link to="/learn/whole-duck-cooking-time" className="text-primary underline underline-offset-4">
+            whole duck cooking time
+          </Link>{" "}
+          guide explains where weight-based planning and temperature-based doneness diverge.
+        </p>
+      </Section>
+
+      <Section id="menu" heading="What each bird does to the rest of the menu">
+        <p>
+          This part is editorial pairing guidance from our kitchen, not USDA fact. Turkey is a canvas:
+          mild enough that gravy, stuffing, brine and herbs supply most of the flavour, which is
+          exactly why the classic Thanksgiving table is built the way it is. Duck arrives with its own
+          flavour already loud — darker, richer, closer to red meat — so the sides have a different
+          job.
+        </p>
+        <p>
+          What we reach for with duck is contrast rather than more richness: acidity, tart fruit,
+          bitter or peppery greens, and sweetness kept deliberately restrained so the plate does not
+          tip into dessert. Our{" "}
+          <Link
+            to="/ingredients/best-acid-for-duck"
+            className="text-primary underline underline-offset-4"
+          >
+            acid pairing guide
+          </Link>
+          ,{" "}
+          <Link
+            to="/cook/best-sauces-for-duck-breast"
+            className="text-primary underline underline-offset-4"
+          >
+            duck sauces
+          </Link>{" "}
+          and{" "}
+          <Link
+            to="/cook/what-to-serve-with-duck-breast"
+            className="text-primary underline underline-offset-4"
+          >
+            what to serve with duck
+          </Link>{" "}
+          set out the combinations we actually cook. A traditional gravy-and-stuffing spread can still
+          work around a duck, but it will taste like two competing dinners unless something on the
+          plate cuts through.
+        </p>
+      </Section>
+
+      <Section id="alternatives" heading="You do not have to roast a whole bird">
+        <p>
+          A whole bird is the default holiday image, not a requirement. If the table is small, the
+          oven is already full, or you simply do not want to manage a whole roast on the day, duck
+          gives you two escapes a turkey does not offer as neatly.
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5">
+          <li>
+            <span className="font-semibold text-foreground">Duck breast, portioned.</span> Cooked on
+            the stovetop and finished to your preferred doneness, it frees the oven entirely and is
+            served in slices rather than carved at the table. See{" "}
+            <Link
+              to="/cook/how-to-cook-duck-breast"
+              className="text-primary underline underline-offset-4"
+            >
+              how to cook duck breast
+            </Link>{" "}
+            and the{" "}
+            <Link to="/recipes/pan-seared-duck-breast" className="text-primary underline underline-offset-4">
+              pan-seared duck breast recipe
+            </Link>
+            .
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Legs, made ahead.</span> Confit legs can
+            be cooked days in advance and crisped while everything else rests, which turns the
+            centrepiece into a reheating job on the day. See{" "}
+            <Link to="/cook/duck-leg-confit" className="text-primary underline underline-offset-4">
+              duck leg confit
+            </Link>{" "}
+            and the{" "}
+            <Link to="/recipes/duck-leg-confit" className="text-primary underline underline-offset-4">
+              confit recipe
+            </Link>
+            .
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Or the whole bird anyway.</span> If the
+            presentation is the point, our{" "}
+            <Link to="/recipes/roasted-whole-duck" className="text-primary underline underline-offset-4">
+              roasted whole duck recipe
+            </Link>{" "}
+            is the version we cook.
+          </li>
+        </ul>
+        <p>
+          Turkey has portioned routes too — a breast joint, or legs braised separately — so this is
+          not a case of one bird being flexible and the other not. What differs is that duck's
+          portioned cuts are the ones most home cooks are already comfortable buying and cooking.
+        </p>
+      </Section>
+
+      <Section id="framework" heading="Duck alongside turkey, or duck instead of turkey">
+        <p>
+          Most hosts asking this question are really choosing between three plans, and the deciding
+          factors are your kitchen and your guests rather than any number we could publish.
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5">
+          <li>
+            <span className="font-semibold text-foreground">Turkey, as the anchor.</span> One oven, a
+            large or tradition-minded crowd, and a menu already built around gravy and stuffing.
+            Adding a duck here mostly costs you oven space you do not have.
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Duck, instead.</span> A smaller or
+            adventurous table, or more than one oven, plus a willingness to rethink the sides. This is
+            where duck stops being a novelty and becomes the better dinner.
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Both, unevenly.</span> A mixed table is
+            best served by a turkey anchor plus duck breast or legs — not a second whole bird. You get
+            the ritual and the interesting plate without doubling the roasting hardware.
+          </li>
+        </ul>
+        <p>
+          Whichever plan you pick, settle the quantity before the shopping: turkey against USDA's per
+          person allowance, duck through the{" "}
+          <Link
+            to="/tools/whole-duck-serving-calculator"
+            className="text-primary underline underline-offset-4"
+          >
+            serving calculator
+          </Link>{" "}
+          and its stated assumptions.
+        </p>
+      </Section>
+
+
+
       <Section id="logistics" heading="What each bird does to your day">
         <p>
           Turkey is a scheduling problem: it is large, it is slow, and it owns the oven. Duck is an
