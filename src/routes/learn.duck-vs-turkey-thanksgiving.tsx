@@ -46,7 +46,7 @@ export const Route = createFileRoute("/learn/duck-vs-turkey-thanksgiving")({
 const FAQ = [
   {
     q: "How many people does one duck feed at Thanksgiving?",
-    a: "Plan on about four people per whole duck for a main course, because a duck carries a lot of fat and bone relative to meat. Our serving calculator works from roughly 40% edible cooked yield, so two birds is the realistic answer for a table of eight — not one larger duck.",
+    a: "Fewer than a turkey of similar size, because a duck carries more fat and bone relative to edible meat. We do not publish that as a fixed ratio: put your guest count and appetite into our whole-duck serving calculator, which shows the planning assumptions it uses and returns the number of birds and the raw weight to order. USDA's own turkey guide, by contrast, gives a planning allowance of 1 lb of turkey per person.",
   },
   {
     q: "Can I cook duck and turkey in the same oven?",
@@ -66,9 +66,10 @@ const FAQ = [
   },
   {
     q: "When should I order a duck for Thanksgiving?",
-    a: "Earlier than you think, because holiday duck usually ships frozen and thawing is on your calendar, not the seller's. Work backward from the cooking date: refrigerator thawing runs roughly 24 hours per 5 lb, then add the seller's stated transit window and a buffer day.",
+    a: "Earlier than you think, because holiday duck usually ships frozen and thawing is on your calendar, not the seller's. Work backward from the cooking date: USDA allows approximately 24 hours of refrigerator thawing for every 4 to 5 lb, then add the seller's stated transit window and a buffer day.",
   },
 ];
+
 
 function Page() {
   return (
