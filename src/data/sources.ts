@@ -67,8 +67,8 @@ export const SOURCES: Record<string, SourceRef> = {
     id: "usdaTurkeyRoasting",
     label: "Let's Talk Turkey — A Consumer Guide to Safely Roasting a Turkey",
     publisher: "USDA Food Safety and Inspection Service",
-    url: "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/lets-talk-turkey-consumer-guide-safely-roasting-turkey",
-    note: "USDA's consumer guide for turkey: safe thawing, roasting, thermometer placement, doneness and standing time. Use it for turkey-specific timing rather than any figure we publish.",
+    url: "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/lets-talk-turkey-roasting",
+    note: "USDA's consumer guide for turkey: the 1 lb per person planning allowance, refrigerator thawing at roughly 24 hours per 4 to 5 lb, the 165°F minimum internal temperature, and a 20-minute stand before carving. Use it for turkey-specific figures rather than any of our own.",
     checked: "2026-08",
   },
 

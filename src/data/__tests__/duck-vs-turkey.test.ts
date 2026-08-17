@@ -73,10 +73,64 @@ describe("duck vs turkey holiday decision guide", () => {
       expect(SOURCES[id], `unknown source ${id}`).toBeTruthy();
       expect(SOURCES[id]!.url.startsWith("https://")).toBe(true);
     }
-    expect(acquisitionPage(PATH)!.sourceIds).toContain("usdaTurkeyRoasting");
-    // Every temperature claim on the page is the USDA poultry minimum.
+    const ids = acquisitionPage(PATH)!.sourceIds;
+    for (const required of [
+      "usdaPoultryTemp",
+      "usdaTurkeyRoasting",
+      "usdaThawing",
+      "usdaDangerZone",
+      "usdaLeftovers",
+    ]) {
+      expect(ids, `missing source ${required}`).toContain(required);
+    }
+    // Current official FSIS URL for the turkey consumer guide.
+    expect(SOURCES["usdaTurkeyRoasting"]!.url).toBe(
+      "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/lets-talk-turkey-roasting",
+    );
+    // No obsolete FSIS paths anywhere in the registry.
+    for (const source of Object.values(SOURCES)) {
+      expect(source.url.includes("lets-talk-turkey-consumer-guide")).toBe(false);
+    }
+    // Only USDA-verified temperature figures appear on the page.
     const temps = code.match(/\d{2,3}°F/g) ?? [];
-    expect(new Set(temps)).toEqual(new Set(["165°F", "140°F", "40°F"]));
+    expect(new Set(temps)).toEqual(new Set(["165°F", "140°F", "90°F", "40°F"]));
+    // Verified USDA turkey figures, each attributed to USDA in the same sentence.
+    expect(code).toContain("24 hours of refrigerator thawing for every 4 to 5 lb");
+    expect(code).toContain("20-minute stand");
+    expect(code).toContain("one hour if the room");
+    expect(code).toContain("three to four days");
+  });
+
+  it("attributes the 1 lb per person allowance to USDA and to turkey only", () => {
+    const mentions = code.match(/[^.]*1 lb[^.]*\./g) ?? [];
+    expect(mentions.length).toBeGreaterThan(0);
+    for (const sentence of mentions) {
+      expect(sentence, `unattributed allowance: ${sentence}`).toMatch(/USDA/);
+      expect(sentence).toMatch(/turkey/i);
+      expect(sentence.toLowerCase().includes("duck")).toBe(false);
+    }
+  });
+
+  it("publishes no edible-yield percentage or servings-per-bird figure for duck", () => {
+    expect(code.includes("40%")).toBe(false);
+    expect(/\d+\s*%/.test(code)).toBe(false);
+    for (const banned of [
+      "four servings per bird",
+      "one bird for four",
+      "feeds roughly four",
+      "about four people",
+      "four people per whole duck",
+      "edible cooked yield",
+      "of raw weight",
+    ]) {
+      expect(code.toLowerCase().includes(banned.toLowerCase()), `page states "${banned}"`).toBe(
+        false,
+      );
+    }
+    // Readers are sent to the calculator, framed as a planning estimate.
+    expect(code).toContain("/tools/whole-duck-serving-calculator");
+    expect(code.toLowerCase()).toContain("planning assumptions");
+    expect(code.toLowerCase()).toContain("less edible meat");
   });
 
   it("invents no prices, testing, or popularity data", () => {

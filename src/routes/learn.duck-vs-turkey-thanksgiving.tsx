@@ -46,7 +46,7 @@ export const Route = createFileRoute("/learn/duck-vs-turkey-thanksgiving")({
 const FAQ = [
   {
     q: "How many people does one duck feed at Thanksgiving?",
-    a: "Plan on about four people per whole duck for a main course, because a duck carries a lot of fat and bone relative to meat. Our serving calculator works from roughly 40% edible cooked yield, so two birds is the realistic answer for a table of eight — not one larger duck.",
+    a: "Fewer than a turkey of similar size, because a duck carries more fat and bone relative to edible meat. We do not publish that as a fixed ratio: put your guest count and appetite into our whole-duck serving calculator, which shows the planning assumptions it uses and returns the number of birds and the raw weight to order. USDA's own turkey guide, by contrast, gives a planning allowance of 1 lb of turkey per person.",
   },
   {
     q: "Can I cook duck and turkey in the same oven?",
@@ -66,9 +66,10 @@ const FAQ = [
   },
   {
     q: "When should I order a duck for Thanksgiving?",
-    a: "Earlier than you think, because holiday duck usually ships frozen and thawing is on your calendar, not the seller's. Work backward from the cooking date: refrigerator thawing runs roughly 24 hours per 5 lb, then add the seller's stated transit window and a buffer day.",
+    a: "Earlier than you think, because holiday duck usually ships frozen and thawing is on your calendar, not the seller's. Work backward from the cooking date: USDA allows approximately 24 hours of refrigerator thawing for every 4 to 5 lb, then add the seller's stated transit window and a buffer day.",
   },
 ];
+
 
 function Page() {
   return (
@@ -88,10 +89,11 @@ function Page() {
 
       <Section id="verdict" heading="The verdict, before the detail">
         <p>
-          This is a table-size decision more than a taste decision. Turkey scales; duck does not.
-          One bird feeds roughly four people as a main course, so a duck Thanksgiving is a small
-          Thanksgiving — or a two-bird one.
+          This is a table-size decision more than a taste decision. Turkey scales; duck does not. A
+          duck gives you noticeably less edible meat per bird than a turkey of similar size, so a
+          duck Thanksgiving is usually a smaller Thanksgiving — or a two-bird one.
         </p>
+
         <Callout label="Choose duck if">
           <p>
             You are cooking for two to six, you want a centrepiece that tastes like a restaurant
@@ -130,9 +132,10 @@ function Page() {
             ],
             [
               "Serving yield",
-              "Low. Roughly 40% of raw weight as edible cooked meat, so about one bird for four people.",
-              "High. A single large bird is the standard answer for a big table.",
+              "Lower. More fat and frame relative to edible meat, so plan the count with our serving calculator rather than by bird size.",
+              "Higher. USDA's turkey guide gives a planning allowance of 1 lb of turkey per person, so one large bird covers a big table.",
             ],
+
             [
               "Oven and logistics",
               "Sheds a great deal of fat that must be drained or managed; wants dry skin and a rack. Rewards attention.",
@@ -162,28 +165,32 @@ function Page() {
         />
       </Section>
 
-      <Section id="yield" heading="Yield is the decision, not the flavour">
+      <Section id="yield" heading="Serving capacity is the decision, not the flavour">
         <p>
           Most duck Thanksgivings go wrong at the shopping stage. A whole duck looks like a small
-          turkey and behaves like a large chicken with a fat layer: the frame is heavy, the fat cap
-          is substantial, and the edible cooked meat lands near 40% of the raw weight. Plan for
-          about four servings per bird and buy accordingly — two birds for eight, three for twelve.
+          turkey and behaves like a large chicken with a fat layer: the frame is heavy and the fat
+          cap is substantial, so a duck simply carries less edible meat than a turkey that weighs
+          about the same. Buy for the meat you will actually carve, not for the number on the label.
         </p>
         <p>
-          Rather than doing that arithmetic by hand, put your guest count and appetite into the{" "}
+          For turkey there is an official planning number to lean on — USDA's consumer guide allows
+          1 lb of turkey per person. There is no equivalent USDA allowance for duck, and we are not
+          going to invent one. Instead, put your guest count and appetite into the{" "}
           <Link
             to="/tools/whole-duck-serving-calculator"
             className="text-primary underline underline-offset-4"
           >
             whole-duck serving calculator
           </Link>
-          , which returns the number of birds and the raw weight to order. If you are weighing a
-          whole bird against portioned cuts, our{" "}
+          , which states the planning assumptions it uses and returns the number of birds and the
+          raw weight to order. If you are weighing a whole bird against portioned cuts, our{" "}
           <Link to="/buy/how-much-duck-per-person" className="text-primary underline underline-offset-4">
             how much duck per person
           </Link>{" "}
-          guide sets out the same assumptions in prose.
+          guide sets out the same assumptions in prose. Treat both as our planning estimates rather
+          than established fact.
         </p>
+
         <Callout label="Two birds, one oven">
           <p>
             Two ducks roast happily side by side if air can circulate between them and the fat has
@@ -203,13 +210,14 @@ function Page() {
         <ul className="mt-4 list-disc space-y-3 pl-5">
           <li>
             <span className="font-semibold text-foreground">Thawing is calendar, not cooking.</span>{" "}
-            USDA lists three safe methods — refrigerator, cold water and microwave — and
-            refrigerator thawing runs roughly 24 hours per 5 lb. Our{" "}
+            USDA lists three safe methods — refrigerator, cold water and microwave — and allows
+            approximately 24 hours of refrigerator thawing for every 4 to 5 lb of bird. Our{" "}
             <Link to="/learn/how-to-thaw-duck" className="text-primary underline underline-offset-4">
               thawing guide
             </Link>{" "}
             has the weight-based times and the cold-water fallback.
           </li>
+
           <li>
             <span className="font-semibold text-foreground">Dry skin beats any basting trick.</span>{" "}
             An uncovered day in the refrigerator does more for duck skin than anything you can do in
@@ -244,8 +252,8 @@ function Page() {
           </li>
           <li>
             <span className="font-semibold text-foreground">Rest, then carve.</span> Both birds
-            carve better after a rest. For turkey, follow the standing time in USDA's own consumer
-            guide, linked in the references below; for duck, our{" "}
+            carve better after a rest. USDA's turkey guide asks for a 20-minute stand before
+            carving, for quality rather than safety, so the juices set; for duck, our{" "}
             <Link to="/learn/how-to-carve-a-duck" className="text-primary underline underline-offset-4">
               carving guide
             </Link>{" "}
@@ -261,21 +269,20 @@ function Page() {
         </p>
         <SafetyNote>
           <p>
-            The same 165°F (73.9°C) minimum applies to turkey. For turkey-specific thawing,
-            roasting and standing times we point you to USDA's consumer guide rather than publishing
-            figures of our own — it is the first reference listed below.
+            USDA puts all poultry, duck and turkey alike, at a minimum internal temperature of 165°F
+            (73.9°C). For turkey-specific figures — the 1 lb per person allowance, refrigerator
+            thawing at approximately 24 hours per 4 to 5 lb, and the 20-minute stand — follow USDA's
+            own consumer guide rather than any timing of ours. Every source is listed below.
           </p>
         </SafetyNote>
         <p>
-          Two more rules travel with a holiday meal regardless of species: perishable food should
-          not sit between 40°F and 140°F (4.4°C and 60°C) for more than two hours, and cooked
-          poultry keeps three to four days in the refrigerator, reheated to 165°F (73.9°C).
+          Two more rules travel with a holiday meal regardless of species: perishable food should not
+          sit between 40°F and 140°F (4.4°C and 60°C) for more than two hours — one hour if the room
+          is above 90°F (32.2°C) — and cooked poultry keeps three to four days in the refrigerator,
+          reheated to 165°F (73.9°C).
         </p>
-        <SourceNotes
-          ids={["usdaPoultryTemp", "usdaTurkeyRoasting", "usdaThawing"]}
-          id="safety-sources"
-          heading="Safety references"
-        />
+        <SourceNotes ids={PAGE.sourceIds} id="safety-sources" heading="Safety references" />
+
 
       </Section>
 
