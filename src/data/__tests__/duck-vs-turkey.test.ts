@@ -84,7 +84,7 @@ describe("duck vs turkey holiday decision guide", () => {
       expect(ids, `missing source ${required}`).toContain(required);
     }
     // Current official FSIS URL for the turkey consumer guide.
-    expect(SOURCES.usdaTurkeyRoasting!.url).toBe(
+    expect(SOURCES["usdaTurkeyRoasting"]!.url).toBe(
       "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/lets-talk-turkey-roasting",
     );
     // No obsolete FSIS paths anywhere in the registry.
