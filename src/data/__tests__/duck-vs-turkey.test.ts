@@ -9,6 +9,8 @@ const PATH = "/learn/duck-vs-turkey-thanksgiving";
 const FILE = "src/routes/learn.duck-vs-turkey-thanksgiving.tsx";
 const code = readFileSync(FILE, "utf8");
 /** Answer strings from the single FAQ array the page renders and serializes. */
+/** Page source with whitespace collapsed, for assertions on wrapped prose. */
+const NORM = code.replace(/\s+/g, " ");
 const FAQ_TEXT = (code.slice(code.indexOf("const FAQ = ["), code.indexOf("function Page()")).match(
   /a: "(?:[^"\\]|\\.)*"/g,
 ) ?? []).map((m) => m.slice(4, -1));
@@ -203,7 +205,7 @@ describe("duck vs turkey holiday decision guide", () => {
     expect(code).toContain("Unstuffed turkey, 20 to 24 pounds");
     // Every range is labelled approximate and subordinate to the thermometer.
     expect(code.toLowerCase()).toContain("approximate");
-    expect(code).toContain("planning numbers, not doneness rules");
+    expect(NORM).toContain("planning numbers, not doneness rules");
     // Cited next to the claim, not only in the page footer.
     expect(code).toContain('id="timing-sources"');
     expect(code).toContain('ids={["usdaPoultryPrep", "usdaTurkeyRoasting"]}');
@@ -214,7 +216,7 @@ describe("duck vs turkey holiday decision guide", () => {
 
   it("frames the two-stage roast as method, not a safety alternative", () => {
     expect(code).toContain('id="method"');
-    expect(code).toContain("not a\n          safety alternative");
+    expect(NORM).toContain("not a safety alternative");
     expect(code).toContain("/learn/whole-duck-cooking-time");
   });
 
@@ -228,8 +230,8 @@ describe("duck vs turkey holiday decision guide", () => {
     expect(SOURCES["usdaStuffing"]!.url).toBe(
       "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/stuffing-and-food-safety",
     );
-    for (const banned of ["stuffing is fine", "perfectly fine to stuff", "safe to stuff the cavity"]) {
-      expect(code.toLowerCase().includes(banned)).toBe(false);
+    for (const banned of ["stuffing is fine", "perfectly fine to stuff", "it is safe to stuff"]) {
+      expect(NORM.toLowerCase().includes(banned), `page claims "${banned}"`).toBe(false);
     }
   });
 
@@ -264,7 +266,7 @@ describe("duck vs turkey holiday decision guide", () => {
     expect(code.match(/<NewsletterSignup/g)!.length).toBe(1);
     expect(code.match(/<DecisionNextSteps/g)!.length).toBe(1);
     // Duck is framed as a different centrepiece, not a turkey substitute.
-    expect(code.toLowerCase()).toContain("does not do a turkey's job");
+    expect(NORM.toLowerCase()).toContain("does not do a turkey's job");
     // Pairing guidance is marked editorial rather than USDA fact.
     expect(code).toContain("editorial pairing guidance");
     // Portioned alternatives link verified recipe routes via the dynamic route.
