@@ -52,6 +52,38 @@ function DisclosurePage() {
               is implied.
             </p>
           </div>
+          <div>
+            <h2 className="font-display text-2xl text-foreground">
+              Affiliate links, sponsorship, and independent coverage
+            </h2>
+            <p className="mt-3">
+              These are three different things, and we keep them separate.
+            </p>
+            <ul className="mt-4 space-y-3">
+              <li className="border-l-2 border-accent pl-4">
+                <strong className="text-foreground">Affiliate links</strong> may earn us a commission
+                after a qualifying action, such as a purchase made through the link. The retailer
+                pays it; you pay the same price.
+              </li>
+              <li className="border-l-2 border-accent pl-4">
+                <strong className="text-foreground">Sponsorship or paid placement</strong> means a
+                brand paid for the placement itself. If we ever accept it, the material will be
+                visibly labelled &ldquo;Sponsored&rdquo; at the top of the page and again beside any
+                relevant call to action.
+              </li>
+              <li className="border-l-2 border-accent pl-4">
+                <strong className="text-foreground">Independent editorial coverage</strong> is
+                everything else: written on our own initiative, with no money attached to the
+                decision to write it.
+              </li>
+            </ul>
+            <p className="mt-4">
+              Sponsorship cannot buy a ranking, a conclusion, positive coverage, or the omission of
+              alternatives. And a merchant relationship of any kind is not evidence of hands-on
+              testing or endorsement — where we have not tested something, we say so.
+            </p>
+          </div>
+
 
           <div>
             <h2 className="font-display text-2xl text-foreground">What commissions never change</h2>
