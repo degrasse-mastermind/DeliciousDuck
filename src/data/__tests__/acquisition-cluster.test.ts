@@ -254,15 +254,18 @@ describe("cluster discoverability and back-links", () => {
     }
   });
 
-  it("is linked back from the sourcing decision guide and the buy hub", () => {
-    const hub = readFileSync("src/routes/buy.index.tsx", "utf8");
+  it("is linked back from its own pillar hub and the sourcing decision guide", () => {
+    const buyHub = readFileSync("src/routes/buy.index.tsx", "utf8");
+    const learnHub = readFileSync("src/routes/learn.index.tsx", "utf8");
     const sourcing = guideByPath("/buy/where-to-buy-duck-online")!;
     for (const page of ACQUISITION_PAGES) {
-      expect(hub.includes(page.path), `buy hub does not link ${page.path}`).toBe(true);
+      const hub = page.path.startsWith("/buy/") ? buyHub : learnHub;
+      expect(hub.includes(page.path), `pillar hub does not link ${page.path}`).toBe(true);
     }
     expect(sourcing.related).toContain("/buy/what-cut-of-duck-to-buy");
     expect(sourcing.related).toContain("/buy/fresh-vs-frozen-duck");
   });
+
 
   it("connects the mail-order thaw path in both directions", () => {
     const thaw = readFileSync("src/routes/learn.how-to-thaw-duck.tsx", "utf8");
