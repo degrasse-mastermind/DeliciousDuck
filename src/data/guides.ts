@@ -491,7 +491,28 @@ export const GUIDES: GuideEntry[] = [
       "/learn/how-to-score-duck-breast",
     ],
   },
+  {
+    path: "/learn/duck-vs-turkey-thanksgiving",
+    title: "Duck vs. Turkey for Thanksgiving",
+    seoTitle: "Duck vs. Turkey for Thanksgiving | DeliciousDuck",
+    description:
+      "Duck or turkey for Thanksgiving? An honest side-by-side on flavour, serving yield, oven logistics, leftovers and guest familiarity — plus who should choose each and how to plan either.",
+    teaser: "The verdict up front, then the tradeoffs nobody mentions until the oven is full.",
+    pillar: "learn",
+    cluster: "whole-duck",
+    kind: "reference",
+    minutes: 10,
+    related: [
+      "/cook/whole-roast-duck",
+      "/tools/whole-duck-serving-calculator",
+      "/learn/whole-duck-cooking-time",
+      "/learn/how-to-thaw-duck",
+      "/buy/where-to-buy-duck-online",
+      "/gear/best-thermometer-for-duck",
+    ],
+  },
 ];
+
 
 export const guideByPath = (path: string): GuideEntry | undefined =>
   GUIDES.find((g) => g.path === path);
