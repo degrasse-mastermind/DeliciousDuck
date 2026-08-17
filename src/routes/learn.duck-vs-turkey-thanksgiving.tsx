@@ -52,12 +52,28 @@ const FAQ = [
     a: "Fewer than a turkey of similar size, because a duck carries more fat and bone relative to edible meat. We do not publish that as a fixed ratio: put your guest count and appetite into our whole-duck serving calculator, which shows the planning assumptions it uses and returns the number of birds and the raw weight to order. USDA's own turkey guide, by contrast, gives a planning allowance of 1 lb of turkey per person.",
   },
   {
+    q: "Which takes longer in the oven, a whole duck or a whole turkey?",
+    a: "The turkey, in almost every real holiday scenario, because it is a much heavier bird. USDA's approximate planning chart for duck lists a whole duckling of 4 to 6 lb at roughly 30 to 35 min/lb in a 350°F oven. USDA's turkey chart, at an oven set no lower than 325°F, lists an unstuffed bird of 8 to 12 pounds at approximately 2¾ to 3 hours and one of 20 to 24 pounds at approximately 4½ to 5 hours. Both charts are for meal planning only — doneness is a thermometer reading of 165°F (73.9°C), not a clock.",
+  },
+  {
     q: "Can I cook duck and turkey in the same oven?",
-    a: "You can, but not comfortably at the same time. Both want space around them, and a duck sheds a lot of rendering fat that has to go somewhere. If you want both birds, roast the duck first, rest it while the turkey finishes, and carve the duck last.",
+    a: "You can, but not comfortably at the same time. Both want space around them, the two USDA planning charts assume different oven settings, and a duck sheds a lot of rendering fat that has to go somewhere. If you want both birds, roast the duck first, rest it while the turkey finishes, and carve the duck last.",
   },
   {
     q: "Does duck need a different internal temperature than turkey?",
     a: "No. USDA guidance puts all poultry, duck and turkey alike, at a minimum internal temperature of 165°F (73.9°C), measured with a food thermometer in the thickest part and away from bone. The lower temperatures you see for duck breast are a culinary convention, not a safety recommendation, and they are a separate question from a whole roasted holiday bird.",
+  },
+  {
+    q: "Is duck harder to carve than turkey?",
+    a: "It is a different shape rather than a harder job. A duck is narrower and its breast sits closer to the frame, so you take the legs off at the joint and lift each breast off the bone in one piece instead of carving broad slices off a standing bird. Our carving guide walks through the order that keeps the skin intact; either bird carves better after a rest, and USDA's turkey guide asks for a 20-minute stand before carving for quality.",
+  },
+  {
+    q: "Can you make gravy from duck drippings?",
+    a: "Yes, but the drippings behave differently. Most of what collects in a duck pan is clear rendered fat, which you pour off and keep rather than thicken; the gravy comes from the smaller layer of browned juices underneath, loosened with stock or wine. A turkey pan gives you far more of that juice-to-fat ratio, which is why turkey gravy is the easier default. Editorially, we would build a duck sauce around acidity or tart fruit instead of chasing a thick roux gravy.",
+  },
+  {
+    q: "Is it safe to stuff the cavity of a duck or a turkey?",
+    a: "USDA recommends cooking stuffing separately, in a casserole, for optimal safety and more uniform doneness — and its duck planning chart says not to stuff a whole duckling. If you do stuff a bird, stuff it loosely just before roasting, and use a food thermometer to confirm that the center of the stuffing itself reaches 165°F (73.9°C), not only the meat. Stuffing that has not reached that temperature when the bird is done needs more cooking.",
   },
   {
     q: "Is duck harder to cook than turkey?",
