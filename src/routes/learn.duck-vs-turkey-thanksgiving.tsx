@@ -293,7 +293,7 @@ function Page() {
           165°F (73.9°C) in the thickest part of the meat, away from bone.
         </p>
         <DataTable
-          caption="Approximate USDA planning ranges for whole birds — for scheduling only, subordinate to a thermometer reading"
+          caption="Approximate USDA planning ranges for whole birds — scheduling only"
           columns={["Bird", "Oven", "Approximate range (USDA)"]}
           rows={[
             [
@@ -582,7 +582,7 @@ function Page() {
           our editorial read of the tradeoffs, not a scoring system.
         </p>
         <DataTable
-          caption="Which bird each practical constraint points towards"
+          caption="Which bird each constraint points towards"
           columns={["Constraint", "Points to duck", "Points to turkey"]}
           rows={[
             [
