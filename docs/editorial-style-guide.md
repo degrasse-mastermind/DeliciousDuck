@@ -35,6 +35,18 @@ Facts stay exact. Attribution gets quiet.
   must be labelled as culinary reading rather than safety guidance.
 - Keep `checked` dates in `src/data/sources.ts` accurate.
 
+## Preferred vocabulary
+
+- Say **"official safe minimum"** (or "the official minimum" / "the official safety
+  minimum" in headings) when contrasting the 165°F (73.9°C) poultry minimum with
+  culinary convention. Do not label the number "the USDA number" or the heading
+  "USDA safety minimum" — the attribution lives in the notes.
+- Attribution stays **quiet**: the fact in body copy, the source in `<SourceMark />`,
+  `<SourceNotes />`, or the registry.
+- For products we have researched but not cooked with, say **"hands-on review
+  pending"** — never "not because we have tested it" or any phrasing that implies
+  testing either way.
+
 ## Claims we do not make
 
 - No "we tested", "reader-approved", "foolproof", or "kitchen verified" unless a
@@ -43,6 +55,7 @@ Facts stay exact. Attribution gets quiet.
 - No editorial pairing opinion presented as a food-safety or measurement fact. Label
   it: "editorial pairing guidance from our kitchen".
 - No calculator assumption restated as an established fact.
+
 
 ## Structure
 

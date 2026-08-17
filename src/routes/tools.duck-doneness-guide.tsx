@@ -32,8 +32,9 @@ export const Route = createFileRoute("/tools/duck-doneness-guide")({
 
 const FAQ = [
   {
-    q: "Why does breast doneness differ from USDA guidance?",
-    a: "USDA sets one minimum safe temperature — 165°F (73.9°C) — for all poultry. A widely used culinary convention cooks duck breast rosier than that for texture. That convention is a choice, not a safety endorsement.",
+    q: "Why is duck breast sometimes served below the official safe minimum?",
+    a: "The official safe minimum for all poultry is 165°F (73.9°C). A widely used culinary convention cooks duck breast rosier than that for texture. That convention is a choice, not a safety endorsement.",
+
   },
   {
     q: "What is carryover cooking?",

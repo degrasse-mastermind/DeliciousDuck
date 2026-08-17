@@ -96,8 +96,35 @@ describe("editorial voice: unsupported claims", () => {
     }
     expect(offenders).toEqual([]);
   });
-
+  it("uses 'hands-on review pending' rather than testing-flavoured hedges", () => {
+    const gear = readFileSync(join(ROUTES, "gear.index.tsx"), "utf8");
+    expect(gear).toContain("hands-on review pending");
+    expect(gear).not.toMatch(/not because we have tested/i);
+  });
 });
+
+describe("editorial voice: preferred safety vocabulary", () => {
+  it("labels structural safety headings by the official minimum, not the authority", () => {
+    const offenders = publicFiles
+      .filter((p) => /Food safety: the USDA number|USDA safety minimum/.test(readFileSync(p, "utf8")))
+      .map((p) => p.replace(process.cwd() + "/", ""));
+    expect(offenders).toEqual([]);
+
+    const safetyNote = readFileSync(join(COMPONENTS, "site/SafetyNote.tsx"), "utf8");
+    expect(safetyNote).toContain("Food safety: the official minimum");
+  });
+
+  it("keeps the doneness FAQ question and schema in sync on the official-minimum wording", async () => {
+    const route = readFileSync(join(ROUTES, "tools.duck-doneness-guide.tsx"), "utf8");
+    expect(route).toContain("Why is duck breast sometimes served below the official safe minimum?");
+    expect(route).not.toMatch(/Why does breast doneness differ from USDA guidance\?/);
+    // One FAQ array feeds both the visible list and the schema.
+    expect(route.match(/Why is duck breast sometimes served below the official safe minimum\?/g))
+      .toHaveLength(1);
+    expect(route).toContain("165°F (73.9°C)");
+  });
+});
+
 
 describe("editorial voice: the style guide is discoverable", () => {
   it("exists and is linked from the README", () => {

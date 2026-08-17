@@ -73,8 +73,10 @@ function GearPage() {
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               We describe what a tool does and why it matters for duck specifically. We do not
               publish star ratings, review counts, or prices, and we do not claim hands-on testing we
-              have not done. Where a brand is named, it is because its published specifications are
-              useful to compare — not because we have tested it.
+              have not done. Where a brand is named, it is included for comparison based on published
+              specifications; hands-on review pending.
+
+
             </p>
             <Link
               to="/editorial-standards"
