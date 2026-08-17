@@ -546,8 +546,80 @@ function Page() {
             </Link>{" "}
             takes it apart in the order that keeps the skin intact.
           </li>
+          <li>
+            <span className="font-semibold text-foreground">Order early, then buffer.</span> Holiday
+            duck is usually a speciality order that ships frozen, so the seller's stated transit
+            window is part of your timeline, not an afterthought. Add a spare day for a late delivery
+            before you count backwards from the meal.
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Check the refrigerator, not just the
+            oven.</span> A thawing bird needs a tray on a low shelf for a day or more, and a duck you
+            are drying wants to sit uncovered. Two ducks take up roughly twice that space, at exactly
+            the time of year the refrigerator is fullest.
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Count your pans.</span> Each bird needs a
+            pan deep enough to hold the fat it renders and a rack that keeps it out of that fat. This
+            is the practical ceiling on a duck holiday: hardware, not appetite.
+          </li>
         </ul>
+
+        <Callout label="Plan backwards from the meal">
+          <p>
+            Serving time, then: rest before carving; roast, using the approximate ranges above only to
+            pick a start time; final skin-drying in the refrigerator if you are roasting duck;
+            refrigerator thawing at approximately 24 hours per 4 to 5 lb; delivery, plus the transit
+            window your seller quotes; and a buffer day before that. Order on the date that falls out
+            of the bottom of that list, not the date that feels early enough.
+          </p>
+        </Callout>
       </Section>
+
+      <Section id="constraints" heading="Choose by constraint">
+        <p>
+          If the comparison table did not settle it, work down your own constraints instead. This is
+          our editorial read of the tradeoffs, not a scoring system.
+        </p>
+        <DataTable
+          caption="Which bird each practical constraint points towards"
+          columns={["Constraint", "Points to duck", "Points to turkey"]}
+          rows={[
+            [
+              "Guest familiarity",
+              "Guests who enjoy being surprised, or a table you cook for often enough to experiment with.",
+              "A fixed crowd that came for the tradition, or guests who would quietly mind the change.",
+            ],
+            [
+              "Oven capacity",
+              "A second oven, or a table small enough for the birds and pans you already own.",
+              "One oven that also has to handle the sides — a single larger bird is the simpler occupant.",
+            ],
+            [
+              "Desired leftovers",
+              "You would rather have a jar of rendered fat and a stock carcass than a stack of cold slices.",
+              "Sandwiches and soup for the rest of the week are part of the point of the holiday.",
+            ],
+            [
+              "Menu richness",
+              "You are happy to build sides around acidity, tart fruit and bitter greens.",
+              "You want the classic gravy-and-stuffing spread to stay exactly as it is.",
+            ],
+            [
+              "Presentation",
+              "A compact, restaurant-looking centrepiece, or elegant slices plated in the kitchen.",
+              "The big carve-at-the-table moment, which a heavier bird simply does better.",
+            ],
+            [
+              "Cooking methods available",
+              "Stovetop searing or make-ahead confit can take the centrepiece off the oven entirely.",
+              "A long, mostly unattended roast fits a day where you cannot stand over the stove.",
+            ],
+          ]}
+        />
+      </Section>
+
+
 
       <Section id="safety" heading="The safety numbers, and where they come from">
         <p>
