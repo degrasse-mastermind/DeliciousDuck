@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
 import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_MERCHANTS, MERCHANT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -286,6 +287,12 @@ function Page() {
       <div className="mt-14">
         <NewsletterSignup id="field-guide" interest="sourcing" />
       </div>
+
+      <ConversionPaths
+        sourcePath="/buy/where-to-buy-duck-online"
+        eyebrow="After it arrives"
+        intro="Plan the thaw before you plan the dinner."
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

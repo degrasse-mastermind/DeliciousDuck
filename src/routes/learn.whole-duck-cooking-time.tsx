@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
@@ -149,6 +150,12 @@ function WholeDuckCookingTimePage() {
       </Section>
 
       <FaqList items={FAQ} />
+
+      <ConversionPaths
+        sourcePath="/learn/whole-duck-cooking-time"
+        eyebrow="Verify the finish"
+        intro="These ranges plan the roast; a probe reading ends it."
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

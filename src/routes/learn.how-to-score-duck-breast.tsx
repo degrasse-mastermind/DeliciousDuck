@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ArticleShell, Section, DataTable, StepList } from "@/components/site/ArticleShell";
 import { QuackFix } from "@/components/site/QuackFix";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
@@ -167,6 +168,12 @@ function Page() {
             prevent: "Carry the scoring pattern edge to edge, including the tapered ends",
           },
         ]}
+      />
+
+      <ConversionPaths
+        sourcePath="/learn/how-to-score-duck-breast"
+        eyebrow="Choosing the blade"
+        intro="The knife decision this cut actually depends on."
       />
 
       <RelatedGuides paths={GUIDE.related} />

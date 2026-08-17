@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, FaqList } from "@/components/site/ArticleShell";
 import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { KNIVES, KNIFE_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -242,6 +243,12 @@ function Page() {
         intro="Scoring is one cut inside a longer cook. Here is everything either side of it."
         placement="knife_in_context"
         excludePath="/gear/best-knife-for-scoring-duck"
+      />
+
+      <ConversionPaths
+        sourcePath="/gear/best-knife-for-scoring-duck"
+        eyebrow="Read this first"
+        intro="The cut this blade has to make."
       />
 
       <RelatedGuides paths={GUIDE.related} />

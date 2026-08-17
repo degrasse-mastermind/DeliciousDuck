@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, FaqList } from "@/components/site/ArticleShell";
 import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { PANS, PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -232,6 +233,12 @@ function Page() {
       />
 
       <FaqList items={FAQ} />
+
+      <ConversionPaths
+        sourcePath="/gear/best-pan-for-duck-breast"
+        eyebrow="Read this first"
+        intro="Check whether the pan is really your limiting factor."
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

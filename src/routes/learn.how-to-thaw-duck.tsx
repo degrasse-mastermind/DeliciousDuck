@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
@@ -173,6 +174,12 @@ function HowToThawDuckPage() {
       <FaqList items={FAQ} />
 
       <SourceNotes ids={["usdaThawing", "usdaDangerZone", "usdaPoultryPrep"]} />
+
+      <ConversionPaths
+        sourcePath="/learn/how-to-thaw-duck"
+        eyebrow="Before the thaw"
+        intro="How the bird reached you shapes the thaw plan."
+      />
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>
