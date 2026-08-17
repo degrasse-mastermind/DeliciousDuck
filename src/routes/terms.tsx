@@ -115,12 +115,17 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
       <p>
         If you spot an error — especially anything safety-related — tell us at{" "}
         <a
-          href="mailto:corrections@deliciousduck.com"
+          href="mailto:hello@deliciousduck.com?subject=Correction"
           className="text-primary underline underline-offset-4"
         >
-          corrections@deliciousduck.com
+          hello@deliciousduck.com
         </a>{" "}
-        and we will review and correct it.
+        with &ldquo;Correction&rdquo; in the subject line, and we will review and correct it. Other
+        ways to reach us are listed on our{" "}
+        <a href="/contact" className="text-primary underline underline-offset-4">
+          contact page
+        </a>
+        .
       </p>
     ),
   },

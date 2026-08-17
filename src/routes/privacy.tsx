@@ -21,10 +21,10 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
         DeliciousDuck.com is an independent editorial site about buying, preparing, and cooking
         duck. This policy explains what data the site handles, why, and what choices you have. If
         you have a question or a request about your data, contact us at{" "}
-        <a href="mailto:privacy@deliciousduck.com" className="text-primary underline underline-offset-4">
-          privacy@deliciousduck.com
-        </a>
-        .
+        <a href="mailto:hello@deliciousduck.com" className="text-primary underline underline-offset-4">
+          hello@deliciousduck.com
+        </a>{" "}
+        with &ldquo;Privacy request&rdquo; in the subject line.
       </p>
     ),
   },
@@ -143,10 +143,10 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
       <p>
         Depending on where you live, you may have the right to access, correct, export, or delete
         personal data we hold about you, to object to processing, and to withdraw consent. Email{" "}
-        <a href="mailto:privacy@deliciousduck.com" className="text-primary underline underline-offset-4">
-          privacy@deliciousduck.com
+        <a href="mailto:hello@deliciousduck.com" className="text-primary underline underline-offset-4">
+          hello@deliciousduck.com
         </a>{" "}
-        and we will respond within 30 days. Because we hold very little data, most requests can be
+        with &ldquo;Privacy request&rdquo; in the subject line and we will respond within 30 days. Because we hold very little data, most requests can be
         answered quickly.
       </p>
     ),
@@ -165,8 +165,9 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
     heading: "Changes to this policy",
     body: (
       <p>
-        If we start collecting anything materially new — including switching the newsletter on — we
-        will update this page and note the change here before that collection begins.
+        If anything materially new is introduced — a new category of data, a new purpose for data we
+        already hold, or a new provider that processes it — we will update this page and note the
+        change here before that change takes effect.
       </p>
     ),
   },
