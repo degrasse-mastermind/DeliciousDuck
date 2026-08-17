@@ -1,8 +1,8 @@
-import { describe, expect, it, beforeEach, afterEach } from "vitest";
-import { Route } from "@/routes/api/generate-sketch";
+import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
+import { handleGenerateSketch } from "@/routes/api/generate-sketch";
 
 function post(body: BodyInit | null, headers?: Record<string, string>) {
-  return Route.server.handlers.POST({
+  return handleGenerateSketch({
     request: new Request("http://localhost:8080/api/generate-sketch", {
       method: "POST",
       body,
@@ -13,7 +13,6 @@ function post(body: BodyInit | null, headers?: Record<string, string>) {
 
 describe("POST /api/generate-sketch", () => {
   const originalEnv = process.env["NODE_ENV"];
-  const originalFetch = globalThis.fetch;
 
   beforeEach(() => {
     process.env["NODE_ENV"] = "development";
@@ -22,23 +21,19 @@ describe("POST /api/generate-sketch", () => {
 
   afterEach(() => {
     process.env["NODE_ENV"] = originalEnv;
-    if (originalFetch) globalThis.fetch = originalFetch;
-    else delete (globalThis as Record<string, unknown>).fetch;
+    vi.unstubAllGlobals();
   });
 
   it("returns 403 Disabled in production before parsing or calling the gateway", async () => {
     process.env["NODE_ENV"] = "production";
-    let fetchCalled = false;
-    globalThis.fetch = async () => {
-      fetchCalled = true;
-      return new Response("should not reach", { status: 200 });
-    };
+    const fetchSpy = vi.fn().mockResolvedValue(new Response("should not reach", { status: 200 }));
+    vi.stubGlobal("fetch", fetchSpy);
 
     const res = await post("not valid json", { "Content-Type": "application/json" });
 
     expect(res.status).toBe(403);
     expect(await res.text()).toBe("Disabled");
-    expect(fetchCalled).toBe(false);
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 
   it("reaches normal validation in development and returns a 400 for malformed JSON", async () => {
@@ -49,11 +44,15 @@ describe("POST /api/generate-sketch", () => {
   });
 
   it("forwards a valid non-streaming request to the AI gateway in development", async () => {
-    globalThis.fetch = async () =>
-      new Response(JSON.stringify({ data: [{ b64_json: "abc123" }] }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        new Response(JSON.stringify({ data: [{ b64_json: "abc123" }] }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ),
+    );
 
     const res = await post(
       JSON.stringify({ prompt: "a hand-drawn roast duck for a recipe article", stream: false }),
