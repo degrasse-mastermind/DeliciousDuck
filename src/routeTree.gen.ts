@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as BuyRouteImport } from './routes/buy'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookRouteImport } from './routes/cook'
 import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
 import { Route as GearRouteImport } from './routes/gear'
@@ -103,6 +104,11 @@ const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
 const BuyRoute = BuyRouteImport.update({
   id: '/buy',
   path: '/buy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CookRoute = CookRouteImport.update({
@@ -490,6 +496,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRouteWithChildren
+  '/contact': typeof ContactRoute
   '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRouteWithChildren
@@ -566,6 +573,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
+  '/contact': typeof ContactRoute
   '/editorial-standards': typeof EditorialStandardsRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
@@ -638,6 +646,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/buy': typeof BuyRouteWithChildren
+  '/contact': typeof ContactRoute
   '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
   '/gear': typeof GearRouteWithChildren
@@ -717,6 +726,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/affiliate-disclosure'
     | '/buy'
+    | '/contact'
     | '/cook'
     | '/editorial-standards'
     | '/gear'
@@ -793,6 +803,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/affiliate-disclosure'
+    | '/contact'
     | '/editorial-standards'
     | '/privacy'
     | '/search'
@@ -864,6 +875,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/affiliate-disclosure'
     | '/buy'
+    | '/contact'
     | '/cook'
     | '/editorial-standards'
     | '/gear'
@@ -942,6 +954,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   BuyRoute: typeof BuyRouteWithChildren
+  ContactRoute: typeof ContactRoute
   CookRoute: typeof CookRouteWithChildren
   EditorialStandardsRoute: typeof EditorialStandardsRoute
   GearRoute: typeof GearRouteWithChildren
@@ -996,6 +1009,13 @@ declare module '@tanstack/react-router' {
       path: '/buy'
       fullPath: '/buy'
       preLoaderRoute: typeof BuyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cook': {
@@ -1659,6 +1679,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   BuyRoute: BuyRouteWithChildren,
+  ContactRoute: ContactRoute,
   CookRoute: CookRouteWithChildren,
   EditorialStandardsRoute: EditorialStandardsRoute,
   GearRoute: GearRouteWithChildren,

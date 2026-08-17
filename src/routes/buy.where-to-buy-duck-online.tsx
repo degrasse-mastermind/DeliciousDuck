@@ -123,8 +123,9 @@ function Page() {
 
       <Section id="fresh-frozen" heading="Fresh vs. frozen: what frozen really costs you in planning">
         <p>
-          Almost all mail-order duck ships frozen — it's the only way to guarantee food safety across
-          a multi-day transit. That's not a downgrade on quality, but it is a planning cost: a whole
+          Almost all mail-order duck ships frozen — it is a common way for sellers to maintain a cold
+          chain across multi-day transit, though safe arrival still depends on how the box is
+          packed, how long it is in transit, and how quickly you refrigerate it. That's not a downgrade on quality, but it is a planning cost: a whole
           duck can take 24–48 hours to thaw safely in the refrigerator, and you need to build that
           into your schedule before the day you intended to cook. See{" "}
           <Link to="/learn/how-to-thaw-duck" className="text-primary underline underline-offset-4">

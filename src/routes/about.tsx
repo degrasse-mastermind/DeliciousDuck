@@ -83,7 +83,15 @@ function AboutPage() {
           <Link to="/affiliate-disclosure" className="text-primary underline underline-offset-4">
             affiliate disclosure
           </Link>{" "}
-          for how commercial links are handled.
+          for how commercial links are handled, our{" "}
+          <Link to="/editorial-standards" className="text-primary underline underline-offset-4">
+            editorial standards
+          </Link>{" "}
+          for how pages are written and corrected, or{" "}
+          <Link to="/contact" className="text-primary underline underline-offset-4">
+            contact us
+          </Link>{" "}
+          with a question or correction.
         </p>
       </section>
     </>

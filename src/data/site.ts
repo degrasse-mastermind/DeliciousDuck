@@ -145,6 +145,7 @@ export const FOOTER_COLUMNS: { title: string; links: { label: string; to: string
 ];
 
 export const LEGAL_LINKS = [
+  { label: "Contact", to: "/contact" },
   { label: "Privacy", to: "/privacy" },
   { label: "Terms", to: "/terms" },
   { label: "Editorial Standards", to: "/editorial-standards" },
