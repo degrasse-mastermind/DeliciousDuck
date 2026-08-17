@@ -71,11 +71,13 @@ export function VerdictChoice({
                         placement: link.placement,
                       })
                     }
-                    className="group flex min-h-11 items-start gap-2 text-sm font-semibold text-primary underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                    className="group flex min-h-11 items-start gap-2 text-sm font-semibold text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   >
                     <span>
-                      {link.anchor}
-                      <span className="mt-0.5 block text-xs font-normal not-italic text-muted-foreground no-underline">
+                      <span className="underline underline-offset-4 group-hover:decoration-2">
+                        {link.anchor}
+                      </span>
+                      <span className="mt-0.5 block text-xs font-normal text-muted-foreground">
                         {link.why}
                       </span>
                     </span>
