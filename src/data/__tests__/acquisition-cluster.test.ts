@@ -229,6 +229,9 @@ describe("acquisition cluster route files", () => {
       "/tools/what-should-i-cook",
       "/tools/duck-fat-render-calculator",
       "/tools/duck-pairing-finder",
+      // Dynamic recipe route: the slug is validated separately against
+      // RECIPES in the recipe-content registry.
+      "/recipes/$slug",
     ]);
     for (const page of ACQUISITION_PAGES) {
       const code = src(page.path);
