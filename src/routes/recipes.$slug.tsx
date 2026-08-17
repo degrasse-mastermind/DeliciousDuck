@@ -8,6 +8,7 @@ import {
   StepList,
 } from "@/components/site/ArticleShell";
 import { ShopThisGuide } from "@/components/site/Commerce";
+import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
 import { RecipeTrustBox } from "@/components/site/RecipeTrustBox";
@@ -16,6 +17,7 @@ import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { recipeContentBySlug, recipeBySlug, recipePath } from "@/data/recipe-content";
+import { RECIPE_CONVERSION_SLUGS } from "@/data/conversion-paths";
 import { formatMinutes, isoDuration, totalTimeMinutes } from "@/data/recipes";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import {
@@ -173,6 +175,14 @@ function RecipePage() {
           ))}
         </ul>
       </Section>
+
+      {(RECIPE_CONVERSION_SLUGS as readonly string[]).includes(slug) && (
+        <RecipeConversionPaths
+          slug={slug}
+          equipment={content.equipment}
+          sourcing={content.sourcing}
+        />
+      )}
 
       <Section id="before-you-start" heading="Before you start">
         {content.before.map((block) => (
