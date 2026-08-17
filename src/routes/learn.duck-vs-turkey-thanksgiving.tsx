@@ -421,7 +421,11 @@ function Page() {
               duck leg confit
             </Link>{" "}
             and the{" "}
-            <Link to="/recipes/duck-leg-confit" className="text-primary underline underline-offset-4">
+            <Link
+              to="/recipes/$slug"
+              params={{ slug: "duck-leg-confit" }}
+              className="text-primary underline underline-offset-4"
+            >
               confit recipe
             </Link>
             .
