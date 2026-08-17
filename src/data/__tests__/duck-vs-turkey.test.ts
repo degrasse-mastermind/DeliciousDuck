@@ -2,11 +2,16 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
+import { recipeBySlug } from "@/data/recipe-content";
 import { SOURCES } from "@/data/sources";
 
 const PATH = "/learn/duck-vs-turkey-thanksgiving";
 const FILE = "src/routes/learn.duck-vs-turkey-thanksgiving.tsx";
 const code = readFileSync(FILE, "utf8");
+/** Answer strings from the single FAQ array the page renders and serializes. */
+const FAQ_TEXT = (code.slice(code.indexOf("const FAQ = ["), code.indexOf("function Page()")).match(
+  /a: "(?:[^"\\]|\\.)*"/g,
+) ?? []).map((m) => m.slice(4, -1));
 
 describe("duck vs turkey holiday decision guide", () => {
   it("is registered once in both registries", () => {
@@ -91,9 +96,11 @@ describe("duck vs turkey holiday decision guide", () => {
     for (const source of Object.values(SOURCES)) {
       expect(source.url.includes("lets-talk-turkey-consumer-guide")).toBe(false);
     }
-    // Only USDA-verified temperature figures appear on the page.
+    // Only USDA-verified temperature figures appear on the page: the 165°F
+    // minimum, the danger-zone/leftover figures, and the two oven settings that
+    // USDA's own planning charts use (350°F for duckling, 325°F for turkey).
     const temps = code.match(/\d{2,3}°F/g) ?? [];
-    expect(new Set(temps)).toEqual(new Set(["165°F", "140°F", "90°F", "40°F"]));
+    expect(new Set(temps)).toEqual(new Set(["165°F", "140°F", "90°F", "40°F", "350°F", "325°F"]));
     // Verified USDA turkey figures, each attributed to USDA in the same sentence.
     expect(code).toContain("24 hours of refrigerator thawing for every 4 to 5 lb");
     expect(code).toContain("20-minute stand");
@@ -183,5 +190,98 @@ describe("duck vs turkey holiday decision guide", () => {
     const hits = (text.match(/thanksgiving/g) ?? []).length;
     expect(hits).toBeGreaterThan(2);
     expect(hits).toBeLessThan(20);
+  });
+  it("locks USDA's approximate roasting ranges and their attribution", () => {
+    // Duck: FSIS "Duck and Goose from Farm to Table" planning chart.
+    expect(code).toContain("30 to 35 min/lb");
+    expect(code).toContain("350°F");
+    expect(code).toContain("Whole duckling, 4 to 6 lb");
+    // Turkey: FSIS "Let's Talk Turkey" unstuffed chart at an oven no lower than 325°F.
+    expect(code).toContain("2¾ to 3 hours");
+    expect(code).toContain("4½ to 5 hours");
+    expect(code).toContain("Unstuffed turkey, 8 to 12 pounds");
+    expect(code).toContain("Unstuffed turkey, 20 to 24 pounds");
+    // Every range is labelled approximate and subordinate to the thermometer.
+    expect(code.toLowerCase()).toContain("approximate");
+    expect(code).toContain("planning numbers, not doneness rules");
+    // Cited next to the claim, not only in the page footer.
+    expect(code).toContain('id="timing-sources"');
+    expect(code).toContain('ids={["usdaPoultryPrep", "usdaTurkeyRoasting"]}');
+    expect(SOURCES["usdaPoultryPrep"]!.url).toBe(
+      "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/duck-and-goose-farm-table",
+    );
+  });
+
+  it("frames the two-stage roast as method, not a safety alternative", () => {
+    expect(code).toContain('id="method"');
+    expect(code).toContain("not a\n          safety alternative");
+    expect(code).toContain("/learn/whole-duck-cooking-time");
+  });
+
+  it("states USDA stuffing guidance without calling cavity stuffing fine", () => {
+    const stuffing = FAQ_TEXT.find((t) => t.toLowerCase().includes("stuffing"))!;
+    expect(stuffing).toBeTruthy();
+    expect(stuffing).toMatch(/USDA recommends cooking stuffing separately/);
+    expect(stuffing).toMatch(/165°F/);
+    expect(stuffing.toLowerCase()).toContain("center of the stuffing");
+    expect(acquisitionPage(PATH)!.sourceIds).toContain("usdaStuffing");
+    expect(SOURCES["usdaStuffing"]!.url).toBe(
+      "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/stuffing-and-food-safety",
+    );
+    for (const banned of ["stuffing is fine", "perfectly fine to stuff", "safe to stuff the cavity"]) {
+      expect(code.toLowerCase().includes(banned)).toBe(false);
+    }
+  });
+
+  it("publishes no banned yield, serving or guest-count thresholds", () => {
+    const text = (code + JSON.stringify(acquisitionPage(PATH))).toLowerCase();
+    for (const banned of [
+      "40% edible",
+      "four servings per duck",
+      "feeds 4-6",
+      "feeds 4 to 6",
+      "feeds four to six",
+      "two to six",
+      "10 or more guests",
+      "ten or more guests",
+      "three ducks",
+      "12-person turkey",
+      "pekin ducks weigh",
+      "commercial pekin",
+    ]) {
+      expect(text.includes(banned), `claims "${banned}"`).toBe(false);
+    }
+    // No fixed guest-count verdict anywhere in the decision framing.
+    expect(/feeds\s+\d/.test(text)).toBe(false);
+    expect(/cooking for (two|three|four|five|six|\d)/.test(text)).toBe(false);
+  });
+
+  it("adds the expanded decision material and keeps the single-unit layout", () => {
+    for (const id of ["timing", "method", "menu", "alternatives", "framework", "constraints"]) {
+      expect(code.includes(`id="${id}"`), `missing section ${id}`).toBe(true);
+    }
+    expect(code.match(/<VerdictChoice/g)!.length).toBe(1);
+    expect(code.match(/<NewsletterSignup/g)!.length).toBe(1);
+    expect(code.match(/<DecisionNextSteps/g)!.length).toBe(1);
+    // Duck is framed as a different centrepiece, not a turkey substitute.
+    expect(code.toLowerCase()).toContain("does not do a turkey's job");
+    // Pairing guidance is marked editorial rather than USDA fact.
+    expect(code).toContain("editorial pairing guidance");
+    // Portioned alternatives link verified recipe routes via the dynamic route.
+    for (const slug of ["pan-seared-duck-breast", "duck-leg-confit", "roasted-whole-duck"]) {
+      expect(code.includes(`slug: "${slug}"`), `missing recipe link ${slug}`).toBe(true);
+      expect(recipeBySlug(slug), `unknown recipe ${slug}`).toBeTruthy();
+    }
+    // Unique analytics placements on the one conversion unit.
+    const placements = code.match(/placement: "([^"]+)"/g) ?? [];
+    expect(new Set(placements).size).toBe(placements.length);
+  });
+
+  it("keeps FAQ schema synchronized with the rendered FAQ list", () => {
+    // FAQ is a single source array rendered once and serialized once.
+    expect(code.match(/const FAQ = \[/g)!.length).toBe(1);
+    expect(code.match(/faqSchema\(FAQ\)/g)!.length).toBe(1);
+    expect(code.match(/<FaqList items=\{FAQ\} \/>/g)!.length).toBe(1);
+    expect(FAQ_TEXT.length).toBeGreaterThanOrEqual(9);
   });
 });
