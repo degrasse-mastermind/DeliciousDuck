@@ -95,7 +95,7 @@ function Page() {
     <ArticleShell
       eyebrow="Learn · Whole duck"
       title={GUIDE.title}
-      intro="Duck against turkey, judged on the things you can actually observe in a kitchen: how each one eats, how much of it you get, what it does to your oven, and what you are left with on Friday."
+      intro="Duck is not a smaller turkey. It is a different centrepiece for a different table and a different menu — so this compares them on the things you can actually observe in a kitchen: how each one eats, how it scales, what it does to your oven, and what you are left with on Friday."
       trail={[
         { name: "Learn", to: "/learn" },
         { name: GUIDE.title, to: GUIDE.path },
