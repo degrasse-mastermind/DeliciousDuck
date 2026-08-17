@@ -50,7 +50,7 @@ function Page() {
         </p>
       </Section>
 
-      <SafetyNote heading="USDA safety minimum" />
+      <SafetyNote heading="The official safety minimum" />
 
       <Section id="doneness-table" heading="Doneness table: pull temperature, final temperature, appearance">
         <p>
