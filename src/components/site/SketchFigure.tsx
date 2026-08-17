@@ -57,6 +57,9 @@ export function SketchFigure({
       : `h-full w-full object-contain ${HEIGHT_CLASS[height]} ${FOCUS_CLASS[focus]}`;
 
   const srcSet = sketchSrcSet(art.src);
+  // Transparent-alpha art already has no paper to knock out; multiplying it
+  // would darken the drawing against the cream surface.
+  const blend = art.transparent ? "select-none" : SKETCH_RENDER.blend;
 
   return (
     <img
@@ -68,7 +71,7 @@ export function SketchFigure({
       loading={eager ? "eager" : "lazy"}
       fetchPriority={eager ? "high" : "low"}
       decoding="async"
-      className={`${SKETCH_RENDER.blend} ${sizing} ${className}`}
+      className={`${blend} ${sizing} ${className}`}
     />
   );
 }
@@ -142,6 +145,7 @@ export function SketchBackdrop({
   rounded?: boolean;
 }) {
   const opacity = SKETCH_RENDER.intensity[intensity];
+  const backdropBlend = art.transparent ? "" : SKETCH_RENDER.blend;
   const backdropSrcSet = sketchSrcSet(art.src);
 
   /**
@@ -175,7 +179,7 @@ export function SketchBackdrop({
         loading="lazy"
         fetchPriority="low"
         decoding="async"
-        className={`pointer-events-none absolute ${SKETCH_RENDER.blend} ${opacity} ${layer}`}
+        className={`pointer-events-none absolute ${backdropBlend} ${opacity} ${layer}`}
       />
       <div className="relative">{children}</div>
     </section>
