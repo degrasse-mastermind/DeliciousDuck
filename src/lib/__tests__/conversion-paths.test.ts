@@ -9,11 +9,14 @@ import {
   buildConversionPathClickEvent,
   conversionPathByPlacement,
   conversionPathsForSource,
+  recipeConversionPlacements,
   recipePlacementId,
 } from "@/data/conversion-paths";
 import { RECIPE_CONTENT } from "@/data/recipe-content";
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
+const idTokenised = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
 
 /** `/gear/best-pan-for-duck-breast` -> `src/routes/gear.best-pan-for-duck-breast.tsx` */
 function routeFileFor(path: string): string {
