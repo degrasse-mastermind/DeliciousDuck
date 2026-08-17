@@ -198,7 +198,7 @@ function WholeRoastDuckPage() {
           },
           {
             title: "Check temperature in two places",
-            body: "Probe the thickest part of the thigh, avoiding bone, and the thickest part of the breast. Both need to read at least 165°F (73.9°C) per USDA guidance.",
+            body: "Probe the thickest part of the thigh, avoiding bone, and the thickest part of the breast. Both need to read at least 165°F (73.9°C).",
           },
           {
             title: "Rest",

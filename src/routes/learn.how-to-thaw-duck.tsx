@@ -5,6 +5,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { SourceMark } from "@/components/site/SourceMark";
 
 const GUIDE = guideByPath("/learn/how-to-thaw-duck")!;
 
@@ -59,9 +60,9 @@ function HowToThawDuckPage() {
     >
       <Section id="fridge-first" heading="Refrigerator-first: the default method">
         <p>
-          Thawing in the refrigerator, at or below 40°F (4.4°C), is USDA's recommended method
-          because the duck stays out of the temperature range where bacteria multiply quickly for
-          its entire thaw. The trade-off is time — a whole bird needs a full day or more depending
+          Thaw in the refrigerator, at or below 40°F (4.4°C). It is the recommended method
+          because the duck never leaves the safe range while it thaws.
+          <SourceMark to="sources" /> The trade-off is time — a whole bird needs a full day or more depending
           on its weight. Plan backward from your cooking date rather than discovering the duck is
           still icy the morning you meant to roast it.
         </p>
@@ -99,8 +100,9 @@ function HowToThawDuckPage() {
       <Section id="microwave" heading="Microwave thawing caveats">
         <p>
           A microwave's defrost setting can thaw duck pieces quickly, but it thaws unevenly and
-          often begins cooking the edges before the centre is thawed, which is why USDA guidance
-          treats it as a last resort for a whole bird's size. If you do use it, cook the duck
+          often begins cooking the edges before the centre is thawed — which is why it is a last
+          resort, and a poor one for a whole bird.
+          <SourceMark to="sources" /> If you do use it, cook the duck
           immediately afterward — never let microwave-thawed poultry sit before cooking.
         </p>
       </Section>

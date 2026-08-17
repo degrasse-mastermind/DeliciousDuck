@@ -83,7 +83,7 @@ function Page() {
                   "Guest count, budget, dietary restrictions, wine pairing, seasonal availability, and anything about doneness or timing.",
               },
             ]}
-            note="This is a flavour-planning aid, not a doneness or food-safety judgement. Temperatures, timing and safety guidance live on the linked cooking guides — the USDA recommends a 165°F safe minimum internal temperature for all poultry, including duck."
+            note="This is a flavour-planning aid, not a doneness or food-safety judgement. Temperatures, timing and safety live on the linked cooking guides; the safe minimum internal temperature for all poultry, duck included, is 165°F (73.9°C)."
           />
         </div>
 

@@ -60,7 +60,7 @@ const FAQ = [
   },
   {
     q: "Should I buy extra on purpose?",
-    a: "Often yes — a slightly larger bird costs less than a second cook, and cooked duck keeps. USDA guidance is to refrigerate cooked poultry leftovers within two hours and use them within three to four days.",
+    a: "Often yes — a slightly larger bird costs less than a second cook, and cooked duck keeps. Refrigerate cooked leftovers within two hours and use them within three to four days.",
   },
 ];
 

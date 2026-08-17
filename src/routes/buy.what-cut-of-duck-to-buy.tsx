@@ -7,6 +7,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { SourceMark } from "@/components/site/SourceMark";
 
 const GUIDE = guideByPath("/buy/what-cut-of-duck-to-buy")!;
 const PAGE = acquisitionPage("/buy/what-cut-of-duck-to-buy")!;
@@ -211,9 +212,9 @@ function Page() {
 
       <Section id="safety" heading="One number that applies to every cut">
         <p>
-          Whichever cut you buy, the safety target does not change with the recipe: USDA guidance is
-          that duck — whole birds and pieces alike — should reach a minimum internal temperature of
-          165°F (73.9°C), measured with a food thermometer. Restaurant convention for a pink breast
+          Whichever cut you buy, the safety target is the same: 165°F (73.9°C) internal, measured
+          with a food thermometer, whole birds and pieces alike.
+          <SourceMark to="sources" /> Restaurant convention for a pink breast
           sits below that, which is a decision worth making deliberately rather than by accident;{" "}
           <Link
             to="/learn/duck-breast-temperature-doneness"
