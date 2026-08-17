@@ -165,28 +165,32 @@ function Page() {
         />
       </Section>
 
-      <Section id="yield" heading="Yield is the decision, not the flavour">
+      <Section id="yield" heading="Serving capacity is the decision, not the flavour">
         <p>
           Most duck Thanksgivings go wrong at the shopping stage. A whole duck looks like a small
-          turkey and behaves like a large chicken with a fat layer: the frame is heavy, the fat cap
-          is substantial, and the edible cooked meat lands near 40% of the raw weight. Plan for
-          about four servings per bird and buy accordingly — two birds for eight, three for twelve.
+          turkey and behaves like a large chicken with a fat layer: the frame is heavy and the fat
+          cap is substantial, so a duck simply carries less edible meat than a turkey that weighs
+          about the same. Buy for the meat you will actually carve, not for the number on the label.
         </p>
         <p>
-          Rather than doing that arithmetic by hand, put your guest count and appetite into the{" "}
+          For turkey there is an official planning number to lean on — USDA's consumer guide allows
+          1 lb of turkey per person. There is no equivalent USDA allowance for duck, and we are not
+          going to invent one. Instead, put your guest count and appetite into the{" "}
           <Link
             to="/tools/whole-duck-serving-calculator"
             className="text-primary underline underline-offset-4"
           >
             whole-duck serving calculator
           </Link>
-          , which returns the number of birds and the raw weight to order. If you are weighing a
-          whole bird against portioned cuts, our{" "}
+          , which states the planning assumptions it uses and returns the number of birds and the
+          raw weight to order. If you are weighing a whole bird against portioned cuts, our{" "}
           <Link to="/buy/how-much-duck-per-person" className="text-primary underline underline-offset-4">
             how much duck per person
           </Link>{" "}
-          guide sets out the same assumptions in prose.
+          guide sets out the same assumptions in prose. Treat both as our planning estimates rather
+          than established fact.
         </p>
+
         <Callout label="Two birds, one oven">
           <p>
             Two ducks roast happily side by side if air can circulate between them and the fat has
