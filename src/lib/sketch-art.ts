@@ -20,8 +20,19 @@ import scoring from "@/assets/sketch/scoring.jpg";
 import sides from "@/assets/sketch/sides.jpg";
 import thawing from "@/assets/sketch/thawing.jpg";
 import ovenRoast from "@/assets/sketch/oven-roast.jpg";
+// Transparent-alpha master: this drawing has no painted paper ground, so it
+// floats on any surface instead of relying on multiply blend.
+import duckVsTurkey from "@/assets/sketch/duck-vs-turkey.png";
 
-export type SketchArt = { src: string; alt: string };
+export type SketchArt = {
+  src: string;
+  alt: string;
+  /**
+   * True when the export carries genuine alpha instead of a painted white
+   * ground. Transparent art must not be multiplied — see `SketchFigure`.
+   */
+  transparent?: boolean;
+};
 
 /** Named colored-pencil illustrations, reusable anywhere on the site. */
 export const SKETCH = {
@@ -113,6 +124,11 @@ export const SKETCH = {
     src: ovenRoast,
     alt: "Colored-pencil sketch of an open oven with a roasting tin under warm light",
   },
+  duckVsTurkey: {
+    src: duckVsTurkey,
+    alt: "Colored-pencil sketch of a roast duck and a roast turkey side by side on platters with sage, cranberries and orange",
+    transparent: true,
+  },
 } satisfies Record<string, SketchArt>;
 
 /** Registry key for a named illustration. */
@@ -138,6 +154,7 @@ const BY_PATH: Record<string, SketchKey> = {
   "/learn/how-to-thaw-duck": "thawing",
   "/learn/how-to-render-duck-fat": "renderingFat",
   "/learn/wild-duck-vs-farmed-duck": "wildVsFarmed",
+  "/learn/duck-vs-turkey-thanksgiving": "duckVsTurkey",
 
   "/buy": "buyingDuck",
   "/buy/where-to-buy-duck-online": "buyingDuck",
@@ -204,6 +221,12 @@ const BY_PREFIX: Array<[string, SketchKey]> = [
  * the confit drawing rather than the generic section art.
  */
 const BY_KEYWORD: Array<[string, SketchKey]> = [
+  // Holiday comparison art shows BOTH birds, so it may only be selected by
+  // keywords that genuinely imply a duck-versus-turkey comparison. A bare
+  // "holiday" or "roast" must never inherit it.
+  ["thanksgiving", "duckVsTurkey"],
+  ["duck-vs-turkey", "duckVsTurkey"],
+  ["turkey", "duckVsTurkey"],
   ["confit", "confit"],
   ["render", "renderingFat"],
   ["duck-fat", "duckFat"],
