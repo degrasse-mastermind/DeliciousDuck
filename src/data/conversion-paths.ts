@@ -17,6 +17,7 @@
  *   asserts a "best" claim beyond the destination guide's own title.
  */
 
+import { RECIPE_CONTENT } from "@/data/recipe-content";
 import { normalisePath, destinationSlug } from "@/lib/duck-breast-cluster";
 
 export const CONVERSION_INTENTS = [
