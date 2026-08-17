@@ -81,6 +81,24 @@ export const SOURCES: Record<string, SourceRef> = {
     checked: "2026-08",
   },
 
+  fwTurkeyAlternatives: {
+    id: "fwTurkeyAlternatives",
+    label: "Chefs on cooking something other than turkey",
+    publisher: "Food & Wine",
+    url: "https://www.foodandwine.com/cooking-techniques/turkey-shortage-recipe-ideas",
+    note: "Culinary reading, not safety guidance: chefs discussing duck as a festive centrepiece, and the menu logic that suits it — citrus, vinegar-dressed vegetables, savoury condiments, and rendered duck fat used elsewhere in the meal.",
+    checked: "2026-08",
+  },
+
+  epicuriousCrispRoastDuck: {
+    id: "epicuriousCrispRoastDuck",
+    label: "Crisp Roast Duck",
+    publisher: "Epicurious",
+    url: "https://www.epicurious.com/recipes/food/views/crisp-roast-duck-235744",
+    note: "Culinary reading, not safety guidance: a whole-duck roast written for cooks already comfortable roasting poultry, with the fat-rendering and skin management that a holiday duck asks for.",
+    checked: "2026-08",
+  },
+
   fsisWildGame: {
     id: "fsisWildGame",
     label: "Wild Game from Field to Table",

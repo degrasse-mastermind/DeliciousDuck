@@ -279,6 +279,42 @@ describe("duck vs turkey holiday decision guide", () => {
     expect(new Set(placements).size).toBe(placements.length);
   });
 
+
+  it("keeps institutional attribution quiet and out of the body copy", () => {
+    // Voice guard: the facts stay, the name-dropping does not. Attribution
+    // lives in the reference blocks plus the endnote markers that link to them.
+    const mentions = (code.match(/USDA/g) ?? []).length;
+    expect(mentions).toBeLessThanOrEqual(8);
+    for (const tic of ["per USDA", "USDA guidance", "USDA says", "according to USDA"]) {
+      expect(code.includes(tic), `body copy repeats "${tic}"`).toBe(false);
+    }
+    // Endnote-style markers carry the reader to the reference blocks.
+    expect(code).toContain("<SourceMark");
+    expect(code).toContain('to="timing-sources"');
+    expect(code).toContain('to="safety-sources"');
+  });
+
+  it("separates culinary reading from safety and quantitative evidence", () => {
+    expect(code).toContain('id="menu-reading"');
+    expect(code).toContain('heading="Culinary reading"');
+    for (const id of ["fwTurkeyAlternatives", "epicuriousCrispRoastDuck"]) {
+      const source = SOURCES[id];
+      expect(source, `missing culinary source ${id}`).toBeTruthy();
+      expect(source!.url.startsWith("https://")).toBe(true);
+      expect(source!.note).toMatch(/not safety guidance/i);
+      // Culinary reading must never be cited as page-level evidence.
+      expect(acquisitionPage(PATH)!.sourceIds.includes(id)).toBe(false);
+    }
+    // No borrowed authority: no quotations, no claim we cooked their methods.
+    for (const banned of ["we tested", "as chefs say", "chefs agree", "we cooked their"]) {
+      expect(NORM.toLowerCase().includes(banned), `page claims "${banned}"`).toBe(false);
+    }
+    // Plate-level menu advice a host can act on.
+    expect(NORM.toLowerCase()).toContain("editorial pairing guidance");
+    expect(NORM.toLowerCase()).toContain("vinegar-dressed vegetable");
+    expect(NORM.toLowerCase()).toContain("duck fat");
+  });
+
   it("keeps FAQ schema synchronized with the rendered FAQ list", () => {
     // FAQ is a single source array rendered once and serialized once.
     expect(code.match(/const FAQ = \[/g)!.length).toBe(1);

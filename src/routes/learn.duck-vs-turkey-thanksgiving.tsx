@@ -8,6 +8,7 @@ import { SKETCH } from "@/lib/sketch-art";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
+import { SourceMark } from "@/components/site/SourceMark";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
@@ -49,43 +50,43 @@ export const Route = createFileRoute("/learn/duck-vs-turkey-thanksgiving")({
 const FAQ = [
   {
     q: "How many people does one duck feed at Thanksgiving?",
-    a: "Fewer than a turkey of similar size, because a duck carries more fat and bone relative to edible meat. We do not publish that as a fixed ratio: put your guest count and appetite into our whole-duck serving calculator, which shows the planning assumptions it uses and returns the number of birds and the raw weight to order. USDA's own turkey guide, by contrast, gives a planning allowance of 1 lb of turkey per person.",
+    a: "Fewer than a turkey of the same weight, because more of a duck is fat and frame. We will not put a fixed ratio on it: give your guest count to our whole-duck serving calculator, which shows the planning assumptions behind its answer and returns the number of birds and the raw weight to order. Turkey is the easier maths — the official allowance from USDA is 1 lb of turkey per person.",
   },
   {
     q: "Which takes longer in the oven, a whole duck or a whole turkey?",
-    a: "The turkey, in almost every real holiday scenario, because it is a much heavier bird. USDA's approximate planning chart for duck lists a whole duckling of 4 to 6 lb at roughly 30 to 35 min/lb in a 350°F oven. USDA's turkey chart, at an oven set no lower than 325°F, lists an unstuffed bird of 8 to 12 pounds at approximately 2¾ to 3 hours and one of 20 to 24 pounds at approximately 4½ to 5 hours. Both charts are for meal planning only — doneness is a thermometer reading of 165°F (73.9°C), not a clock.",
+    a: "The turkey, almost always, because it is a much heavier bird. For planning, a whole duckling of 4 to 6 lb sits at roughly 30 to 35 min/lb in a 350°F oven; an unstuffed turkey at 325°F runs approximately 2¾ to 3 hours at 8 to 12 pounds and approximately 4½ to 5 hours at 20 to 24 pounds. Use those to pick a serving time only. The bird is done at 165°F (73.9°C) on a thermometer, whatever the clock says.",
   },
   {
     q: "Can I cook duck and turkey in the same oven?",
-    a: "You can, but not comfortably at the same time. Both want space around them, the two USDA planning charts assume different oven settings, and a duck sheds a lot of rendering fat that has to go somewhere. If you want both birds, roast the duck first, rest it while the turkey finishes, and carve the duck last.",
+    a: "You can, but not comfortably at the same time. Both birds want air around them, the two planning charts assume different oven settings, and a duck sheds a lot of fat that has to go somewhere. If you want both, roast the duck first, rest it while the turkey finishes, and carve the duck last.",
   },
   {
     q: "Does duck need a different internal temperature than turkey?",
-    a: "No. USDA guidance puts all poultry, duck and turkey alike, at a minimum internal temperature of 165°F (73.9°C), measured with a food thermometer in the thickest part and away from bone. The lower temperatures you see for duck breast are a culinary convention, not a safety recommendation, and they are a separate question from a whole roasted holiday bird.",
+    a: "No. All poultry, duck and turkey alike, has the same safe minimum internal temperature: 165°F (73.9°C), read with a thermometer in the thickest part of the meat and away from bone. The lower numbers you see quoted for duck breast are a culinary convention rather than a safety figure, and they are a separate question from a whole holiday bird.",
   },
   {
     q: "Is duck harder to carve than turkey?",
-    a: "It is a different shape rather than a harder job. A duck is narrower and its breast sits closer to the frame, so you take the legs off at the joint and lift each breast off the bone in one piece instead of carving broad slices off a standing bird. Our carving guide walks through the order that keeps the skin intact; either bird carves better after a rest, and USDA's turkey guide asks for a 20-minute stand before carving for quality.",
+    a: "A different shape, not a harder job. A duck is narrower and its breast sits close to the frame, so you take the legs off at the joint and lift each breast off in one piece rather than carving broad slices off a standing bird. Our carving guide has the order that keeps the skin intact. Either bird carves better rested — a 20-minute stand is the standard advice for a whole turkey, and duck likes the same pause.",
   },
   {
     q: "Can you make gravy from duck drippings?",
-    a: "Yes, but the drippings behave differently. Most of what collects in a duck pan is clear rendered fat, which you pour off and keep rather than thicken; the gravy comes from the smaller layer of browned juices underneath, loosened with stock or wine. A turkey pan gives you far more of that juice-to-fat ratio, which is why turkey gravy is the easier default. Editorially, we would build a duck sauce around acidity or tart fruit instead of chasing a thick roux gravy.",
+    a: "Yes, but the drippings behave differently. Most of what collects in a duck pan is clear rendered fat, which you pour off and keep rather than thicken; the gravy comes from the smaller layer of browned juices underneath, loosened with stock or wine. A turkey pan gives you far more of that juice-to-fat ratio, which is why turkey gravy is the easier default. With duck we would build a sauce around acidity or tart fruit rather than chase a thick roux gravy.",
   },
   {
     q: "Can I stuff the cavity of a duck or a turkey?",
-    a: "USDA recommends cooking stuffing separately, in a casserole, for optimal safety and more uniform doneness — and its duck planning chart says not to stuff a whole duckling. If you do stuff a bird, stuff it loosely just before roasting, and use a food thermometer to confirm that the center of the stuffing itself reaches 165°F (73.9°C), not only the meat. Stuffing that has not reached that temperature when the bird is done needs more cooking.",
+    a: "Cook it separately if you can. USDA recommends cooking stuffing separately, in a casserole, for optimal safety and more even doneness, and the duck planning chart says not to stuff a whole duckling at all. If you do stuff a bird, pack it loosely just before it goes in, and check that the center of the stuffing itself reaches 165°F (73.9°C) — not only the meat. Stuffing below that when the bird is done needs more cooking.",
   },
   {
     q: "Is duck harder to cook than turkey?",
-    a: "It is different rather than harder. Duck is forgiving on moisture, because the fat layer bastes the meat as it renders, and unforgiving on logistics: you have to prick or score the skin, drain fat during the roast, and dry the skin ahead of time if you want it crisp. Turkey is the reverse — simple to manage in the oven, easy to overcook dry.",
+    a: "Different, not harder. Duck is forgiving about moisture, because the fat layer bastes the meat as it renders, and demanding about logistics: score the skin, drain the fat as it collects, dry the skin a day ahead if you want it crisp. Turkey is the reverse — easy to manage, easy to overcook.",
   },
   {
     q: "Which gives better leftovers?",
-    a: "Turkey gives more of them. Duck gives fewer but arguably better ones, plus two by-products a turkey does not: a jar of rendered fat for roast potatoes and a carcass that makes a deeply savoury stock. Either way, USDA guidance is that cooked poultry keeps three to four days in the refrigerator and should be reheated to 165°F (73.9°C).",
+    a: "Turkey gives more of them. Duck gives fewer but arguably better ones, plus two by-products a turkey does not: a jar of rendered fat for roast potatoes and a carcass that makes a deeply savoury stock. Either way, cooked poultry keeps three to four days in the refrigerator and is reheated to 165°F (73.9°C).",
   },
   {
     q: "When should I order a duck for Thanksgiving?",
-    a: "Earlier than you think, because holiday duck usually ships frozen and thawing is on your calendar, not the seller's. Work backward from the cooking date: USDA allows approximately 24 hours of refrigerator thawing for every 4 to 5 lb, then add the seller's stated transit window and a buffer day.",
+    a: "Earlier than feels necessary. Holiday duck usually ships frozen, and thawing lands on your calendar rather than the seller's. Count backwards from the meal: allow approximately 24 hours of refrigerator thawing for every 4 to 5 lb of bird, then the transit window your seller quotes, then a spare day in case it slips.",
   },
 ];
 
@@ -121,11 +122,11 @@ function Page() {
           something it was never trying to be.
         </p>
         <p>
-          The practical difference is how the two scale. Turkey scales by weight — you buy a heavier
-          bird for a bigger table, and USDA's consumer guide gives a planning allowance of 1 lb of
-          turkey per person to do it with. Duck scales by count: a duck carries less edible meat
-          relative to its weight, and there is no USDA planning allowance for it, so more guests
-          means more birds, more rack space and more pan capacity rather than a bigger single bird.
+          The practical difference is how they scale. Turkey scales by weight: bigger table, heavier
+          bird, and an official allowance from USDA of 1 lb of turkey per person to shop with.
+          <SourceMark to="timing-sources" /> Duck scales by count. It carries less edible meat for
+          its weight and has no equivalent published allowance, so a bigger table means another
+          bird — another share of the rack, another pan, another place for fat to go.
         </p>
 
         <Callout label="Choose duck if">
@@ -219,7 +220,7 @@ function Page() {
             [
               "Serving yield",
               "Lower. More fat and frame relative to edible meat, so plan the count with our serving calculator rather than by bird size.",
-              "Higher. USDA's turkey guide gives a planning allowance of 1 lb of turkey per person, so one large bird covers a big table.",
+              "Higher, and easier to shop for: the official allowance is a pound of turkey per person, so one large bird covers a big table.",
             ],
 
             [
@@ -259,22 +260,23 @@ function Page() {
           about the same. Buy for the meat you will actually carve, not for the number on the label.
         </p>
         <p>
-          For turkey there is an official planning number to lean on — USDA's consumer guide allows
-          1 lb of turkey per person. There is no equivalent USDA allowance for duck, and we are not
-          going to invent one. Instead, put your guest count and appetite into the{" "}
+          Turkey has an official number to lean on: 1 lb of turkey per person, from USDA's consumer
+          guide.<SourceMark to="timing-sources" /> Duck has no published equivalent, and we are not
+          going to invent one. Put your guest count and appetite into the{" "}
           <Link
             to="/tools/whole-duck-serving-calculator"
             className="text-primary underline underline-offset-4"
           >
             whole-duck serving calculator
           </Link>
-          , which states the planning assumptions it uses and returns the number of birds and the
-          raw weight to order. If you are weighing a whole bird against portioned cuts, our{" "}
+          instead: it states the planning assumptions behind its answer and returns the number of
+          birds and the raw weight to order. If you are weighing a whole bird against portioned
+          cuts, our{" "}
           <Link to="/buy/how-much-duck-per-person" className="text-primary underline underline-offset-4">
             how much duck per person
           </Link>{" "}
-          guide sets out the same assumptions in prose. Treat both as our planning estimates rather
-          than established fact.
+          guide sets the same assumptions out in prose. Both are our planning estimates, not
+          established fact.
         </p>
 
         <Callout label="Two birds, one oven">
@@ -286,20 +288,20 @@ function Page() {
         </Callout>
       </Section>
 
-      <Section id="timing" heading="Oven time and oven space, using USDA's own planning ranges">
+      <Section id="timing" heading="Oven time, and the space each bird needs">
         <p>
-          Both USDA guides publish approximate roasting ranges for meal planning. They are planning
-          numbers, not doneness rules: in every case the bird is done when a food thermometer reads
-          165°F (73.9°C) in the thickest part of the meat, away from bone.
+          Here is what each bird asks of your afternoon. These are planning numbers, not doneness
+          rules: either bird is done when a thermometer reads 165°F (73.9°C) in the thickest part of
+          the meat, away from bone.<SourceMark to="timing-sources" />
         </p>
         <DataTable
-          caption="Approximate USDA planning ranges for whole birds — scheduling only"
-          columns={["Bird", "Oven", "Approximate range (USDA)"]}
+          caption="Approximate planning ranges for whole birds — scheduling only"
+          columns={["Bird", "Oven", "Approximate range"]}
           rows={[
             [
               "Whole duckling, 4 to 6 lb",
               "350°F",
-              "Approximately 30 to 35 min/lb. USDA's duck chart also says not to stuff a whole duckling.",
+              "Approximately 30 to 35 min/lb. Do not stuff a whole duckling.",
             ],
             [
               "Unstuffed turkey, 8 to 12 pounds",
@@ -314,11 +316,9 @@ function Page() {
           ]}
         />
         <p>
-          Read across those rows and the scaling difference becomes an oven problem rather than a
-          taste one. A bigger turkey mostly costs you time in the same pan. A bigger duck dinner costs
-          you hardware: a second bird needs its own space for air to circulate, its own share of the
-          rack, and somewhere for its rendering fat to collect. Before you commit to duck for a large
-          group, measure the rack and count the roasting pans you actually own.
+          Read across the rows and the real difference shows up: scaling a turkey costs time in the
+          same pan, while scaling a duck dinner costs hardware. Before you promise duck to a big
+          table, measure your rack and count the roasting pans you actually own.
         </p>
         <SourceNotes
           ids={["usdaPoultryPrep", "usdaTurkeyRoasting"]}
@@ -327,20 +327,19 @@ function Page() {
         />
       </Section>
 
-      <Section id="method" heading="Our two-stage roast versus USDA's single-temperature chart">
+      <Section id="method" heading="Why our roast runs in two stages">
         <p>
-          The range above comes from USDA's single-temperature planning chart. Our own{" "}
+          The range above assumes one oven temperature start to finish. Our own{" "}
           <Link to="/cook/whole-roast-duck" className="text-primary underline underline-offset-4">
             whole roast duck
           </Link>{" "}
-          method is two-stage: a gentler first stretch to render the fat cap without setting the
-          skin, then a hot finish to crisp it. That is a recipe-method preference for texture — not a
-          safety alternative and not a claim that USDA's chart is wrong.
+          method runs in two: a gentler stretch to render the fat cap without setting the skin, then
+          a hot finish to crisp it. That is a texture preference, a recipe method — not a safety
+          alternative to the planning chart, which is right about what it measures.
         </p>
         <p>
-          Because the oven temperature changes partway through, a two-stage roast will not track the
-          single-temperature range minute for minute. Use the chart to pick a serving time, then let
-          the thermometer decide when the bird comes out; our{" "}
+          Change the oven temperature partway and the clock stops matching the chart. Use the range
+          to choose a serving time, then let the thermometer say when the bird comes out; our{" "}
           <Link to="/learn/whole-duck-cooking-time" className="text-primary underline underline-offset-4">
             whole duck cooking time
           </Link>{" "}
@@ -348,18 +347,19 @@ function Page() {
         </p>
       </Section>
 
-      <Section id="menu" heading="What each bird does to the rest of the menu">
+      <Section id="menu" heading="Choosing duck changes the whole plate">
         <p>
-          This part is editorial pairing guidance from our kitchen, not USDA fact. Turkey is a canvas:
-          mild enough that gravy, stuffing, brine and herbs supply most of the flavour, which is
-          exactly why the classic Thanksgiving table is built the way it is. Duck arrives with its own
-          flavour already loud — darker, richer, closer to red meat — so the sides have a different
-          job.
+          Turkey is a canvas. It is mild enough that the gravy, the stuffing, the brine and the herbs
+          carry the flavour, which is precisely why the classic Thanksgiving plate looks the way it
+          does. Duck turns up already loud, and the sides have a different job: not more richness,
+          but something to cut it.
         </p>
         <p>
-          What we reach for with duck is contrast rather than more richness: acidity, tart fruit,
-          bitter or peppery greens, and sweetness kept deliberately restrained so the plate does not
-          tip into dessert. Our{" "}
+          What follows is editorial pairing guidance from our kitchen rather than a food-safety
+          matter. Reach for tart citrus, a vinegar-dressed vegetable, bitter or peppery greens, a
+          briny or savoury condiment on the side, and keep any sweetness restrained so the plate
+          does not tip into dessert. Then use the bird twice: the fat you pour off mid-roast is the
+          best thing that can happen to a tray of potatoes. Our{" "}
           <Link
             to="/ingredients/best-acid-for-duck"
             className="text-primary underline underline-offset-4"
@@ -380,10 +380,20 @@ function Page() {
           >
             what to serve with duck
           </Link>{" "}
-          set out the combinations we actually cook. A traditional gravy-and-stuffing spread can still
-          work around a duck, but it will taste like two competing dinners unless something on the
-          plate cuts through.
+          set out the combinations we actually cook. A gravy-and-stuffing spread can still work
+          around a duck, but it will read as two competing dinners unless something sharp lands on
+          the plate.
         </p>
+        <p>
+          Duck can feel every bit as celebratory as turkey without imitating the turkey plate. Design
+          the meal around the bird you chose — a smaller centrepiece, brighter sides, potatoes cooked
+          in duck fat — and nobody spends the afternoon looking for the gravy boat.
+        </p>
+        <SourceNotes
+          ids={["fwTurkeyAlternatives", "epicuriousCrispRoastDuck"]}
+          id="menu-reading"
+          heading="Culinary reading"
+        />
       </Section>
 
       <Section id="alternatives" heading="You do not have to roast a whole bird">
@@ -473,8 +483,8 @@ function Page() {
           </li>
         </ul>
         <p>
-          Whichever plan you pick, settle the quantity before the shopping: turkey against USDA's per
-          person allowance, duck through the{" "}
+          Whichever plan you pick, settle the quantity before you shop: turkey against the per person
+          allowance above, duck through the{" "}
           <Link
             to="/tools/whole-duck-serving-calculator"
             className="text-primary underline underline-offset-4"
@@ -497,8 +507,9 @@ function Page() {
         <ul className="mt-4 list-disc space-y-3 pl-5">
           <li>
             <span className="font-semibold text-foreground">Thawing is calendar, not cooking.</span>{" "}
-            USDA lists three safe methods — refrigerator, cold water and microwave — and allows
-            approximately 24 hours of refrigerator thawing for every 4 to 5 lb of bird. Our{" "}
+            Three methods are considered safe — refrigerator, cold water and microwave — and the
+            fridge needs approximately 24 hours of refrigerator thawing for every 4 to 5 lb of bird.
+            <SourceMark to="safety-sources" /> Our{" "}
             <Link to="/learn/how-to-thaw-duck" className="text-primary underline underline-offset-4">
               thawing guide
             </Link>{" "}
@@ -539,8 +550,8 @@ function Page() {
           </li>
           <li>
             <span className="font-semibold text-foreground">Rest, then carve.</span> Both birds
-            carve better after a rest. USDA's turkey guide asks for a 20-minute stand before
-            carving, for quality rather than safety, so the juices set; for duck, our{" "}
+            carve better rested; a 20-minute stand before carving is the standard for a whole
+            turkey, for quality rather than safety, and duck benefits from the same pause. Our{" "}
             <Link to="/learn/how-to-carve-a-duck" className="text-primary underline underline-offset-4">
               carving guide
             </Link>{" "}
@@ -621,24 +632,25 @@ function Page() {
 
 
 
-      <Section id="safety" heading="The safety numbers, and where they come from">
+      <Section id="safety" heading="The numbers worth being strict about">
         <p>
-          Species does not change the target. Whichever bird you roast, doneness is a thermometer
-          reading in the thickest part of the meat, away from bone, and not a colour or a timing.
+          Species does not move the target. Whichever bird you roast, doneness is a thermometer
+          reading in the thickest part of the meat, away from bone — never a colour or a clock.
         </p>
         <SafetyNote>
           <p>
-            USDA puts all poultry, duck and turkey alike, at a minimum internal temperature of 165°F
-            (73.9°C). For turkey-specific figures — the 1 lb per person allowance, refrigerator
-            thawing at approximately 24 hours per 4 to 5 lb, and the 20-minute stand — follow USDA's
-            own consumer guide rather than any timing of ours. Every source is listed below.
+            All poultry, duck and turkey alike, has a safe minimum internal temperature of 165°F
+            (73.9°C). The turkey-specific figures on this page — the 1 lb of turkey per person
+            allowance, refrigerator thawing at approximately 24 hours per 4 to 5 lb, and the
+            20-minute stand — come from USDA's consumer guide, not from a timing of ours. Full
+            references are below.
           </p>
         </SafetyNote>
         <p>
-          Two more rules travel with a holiday meal regardless of species: perishable food should not
-          sit between 40°F and 140°F (4.4°C and 60°C) for more than two hours — one hour if the room
-          is above 90°F (32.2°C) — and cooked poultry keeps three to four days in the refrigerator,
-          reheated to 165°F (73.9°C).
+          Two more rules travel with any holiday meal. Perishable food should not sit between 40°F
+          and 140°F (4.4°C and 60°C) for longer than two hours — one hour if the room is above 90°F
+          (32.2°C). And cooked poultry keeps three to four days in the refrigerator, reheated to
+          165°F (73.9°C).
         </p>
         <SourceNotes ids={PAGE.sourceIds} id="safety-sources" heading="Safety references" />
 
@@ -659,20 +671,19 @@ function Page() {
           carcass worth simmering the same evening.
         </p>
         <p>
-          Cool and refrigerate leftovers promptly rather than leaving the platter out through the
-          evening, keep them three to four days, and reheat to 165°F (73.9°C). Freeze anything you
-          will not get through in that window.
+          Refrigerate leftovers promptly instead of leaving the platter out through the evening. They
+          keep three to four days, reheated to 165°F (73.9°C); freeze whatever you will not finish in
+          that window.
         </p>
       </Section>
 
       <Section id="tradeoffs" heading="The honest tradeoffs">
         <p>
-          Duck's weaknesses are real. It feeds fewer people per bird, it usually has to be ordered
-          in advance and thawed on schedule, it asks more of you during the roast, and a small
-          number of guests genuinely do not want a rich, dark-meat centrepiece at this particular
-          meal. Turkey's weaknesses are equally real: a lean breast that punishes inattention, a
-          long oven occupation, and a flavour that depends almost entirely on what you put around
-          it.
+          Duck's weaknesses are real. Fewer plates per bird, an order placed in advance, a thaw on
+          schedule, more of your attention during the roast — and a few guests who simply do not want
+          a rich dark-meat centrepiece at this particular meal. Turkey's are just as real: a lean
+          breast that punishes inattention, hours of oven occupation, and a flavour that depends
+          almost entirely on what you put around it.
         </p>
         <p>
           What we cannot tell you is which is cheaper or easier to find where you live. Duck pricing
