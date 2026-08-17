@@ -208,5 +208,20 @@
     },
     "model": "google/gemini-2.5-flash-image",
     "alpha": false
+  },
+  {
+    "version": "v1",
+    "at": "2026-08-17T06:29:00.000Z",
+    "asset": "duck-vs-turkey",
+    "mode": "add",
+    "files": [
+      "duck-vs-turkey.png",
+      "duck-vs-turkey-1400.webp",
+      "duck-vs-turkey-700.webp"
+    ],
+    "backups": [],
+    "prompt": "Approved supplied artwork: a roast duck and a roast turkey side by side on cream platters with sage, cranberries and orange. Colored-pencil and ink-line illustration, transparent alpha export (no paper ground), trimmed and centered at 1400x800.",
+    "alpha": true,
+    "note": "Supplied and approved by the editor rather than generated; transparent PNG master with alpha-preserving WebP variants."
   }
 ]

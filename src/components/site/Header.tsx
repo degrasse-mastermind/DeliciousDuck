@@ -54,13 +54,26 @@ export function Header() {
           </Link>
         </div>
 
+        {/* Compact lead-magnet entry point for phones. The desktop header keeps
+            its search field and full-width button; this one only appears below
+            `lg`, sits left of the menu toggle, and clears a 44px tap target. */}
+        <Link
+          to="/tools"
+          hash="starter-guide"
+          onClick={() => setOpen(false)}
+          data-mobile-guide-cta
+          className="inline-flex h-11 min-h-11 shrink-0 items-center rounded-sm bg-primary px-3 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-primary-foreground transition-colors hover:bg-forest-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
+        >
+          Free Guide
+        </Link>
+
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}
-          className="inline-flex size-10 items-center justify-center rounded-sm border border-border text-foreground lg:hidden"
+          className="inline-flex size-11 min-h-11 min-w-11 shrink-0 items-center justify-center rounded-sm border border-border text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
         >
           {open ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>

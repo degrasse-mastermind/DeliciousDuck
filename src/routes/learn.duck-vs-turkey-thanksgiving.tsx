@@ -2,6 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
 import { AnswerFirst, ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
+import { VerdictChoice } from "@/components/site/VerdictChoice";
+import { SketchSlot } from "@/components/site/SketchSlot";
+import { SKETCH } from "@/lib/sketch-art";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
@@ -82,6 +85,12 @@ function Page() {
         { name: GUIDE.title, to: GUIDE.path },
       ]}
       meta={`${GUIDE.minutes} min read`}
+      /* This page sequences its own art: the header carries the duck-and-turkey
+         comparison drawing, and the only in-body illustration is the
+         thermometer, placed with the safety section. Blind block-index
+         auto-placement would drop unrelated art (scoring, ducks in flight)
+         into a comparison argument. */
+      autoSketch={false}
     >
       <AnswerFirst page={PAGE} />
 
@@ -114,6 +123,56 @@ function Page() {
           sides. It is the version of this decision that upsets the fewest people.
         </p>
       </Section>
+
+      <VerdictChoice
+        id="verdict-next-step"
+        heading="Made the call? Start here"
+        options={[
+          {
+            label: "Going with duck",
+            summary:
+              "Settle the number of birds first, then follow the holiday roast through from dry skin to carving.",
+            links: [
+              {
+                placement: "duck-vs-turkey-verdict-serving-calculator",
+                to: "/tools/whole-duck-serving-calculator",
+                intent: "technique_validation",
+                anchor: "Whole-duck serving calculator",
+                why: "Guest count in, number of birds and raw weight out, with the assumptions shown.",
+              },
+              {
+                placement: "duck-vs-turkey-verdict-whole-roast-duck",
+                to: "/cook/whole-roast-duck",
+                intent: "technique_validation",
+                anchor: "How to roast a whole duck",
+                why: "The full holiday workflow, including what to do with the rendering fat.",
+              },
+            ],
+          },
+          {
+            label: "Larger or mixed table",
+            summary:
+              "Turkey stays the practical centrepiece when the table is big or the guests came for the ritual — duck can still join it as a second bird or a portioned cut.",
+            tone: "muted",
+            links: [
+              {
+                placement: "duck-vs-turkey-verdict-duck-breast",
+                to: "/cook/how-to-cook-duck-breast",
+                intent: "technique_validation",
+                anchor: "Duck breast, cooked to order",
+                why: "A portioned duck course alongside the turkey, finished in minutes on the stove.",
+              },
+              {
+                placement: "duck-vs-turkey-verdict-duck-legs",
+                to: "/cook/duck-leg-confit",
+                intent: "technique_validation",
+                anchor: "Duck legs, made ahead",
+                why: "Confit legs can be cooked days early and crisped while the turkey rests.",
+              },
+            ],
+          },
+        ]}
+      />
 
       <Section id="compare" heading="Side by side, honestly">
         <DataTable
@@ -283,7 +342,13 @@ function Page() {
         </p>
         <SourceNotes ids={PAGE.sourceIds} id="safety-sources" heading="Safety references" />
 
-
+        <SketchSlot
+          art={SKETCH.thermometer}
+          context="articleBreak"
+          height="short"
+          caption="Doneness is a thermometer reading in the thickest part of the meat, away from bone — the same target for either bird."
+          className="mt-8"
+        />
       </Section>
 
       <Section id="leftovers" heading="Friday, and what you actually want on it">

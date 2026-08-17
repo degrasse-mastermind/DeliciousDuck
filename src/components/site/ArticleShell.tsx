@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { PageHeader } from "./PageHeader";
 import type { Crumb } from "./Breadcrumbs";
 import { SketchAutoLayout } from "./SketchAutoLayout";
@@ -164,7 +164,25 @@ export function FaqList({ items, title = "Common questions" }: { items: { q: str
   );
 }
 
-/** Responsive data table: real table on desktop, stacked rows on mobile. */
+/**
+ * Comparison table with a real mobile scroll affordance.
+ *
+ * The table stays a semantic `<table>` at every width — row headers, column
+ * headers and caption intact — because a stacked-card rewrite loses the
+ * cell/header association screen readers rely on. What narrow viewports get
+ * instead is an honest affordance: a "Scroll to compare" hint and a right-edge
+ * fade, both of which disappear once the reader reaches the end of the track.
+ *
+ * Accessibility notes:
+ * - the scroll container is focusable (`tabIndex={0}`) with a group role and an
+ *   accessible name, so keyboard users can scroll it with the arrow keys;
+ * - the hint is plain text tied to the table via `aria-describedby`, not a
+ *   live region, so it is announced in context and never chatters;
+ * - the fade is `aria-hidden` and purely decorative, and its transition is
+ *   wrapped in `motion-safe:` so reduced-motion users get an instant change;
+ * - the container clips its own overflow, so the page itself never scrolls
+ *   sideways.
+ */
 export function DataTable({
   caption,
   columns,
@@ -174,42 +192,101 @@ export function DataTable({
   columns: string[];
   rows: string[][];
 }) {
+  const uid = useId();
+  const hintId = `${uid}-scroll-hint`;
+  const scroller = useRef<HTMLDivElement | null>(null);
+  const [scrollable, setScrollable] = useState(false);
+  const [atEnd, setAtEnd] = useState(false);
+
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el) return;
+
+    const measure = () => {
+      const overflow = el.scrollWidth - el.clientWidth;
+      setScrollable(overflow > 8);
+      setAtEnd(overflow <= 8 || el.scrollLeft >= overflow - 8);
+    };
+
+    measure();
+    el.addEventListener("scroll", measure, { passive: true });
+    const observer =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    observer?.observe(el);
+    return () => {
+      el.removeEventListener("scroll", measure);
+      observer?.disconnect();
+    };
+  }, [rows.length, columns.length]);
+
+  const showHint = scrollable && !atEnd;
+
   return (
     <div className="mt-2">
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[34rem] border-collapse text-left text-sm">
-          <caption className="mb-3 text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
-            {caption}
-          </caption>
-          <thead>
-            <tr className="border-y border-border bg-cream">
-              {columns.map((c) => (
-                <th key={c} scope="col" className="px-3 py-3 font-semibold text-foreground">
-                  {c}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row) => (
-              <tr key={row.join("|")} className="border-b border-border align-top">
-                {row.map((cell, i) => (
-                  <td
-                    key={i}
-                    className={
-                      i === 0
-                        ? "px-3 py-3 font-medium text-foreground"
-                        : "px-3 py-3 text-muted-foreground"
-                    }
-                  >
-                    {cell}
-                  </td>
+      <div className="relative">
+        <div
+          ref={scroller}
+          role="group"
+          aria-label={caption}
+          tabIndex={0}
+          className="overflow-x-auto rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          <table
+            className="w-full min-w-[34rem] border-collapse text-left text-sm"
+            {...(scrollable ? { "aria-describedby": hintId } : {})}
+          >
+            <caption className="mb-3 text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              {caption}
+            </caption>
+            <thead>
+              <tr className="border-y border-border bg-cream">
+                {columns.map((c) => (
+                  <th key={c} scope="col" className="px-3 py-3 font-semibold text-foreground">
+                    {c}
+                  </th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.join("|")} className="border-b border-border align-top">
+                  {row.map((cell, i) =>
+                    i === 0 ? (
+                      <th
+                        key={i}
+                        scope="row"
+                        className="px-3 py-3 text-left font-medium text-foreground"
+                      >
+                        {cell}
+                      </th>
+                    ) : (
+                      <td key={i} className="px-3 py-3 text-muted-foreground">
+                        {cell}
+                      </td>
+                    ),
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent motion-safe:transition-opacity motion-safe:duration-200 ${
+            showHint ? "opacity-100" : "opacity-0"
+          }`}
+        />
       </div>
+
+      <p
+        id={hintId}
+        data-table-scroll-hint
+        className={`mt-2 text-xs text-muted-foreground ${showHint ? "" : "hidden"}`}
+      >
+        {showHint ? "Scroll to compare \u2192" : "End of table"}
+      </p>
     </div>
   );
 }
+
