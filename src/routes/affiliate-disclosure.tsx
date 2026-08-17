@@ -120,7 +120,11 @@ function DisclosurePage() {
             <h2 className="font-display text-2xl text-foreground">Questions</h2>
             <p className="mt-3">
               If something on this site looks like an undisclosed commercial placement, tell us and
-              we will correct it. Our broader standards are outlined on the{" "}
+              we will correct it — write to us via the{" "}
+              <Link to="/contact" className="text-primary underline underline-offset-4">
+                contact page
+              </Link>
+              . Our broader standards are outlined on the{" "}
               <Link to="/about" className="text-primary underline underline-offset-4">
                 about page
               </Link>
