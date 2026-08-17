@@ -4,6 +4,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { SourceMark } from "@/components/site/SourceMark";
 
 const GUIDE = guideByPath("/learn/wild-duck-vs-farmed-duck")!;
 
@@ -167,8 +168,9 @@ function WildVsFarmedPage() {
           Field conditions, time between harvest and chilling, and the presence of shot mean wild birds
           should be cooled promptly, cleaned carefully, and checked for embedded shot before cooking.
           These are food-safety and handling questions, not questions about whether or how a bird may
-          be taken — that's outside the scope of this guide. USDA guidance on minimum safe internal
-          temperature (165°F / 73.9°C) applies to duck regardless of source.
+          be taken — that's outside the scope of this guide. The safe minimum internal
+          temperature, 165°F (73.9°C), applies to duck whatever its source.
+          <SourceMark to="sources" />
         </p>
       </Section>
 

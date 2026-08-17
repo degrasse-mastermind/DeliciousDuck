@@ -7,6 +7,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { SourceMark } from "@/components/site/SourceMark";
 
 const GUIDE = guideByPath("/buy/how-to-choose-duck")!;
 const PAGE = acquisitionPage("/buy/how-to-choose-duck")!;
@@ -192,8 +193,9 @@ function Page() {
           rather than stretching it on smell.
         </p>
         <p>
-          Whatever you bought, the cooking target is unchanged: USDA guidance is a minimum internal
-          temperature of 165°F (73.9°C) for duck, measured with a food thermometer.{" "}
+          Whatever you bought, the cooking target is unchanged: 165°F (73.9°C) internal, measured
+          with a food thermometer.
+          <SourceMark to="sources" />{" "}
           <Link
             to="/learn/duck-breast-temperature-doneness"
             className="text-primary underline underline-offset-4"

@@ -37,7 +37,7 @@ const FAQ = [
     },
     {
       q: "Is it safe to go by the clock alone if I trust my oven?",
-      a: "No. USDA guidance is to verify doneness with a food thermometer regardless of elapsed time, since bird size, shape and oven behavior all vary.",
+      a: "No. Verify doneness with a food thermometer regardless of elapsed time, since bird size, shape and oven behavior all vary.",
     },
     {
       q: "Should I baste to speed things up?",

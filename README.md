@@ -27,3 +27,11 @@ npm run dev
 - TypeScript
 - React
 - Tailwind CSS
+
+## Editorial standards for contributors
+
+All public copy on DeliciousDuck follows one voice and sourcing standard:
+[docs/editorial-style-guide.md](docs/editorial-style-guide.md). In short — lead with
+the useful answer, keep safety facts exact, and keep attribution compact
+(`<SourceMark />` plus `<SourceNotes />` rather than "USDA recommends" in body copy).
+Automated guardrails: `src/lib/__tests__/editorial-voice.test.ts`.

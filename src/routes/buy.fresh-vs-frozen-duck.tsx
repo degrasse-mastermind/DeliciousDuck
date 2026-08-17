@@ -7,6 +7,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { SourceMark } from "@/components/site/SourceMark";
 
 const GUIDE = guideByPath("/buy/fresh-vs-frozen-duck")!;
 const PAGE = acquisitionPage("/buy/fresh-vs-frozen-duck")!;
@@ -182,8 +183,9 @@ function Page() {
           Follow published cold-storage windows rather than the smell test. Raw poultry holds only a
           short time in the refrigerator, and much longer frozen at 0°F (-17.8°C) — where it stays
           safe indefinitely, with quality rather than safety being the limit. Whatever the storage
-          route, the cooking target does not change: USDA guidance is a minimum internal temperature
-          of 165°F (73.9°C) for duck, measured with a food thermometer.
+          route, the cooking target does not change: 165°F (73.9°C) internal, measured with a food
+          thermometer.
+          <SourceMark to="sources" />
         </p>
       </Section>
 

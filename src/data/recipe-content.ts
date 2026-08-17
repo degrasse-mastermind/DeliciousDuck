@@ -126,7 +126,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Pull early, then rest",
         body: "Pull at 130–135°F (54–57°C) for rosy, 140–145°F (60–63°C) for medium. Rest skin-side up on a rack for 5–10 minutes; carryover adds roughly 3–5°F, and resting on a plate steams the crust you just spent twenty minutes building.",
-        watchFor: "USDA recommends 165°F (73.9°C) for all poultry, including duck. Cooking to a lower temperature is a common culinary practice, not a food-safety recommendation.",
+        watchFor: "The safe minimum for all poultry, duck included, is 165°F (73.9°C). Cooking to a lower temperature is a common culinary practice, not a food-safety recommendation.",
       },
       {
         title: "Optional: build a pan sauce while it rests",
@@ -196,7 +196,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         q: "Is pink duck breast safe?",
-        a: "USDA recommends cooking all poultry, including duck, to 165°F (73.9°C). Serving duck breast rosy is a widespread restaurant and home practice, but it is a culinary choice rather than a food-safety recommendation. Anyone pregnant, elderly, very young, or immunocompromised should follow the USDA figure.",
+        a: "The safe minimum for all poultry, duck included, is 165°F (73.9°C). Serving duck breast rosy is a widespread restaurant and home practice, but it is a culinary choice rather than a food-safety recommendation. Anyone pregnant, elderly, very young, or immunocompromised should cook to the full 165°F.",
       },
       {
         q: "Should I score in a crosshatch or in lines?",
@@ -640,7 +640,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Rest and slice",
         body: "Rest 10 minutes, then slice the breast across the grain and serve with the plum sauce spooned alongside.",
-        watchFor: "USDA recommends 165°F (73.9°C) for all poultry; smoking to a lower breast temperature is a culinary choice.",
+        watchFor: "The safe minimum for all poultry is 165°F (73.9°C); smoking to a lower breast temperature is a culinary choice.",
       },
     ],
     temperatures: {

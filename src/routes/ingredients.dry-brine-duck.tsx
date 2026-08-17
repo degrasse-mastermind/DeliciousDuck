@@ -19,7 +19,7 @@ const FAQ = [
   },
   {
     q: "Does dry brining make duck safe to eat rarer?",
-    a: "No. Salting is a seasoning and surface-drying technique, not a safety step. Cook to your own judgement on texture while knowing the official guidance: the USDA recommends a 165°F safe minimum internal temperature for all poultry, including duck.",
+    a: "No. Salting is a seasoning and surface-drying technique, not a safety step. Cook to your own judgement on texture, knowing the safe minimum internal temperature for all poultry, duck included, is 165°F (73.9°C).",
   },
 ];
 
