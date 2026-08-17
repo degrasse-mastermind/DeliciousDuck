@@ -82,16 +82,6 @@ export const CONVERSION_PATHS: ConversionPath[] = [
       "Thaw planning starts with how the bird was shipped and what state it was in when it reached your fridge.",
   },
   {
-    placement: "cut_choice_to_sourcing_guide",
-    sourcePath: "/buy/what-cut-of-duck-to-buy",
-    destination: "/buy/where-to-buy-duck-online",
-    intent: "sourcing",
-    direction: "cornerstone_to_commercial",
-    anchor: "Which suppliers actually stock each cut",
-    reason:
-      "Once you know the cut you want, availability and cold-chain handling decide where it can come from.",
-  },
-  {
     placement: "serving_calculator_to_sourcing_guide",
     sourcePath: "/tools/whole-duck-serving-calculator",
     destination: "/buy/where-to-buy-duck-online",
@@ -100,16 +90,6 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     anchor: "Where to buy a duck of the weight you just worked out",
     reason:
       "Sold weights come in steps, so it helps to know which suppliers carry which sizes before you order.",
-  },
-  {
-    placement: "portion_planning_to_sourcing_guide",
-    sourcePath: "/buy/how-much-duck-per-person",
-    destination: "/buy/where-to-buy-duck-online",
-    intent: "sourcing",
-    direction: "cornerstone_to_commercial",
-    anchor: "Where to buy duck online, by cut and pack size",
-    reason:
-      "Portion maths only turns into an order once you know what pack sizes suppliers actually ship.",
   },
 
   /* --- commercial -> editorial ------------------------------------ */
