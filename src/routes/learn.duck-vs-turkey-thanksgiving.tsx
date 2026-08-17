@@ -210,13 +210,14 @@ function Page() {
         <ul className="mt-4 list-disc space-y-3 pl-5">
           <li>
             <span className="font-semibold text-foreground">Thawing is calendar, not cooking.</span>{" "}
-            USDA lists three safe methods — refrigerator, cold water and microwave — and
-            refrigerator thawing runs roughly 24 hours per 5 lb. Our{" "}
+            USDA lists three safe methods — refrigerator, cold water and microwave — and allows
+            approximately 24 hours of refrigerator thawing for every 4 to 5 lb of bird. Our{" "}
             <Link to="/learn/how-to-thaw-duck" className="text-primary underline underline-offset-4">
               thawing guide
             </Link>{" "}
             has the weight-based times and the cold-water fallback.
           </li>
+
           <li>
             <span className="font-semibold text-foreground">Dry skin beats any basting trick.</span>{" "}
             An uncovered day in the refrigerator does more for duck skin than anything you can do in
