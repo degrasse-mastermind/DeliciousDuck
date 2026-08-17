@@ -132,9 +132,10 @@ function Page() {
             ],
             [
               "Serving yield",
-              "Low. Roughly 40% of raw weight as edible cooked meat, so about one bird for four people.",
-              "High. A single large bird is the standard answer for a big table.",
+              "Lower. More fat and frame relative to edible meat, so plan the count with our serving calculator rather than by bird size.",
+              "Higher. USDA's turkey guide gives a planning allowance of 1 lb of turkey per person, so one large bird covers a big table.",
             ],
+
             [
               "Oven and logistics",
               "Sheds a great deal of fat that must be drained or managed; wants dry skin and a rack. Rewards attention.",
