@@ -17,6 +17,7 @@
  *   asserts a "best" claim beyond the destination guide's own title.
  */
 
+import { RECIPE_CONTENT } from "@/data/recipe-content";
 import { normalisePath, destinationSlug } from "@/lib/duck-breast-cluster";
 
 export const CONVERSION_INTENTS = [
@@ -141,9 +142,25 @@ export const CONVERSION_PATHS: ConversionPath[] = [
   },
 ];
 
-/** Placement ids used by the recipe module, keyed by recipe slug. */
-export function recipePlacementId(slug: string, intent: "equipment" | "sourcing"): string {
-  return `recipe_${slug.replace(/-/g, "_")}_${intent}_path`;
+/** Slug-safe token: lowercase, `_`-separated, no punctuation. */
+function idToken(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+}
+
+/**
+ * Placement id for one rendered recipe conversion link. Deterministic and
+ * unique per recipe slug + intent + destination, so every link on a recipe page
+ * is separately comparable in reporting.
+ */
+export function recipePlacementId(
+  slug: string,
+  intent: "equipment" | "sourcing",
+  destination: string,
+): string {
+  return `recipe_${idToken(slug)}_${intent}_${idToken(destinationSlug(destination))}`;
 }
 
 /** Recipe slugs that render the contextual equipment/sourcing pathway. */
@@ -162,14 +179,41 @@ export function conversionPathByPlacement(placement: string): ConversionPath | u
   return CONVERSION_PATHS.find((p) => p.placement === placement);
 }
 
+/**
+ * The exact placement ids a recipe page renders, in render order, derived from
+ * the same recipe data the module renders from (de-duplicated by destination,
+ * matching the component).
+ */
+export function recipeConversionPlacements(
+  slug: string,
+  equipment: { to?: string | undefined }[],
+  sourcing: { to: string }[],
+): { placement: string; destination: string; intent: "equipment" | "sourcing" }[] {
+  const rows = [
+    ...equipment
+      .filter((item) => Boolean(item.to))
+      .map((item) => ({ destination: item.to as string, intent: "equipment" as const })),
+    ...sourcing.map((item) => ({ destination: item.to, intent: "sourcing" as const })),
+  ].filter(
+    (row, index, all) => all.findIndex((other) => other.destination === row.destination) === index,
+  );
+  return rows.map((row) => ({
+    ...row,
+    placement: recipePlacementId(slug, row.intent, row.destination),
+  }));
+}
+
 /** Every placement id the site can emit, including the recipe placements. */
 export function allConversionPlacementIds(): string[] {
   return [
     ...CONVERSION_PATHS.map((p) => p.placement),
-    ...RECIPE_CONVERSION_SLUGS.flatMap((slug) => [
-      recipePlacementId(slug, "equipment"),
-      recipePlacementId(slug, "sourcing"),
-    ]),
+    ...RECIPE_CONVERSION_SLUGS.flatMap((slug) => {
+      const content = RECIPE_CONTENT[slug];
+      if (!content) return [];
+      return recipeConversionPlacements(slug, content.equipment, content.sourcing).map(
+        (row) => row.placement,
+      );
+    }),
   ];
 }
 

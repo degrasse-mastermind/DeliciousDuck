@@ -157,14 +157,14 @@ export function RecipeConversionPaths({
     ...equipment
       .filter((item) => Boolean(item.to))
       .map((item) => ({
-        placement: recipePlacementId(slug, "equipment"),
+        placement: recipePlacementId(slug, "equipment", item.to as string),
         destination: item.to as string,
         intent: "equipment" as ConversionIntent,
         anchor: item.linkLabel ?? `What to look for: ${item.label.toLowerCase()}`,
         reason: item.why,
       })),
     ...sourcing.map((item) => ({
-      placement: recipePlacementId(slug, "sourcing"),
+      placement: recipePlacementId(slug, "sourcing", item.to),
       destination: item.to,
       intent: "sourcing" as ConversionIntent,
       anchor: item.linkLabel ?? item.label,

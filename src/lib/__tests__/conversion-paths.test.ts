@@ -9,11 +9,14 @@ import {
   buildConversionPathClickEvent,
   conversionPathByPlacement,
   conversionPathsForSource,
+  recipeConversionPlacements,
   recipePlacementId,
 } from "@/data/conversion-paths";
 import { RECIPE_CONTENT } from "@/data/recipe-content";
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
+const idTokenised = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
 
 /** `/gear/best-pan-for-duck-breast` -> `src/routes/gear.best-pan-for-duck-breast.tsx` */
 function routeFileFor(path: string): string {
@@ -154,8 +157,31 @@ describe("recipe context paths", () => {
       ] as string[];
       expect(destinations.length).toBeGreaterThan(0);
       for (const destination of destinations) expect(routeExists(destination), destination).toBe(true);
-      expect(recipePlacementId(slug, "equipment")).not.toBe(recipePlacementId(slug, "sourcing"));
     }
+  });
+
+  it("gives every rendered recipe link a unique, destination-specific placement id", () => {
+    for (const slug of RECIPE_CONVERSION_SLUGS) {
+      const content = RECIPE_CONTENT[slug]!;
+      const rows = recipeConversionPlacements(slug, content.equipment, content.sourcing);
+      expect(rows.length).toBeGreaterThan(1);
+      const ids = rows.map((r) => r.placement);
+      expect(new Set(ids).size, `${slug}: ${ids.join(", ")}`).toBe(ids.length);
+      for (const row of rows) {
+        expect(row.placement).toMatch(/^[a-z0-9_]+$/);
+        expect(row.placement).toContain(idTokenised(slug));
+        expect(row.placement).toContain(row.intent);
+        expect(row.placement.endsWith(idTokenised(row.destination.split("/").pop()!))).toBe(true);
+        // stable across calls
+        expect(recipePlacementId(slug, row.intent, row.destination)).toBe(row.placement);
+      }
+    }
+  });
+
+  it("has no duplicate placement id anywhere in the full placement map", () => {
+    const ids = allConversionPlacementIds();
+    const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
+    expect(duplicates).toEqual([]);
   });
 
   it("renders the recipe module from shared data, not per-recipe hardcoding", () => {
