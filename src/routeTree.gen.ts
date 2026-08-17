@@ -65,6 +65,7 @@ import { Route as InternalKitchenTestSheetRouteImport } from './routes/internal.
 import { Route as InternalRevenueSwitchboardRouteImport } from './routes/internal.revenue-switchboard'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
 import { Route as LearnDuckBreastTemperatureDonenessRouteImport } from './routes/learn.duck-breast-temperature-doneness'
+import { Route as LearnDuckVsTurkeyThanksgivingRouteImport } from './routes/learn.duck-vs-turkey-thanksgiving'
 import { Route as LearnHowToCarveADuckRouteImport } from './routes/learn.how-to-carve-a-duck'
 import { Route as LearnHowToRenderDuckFatRouteImport } from './routes/learn.how-to-render-duck-fat'
 import { Route as LearnHowToScoreDuckBreastRouteImport } from './routes/learn.how-to-score-duck-breast'
@@ -383,6 +384,12 @@ const LearnDuckBreastTemperatureDonenessRoute =
     path: '/duck-breast-temperature-doneness',
     getParentRoute: () => LearnRoute,
   } as any)
+const LearnDuckVsTurkeyThanksgivingRoute =
+  LearnDuckVsTurkeyThanksgivingRouteImport.update({
+    id: '/duck-vs-turkey-thanksgiving',
+    path: '/duck-vs-turkey-thanksgiving',
+    getParentRoute: () => LearnRoute,
+  } as any)
 const LearnHowToCarveADuckRoute = LearnHowToCarveADuckRouteImport.update({
   id: '/how-to-carve-a-duck',
   path: '/how-to-carve-a-duck',
@@ -543,6 +550,7 @@ export interface FileRoutesByFullPath {
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
+  '/learn/duck-vs-turkey-thanksgiving': typeof LearnDuckVsTurkeyThanksgivingRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
@@ -614,6 +622,7 @@ export interface FileRoutesByTo {
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
+  '/learn/duck-vs-turkey-thanksgiving': typeof LearnDuckVsTurkeyThanksgivingRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
@@ -693,6 +702,7 @@ export interface FileRoutesById {
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
+  '/learn/duck-vs-turkey-thanksgiving': typeof LearnDuckVsTurkeyThanksgivingRoute
   '/learn/how-to-carve-a-duck': typeof LearnHowToCarveADuckRoute
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
@@ -773,6 +783,7 @@ export interface FileRouteTypes {
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
+    | '/learn/duck-vs-turkey-thanksgiving'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
@@ -844,6 +855,7 @@ export interface FileRouteTypes {
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
+    | '/learn/duck-vs-turkey-thanksgiving'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
@@ -922,6 +934,7 @@ export interface FileRouteTypes {
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
+    | '/learn/duck-vs-turkey-thanksgiving'
     | '/learn/how-to-carve-a-duck'
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
@@ -1375,6 +1388,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnDuckBreastTemperatureDonenessRouteImport
       parentRoute: typeof LearnRoute
     }
+    '/learn/duck-vs-turkey-thanksgiving': {
+      id: '/learn/duck-vs-turkey-thanksgiving'
+      path: '/duck-vs-turkey-thanksgiving'
+      fullPath: '/learn/duck-vs-turkey-thanksgiving'
+      preLoaderRoute: typeof LearnDuckVsTurkeyThanksgivingRouteImport
+      parentRoute: typeof LearnRoute
+    }
     '/learn/how-to-carve-a-duck': {
       id: '/learn/how-to-carve-a-duck'
       path: '/how-to-carve-a-duck'
@@ -1611,6 +1631,7 @@ const IngredientsRouteWithChildren = IngredientsRoute._addFileChildren(
 
 interface LearnRouteChildren {
   LearnDuckBreastTemperatureDonenessRoute: typeof LearnDuckBreastTemperatureDonenessRoute
+  LearnDuckVsTurkeyThanksgivingRoute: typeof LearnDuckVsTurkeyThanksgivingRoute
   LearnHowToCarveADuckRoute: typeof LearnHowToCarveADuckRoute
   LearnHowToRenderDuckFatRoute: typeof LearnHowToRenderDuckFatRoute
   LearnHowToScoreDuckBreastRoute: typeof LearnHowToScoreDuckBreastRoute
@@ -1624,6 +1645,7 @@ interface LearnRouteChildren {
 const LearnRouteChildren: LearnRouteChildren = {
   LearnDuckBreastTemperatureDonenessRoute:
     LearnDuckBreastTemperatureDonenessRoute,
+  LearnDuckVsTurkeyThanksgivingRoute: LearnDuckVsTurkeyThanksgivingRoute,
   LearnHowToCarveADuckRoute: LearnHowToCarveADuckRoute,
   LearnHowToRenderDuckFatRoute: LearnHowToRenderDuckFatRoute,
   LearnHowToScoreDuckBreastRoute: LearnHowToScoreDuckBreastRoute,
