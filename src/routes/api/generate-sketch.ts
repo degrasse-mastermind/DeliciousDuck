@@ -3,9 +3,11 @@ import {
   MAX_REQUEST_BYTES,
   gatewayBody,
   parseGenerateRequest,
+  studioAccessDenied,
   takeToken,
   type RateState,
 } from "@/lib/sketch-request";
+
 
 /**
  * Internal illustration generation endpoint used by /internal/illustrations.
