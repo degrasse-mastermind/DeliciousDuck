@@ -14,6 +14,11 @@ import {
 } from "./duck-breast-cluster";
 import { buildCommercialClickEvent, COMMERCIAL_EVENTS } from "./commercial-events";
 import {
+  buildConversionPathClickEvent,
+  CONVERSION_PATH_CLICK_EVENT,
+  type ConversionIntent,
+} from "@/data/conversion-paths";
+import {
   buildCommercialPageViewEvent,
   buildLeadMagnetDownloadEvent,
   buildOutboundSocialClickEvent,
@@ -47,6 +52,7 @@ export const ANALYTICS_EVENTS = {
   starterGuideView: "starter_guide_view",
   starterGuidePrint: "starter_guide_print",
   duckBreastClusterClick: CLUSTER_CLICK_EVENT,
+  internalConversionClick: CONVERSION_PATH_CLICK_EVENT,
   commercialPageView: ENGAGEMENT_EVENTS.commercialPageView,
   leadMagnetDownload: ENGAGEMENT_EVENTS.leadMagnetDownload,
   outboundSocialClick: ENGAGEMENT_EVENTS.outboundSocialClick,
@@ -471,6 +477,47 @@ export function trackDuckBreastClusterClick(params: {
   ].join("|");
   if (!shouldSendClick(key)) return;
   trackEvent(event.name, { ...event.params });
+}
+
+/* ------------------------------------------------------------------ *
+ * Internal commercial conversion paths (DEL-12)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Internal conversion-path click: a cornerstone page sending a reader to the
+ * matching commercial guide, or a commercial guide sending them back to the
+ * technique page that explains why an item matters.
+ *
+ * The `placement` comes from the DEL-12 placement map in
+ * `@/data/conversion-paths`, so this event joins the existing
+ * `commercial_page_view` recorded on the destination route. Payload is built by
+ * a pure builder and carries no address, token, query string, or full URL, and
+ * `affiliate_click` semantics are untouched. Never blocks navigation.
+ */
+export function trackConversionPathClick(params: {
+  destination: string;
+  intent: ConversionIntent;
+  placement: string;
+}): void {
+  try {
+    const event = buildConversionPathClickEvent({
+      destination: params.destination,
+      intent: params.intent,
+      placement: params.placement,
+      sourcePath: currentPagePath(),
+    });
+    const key = [
+      "conversion_path",
+      event.params.destination_slug,
+      event.params.placement,
+      event.params.source_path,
+    ].join("|");
+    if (!shouldSendClick(key)) return;
+    trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
+  } catch {
+    // Analytics is best-effort. Never let it break an internal navigation.
+  }
 }
 
 /* ------------------------------------------------------------------ *
