@@ -1,5 +1,6 @@
 import { ToolAssumptions } from "@/components/tools/ToolAssumptions";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { PageHeader } from "@/components/site/PageHeader";
 import { WholeDuckServingCalculator } from "@/components/tools/WholeDuckServingCalculator";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
@@ -107,15 +108,15 @@ function CalculatorPage() {
               </li>
               <li>
                 <Link to="/buy" className="text-primary underline underline-offset-4">
-                  Where to buy duck online
+                  Buying guides
                 </Link>
                 <span className="block text-muted-foreground">
-                  Sourcing routes and what to inspect first.
+                  Cuts, quantities, fresh versus frozen, and sourcing routes.
                 </span>
               </li>
               <li>
                 <Link to="/learn" className="text-primary underline underline-offset-4">
-                  Carving a whole duck
+                  Technique guides
                 </Link>
                 <span className="block text-muted-foreground">
                   Get clean portions from every bird you buy.
@@ -124,6 +125,13 @@ function CalculatorPage() {
             </ul>
           </aside>
         </div>
+
+        <ConversionPaths
+          sourcePath="/tools/whole-duck-serving-calculator"
+          heading="Turning this weight into an order"
+          eyebrow="Next step"
+          intro="Sold weights come in steps, so check what suppliers actually ship."
+        />
       </section>
     </>
   );
