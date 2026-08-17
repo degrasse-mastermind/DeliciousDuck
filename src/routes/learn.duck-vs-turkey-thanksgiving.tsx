@@ -433,7 +433,11 @@ function Page() {
           <li>
             <span className="font-semibold text-foreground">Or the whole bird anyway.</span> If the
             presentation is the point, our{" "}
-            <Link to="/recipes/roasted-whole-duck" className="text-primary underline underline-offset-4">
+            <Link
+              to="/recipes/$slug"
+              params={{ slug: "roasted-whole-duck" }}
+              className="text-primary underline underline-offset-4"
+            >
               roasted whole duck recipe
             </Link>{" "}
             is the version we cook.
