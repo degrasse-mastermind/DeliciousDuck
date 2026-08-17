@@ -159,12 +159,56 @@ const SELECTION: AcquisitionPageMeta = {
   ],
 };
 
+/**
+ * Holiday decision page. Lives under /learn because the reader is choosing a
+ * centrepiece, not a seller. Comparative claims are limited to what a cook can
+ * observe or plan: flavour, texture, yield, oven logistics, leftovers, and
+ * familiarity. No prices, no popularity statistics, no turkey timings of our
+ * own — turkey-specific numbers stay with USDA.
+ */
+const THANKSGIVING: AcquisitionPageMeta = {
+  path: "/learn/duck-vs-turkey-thanksgiving",
+  intent: "Should I serve duck or turkey for Thanksgiving, and what changes if I do?",
+  answer:
+    "Serve turkey when the table is large, the guests expect tradition, and you want leftovers for days. Serve duck when you are cooking for two to six people, you care more about how it eats than how much of it there is, and you would rather manage rendering fat than a dry breast. Duck is richer and far less forgiving on yield: plan on roughly one whole duck for four, not one bird for a crowd.",
+  byline: BYLINE,
+  reviewedBy: REVIEWED,
+  updated: "2026-08-17",
+  basedOn: [
+    "USDA safe-handling guidance for poultry — thawing, the 165°F minimum internal temperature, danger-zone limits and leftover windows — which applies to duck and turkey alike.",
+    "USDA's own consumer guide to roasting turkey, which we point readers at rather than publishing turkey timings of our own.",
+    "The published yield assumptions behind our whole-duck serving calculator, and the oven workflow documented on our whole-roast-duck and carving pages.",
+  ],
+  notTested:
+    "We publish no prices, no availability claims, and no popularity or market data, and we have not cooked the two birds side by side for this page. Cost and availability vary too much by region and season for us to state, so check your own sellers. Turkey timings belong to USDA, not to us.",
+  sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep", "usdaTurkeyRoasting", "usdaThawing", "usdaLeftovers"],
+  funnel: [
+    {
+      to: "/tools/whole-duck-serving-calculator",
+      label: "Whole-duck serving calculator",
+      why: "The fastest way to settle the yield question: guest count in, number of birds and raw weight out.",
+    },
+    {
+      to: "/cook/whole-roast-duck",
+      label: "How to roast a whole duck",
+      why: "The full holiday workflow, from drying the skin to resting and carving the bird.",
+    },
+    {
+      to: "/buy/where-to-buy-duck-online",
+      label: "Where to buy duck",
+      why: "Holiday duck usually ships frozen, so ordering early is part of the decision.",
+    },
+  ],
+};
+
 export const ACQUISITION_PAGES: AcquisitionPageMeta[] = [
   CUTS,
   QUANTITY,
   FRESH_FROZEN,
   SELECTION,
+  THANKSGIVING,
 ];
+
 
 export function acquisitionPage(path: string): AcquisitionPageMeta | undefined {
   return ACQUISITION_PAGES.find((p) => p.path === path);
