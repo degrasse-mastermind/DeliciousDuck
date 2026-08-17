@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { ACQUISITION_PAGES, acquisitionPage } from "@/data/acquisition-cluster";
+import { INGREDIENTS } from "@/data/ingredients";
 import { GUIDES, guideByPath } from "@/data/guides";
 import { SOURCES } from "@/data/sources";
 import { COMMERCIAL_LINKS } from "@/data/commercial-links";
@@ -80,6 +81,7 @@ describe("acquisition cluster registry", () => {
   it("funnels forward to internal routes that exist", () => {
     const known = new Set<string>([
       ...GUIDES.map((g) => g.path),
+      ...INGREDIENTS.map((i) => i.path),
       "/tools/whole-duck-serving-calculator",
       "/tools/duck-doneness-guide",
       "/tools/duck-cooking-time-planner",
@@ -206,6 +208,7 @@ describe("acquisition cluster route files", () => {
   it("links only to internal routes that exist", () => {
     const known = new Set<string>([
       ...GUIDES.map((g) => g.path),
+      ...INGREDIENTS.map((i) => i.path),
       "/",
       "/buy",
       "/cook",
@@ -226,6 +229,9 @@ describe("acquisition cluster route files", () => {
       "/tools/what-should-i-cook",
       "/tools/duck-fat-render-calculator",
       "/tools/duck-pairing-finder",
+      // Dynamic recipe route: the slug is validated separately against
+      // RECIPES in the recipe-content registry.
+      "/recipes/$slug",
     ]);
     for (const page of ACQUISITION_PAGES) {
       const code = src(page.path);
