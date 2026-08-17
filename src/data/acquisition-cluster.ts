@@ -170,13 +170,14 @@ const THANKSGIVING: AcquisitionPageMeta = {
   path: "/learn/duck-vs-turkey-thanksgiving",
   intent: "Should I serve duck or turkey for Thanksgiving, and what changes if I do?",
   answer:
-    "Serve turkey when the table is large, the guests expect tradition, and you want leftovers for days. Serve duck when you are cooking for two to six people, you care more about how it eats than how much of it there is, and you would rather manage rendering fat than a dry breast. Duck is richer and offers less serving capacity per bird than a turkey, so a duck holiday is usually a smaller one or a two-bird one — run your guest count through our serving calculator before you order.",
+    "Serve turkey when the table is large, the guests expect tradition, and you want leftovers for days. Serve duck when the table is small enough for the birds and pans your kitchen can hold, you care more about how it eats than how much of it there is, and you would rather manage rendering fat than a dry breast. Duck is richer and offers less serving capacity per bird than a turkey, so a duck holiday is usually a smaller one or a two-bird one — run your guest count through our serving calculator before you order.",
   byline: BYLINE,
   reviewedBy: REVIEWED,
   updated: "2026-08-17",
   basedOn: [
     "USDA safe-handling guidance for poultry — thawing, the 165°F minimum internal temperature, danger-zone limits and leftover windows — which applies to duck and turkey alike.",
-    "USDA's own consumer guide to roasting turkey, which we point readers at rather than publishing turkey timings of our own.",
+    "USDA's own consumer guide to roasting turkey, which we point readers at rather than publishing turkey timings of our own, including its approximate unstuffed-turkey roasting ranges at 325°F.",
+    "USDA's duck and goose guidance, including its approximate planning range of 30 to 35 min/lb at 350°F for a 4 to 6 lb whole duckling, and USDA's stuffing guidance.",
     "Our own published planning assumptions, which live in the whole-duck serving calculator rather than in this page, plus the oven workflow documented on our whole-roast-duck and carving pages.",
   ],
   notTested:
@@ -188,6 +189,7 @@ const THANKSGIVING: AcquisitionPageMeta = {
     "usdaThawing",
     "usdaDangerZone",
     "usdaLeftovers",
+    "usdaStuffing",
   ],
   funnel: [
     {

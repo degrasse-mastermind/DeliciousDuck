@@ -72,6 +72,15 @@ export const SOURCES: Record<string, SourceRef> = {
     checked: "2026-08",
   },
 
+  usdaStuffing: {
+    id: "usdaStuffing",
+    label: "Stuffing and Food Safety",
+    publisher: "USDA Food Safety and Inspection Service",
+    url: "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/stuffing-and-food-safety",
+    note: "USDA recommends cooking stuffing separately for optimal safety and uniform doneness; if poultry is stuffed, the center of the stuffing must reach 165°F measured with a food thermometer.",
+    checked: "2026-08",
+  },
+
   fsisWildGame: {
     id: "fsisWildGame",
     label: "Wild Game from Field to Table",
