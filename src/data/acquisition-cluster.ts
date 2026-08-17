@@ -170,18 +170,25 @@ const THANKSGIVING: AcquisitionPageMeta = {
   path: "/learn/duck-vs-turkey-thanksgiving",
   intent: "Should I serve duck or turkey for Thanksgiving, and what changes if I do?",
   answer:
-    "Serve turkey when the table is large, the guests expect tradition, and you want leftovers for days. Serve duck when you are cooking for two to six people, you care more about how it eats than how much of it there is, and you would rather manage rendering fat than a dry breast. Duck is richer and far less forgiving on yield: plan on roughly one whole duck for four, not one bird for a crowd.",
+    "Serve turkey when the table is large, the guests expect tradition, and you want leftovers for days. Serve duck when you are cooking for two to six people, you care more about how it eats than how much of it there is, and you would rather manage rendering fat than a dry breast. Duck is richer and offers less serving capacity per bird than a turkey, so a duck holiday is usually a smaller one or a two-bird one — run your guest count through our serving calculator before you order.",
   byline: BYLINE,
   reviewedBy: REVIEWED,
   updated: "2026-08-17",
   basedOn: [
     "USDA safe-handling guidance for poultry — thawing, the 165°F minimum internal temperature, danger-zone limits and leftover windows — which applies to duck and turkey alike.",
     "USDA's own consumer guide to roasting turkey, which we point readers at rather than publishing turkey timings of our own.",
-    "The published yield assumptions behind our whole-duck serving calculator, and the oven workflow documented on our whole-roast-duck and carving pages.",
+    "Our own published planning assumptions, which live in the whole-duck serving calculator rather than in this page, plus the oven workflow documented on our whole-roast-duck and carving pages.",
   ],
   notTested:
-    "We publish no prices, no availability claims, and no popularity or market data, and we have not cooked the two birds side by side for this page. Cost and availability vary too much by region and season for us to state, so check your own sellers. Turkey timings belong to USDA, not to us.",
-  sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep", "usdaTurkeyRoasting", "usdaThawing", "usdaLeftovers"],
+    "We publish no prices, no availability claims, and no popularity or market data, we have not cooked the two birds side by side for this page, and we publish no edible-yield percentage as fact — our serving numbers are stated planning assumptions, not measured data. Cost and availability vary too much by region and season for us to state, so check your own sellers. Turkey timings belong to USDA, not to us.",
+  sourceIds: [
+    "usdaPoultryTemp",
+    "usdaPoultryPrep",
+    "usdaTurkeyRoasting",
+    "usdaThawing",
+    "usdaDangerZone",
+    "usdaLeftovers",
+  ],
   funnel: [
     {
       to: "/tools/whole-duck-serving-calculator",
