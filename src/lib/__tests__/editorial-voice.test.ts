@@ -83,18 +83,20 @@ describe("editorial voice: unsupported claims", () => {
   });
 
   it("bans padded authority phrasing", () => {
-    const BANNED = /(.{0,140})\b(reader-approved|foolproof|guaranteed results|scientifically proven)\b/gi;
+    const BANNED = /\b(reader-approved|foolproof|guaranteed results|scientifically proven)\b/gi;
     const offenders: string[] = [];
     for (const file of publicFiles) {
-      for (const m of readFileSync(file, "utf8").matchAll(BANNED)) {
-        const sentence = (m[1] ?? "") + m[0];
-        // "we will never describe an unvalidated recipe as ... foolproof" is policy copy.
-        if (/\bnever\b|\bdo not\b|\bwe don't\b/i.test(sentence)) continue;
-        offenders.push(`${file.replace(process.cwd() + "/", "")}: ${m[2]}`);
+      const text = readFileSync(file, "utf8");
+      for (const m of text.matchAll(BANNED)) {
+        // Policy copy that promises we will NOT use these words is fine.
+        const context = text.slice(Math.max(0, (m.index ?? 0) - 200), m.index ?? 0);
+        if (/\bnever\b|\bdo not\b|\bwe don't\b/i.test(context)) continue;
+        offenders.push(`${file.replace(process.cwd() + "/", "")}: ${m[1]}`);
       }
     }
     expect(offenders).toEqual([]);
   });
+
 });
 
 describe("editorial voice: the style guide is discoverable", () => {
