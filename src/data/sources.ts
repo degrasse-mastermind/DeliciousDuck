@@ -62,6 +62,16 @@ export const SOURCES: Record<string, SourceRef> = {
     note: "Cold-storage windows for raw and cooked poultry.",
     checked: "2026-08",
   },
+  usdaTurkeyRoasting: {
+
+    id: "usdaTurkeyRoasting",
+    label: "Let's Talk Turkey — A Consumer Guide to Safely Roasting a Turkey",
+    publisher: "USDA Food Safety and Inspection Service",
+    url: "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/poultry/lets-talk-turkey-consumer-guide-safely-roasting-turkey",
+    note: "USDA's consumer guide for turkey: safe thawing, roasting, thermometer placement, doneness and standing time. Use it for turkey-specific timing rather than any figure we publish.",
+    checked: "2026-08",
+  },
+
   fsisWildGame: {
     id: "fsisWildGame",
     label: "Wild Game from Field to Table",

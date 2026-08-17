@@ -81,6 +81,13 @@ function LearnPage() {
             <Link to="/cook/how-to-cook-duck-breast" className="underline-offset-4 hover:underline">
               How to cook duck breast
             </Link>
+            <Link
+              to="/learn/duck-vs-turkey-thanksgiving"
+              className="underline-offset-4 hover:underline"
+            >
+              Duck vs. turkey
+            </Link>
+
             <Link to="/tools/duck-doneness-guide" className="underline-offset-4 hover:underline">
               Doneness guide
             </Link>
