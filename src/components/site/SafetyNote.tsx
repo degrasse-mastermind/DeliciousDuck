@@ -7,7 +7,7 @@ import { USDA_SAFETY_LINE } from "@/data/sources";
  */
 export function SafetyNote({
   children,
-  heading = "Food safety: the USDA number",
+  heading = "Food safety: the official minimum",
 }: {
   children?: React.ReactNode;
   heading?: string;
