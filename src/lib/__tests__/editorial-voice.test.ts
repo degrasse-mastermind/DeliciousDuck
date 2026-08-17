@@ -83,12 +83,13 @@ describe("editorial voice: unsupported claims", () => {
   });
 
   it("bans padded authority phrasing", () => {
-    const BANNED = /(.{0,80})\b(reader-approved|foolproof|guaranteed results|scientifically proven)\b/gi;
+    const BANNED = /(.{0,140})\b(reader-approved|foolproof|guaranteed results|scientifically proven)\b/gi;
     const offenders: string[] = [];
     for (const file of publicFiles) {
       for (const m of readFileSync(file, "utf8").matchAll(BANNED)) {
+        const sentence = (m[1] ?? "") + m[0];
         // "we will never describe an unvalidated recipe as ... foolproof" is policy copy.
-        if (/never|not\b|no\b/i.test(m[1] ?? "")) continue;
+        if (/\bnever\b|\bdo not\b|\bwe don't\b/i.test(sentence)) continue;
         offenders.push(`${file.replace(process.cwd() + "/", "")}: ${m[2]}`);
       }
     }
