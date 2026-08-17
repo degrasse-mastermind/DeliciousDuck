@@ -273,7 +273,10 @@ function Page() {
         </p>
         <SourceNotes
           ids={["usdaPoultryTemp", "usdaTurkeyRoasting", "usdaThawing"]}
+          id="safety-sources"
+          heading="Safety references"
         />
+
       </Section>
 
       <Section id="leftovers" heading="Friday, and what you actually want on it">
