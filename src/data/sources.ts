@@ -61,7 +61,9 @@ export const SOURCES: Record<string, SourceRef> = {
     url: "https://www.fda.gov/media/74435/download",
     note: "Cold-storage windows for raw and cooked poultry.",
     checked: "2026-08",
+  },
   usdaTurkeyRoasting: {
+
     id: "usdaTurkeyRoasting",
     label: "Let's Talk Turkey — A Consumer Guide to Safely Roasting a Turkey",
     publisher: "USDA Food Safety and Inspection Service",
