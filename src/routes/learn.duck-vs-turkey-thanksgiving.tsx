@@ -114,16 +114,25 @@ function Page() {
 
       <Section id="verdict" heading="The verdict, before the detail">
         <p>
-          This is a table-size decision more than a taste decision. Turkey scales; duck does not. A
-          duck gives you noticeably less edible meat per bird than a turkey of similar size, so a
-          duck Thanksgiving is usually a smaller Thanksgiving — or a two-bird one.
+          Start by dropping the word “substitute”. A duck does not do a turkey's job in a smaller
+          package: it is a darker, richer, fattier bird that changes the sauce, the sides and the
+          shape of the meal around it. Treat it as its own centrepiece and it is a genuinely good
+          holiday dinner. Treat it as a turkey stand-in and you will spend the day comparing it with
+          something it was never trying to be.
+        </p>
+        <p>
+          The practical difference is how the two scale. Turkey scales by weight — you buy a heavier
+          bird for a bigger table, and USDA's consumer guide gives a planning allowance of 1 lb of
+          turkey per person to do it with. Duck scales by count: a duck carries less edible meat
+          relative to its weight, and there is no USDA planning allowance for it, so more guests
+          means more birds, more rack space and more pan capacity rather than a bigger single bird.
         </p>
 
         <Callout label="Choose duck if">
           <p>
-            You are cooking for two to six, you want a centrepiece that tastes like a restaurant
-            dish rather than a tradition, and the words “crisp skin and rendered fat” sound like a
-            feature rather than a chore.
+            The table is small enough to be fed comfortably by the birds your oven can hold, you want
+            a centrepiece that eats like a restaurant dish rather than a tradition, and the words
+            “crisp skin and rendered fat” sound like a feature rather than a chore.
           </p>
         </Callout>
         <Callout label="Choose turkey if" tone="gold">
@@ -134,11 +143,13 @@ function Page() {
           </p>
         </Callout>
         <p>
-          There is also a middle route that we like more than either extreme: roast a duck as the
-          centrepiece for the cooks and the curious, and keep the meal's traditional weight in the
-          sides. It is the version of this decision that upsets the fewest people.
+          There is also a middle route that we like more than either extreme: keep a turkey as the
+          anchor if the crowd came for the ritual, and add duck as a portioned course — seared breast
+          or made-ahead legs — rather than a second whole bird. It is the version of this decision
+          that upsets the fewest people.
         </p>
       </Section>
+
 
       <VerdictChoice
         id="verdict-next-step"
