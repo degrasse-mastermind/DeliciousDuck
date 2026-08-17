@@ -276,6 +276,7 @@ function Page() {
       <FaqList items={FAQ} />
 
       <ConversionPaths
+        heading="What this thermometer has to do"
         sourcePath="/gear/best-thermometer-for-duck"
         eyebrow="Read these first"
         intro="What a probe is actually for, before you choose one."

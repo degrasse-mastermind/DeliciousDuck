@@ -289,6 +289,7 @@ function Page() {
       </div>
 
       <ConversionPaths
+        heading="What happens after delivery"
         sourcePath="/buy/where-to-buy-duck-online"
         eyebrow="After it arrives"
         intro="Plan the thaw before you plan the dinner."

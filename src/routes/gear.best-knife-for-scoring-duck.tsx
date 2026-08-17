@@ -246,6 +246,7 @@ function Page() {
       />
 
       <ConversionPaths
+        heading="What this knife has to do"
         sourcePath="/gear/best-knife-for-scoring-duck"
         eyebrow="Read this first"
         intro="The cut this blade has to make."

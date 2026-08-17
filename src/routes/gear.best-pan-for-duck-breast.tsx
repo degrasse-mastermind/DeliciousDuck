@@ -235,6 +235,7 @@ function Page() {
       <FaqList items={FAQ} />
 
       <ConversionPaths
+        heading="Check the technique before the pan"
         sourcePath="/gear/best-pan-for-duck-breast"
         eyebrow="Read this first"
         intro="Check whether the pan is really your limiting factor."
