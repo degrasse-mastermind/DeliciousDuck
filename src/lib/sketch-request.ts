@@ -125,33 +125,3 @@ export function base64Bytes(base64: string): number {
   return Math.max(0, Math.floor((clean.length * 3) / 4) - padding);
 }
 
-/**
- * Access gate for the illustration studio endpoints.
- *
- * The studio is an internal tool that spends AI credits, so the endpoint must
- * not be freely callable on the published site. Rules:
- * - if STUDIO_ACCESS_TOKEN is configured, callers must present it in the
- *   `x-studio-token` header (constant-length compare, no echoing of values);
- * - with no token configured, the endpoint is available outside production only.
- */
-export function studioAccessDenied(
-  headerToken: string | null,
-  env: { token?: string | undefined; production: boolean },
-): Response | null {
-  if (env.token) {
-    return headerToken && safeEqual(headerToken, env.token)
-      ? null
-      : new Response("Not authorised", { status: 401 });
-  }
-  if (env.production) {
-    return new Response("Not found", { status: 404 });
-  }
-  return null;
-}
-
-function safeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
-}

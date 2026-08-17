@@ -3,16 +3,16 @@ import {
   MAX_REQUEST_BYTES,
   gatewayBody,
   parseGenerateRequest,
-  studioAccessDenied,
   takeToken,
   type RateState,
 } from "@/lib/sketch-request";
 
-
 /**
  * Internal illustration generation endpoint used by /internal/illustrations.
  *
- * Hardening notes:
+ * Safety rules enforced here:
+ * - disabled entirely outside development/preview (production callers get a
+ *   generic 403 before any parsing or AI-gateway call);
  * - the LOVABLE_API_KEY is read inside the handler and never reaches the client;
  * - the request body is size-checked before it is parsed;
  * - only image-capable models on the studio allow-list are forwarded;
@@ -28,11 +28,9 @@ export const Route = createFileRoute("/api/generate-sketch")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const denied = studioAccessDenied(request.headers.get("x-studio-token"), {
-          token: process.env["STUDIO_ACCESS_TOKEN"],
-          production: process.env["NODE_ENV"] === "production",
-        });
-        if (denied) return denied;
+        if (process.env["NODE_ENV"] === "production") {
+          return new Response("Disabled", { status: 403 });
+        }
 
         const length = Number(request.headers.get("content-length") ?? 0);
 
