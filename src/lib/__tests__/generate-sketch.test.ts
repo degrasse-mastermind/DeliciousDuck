@@ -1,7 +1,7 @@
 import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
 import { handleGenerateSketch } from "@/routes/api/generate-sketch";
 
-function post(body: BodyInit | null, headers?: Record<string, string>) {
+function post(body: BodyInit | null, headers: Record<string, string> = {}) {
   return handleGenerateSketch({
     request: new Request("http://localhost:8080/api/generate-sketch", {
       method: "POST",
@@ -10,6 +10,7 @@ function post(body: BodyInit | null, headers?: Record<string, string>) {
     }),
   });
 }
+
 
 describe("POST /api/generate-sketch", () => {
   const originalEnv = process.env["NODE_ENV"];
