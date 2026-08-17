@@ -3,9 +3,11 @@ import {
   MAX_REQUEST_BYTES,
   gatewayBody,
   parseGenerateRequest,
+  studioAccessDenied,
   takeToken,
   type RateState,
 } from "@/lib/sketch-request";
+
 
 /**
  * Internal illustration generation endpoint used by /internal/illustrations.
@@ -26,7 +28,14 @@ export const Route = createFileRoute("/api/generate-sketch")({
   server: {
     handlers: {
       POST: async ({ request }) => {
+        const denied = studioAccessDenied(request.headers.get("x-studio-token"), {
+          token: process.env["STUDIO_ACCESS_TOKEN"],
+          production: process.env["NODE_ENV"] === "production",
+        });
+        if (denied) return denied;
+
         const length = Number(request.headers.get("content-length") ?? 0);
+
         if (length > MAX_REQUEST_BYTES) {
           return new Response("Request too large", { status: 413 });
         }
