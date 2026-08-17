@@ -404,7 +404,11 @@ function Page() {
               how to cook duck breast
             </Link>{" "}
             and the{" "}
-            <Link to="/recipes/pan-seared-duck-breast" className="text-primary underline underline-offset-4">
+            <Link
+              to="/recipes/$slug"
+              params={{ slug: "pan-seared-duck-breast" }}
+              className="text-primary underline underline-offset-4"
+            >
               pan-seared duck breast recipe
             </Link>
             .
