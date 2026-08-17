@@ -11,7 +11,9 @@ const ROUTE_FILE: Record<string, string> = {
   "/buy/how-much-duck-per-person": "src/routes/buy.how-much-duck-per-person.tsx",
   "/buy/fresh-vs-frozen-duck": "src/routes/buy.fresh-vs-frozen-duck.tsx",
   "/buy/how-to-choose-duck": "src/routes/buy.how-to-choose-duck.tsx",
+  "/learn/duck-vs-turkey-thanksgiving": "src/routes/learn.duck-vs-turkey-thanksgiving.tsx",
 };
+
 
 function src(path: string): string {
   return readFileSync(ROUTE_FILE[path]!, "utf8");
