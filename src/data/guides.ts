@@ -187,8 +187,10 @@ export const GUIDES: GuideEntry[] = [
       "/tools/duck-cooking-time-planner",
       "/tools/whole-duck-serving-calculator",
       "/cook/whole-roast-duck",
+      "/learn/duck-vs-turkey-thanksgiving",
       "/learn/duck-breast-temperature-doneness",
     ],
+
   },
   {
     path: "/learn/how-to-carve-a-duck",
