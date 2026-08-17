@@ -396,6 +396,63 @@ function Page() {
         />
       </Section>
 
+      <Section id="sides" heading="Two holiday sides that carry a duck dinner">
+        <p>
+          If you build only two things around the bird, build these. Between them they use the fat
+          the duck gives you and supply the sharpness it needs, which is most of what a duck menu
+          asks for.
+        </p>
+        <ul className="mt-4 list-disc space-y-3 pl-5">
+          <li>
+            <span className="font-semibold text-foreground">Duck-fat roast potatoes.</span> Pour the
+            clear rendered fat off the pan mid-roast, parboil floury potatoes until the edges just
+            turn fluffy, rough them up in the colander, then roast them hard in that fat until the
+            crust shatters. Salt at the end. It is the one side guests remember, and it costs you
+            nothing but the fat you already collected — see{" "}
+            <Link
+              to="/learn/how-to-render-duck-fat"
+              className="text-primary underline underline-offset-4"
+            >
+              how to render duck fat
+            </Link>{" "}
+            and{" "}
+            <Link
+              to="/cook/ways-to-use-duck-fat"
+              className="text-primary underline underline-offset-4"
+            >
+              more ways to use it
+            </Link>
+            .
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">Vinegar-forward greens.</span> Bitter or
+            peppery leaves — chicory, kale, escarole, shredded sprouts — wilted briefly or served
+            raw, dressed while still warm with a dressing that leans further into acid than you
+            normally would. Sherry or cider vinegar, a little mustard, restrained oil. Against rich
+            duck a polite vinaigrette disappears, so make it bracing; our{" "}
+            <Link
+              to="/ingredients/best-acid-for-duck"
+              className="text-primary underline underline-offset-4"
+            >
+              acid pairing guide
+            </Link>{" "}
+            covers which vinegars and citrus hold up.
+          </li>
+        </ul>
+        <p className="mt-4">
+          Keep the rest of the table simple around them: something tart with fruit if you want a
+          third dish, and one savoury or briny accent. For a fuller spread,{" "}
+          <Link
+            to="/cook/what-to-serve-with-duck-breast"
+            className="text-primary underline underline-offset-4"
+          >
+            what to serve with duck
+          </Link>{" "}
+          runs through the combinations we cook most often.
+        </p>
+      </Section>
+
+
       <Section id="alternatives" heading="You do not have to roast a whole bird">
         <p>
           A whole bird is the default holiday image, not a requirement. If the table is small, the
