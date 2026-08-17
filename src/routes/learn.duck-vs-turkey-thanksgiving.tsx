@@ -252,8 +252,8 @@ function Page() {
           </li>
           <li>
             <span className="font-semibold text-foreground">Rest, then carve.</span> Both birds
-            carve better after a rest. For turkey, follow the standing time in USDA's own consumer
-            guide, linked in the references below; for duck, our{" "}
+            carve better after a rest. USDA's turkey guide asks for a 20-minute stand before
+            carving, for quality rather than safety, so the juices set; for duck, our{" "}
             <Link to="/learn/how-to-carve-a-duck" className="text-primary underline underline-offset-4">
               carving guide
             </Link>{" "}
@@ -269,21 +269,20 @@ function Page() {
         </p>
         <SafetyNote>
           <p>
-            The same 165°F (73.9°C) minimum applies to turkey. For turkey-specific thawing,
-            roasting and standing times we point you to USDA's consumer guide rather than publishing
-            figures of our own — it is the first reference listed below.
+            USDA puts all poultry, duck and turkey alike, at a minimum internal temperature of 165°F
+            (73.9°C). For turkey-specific figures — the 1 lb per person allowance, refrigerator
+            thawing at approximately 24 hours per 4 to 5 lb, and the 20-minute stand — follow USDA's
+            own consumer guide rather than any timing of ours. Every source is listed below.
           </p>
         </SafetyNote>
         <p>
-          Two more rules travel with a holiday meal regardless of species: perishable food should
-          not sit between 40°F and 140°F (4.4°C and 60°C) for more than two hours, and cooked
-          poultry keeps three to four days in the refrigerator, reheated to 165°F (73.9°C).
+          Two more rules travel with a holiday meal regardless of species: perishable food should not
+          sit between 40°F and 140°F (4.4°C and 60°C) for more than two hours — one hour if the room
+          is above 90°F (32.2°C) — and cooked poultry keeps three to four days in the refrigerator,
+          reheated to 165°F (73.9°C).
         </p>
-        <SourceNotes
-          ids={["usdaPoultryTemp", "usdaTurkeyRoasting", "usdaThawing"]}
-          id="safety-sources"
-          heading="Safety references"
-        />
+        <SourceNotes ids={PAGE.sourceIds} id="safety-sources" heading="Safety references" />
+
 
       </Section>
 
