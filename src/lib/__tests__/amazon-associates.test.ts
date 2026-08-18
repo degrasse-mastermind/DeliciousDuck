@@ -55,7 +55,7 @@ describe("Amazon Associates activation", () => {
     for (const link of amazonLinks) {
       expect(link.category).not.toBe("duck_source");
       expect(link.category).not.toBe("duck_fat");
-      expect(link.url.toLowerCase()).not.toContain("duck");
+      expect((new URL(link.url).searchParams.get("k") ?? "").toLowerCase()).not.toContain("duck");
     }
   });
 

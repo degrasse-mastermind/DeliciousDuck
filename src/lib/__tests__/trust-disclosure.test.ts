@@ -66,7 +66,8 @@ describe("corrected trust copy", () => {
     expect(src).toContain("&ldquo;Sponsored&rdquo;");
     expect(src).toContain("omission of");
     expect(src).toContain("not evidence of hands-on");
-    expect(src).toContain("do not currently claim any specific merchant partnerships");
+    expect(src).toContain("Some links on this site are affiliate links");
+    expect(src).toContain("as an Amazon Associate I earn\n              from qualifying purchases.");
   });
 
   it("sourcing page drops the absolute food-safety guarantee claim", () => {
