@@ -23,11 +23,29 @@ Production GA4 and PostHog emit only when **both** hold:
   Returning to a public route in the same session restores both. No persistent
   opt-out or consent state is written in either case.
 
+### Sessions that start on a blocked route
+
+A direct load of `/internal/*` or `/api/*` requests neither SDK — zero
+analytics network calls. Both stacks then initialize **lazily, exactly once**
+the first time that session navigates to a public route (e.g. clicking the
+DeliciousDuck wordmark home), and that route emits exactly one pageview:
+
+- GA4: the inline bootstrap installs a one-shot `window.__ddLoadGtag()` loader.
+  `ensureGtagLoaded()` runs on every navigation; on the load call the tag's own
+  `config` sends the path-only `page_view`, so the router deliberately skips
+  `trackPageView` for that navigation — no duplicate script, no double count.
+- PostHog: `initPostHog(pathname)` is called per navigation and no-ops until the
+  path is allowed, then initializes once; the manual pageview is unchanged.
+
 Implemented in `src/lib/analytics-gate.ts` (`syncGaRoutePolicy`,
-`gtagBootstrapScript`); enforced in `trackEvent`, `trackPageView`
-(`src/lib/analytics.ts`), the gtag bootstrap and the per-navigation sync in
-`src/routes/__root.tsx`, and `initPostHog` / `captureEvent` /
-`capturePostHogPageView` / `syncPostHogRoutePolicy` (`src/lib/posthog.ts`).
+`ensureGtagLoaded`, `gtagBootstrapScript`); enforced in `trackEvent`,
+`trackPageView` (`src/lib/analytics.ts`), the gtag bootstrap and the
+per-navigation sync in `src/routes/__root.tsx`, and `initPostHog` /
+`captureEvent` / `capturePostHogPageView` / `syncPostHogRoutePolicy`
+(`src/lib/posthog.ts`). Regression coverage:
+`src/lib/__tests__/ga-lazy-init.test.ts` and
+`src/lib/__tests__/posthog-lazy-init.test.ts`.
+
 
 
 ## Privacy invariants

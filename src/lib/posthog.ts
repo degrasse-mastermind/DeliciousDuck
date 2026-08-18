@@ -20,12 +20,19 @@ let initialized = false;
 /** Mirrors the capture state currently applied to the SDK. */
 let captureSuspended = false;
 
-export function initPostHog(): void {
+/**
+ * Initializes PostHog at most once per session.
+ *
+ * Safe to call on every navigation: a session that starts on `/internal/*` or
+ * `/api/*` loads nothing, and initializes lazily the first time it reaches a
+ * public route (pass that route's path).
+ */
+export function initPostHog(path?: string): void {
   if (typeof window === "undefined" || initialized) return;
   // Production analytics only loads on the canonical public hosts, and never
   // on internal tooling routes. Preview/editor/localhost never initializes,
   // so no autocapture or session replay starts there either.
-  if (!analyticsEnabled()) return;
+  if (!analyticsEnabled(path)) return;
   initialized = true;
   captureSuspended = false;
   try {
@@ -40,6 +47,7 @@ export function initPostHog(): void {
     // Analytics must never break the app.
   }
 }
+
 
 /**
  * Applies the per-route capture policy after every SPA navigation.
