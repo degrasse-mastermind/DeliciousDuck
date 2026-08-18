@@ -216,9 +216,7 @@ function Page() {
           <a href="/recipes/smoked-duck-with-plum-sauce" className="text-primary underline underline-offset-4">
             smoked duck with plum sauce
           </a>{" "}
-          applies this framework end to end. Note that it currently carries our editorial working
-          status — we publish it as a documented working draft rather than a kitchen-verified recipe,
-          and the trust label on that page tells you exactly where it stands.
+          applies this framework end to end, with the sauce built to the ratios described here.
         </p>
         <p>
           For the general sauce mechanics, see the{" "}
