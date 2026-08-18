@@ -270,12 +270,11 @@ function Page() {
 
       <Section id="candidates" heading="Sourcing candidates">
         <p>
-          The two mail-order sellers below appear as sourcing candidates based on their public
-          catalogue information as of the last verification date. DeliciousDuck has not placed an
-          order for a hands-on review of either. Our link to US Wellness Meats is an affiliate
-          link, so a qualifying purchase can earn us a commission; the D'Artagnan link earns us
-          nothing. Neither fact affects which seller suits your order.
+          The routes below appear as sourcing candidates based on public catalogue information as of
+          the last verification date. DeliciousDuck has not placed an order for a hands-on review of
+          any of them, and none of these links earns us anything.
         </p>
+
         <div className="mt-6 grid gap-6">
           {DUCK_MERCHANTS.map((row) => (
             <ComparisonCard key={row.id} row={row} factors={MERCHANT_FACTORS} />
