@@ -34,7 +34,7 @@ const FLAG = gaDisableFlagKey(MEASUREMENT_ID);
 
 /** Minimal browser stub — node environment, no jsdom, fully deterministic. */
 function setLocation(hostname: string, path: string, search = "", hash = "") {
-  const existing = (globalThis as { window?: Record<string, unknown> }).window;
+  const existing = (globalThis as unknown as { window?: Record<string, unknown> }).window;
   const win: Record<string, unknown> = existing ?? {};
   win["location"] = {
     hostname,
