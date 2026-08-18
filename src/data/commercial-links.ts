@@ -137,14 +137,6 @@ const SEEDS: SeedRow[] = [
     ctaLabel: "See the duck collection",
   },
   {
-    id: "dartagnan-duck",
-    merchantId: "dartagnan",
-    category: "duck_source",
-    useFor:
-      "Named duck cuts — magret, leg quarters, rendered fat — from a specialty distributor that ships nationally.",
-    ctaLabel: "See current duck options",
-  },
-  {
     id: "wild-fork-duck",
     merchantId: "wild-fork",
     category: "duck_source",
