@@ -43,6 +43,7 @@ export type CommercialCategory =
   | "pan"
   | "roasting_pan"
   | "sheet_pan"
+  | "confit_vessel"
   | "knife"
   | "owned_product";
 
@@ -193,6 +194,9 @@ const AMAZON_SEEDS: SeedRow[] = (
     ["amazon-leave-in-probe-thermometer", "thermometer", "Leave-in probe thermometers, for tracking a whole roast without opening the oven.", "Shop leave-in thermometers on Amazon"],
     ["amazon-utility-knife", "knife", "Petty and utility knives, the size range that suits scoring duck skin.", "Shop utility knives on Amazon"],
     ["amazon-boning-knife", "knife", "Boning knives, for jointing a whole duck and lifting breasts off the bone.", "Shop boning knives on Amazon"],
+    ["amazon-enameled-dutch-oven", "confit_vessel", "Enameled cast-iron Dutch ovens, for a lidded, nonreactive vessel that holds a low oven steady.", "Shop enameled Dutch ovens on Amazon"],
+    ["amazon-stainless-dutch-oven", "confit_vessel", "Stainless Dutch ovens and deep covered sauté pans, for a lighter vessel that is easy to lift full.", "Shop stainless Dutch ovens on Amazon"],
+    ["amazon-covered-ceramic-casserole", "confit_vessel", "Covered ceramic casseroles, for oven-only confit in a snug dish you can serve and store from.", "Shop covered ceramic casseroles on Amazon"],
   ] as [AmazonCategoryId, CommercialCategory, string, string][]
 ).map(([id, category, useFor, ctaLabel]) => ({
   id,
@@ -341,6 +345,15 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     path: "/gear/best-knife-for-scoring-duck",
     placement: "knife_options",
     linkIds: ["amazon-utility-knife", "amazon-boning-knife"],
+  },
+  {
+    path: "/gear/best-dutch-oven-for-duck-confit",
+    placement: "confit_vessel_options",
+    linkIds: [
+      "amazon-enameled-dutch-oven",
+      "amazon-stainless-dutch-oven",
+      "amazon-covered-ceramic-casserole",
+    ],
   },
 ];
 

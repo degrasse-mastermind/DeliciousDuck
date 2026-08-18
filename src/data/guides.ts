@@ -243,6 +243,7 @@ export const GUIDES: GuideEntry[] = [
     related: [
       "/learn/how-to-render-duck-fat",
       "/buy/duck-fat-buying-guide",
+      "/gear/best-dutch-oven-for-duck-confit",
       "/cook/ways-to-use-duck-fat",
       "/learn/how-to-thaw-duck",
     ],
@@ -360,6 +361,25 @@ export const GUIDES: GuideEntry[] = [
       "/cook/how-to-cook-duck-breast",
       "/gear/best-pan-for-duck-breast",
       "/tools/duck-cooking-time-planner",
+    ],
+  },
+  {
+    path: "/gear/best-dutch-oven-for-duck-confit",
+    title: "Best Pot for Duck Confit",
+    seoTitle: "Best Pot for Duck Confit: Dutch Oven vs Braiser | DeliciousDuck",
+    description:
+      "The pot that makes confit easy: legs in one snug layer, depth for the fat, a nonreactive interior, a lid. Enameled cast iron, stainless and ceramic compared.",
+    teaser: "Fit beats brand — and you may already own the right pot.",
+    pillar: "gear",
+    cluster: "duck-fat",
+    kind: "money",
+    minutes: 10,
+    related: [
+      "/cook/duck-leg-confit",
+      "/buy/duck-fat-buying-guide",
+      "/learn/how-to-render-duck-fat",
+      "/gear/best-thermometer-for-duck",
+      "/cook/ways-to-use-duck-fat",
     ],
   },
   {

@@ -21,7 +21,9 @@ const idTokenised = (value: string) =>
 /** `/gear/best-pan-for-duck-breast` -> `src/routes/gear.best-pan-for-duck-breast.tsx` */
 function routeFileFor(path: string): string {
   const segments = path.split("/").filter(Boolean);
-  return `src/routes/${segments.join(".")}.tsx`;
+  const base = `src/routes/${segments.join(".")}`;
+  // Hub paths such as "/gear" render from their `.index.tsx` leaf, not the layout.
+  return existsSync(resolve(process.cwd(), `${base}.index.tsx`)) ? `${base}.index.tsx` : `${base}.tsx`;
 }
 
 const routeExists = (path: string) =>
@@ -270,6 +272,12 @@ describe("conversion click event", () => {
         "/buy/duck-fat-buying-guide -> /learn/how-to-render-duck-fat [technique_validation] #duck_fat_guide_to_rendering",
         "/buy/duck-fat-buying-guide -> /cook/ways-to-use-duck-fat [technique_validation] #duck_fat_guide_to_uses",
         "/gear/best-pan-for-duck-breast -> /learn/why-duck-skin-isnt-crispy [technique_validation] #pan_guide_to_crisp_skin_troubleshooting",
+        "/gear -> /gear/best-dutch-oven-for-duck-confit [equipment] #gear_index_to_confit_vessel_guide",
+        "/cook/duck-leg-confit -> /gear/best-dutch-oven-for-duck-confit [equipment] #confit_to_vessel_guide",
+        "/buy/duck-fat-buying-guide -> /gear/best-dutch-oven-for-duck-confit [equipment] #duck_fat_guide_to_confit_vessel_guide",
+        "/learn/how-to-render-duck-fat -> /gear/best-dutch-oven-for-duck-confit [equipment] #render_fat_to_confit_vessel_guide",
+        "/gear/best-dutch-oven-for-duck-confit -> /cook/duck-leg-confit [technique_validation] #confit_vessel_guide_to_confit_method",
+        "/gear/best-dutch-oven-for-duck-confit -> /buy/duck-fat-buying-guide [sourcing] #confit_vessel_guide_to_duck_fat_guide",
       ]
     `);
   });

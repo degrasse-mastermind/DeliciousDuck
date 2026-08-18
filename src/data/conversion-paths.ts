@@ -322,6 +322,65 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     anchor: "Why duck skin isn't crispy, and what still fixes it",
     reason: "Check whether the pan is genuinely your limiting factor before buying one.",
   },
+
+  /* --- confit vessel cluster --------------------------------------- */
+  {
+    placement: "gear_index_to_confit_vessel_guide",
+    sourcePath: "/gear",
+    destination: "/gear/best-dutch-oven-for-duck-confit",
+    intent: "equipment",
+    direction: "cornerstone_to_commercial",
+    anchor: "Cooking confit? Start with vessel fit",
+    reason:
+      "The legs have to sit in one snug layer under fat, which rules more pots in and out than any brand does.",
+  },
+  {
+    placement: "confit_to_vessel_guide",
+    sourcePath: "/cook/duck-leg-confit",
+    destination: "/gear/best-dutch-oven-for-duck-confit",
+    intent: "equipment",
+    direction: "cornerstone_to_commercial",
+    anchor: "Will your pot fit the legs in one layer?",
+    reason:
+      "A snug vessel keeps the legs submerged in less fat; an oversized one quietly doubles what you need.",
+  },
+  {
+    placement: "duck_fat_guide_to_confit_vessel_guide",
+    sourcePath: "/buy/duck-fat-buying-guide",
+    destination: "/gear/best-dutch-oven-for-duck-confit",
+    intent: "equipment",
+    direction: "cornerstone_to_commercial",
+    anchor: "How your pot changes how much fat you buy",
+    reason: "Vessel width sets the volume, so measure before you order a second tub.",
+  },
+  {
+    placement: "render_fat_to_confit_vessel_guide",
+    sourcePath: "/learn/how-to-render-duck-fat",
+    destination: "/gear/best-dutch-oven-for-duck-confit",
+    intent: "equipment",
+    direction: "cornerstone_to_commercial",
+    anchor: "Choosing a pot for confit",
+    reason:
+      "Rendered fat goes furthest in a snug, lidded, nonreactive vessel — here is how to judge yours.",
+  },
+  {
+    placement: "confit_vessel_guide_to_confit_method",
+    sourcePath: "/gear/best-dutch-oven-for-duck-confit",
+    destination: "/cook/duck-leg-confit",
+    intent: "technique_validation",
+    direction: "commercial_to_editorial",
+    anchor: "The confit method, cure to storage",
+    reason: "What the vessel has to do, before you decide whether yours already does it.",
+  },
+  {
+    placement: "confit_vessel_guide_to_duck_fat_guide",
+    sourcePath: "/gear/best-dutch-oven-for-duck-confit",
+    destination: "/buy/duck-fat-buying-guide",
+    intent: "sourcing",
+    direction: "commercial_to_editorial",
+    anchor: "How much rendered fat to buy, and in what format",
+    reason: "Once you know your vessel, you can size the fat rather than guess at it.",
+  },
 ];
 
 /** Slug-safe token: lowercase, `_`-separated, no punctuation. */

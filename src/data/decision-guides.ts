@@ -554,7 +554,161 @@ const DUCK_FAT: DecisionGuideMeta = {
   },
 };
 
-export const DECISION_GUIDES: DecisionGuideMeta[] = [SOURCING, THERMOMETER, PAN, DUCK_FAT];
+const CONFIT_VESSEL: DecisionGuideMeta = {
+  path: "/gear/best-dutch-oven-for-duck-confit",
+  evaluationStandard:
+    "We compare vessel categories on the one thing confit actually cares about: whether your legs sit in a snug single layer, stay submerged, and hold a low oven steadily under a lid. Fit comes first, material second, and brand not at all.",
+  methodology: [
+    "What the confit method itself demands: legs in one layer, fat covering them for the whole cook, a lid, and a low, stable oven.",
+    "Material heat behaviour — thermal mass, how evenly a vessel holds a low temperature, and whether the interior is nonreactive.",
+    "Manufacturer-published practicalities for each material class: oven-safe limits, lid fit, stovetop and induction compatibility, and care instructions.",
+    "Food-safety temperature and storage requirements from our own confit and storage pages.",
+  ],
+  evidenceBasis:
+    "The requirements of the confit method itself, material heat behaviour, and manufacturer-published oven-safe limits and care instructions — compared at the level of vessel category rather than by product or brand.",
+  updated: "2026-08-18",
+  byline: "DeliciousDuck Editorial",
+  quickPicks: [
+    {
+      situation: "You already own a lidded, oven-safe pot your legs fit in one layer",
+      choice: "Use what you own",
+      why: "If the legs sit snugly with room for fat over the top and the interior is nonreactive, the vessel question is already answered.",
+    },
+    {
+      situation: "You want one vessel that also handles braises and bread",
+      choice: "Enameled cast-iron Dutch oven",
+      why: "High thermal mass rides out oven swings, and the enamel interior is nonreactive for the salt and aromatics in a cure.",
+    },
+    {
+      situation: "You want something you can lift safely when it's full of hot fat",
+      choice: "Stainless Dutch oven or deep covered sauté pan",
+      why: "Much lighter for the same capacity, which matters more than it sounds when you're moving hot fat.",
+    },
+    {
+      situation: "You only ever confit in the oven and want to store it in the same dish",
+      choice: "Covered ceramic casserole",
+      why: "Oven-only by design, but a snug ceramic dish keeps legs under fat and goes straight to the fridge.",
+    },
+  ],
+  bestFor: [
+    {
+      option: "Enameled cast-iron Dutch oven",
+      forWhom: "Cooks who want one heavy, lidded, nonreactive vessel for confit, braises, and stews.",
+      notFor: "Anyone who struggles to lift a heavy pot full of hot fat, or who wants the cheapest route.",
+    },
+    {
+      option: "Stainless Dutch oven / deep covered sauté pan",
+      forWhom: "Cooks who value weight, a fast stovetop response for the initial warm-up, and easy cleaning.",
+      notFor: "Cooks who want maximum temperature stability from thermal mass alone.",
+    },
+    {
+      option: "Covered ceramic casserole",
+      forWhom: "Oven-only confit in a snug dish that doubles as storage.",
+      notFor: "Any stovetop step, and any use beyond the maker's stated oven-safe limit.",
+    },
+    {
+      option: "An oversized stockpot",
+      forWhom: "Not this cook. Keep it for stock.",
+      notFor: "Confit — the extra width costs you fat and gives you nothing back.",
+    },
+  ],
+  matrix: {
+    caption: "Confit vessel categories compared on fit, heat behaviour, and handling",
+    criterionLabel: "What you're deciding on",
+    options: [
+      "Enameled cast iron",
+      "Stainless / deep sauté",
+      "Covered ceramic",
+      "Oversized stockpot",
+    ],
+    rows: [
+      {
+        criterion: "Heat behaviour",
+        values: [
+          "High thermal mass; holds a low oven very steadily",
+          "Lower mass, quicker to respond; steady enough in a low oven",
+          "Holds heat well once up; slow to change",
+          "Whatever the pot does — but the legs are the problem, not the metal",
+        ],
+      },
+      {
+        criterion: "Fit for the legs",
+        values: [
+          "Wide range of shapes; choose the one your legs fill in one layer",
+          "Sauté shapes are often the snuggest single-layer fit",
+          "Rectangular and oval dishes can fit legs tightly",
+          "Too wide — legs spread out or end up stacked",
+        ],
+      },
+      {
+        criterion: "Depth for the fat",
+        values: [
+          "Deep enough to cover legs with headroom",
+          "Deep versions fine; shallow pans leave too little headroom",
+          "Check depth carefully — many dishes are shallow",
+          "Deep, but you'll fill the extra depth with fat you didn't need",
+        ],
+      },
+      {
+        criterion: "Nonreactive interior",
+        values: ["Yes, enamel", "Yes, stainless", "Yes, glazed ceramic", "Depends on the material"],
+      },
+      {
+        criterion: "Lid",
+        values: [
+          "Heavy, well-seated lid included",
+          "Usually included; check it seats properly",
+          "Often included; foil is a workable stand-in",
+          "Usually included",
+        ],
+      },
+      {
+        criterion: "Weight when full",
+        values: [
+          "Heaviest — plan how you'll move it",
+          "Lightest of the three real options",
+          "Moderate, and often awkward to grip",
+          "Heavy and unwieldy for the amount of food inside",
+        ],
+      },
+      {
+        criterion: "Stovetop compatibility",
+        values: [
+          "Yes, including induction on most",
+          "Yes; check the base for induction",
+          "No — oven only",
+          "Yes",
+        ],
+      },
+      {
+        criterion: "Cleaning",
+        values: [
+          "Soak and wash by hand; enamel chips if knocked",
+          "Easiest; usually dishwasher tolerant",
+          "Hand wash; glaze scratches",
+          "Easy, and unnecessary",
+        ],
+      },
+      {
+        criterion: "Best use",
+        values: [
+          "Confit plus braises and stews all year",
+          "Confit where handling and cleaning matter most",
+          "Oven-only confit you store in the same dish",
+          "Stock, not confit",
+        ],
+      },
+    ],
+  },
+};
+
+export const DECISION_GUIDES: DecisionGuideMeta[] = [
+  SOURCING,
+  THERMOMETER,
+  PAN,
+  DUCK_FAT,
+  CONFIT_VESSEL,
+];
 
 export function decisionGuide(path: string): DecisionGuideMeta | undefined {
   return DECISION_GUIDES.find((g) => g.path === path);
