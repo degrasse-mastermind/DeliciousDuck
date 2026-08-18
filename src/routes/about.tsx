@@ -30,7 +30,7 @@ const PRINCIPLES = [
   },
   {
     title: "No invented credibility",
-    body: "We do not publish testimonials, star ratings, review counts, or reader numbers we cannot substantiate. When a claim needs testing, we say it is untested.",
+    body: "We publish claims we can substantiate, and we distinguish desk research from firsthand testing — something is called tested or reviewed only when that experience actually occurred.",
   },
   {
     title: "Recommendations you can audit",

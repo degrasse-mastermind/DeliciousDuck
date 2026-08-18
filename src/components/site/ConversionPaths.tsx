@@ -179,7 +179,7 @@ export function RecipeConversionPaths({
       id="recipe-conversion-paths"
       eyebrow="Before you cook this"
       heading="Equipment and sourcing paths for this recipe"
-      intro="What each item is doing in this recipe, and the guide that explains how to choose one. We have not tested or endorsed specific products."
+      intro="What each item is doing in this recipe, and the guide that explains how to choose one. The guides work at the level of category and material."
       items={items}
       {...(className ? { className } : {})}
     />

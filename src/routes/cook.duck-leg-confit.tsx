@@ -54,7 +54,7 @@ function DuckLegConfitPage() {
     <ArticleShell
       eyebrow="Cook · Duck fat"
       title={GUIDE.title}
-      intro="Confit is a preservation technique wearing a dinner-party costume: salt draws moisture out, fat excludes air, and a long, gentle poach turns tough leg meat tender. This is a planning and technique guide, not a hands-on-tested recipe — treat every time and temperature as a range to verify in your own kitchen."
+      intro="Confit is a preservation technique wearing a dinner-party costume: salt draws moisture out, fat excludes air, and a long, gentle poach turns tough leg meat tender. This is a planning and technique guide, so treat every time and temperature as a range to verify in your own kitchen."
       trail={[
         { name: "Cook", to: "/cook" },
         { name: GUIDE.title, to: GUIDE.path },
