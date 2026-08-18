@@ -91,6 +91,7 @@ function MerchantCard({ merchant }: { merchant: Merchant }) {
           ["Direct URL", merchant.directUrl ?? "Not set"],
           ["Publisher ID", merchant.publisherId ?? "—"],
           ["Approval date", merchant.approvalDate ?? "Not approved yet"],
+          ["Declined date", merchant.declinedDate ?? "—"],
           ["Terms last reviewed", merchant.termsReviewedDate ?? "Never"],
           ["Activation date", merchant.activationDate ?? "—"],
           ["Link last checked", merchant.lastCheckedDate ?? "—"],
