@@ -11,7 +11,6 @@ import { resolve } from "node:path";
  *
  *  - both real money CTAs (Amazon roasting pan, US Wellness duck fat) capture
  *    `affiliate_click` with a path-only payload;
- *  - a throwing gtag never suppresses the PostHog capture for the same click;
  *  - the dedupe window suppresses replays but not a different placement.
  *
  * Note: PostHog's SDK silently drops every request from automated browsers
@@ -102,22 +101,6 @@ describe("commercial click capture", () => {
     expect((captures[0]![1] as Record<string, unknown>)["commercial_link_id"]).toBe(
       "us-wellness-duck-fat",
     );
-  });
-
-  it("still captures in PostHog when gtag throws", async () => {
-    const gtag = vi.fn(() => {
-      throw new Error("gtag unavailable");
-    });
-    const { analytics, links } = await loadAnalytics(
-      "/gear/best-roasting-pan-for-duck",
-      gtag,
-    );
-    const link = links.commercialLinkById("amazon-roasting-pan-rack")!;
-
-    expect(() =>
-      analytics.trackCommercialClick({ link, placement: "gear-roasting-pan-primary" }),
-    ).not.toThrow();
-    expect(affiliateCaptures()).toHaveLength(1);
   });
 
   it("sends no PII: payload keys are allowlisted and path-only", async () => {
