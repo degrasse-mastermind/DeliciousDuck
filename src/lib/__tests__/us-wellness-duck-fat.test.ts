@@ -189,7 +189,7 @@ describe("public copy makes no duck-meat or stock claims for US Wellness", () =>
     const text = read("src/routes/buy.where-to-buy-duck-online.tsx").replace(/\s+/g, " ");
     expect(text).toContain("Duck fat, not duck meat");
     expect(text).toMatch(/not go there expecting a whole bird/i);
-    expect(text).not.toContain('linkIds={["dartagnan-duck", "us-wellness');
+    expect(text).not.toMatch(/artagnan/i);
   });
 
   it("does not repeat unsubstantiated merchant production or health claims", () => {
