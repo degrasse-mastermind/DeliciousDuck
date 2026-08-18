@@ -266,7 +266,9 @@ export function QuickPicks({
   heading?: string;
   intro?: string;
 }) {
-  const pickable = rows.filter((row) => row.merchantId || row.directUrl);
+  // Every row already published below appears here. Rows with a verified seller
+  // link also carry the outbound CTA; the rest are decision entries only.
+  const pickable = rows;
   if (pickable.length === 0) return null;
 
   return (
@@ -283,9 +285,11 @@ export function QuickPicks({
               <span className="font-semibold">{DECISION_LABELS.bestFor}: </span>
               {row.bestFor}
             </p>
-            <div className="mt-4 pt-1">
-              <RowCta row={row} placement={placement} {...(shopNoun ? { shopNoun } : {})} />
-            </div>
+            {(row.merchantId || row.directUrl) && (
+              <div className="mt-4 pt-1">
+                <RowCta row={row} placement={placement} {...(shopNoun ? { shopNoun } : {})} />
+              </div>
+            )}
           </li>
         ))}
       </ul>
