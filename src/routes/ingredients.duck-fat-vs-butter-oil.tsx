@@ -230,11 +230,8 @@ function Page() {
         </p>
       </Section>
 
-      <ConversionPaths
-        sourcePath="/ingredients/duck-fat-vs-butter-oil"
-        eyebrow="Next step"
-        heading="Buying duck fat well"
-      />
+      <DuckFatDecision sourcePath="/ingredients/duck-fat-vs-butter-oil" />
+
 
       <FaqList items={FAQ} />
 
