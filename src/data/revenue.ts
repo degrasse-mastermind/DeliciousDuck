@@ -256,13 +256,6 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
       },
       {
         role: "secondary",
-        merchantId: "dartagnan",
-        deepLinkId: "sourcing-dartagnan",
-        intent: "Magret, leg quarters and confit from one specialist order",
-        placement: "Sellers comparison and callout CTA — direct, unpaid after the declined application",
-      },
-      {
-        role: "secondary",
         merchantId: "wild-fork",
         deepLinkId: "sourcing-wild-fork",
         intent: "Mainstream frozen duck without a specialty order",
