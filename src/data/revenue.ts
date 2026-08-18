@@ -85,11 +85,11 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
     name: "Pasture-raised duck and duck fat",
     useCase: "Reader shopping duck alongside other pasture-raised meat",
     directUrl: "https://grasslandbeef.com/",
-    status: "awaiting-approval",
+    status: "active",
     lastVerified: "2026-08",
     editorialRelationship: "/buy/where-to-buy-duck-online (secondary sourcing slot)",
     handsOn: "untested",
-    note: "Impact program pending. Deep link should target the duck category page, not the storefront.",
+    note: "Approved and live on the canonical Grassland Beef tracking URL held in src/data/affiliates.ts. A duck-category deep link can replace the storefront link if the advertiser issues one.",
   },
   {
     id: "thermometer-thermoworks",
