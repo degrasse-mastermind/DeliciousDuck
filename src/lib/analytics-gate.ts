@@ -111,8 +111,15 @@ export function ensureGtagLoaded(measurementId: string, pathOverride?: string): 
   if (typeof loader !== "function") return "blocked";
   // Keep the kill switch aligned before the tag can read it.
   syncGaRoutePolicy(measurementId, pathOverride);
+  // The router commits its pathname before the browser's `location` settles on
+  // some client-side navigations, so the loader is told which path to trust
+  // instead of re-reading a stale `location.pathname` (which would decline the
+  // load, or worse, stamp the previous internal path on the first pageview).
+  const path = pathOverride ?? window.location.pathname;
   try {
-    return (loader as () => boolean)() ? "loaded" : "already";
+    const loaded = (loader as (p?: string) => boolean)(path);
+    if (loaded) return "loaded";
+    return w[GTAG_LOADED_KEY] ? "already" : "blocked";
   } catch {
     return "blocked";
   }
@@ -147,12 +154,16 @@ export function gtagBootstrapScript(measurementId: string): string {
         var disableKey = ${disableKey};
         var host = (location.hostname || '').toLowerCase().replace(/\\.$/, '');
         var hostOk = hosts.indexOf(host) !== -1;
-        function pathAllowed() {
-          var path = location.pathname || '/';
+        function pathAllowedFor(path) {
+          path = path || '/';
+          var bare = path.split('#')[0].split('?')[0] || '/';
           for (var i = 0; i < blocked.length; i++) {
-            if (path === blocked[i] || path.indexOf(blocked[i] + '/') === 0) return false;
+            if (bare === blocked[i] || bare.indexOf(blocked[i] + '/') === 0) return false;
           }
           return true;
+        }
+        function pathAllowed() {
+          return pathAllowedFor(location.pathname || '/');
         }
         function syncDisableFlag() {
           window[disableKey] = !(hostOk && pathAllowed());
@@ -175,10 +186,14 @@ export function gtagBootstrapScript(measurementId: string): string {
         window.addEventListener('hashchange', syncDisableFlag, true);
         window.__ddSyncGaDisableFlag = syncDisableFlag;
         // One-shot loader: safe to call on every public navigation.
-        window.${GTAG_LOADER_KEY} = function () {
+        window.${GTAG_LOADER_KEY} = function (forcePath) {
           if (window.${GTAG_LOADED_KEY}) return false;
-          if (!hostOk || !pathAllowed()) return false;
+          var path = typeof forcePath === 'string' && forcePath
+            ? (forcePath.split('#')[0].split('?')[0] || '/')
+            : (location.pathname || '/');
+          if (!hostOk || !pathAllowedFor(path)) return false;
           window.${GTAG_LOADED_KEY} = true;
+          window[disableKey] = false;
           var s = document.createElement('script');
           s.async = true;
           s.src = 'https://www.googletagmanager.com/gtag/js?id=${measurementId}';
@@ -188,8 +203,8 @@ export function gtagBootstrapScript(measurementId: string): string {
           window.gtag = gtag;
           gtag('js', new Date());
           gtag('config', '${measurementId}', {
-            page_location: location.origin + location.pathname,
-            page_path: location.pathname
+            page_location: location.origin + path,
+            page_path: path
           });
           return true;
         };

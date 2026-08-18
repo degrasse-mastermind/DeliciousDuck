@@ -87,7 +87,7 @@ describe("sensitive-data exclusions", () => {
     const script = gtagBootstrapScript("G-TEST123");
     expect(script).toContain("deliciousduck.com");
     expect(script).toContain("/internal");
-    expect(script).toContain("location.origin + location.pathname");
+    expect(script).toContain("location.origin + path");
     expect(script).not.toContain("location.href");
     expect(script).not.toContain("location.search");
   });

@@ -173,3 +173,49 @@ describe("noncanonical hosts and PII", () => {
     expect(serialized).toContain("/newsletter/unsubscribe");
   });
 });
+
+describe("stale browser location during SPA navigation", () => {
+  it("loads gtag using the router path when location.pathname still shows the internal route", () => {
+    setLocation("deliciousduck.com", "/internal/growth-dashboard");
+    bootstrap();
+    expect(injectedScripts).toHaveLength(0);
+    expect((globalThis as Bag)[DISABLE_KEY]).toBe(true);
+
+    // Router already reports "/" while `location` has not settled yet.
+    const result = ensureGtagLoaded(ID, "/");
+    expect(result).toBe("loaded");
+    expect(injectedScripts).toHaveLength(1);
+    expect((globalThis as Bag)[DISABLE_KEY]).toBe(false);
+    // Exactly one pageview, stamped with the public path, never the internal one.
+    expect(pageViewCount()).toBe(1);
+    const config = dataLayerEvents().find((args) => args[0] === "config");
+    expect(config?.[2]).toMatchObject({
+      page_path: "/",
+      page_location: "https://deliciousduck.com/",
+    });
+
+    // Second navigation must not load again or emit another pageview.
+    expect(ensureGtagLoaded(ID, "/recipes")).toBe("already");
+    expect(injectedScripts).toHaveLength(1);
+    expect(pageViewCount()).toBe(1);
+  });
+
+  it("reports blocked (never 'already') when the route is not allowed", () => {
+    setLocation("deliciousduck.com", "/");
+    bootstrap();
+    // A public direct load already loaded the tag.
+    expect(injectedScripts).toHaveLength(1);
+    expect(ensureGtagLoaded(ID, "/internal/growth-dashboard")).toBe("blocked");
+    expect(injectedScripts).toHaveLength(1);
+  });
+
+  it("declines the load for a blocked router path even when location looks public", () => {
+    setLocation("deliciousduck.com", "/internal/growth-dashboard");
+    bootstrap();
+    setLocation("deliciousduck.com", "/");
+    const loader = (globalThis as Bag)[GTAG_LOADER_KEY] as (p?: string) => boolean;
+    expect(loader("/api/generate-sketch")).toBe(false);
+    expect((globalThis as Bag)[GTAG_LOADED_KEY]).toBeFalsy();
+    expect(injectedScripts).toHaveLength(0);
+  });
+});
