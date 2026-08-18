@@ -174,7 +174,12 @@ export function openActivationSteps(merchant: Merchant): string[] {
   return ACTIVATION_FLAG_LABELS.filter((f) => !flags[f.key]).map((f) => f.label);
 }
 
-export type ReadinessLevel = "blocked" | "in-progress" | "ready-to-activate" | "live";
+export type ReadinessLevel =
+  | "blocked"
+  | "declined"
+  | "in-progress"
+  | "ready-to-activate"
+  | "live";
 
 export interface Readiness {
   level: ReadinessLevel;
@@ -184,9 +189,32 @@ export interface Readiness {
   open: string[];
 }
 
+/** True when the network or advertiser rejected the application. */
+export function isDeclined(merchant?: Merchant): boolean {
+  return merchant?.status === "declined";
+}
+
+/** True only while an application is genuinely awaiting a decision. */
+export function isPendingApproval(merchant?: Merchant): boolean {
+  if (!merchant) return false;
+  return merchant.status === "applied" || merchant.status === "approved-no-link";
+}
+
 /** Activation readiness for the switchboard. Fail-safe: defaults to blocked. */
 export function activationReadiness(merchant: Merchant): Readiness {
   const open = openActivationSteps(merchant);
+
+  // Declined is checked before anything else so a rejected application can
+  // never read as monetized, pending, or ready to activate.
+  if (merchant.status === "declined") {
+    return {
+      level: "declined",
+      label: "Declined — no relationship",
+      nextAction:
+        "Nothing to activate. Keep links plain and direct, keep editorial references specification-based, and only re-apply if the program reopens.",
+      open,
+    };
+  }
 
   if (isMonetized(merchant)) {
     return {
@@ -218,6 +246,7 @@ export function activationReadiness(merchant: Merchant): Readiness {
   }
   // approved-no-link
   if (open.length === 0) {
+
     return {
       level: "ready-to-activate",
       label: "Ready to activate",
