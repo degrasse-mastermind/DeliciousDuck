@@ -221,7 +221,7 @@ function Page() {
 
       <CommercialCallout
         heading="Where to buy rendered duck fat"
-        intro="If you would rather buy fat than render it, these sellers list it. The US Wellness Meats link goes straight to their rendered duck fat; Culver Duck is here because they carry fat alongside the cuts, so one box can hold both. We name no brand as best, and we have not ordered from either for a hands-on review."
+        intro="If you would rather buy fat than render it, these sellers list it. The US Wellness Meats link goes straight to their rendered duck fat; Culver Duck is here because they carry fat alongside the cuts, so one box can hold both. Both entries are based on their published catalogues, reviewed 2026-08-18."
         placement="duck_fat_sources"
         linkIds={["us-wellness-duck-fat", "culver-duck-fat"]}
 

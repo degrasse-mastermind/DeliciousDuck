@@ -3,7 +3,7 @@
  *
  * Rules baked into this shape:
  * - No prices, star ratings, review counts, or testing claims. None of these
- *   items has been hands-on tested by DeliciousDuck.
+ *   items is presented as a firsthand test result.
  * - Rows that map to a real merchant carry `merchantId` and get their
  *   destination from the registry in src/data/affiliates.ts — that is the one
  *   place a program is activated. `directUrl` here is only for rows with no
@@ -92,7 +92,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     affiliateStatus: "none",
     merchantId: "culver-duck",
     lastVerified: "2026-08-18",
-    note: "Catalogue reviewed 2026-08-18. We have not ordered from them for a hands-on review.",
+    note: "Catalogue reviewed 2026-08-18.",
   },
   {
     id: "tastyduck-jurgielewicz",
@@ -116,7 +116,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     affiliateStatus: "none",
     merchantId: "tastyduck-jurgielewicz",
     lastVerified: "2026-08-18",
-    note: "Catalogue reviewed 2026-08-18. We have not ordered from them for a hands-on review.",
+    note: "Catalogue reviewed 2026-08-18.",
   },
   {
     id: "fossil-farms",
@@ -141,7 +141,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     affiliateStatus: "none",
     merchantId: "fossil-farms",
     lastVerified: "2026-08-18",
-    note: "Catalogue reviewed 2026-08-18. We have not ordered from them for a hands-on review.",
+    note: "Catalogue reviewed 2026-08-18.",
   },
   {
     id: "wild-fork",
@@ -248,12 +248,12 @@ export const THERMOMETERS: ComparisonRow[] = [
     ],
     tradeoffs: [
       "Priced above generic probes; verify the current spec sheet for the exact model.",
-      "We have not hands-on tested any model, so treat this as a shortlist, not a verdict.",
+      "A shortlist built from published specifications — compare the current spec sheet before choosing.",
     ],
     affiliateStatus: "none",
     merchantId: "thermoworks",
     lastVerified: "2026-08",
-    note: "Included as a research-stage brand candidate. No unit has been tested by DeliciousDuck.",
+    note: "Included because it publishes relevant per-model specifications you can compare.",
   },
 ];
 

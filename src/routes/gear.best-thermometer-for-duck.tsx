@@ -232,18 +232,12 @@ function Page() {
             <ComparisonCard key={row.id} row={row} factors={THERMOMETER_FACTORS} />
           ))}
         </div>
-        <Callout label="On the ThermoWorks entry" tone="gold">
-          <p>
-            ThermoWorks is listed here as a research-stage brand candidate based on its published
-            specifications, not a recommendation or a test result. DeliciousDuck has not hands-on
-            tested any model from this or any other brand.
-          </p>
-        </Callout>
+        <EvaluationNote scope="thermometers for duck" />
       </Section>
 
       <CommercialCallout
         heading="Where to look for an instant-read"
-        intro="One registered destination whose published catalogue lists fast-read thermometers. We name no model, and we have not tested one."
+        intro="One registered destination whose published catalogue lists fast-read thermometers, with per-model specifications you can compare."
         placement="thermometer_instant_read"
         linkIds={["thermoworks-thermometer"]}
         criteria={[

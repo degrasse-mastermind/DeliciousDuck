@@ -75,9 +75,8 @@ function Page() {
         <div className="mt-16">
           <Callout label="Illustrative example">
             The pan-seared duck breast with cherry sauce loaded into the tool above is an
-            illustrative example to demonstrate scaling, not a hands-on tested DeliciousDuck
-            recipe. Replace the rows with ingredients from an actual recipe before relying on the
-            result.
+            illustrative example to demonstrate scaling. Replace the rows with ingredients from an
+            actual recipe before relying on the result.
           </Callout>
         </div>
 
