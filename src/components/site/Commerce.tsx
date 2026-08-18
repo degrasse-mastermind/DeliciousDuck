@@ -1,3 +1,4 @@
+import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ExternalLink, Info, ShoppingBag } from "lucide-react";
 import {
