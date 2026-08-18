@@ -63,7 +63,7 @@ export function Header() {
           hash="starter-guide"
           onClick={() => setOpen(false)}
           data-mobile-guide-cta
-          className="inline-flex h-11 min-h-11 shrink-0 items-center rounded-sm bg-primary px-3 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-primary-foreground transition-colors hover:bg-forest-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary lg:hidden"
+          className={`shrink-0 px-3 ${CTA.primary} lg:hidden`}
         >
           Free Guide
         </Link>
