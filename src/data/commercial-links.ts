@@ -279,7 +279,6 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
       "culver-duck",
       "tastyduck-duck",
       "fossil-farms-duck",
-      "dartagnan-duck",
       "wild-fork-duck",
     ],
   },
@@ -293,12 +292,12 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     // Primary US Wellness monetization path on the site.
     path: "/buy/duck-fat-buying-guide",
     placement: "duck_fat_sources",
-    linkIds: ["us-wellness-duck-fat", "culver-duck-fat", "dartagnan-duck"],
+    linkIds: ["us-wellness-duck-fat", "culver-duck-fat"],
   },
   {
     path: "/buy/how-to-choose-duck",
     placement: "choose_duck_sources",
-    linkIds: ["culver-duck", "dartagnan-duck"],
+    linkIds: ["culver-duck"],
   },
   // Recipes deliberately carry no merchant CTA: cut-level stock moves between
   // sellers, so recipe pages route readers to the sourcing guide instead.
@@ -307,7 +306,7 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
   {
     path: "/cook/how-to-cook-duck-breast",
     placement: "duck_breast_next_steps",
-    linkIds: ["dartagnan-duck", "thermoworks-thermometer"],
+    linkIds: ["thermoworks-thermometer"],
   },
   {
     path: "/learn/duck-breast-temperature-doneness",
