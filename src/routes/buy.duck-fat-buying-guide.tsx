@@ -215,12 +215,7 @@ function Page() {
             <ComparisonCard key={row.id} row={row} factors={DUCK_FAT_FACTORS} shopNoun="duck fat" />
           ))}
         </div>
-        <Callout label="No hands-on testing" tone="gold">
-          <p>
-            None of the formats above reflects a hands-on test by DeliciousDuck. The comparison is
-            built from published labels, formats, and duck-cooking technique.
-          </p>
-        </Callout>
+        <EvaluationNote scope="duck fat formats" />
       </Section>
 
       <CommercialCallout
