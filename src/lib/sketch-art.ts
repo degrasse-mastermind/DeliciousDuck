@@ -23,6 +23,8 @@ import ovenRoast from "@/assets/sketch/oven-roast.jpg";
 // Transparent-alpha master: this drawing has no painted paper ground, so it
 // floats on any surface instead of relying on multiply blend.
 import duckVsTurkey from "@/assets/sketch/duck-vs-turkey.png";
+// Transparent-alpha master, bound explicitly to the roasting-pan gear guide.
+import roastingPans from "@/assets/sketch/roasting-pans.png";
 
 export type SketchArt = {
   src: string;
