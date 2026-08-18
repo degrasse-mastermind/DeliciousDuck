@@ -355,11 +355,12 @@ function Page() {
           but something to cut it.
         </p>
         <p>
-          What follows is editorial pairing guidance from our kitchen rather than a food-safety
-          matter. Reach for tart citrus, a vinegar-dressed vegetable, bitter or peppery greens, a
-          briny or savoury condiment on the side, and keep any sweetness restrained so the plate
-          does not tip into dessert. Then use the bird twice: the fat you pour off mid-roast is the
-          best thing that can happen to a tray of potatoes. Our{" "}
+          This is editorial pairing guidance rather than food-safety advice. Reach for tart citrus, a
+          vinegar-dressed vegetable, bitter or peppery greens, a briny or savoury condiment on the
+          side, and keep any sweetness restrained so the plate does not tip into dessert. Then use
+          the bird twice: the fat you pour off mid-roast is the best thing that can happen to a tray
+          of potatoes. Start with our{" "}
+
           <Link
             to="/ingredients/best-acid-for-duck"
             className="text-primary underline underline-offset-4"
@@ -379,10 +380,12 @@ function Page() {
             className="text-primary underline underline-offset-4"
           >
             what to serve with duck
-          </Link>{" "}
-          set out the combinations we actually cook. A gravy-and-stuffing spread can still work
-          around a duck, but it will read as two competing dinners unless something sharp lands on
-          the plate.
+          </Link>
+          . These guides offer practical combinations for building the rest of the plate. A
+
+          gravy-and-stuffing spread can still work around a duck, but it will read as two competing
+          dinners unless something sharp lands on the plate.
+
         </p>
         <p>
           Duck can feel every bit as celebratory as turkey without imitating the turkey plate. Design
