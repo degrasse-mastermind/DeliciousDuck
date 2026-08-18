@@ -260,6 +260,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         label: "Snug, deep oven-safe pot",
         why: "The narrower the vessel, the less fat you need to keep the legs fully covered.",
+        to: "/gear/best-dutch-oven-for-duck-confit",
+        linkLabel: "How to judge whether your pot fits the legs",
       },
       {
         label: "Instant-read thermometer",
