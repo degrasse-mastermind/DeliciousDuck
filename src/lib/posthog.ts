@@ -10,6 +10,7 @@
  */
 
 import posthog from "posthog-js";
+import { analyticsEnabled } from "./analytics-gate";
 
 export const POSTHOG_KEY = "phc_nTL8XA9PoPBexJHqaP9nrrqUgNrhJbVM5M3kCudC9qA3";
 /** PostHog Cloud US ingestion host. */
@@ -19,6 +20,10 @@ let initialized = false;
 
 export function initPostHog(): void {
   if (typeof window === "undefined" || initialized) return;
+  // Production analytics only loads on the canonical public hosts, and never
+  // on internal tooling routes. Preview/editor/localhost never initializes,
+  // so no autocapture or session replay starts there either.
+  if (!analyticsEnabled()) return;
   initialized = true;
   try {
     posthog.init(POSTHOG_KEY, {
@@ -45,6 +50,7 @@ export function captureEvent(
   properties: Record<string, string | number | boolean | undefined> = {},
 ): void {
   if (typeof window === "undefined" || !initialized) return;
+  if (!analyticsEnabled()) return;
   const clean: Record<string, string | number | boolean> = {};
   for (const [key, value] of Object.entries(properties)) {
     if (value !== undefined && value !== "") clean[key] = value;
@@ -59,6 +65,7 @@ export function captureEvent(
 /** Manual SPA pageview — path only, never the full URL. */
 export function capturePostHogPageView(path?: string): void {
   if (typeof window === "undefined") return;
+  if (!analyticsEnabled(path)) return;
   const pathname = path ?? currentPath();
   captureEvent("$pageview", {
     $current_url:
