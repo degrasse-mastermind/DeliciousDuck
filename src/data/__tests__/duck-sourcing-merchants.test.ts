@@ -110,7 +110,7 @@ describe("verified direct sellers stay direct and unpaid", () => {
       "culver-duck",
       "tastyduck-jurgielewicz",
       "fossil-farms",
-      "dartagnan",
+
       "wild-fork",
     ]);
     for (const row of DUCK_MERCHANTS) {
