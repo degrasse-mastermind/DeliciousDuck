@@ -175,7 +175,7 @@ describe("no fake affiliate state on commercial pages", () => {
     // The affiliate application was declined, so the destination is an ordinary
     // direct link — never affiliate, and never pending.
     expect(link!.relationship).toBe("direct");
-    expect(link!.disclosureLabel).toBe("Direct link — we earn nothing");
+    expect(link!.disclosureLabel).toBe("Direct link to the seller");
   });
 
   it("has no affiliate_active entry without a real tracking destination", () => {

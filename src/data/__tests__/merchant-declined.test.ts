@@ -81,7 +81,7 @@ describe("ThermoWorks registry row", () => {
   it("renders as a direct link with an earn-nothing disclosure", () => {
     const link = commercialLinkById("thermoworks-thermometer")!;
     expect(link.relationship).toBe("direct");
-    expect(link.disclosureLabel).toBe("Direct link — we earn nothing");
+    expect(link.disclosureLabel).toBe("Direct link to the seller");
     expect(link.url).toBe("https://www.thermoworks.com/");
   });
 

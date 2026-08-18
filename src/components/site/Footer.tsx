@@ -42,7 +42,7 @@ export function Footer() {
               © {new Date().getFullYear()} {SITE.domain}. All rights reserved.
             </p>
             <p className="max-w-md">
-              Some links on this site are affiliate links. {AMAZON_REQUIRED_STATEMENT}{" "}
+              {AMAZON_REQUIRED_STATEMENT}{" "}
               <Link
                 to="/affiliate-disclosure"
                 className="underline underline-offset-4 transition-colors hover:text-accent"

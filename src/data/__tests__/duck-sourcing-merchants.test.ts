@@ -115,7 +115,8 @@ describe("verified direct sellers stay direct and unpaid", () => {
     ]);
     for (const row of DUCK_MERCHANTS) {
       expect(row.affiliateStatus, row.id).toBe("none");
-      expect(row.decisionFactors["relationship"], row.id).toMatch(/we earn nothing/i);
+      // No "no commission" ledger on non-affiliate seller cards.
+      expect(row.decisionFactors["relationship"], row.id).toBeUndefined();
     }
   });
 

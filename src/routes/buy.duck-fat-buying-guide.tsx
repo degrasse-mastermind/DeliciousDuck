@@ -1,6 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
+import {
+  DisclosureBanner,
+  ComparisonCard,
+  ComparisonTable,
+  QuickPicks,
+  ShopThisGuide,
+} from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_FAT_OPTIONS, DUCK_FAT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -79,6 +85,13 @@ function Page() {
       <QuickDecision guide={DG} />
 
       <DisclosureBanner />
+
+      <QuickPicks
+        rows={DUCK_FAT_OPTIONS}
+        placement="duck_fat_quick_picks"
+        shopNoun="duck fat"
+        intro="The formats covered below, and who each one suits. Where a format has a verified seller link, it is here too. No prices, ratings, or stock claims."
+      />
 
       <MethodologyPanel guide={DG} />
 
@@ -199,20 +212,20 @@ function Page() {
         <ComparisonTable caption="Duck fat formats compared" rows={DUCK_FAT_OPTIONS} factors={DUCK_FAT_FACTORS} />
         <div className="mt-6 grid gap-6">
           {DUCK_FAT_OPTIONS.map((row) => (
-            <ComparisonCard key={row.id} row={row} factors={DUCK_FAT_FACTORS} />
+            <ComparisonCard key={row.id} row={row} factors={DUCK_FAT_FACTORS} shopNoun="duck fat" />
           ))}
         </div>
         <Callout label="No hands-on testing" tone="gold">
           <p>
-            None of the formats above reflects a hands-on test by DeliciousDuck. Where a seller link
-            below is an affiliate link, it is labelled as one.
+            None of the formats above reflects a hands-on test by DeliciousDuck. The comparison is
+            built from published labels, formats, and duck-cooking technique.
           </p>
         </Callout>
       </Section>
 
       <CommercialCallout
         heading="Where to buy rendered duck fat"
-        intro="If you would rather buy fat than render it, these sellers list it. Our US Wellness Meats link goes straight to their rendered duck fat and is an affiliate link; the Culver Duck link earns us nothing, and it is here because they carry fat alongside the cuts. We name no brand as best, and we have not ordered from any of them for a hands-on review."
+        intro="If you would rather buy fat than render it, these sellers list it. The US Wellness Meats link goes straight to their rendered duck fat; Culver Duck is here because they carry fat alongside the cuts, so one box can hold both. We name no brand as best, and we have not ordered from either for a hands-on review."
         placement="duck_fat_sources"
         linkIds={["us-wellness-duck-fat", "culver-duck-fat"]}
 

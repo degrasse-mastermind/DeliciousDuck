@@ -8,13 +8,11 @@ import { BUYING_GUIDE, KITCHEN_GEAR } from "@/data/products";
 import { CategoryTile } from "@/components/site/CategoryTile";
 import { RecipeCard } from "@/components/site/RecipeCard";
 import { ToolListItem } from "@/components/site/ToolListItem";
-import {
-  AffiliateCallout,
-  AffiliateDisclosureNote,
-} from "@/components/site/AffiliateCallout";
+import { AffiliateCallout } from "@/components/site/AffiliateCallout";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ldScript, pageMeta, websiteSchema } from "@/lib/seo";
+import { CTA } from "@/lib/cta";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -62,14 +60,14 @@ function Hero() {
           <div className="mt-9 flex flex-wrap gap-3">
             <Link
               to="/cook"
-              className="inline-flex h-12 items-center gap-2 rounded-sm bg-accent px-6 text-xs font-semibold uppercase tracking-[0.14em] text-gold-foreground transition-colors hover:bg-gold-soft"
+              className={CTA.primary}
             >
               Explore the Recipes
               <ArrowRight aria-hidden="true" className="size-4" />
             </Link>
             <Link
               to="/tools"
-              className="inline-flex h-12 items-center rounded-sm border border-forest-foreground/40 px-6 text-xs font-semibold uppercase tracking-[0.14em] text-forest-foreground transition-colors hover:border-accent hover:text-accent"
+              className={CTA.secondaryOnDark}
             >
               Try a Cooking Tool
             </Link>
@@ -137,7 +135,7 @@ function PopularRecipes() {
           </div>
           <Link
             to="/cook"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary underline-offset-4 hover:underline"
+            className={CTA.tertiarySmall}
           >
             All recipes
             <ArrowRight aria-hidden="true" className="size-3.5" />
@@ -172,7 +170,7 @@ function ToolsSection() {
           </p>
           <Link
             to="/tools"
-            className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary underline-offset-4 hover:underline"
+            className={`mt-6 ${CTA.tertiarySmall}`}
           >
             See all tools
             <ArrowRight aria-hidden="true" className="size-3.5" />
@@ -197,10 +195,6 @@ function Monetization() {
           title="Where to Buy Duck Online & The Duck Kitchen"
           intro="Two practical questions we answer without hype: where good duck actually comes from, and the small set of equipment that makes cooking it straightforward."
         />
-        <div className="mt-8 max-w-3xl">
-          <AffiliateDisclosureNote />
-        </div>
-
         <h3 id="shop-heading" className="sr-only">
           Buying duck and kitchen gear
         </h3>

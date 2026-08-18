@@ -37,15 +37,14 @@ export interface ComparisonRow {
 }
 
 /**
- * Disclosure copy. Two variants, chosen by whether ANY affiliate program is
- * genuinely active. While every program is pending, the copy must not claim we
- * currently earn commissions — it states the plain truth instead.
+ * The one plain-language affiliate disclosure sentence used site-wide.
+ *
+ * Rendered once per page, immediately before the first affiliate link, and only
+ * on pages that genuinely carry one. Never repeated later on the same page, and
+ * never mirrored in the footer.
  */
-export const DISCLOSURE_TEXT_ACTIVE =
-  "DeliciousDuck may earn a commission from qualifying purchases made through links on this page, at no extra cost to you. We do not accept payment for placement, and we do not publish prices, ratings, or test results we have not verified ourselves.";
-
-export const DISCLOSURE_TEXT_PENDING =
-  "We currently earn no commission from any link on this page. Outbound links go straight to the seller, with no affiliate tracking. If that changes, this notice will say so before the first paid link. We do not accept payment for placement, and we do not publish prices, ratings, or test results we have not verified ourselves.";
+export const AFFILIATE_DISCLOSURE_SENTENCE =
+  "Some links on this page are affiliate links, meaning we may earn a commission if you buy through them, at no extra cost to you.";
 
 /* ------------------------------------------------------------------ */
 /* Where to buy duck online                                            */
@@ -56,7 +55,6 @@ export const MERCHANT_FACTORS = [
   { key: "specialty", label: "Specialty & prepared duck" },
   { key: "breadth", label: "Breadth of selection" },
   { key: "fit", label: "Best fit" },
-  { key: "relationship", label: "Our relationship" },
 ] as const;
 
 /**
@@ -82,7 +80,6 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
       specialty: "Confit, smoked breast, stuffed duck and halal duck appear in the shop.",
       breadth: "The widest single-producer duck range in this comparison.",
       fit: "A duck-first order where you want the cut named precisely.",
-      relationship: "Direct link — we earn nothing.",
     },
     pros: [
       "Duck is the whole business, so cuts are named the way recipes name them.",
@@ -95,7 +92,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     affiliateStatus: "none",
     merchantId: "culver-duck",
     lastVerified: "2026-08-18",
-    note: "Catalogue reviewed 2026-08-18. No affiliate relationship, and we have not ordered from them for a hands-on review.",
+    note: "Catalogue reviewed 2026-08-18. We have not ordered from them for a hands-on review.",
   },
   {
     id: "tastyduck-jurgielewicz",
@@ -107,7 +104,6 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
       specialty: "Sampler kits and prepared duck products.",
       breadth: "Focused range — the core cuts plus kits, rather than a long catalogue.",
       fit: "Trying duck for the first time without committing to one cut.",
-      relationship: "Direct link — we earn nothing.",
     },
     pros: [
       "Sampler kits are a genuinely useful way to learn which cut suits how you cook.",
@@ -120,7 +116,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     affiliateStatus: "none",
     merchantId: "tastyduck-jurgielewicz",
     lastVerified: "2026-08-18",
-    note: "Catalogue reviewed 2026-08-18. No affiliate relationship, and no hands-on order.",
+    note: "Catalogue reviewed 2026-08-18. We have not ordered from them for a hands-on review.",
   },
   {
     id: "fossil-farms",
@@ -133,7 +129,6 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
       specialty: "Prepared duck products alongside the raw catalogue.",
       breadth: "Broad, and unusually specific about which duck you are buying.",
       fit: "Cooking to a recipe that specifies the duck, not just 'duck'.",
-      relationship: "Direct link — we earn nothing.",
     },
     pros: [
       "Listings distinguish between duck types, which most sellers do not.",
@@ -146,7 +141,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     affiliateStatus: "none",
     merchantId: "fossil-farms",
     lastVerified: "2026-08-18",
-    note: "Catalogue reviewed 2026-08-18. No affiliate relationship, and no hands-on order.",
+    note: "Catalogue reviewed 2026-08-18. We have not ordered from them for a hands-on review.",
   },
   {
     id: "wild-fork",
@@ -158,7 +153,6 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
       specialty: "Limited; this is a mainstream retailer rather than a duck specialist.",
       breadth: "Narrow for duck, wide for everything else in the same basket.",
       fit: "A weeknight duck buy alongside the rest of your shopping.",
-      relationship: "Direct link — we earn nothing.",
     },
     pros: [
       "Store pickup avoids cold-chain shipping cost and the courier risk entirely.",
@@ -171,7 +165,7 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     affiliateStatus: "none",
     merchantId: "wild-fork",
     lastVerified: "2026-08-18",
-    note: "Included as a mainstream option. Verify current duck availability yourself; we make no stock claim, and we earn nothing from this link.",
+    note: "Included as a mainstream option. Verify current duck availability yourself; we make no stock claim.",
   },
 ];
 
@@ -259,7 +253,7 @@ export const THERMOMETERS: ComparisonRow[] = [
     affiliateStatus: "none",
     merchantId: "thermoworks",
     lastVerified: "2026-08",
-    note: "Included as a research-stage brand candidate. No affiliate link is live and no unit has been tested by DeliciousDuck.",
+    note: "Included as a research-stage brand candidate. No unit has been tested by DeliciousDuck.",
   },
 ];
 
