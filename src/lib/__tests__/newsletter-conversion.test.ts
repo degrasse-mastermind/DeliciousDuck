@@ -68,7 +68,7 @@ describe("newsletter_signup conversion", () => {
     setLocation("/newsletter/unsubscribe");
     const a = await loadAnalytics();
     expect(a.normalizedPath("/newsletter/unsubscribe?t=secret#x")).toBe("/newsletter/unsubscribe");
-    expect(a.normalizedPath(undefined)).toBeUndefined();
+    expect(a.normalizedPath("")).toBeUndefined();
   });
 
   it("does not fire a conversion when the server call fails", async () => {
