@@ -7,6 +7,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
+import { DuckFatDecision } from "@/components/site/DuckFatDecision";
 
 const GUIDE = guideByPath("/learn/how-to-render-duck-fat")!;
 
@@ -287,11 +288,15 @@ function RenderFatPage() {
         ]}
       />
 
+      <DuckFatDecision sourcePath="/learn/how-to-render-duck-fat" />
+
       <ConversionPaths
         sourcePath="/learn/how-to-render-duck-fat"
-        eyebrow="If you would rather buy it"
-        heading="Buying rendered duck fat instead"
+        eyebrow="Also worth reading"
+        heading="Choosing a pot for confit"
+        omit={["render_fat_to_duck_fat_guide"]}
       />
+
 
       <FaqList items={FAQ} />
 

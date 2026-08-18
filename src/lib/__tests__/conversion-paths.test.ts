@@ -99,14 +99,18 @@ describe("cornerstone intent paths", () => {
     expect(path!.direction).toBe("cornerstone_to_commercial");
   });
 
-  it("renders the module on each mapped source route with the right sourcePath", () => {
+  it("renders a conversion module on each mapped source route with the right sourcePath", () => {
     const sources = [...new Set(CONVERSION_PATHS.map((p) => p.sourcePath))];
     for (const source of sources) {
       const file = read(routeFileFor(source));
-      expect(file, source).toContain("ConversionPaths");
+      // Duck-fat supporting pages render the render/buy/substitute module
+      // instead of the generic nav, so the buying guide is offered once.
+      const module = file.includes("ConversionPaths") ? "ConversionPaths" : "DuckFatDecision";
+      expect(file, source).toContain(module);
       expect(file, source).toContain(`sourcePath="${source}"`);
     }
   });
+
 });
 
 describe("commercial support paths", () => {

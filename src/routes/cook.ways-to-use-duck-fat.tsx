@@ -1,10 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ArticleShell, Callout, FaqList, Section } from "@/components/site/ArticleShell";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
-import { ConversionPaths } from "@/components/site/ConversionPaths";
+import { DuckFatDecision } from "@/components/site/DuckFatDecision";
 
 const GUIDE = guideByPath("/cook/ways-to-use-duck-fat")!;
 
@@ -252,29 +252,10 @@ function WaysToUsePage() {
         </Callout>
       </Section>
 
-      <ConversionPaths
-        sourcePath="/cook/ways-to-use-duck-fat"
-        eyebrow="Restocking"
-        heading="Buying more duck fat"
-      />
+      <DuckFatDecision sourcePath="/cook/ways-to-use-duck-fat" />
 
       <FaqList items={FAQ} />
 
-      <p className="mt-8">
-        For exact swap ratios, use the{" "}
-        <Link to="/tools/duck-fat-substitution-calculator" className="text-primary underline underline-offset-4">
-          duck-fat substitution calculator
-        </Link>
-        . To make your own supply, see{" "}
-        <Link to="/learn/how-to-render-duck-fat" className="text-primary underline underline-offset-4">
-          how to render duck fat
-        </Link>
-        , or if you'd rather buy it ready-made, check the{" "}
-        <Link to="/buy/duck-fat-buying-guide" className="text-primary underline underline-offset-4">
-          duck fat buying guide
-        </Link>
-        .
-      </p>
 
       <div className="mt-14">
         <NewsletterSignup id="field-guide" interest="duck-fat" />
