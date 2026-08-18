@@ -17,11 +17,19 @@
  *   there are none.
  */
 
-import { MERCHANTS, merchantById, isMonetized, isUsableUrl } from "./affiliates";
+import {
+  MERCHANTS,
+  merchantById,
+  isDeclined,
+  isMonetized,
+  isPendingApproval,
+  isUsableUrl,
+} from "./affiliates";
 
 export type DeepLinkStatus =
   | "category-placeholder"
   | "awaiting-approval"
+  | "declined"
   | "awaiting-deep-link"
   | "active";
 
@@ -89,11 +97,11 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
     name: "Fast instant-read thermometer",
     useCase: "Reader needs a thin-probe thermometer for duck breast doneness",
     directUrl: "https://www.thermoworks.com/",
-    status: "awaiting-approval",
+    status: "declined",
     lastVerified: "2026-08",
     editorialRelationship: "/gear/best-thermometer-for-duck (primary), /learn/duck-breast-temperature-doneness (contextual)",
     handsOn: "untested",
-    note: "Impact program pending. Verification tag installed. Request a thermometer-category deep link on approval.",
+    note: "Impact application declined in 2026-08 without a stated reason. This slot stays a plain direct link; there is no approval to wait for and no deep link to request.",
   },
   {
     id: "thermometer-category",
@@ -522,7 +530,9 @@ export function revenueSummary() {
   return {
     merchantCount: MERCHANTS.length,
     activeMerchants: active.map((m) => m.name),
-    pendingMerchants: MERCHANTS.filter((m) => !isMonetized(m)).map((m) => m.name),
+    pendingMerchants: MERCHANTS.filter(isPendingApproval).map((m) => m.name),
+    declinedMerchants: MERCHANTS.filter(isDeclined).map((m) => m.name),
+    unmonetizedMerchants: MERCHANTS.filter((m) => !isMonetized(m)).map((m) => m.name),
     deepLinkCount: DEEP_LINKS.length,
     activeDeepLinkCount: activeDeepLinks.length,
     anyActive: active.length > 0,
