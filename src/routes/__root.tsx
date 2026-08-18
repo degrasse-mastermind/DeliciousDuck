@@ -21,7 +21,7 @@ import {
   trackPageView,
 } from "@/lib/analytics";
 import { capturePostHogPageView, initPostHog, syncPostHogRoutePolicy } from "@/lib/posthog";
-import { gtagBootstrapScript, syncGaRoutePolicy } from "@/lib/analytics-gate";
+import { ensureGtagLoaded, gtagBootstrapScript, syncGaRoutePolicy } from "@/lib/analytics-gate";
 
 
 
