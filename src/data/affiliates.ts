@@ -113,18 +113,54 @@ export interface Merchant {
   internalNote?: string;
 }
 
+/**
+ * US Wellness Meats / Grassland Beef verified deep link to the rendered duck fat
+ * product page. Owner-supplied and manually verified 2026-08-18. This is the ONLY
+ * US Wellness destination that may power a duck CTA. Do not edit, append to, or
+ * derive variants from it.
+ */
+export const US_WELLNESS_DUCK_FAT_URL = "https://grasslandbeefllc.sjv.io/xJoWgR";
+
+/**
+ * INTERNAL record of the manual catalogue review. Kept in data (not copy) so no
+ * page has to make brittle stock claims, and so a future reviewer can see what
+ * the live collection actually contained when these placements were written.
+ */
+export const US_WELLNESS_CATALOGUE_REVIEW = {
+  reviewedDate: "2026-08-18",
+  collectionUrl: "https://grasslandbeef.com/collections/duck",
+  /** Products rendered by the live collection page at review time. */
+  products: [
+    { name: "Duck Fat — 1 quart (1.75 lbs)", orderableAtReview: true },
+    { name: "Pastured Duck Livers — 5 lb pkg", orderableAtReview: false },
+  ],
+  /** Categories the live collection did NOT contain, despite older cached results. */
+  absentAtReview: ["Whole duck", "Duck breast", "Duck leg quarters", "General duck meat"],
+  note: "Older indexed or cached results still show whole duck, breast and leg quarters. They are not current and must not power CTAs or copy. Only rendered duck fat is treated as a live US Wellness duck use case.",
+} as const;
+
 export const MERCHANTS: Merchant[] = [
   {
     id: "us-wellness-meats",
     name: "US Wellness Meats",
     program: "Impact",
     status: "active",
-    // Canonical US Wellness / Grassland Beef tracking URL. Do not edit or append to it.
+    // Generic merchant tracking URL. Retained for monetization state and history
+    // only: it must never power a CTA implying US Wellness sells duck meat.
+    // Duck placements use the product-specific deep link above.
     affiliateUrl: "https://grasslandbeefllc.sjv.io/2R7EN0",
     directUrl: "https://grasslandbeef.com/",
     statusReviewed: "2026-08",
     approvalDate: "2026-08",
     activationDate: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    allowedCategories: ["Rendered duck fat"],
+    excludedCategories: [
+      "Whole duck, duck breast, duck leg quarters and general duck meat — absent from the live collection reviewed 2026-08-18",
+      "Duck liver — in the collection but sold out at review, and no liver deep link has been supplied",
+    ],
+    termsNotes:
+      "Duck CTAs must use the verified duck fat deep link (US_WELLNESS_DUCK_FAT_URL). Do not repeat the merchant's own production or health claims; we have not substantiated them.",
     activation: {
       ...NOTHING_VERIFIED,
       approvalConfirmed: true,
@@ -132,8 +168,9 @@ export const MERCHANTS: Merchant[] = [
       disclosureVerified: true,
     },
     internalNote:
-      "Approved by the advertiser and activated with the canonical Grassland Beef tracking URL. Owner still needs to complete a live test click and confirm GA4 reports affiliate=true. No commission terms recorded here until the network terms have been read.",
+      "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link. Owner still needs a live test click and GA4 affiliate=true confirmation. No liver deep link supplied, so liver is not monetized.",
   },
+
   {
     id: "dartagnan",
     name: "D'Artagnan",

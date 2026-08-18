@@ -82,15 +82,16 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
   {
     id: "sourcing-us-wellness",
     merchantId: "us-wellness-meats",
-    name: "Pasture-raised duck and duck fat",
-    useCase: "Reader shopping duck alongside other pasture-raised meat",
-    directUrl: "https://grasslandbeef.com/",
+    name: "Rendered duck fat — 1 quart",
+    useCase: "Reader would rather buy a tub of rendered duck fat than render their own",
+    directUrl: "https://grasslandbeef.com/collections/duck",
     status: "active",
-    lastVerified: "2026-08",
-    editorialRelationship: "/buy/where-to-buy-duck-online (secondary sourcing slot)",
+    lastVerified: "2026-08-18",
+    editorialRelationship: "/buy/duck-fat-buying-guide (primary duck fat slot)",
     handsOn: "untested",
-    note: "Approved and live on the canonical Grassland Beef tracking URL held in src/data/affiliates.ts. A duck-category deep link can replace the storefront link if the advertiser issues one.",
+    note: "Live duck collection reviewed 2026-08-18: rendered duck fat and duck livers only, no whole duck, breast or leg quarters. Monetized on the verified duck fat deep link (US_WELLNESS_DUCK_FAT_URL in src/data/affiliates.ts). Duck-meat sourcing slots were removed. Liver stays unmonetized until the owner supplies a liver deep link.",
   },
+
   {
     id: "thermometer-thermoworks",
     merchantId: "thermoworks",
@@ -136,13 +137,14 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
   {
     id: "duck-fat-jar-category",
     name: "Rendered duck fat — category slot",
-    useCase: "Reader would rather buy rendered fat than render their own",
+    useCase: "Fallback for formats no active program covers, such as small jars and tins",
     status: "category-placeholder",
-    lastVerified: "2026-08",
-    editorialRelationship: "/buy/duck-fat-buying-guide (primary)",
+    lastVerified: "2026-08-18",
+    editorialRelationship: "/buy/duck-fat-buying-guide (format fallback)",
     handsOn: "untested",
-    note: "Both sourcing merchants list rendered fat; slot activates with whichever program approves first.",
+    note: "The quart-tub format is now covered by the active US Wellness duck fat deep link. This slot remains for jar and tin formats no active program carries.",
   },
+
   {
     id: "fat-storage-category",
     name: "Fine strainer and sealable heatproof jar — category slot",
@@ -190,12 +192,13 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
         placement: "Comparison card CTA in the sellers comparison, below the decision factors",
       },
       {
-        role: "secondary",
+        role: "contextual",
         merchantId: "us-wellness-meats",
         deepLinkId: "sourcing-us-wellness",
-        intent: "Pasture-raised alternative for readers already buying meat online",
-        placement: "Second comparison card CTA in the same table",
+        intent: "Reader adding rendered duck fat, not duck meat, to the trip",
+        placement: "Separate duck fat note below the sellers comparison — never a duck-meat CTA",
       },
+
       {
         role: "contextual",
         deepLinkId: "duck-fat-jar-category",
@@ -211,9 +214,10 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
     slots: [
       {
         role: "primary",
-        deepLinkId: "duck-fat-jar-category",
-        intent: "Buy rendered duck fat in a usable format",
-        placement: "Format comparison cards; activates with the first approved sourcing program",
+        merchantId: "us-wellness-meats",
+        deepLinkId: "sourcing-us-wellness",
+        intent: "Buy rendered duck fat by the quart on a verified product deep link",
+        placement: "Duck fat sellers callout, below the format comparison and after disclosure",
       },
       {
         role: "secondary",
@@ -221,6 +225,7 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
         intent: "Rendered fat added to a specialist duck order",
         placement: "Comparison card CTA where the merchant carries the format",
       },
+
       {
         role: "contextual",
         deepLinkId: "fat-storage-category",

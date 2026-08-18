@@ -17,7 +17,12 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
-import { recipeContentBySlug, recipeBySlug, recipePath } from "@/data/recipe-content";
+import {
+  recipeContentBySlug,
+  recipeBySlug,
+  recipeNeedsDuckFat,
+  recipePath,
+} from "@/data/recipe-content";
 import { RECIPE_CONVERSION_SLUGS } from "@/data/conversion-paths";
 import { formatMinutes, isoDuration, totalTimeMinutes } from "@/data/recipes";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
@@ -104,6 +109,8 @@ function RecipePage() {
   const { slug } = Route.useLoaderData();
   const recipe = recipeBySlug(slug)!;
   const content = recipeContentBySlug(slug)!;
+  // Duck fat sellers only appear where the ingredients genuinely call for it.
+  const needsDuckFat = recipeNeedsDuckFat(slug);
   const path = recipePath(slug);
 
   return (
@@ -242,12 +249,19 @@ function RecipePage() {
       </div>
 
       <CommercialCallout
-        heading="Buy the duck for this recipe"
-        intro="Two mail-order sellers whose public catalogues list duck. Neither has been ordered from for a hands-on review, and each link's relationship is labelled beneath it."
+        heading="Buy what this recipe needs"
+        intro={
+          needsDuckFat
+            ? "A mail-order seller whose catalogue lists duck by the cut, plus rendered duck fat by the quart for the volume this recipe needs. Neither has been ordered from for a hands-on review, and each link's relationship is labelled beneath it."
+            : "A mail-order seller whose public catalogue lists duck by the cut. We have not ordered from them for a hands-on review, and this link earns us nothing."
+        }
         placement={`recipe_sourcing_${slug.replace(/[^a-z0-9]+/gi, "_")}`}
-        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        linkIds={
+          needsDuckFat ? ["dartagnan-duck", "us-wellness-duck-fat"] : ["dartagnan-duck"]
+        }
         footnote="We publish no prices, stock, or shipping claims. Check the seller's own page for current availability and terms."
       />
+
 
       <FaqList items={content.faq} />
 

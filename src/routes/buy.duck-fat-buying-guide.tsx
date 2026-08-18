@@ -210,18 +210,19 @@ function Page() {
       </Section>
 
       <CommercialCallout
-        heading="Sellers whose catalogues list rendered duck fat"
-        intro="Both are registered duck sources on this site. We name no brand of fat and have not ordered either for a hands-on review. Each link's relationship is labelled beneath it."
+        heading="Where to buy rendered duck fat"
+        intro="If you would rather buy fat than render it, these two sellers list it. Our US Wellness Meats link goes straight to their rendered duck fat, and it is an affiliate link; the D'Artagnan link earns us nothing. We name no brand as best, and we have not ordered either for a hands-on review."
         placement="duck_fat_sources"
-        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        linkIds={["us-wellness-duck-fat", "dartagnan-duck"]}
         criteria={[
           "The ingredient list is duck fat and nothing else, unless you specifically want it seasoned.",
-          "The format matches the use — a small jar for pan cooking, a tub if confit is the plan.",
+          "The format matches the use — a small jar for pan cooking, a quart or tub if confit is the plan.",
           "The listing states how it should be stored once opened.",
           "If you are already ordering duck, adding fat to the same box avoids a second shipping charge.",
         ]}
         footnote="We publish no prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
       />
+
 
       <ShopThisGuide
         items={[

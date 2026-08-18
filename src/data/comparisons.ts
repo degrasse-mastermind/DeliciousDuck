@@ -88,33 +88,12 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     lastVerified: "2026-08",
     note: "Listed as a sourcing candidate based on public catalogue information. No affiliate relationship is in place, and we have not ordered from them for a hands-on review.",
   },
-  {
-    id: "us-wellness-meats",
-    name: "US Wellness Meats",
-    kind: "Farm-direct online meat retailer (US)",
-    bestFor:
-      "Shoppers who care most about production method and are happy to buy what's in stock.",
-    decisionFactors: {
-      cuts: "Duck selection is narrower than a dedicated game distributor and varies by season.",
-      labelling: "Production-method claims are prominent on listings.",
-      state: "Frozen, shipped in insulated packaging.",
-      shipping: "Order minimums apply; confirm current thresholds at checkout.",
-      transparency: "Farm and production practices described at length.",
-      geography: "United States.",
-    },
-    pros: [
-      "Strong production-method detail for buyers who prioritise sourcing.",
-      "Bundles can reduce per-pound shipping cost on larger orders.",
-    ],
-    tradeoffs: [
-      "Duck stock rotates, so a specific cut may not be available when you need it.",
-      "Fewer duck-specific cuts than a speciality game supplier.",
-    ],
-    affiliateStatus: "active",
-    merchantId: "us-wellness-meats",
-    lastVerified: "2026-08",
-    note: "Listed from public catalogue information. Links to this seller are affiliate links, and we have not ordered from them for a hands-on review.",
-  },
+  // US Wellness Meats was previously listed here as a duck-meat seller. Their
+  // live duck collection, manually reviewed 2026-08-18, lists only rendered duck
+  // fat and duck livers — no whole duck, breast or leg quarters — so they are no
+  // longer a duck-meat sourcing route. Their duck fat link lives in the
+  // commercial-link registry under the duck_fat category.
+
   {
     id: "local-asian-market",
     name: "Asian supermarkets & local butchers",

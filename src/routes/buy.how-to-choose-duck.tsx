@@ -216,9 +216,9 @@ function Page() {
 
       <CommercialCallout
         heading="Sellers you can order duck from"
-        intro="Two mail-order sellers whose public catalogues list duck, with what each is practically useful for. Neither has been ordered from for a hands-on review."
+        intro="One national mail-order seller whose public catalogue lists duck by the cut, with what it is practically useful for. We have not ordered from them for a hands-on review, and this link earns us nothing."
         placement="choose_duck_sources"
-        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        linkIds={["dartagnan-duck"]}
         criteria={[
           "The cut and breed are named on the product page, not just \"duck\".",
           "Frozen shipping is scheduled for a delivery window you will be home for.",
@@ -226,6 +226,7 @@ function Page() {
         ]}
         footnote="We publish no prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
       />
+
 
       <DecisionNextSteps
         heading="Next steps"

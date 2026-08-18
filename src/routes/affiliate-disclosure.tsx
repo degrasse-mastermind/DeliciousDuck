@@ -49,9 +49,9 @@ function DisclosurePage() {
               Some links on this site are affiliate links. We take part in the Amazon Associates
               programme, and <strong className="text-foreground">as an Amazon Associate I earn
               from qualifying purchases.</strong> We also have an active affiliate relationship
-              with US Wellness Meats for duck and other meat sourcing. Other merchants we mention —
-              D&rsquo;Artagnan and ThermoWorks among them — pay us nothing, and links to them are
-              plain links.
+              with US Wellness Meats, which we use for one thing only: their rendered duck fat.
+              Other merchants we mention — D&rsquo;Artagnan and ThermoWorks among them — pay us
+              nothing, and links to them are plain links.
             </p>
             <p className="mt-3">
               Every commercial module on this site labels each link&rsquo;s relationship
@@ -64,8 +64,11 @@ function DisclosurePage() {
             <p className="mt-3">
               Amazon links are used for equipment categories only — pans, racks, thermometers,
               knives — never for duck itself, and never inside our newsletter or any downloadable
-              file.
+              file. Our US Wellness Meats link points at rendered duck fat, not duck meat: we
+              review what a seller currently lists before we link to it, and we do not send you
+              somewhere for a cut it does not stock.
             </p>
+
           </div>
 
           <div>
