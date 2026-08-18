@@ -303,12 +303,6 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
         intent: "Rendered fat added to a duck order from a duck producer",
         placement: "Duck fat sellers callout, listed as a direct, unpaid alternative",
       },
-      {
-        role: "secondary",
-        merchantId: "dartagnan",
-        intent: "Rendered fat added to a specialist duck order",
-        placement: "Duck fat sellers callout, listed as a direct, unpaid alternative",
-      },
 
       {
         role: "contextual",
