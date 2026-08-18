@@ -44,6 +44,7 @@ import { Route as CookWaysToUseDuckFatRouteImport } from './routes/cook.ways-to-
 import { Route as CookWhatToServeWithDuckBreastRouteImport } from './routes/cook.what-to-serve-with-duck-breast'
 import { Route as CookWholeRoastDuckRouteImport } from './routes/cook.whole-roast-duck'
 import { Route as GearIndexRouteImport } from './routes/gear.index'
+import { Route as GearBestDutchOvenForDuckConfitRouteImport } from './routes/gear.best-dutch-oven-for-duck-confit'
 import { Route as GearBestKnifeForScoringDuckRouteImport } from './routes/gear.best-knife-for-scoring-duck'
 import { Route as GearBestPanForDuckBreastRouteImport } from './routes/gear.best-pan-for-duck-breast'
 import { Route as GearBestRoastingPanForDuckRouteImport } from './routes/gear.best-roasting-pan-for-duck'
@@ -266,6 +267,12 @@ const GearIndexRoute = GearIndexRouteImport.update({
   path: '/',
   getParentRoute: () => GearRoute,
 } as any)
+const GearBestDutchOvenForDuckConfitRoute =
+  GearBestDutchOvenForDuckConfitRouteImport.update({
+    id: '/best-dutch-oven-for-duck-confit',
+    path: '/best-dutch-oven-for-duck-confit',
+    getParentRoute: () => GearRoute,
+  } as any)
 const GearBestKnifeForScoringDuckRoute =
   GearBestKnifeForScoringDuckRouteImport.update({
     id: '/best-knife-for-scoring-duck',
@@ -538,6 +545,7 @@ export interface FileRoutesByFullPath {
   '/cook/ways-to-use-duck-fat': typeof CookWaysToUseDuckFatRoute
   '/cook/what-to-serve-with-duck-breast': typeof CookWhatToServeWithDuckBreastRoute
   '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
+  '/gear/best-dutch-oven-for-duck-confit': typeof GearBestDutchOvenForDuckConfitRoute
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-roasting-pan-for-duck': typeof GearBestRoastingPanForDuckRoute
@@ -611,6 +619,7 @@ export interface FileRoutesByTo {
   '/cook/ways-to-use-duck-fat': typeof CookWaysToUseDuckFatRoute
   '/cook/what-to-serve-with-duck-breast': typeof CookWhatToServeWithDuckBreastRoute
   '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
+  '/gear/best-dutch-oven-for-duck-confit': typeof GearBestDutchOvenForDuckConfitRoute
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-roasting-pan-for-duck': typeof GearBestRoastingPanForDuckRoute
@@ -692,6 +701,7 @@ export interface FileRoutesById {
   '/cook/ways-to-use-duck-fat': typeof CookWaysToUseDuckFatRoute
   '/cook/what-to-serve-with-duck-breast': typeof CookWhatToServeWithDuckBreastRoute
   '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
+  '/gear/best-dutch-oven-for-duck-confit': typeof GearBestDutchOvenForDuckConfitRoute
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
   '/gear/best-roasting-pan-for-duck': typeof GearBestRoastingPanForDuckRoute
@@ -774,6 +784,7 @@ export interface FileRouteTypes {
     | '/cook/ways-to-use-duck-fat'
     | '/cook/what-to-serve-with-duck-breast'
     | '/cook/whole-roast-duck'
+    | '/gear/best-dutch-oven-for-duck-confit'
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-roasting-pan-for-duck'
@@ -847,6 +858,7 @@ export interface FileRouteTypes {
     | '/cook/ways-to-use-duck-fat'
     | '/cook/what-to-serve-with-duck-breast'
     | '/cook/whole-roast-duck'
+    | '/gear/best-dutch-oven-for-duck-confit'
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-roasting-pan-for-duck'
@@ -927,6 +939,7 @@ export interface FileRouteTypes {
     | '/cook/ways-to-use-duck-fat'
     | '/cook/what-to-serve-with-duck-breast'
     | '/cook/whole-roast-duck'
+    | '/gear/best-dutch-oven-for-duck-confit'
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
     | '/gear/best-roasting-pan-for-duck'
@@ -1252,6 +1265,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/gear/'
       preLoaderRoute: typeof GearIndexRouteImport
+      parentRoute: typeof GearRoute
+    }
+    '/gear/best-dutch-oven-for-duck-confit': {
+      id: '/gear/best-dutch-oven-for-duck-confit'
+      path: '/best-dutch-oven-for-duck-confit'
+      fullPath: '/gear/best-dutch-oven-for-duck-confit'
+      preLoaderRoute: typeof GearBestDutchOvenForDuckConfitRouteImport
       parentRoute: typeof GearRoute
     }
     '/gear/best-knife-for-scoring-duck': {
@@ -1605,6 +1625,7 @@ const CookRouteChildren: CookRouteChildren = {
 const CookRouteWithChildren = CookRoute._addFileChildren(CookRouteChildren)
 
 interface GearRouteChildren {
+  GearBestDutchOvenForDuckConfitRoute: typeof GearBestDutchOvenForDuckConfitRoute
   GearBestKnifeForScoringDuckRoute: typeof GearBestKnifeForScoringDuckRoute
   GearBestPanForDuckBreastRoute: typeof GearBestPanForDuckBreastRoute
   GearBestRoastingPanForDuckRoute: typeof GearBestRoastingPanForDuckRoute
@@ -1613,6 +1634,7 @@ interface GearRouteChildren {
 }
 
 const GearRouteChildren: GearRouteChildren = {
+  GearBestDutchOvenForDuckConfitRoute: GearBestDutchOvenForDuckConfitRoute,
   GearBestKnifeForScoringDuckRoute: GearBestKnifeForScoringDuckRoute,
   GearBestPanForDuckBreastRoute: GearBestPanForDuckBreastRoute,
   GearBestRoastingPanForDuckRoute: GearBestRoastingPanForDuckRoute,

@@ -95,7 +95,7 @@ function Page() {
 
       <QuickDecision guide={DG} />
 
-      <Callout kind="tip" title="Use what you own">
+      <Callout label="Use what you own">
         A snug, lidded, nonreactive, oven-safe vessel that fits the legs in one layer is the correct
         pot, whatever it cost. Enameled cast iron, a stainless Dutch oven, a deep covered sauté pan
         and a covered ceramic casserole all qualify. The only vessels worth replacing are bare cast
