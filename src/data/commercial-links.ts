@@ -14,7 +14,13 @@
  *   parameters live in this file, and none may be added.
  */
 
-import { MERCHANTS, isMonetized, isUsableUrl, type Merchant } from "./affiliates";
+import {
+  MERCHANTS,
+  US_WELLNESS_DUCK_FAT_URL,
+  isMonetized,
+  isUsableUrl,
+  type Merchant,
+} from "./affiliates";
 import { amazonCategoryUrl, type AmazonCategoryId } from "./amazon";
 
 /**
