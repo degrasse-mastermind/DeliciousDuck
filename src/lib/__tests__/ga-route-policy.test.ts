@@ -105,7 +105,7 @@ describe("pageview payload stays path-only", () => {
   it("drops query strings and hashes from a token URL", async () => {
     setLocation("deliciousduck.com", "/newsletter/unsubscribe", "?t=secret-token", "#done");
     const pushed: unknown[][] = [];
-    (window as unknown as Record<string, unknown>).gtag = (...args: unknown[]) => {
+    (window as unknown as Record<string, unknown>)["gtag"] = (...args: unknown[]) => {
       pushed.push(args);
     };
     const { trackPageView } = await import("../analytics");
@@ -119,7 +119,7 @@ describe("pageview payload stays path-only", () => {
   it("emits nothing at all on a blocked route and leaves GA disabled", async () => {
     setLocation("deliciousduck.com", "/internal/kitchen-test-sheet");
     const pushed: unknown[][] = [];
-    (window as unknown as Record<string, unknown>).gtag = (...args: unknown[]) => {
+    (window as unknown as Record<string, unknown>)["gtag"] = (...args: unknown[]) => {
       pushed.push(args);
     };
     const { trackPageView } = await import("../analytics");
