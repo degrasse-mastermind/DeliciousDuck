@@ -20,7 +20,7 @@ import {
   trackEmailLanding,
   trackPageView,
 } from "@/lib/analytics";
-import { capturePostHogPageView, initPostHog } from "@/lib/posthog";
+import { capturePostHogPageView, initPostHog, syncPostHogRoutePolicy } from "@/lib/posthog";
 import { gtagBootstrapScript } from "@/lib/analytics-gate";
 
 
