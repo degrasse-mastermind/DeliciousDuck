@@ -184,22 +184,22 @@ const SEEDS: SeedRow[] = [
  */
 const AMAZON_SEEDS: SeedRow[] = (
   [
-    ["amazon-cast-iron-skillet", "pan", "Cast-iron skillets, for the steadiest render and the most even crisp."],
-    ["amazon-carbon-steel-skillet", "pan", "Carbon-steel skillets, for a fast-responding pan that still builds fond."],
-    ["amazon-stainless-clad-skillet", "pan", "Stainless-clad skillets, for searing and deglazing an acidic pan sauce in the same pan."],
-    ["amazon-roasting-pan-rack", "roasting_pan", "Roasting pans sold with a rack, for a whole bird lifted clear of its own fat."],
-    ["amazon-sheet-pan-rack", "sheet_pan", "Rimmed sheet pans and oven-safe wire racks, the cheaper route to the same lifted setup."],
-    ["amazon-instant-read-thermometer", "thermometer", "Instant-read thermometers, for spot-checking duck breast as it approaches your target."],
-    ["amazon-leave-in-probe-thermometer", "thermometer", "Leave-in probe thermometers, for tracking a whole roast without opening the oven."],
-    ["amazon-utility-knife", "knife", "Petty and utility knives, the size range that suits scoring duck skin."],
-    ["amazon-boning-knife", "knife", "Boning knives, for jointing a whole duck and lifting breasts off the bone."],
-  ] as [AmazonCategoryId, CommercialCategory, string][]
-).map(([id, category, useFor]) => ({
+    ["amazon-cast-iron-skillet", "pan", "Cast-iron skillets, for the steadiest render and the most even crisp.", "Shop cast-iron skillets on Amazon"],
+    ["amazon-carbon-steel-skillet", "pan", "Carbon-steel skillets, for a fast-responding pan that still builds fond.", "Shop carbon-steel skillets on Amazon"],
+    ["amazon-stainless-clad-skillet", "pan", "Stainless-clad skillets, for searing and deglazing an acidic pan sauce in the same pan.", "Shop stainless-clad skillets on Amazon"],
+    ["amazon-roasting-pan-rack", "roasting_pan", "Roasting pans sold with a rack, for a whole bird lifted clear of its own fat.", "Shop roasting pans on Amazon"],
+    ["amazon-sheet-pan-rack", "sheet_pan", "Rimmed sheet pans and oven-safe wire racks, the cheaper route to the same lifted setup.", "Shop sheet pans and racks on Amazon"],
+    ["amazon-instant-read-thermometer", "thermometer", "Instant-read thermometers, for spot-checking duck breast as it approaches your target.", "Shop instant-read thermometers on Amazon"],
+    ["amazon-leave-in-probe-thermometer", "thermometer", "Leave-in probe thermometers, for tracking a whole roast without opening the oven.", "Shop leave-in thermometers on Amazon"],
+    ["amazon-utility-knife", "knife", "Petty and utility knives, the size range that suits scoring duck skin.", "Shop utility knives on Amazon"],
+    ["amazon-boning-knife", "knife", "Boning knives, for jointing a whole duck and lifting breasts off the bone.", "Shop boning knives on Amazon"],
+  ] as [AmazonCategoryId, CommercialCategory, string, string][]
+).map(([id, category, useFor, ctaLabel]) => ({
   id,
   merchantId: "amazon",
   category,
   useFor,
-  ctaLabel: "Browse this category on Amazon",
+  ctaLabel,
   url: amazonCategoryUrl(id),
 }));
 

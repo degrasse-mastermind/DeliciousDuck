@@ -201,9 +201,9 @@ function Page() {
         </div>
         <Callout label="No hands-on testing" tone="gold">
           <p>
-            None of the categories above reflects a hands-on test by DeliciousDuck. Some links on
-            this page are affiliate links to retail categories, which never changes which pan we
-            recommend for a given method.
+            None of the categories above reflects a hands-on test by DeliciousDuck. The
+            recommendation for each method comes from how the material behaves during a long
+            render, a hot finish, and a pan sauce.
           </p>
         </Callout>
       </Section>

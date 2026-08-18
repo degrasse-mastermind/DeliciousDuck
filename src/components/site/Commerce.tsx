@@ -157,10 +157,6 @@ export function EvaluationNote({ scope }: { scope: string }) {
         Read our{" "}
         <Link to="/editorial-standards" className="text-primary underline underline-offset-4">
           editorial standards
-        </Link>{" "}
-        and{" "}
-        <Link to="/affiliate-disclosure" className="text-primary underline underline-offset-4">
-          affiliate disclosure
         </Link>
         .
       </p>

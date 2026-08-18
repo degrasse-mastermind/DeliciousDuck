@@ -213,9 +213,9 @@ function Page() {
         </div>
         <Callout label="No hands-on testing" tone="gold">
           <p>
-            None of the categories above reflects a hands-on test by DeliciousDuck. Some links on
-            this page are affiliate links to retail categories, which never changes which blade
-            shape we recommend.
+            None of the categories above reflects a hands-on test by DeliciousDuck. The blade shape
+            we recommend follows from what a shallow, controlled score through skin actually asks
+            of a knife.
           </p>
         </Callout>
       </Section>

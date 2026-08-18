@@ -236,8 +236,7 @@ function Page() {
           <p>
             ThermoWorks is listed here as a research-stage brand candidate based on its published
             specifications, not a recommendation or a test result. DeliciousDuck has not hands-on
-            tested any model from this or any other brand, and we have no affiliate relationship
-            with ThermoWorks — links to it are plain, unpaid links.
+            tested any model from this or any other brand.
           </p>
         </Callout>
       </Section>
