@@ -11,20 +11,22 @@
  * `KNOWN_CONSENT_VERSIONS` so historical rows stay interpretable). Never edit
  * the text of an already-shipped version in place.
  *
+ * v2 compresses the wording to readable microcopy. Nothing about the actual
+ * behaviour changed: the same emails are sent, the same fields are stored, and
+ * the extended detail now lives in the privacy policy rather than beside every
+ * form.
+ *
  * Client-safe: no secrets, no server-only imports.
  */
 
 export const NEWSLETTER_CONSENT = {
   /** Stable identifier stored on every consented row. Bump on any text change. */
-  version: "2026-08-13.v1",
+  version: "2026-08-18.v2",
   /** Rendered verbatim beside the submit button. */
   text:
-    "By subscribing you agree to receive DeliciousDuck emails: Duck Fundamentals: The Field " +
-    "Guide (printable 16-page PDF), a six-part welcome series over about two weeks, and " +
-    "occasional cooking guides, recipes, and buying guidance. We store your email address and " +
-    "the page you signed up from so the emails match what you were reading. Sent from " +
-    "hello@deliciousduck.com via Resend. You can unsubscribe from any email. See our privacy " +
-    "policy for how we handle your data.",
+    "Get the 16-page Field Guide, a 6-part starter series, and occasional recipes and buying " +
+    "guidance. Unsubscribe anytime. Emails come from hello@deliciousduck.com; we store your " +
+    "address and the page you signed up from.",
   /** Stable version of the policy in force when this consent text shipped. */
   privacyPolicyVersion: "2026-08-13",
   privacyPolicyPath: "/privacy",
@@ -36,7 +38,10 @@ export type NewsletterConsentVersion = typeof NEWSLETTER_CONSENT.version;
  * Every consent version this build can accept. Only the current version may be
  * submitted; older ids exist so stored evidence remains interpretable.
  */
-export const KNOWN_CONSENT_VERSIONS = [NEWSLETTER_CONSENT.version] as const;
+export const KNOWN_CONSENT_VERSIONS = [
+  NEWSLETTER_CONSENT.version,
+  "2026-08-13.v1",
+] as const;
 
 /** Absolute, stable reference stored alongside the consent record. */
 export function privacyPolicyUrl(baseUrl: string): string {
