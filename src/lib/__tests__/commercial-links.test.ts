@@ -116,12 +116,14 @@ describe("relationship to rel mapping", () => {
     }
   });
 
-  it("US Wellness Meats is the active affiliate destination on the canonical tracking URL", () => {
+  it("US Wellness Meats is monetized on the verified duck fat deep link", () => {
     const link = COMMERCIAL_LINKS.find((l) => l.merchantId === "us-wellness-meats")!;
     expect(isAffiliateActive(link)).toBe(true);
-    expect(link.url).toBe("https://grasslandbeefllc.sjv.io/2R7EN0");
+    expect(link.category).toBe("duck_fat");
+    expect(link.url).toBe("https://grasslandbeefllc.sjv.io/xJoWgR");
     expect(relForLink(link)).toBe("sponsored nofollow noopener");
   });
+
 
   it("monetizes only the two approved programs", () => {
     const affiliates = new Set(
