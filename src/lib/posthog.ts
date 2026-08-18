@@ -78,7 +78,9 @@ export function initPostHog(path?: string): void {
   captureSuspended = false;
   try {
     posthog.init(POSTHOG_KEY, {
-      api_host: POSTHOG_HOST,
+      api_host: postHogApiHost(),
+      ui_host: POSTHOG_UI_HOST,
+
       // Pageviews are sent manually per SPA navigation with path-only URLs.
       capture_pageview: false,
       capture_pageleave: true,
