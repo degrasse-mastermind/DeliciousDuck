@@ -1,6 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
+import {
+  DisclosureBanner,
+  ComparisonCard,
+  ComparisonTable,
+  QuickPicks,
+  ShopThisGuide,
+} from "@/components/site/Commerce";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_MERCHANTS, MERCHANT_FACTORS } from "@/data/comparisons";
@@ -81,6 +87,13 @@ function Page() {
       <QuickDecision guide={DG} />
 
       <DisclosureBanner />
+
+      <QuickPicks
+        rows={DUCK_MERCHANTS}
+        placement="where_to_buy_quick_picks"
+        shopNoun="duck"
+        intro="The sellers covered below, with who each one suits. Every detail comes from the seller's own public catalogue at the last check — no rankings, prices, or stock claims."
+      />
 
       <MethodologyPanel guide={DG} />
 
@@ -246,7 +259,7 @@ function Page() {
 
       <CommercialCallout
         heading="Duck fat, not duck meat: US Wellness Meats"
-        intro="Worth separating out, because it is easy to assume otherwise from older search results. US Wellness Meats is a pasture-raised meat retailer whose duck range is narrow — rendered duck fat is the part we link to, and our link goes straight to it. Do not go there expecting a whole bird, breasts, or leg quarters. This one is an affiliate link."
+        intro="Worth separating out, because it is easy to assume otherwise from older search results. US Wellness Meats is a pasture-raised meat retailer whose duck range is narrow — rendered duck fat is the part we link to, and our link goes straight to it. Do not go there expecting a whole bird, breasts, or leg quarters."
         placement="duck_fat_specialty_note"
         linkIds={["us-wellness-duck-fat"]}
         footnote={
@@ -264,7 +277,7 @@ function Page() {
       <Section id="compare" heading="The sellers, side by side">
         <p>
           Same four sellers, laid out so you can read across a single row: which cuts they list,
-          whether they carry prepared duck, who each one suits, and exactly what our relationship is.
+          whether they carry prepared duck, and who each one suits.
           Every attribute comes from the seller's own public catalogue at the last verification date.
         </p>
         <ComparisonTable caption="Online duck sellers compared" rows={DUCK_MERCHANTS} factors={MERCHANT_FACTORS} />
@@ -288,7 +301,7 @@ function Page() {
 
         <div className="mt-6 grid gap-6">
           {DUCK_MERCHANTS.map((row) => (
-            <ComparisonCard key={row.id} row={row} factors={MERCHANT_FACTORS} />
+            <ComparisonCard key={row.id} row={row} factors={MERCHANT_FACTORS} shopNoun="duck" />
           ))}
         </div>
       </Section>
