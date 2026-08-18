@@ -22,7 +22,6 @@ export interface AcquisitionPageMeta {
   /** First-viewport answer. Complete enough to be useful on its own. */
   answer: string;
   byline: string;
-  reviewedBy: string;
   /** YYYY-MM-DD the editorial content was last reviewed. */
   updated: string;
   /** Evidence types the page is built on. No claims, no brands. */
@@ -36,7 +35,6 @@ export interface AcquisitionPageMeta {
 }
 
 const BYLINE = "DeliciousDuck Editorial";
-const REVIEWED = "Reviewed against our editorial standards before publication.";
 const UPDATED = "2026-08-13";
 
 const CUTS: AcquisitionPageMeta = {
@@ -45,7 +43,6 @@ const CUTS: AcquisitionPageMeta = {
   answer:
     "Start from the dish, not the counter. Breast for a seared, pink, plated main. Legs for confit, braises, and anything slow. A whole bird when you want a centrepiece — or three cooks out of one purchase, because a whole duck is breast, legs, fat, and stock in a single package.",
   byline: BYLINE,
-  reviewedBy: REVIEWED,
   updated: UPDATED,
   basedOn: [
     "Our own technique pages for breast, legs, and whole-bird roasting, and what each method needs from the cut.",
@@ -75,7 +72,6 @@ const QUANTITY: AcquisitionPageMeta = {
   answer:
     "Plan on roughly 180 g (6 oz) of cooked meat per person for a standard main course, then work backward. A whole duck yields about 40% of its raw weight as edible cooked meat, so a 2.2 kg (about 4.9 lb) bird feeds four generously. One duck breast per person is the simple rule for a plated main, and one leg per person for confit.",
   byline: BYLINE,
-  reviewedBy: REVIEWED,
   updated: UPDATED,
   basedOn: [
     "The published assumptions behind our whole-duck serving calculator: 40% edible cooked yield, and light, standard, and hearty portions of 140 g, 180 g, and 240 g.",
@@ -105,7 +101,6 @@ const FRESH_FROZEN: AcquisitionPageMeta = {
   answer:
     "Frozen is not a downgrade. Almost all mail-order duck ships frozen because that is the only way to hold it safely across a multi-day transit, and a carefully frozen bird usually beats a “fresh” one that spent days above freezing in a box. What frozen costs you is planning: a whole duck needs a day or more of refrigerator thawing, so the delivery date is never the cooking date.",
   byline: BYLINE,
-  reviewedBy: REVIEWED,
   updated: UPDATED,
   basedOn: [
     "USDA labelling rules for poultry sold as fresh versus frozen, and USDA safe-thawing guidance.",
@@ -135,7 +130,6 @@ const SELECTION: AcquisitionPageMeta = {
   answer:
     "Judge the fat cap and the skin first: you want an intact, dry, evenly thick layer, because torn or patchy skin never crisps evenly. Then read the label for the things that carry a defined meaning — the age class, whether it is sold fresh or frozen, and a processing or best-by date — and ignore the adjectives that do not.",
   byline: BYLINE,
-  reviewedBy: REVIEWED,
   updated: UPDATED,
   basedOn: [
     "USDA duck labelling and handling guidance: age classes, fresh-versus-frozen definitions, and safe handling from purchase onward.",
@@ -172,7 +166,6 @@ const THANKSGIVING: AcquisitionPageMeta = {
   answer:
     "Serve turkey when the table is large, the guests expect tradition, and you want leftovers for days. Serve duck when the table is small enough for the birds and pans your kitchen can hold, you care more about how it eats than how much of it there is, and you would rather manage rendering fat than a dry breast. Duck is richer and offers less serving capacity per bird than a turkey, so a duck holiday is usually a smaller one or a two-bird one — run your guest count through our serving calculator before you order.",
   byline: BYLINE,
-  reviewedBy: REVIEWED,
   updated: "2026-08-17",
   basedOn: [
     "USDA safe-handling guidance for poultry — thawing, the 165°F minimum internal temperature, danger-zone limits and leftover windows — which applies to duck and turkey alike.",

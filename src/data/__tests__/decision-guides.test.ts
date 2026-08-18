@@ -56,7 +56,7 @@ describe("decision-guide registry integrity", () => {
       expect(g.evidenceBasis.length).toBeGreaterThan(40);
       expect(g.evidenceBasis.toLowerCase()).not.toMatch(/have not|not tested|hands-on/);
       expect(g.byline.length).toBeGreaterThan(0);
-      expect(g.reviewedBy.length).toBeGreaterThan(0);
+
     }
   });
 
