@@ -83,9 +83,45 @@ export function syncGaRoutePolicy(measurementId: string, pathOverride?: string):
 }
 
 /**
+ * Global names the inline bootstrap installs on `window`.
+ *
+ * `__ddLoadGtag` is idempotent: it injects gtag.js + the first `config` (a
+ * path-only page_view) once per session and returns `true` only for the call
+ * that actually performed the load. That lets a session which started on a
+ * blocked route (`/internal/*`, `/api/*`, where nothing is loaded) initialize
+ * GA lazily on its first public navigation without ever loading twice or
+ * emitting two pageviews.
+ */
+export const GTAG_LOADER_KEY = "__ddLoadGtag";
+export const GTAG_LOADED_KEY = "__ddGtagLoaded";
+
+export type GtagLoadResult = "loaded" | "already" | "blocked";
+
+/**
+ * Ensures gtag.js exists for the current route. Returns `"loaded"` when this
+ * call performed the (single) load — the caller must then NOT send its own
+ * pageview, because the bootstrap's `config` already emitted one.
+ */
+export function ensureGtagLoaded(measurementId: string, pathOverride?: string): GtagLoadResult {
+  if (typeof window === "undefined" || !window.location) return "blocked";
+  if (!analyticsEnabled(pathOverride)) return "blocked";
+  const w = window as unknown as Record<string, unknown>;
+  if (w[GTAG_LOADED_KEY]) return "already";
+  const loader = w[GTAG_LOADER_KEY];
+  if (typeof loader !== "function") return "blocked";
+  // Keep the kill switch aligned before the tag can read it.
+  syncGaRoutePolicy(measurementId, pathOverride);
+  try {
+    return (loader as () => boolean)() ? "loaded" : "already";
+  } catch {
+    return "blocked";
+  }
+}
+
+/**
  * Inline bootstrap for gtag.js.
  *
- * Three things happen here, in this order:
+ * Four things happen here, in this order:
  *
  * 1. The `ga-disable-<id>` flag is set from the current host + path *before*
  *    gtag.js is requested, so the library starts out suspended on blocked
@@ -93,7 +129,9 @@ export function syncGaRoutePolicy(measurementId: string, pathOverride?: string):
  * 2. `pushState`, `replaceState` and `popstate` are wrapped/observed so the
  *    flag is updated in the same task as the history change — earlier than
  *    GA's own history listeners and earlier than the router effect.
- * 3. Only then, on a canonical host and an allowed path, is the tag injected.
+ * 3. A one-shot `__ddLoadGtag()` loader is exposed so a session that starts on
+ *    a blocked route can initialize GA later, on its first public navigation.
+ * 4. Only then, on a canonical host and an allowed path, is the tag injected.
  *    The first `page_view` carries origin + pathname only: mailbox-token links
  *    (`/newsletter/unsubscribe?t=...`) must never reach analytics.
  */
@@ -136,23 +174,32 @@ export function gtagBootstrapScript(measurementId: string): string {
         window.addEventListener('popstate', syncDisableFlag, true);
         window.addEventListener('hashchange', syncDisableFlag, true);
         window.__ddSyncGaDisableFlag = syncDisableFlag;
+        // One-shot loader: safe to call on every public navigation.
+        window.${GTAG_LOADER_KEY} = function () {
+          if (window.${GTAG_LOADED_KEY}) return false;
+          if (!hostOk || !pathAllowed()) return false;
+          window.${GTAG_LOADED_KEY} = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=${measurementId}';
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', '${measurementId}', {
+            page_location: location.origin + location.pathname,
+            page_path: location.pathname
+          });
+          return true;
+        };
         if (!hostOk || !pathAllowed()) return;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=${measurementId}';
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        window.gtag = gtag;
-        gtag('js', new Date());
-        gtag('config', '${measurementId}', {
-          page_location: location.origin + location.pathname,
-          page_path: location.pathname
-        });
+        window.${GTAG_LOADER_KEY}();
       } catch (e) {
         /* analytics must never break the page */
       }
     })();
   `;
 }
+
 
