@@ -325,6 +325,16 @@ export const CONVERSION_PATHS: ConversionPath[] = [
 
   /* --- confit vessel cluster --------------------------------------- */
   {
+    placement: "gear_index_to_confit_vessel_guide",
+    sourcePath: "/gear",
+    destination: "/gear/best-dutch-oven-for-duck-confit",
+    intent: "equipment",
+    direction: "cornerstone_to_commercial",
+    anchor: "Cooking confit? Start with vessel fit",
+    reason:
+      "The legs have to sit in one snug layer under fat, which rules more pots in and out than any brand does.",
+  },
+  {
     placement: "confit_to_vessel_guide",
     sourcePath: "/cook/duck-leg-confit",
     destination: "/gear/best-dutch-oven-for-duck-confit",
