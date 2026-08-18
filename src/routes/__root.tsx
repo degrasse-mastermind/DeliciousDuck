@@ -165,6 +165,7 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
+  if (typeof window !== "undefined") (window as any).__ddrender = ((window as any).__ddrender ?? 0) + 1;
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
@@ -173,13 +174,16 @@ function RootComponent() {
   const firstView = useRef(true);
   useEffect(() => {
     // Campaign-level newsletter attribution for this session (no PII).
+    (window as any).__ddeffect = [...((window as any).__ddeffect ?? []), 'start'];
     trackEmailLanding();
+    (window as any).__ddeffect.push('emailLanding');
     // One `commercial_page_view` per navigation that enters a commercial
     // route. The helper suppresses effect replay for the same navigation, so
     // A -> B -> A still counts twice for A, and non-commercial routes emit
     // nothing.
 
     trackCommercialPageView({ path: pathname });
+    (window as any).__ddeffect.push('commercialPV');
     // Re-apply the per-route PostHog policy first: a client-side navigation
     // into /internal or /api must silence autocapture, page-leave and session
     // recording, and returning to a public route restores them.
@@ -191,10 +195,14 @@ function RootComponent() {
     // Lazy, one-shot initialization: a session that landed directly on
     // /internal/* or /api/* loaded neither SDK, so both come up here the first
     // time it reaches a public route.
-    initPostHog(pathname);
+    (window as any).__ddeffect.push('beforeInit');
+    try { initPostHog(pathname); } catch (e) { (window as any).__ddeffect.push('THROW:'+String(e)); throw e; }
+    (window as any).__ddm1 = true;
     const gaLoad = ensureGtagLoaded(GA_MEASUREMENT_ID, pathname);
+    (window as any).__ddm2 = gaLoad;
     // Manual PostHog pageview per navigation, including the first load.
     capturePostHogPageView(pathname);
+    (window as any).__ddm3 = true;
 
     if (firstView.current) {
       firstView.current = false;
