@@ -555,3 +555,91 @@ export const DUCK_FAT_OPTIONS: ComparisonRow[] = [
     lastVerified: "2026-08",
   },
 ];
+
+/* ------------------------------------------------------------------ */
+/* Roasting vessels for a whole duck                                   */
+/* ------------------------------------------------------------------ */
+
+export const ROASTING_PAN_FACTORS = [
+  { key: "elevation", label: "Lifting the bird out of its fat" },
+  { key: "capacity", label: "Fat capacity" },
+  { key: "airflow", label: "Airflow around the skin" },
+  { key: "sizing", label: "Sizing for a 4.5–6 lb duck" },
+  { key: "handling", label: "Handling a hot pan of fat" },
+  { key: "afterlife", label: "What else it does" },
+] as const;
+
+export const ROASTING_PANS: ComparisonRow[] = [
+  {
+    id: "roaster-with-rack",
+    name: "Roasting pan with a fitted rack",
+    kind: "Category",
+    bestFor: "Anyone roasting a whole duck more than once or twice a year.",
+    decisionFactors: {
+      elevation: "Best. A fitted rack holds the bird clear of the fat for the whole roast.",
+      capacity: "High — 2.5–3 in (6–8 cm) sides swallow the fat a whole duck throws.",
+      airflow: "Good, though tall sides shade the lower skin more than a shallow pan does.",
+      sizing: "A 13 × 9 in (33 × 23 cm) pan or larger fits a duck with room to spare.",
+      handling: "Riveted end handles let you carry it with two hands and two dry towels.",
+      afterlife: "Turkey, large chickens, pork shoulder, big-batch vegetable roasting.",
+    },
+    pros: [
+      "The rack solves the one problem that matters most: a bird sitting in its own fat won't crisp underneath.",
+      "Deep sides mean you can pour fat off mid-roast without it sloshing over the lip.",
+    ],
+    tradeoffs: [
+      "Bulky to store, and oversized for anything smaller than a whole bird.",
+      "Very tall sides trap steam near the bottom of the bird; look for 2.5–3 in rather than 4 in.",
+    ],
+    affiliateStatus: "none",
+    lastVerified: "2026-08",
+  },
+  {
+    id: "rimmed-sheet-with-rack",
+    name: "Rimmed sheet pan with a wire rack",
+    kind: "Category",
+    bestFor: "Cooks who want maximum airflow and already own both pieces.",
+    decisionFactors: {
+      elevation: "Good, if the rack is sturdy enough not to bow under 5 lb of bird.",
+      capacity: "Lowest. A 1 in (2.5 cm) rim fills fast, so plan to pour off part-way.",
+      airflow: "Best of the three — nothing shades the skin.",
+      sizing: "A half-sheet (18 × 13 in / 46 × 33 cm) is the practical minimum.",
+      handling: "Light and easy to grip, but a shallow pan of hot fat is the easiest to spill.",
+      afterlife: "Everything. This is the most-used pan in most kitchens.",
+    },
+    pros: [
+      "Unobstructed convection all round the bird, which is what a crisp skin wants.",
+      "Cheap, stackable, and genuinely useful the other fifty weeks of the year.",
+    ],
+    tradeoffs: [
+      "Shallow rim plus rendered fat is a real overflow and smoke risk — ladle fat off as it collects.",
+      "Flimsy sheets warp at roasting temperatures, which sends the fat to one corner.",
+    ],
+    affiliateStatus: "none",
+    lastVerified: "2026-08",
+  },
+  {
+    id: "cast-iron-or-braiser",
+    name: "Cast iron skillet or shallow braiser",
+    kind: "Category",
+    bestFor: "Duck legs, halved or spatchcocked birds, and small kitchens.",
+    decisionFactors: {
+      elevation: "Poor without a trivet — the bird sits in the fat unless you raise it.",
+      capacity: "Moderate, and it depends entirely on how much bird is in the way.",
+      airflow: "Reduced by the sides, and worst where the bird sits closest to the wall.",
+      sizing: "A 12 in (30 cm) skillet suits legs or a spatchcocked bird, not a whole one.",
+      handling: "Heaviest, and hot cast iron full of fat is the least forgiving to move.",
+      afterlife: "Searing, cornbread, potatoes fried in the fat you just rendered.",
+    },
+    pros: [
+      "Retained heat browns the underside hard, which suits legs and flat cuts.",
+      "Goes stovetop to oven, so you can render, roast, and build a sauce in one vessel.",
+    ],
+    tradeoffs: [
+      "Not a whole-duck vessel unless the bird is halved or spatchcocked.",
+      "Seasoned iron reacts with acidic pan sauces — deglaze wine or fruit somewhere else.",
+    ],
+    affiliateStatus: "none",
+    lastVerified: "2026-08",
+  },
+];
