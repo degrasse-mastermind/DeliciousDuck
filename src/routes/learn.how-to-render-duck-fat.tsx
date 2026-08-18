@@ -287,11 +287,15 @@ function RenderFatPage() {
         ]}
       />
 
+      <DuckFatDecision sourcePath="/learn/how-to-render-duck-fat" />
+
       <ConversionPaths
         sourcePath="/learn/how-to-render-duck-fat"
-        eyebrow="If you would rather buy it"
-        heading="Buying rendered duck fat instead"
+        eyebrow="Also worth reading"
+        heading="Choosing a pot for confit"
+        omit={["render_fat_to_duck_fat_guide"]}
       />
+
 
       <FaqList items={FAQ} />
 
