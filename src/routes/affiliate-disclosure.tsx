@@ -28,7 +28,7 @@ function DisclosurePage() {
       <PageHeader
         eyebrow="Legal"
         title="Affiliate Disclosure"
-        intro="DeliciousDuck plans to fund its work partly through affiliate links. This page explains exactly what that means and the limits we place on it."
+        intro="DeliciousDuck funds part of its work through affiliate links. This page explains exactly what that means, which programmes are active, and the limits we place on them."
         trail={[{ name: "Affiliate Disclosure", to: "/affiliate-disclosure" }]}
       />
 
