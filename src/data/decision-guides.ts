@@ -58,7 +58,6 @@ export interface DecisionGuideMeta {
   /** Byline shown on the page. Matches the Organization author in schema. */
   byline: string;
   /** Who reviewed it, in the site's existing transparency language. */
-  reviewedBy: string;
   quickPicks: QuickPick[];
   bestFor: BestForEntry[];
   matrix: DecisionMatrix;
@@ -77,7 +76,6 @@ const SOURCING: DecisionGuideMeta = {
     "Published catalogue and shipping information from the sellers named here, read on the date above and weighed against the cut-to-method and thaw-time requirements in our own technique pages. Prices, stock levels, and delivery windows come from the seller's own listing.",
   updated: "2026-08-13",
   byline: "DeliciousDuck Editorial",
-  reviewedBy: "Reviewed against our editorial standards before publication.",
   quickPicks: [
     {
       situation: "You want duck breast this week and don't care about breed",
@@ -197,7 +195,6 @@ const THERMOMETER: DecisionGuideMeta = {
     "Published manufacturer specifications for each category — stated read time, probe dimensions, temperature range, stated accuracy, and water resistance — read against the temperature targets on our doneness and cooking-time pages.",
   updated: "2026-08-13",
   byline: "DeliciousDuck Editorial",
-  reviewedBy: "Reviewed against our editorial standards before publication.",
   quickPicks: [
     {
       situation: "You mostly cook duck breast",
@@ -327,7 +324,6 @@ const PAN: DecisionGuideMeta = {
     "Material heat behaviour and manufacturer-published care and oven-safe limits, weighed against what a long render, a hot finish, and a pan sauce each ask of a pan. The comparison is by material category rather than by product.",
   updated: "2026-08-13",
   byline: "DeliciousDuck Editorial",
-  reviewedBy: "Reviewed against our editorial standards before publication.",
   quickPicks: [
     {
       situation: "You want the most even, most reliable crisp",
@@ -456,7 +452,6 @@ const DUCK_FAT: DecisionGuideMeta = {
     "Retail label and ingredient-list conventions on rendered duck fat, read against the storage windows and quantities on our rendering and confit pages. The comparison is by format rather than by brand.",
   updated: "2026-08-13",
   byline: "DeliciousDuck Editorial",
-  reviewedBy: "Reviewed against our editorial standards before publication.",
   quickPicks: [
     {
       situation: "You want duck fat for roast potatoes a few times a year",
