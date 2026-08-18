@@ -20,22 +20,29 @@ import {
 const MEASUREMENT_ID = "G-E15CFY209D";
 const FLAG = gaDisableFlagKey(MEASUREMENT_ID);
 
+/** Minimal browser stub — node environment, no jsdom, fully deterministic. */
 function setLocation(hostname: string, path: string, search = "", hash = "") {
-  Object.defineProperty(window, "location", {
-    configurable: true,
-    value: {
-      hostname,
-      pathname: path,
-      search,
-      hash,
-      origin: `https://${hostname}`,
-      href: `https://${hostname}${path}${search}${hash}`,
-    },
-  });
+  const existing = (globalThis as { window?: Record<string, unknown> }).window;
+  const win: Record<string, unknown> = existing ?? {};
+  win["location"] = {
+    hostname,
+    pathname: path,
+    search,
+    hash,
+    origin: `https://${hostname}`,
+    href: `https://${hostname}${path}${search}${hash}`,
+  };
+  win["localStorage"] = win["localStorage"] ?? { getItem: () => null };
+  vi.stubGlobal("window", win);
+  vi.stubGlobal("document", { cookie: "", title: "Test" });
+}
+
+function win(): Record<string, unknown> {
+  return (globalThis as unknown as { window: Record<string, unknown> }).window;
 }
 
 function readFlag(): unknown {
-  return (window as unknown as Record<string, unknown>)[FLAG];
+  return win()[FLAG];
 }
 
 describe("GA disable flag key", () => {
@@ -46,7 +53,7 @@ describe("GA disable flag key", () => {
 
 describe("syncGaRoutePolicy", () => {
   beforeEach(() => {
-    delete (window as unknown as Record<string, unknown>)[FLAG];
+    vi.unstubAllGlobals();
   });
 
   it("keeps GA disabled on a direct internal load", () => {
@@ -92,20 +99,21 @@ describe("syncGaRoutePolicy", () => {
   it("never writes persistent consent state", () => {
     setLocation("deliciousduck.com", "/internal/x");
     syncGaRoutePolicy(MEASUREMENT_ID, "/internal/x");
-    expect(window.localStorage.getItem(FLAG)).toBeNull();
-    expect(document.cookie).not.toContain("ga-disable");
+    expect((win()["localStorage"] as Storage).getItem(FLAG)).toBeNull();
+    expect((globalThis as unknown as { document: { cookie: string } }).document.cookie).toBe("");
   });
 });
 
 describe("pageview payload stays path-only", () => {
   afterEach(() => {
     vi.resetModules();
+    vi.unstubAllGlobals();
   });
 
   it("drops query strings and hashes from a token URL", async () => {
     setLocation("deliciousduck.com", "/newsletter/unsubscribe", "?t=secret-token", "#done");
     const pushed: unknown[][] = [];
-    (window as unknown as Record<string, unknown>)["gtag"] = (...args: unknown[]) => {
+    win()["gtag"] = (...args: unknown[]) => {
       pushed.push(args);
     };
     const { trackPageView } = await import("../analytics");
@@ -119,7 +127,7 @@ describe("pageview payload stays path-only", () => {
   it("emits nothing at all on a blocked route and leaves GA disabled", async () => {
     setLocation("deliciousduck.com", "/internal/kitchen-test-sheet");
     const pushed: unknown[][] = [];
-    (window as unknown as Record<string, unknown>)["gtag"] = (...args: unknown[]) => {
+    win()["gtag"] = (...args: unknown[]) => {
       pushed.push(args);
     };
     const { trackPageView } = await import("../analytics");
