@@ -211,7 +211,7 @@ function Page() {
 
       <CommercialCallout
         heading="Sellers whose catalogues list rendered duck fat"
-        intro="Both are registered duck sources on this site. We name no brand of fat and have not ordered either for a hands-on review."
+        intro="Both are registered duck sources on this site. We name no brand of fat and have not ordered either for a hands-on review. Each link's relationship is labelled beneath it."
         placement="duck_fat_sources"
         linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
         criteria={[
