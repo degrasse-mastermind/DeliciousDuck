@@ -26,7 +26,7 @@ import {
 } from "./engagement-events";
 import type { CommercialLinkEntry } from "@/data/commercial-links";
 import { captureEvent } from "./posthog";
-import { analyticsEnabled } from "./analytics-gate";
+import { analyticsEnabled, syncGaRoutePolicy } from "./analytics-gate";
 
 type GtagParams = Record<string, string | number | boolean | undefined>;
 
@@ -119,6 +119,9 @@ export function trackEvent(name: string, params: GtagParams = {}): void {
 
 /** SPA route change page view — gtag.js only auto-tracks the first load. */
 export function trackPageView(path: string, title?: string): void {
+  // Keep the documented GA kill switch aligned with the route before anything
+  // else: on a blocked path this also stops gtag's automatic history pageview.
+  syncGaRoutePolicy(GA_MEASUREMENT_ID, path);
   if (!analyticsEnabled(path)) return;
   const gtag = ensureGtag();
   if (!gtag) return;

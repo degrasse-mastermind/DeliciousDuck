@@ -12,14 +12,23 @@ Production GA4 and PostHog emit only when **both** hold:
   (preview hosts, Lovable editor/project/preview domains, `localhost`, and any
   other host emit nothing — the gtag tag is not even requested).
 - Path is not under `/internal/` or `/api/`. This is re-checked on every SPA
-  navigation: entering `/internal/*` client-side suspends PostHog autocapture,
-  page-leave capture and session recording, and returning to a public route in
-  the same session restores them (no persistent opt-out is written).
+  navigation, and **both** analytics stacks are suspended on a blocked route:
+  - GA4 via the documented kill switch `window["ga-disable-G-E15CFY209D"]`,
+    which stops all measurement for the property — including gtag's own
+    enhanced-measurement browser-history pageviews. The flag is set before
+    gtag.js is requested and re-synced from wrapped `pushState`/`replaceState`
+    plus `popstate`/`hashchange` listeners, so GA cannot beat the guard.
+  - PostHog autocapture, page-leave capture and session recording.
 
-Implemented in `src/lib/analytics-gate.ts`; enforced in `trackEvent`,
-`trackPageView` (`src/lib/analytics.ts`), the gtag bootstrap in
+  Returning to a public route in the same session restores both. No persistent
+  opt-out or consent state is written in either case.
+
+Implemented in `src/lib/analytics-gate.ts` (`syncGaRoutePolicy`,
+`gtagBootstrapScript`); enforced in `trackEvent`, `trackPageView`
+(`src/lib/analytics.ts`), the gtag bootstrap and the per-navigation sync in
 `src/routes/__root.tsx`, and `initPostHog` / `captureEvent` /
-`capturePostHogPageView` (`src/lib/posthog.ts`).
+`capturePostHogPageView` / `syncPostHogRoutePolicy` (`src/lib/posthog.ts`).
+
 
 ## Privacy invariants
 
