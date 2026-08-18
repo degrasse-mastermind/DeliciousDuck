@@ -278,11 +278,18 @@ export interface CommercialPlacement {
 
 export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
   {
-    // Duck meat only. US Wellness is deliberately absent: their live collection
-    // does not list whole duck, breast or leg quarters.
+    // Duck meat only, ordered by how well each seller solves reader intent —
+    // not by whether it pays us. US Wellness is deliberately absent: their live
+    // collection does not list whole duck, breast or leg quarters.
     path: "/buy/where-to-buy-duck-online",
     placement: "buy_duck_primary_options",
-    linkIds: ["dartagnan-duck"],
+    linkIds: [
+      "culver-duck",
+      "tastyduck-duck",
+      "fossil-farms-duck",
+      "dartagnan-duck",
+      "wild-fork-duck",
+    ],
   },
   {
     // Separate, accurate note: the US Wellness duck link is for rendered fat.
@@ -294,20 +301,16 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     // Primary US Wellness monetization path on the site.
     path: "/buy/duck-fat-buying-guide",
     placement: "duck_fat_sources",
-    linkIds: ["us-wellness-duck-fat", "dartagnan-duck"],
+    linkIds: ["us-wellness-duck-fat", "culver-duck-fat", "dartagnan-duck"],
   },
   {
     path: "/buy/how-to-choose-duck",
     placement: "choose_duck_sources",
-    linkIds: ["dartagnan-duck"],
+    linkIds: ["culver-duck", "dartagnan-duck"],
   },
-  {
-    // Generic recipe sourcing is duck meat. The duck-fat link is added only for
-    // recipes whose ingredients genuinely call for rendered duck fat.
-    path: "/recipes/$slug",
-    placement: "recipe_sourcing",
-    linkIds: ["dartagnan-duck", "us-wellness-duck-fat"],
-  },
+  // Recipes deliberately carry no merchant CTA: cut-level stock moves between
+  // sellers, so recipe pages route readers to the sourcing guide instead.
+
 
   {
     path: "/cook/how-to-cook-duck-breast",
