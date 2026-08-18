@@ -263,7 +263,7 @@ function Page() {
 
       <Section id="compare" heading="The sellers, side by side">
         <p>
-          Same five sellers, laid out so you can read across a single row: which cuts they list,
+          Same four sellers, laid out so you can read across a single row: which cuts they list,
           whether they carry prepared duck, who each one suits, and exactly what our relationship is.
           Every attribute comes from the seller's own public catalogue at the last verification date.
         </p>
