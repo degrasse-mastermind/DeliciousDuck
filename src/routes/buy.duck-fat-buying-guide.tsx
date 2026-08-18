@@ -203,8 +203,8 @@ function Page() {
         </div>
         <Callout label="No hands-on testing" tone="gold">
           <p>
-            None of the formats above reflects a hands-on test by DeliciousDuck, and no affiliate
-            relationship is currently active with any brand or seller.
+            None of the formats above reflects a hands-on test by DeliciousDuck. Where a seller link
+            below is an affiliate link, it is labelled as one.
           </p>
         </Callout>
       </Section>
