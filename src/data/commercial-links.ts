@@ -15,7 +15,7 @@
  */
 
 import { MERCHANTS, isMonetized, isUsableUrl, type Merchant } from "./affiliates";
-import { AMAZON_CATEGORIES, amazonCategoryUrl, type AmazonCategoryId } from "./amazon";
+import { amazonCategoryUrl, type AmazonCategoryId } from "./amazon";
 
 /**
  * Commercial relationship for a destination.
@@ -219,7 +219,7 @@ export interface CommercialPlacement {
 export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
   {
     path: "/buy/where-to-buy-duck-online",
-    placement: "buy_duck_options",
+    placement: "buy_duck_primary_options",
     linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
   },
   {
@@ -251,6 +251,35 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     path: "/learn/why-duck-skin-isnt-crispy",
     placement: "crisp_skin_gear",
     linkIds: ["thermoworks-thermometer"],
+  },
+  {
+    path: "/gear/best-pan-for-duck-breast",
+    placement: "pan_category_options",
+    linkIds: [
+      "amazon-cast-iron-skillet",
+      "amazon-carbon-steel-skillet",
+      "amazon-stainless-clad-skillet",
+    ],
+  },
+  {
+    path: "/gear/best-roasting-pan-for-duck",
+    placement: "roasting_setup_options",
+    linkIds: ["amazon-roasting-pan-rack", "amazon-sheet-pan-rack"],
+  },
+  {
+    path: "/gear/best-thermometer-for-duck",
+    placement: "thermometer_options",
+    linkIds: ["amazon-instant-read-thermometer", "amazon-leave-in-probe-thermometer"],
+  },
+  {
+    path: "/gear/best-knife-for-scoring-duck",
+    placement: "knife_options",
+    linkIds: ["amazon-utility-knife", "amazon-boning-knife"],
+  },
+  {
+    path: "/cook/ways-to-use-duck-fat",
+    placement: "duck_fat_storage",
+    linkIds: ["amazon-fat-storage-jar"],
   },
 ];
 
