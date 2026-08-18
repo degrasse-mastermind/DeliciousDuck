@@ -115,11 +115,18 @@ const SEEDS: SeedRow[] = [
     ctaLabel: "See current duck options",
   },
   {
-    id: "us-wellness-meats-duck",
+    /**
+     * US Wellness is monetized for rendered duck fat ONLY. Their live duck
+     * collection (reviewed 2026-08-18) does not list whole duck, breast or leg
+     * quarters, so there is deliberately no US Wellness duck_source row.
+     */
+    id: "us-wellness-duck-fat",
     merchantId: "us-wellness-meats",
-    category: "duck_source",
-    useFor: "Frozen duck cuts and duck fat alongside other pasture-raised meat orders.",
-    ctaLabel: "Check current duck selection",
+    category: "duck_fat",
+    url: US_WELLNESS_DUCK_FAT_URL,
+    useFor:
+      "Rendered duck fat by the quart — the practical format when you want a tub rather than an hour of rendering.",
+    ctaLabel: "Check current duck fat",
   },
   {
     id: "thermoworks-thermometer",
@@ -129,6 +136,7 @@ const SEEDS: SeedRow[] = [
       "Fast-read instant thermometers for pulling duck breast at a target internal temperature.",
   },
 ];
+
 
 /**
  * Amazon equipment categories. Destinations are built by `amazonCategoryUrl`, so
