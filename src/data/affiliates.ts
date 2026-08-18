@@ -253,7 +253,76 @@ export const MERCHANTS: Merchant[] = [
     internalNote:
       "Approved by Amazon Associates in 2026-08 and activated with tracking ID deliciousduck-20. Equipment/gear categories only. Owner still needs to complete a live test click and confirm GA4 reports affiliate=true. No commission terms recorded here until the program's fee schedule has been read.",
   },
+
+  /* ---------------------------------------------------------------- *
+   * Duck sellers we link because they are useful. None is monetized.  *
+   * "partnership-prospect" is INTERNAL and means only that the seller  *
+   * publicly invites cross-promotional contact — never a relationship. *
+   * ---------------------------------------------------------------- */
+  {
+    id: "culver-duck",
+    name: "Culver Duck",
+    status: "candidate",
+    directUrl: "https://culverduck.com/shop/",
+    statusReviewed: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    track: "partnership-prospect",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Duck producer with a direct-to-consumer shop reviewed 2026-08-18: whole duck, raw breast, legs, ground duck, duck fat, confit, smoked breast, stuffed duck and halal duck. No affiliate program has been confirmed, so every link stays plain and unpaid. Their site feedback form explicitly invites cross-promotional opportunities, which makes them a partnership prospect to contact — not an affiliate.",
+  },
+  {
+    id: "tastyduck-jurgielewicz",
+    name: "Joe Jurgielewicz & Son (TastyDuck)",
+    status: "candidate",
+    directUrl: "https://tastyduck.com/shop/",
+    statusReviewed: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    track: "partnership-prospect",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Family duck producer whose shop, reviewed 2026-08-18, lists whole duck, breasts, legs, sampler kits and prepared products. No affiliate program confirmed; links stay direct and unpaid. Their feedback form invites cross-promotional opportunities, so treat as a partnership prospect to contact.",
+  },
+  {
+    id: "fossil-farms",
+    name: "Fossil Farms",
+    status: "candidate",
+    directUrl: "https://www.fossilfarms.com/collections/duck",
+    statusReviewed: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    track: "partnership-prospect",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Game and specialty meat retailer with a broad duck collection reviewed 2026-08-18, spanning several breeds, cuts and prepared products. No public affiliate program confirmed; links stay direct and unpaid. Partnership prospect worth an outreach email.",
+  },
+  {
+    id: "wild-fork",
+    name: "Wild Fork",
+    status: "candidate",
+    directUrl: "https://wildforkfoods.com/",
+    statusReviewed: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    track: "direct-editorial",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Frozen-meat retailer with physical stores and delivery. Useful as a mainstream, non-specialist option where duck is in stock, but the duck range moves, so no cut-level claim is published. No affiliate program applied for. Verify duck availability at each page review.",
+  },
+  {
+    id: "meat-n-bone",
+    name: "Meat N' Bone",
+    // Recorded for internal follow-up only. No application has been filed, so
+    // the status stays "candidate" rather than "applied".
+    program: "Rakuten Advertising (advertiser ID 47482) / Shopify affiliate program",
+    status: "candidate",
+    directUrl: "https://meatnbone.com/",
+    statusReviewed: "2026-08-18",
+    track: "affiliate",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Runs a public affiliate program via Shopify and Rakuten Advertising (advertiser ID 47482), so this is the strongest near-term application candidate for duck sourcing. Duck inventory looked thin or sold out at the 2026-08-18 review, so they are not featured as a current source. Move to \"applied\" only when an application is genuinely filed.",
+  },
 ];
+
 
 
 export function merchantById(id?: string): Merchant | undefined {
