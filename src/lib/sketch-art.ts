@@ -23,6 +23,8 @@ import ovenRoast from "@/assets/sketch/oven-roast.jpg";
 // Transparent-alpha master: this drawing has no painted paper ground, so it
 // floats on any surface instead of relying on multiply blend.
 import duckVsTurkey from "@/assets/sketch/duck-vs-turkey.png";
+// Transparent-alpha master, bound explicitly to the roasting-pan gear guide.
+import roastingPans from "@/assets/sketch/roasting-pans.png";
 
 export type SketchArt = {
   src: string;
@@ -124,6 +126,11 @@ export const SKETCH = {
     src: ovenRoast,
     alt: "Colored-pencil sketch of an open oven with a roasting tin under warm light",
   },
+  roastingPans: {
+    src: roastingPans,
+    alt: "Colored-pencil sketch of a roasting pan holding a wire rack beside a rimmed sheet pan and a cast-iron skillet",
+    transparent: true,
+  },
   duckVsTurkey: {
     src: duckVsTurkey,
     alt: "Colored-pencil sketch of a roast duck and a roast turkey side by side on platters with sage, cranberries and orange",
@@ -167,7 +174,9 @@ const BY_PATH: Record<string, SketchKey> = {
 
   "/gear": "gearFlatlay",
   "/gear/best-pan-for-duck-breast": "gearFlatlay",
-  "/gear/best-roasting-pan-for-duck": "ovenRoast",
+  // Bound explicitly: keyword fallback would reach for a bird or an oven, not
+  // the vessels this page is actually about.
+  "/gear/best-roasting-pan-for-duck": "roastingPans",
   "/gear/best-knife-for-scoring-duck": "scoring",
   "/gear/best-thermometer-for-duck": "thermometer",
 

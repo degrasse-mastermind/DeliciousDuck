@@ -17,27 +17,31 @@ const GUIDE = guideByPath("/gear/best-roasting-pan-for-duck")!;
 const FAQ = [
   {
     q: "What size roasting pan do I need for a whole duck?",
-    a: "A 13 × 9 inch (33 × 23 cm) pan handles a typical 4.5–6 lb duck with room for air to move around it. Bigger is fine; smaller starts to crowd the bird against the sides, which is where skin stays pale.",
+    a: "The size that fits your bird, not a number from a chart. Set the duck on the rack you plan to use, measure that footprint, and choose a pan the bird sits inside without touching the sides. Then check the loaded pan still clears your oven walls.",
   },
   {
     q: "Do I really need a rack?",
-    a: "Yes, or something that does the same job. A duck renders a substantial amount of fat, and any skin sitting in that fat is poaching rather than roasting. A fitted rack, a wire cooling rack that fits, or even a bed of thick onion slices will lift the bird clear.",
+    a: "You need something that keeps the skin out of the rendered fat. A rack made for the pan, a rigid wire rack that fits, or a bed of thick vegetable slices all do that job. Skin sitting in liquid fat won't crisp.",
   },
   {
     q: "Can I roast a duck on a sheet pan?",
-    a: "You can, and the airflow is excellent, but a 1 inch rim fills with fat quickly. Use a sturdy half-sheet with a rack, keep a heatproof jar nearby, and ladle fat off as it collects rather than waiting until the pan is brimming.",
+    a: "Yes, with a rack. Airflow is the strong point; the shallow rim is the limitation, so watch the fat level and move some off into a heatproof container as it collects rather than waiting.",
   },
   {
     q: "Is cast iron a good roasting vessel for duck?",
-    a: "For legs, a halved bird, or a spatchcocked one, it's excellent. For a whole duck it's the wrong shape — the bird sits low in its own fat and the sides block airflow where you most want it.",
+    a: "It suits legs, a halved bird, or a spatchcocked one, where the retained heat browns the underside well. For a whole bird the shape works against you: the duck sits low and the sides reduce airflow where you want it most.",
   },
   {
-    q: "How deep should the sides be?",
-    a: "About 2.5–3 inches (6–8 cm) is the sweet spot. That's deep enough to hold the render and let you pour some off safely, without turning the pan into a steam box around the lower half of the bird.",
+    q: "Can I use a glass or ceramic baking dish?",
+    a: "Check the manufacturer's instructions first. Glass and ceramic bakeware carries its own oven-temperature limits and guidance about thermal shock — adding cold liquid to a hot dish, for example — and those instructions vary by brand, so follow the ones that came with your dish rather than a general rule.",
   },
   {
-    q: "Should I add water to the pan?",
-    a: "No. Water in the pan creates steam, and steam is the enemy of the skin you're working to crisp. The bird will supply plenty of liquid fat on its own.",
+    q: "What about nonstick or disposable foil trays?",
+    a: "Both can work within their stated limits. Nonstick pans have a maximum oven temperature set by the maker; disposable foil trays are thin, so support them on a sheet pan and follow the packaging instructions for oven use.",
+  },
+  {
+    q: "How much fat will a duck render?",
+    a: "It varies with the bird and how it's cooked, so we won't quote a figure. Plan for enough capacity that the pan isn't near its limit, keep a heatproof container within reach, and move fat off when the level looks high rather than at a fixed interval.",
   },
 ];
 
@@ -63,11 +67,42 @@ export const Route = createFileRoute("/gear/best-roasting-pan-for-duck")({
   component: Page,
 });
 
-const SIZING = [
-  ["4.5–5 lb (2.0–2.3 kg) duck", "13 × 9 in (33 × 23 cm)", "Half-sheet with a rack", "Roughly 1 to 1.5 cups of fat"],
-  ["5–6 lb (2.3–2.7 kg) duck", "14 × 10 in (36 × 25 cm)", "Half-sheet with a rack", "Plan to pour off at least once"],
-  ["Two ducks, side by side", "16 × 13 in (41 × 33 cm) or two pans", "Two half-sheets", "Two pours, minimum"],
-  ["Legs or a spatchcocked bird", "Quarter-sheet or 12 in skillet", "12 in cast iron", "Well under a cup"],
+const FIT_METHOD = [
+  [
+    "1. Measure bird and rack together",
+    "Set the duck on the rack you'll actually use and measure that whole footprint, height included.",
+  ],
+  [
+    "2. Choose a pan that holds them without contact",
+    "The bird shouldn't touch the sides, and air should be able to move all the way round it.",
+  ],
+  [
+    "3. Confirm the loaded pan fits your oven",
+    "Slide it in cold, loaded, and check you can get hands and mitts around it to lift it out.",
+  ],
+  [
+    "4. Check the maker's temperature and care instructions",
+    "Maximum oven temperature and cleaning guidance vary by pan — read them before you roast, not after.",
+  ],
+  [
+    "5. Leave capacity for the rendered fat",
+    "Enough depth that the fat isn't near the rim, with a heatproof container ready to take some off.",
+  ],
+];
+
+const RACKS = [
+  [
+    "Flat rack",
+    "Whole birds, legs, breasts, and everything else you roast",
+    "Even lift and a stable base, as long as it's rigid enough not to flex under a loaded bird",
+    "Sits lower, so the underside is closer to the fat as it collects",
+  ],
+  [
+    "V rack",
+    "Whole birds you want cradled and steady",
+    "Holds the bird higher and keeps it from rolling; often easier to lift out with the bird on it",
+    "Shape only suits whole birds, and it takes up more storage than a flat rack",
+  ],
 ];
 
 function Page() {
@@ -81,34 +116,35 @@ function Page() {
         { name: GUIDE.title, to: GUIDE.path },
       ]}
       meta={`${GUIDE.minutes} min read`}
+      autoSketch={false}
     >
       <p>
-        A whole duck asks two things of a roasting pan: hold the fat it renders, and keep the bird
-        out of it. Everything else — brand, finish, price — is secondary to those two jobs. Get the
-        rack and the depth right and a modest pan will roast a better duck than an expensive one
-        that lets the bird sit in a puddle.
+        A whole duck asks two things of a roasting pan: room for the fat it renders, and a way to
+        keep the bird out of it. Everything else — brand, finish, price — sits behind those two
+        jobs. There's no single pan that's right for every kitchen, so this guide is about matching
+        a setup to your bird and your oven rather than naming a winner.
       </p>
 
       <DisclosureBanner />
 
       <Callout label="The short answer" tone="gold">
         <p>
-          A roasting pan around 13 × 9 in (33 × 23 cm) with 2.5–3 in sides and a rack that fits it
-          is the most reliable choice. A sturdy half-sheet pan with a wire rack is the best
-          substitute, and it's the one you'll use for everything else too. Cast iron is for legs and
-          flat cuts, not a whole bird.
+          Any pan that fits your bird on its rack, clears your oven loaded, and holds the render
+          without crowding the rim will roast a good duck. Measure before you buy, check the
+          manufacturer's maximum oven temperature, and spend your attention on the rack — it does
+          more for the skin than the pan does.
         </p>
       </Callout>
 
       <Section id="fat" heading="The fat is the design brief">
         <p>
-          Duck renders far more fat than chicken, and that fat pools in the bottom of the pan while
-          the bird is still cooking. Skin sitting in liquid fat doesn't crisp — it confits, softly
-          and gently, in exactly the way you don't want on the top of a roast. So the pan has to
-          elevate the bird and hold the render without threatening to overflow when you move it.
+          Duck renders more fat than chicken, and that fat pools in the bottom of the pan while the
+          bird is still cooking. Skin sitting in liquid fat doesn't crisp — it cooks gently, in
+          exactly the way you don't want on top of a roast. So the vessel has to elevate the bird
+          and hold the render with margin to spare when you move it.
         </p>
         <p>
-          Don't throw that fat away. Strained and stored properly it's the most valuable thing the
+          Don't throw that fat away. Strained and stored properly it's the most useful thing the
           bird produces — see{" "}
           <Link
             to="/learn/how-to-render-duck-fat"
@@ -124,94 +160,121 @@ function Page() {
         </p>
       </Section>
 
-      <Section id="rack" heading="The rack matters more than the pan">
+      <Section id="fit" heading="Sizing: measure, don't guess">
         <p>
-          If you buy one thing after reading this, buy a rack that fits the pan you already own.
-          A fitted V-rack cradles a whole bird and keeps it steady; a flat wire rack works just as
-          well provided it's rigid enough not to bow under five pounds. A rack that flexes tips the
-          bird into the fat halfway through the roast, which is worse than no rack at all.
-        </p>
-        <p>
-          No rack tonight? Thick slices of onion, halved carrots, or a coil of foil will lift the
-          bird an inch off the base. It's a workaround, not a purchase — but it's a good one.
-        </p>
-      </Section>
-
-      <Section id="sizing" heading="Sizing, by bird">
-        <p>
-          Sizes below are practical starting points based on typical whole-duck dimensions, not
-          measured yields. Leave at least an inch of clearance on every side so hot air can circle
-          the bird rather than stall against a wall.
+          Duck sizes, racks, and home ovens all vary enough that a universal set of pan dimensions
+          would be misleading. Use this five-step fit check instead — it takes a couple of minutes
+          with a tape measure and rules out the mistakes that actually spoil a roast.
         </p>
         <DataTable
-          caption="Roasting vessel sizing for duck"
-          columns={["What you're roasting", "Roasting pan", "Sheet-pan alternative", "Expected render"]}
-          rows={SIZING}
+          caption="A measured fit check for any roasting setup"
+          columns={["Step", "What you're checking"]}
+          rows={FIT_METHOD}
         />
         <p className="mt-4 text-sm text-muted-foreground">
-          Fat quantities vary with the bird, its breed, and how long it roasts. Treat them as a
-          reason to keep a heatproof jar within reach, not a target.
+          If you're shopping before the bird is in the house, measure the rack and the oven now and
+          leave yourself margin on both.
         </p>
       </Section>
 
-      <Section id="depth" heading="Depth, airflow, and the trade-off between them">
+      <Section id="rack" heading="Flat rack or V rack">
         <p>
-          Deep sides hold more fat; shallow sides let more air reach the skin. The compromise most
-          duck roasting settles on is 2.5–3 inches. Go much deeper and the lower third of the bird
-          sits in a warm, humid pocket that keeps its skin slack — the same reason crowding a pan
-          ruins duck breast, which the{" "}
-          <Link
-            to="/learn/why-duck-skin-isnt-crispy"
-            className="text-primary underline underline-offset-4"
-          >
-            crisp-skin diagnostic
-          </Link>{" "}
-          covers in more detail. Go much shallower and you'll be pouring fat off more often than
-          you'd like.
+          If you buy one thing after reading this, buy a rack that fits the pan you already own. A
+          rack that flexes under a loaded bird can tip it into the fat part-way through the roast,
+          which is worse than no rack at all — rigidity matters more than shape.
+        </p>
+        <DataTable
+          caption="Flat rack compared with a V rack"
+          columns={["Rack", "Suits", "Strengths", "Limitations"]}
+          rows={RACKS}
+        />
+        <p className="mt-4">
+          No rack tonight? Thick slices of onion, halved carrots, or a coil of foil will lift the
+          bird off the base. It's a workaround rather than a purchase — but a good one.
         </p>
       </Section>
 
-      <Section id="handling" heading="Handling a hot pan full of liquid fat">
+      <Section id="materials" heading="Materials, and what to check on each">
+        <ul className="mt-4 space-y-3 text-base leading-relaxed text-foreground/85">
+          <li className="border-l-2 border-border pl-4">
+            <strong>Stainless steel.</strong> The common choice for roasters and racks. Check the
+            maker's oven-temperature rating and cleaning guidance; heavier pans generally feel more
+            stable loaded.
+          </li>
+          <li className="border-l-2 border-border pl-4">
+            <strong>Hard-anodized aluminium.</strong> Light for its size and widely sold as
+            oven-safe, but ratings differ by product — read the specification for the pan in front
+            of you rather than assuming a category limit.
+          </li>
+          <li className="border-l-2 border-border pl-4">
+            <strong>Cast iron.</strong> Holds heat well and browns firmly, which suits legs and flat
+            cuts. Season and dry it per the maker's instructions, and deglaze acidic sauces in
+            something else.
+          </li>
+          <li className="border-l-2 border-border pl-4">
+            <strong>Glass and ceramic.</strong> Bakeware in these materials comes with its own
+            temperature limits and thermal-shock guidance. Follow the instructions supplied with
+            your dish; they vary by brand and aren't interchangeable.
+          </li>
+          <li className="border-l-2 border-border pl-4">
+            <strong>Nonstick and coated pans.</strong> Usable within the manufacturer's stated
+            maximum oven temperature. Look that number up before roasting hot, and don't infer it
+            from another pan.
+          </li>
+          <li className="border-l-2 border-border pl-4">
+            <strong>Disposable foil trays.</strong> A fallback, not an equivalent. Support the tray
+            on a sheet pan, keep the fat level low, move it with two hands, and follow the oven-use
+            instructions on the packaging.
+          </li>
+        </ul>
+      </Section>
+
+      <Section id="handling" heading="Handling a hot pan of liquid fat">
         <p>
-          This is the part gear guides skip. Halfway through a duck roast you will be lifting a hot
-          pan holding a cup or more of fat hot enough to burn instantly. Before you buy, check that
-          the handles are big enough for oven mitts, that they're riveted rather than spot-welded,
-          and that you can carry the pan two-handed without tilting it. For pouring, ladle the fat
-          into a heatproof jar sitting on a towel on the counter rather than tipping the whole pan.
+          This is the part gear guides skip. Part-way through a duck roast you'll be moving a hot
+          pan holding hot liquid fat. Before you buy, check that the handles are big enough to grip
+          in oven mitts, that you can carry the pan level with two hands, and that the setup feels
+          stable when it's loaded. To remove fat, ladle it into a heatproof container standing on a
+          towel on the counter rather than tipping the whole pan.
         </p>
       </Section>
 
       <Section id="checklist" heading="The buyer's checklist">
         <ul className="mt-4 space-y-3 text-base leading-relaxed text-foreground/85">
           <li className="border-l-2 border-border pl-4">
-            <strong>A rack that fits, and doesn't flex.</strong> Non-negotiable, whatever the pan.
+            <strong>Actual bird and rack fit.</strong> Measured together, with the bird clear of the
+            sides and air able to move round it.
           </li>
           <li className="border-l-2 border-border pl-4">
-            <strong>2.5–3 in (6–8 cm) sides.</strong> Enough for the render, not enough to steam the
-            bird.
+            <strong>Oven fit, loaded.</strong> The pan goes in and comes out with room for your
+            hands and mitts.
           </li>
           <li className="border-l-2 border-border pl-4">
-            <strong>An inch of clearance around the bird.</strong> Measure your oven too — a big pan
-            with no room to breathe is a false economy.
+            <strong>Maximum oven temperature.</strong> Confirmed from the manufacturer for that
+            specific pan, coating included.
           </li>
           <li className="border-l-2 border-border pl-4">
-            <strong>Riveted handles you can grip in mitts.</strong> You'll be moving the pan hot and
-            heavy.
+            <strong>Stable handling when loaded.</strong> Grippable handles, no worrying flex, and a
+            level two-handed carry.
           </li>
           <li className="border-l-2 border-border pl-4">
-            <strong>Heavy-gauge metal that won't warp.</strong> A warped base sends the fat to one
-            corner and the heat with it.
+            <strong>Rack configuration.</strong> Flat or V, rigid, and sized to the pan you're
+            buying it for.
           </li>
           <li className="border-l-2 border-border pl-4">
-            <strong>Something you'll use again.</strong> A half-sheet earns its storage space; a
-            single-purpose roaster has to be worth the cupboard.
+            <strong>Cleanup and care.</strong> Dishwasher or hand-wash, seasoning needs, and how
+            forgiving the surface is after a fatty roast.
+          </li>
+          <li className="border-l-2 border-border pl-4">
+            <strong>Storage.</strong> Where it lives the rest of the year — a pan you'll use again
+            earns its cupboard more easily than one you won't.
           </li>
         </ul>
       </Section>
 
-      <Section id="compare" heading="Compare the three vessels">
+      <Section id="compare" heading="Compare the four setups">
         <ComparisonTable
-          caption="Roasting vessels for a whole duck"
+          caption="Four roasting setups for duck"
           rows={ROASTING_PANS}
           factors={ROASTING_PAN_FACTORS}
         />
@@ -225,16 +288,20 @@ function Page() {
 
       <Section id="who" heading="Which one suits you">
         <p>
-          <strong>Buy the roasting pan and rack if</strong> you roast whole birds a few times a year
-          — duck, chicken, turkey at the holidays — and you'd rather not think about the fat.
+          <strong>Roasting pan and rack if</strong> you roast whole birds a few times a year — duck,
+          chicken, turkey at the holidays — and you'd rather have depth to spare for the fat.
         </p>
         <p>
-          <strong>Use a half-sheet and rack if</strong> you want the crispest skin, don't mind
-          ladling fat off part-way, and would rather own a pan that works every day of the year.
+          <strong>Half-sheet and rack if</strong> you want open airflow, don't mind moving fat off
+          part-way through, and would rather own a pan that works all year.
         </p>
         <p>
-          <strong>Reach for cast iron if</strong> you're cooking legs, a halved bird, or a
-          spatchcocked duck, and you want to render, roast, and finish in one vessel.
+          <strong>Cast iron if</strong> you're cooking legs, a halved bird, or a spatchcocked duck
+          and want to render, roast, and build a sauce in one vessel.
+        </p>
+        <p>
+          <strong>A disposable foil tray if</strong> you need a second vessel at short notice — with
+          a sheet pan underneath it and the packaging instructions followed.
         </p>
       </Section>
 
@@ -242,19 +309,19 @@ function Page() {
         items={[
           {
             label: "A rack that fits the pan you already own",
-            why: "It solves the actual problem — a bird sitting in its fat won't crisp underneath.",
+            why: "It addresses the actual problem — a bird sitting in its fat won't crisp underneath.",
             to: "/cook/whole-roast-duck",
             linkLabel: "See the whole-roast method",
           },
           {
-            label: "A heatproof jar for the render",
+            label: "A heatproof container for the render",
             why: "Somewhere safe for the fat to go mid-roast, and worth keeping afterwards.",
             to: "/learn/how-to-render-duck-fat",
             linkLabel: "How to strain and store it",
           },
           {
             label: "An instant-read thermometer",
-            why: "Pan choice changes how fast the bird cooks; the temperature is the only reliable signal.",
+            why: "Pan choice changes how fast the bird cooks; temperature is the reliable signal.",
             to: "/gear/best-thermometer-for-duck",
             linkLabel: "What to look for in a probe",
           },
