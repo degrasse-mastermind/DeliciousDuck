@@ -226,13 +226,12 @@ function Page() {
 
       <CommercialCallout
         heading="Best current options for ordering duck online"
-        intro="Five sellers whose public catalogues list duck by the cut, ordered by how well each solves a common reader problem rather than by whether it pays us. We have not ordered from any of them for a hands-on review, and none of these links earns us anything."
+        intro="Four sellers whose public catalogues list duck by the cut, ordered by how well each solves a common reader problem rather than by whether it pays us. We have not ordered from any of them for a hands-on review, and none of these links earns us anything."
         placement="buy_duck_primary_options"
         linkIds={[
           "culver-duck",
           "tastyduck-duck",
           "fossil-farms-duck",
-          "dartagnan-duck",
           "wild-fork-duck",
         ]}
         criteria={[
