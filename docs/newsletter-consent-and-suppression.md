@@ -68,8 +68,8 @@ Only a genuinely new local row may call Resend. Any submission against an existi
 performs zero provider calls — no contact upsert, no segment write, no custom event —
 even when that row never received a welcome.
 
-Why: no authenticated Resend webhook exists yet, so local `status` can be stale relative to
-the provider. The contact upsert sends `unsubscribed: false`, which would silently re-enable
+Why: the Resend webhook is implemented but not yet registered provider-side, so local
+`status` can be stale relative to the provider. The contact upsert sends `unsubscribed: false`, which would silently re-enable
 a contact the subscriber had already opted out of at Resend. A duplicate website form
 submission is not strong enough evidence to change provider contact state.
 
@@ -119,7 +119,7 @@ The Field Guide download is unaffected: it is a static path
 any response field.
 
 
-## Provider event model (prepared, not active)
+## Provider event model (receiver deployed, provider registration pending)
 
 `public.newsletter_provider_events` exists for a future **authenticated, signature-verified**
 Resend webhook: `email_normalized`, `subscriber_id`, `event_type`
@@ -129,24 +129,30 @@ Resend webhook: `email_normalized`, `subscriber_id`, `event_type`
 RLS is on with a deny-all policy for `anon`/`authenticated`; only `service_role` is granted.
 `PROVIDER_EVENT_STATUS` maps event types to statuses.
 
-**Not implemented in this sprint:** no webhook route exists, no public mutation endpoint was
-added, no signature verification exists, and nothing writes to this table yet.
+**Current state:** the signed receiver at `POST /api/webhooks/resend` is implemented and
+deployed with Svix signature verification. It stays inert until `RESEND_WEBHOOK_SECRET` is
+stored and the endpoint is registered in Resend, so nothing writes to this table yet.
 
 ## Still unimplemented / unproven
 
 - Provider-side unsubscribe and suppression synchronisation. Resend-side opt-outs are **not**
   reflected in our database. Do not claim provider-side unsubscribe protection until a
   signed webhook is implemented, deployed, and observed in production.
-- On-site unsubscribe page, and any preference page (the in-session editor was removed).
+- Provider-side suppression synchronisation specifically: unverified until the webhook is
+  registered and observed. The on-site mailbox-token unsubscribe page ships and was verified
+  in production on 2026-08-18. Resend open/click tracking remains off and unclaimed.
 - Retry path for rows whose welcome event failed — duplicate signups deliberately no longer
   retry it.
 - Resend welcome automation/broadcast (untouched by design).
-- Resend open/click tracking remains off.
-- No live signup has been executed against these rules: the create / duplicate / suppressed
-  paths are proven by unit tests over the real decision and response functions, not by an
-  observed database write.
+## End-to-end lifecycle: executed and passed 2026-08-18
 
-## Controlled end-to-end test plan (not executed)
+Verified in production with an address the owner controls: first-time signup wrote the row
+with `consent_record = explicit`; the welcome email arrived from `hello@deliciousduck.com`;
+the field-guide PDF downloaded; a duplicate submission produced the same generic success UI
+with **no** Resend contact/segment/event call and **no** second welcome email; the
+mailbox-token unsubscribe suppressed the row.
+
+## Original controlled test plan (kept for re-runs)
 
 1. Preview only, one address you own. Submit from `/` and confirm the row: `consent_record =
    explicit`, `consented_at` set, `consent_text_version` matches the shipped version,
