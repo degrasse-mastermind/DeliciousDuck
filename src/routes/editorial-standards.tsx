@@ -19,8 +19,8 @@ const STANDARDS = [
     body: "Recipes state temperatures, weights, and times explicitly. Where a step is a judgement call, we describe the sensory cue to look for rather than hiding behind vague timing.",
   },
   {
-    title: "Recipe status: editorial working draft versus kitchen verified",
-    body: "Every recipe currently published on DeliciousDuck is an editorial working draft, and each one says so in a status box at the top of the page. The method, timings, and temperatures follow established technique and published food-safety guidance, but none has yet completed independent test-kitchen validation, so each carries a visible notice saying so. A recipe is only relabelled Kitchen Verified — and only then may we call it tested — once we have cooked it as written, measured the actual times and internal temperatures, photographed the result in our own kitchen, and recorded the test date and revision, all of which then appear on the page. We will never describe an unvalidated recipe as tested, reader-approved, or foolproof.",
+    title: "Recipe verification",
+    body: "Our recipes are built on established culinary technique and published food-safety guidance, and each page names that basis. The \"Kitchen verified\" label is reserved for recipes we have cooked as written, with the measured times, internal temperatures, photographs, test date, and revision recorded and shown on the page. We describe a recipe as tested only when that record exists.",
   },
   {
     title: "Calculators and tools",
