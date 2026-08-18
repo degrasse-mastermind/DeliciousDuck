@@ -39,16 +39,21 @@ describe("gear guides carry one commission disclosure only", () => {
     );
   });
 
-  it("keeps the hands-on-testing point without commission prose", () => {
-    expect(flat("src/routes/gear.best-pan-for-duck-breast.tsx")).toContain(
-      "None of the categories above reflects a hands-on test by DeliciousDuck.",
-    );
-    expect(flat("src/routes/gear.best-knife-for-scoring-duck.tsx")).toContain(
-      "None of the categories above reflects a hands-on test by DeliciousDuck.",
-    );
-    const thermo = flat("src/routes/gear.best-thermometer-for-duck.tsx");
-    expect(thermo).toContain("research-stage brand candidate based on its published");
-    expect(thermo).toContain("has not hands-on tested any model");
+  it("states methodology as a quiet evaluation-basis note, not a negative callout", () => {
+    for (const p of [
+      "src/routes/gear.best-pan-for-duck-breast.tsx",
+      "src/routes/gear.best-knife-for-scoring-duck.tsx",
+      "src/routes/gear.best-thermometer-for-duck.tsx",
+      "src/routes/buy.duck-fat-buying-guide.tsx",
+    ]) {
+      const text = flat(p);
+      expect(text, p).toContain("<EvaluationNote scope=");
+      expect(text, p).not.toMatch(/No hands-on testing/i);
+      expect(text, p).not.toMatch(/has not hands-on tested/i);
+    }
+    const note = flat("src/components/site/Commerce.tsx");
+    expect(note).toContain("Evaluation basis: ");
+    expect(note).toContain("published specifications, manufacturer or seller documentation");
   });
 });
 
