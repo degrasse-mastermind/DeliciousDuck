@@ -262,8 +262,13 @@ function Page() {
       />
 
 
-      <Section id="compare" heading="Compare the routes side by side">
-        <ComparisonTable caption="Duck sourcing routes compared" rows={DUCK_MERCHANTS} factors={MERCHANT_FACTORS} />
+      <Section id="compare" heading="The sellers, side by side">
+        <p>
+          Same five sellers, laid out so you can read across a single row: which cuts they list,
+          whether they carry prepared duck, who each one suits, and exactly what our relationship is.
+          Every attribute comes from the seller's own public catalogue at the last verification date.
+        </p>
+        <ComparisonTable caption="Online duck sellers compared" rows={DUCK_MERCHANTS} factors={MERCHANT_FACTORS} />
       </Section>
 
       <DuckBreastJourney
@@ -275,11 +280,11 @@ function Page() {
         excludePath="/buy/where-to-buy-duck-online"
       />
 
-      <Section id="candidates" heading="Sourcing candidates">
+      <Section id="candidates" heading="Each seller in detail">
         <p>
-          The routes below appear as sourcing candidates based on public catalogue information as of
-          the last verification date. DeliciousDuck has not placed an order for a hands-on review of
-          any of them, and none of these links earns us anything.
+          The notes below come from public catalogue information as of the last verification date.
+          DeliciousDuck has not placed an order for a hands-on review of any of them, and none of
+          these links earns us anything.
         </p>
 
         <div className="mt-6 grid gap-6">
