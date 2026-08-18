@@ -149,32 +149,6 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     note: "Catalogue reviewed 2026-08-18. No affiliate relationship, and no hands-on order.",
   },
   {
-    id: "dartagnan",
-    name: "D'Artagnan",
-    kind: "Speciality game & poultry distributor (US)",
-    bestFor:
-      "Cooks who want named duck cuts — magret, leg quarters, rendered fat — from one order.",
-    decisionFactors: {
-      cuts: "Whole birds, magret and leg quarters listed by name.",
-      specialty: "Rendered fat, confit and charcuterie-style duck products.",
-      breadth: "Broad duck range inside a long specialty catalogue.",
-      fit: "A French-leaning menu where magret and confit are the point.",
-      relationship: "Direct link — we earn nothing.",
-    },
-    pros: [
-      "One of the few US sellers offering magret, leg quarters, and fat together.",
-      "Cut naming is specific enough to shop by technique rather than guesswork.",
-    ],
-    tradeoffs: [
-      "Speciality pricing; check current shipping thresholds before ordering.",
-      "Frozen delivery means thaw planning — allow a full day or more in the fridge.",
-    ],
-    affiliateStatus: "none",
-    merchantId: "dartagnan",
-    lastVerified: "2026-08-18",
-    note: "Listed on catalogue grounds only. We have no commercial relationship with D'Artagnan and earn nothing from this link.",
-  },
-  {
     id: "wild-fork",
     name: "Wild Fork",
     kind: "Frozen-meat retailer, stores plus delivery (US)",

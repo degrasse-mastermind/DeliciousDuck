@@ -211,9 +211,9 @@ function Page() {
 
       <CommercialCallout
         heading="Where to buy rendered duck fat"
-        intro="If you would rather buy fat than render it, these sellers list it. Our US Wellness Meats link goes straight to their rendered duck fat and is an affiliate link; the Culver Duck and D'Artagnan links earn us nothing, and they are here because both carry fat alongside the cuts. We name no brand as best, and we have not ordered from any of them for a hands-on review."
+        intro="If you would rather buy fat than render it, these sellers list it. Our US Wellness Meats link goes straight to their rendered duck fat and is an affiliate link; the Culver Duck link earns us nothing, and it is here because they carry fat alongside the cuts. We name no brand as best, and we have not ordered from any of them for a hands-on review."
         placement="duck_fat_sources"
-        linkIds={["us-wellness-duck-fat", "culver-duck-fat", "dartagnan-duck"]}
+        linkIds={["us-wellness-duck-fat", "culver-duck-fat"]}
 
         criteria={[
           "The ingredient list is duck fat and nothing else, unless you specifically want it seasoned.",

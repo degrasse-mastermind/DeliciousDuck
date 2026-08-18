@@ -81,7 +81,7 @@ describe("registry integrity", () => {
 
   it("flags an unbacked affiliate_active row", () => {
     const issues = auditCommercialLinks([
-      sample({ id: "fake", merchantId: "dartagnan", relationship: "affiliate_active", disclosureLabel: DISCLOSURE_LABELS.affiliate_active }),
+      sample({ id: "fake", merchantId: "thermoworks", relationship: "affiliate_active", disclosureLabel: DISCLOSURE_LABELS.affiliate_active }),
     ]);
     expect(issues.some((i) => i.code === "unbacked_affiliate_status")).toBe(true);
   });
@@ -204,16 +204,16 @@ describe("placements and journeys", () => {
     expect(paths).toContain("/learn/duck-breast-temperature-doneness");
   });
 
-  it("gives duck-breast readers a sourcing step and a thermometer step", () => {
+  it("gives duck-breast readers a thermometer step and points sourcing at our own guide", () => {
     const breast = COMMERCIAL_PLACEMENTS.find((p) => p.path === "/cook/how-to-cook-duck-breast");
     expect(breast).toBeDefined();
     const categories = breast!.linkIds.map((id) => commercialLinkById(id)!.category);
-    expect(categories).toContain("duck_source");
     expect(categories).toContain("thermometer");
+    expect(categories).not.toContain("duck_source");
   });
 
   it("derives hosts without www", () => {
-    expect(destinationHost("https://www.dartagnan.com/")).toBe("dartagnan.com");
+    expect(destinationHost("https://www.fossilfarms.com/")).toBe("fossilfarms.com");
     expect(destinationHost("not a url")).toBe("");
   });
 });

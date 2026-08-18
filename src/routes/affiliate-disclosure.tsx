@@ -50,8 +50,8 @@ function DisclosurePage() {
               programme, and <strong className="text-foreground">as an Amazon Associate I earn
               from qualifying purchases.</strong> We also have an active affiliate relationship
               with US Wellness Meats, which we use for one thing only: their rendered duck fat.
-              Other merchants we mention — D&rsquo;Artagnan and ThermoWorks among them — pay us
-              nothing, and links to them are plain links.
+              Other merchants we mention — Culver Duck, TastyDuck, Fossil Farms, Wild Fork and
+              ThermoWorks among them — pay us nothing, and links to them are plain links.
             </p>
             <p className="mt-3">
               Every commercial module on this site labels each link&rsquo;s relationship

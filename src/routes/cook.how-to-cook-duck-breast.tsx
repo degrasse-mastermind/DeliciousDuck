@@ -290,12 +290,12 @@ function Page() {
       />
 
       <CommercialCallout
-        heading="Two next steps that change the result"
-        intro="One sourcing step and one measurement step. Everything else on this page works with the pan you already own."
+        heading="The one purchase that changes the result"
+        intro="A fast probe is the only piece of equipment this method really depends on. Everything else works with the pan you already own — and for the breast itself, start with our sourcing guide."
         placement="duck_breast_next_steps"
-        linkIds={["dartagnan-duck", "thermoworks-thermometer"]}
+        linkIds={["thermoworks-thermometer"]}
         criteria={[
-          "Buy breast with the fat cap intact and the cut named, so scoring depth is predictable.",
+          "Buy breast with the fat cap intact and the cut named, so scoring depth is predictable — see where to buy duck online.",
           "Use a fast instant-read probe: the pull window between 130°F and 165°F is narrow enough that a slow reading costs you doneness.",
         ]}
         footnote={

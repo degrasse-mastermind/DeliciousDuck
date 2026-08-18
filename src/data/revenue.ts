@@ -68,18 +68,6 @@ export interface DeepLinkEntry {
  */
 export const DEEP_LINKS: DeepLinkEntry[] = [
   {
-    id: "sourcing-dartagnan",
-    merchantId: "dartagnan",
-    name: "Duck cuts — whole birds, magret, leg quarters, rendered fat",
-    useCase: "Reader wants a named duck cut shipped to them in the US",
-    directUrl: "https://www.dartagnan.com/",
-    status: "declined",
-    lastVerified: "2026-08-18",
-    editorialRelationship: "/buy/where-to-buy-duck-online (one of five direct seller options)",
-    handsOn: "untested",
-    note: "Awin advertiser application declined 2026-08-18. This slot stays a plain direct link; there is no approval to wait for and no deep link to request. The Awin publisher account (ID 3034797) remains ours for future applications.",
-  },
-  {
     id: "sourcing-culver-duck",
     merchantId: "culver-duck",
     name: "Duck by the cut — whole, breast, legs, ground, fat, prepared",
@@ -268,13 +256,6 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
       },
       {
         role: "secondary",
-        merchantId: "dartagnan",
-        deepLinkId: "sourcing-dartagnan",
-        intent: "Magret, leg quarters and confit from one specialist order",
-        placement: "Sellers comparison and callout CTA — direct, unpaid after the declined application",
-      },
-      {
-        role: "secondary",
         merchantId: "wild-fork",
         deepLinkId: "sourcing-wild-fork",
         intent: "Mainstream frozen duck without a specialty order",
@@ -313,12 +294,6 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
         merchantId: "culver-duck",
         deepLinkId: "sourcing-culver-duck",
         intent: "Rendered fat added to a duck order from a duck producer",
-        placement: "Duck fat sellers callout, listed as a direct, unpaid alternative",
-      },
-      {
-        role: "secondary",
-        merchantId: "dartagnan",
-        intent: "Rendered fat added to a specialist duck order",
         placement: "Duck fat sellers callout, listed as a direct, unpaid alternative",
       },
 
@@ -423,7 +398,7 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
     slots: [
       {
         role: "primary",
-        deepLinkId: "sourcing-dartagnan",
+        deepLinkId: "sourcing-culver-duck",
         intent: "Source the cut once the method makes sense",
         placement: "Inline link to the sourcing guide in the ready-to-cook section",
       },
@@ -462,7 +437,7 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
     slots: [
       {
         role: "primary",
-        deepLinkId: "sourcing-dartagnan",
+        deepLinkId: "sourcing-culver-duck",
         intent: "First duck purchase",
         placement: "Downstream link to the sourcing guide, not a merchant link",
       },
