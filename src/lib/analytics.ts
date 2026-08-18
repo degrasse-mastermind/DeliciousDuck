@@ -65,6 +65,20 @@ export function currentPagePath(): string | undefined {
   return window.location.pathname;
 }
 
+/**
+ * Path-only, defensive normalization for analytics payloads.
+ *
+ * Strips any query string or hash that ever reached us, so mailbox tokens and
+ * other query parameters can never leave the page inside an event property.
+ */
+export function normalizedPath(raw = currentPagePath()): string | undefined {
+  if (!raw) return undefined;
+  const path = (raw.split("#")[0] ?? "").split("?")[0] ?? "";
+  if (!path) return "/";
+  return path.startsWith("/") ? path : `/${path}`;
+}
+
+
 /** Drop undefined values so GA never receives empty parameters. */
 function clean(params: GtagParams): GtagParams {
   const out: GtagParams = {};
