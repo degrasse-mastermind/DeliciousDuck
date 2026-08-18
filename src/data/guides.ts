@@ -382,6 +382,25 @@ export const GUIDES: GuideEntry[] = [
     ],
   },
   {
+    path: "/gear/best-roasting-pan-for-duck",
+    title: "Best Roasting Pan for Duck",
+    seoTitle: "Best Roasting Pan for Duck: Sizes, Racks & Fat | DeliciousDuck",
+    description:
+      "What a whole duck actually needs from a roasting pan: a rack that lifts the bird out of its fat, enough depth for the render, the right size for a 4.5\u20136 lb bird, and safe handling.",
+    teaser: "A rack, enough depth for the fat, and honest sizing \u2014 the rest is preference.",
+    pillar: "gear",
+    cluster: "commerce",
+    kind: "money",
+    minutes: 9,
+    related: [
+      "/cook/whole-roast-duck",
+      "/learn/whole-duck-cooking-time",
+      "/learn/how-to-render-duck-fat",
+      "/gear/best-pan-for-duck-breast",
+      "/gear/best-thermometer-for-duck",
+    ],
+  },
+  {
     path: "/gear/best-knife-for-scoring-duck",
     title: "Best Knife for Scoring Duck",
     seoTitle: "Best Knife for Scoring Duck Skin: What to Look For | DeliciousDuck",
