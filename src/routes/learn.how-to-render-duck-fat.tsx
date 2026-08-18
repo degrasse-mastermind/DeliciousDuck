@@ -5,7 +5,7 @@ import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/learn/how-to-render-duck-fat")!;
@@ -25,6 +25,13 @@ export const Route = createFileRoute("/learn/how-to-render-duck-fat")({
           { name: "Learn", item: "/learn" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

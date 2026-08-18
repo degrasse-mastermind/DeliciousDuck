@@ -7,7 +7,7 @@ import { SafetyNote } from "@/components/site/SafetyNote";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { STARTER_GUIDE } from "@/data/starter-guide";
 import { trackStarterGuidePrint, trackStarterGuideView } from "@/lib/analytics";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/guides/duck-cooking-starter-guide")({
   head: () => ({
@@ -24,6 +24,13 @@ export const Route = createFileRoute("/guides/duck-cooking-starter-guide")({
           { name: "Guides", item: STARTER_GUIDE.path },
           { name: STARTER_GUIDE.title, item: STARTER_GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
     ],
   }),

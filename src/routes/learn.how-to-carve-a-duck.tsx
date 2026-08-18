@@ -3,7 +3,7 @@ import { ArticleShell, FaqList, Section, StepList } from "@/components/site/Arti
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/learn/how-to-carve-a-duck")!;
 
@@ -22,6 +22,13 @@ export const Route = createFileRoute("/learn/how-to-carve-a-duck")({
           { name: "Learn", item: "/learn" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, FaqList, Section } from "@/components/site/ArticleShell";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 
@@ -23,6 +23,13 @@ export const Route = createFileRoute("/cook/ways-to-use-duck-fat")({
           { name: "Cook", item: "/cook" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

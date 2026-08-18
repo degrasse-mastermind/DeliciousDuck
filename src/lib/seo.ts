@@ -169,8 +169,8 @@ export function articleSchema(a: {
   headline: string;
   description: string;
   path: string;
-  /** ISO date shown to readers as "Updated" / "Reviewed". */
-  updated: string;
+  /** ISO date shown to readers as "Updated" / "Reviewed". Omitted when the page has no dated review. */
+  updated?: string;
   image?: string;
 }) {
   const url = absUrl(a.path);
@@ -181,7 +181,7 @@ export function articleSchema(a: {
     description: a.description,
     url,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    dateModified: a.updated,
+    ...(a.updated ? { dateModified: a.updated } : {}),
     ...(a.image ? { image: absUrl(a.image) } : {}),
     author: { "@type": "Organization", name: SITE.name, url: absUrl("/") },
     publisher: { "@type": "Organization", name: SITE.name, url: absUrl("/") },

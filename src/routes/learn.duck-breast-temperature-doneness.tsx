@@ -4,7 +4,7 @@ import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
@@ -22,6 +22,13 @@ export const Route = createFileRoute("/learn/duck-breast-temperature-doneness")(
           { name: "Learn", item: "/learn" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
     ],
   }),

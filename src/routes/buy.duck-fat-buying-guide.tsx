@@ -11,7 +11,7 @@ import {
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_FAT_OPTIONS, DUCK_FAT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { decisionGuide } from "@/data/decision-guides";
 import {
@@ -36,6 +36,14 @@ export const Route = createFileRoute("/buy/duck-fat-buying-guide")({
           { name: "Buy", item: "/buy" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+          updated: DG.updated,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

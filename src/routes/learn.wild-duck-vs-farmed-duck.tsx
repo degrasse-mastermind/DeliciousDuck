@@ -3,7 +3,7 @@ import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { SourceMark } from "@/components/site/SourceMark";
 
 const GUIDE = guideByPath("/learn/wild-duck-vs-farmed-duck")!;
@@ -23,6 +23,13 @@ export const Route = createFileRoute("/learn/wild-duck-vs-farmed-duck")({
           { name: "Learn", item: "/learn" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

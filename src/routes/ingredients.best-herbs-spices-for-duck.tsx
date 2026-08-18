@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ArticleShell, Section, DataTable, Callout, FaqList } from "@/components/site/ArticleShell";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { ingredientByPath } from "@/data/ingredients";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const PAGE = ingredientByPath("/ingredients/best-herbs-spices-for-duck")!;
 
@@ -36,6 +36,13 @@ export const Route = createFileRoute("/ingredients/best-herbs-spices-for-duck")(
           { name: "Ingredients", item: "/ingredients" },
           { name: PAGE.title, item: PAGE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

@@ -15,7 +15,7 @@ import {
 } from "@/components/site/DecisionGuide";
 import { decisionGuide } from "@/data/decision-guides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/gear/best-dutch-oven-for-duck-confit")!;
 const DG = decisionGuide("/gear/best-dutch-oven-for-duck-confit")!;
@@ -58,6 +58,14 @@ export const Route = createFileRoute("/gear/best-dutch-oven-for-duck-confit")({
           { name: "Gear", item: "/gear" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+          updated: DG.updated,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],
