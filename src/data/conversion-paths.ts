@@ -444,7 +444,10 @@ export function recipeConversionPlacements(
   }));
 }
 
-/** Every placement id the site can emit, including the recipe placements. */
+/**
+ * Every placement id the site can emit, including the recipe placements and the
+ * duck-fat render/buy/substitute module.
+ */
 export function allConversionPlacementIds(): string[] {
   return [
     ...CONVERSION_PATHS.map((p) => p.placement),
@@ -455,8 +458,10 @@ export function allConversionPlacementIds(): string[] {
         (row) => row.placement,
       );
     }),
+    ...duckFatDecisionPlacementIds(),
   ];
 }
+
 
 /* ------------------------------------------------------------------ *
  * Event builder
