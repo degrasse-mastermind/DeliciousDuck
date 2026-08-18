@@ -46,6 +46,7 @@ export const Route = createFileRoute("/internal/revenue-switchboard")({
 
 const READINESS_TONE: Record<ReadinessLevel, string> = {
   blocked: "border-destructive/40 bg-destructive/5",
+  declined: "border-muted-foreground/40 bg-muted",
   "in-progress": "border-accent/50 bg-accent/10",
   "ready-to-activate": "border-primary/40 bg-primary/5",
   live: "border-primary bg-primary/10",
