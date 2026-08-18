@@ -119,9 +119,12 @@ export interface Merchant {
   termsNotes?: string;
   /** Owner-verified activation gates. */
   activation: ActivationFlags;
+  /** INTERNAL commercial track. Never rendered publicly. */
+  track?: CommercialTrack;
   /** Internal note about what is still required to activate. */
   internalNote?: string;
 }
+
 
 /**
  * US Wellness Meats / Grassland Beef verified deep link to the rendered duck fat
