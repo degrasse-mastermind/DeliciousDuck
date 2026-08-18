@@ -384,10 +384,10 @@ export const GUIDES: GuideEntry[] = [
   {
     path: "/gear/best-roasting-pan-for-duck",
     title: "Best Roasting Pan for Duck",
-    seoTitle: "Best Roasting Pan for Duck: Sizes, Racks & Fat | DeliciousDuck",
+    seoTitle: "Best Roasting Pan for Duck: Fit, Racks & Fat | DeliciousDuck",
     description:
-      "What a whole duck actually needs from a roasting pan: a rack that lifts the bird out of its fat, enough depth for the render, the right size for a 4.5\u20136 lb bird, and safe handling.",
-    teaser: "A rack, enough depth for the fat, and honest sizing \u2014 the rest is preference.",
+      "What a whole duck actually needs from a roasting pan: a rack that lifts the bird out of its fat, room for the render, a measured fit for your bird and oven, and safe handling.",
+    teaser: "A rack, room for the fat, and a measured fit \u2014 the rest is preference.",
     pillar: "gear",
     cluster: "commerce",
     kind: "money",
