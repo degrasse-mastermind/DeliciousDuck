@@ -36,6 +36,14 @@ DeliciousDuck wordmark home), and that route emits exactly one pageview:
   `trackPageView` for that navigation — no duplicate script, no double count.
 - PostHog: `initPostHog(pathname)` is called per navigation and no-ops until the
   path is allowed, then initializes once; the manual pageview is unchanged.
+- The router's pathname is authoritative. On some client-side navigations the
+  browser's `location.pathname` still reads the previous (internal) path when the
+  router effect runs, so `ensureGtagLoaded()` passes the router path into the
+  loader — `window.__ddLoadGtag('/some/path')`. Without that, the loader declined
+  the load and GA stayed dark for the rest of the session. The same path is used
+  for the first `config` pageview, so it can never be stamped with `/internal/*`.
+  A declined load now reports `blocked`, never `already`.
+
 
 Implemented in `src/lib/analytics-gate.ts` (`syncGaRoutePolicy`,
 `ensureGtagLoaded`, `gtagBootstrapScript`); enforced in `trackEvent`,
