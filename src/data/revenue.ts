@@ -68,18 +68,6 @@ export interface DeepLinkEntry {
  */
 export const DEEP_LINKS: DeepLinkEntry[] = [
   {
-    id: "sourcing-dartagnan",
-    merchantId: "dartagnan",
-    name: "Duck cuts — whole birds, magret, leg quarters, rendered fat",
-    useCase: "Reader wants a named duck cut shipped to them in the US",
-    directUrl: "https://www.dartagnan.com/",
-    status: "declined",
-    lastVerified: "2026-08-18",
-    editorialRelationship: "/buy/where-to-buy-duck-online (one of five direct seller options)",
-    handsOn: "untested",
-    note: "Awin advertiser application declined 2026-08-18. This slot stays a plain direct link; there is no approval to wait for and no deep link to request. The Awin publisher account (ID 3034797) remains ours for future applications.",
-  },
-  {
     id: "sourcing-culver-duck",
     merchantId: "culver-duck",
     name: "Duck by the cut — whole, breast, legs, ground, fat, prepared",
