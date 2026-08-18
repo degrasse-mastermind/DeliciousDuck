@@ -6,6 +6,7 @@ import {
   ComparisonTable,
   QuickPicks,
   ShopThisGuide,
+  EvaluationNote,
 } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { DUCK_FAT_OPTIONS, DUCK_FAT_FACTORS } from "@/data/comparisons";
