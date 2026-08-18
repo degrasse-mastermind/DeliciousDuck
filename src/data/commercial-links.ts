@@ -15,6 +15,7 @@
  */
 
 import { MERCHANTS, isMonetized, isUsableUrl, type Merchant } from "./affiliates";
+import { amazonCategoryUrl, type AmazonCategoryId } from "./amazon";
 
 /**
  * Commercial relationship for a destination.
@@ -34,6 +35,8 @@ export type CommercialCategory =
   | "duck_fat"
   | "thermometer"
   | "pan"
+  | "roasting_pan"
+  | "sheet_pan"
   | "knife"
   | "owned_product";
 
@@ -54,6 +57,8 @@ export interface CommercialLinkEntry {
   lastVerified: string;
   /** What this destination is useful for, in editorial terms. */
   useFor: string;
+  /** Useful, non-hype CTA label. Never promotional ("best deal", "cheapest"). */
+  ctaLabel?: string;
 }
 
 /** Visitor-facing disclosure labels. Accurate for each state, never aspirational. */
@@ -88,6 +93,12 @@ interface SeedRow {
   merchantId: string;
   category: CommercialCategory;
   useFor: string;
+  ctaLabel?: string;
+  /**
+   * Explicit destination, used only where a merchant has no single canonical
+   * URL (Amazon category Special Links). Built centrally — never hand-written.
+   */
+  url?: string;
 }
 
 /**
@@ -101,12 +112,14 @@ const SEEDS: SeedRow[] = [
     category: "duck_source",
     useFor:
       "Whole ducks, breasts, legs and rendered duck fat from a specialty butcher that ships nationally.",
+    ctaLabel: "See current duck options",
   },
   {
     id: "us-wellness-meats-duck",
     merchantId: "us-wellness-meats",
     category: "duck_source",
     useFor: "Frozen duck cuts and duck fat alongside other pasture-raised meat orders.",
+    ctaLabel: "Check current duck selection",
   },
   {
     id: "thermoworks-thermometer",
@@ -117,10 +130,36 @@ const SEEDS: SeedRow[] = [
   },
 ];
 
-export const COMMERCIAL_LINKS: CommercialLinkEntry[] = SEEDS.flatMap((seed) => {
+/**
+ * Amazon equipment categories. Destinations are built by `amazonCategoryUrl`, so
+ * the Associates tag lives in exactly one place. No named-product claims, no
+ * prices, no ratings. Duck meat is deliberately absent from this list.
+ */
+const AMAZON_SEEDS: SeedRow[] = (
+  [
+    ["amazon-cast-iron-skillet", "pan", "Cast-iron skillets, for the steadiest render and the most even crisp."],
+    ["amazon-carbon-steel-skillet", "pan", "Carbon-steel skillets, for a fast-responding pan that still builds fond."],
+    ["amazon-stainless-clad-skillet", "pan", "Stainless-clad skillets, for searing and deglazing an acidic pan sauce in the same pan."],
+    ["amazon-roasting-pan-rack", "roasting_pan", "Roasting pans sold with a rack, for a whole bird lifted clear of its own fat."],
+    ["amazon-sheet-pan-rack", "sheet_pan", "Rimmed sheet pans and oven-safe wire racks, the cheaper route to the same lifted setup."],
+    ["amazon-instant-read-thermometer", "thermometer", "Instant-read thermometers, for spot-checking duck breast as it approaches your target."],
+    ["amazon-leave-in-probe-thermometer", "thermometer", "Leave-in probe thermometers, for tracking a whole roast without opening the oven."],
+    ["amazon-utility-knife", "knife", "Petty and utility knives, the size range that suits scoring duck skin."],
+    ["amazon-boning-knife", "knife", "Boning knives, for jointing a whole duck and lifting breasts off the bone."],
+  ] as [AmazonCategoryId, CommercialCategory, string][]
+).map(([id, category, useFor]) => ({
+  id,
+  merchantId: "amazon",
+  category,
+  useFor,
+  ctaLabel: "Browse this category on Amazon",
+  url: amazonCategoryUrl(id),
+}));
+
+export const COMMERCIAL_LINKS: CommercialLinkEntry[] = [...SEEDS, ...AMAZON_SEEDS].flatMap((seed) => {
   const merchant = MERCHANTS.find((m) => m.id === seed.merchantId);
   if (!merchant) return [];
-  const url = destinationForMerchant(merchant);
+  const url = seed.url && isMonetized(merchant) ? seed.url : destinationForMerchant(merchant);
   if (!url) return [];
   const relationship = relationshipForMerchant(merchant);
   return [
@@ -134,6 +173,7 @@ export const COMMERCIAL_LINKS: CommercialLinkEntry[] = SEEDS.flatMap((seed) => {
       disclosureLabel: DISCLOSURE_LABELS[relationship],
       lastVerified: merchant.lastCheckedDate ?? merchant.statusReviewed,
       useFor: seed.useFor,
+      ...(seed.ctaLabel ? { ctaLabel: seed.ctaLabel } : {}),
     },
   ];
 });
@@ -184,7 +224,7 @@ export interface CommercialPlacement {
 export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
   {
     path: "/buy/where-to-buy-duck-online",
-    placement: "buy_duck_options",
+    placement: "buy_duck_primary_options",
     linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
   },
   {
@@ -216,6 +256,30 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     path: "/learn/why-duck-skin-isnt-crispy",
     placement: "crisp_skin_gear",
     linkIds: ["thermoworks-thermometer"],
+  },
+  {
+    path: "/gear/best-pan-for-duck-breast",
+    placement: "pan_category_options",
+    linkIds: [
+      "amazon-cast-iron-skillet",
+      "amazon-carbon-steel-skillet",
+      "amazon-stainless-clad-skillet",
+    ],
+  },
+  {
+    path: "/gear/best-roasting-pan-for-duck",
+    placement: "roasting_setup_options",
+    linkIds: ["amazon-roasting-pan-rack", "amazon-sheet-pan-rack"],
+  },
+  {
+    path: "/gear/best-thermometer-for-duck",
+    placement: "thermometer_options",
+    linkIds: ["amazon-instant-read-thermometer", "amazon-leave-in-probe-thermometer"],
+  },
+  {
+    path: "/gear/best-knife-for-scoring-duck",
+    placement: "knife_options",
+    linkIds: ["amazon-utility-knife", "amazon-boning-knife"],
   },
 ];
 

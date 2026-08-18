@@ -36,7 +36,7 @@ export function CommercialLink({
   const link = commercialLinkById(id);
   if (!link) return null;
 
-  const text = label ?? `Visit ${link.merchant}`;
+  const text = label ?? link.ctaLabel ?? `Visit ${link.merchant}`;
   const host = destinationHost(link.url);
   const base =
     variant === "button"

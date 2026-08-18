@@ -28,7 +28,7 @@ function DisclosurePage() {
       <PageHeader
         eyebrow="Legal"
         title="Affiliate Disclosure"
-        intro="DeliciousDuck plans to fund its work partly through affiliate links. This page explains exactly what that means and the limits we place on it."
+        intro="DeliciousDuck funds part of its work through affiliate links. This page explains exactly what that means, which programmes are active, and the limits we place on them."
         trail={[{ name: "Affiliate Disclosure", to: "/affiliate-disclosure" }]}
       />
 
@@ -46,12 +46,28 @@ function DisclosurePage() {
           <div>
             <h2 className="font-display text-2xl text-foreground">Current status</h2>
             <p className="mt-3">
-              We do not currently claim any specific merchant partnerships, and we do not publish
-              prices, star ratings, or review counts anywhere on this site. Where a product is
+              Some links on this site are affiliate links. We take part in the Amazon Associates
+              programme, and <strong className="text-foreground">as an Amazon Associate I earn
+              from qualifying purchases.</strong> We also have an active affiliate relationship
+              with US Wellness Meats for duck and other meat sourcing. Other merchants we mention —
+              D&rsquo;Artagnan and ThermoWorks among them — pay us nothing, and links to them are
+              plain links.
+            </p>
+            <p className="mt-3">
+              Every commercial module on this site labels each link&rsquo;s relationship
+              individually, so a paid link is never dressed up as an unpaid one, and an unpaid
+              merchant is never made to look like a partner. We do not publish prices, star
+              ratings, or review counts anywhere on this site. Where a product category is
               described, we explain what it does and why it matters for cooking duck. Nothing more
               is implied.
             </p>
+            <p className="mt-3">
+              Amazon links are used for equipment categories only — pans, racks, thermometers,
+              knives — never for duck itself, and never inside our newsletter or any downloadable
+              file.
+            </p>
           </div>
+
           <div>
             <h2 className="font-display text-2xl text-foreground">
               Affiliate links, sponsorship, and independent coverage

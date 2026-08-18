@@ -7,6 +7,7 @@ import { PANS, PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 import { decisionGuide } from "@/data/decision-guides";
 import {
   BestForGrid,
@@ -200,11 +201,30 @@ function Page() {
         </div>
         <Callout label="No hands-on testing" tone="gold">
           <p>
-            None of the categories above reflects a hands-on test by DeliciousDuck, and no
-            affiliate relationship is currently active with any manufacturer.
+            None of the categories above reflects a hands-on test by DeliciousDuck. Some links on
+            this page are affiliate links to retail categories, which never changes which pan we
+            recommend for a given method.
           </p>
         </Callout>
       </Section>
+
+      <CommercialCallout
+        heading="Shop the category you settled on"
+        intro="Once you know which material suits your method, these are the three categories worth browsing. Non-stick is left out deliberately — it is the wrong tool for this cook. We name no models and publish no prices or ratings."
+        placement="pan_category_options"
+        linkIds={[
+          "amazon-cast-iron-skillet",
+          "amazon-carbon-steel-skillet",
+          "amazon-stainless-clad-skillet",
+        ]}
+        criteria={[
+          "A cooking surface of at least 10–11 inches (25–28 cm) so two breasts are not crowded.",
+          "An oven-safe handle rated to the temperature your finish step needs.",
+          "A weight you can lift one-handed while pouring off hot fat.",
+          "Sloped sides or a pour lip if you render often.",
+        ]}
+        footnote="Category links, not product recommendations. Check the retailer's own listing for specifications, availability, and terms."
+      />
 
       <DuckBreastJourney
         id="cluster-technique-first"

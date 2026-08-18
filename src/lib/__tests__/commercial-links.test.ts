@@ -123,9 +123,11 @@ describe("relationship to rel mapping", () => {
     expect(relForLink(link)).toBe("sponsored nofollow noopener");
   });
 
-  it("no other merchant is monetized yet", () => {
-    const affiliates = COMMERCIAL_LINKS.filter(isAffiliateActive).map((l) => l.merchantId);
-    expect(affiliates).toEqual(["us-wellness-meats"]);
+  it("monetizes only the two approved programs", () => {
+    const affiliates = new Set(
+      COMMERCIAL_LINKS.filter(isAffiliateActive).map((l) => l.merchantId),
+    );
+    expect([...affiliates].sort()).toEqual(["amazon", "us-wellness-meats"]);
   });
 });
 

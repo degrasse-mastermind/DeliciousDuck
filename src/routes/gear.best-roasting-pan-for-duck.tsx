@@ -7,6 +7,7 @@ import {
   EvaluationNote,
   ShopThisGuide,
 } from "@/components/site/Commerce";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { ROASTING_PANS, ROASTING_PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -285,6 +286,20 @@ function Page() {
         </div>
         <EvaluationNote scope="roasting pans and racks for duck" />
       </Section>
+
+      <CommercialCallout
+        heading="Shop the setup you measured for"
+        intro="Both setups that lift the bird clear of its fat. Measure the bird, rack, pan, and oven first — then browse. The disposable foil fallback is not linked; buy that where you already shop."
+        placement="roasting_setup_options"
+        linkIds={["amazon-roasting-pan-rack", "amazon-sheet-pan-rack"]}
+        criteria={[
+          "The rack lifts the bird clear of the pan floor and sits stably under it.",
+          "The loaded setup clears your oven walls and door on every side.",
+          "Sides deep enough to hold the render without touching the bird.",
+          "Handles you can grip with mitts while the pan holds hot fat.",
+        ]}
+        footnote="Category links, not product recommendations. Check the retailer's own listing for specifications, availability, and terms."
+      />
 
       <Section id="who" heading="Which one suits you">
         <p>
