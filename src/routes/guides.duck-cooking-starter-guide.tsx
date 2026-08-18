@@ -27,9 +27,9 @@ export const Route = createFileRoute("/guides/duck-cooking-starter-guide")({
       ),
       ldScript(
         articleSchema({
-          headline: GUIDE.title,
-          description: GUIDE.description,
-          path: GUIDE.path,
+          headline: STARTER_GUIDE.title,
+          description: STARTER_GUIDE.description,
+          path: STARTER_GUIDE.path,
         }),
       ),
     ],
