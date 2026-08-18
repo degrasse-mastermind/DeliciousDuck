@@ -437,7 +437,7 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
     slots: [
       {
         role: "primary",
-        deepLinkId: "sourcing-dartagnan",
+        deepLinkId: "sourcing-culver-duck",
         intent: "First duck purchase",
         placement: "Downstream link to the sourcing guide, not a merchant link",
       },
