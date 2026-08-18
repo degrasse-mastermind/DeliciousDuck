@@ -204,12 +204,12 @@ describe("placements and journeys", () => {
     expect(paths).toContain("/learn/duck-breast-temperature-doneness");
   });
 
-  it("gives duck-breast readers a sourcing step and a thermometer step", () => {
+  it("gives duck-breast readers a thermometer step and points sourcing at our own guide", () => {
     const breast = COMMERCIAL_PLACEMENTS.find((p) => p.path === "/cook/how-to-cook-duck-breast");
     expect(breast).toBeDefined();
     const categories = breast!.linkIds.map((id) => commercialLinkById(id)!.category);
-    expect(categories).toContain("duck_source");
     expect(categories).toContain("thermometer");
+    expect(categories).not.toContain("duck_source");
   });
 
   it("derives hosts without www", () => {
