@@ -97,11 +97,8 @@ describe("other merchants stay truthful", () => {
     expect(m.affiliateUrl).toBe("https://grasslandbeefllc.sjv.io/xJoWgR");
   });
 
-  it("keeps D'Artagnan and ThermoWorks declined, neither monetized", () => {
-    const dartagnan = merchantById("dartagnan")!;
-    expect(dartagnan.status).toBe("declined");
-    expect(dartagnan.affiliateUrl).toBeUndefined();
-    expect(isMonetized(dartagnan)).toBe(false);
+  it("drops D'Artagnan and keeps ThermoWorks declined and unmonetized", () => {
+    expect(merchantById("dartagnan")).toBeUndefined();
     const tw = merchantById("thermoworks")!;
     expect(tw.status).toBe("declined");
     expect(tw.affiliateUrl).toBeUndefined();
