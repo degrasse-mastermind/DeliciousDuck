@@ -183,8 +183,13 @@ function RootComponent() {
     // nothing.
 
     trackCommercialPageView({ path: pathname });
+    // Re-apply the per-route PostHog policy first: a client-side navigation
+    // into /internal or /api must silence autocapture, page-leave and session
+    // recording, and returning to a public route restores them.
+    syncPostHogRoutePolicy(pathname);
     // Manual PostHog pageview per navigation, including the first load.
     capturePostHogPageView(pathname);
+
     if (firstView.current) {
       firstView.current = false;
       return;
