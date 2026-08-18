@@ -179,6 +179,9 @@ const BY_PATH: Record<string, SketchKey> = {
   "/gear/best-roasting-pan-for-duck": "roastingPans",
   "/gear/best-knife-for-scoring-duck": "scoring",
   "/gear/best-thermometer-for-duck": "thermometer",
+  // Bound explicitly: the confit drawing shows legs submerged in fat in a
+  // lidded pot, which is exactly the fit question this guide answers.
+  "/gear/best-dutch-oven-for-duck-confit": "confit",
 
   "/ingredients": "spices",
   "/ingredients/duck-seasoning-guide": "spices",

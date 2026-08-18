@@ -57,6 +57,10 @@ export const AMAZON_CATEGORIES = {
   "amazon-leave-in-probe-thermometer": "leave in probe thermometer oven",
   "amazon-utility-knife": "petty utility kitchen knife",
   "amazon-boning-knife": "boning knife",
+  "amazon-enameled-dutch-oven": "enameled cast iron dutch oven with lid",
+  "amazon-stainless-dutch-oven": "stainless steel dutch oven covered saute pan",
+  "amazon-covered-ceramic-casserole": "covered ceramic casserole dish with lid",
+
 } as const;
 
 export type AmazonCategoryId = keyof typeof AMAZON_CATEGORIES;
