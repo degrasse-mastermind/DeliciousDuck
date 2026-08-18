@@ -226,9 +226,9 @@ function Page() {
 
       <CommercialCallout
         heading="Where you can order duck right now"
-        intro="Two mail-order sellers whose public catalogues list duck, with what each is practically useful for. Neither has been ordered from for a hands-on review. Our US Wellness Meats link is an affiliate link; the D'Artagnan link earns us nothing."
+        intro="One national mail-order seller whose public catalogue lists duck by the cut, with what it is practically useful for. We have not ordered from them for a hands-on review, and this link earns us nothing."
         placement="buy_duck_primary_options"
-        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        linkIds={["dartagnan-duck"]}
         criteria={[
           "The cut and breed are named on the product page, not just \"duck\".",
           "Frozen shipping is packed and scheduled, with a delivery window you will be home for.",
@@ -237,6 +237,23 @@ function Page() {
         ]}
         footnote="We do not publish prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
       />
+
+      <CommercialCallout
+        heading="Duck fat, not duck meat: US Wellness Meats"
+        intro="Worth separating out, because it is easy to assume otherwise from older search results. US Wellness Meats is a pasture-raised meat retailer whose duck range is narrow — rendered duck fat is the part we link to, and our link goes straight to it. Do not go there expecting a whole bird, breasts, or leg quarters. This one is an affiliate link."
+        placement="duck_fat_specialty_note"
+        linkIds={["us-wellness-duck-fat"]}
+        footnote={
+          <>
+            Buying fat rather than rendering it? The{" "}
+            <Link to="/buy/duck-fat-buying-guide" className="text-primary underline underline-offset-4">
+              duck fat buying guide
+            </Link>{" "}
+            covers formats, labels, and how much a given use actually takes.
+          </>
+        }
+      />
+
 
       <Section id="compare" heading="Compare the routes side by side">
         <ComparisonTable caption="Duck sourcing routes compared" rows={DUCK_MERCHANTS} factors={MERCHANT_FACTORS} />
