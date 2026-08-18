@@ -63,8 +63,8 @@ export function MethodologyPanel({ guide }: { guide: DecisionGuideMeta }) {
         ))}
       </ul>
       <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
-        <span className="font-semibold text-foreground">What we haven't done. </span>
-        {guide.notTested}
+        <span className="font-semibold text-foreground">Evaluation basis. </span>
+        {guide.evidenceBasis}
       </p>
     </section>
   );
