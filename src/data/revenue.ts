@@ -213,9 +213,10 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
     slots: [
       {
         role: "primary",
-        deepLinkId: "duck-fat-jar-category",
-        intent: "Buy rendered duck fat in a usable format",
-        placement: "Format comparison cards; activates with the first approved sourcing program",
+        merchantId: "us-wellness-meats",
+        deepLinkId: "sourcing-us-wellness",
+        intent: "Buy rendered duck fat by the quart on a verified product deep link",
+        placement: "Duck fat sellers callout, below the format comparison and after disclosure",
       },
       {
         role: "secondary",
@@ -223,6 +224,7 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
         intent: "Rendered fat added to a specialist duck order",
         placement: "Comparison card CTA where the merchant carries the format",
       },
+
       {
         role: "contextual",
         deepLinkId: "fat-storage-category",
