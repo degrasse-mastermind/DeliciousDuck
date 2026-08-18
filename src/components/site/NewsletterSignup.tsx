@@ -16,6 +16,7 @@ import { interestForPath, newsletterContext } from "@/data/newsletter-contexts";
 import type { NewsletterInterest } from "@/data/newsletter-contexts";
 
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
+import { CTA } from "@/lib/cta";
 import { LeadMagnetDownloadLink } from "@/components/site/TrackedLinks";
 
 /**
@@ -216,7 +217,7 @@ export function NewsletterSignup({
                   target="_blank"
                   rel="noopener"
                   aria-label={`Download your field guide: ${FIELD_GUIDE.title} (PDF, 16 pages, opens in a new tab)`}
-                  className="mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-sm bg-primary px-5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
+                  className={`mt-4 w-full ${CTA.primary}`}
                 >
                   <Download aria-hidden="true" className="size-4" />
                   Download your field guide
@@ -323,7 +324,7 @@ export function NewsletterSignup({
                 type="submit"
                 disabled={pending}
                 aria-describedby={`${id}-consent`}
-                className="h-12 w-full rounded-sm bg-primary text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep disabled:opacity-70"
+                className={`w-full ${CTA.primary} disabled:opacity-70`}
               >
                 {pending ? "Signing you up…" : "Get the field guide"}
               </button>
@@ -342,9 +343,9 @@ export function NewsletterSignup({
                   href={NEWSLETTER_CONSENT.privacyPolicyPath}
                   className="text-primary underline underline-offset-4"
                 >
-                  Privacy policy
-                </a>{" "}
-                (version {NEWSLETTER_CONSENT.privacyPolicyVersion}).
+                  Privacy
+                </a>
+                .
               </p>
             </form>
           )}

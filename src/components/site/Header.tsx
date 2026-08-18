@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { NAV_LINKS } from "@/data/site";
 import { Wordmark } from "./Wordmark";
+import { CTA } from "@/lib/cta";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -48,7 +49,7 @@ export function Header() {
           <Link
             to="/tools"
             hash="starter-guide"
-            className="inline-flex h-10 items-center rounded-sm bg-primary px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
+            className={CTA.primary}
           >
             Get the Free Guide
           </Link>
