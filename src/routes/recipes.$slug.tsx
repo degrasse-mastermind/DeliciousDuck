@@ -17,7 +17,12 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
-import { recipeContentBySlug, recipeBySlug, recipePath } from "@/data/recipe-content";
+import {
+  recipeContentBySlug,
+  recipeBySlug,
+  recipeNeedsDuckFat,
+  recipePath,
+} from "@/data/recipe-content";
 import { RECIPE_CONVERSION_SLUGS } from "@/data/conversion-paths";
 import { formatMinutes, isoDuration, totalTimeMinutes } from "@/data/recipes";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
@@ -104,6 +109,8 @@ function RecipePage() {
   const { slug } = Route.useLoaderData();
   const recipe = recipeBySlug(slug)!;
   const content = recipeContentBySlug(slug)!;
+  // Duck fat sellers only appear where the ingredients genuinely call for it.
+  const needsDuckFat = recipeNeedsDuckFat(slug);
   const path = recipePath(slug);
 
   return (
