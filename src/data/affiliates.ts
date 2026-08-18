@@ -156,8 +156,39 @@ export const MERCHANTS: Merchant[] = [
     internalNote:
       "Historical record: a ThermoWorks Impact application was submitted in 2026-08 and the Impact site-verification meta tag was installed. The application was declined without a stated reason, so there is no relationship, no approval, and no expected activation. ThermoWorks may still be referenced editorially on specification grounds only. Do not add an affiliate URL, and do not re-open this row as pending without a new application.",
   },
-
+  {
+    id: "amazon",
+    name: "Amazon",
+    program: "Amazon Associates",
+    // Associates tracking ID. Not a secret. Special Links are built from this
+    // via src/data/amazon.ts so no page ever hardcodes the tag.
+    publisherId: AMAZON_TAG,
+    status: "active",
+    // Amazon has no single canonical destination: each placement uses a
+    // relevant, tagged category/search Special Link built by amazonCategoryUrl.
+    affiliateUrl: `https://www.amazon.com/?tag=${AMAZON_TAG}`,
+    directUrl: "https://www.amazon.com/",
+    statusReviewed: "2026-08",
+    approvalDate: "2026-08",
+    activationDate: "2026-08-18",
+    allowedCategories: ["Kitchen equipment and cookware"],
+    excludedCategories: [
+      "Duck and other meat sourcing (handled by specialty meat sellers)",
+      "Email, newsletter, SMS and downloadable placements (prohibited by the program)",
+    ],
+    termsNotes:
+      'Site must display the exact statement "As an Amazon Associate I earn from qualifying purchases." Amazon customer reviews and star ratings may only be displayed through an approved Amazon API, which this site does not use. Special Links are website-only.',
+    activation: {
+      ...NOTHING_VERIFIED,
+      approvalConfirmed: true,
+      trackingUrlPresent: true,
+      disclosureVerified: true,
+    },
+    internalNote:
+      "Approved by Amazon Associates in 2026-08 and activated with tracking ID deliciousduck-20. Equipment/gear categories only. Owner still needs to complete a live test click and confirm GA4 reports affiliate=true. No commission terms recorded here until the program's fee schedule has been read.",
+  },
 ];
+
 
 export function merchantById(id?: string): Merchant | undefined {
   if (!id) return undefined;
