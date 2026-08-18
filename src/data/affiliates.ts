@@ -166,15 +166,16 @@ export const MERCHANTS: Merchant[] = [
     name: "US Wellness Meats",
     program: "Impact",
     status: "active",
-    // Generic merchant tracking URL. Retained for monetization state and history
-    // only: it must never power a CTA implying US Wellness sells duck meat.
-    // Duck placements use the product-specific deep link above.
-    affiliateUrl: "https://grasslandbeefllc.sjv.io/2R7EN0",
+    // Canonical monetized destination: the verified rendered-duck-fat deep link.
+    // The older generic storefront link is kept as history only, in
+    // US_WELLNESS_STOREFRONT_URL_HISTORICAL, and powers nothing.
+    affiliateUrl: US_WELLNESS_DUCK_FAT_URL,
     directUrl: "https://grasslandbeef.com/",
     statusReviewed: "2026-08",
     approvalDate: "2026-08",
     activationDate: "2026-08-18",
     lastCheckedDate: "2026-08-18",
+    track: "affiliate",
     allowedCategories: ["Rendered duck fat"],
     excludedCategories: [
       "Whole duck, duck breast, duck leg quarters and general duck meat — absent from the live collection reviewed 2026-08-18",
@@ -189,21 +190,26 @@ export const MERCHANTS: Merchant[] = [
       disclosureVerified: true,
     },
     internalNote:
-      "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link. Owner still needs a live test click and GA4 affiliate=true confirmation. No liver deep link supplied, so liver is not monetized.",
+      "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link, which is now the canonical registry URL. Owner still needs a live test click and GA4 affiliate=true confirmation. No liver deep link supplied, so liver is not monetized.",
   },
 
   {
     id: "dartagnan",
     name: "D'Artagnan",
-    program: "Awin",
+    // Awin publisher ID is retained as internal history: the publisher account
+    // exists, but the D'Artagnan advertiser application was declined, so there
+    // is no program to name here and nothing pending.
     publisherId: "3034797",
-    status: "applied",
+    status: "declined",
     directUrl: "https://www.dartagnan.com/",
-    statusReviewed: "2026-08",
+    statusReviewed: "2026-08-18",
+    declinedDate: "2026-08-18",
+    track: "direct-editorial",
     activation: { ...NOTHING_VERIFIED },
     internalNote:
-      "Delicious Duck Awin publisher account is activated (publisher ID 3034797); D'Artagnan advertiser program application has been submitted and is pending approval.",
+      "Historical record: the Delicious Duck Awin publisher account (publisher ID 3034797) is active, and a D'Artagnan advertiser application was submitted through it. The advertiser declined the application on 2026-08-18, so there is no relationship, nothing pending, and nothing to activate. D'Artagnan stays a plain direct merchant editorially, on catalogue grounds only. Do not add an affiliate URL and do not re-open this row as pending without a new application.",
   },
+
   {
     id: "thermoworks",
     name: "ThermoWorks",
