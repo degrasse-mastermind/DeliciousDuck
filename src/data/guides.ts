@@ -368,7 +368,7 @@ export const GUIDES: GuideEntry[] = [
     title: "Best Pot for Duck Confit",
     seoTitle: "Best Pot for Duck Confit: Dutch Oven vs Braiser | DeliciousDuck",
     description:
-      "The vessel that makes confit easy: legs in one snug layer, depth for the fat, a nonreactive interior and a lid. Enameled cast iron, stainless and ceramic compared.",
+      "The pot that makes confit easy: legs in one snug layer, depth for the fat, a nonreactive interior, a lid. Enameled cast iron, stainless and ceramic compared.",
     teaser: "Fit beats brand — and you may already own the right pot.",
     pillar: "gear",
     cluster: "duck-fat",
