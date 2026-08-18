@@ -65,7 +65,7 @@ const TOOL_FALLBACKS: Record<string, { path: string; title: string; teaser: stri
   "/recipes/smoked-duck-with-plum-sauce": {
     path: "/recipes/smoked-duck-with-plum-sauce",
     title: "Smoked Duck with Plum Sauce",
-    teaser: "Smoke, dark fruit and vinegar — currently an editorial working draft.",
+    teaser: "Smoke, dark fruit and vinegar, balanced for rich duck.",
   },
   "/tools/whole-duck-serving-calculator": {
     path: "/tools/whole-duck-serving-calculator",
