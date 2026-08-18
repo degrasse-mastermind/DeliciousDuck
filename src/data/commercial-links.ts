@@ -237,25 +237,37 @@ export interface CommercialPlacement {
 
 export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
   {
+    // Duck meat only. US Wellness is deliberately absent: their live collection
+    // does not list whole duck, breast or leg quarters.
     path: "/buy/where-to-buy-duck-online",
     placement: "buy_duck_primary_options",
-    linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
+    linkIds: ["dartagnan-duck"],
   },
   {
+    // Separate, accurate note: the US Wellness duck link is for rendered fat.
+    path: "/buy/where-to-buy-duck-online",
+    placement: "duck_fat_specialty_note",
+    linkIds: ["us-wellness-duck-fat"],
+  },
+  {
+    // Primary US Wellness monetization path on the site.
     path: "/buy/duck-fat-buying-guide",
     placement: "duck_fat_sources",
-    linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
+    linkIds: ["us-wellness-duck-fat", "dartagnan-duck"],
   },
   {
     path: "/buy/how-to-choose-duck",
     placement: "choose_duck_sources",
-    linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
+    linkIds: ["dartagnan-duck"],
   },
   {
+    // Generic recipe sourcing is duck meat. The duck-fat link is added only for
+    // recipes whose ingredients genuinely call for rendered duck fat.
     path: "/recipes/$slug",
     placement: "recipe_sourcing",
-    linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
+    linkIds: ["dartagnan-duck", "us-wellness-duck-fat"],
   },
+
   {
     path: "/cook/how-to-cook-duck-breast",
     placement: "duck_breast_next_steps",
