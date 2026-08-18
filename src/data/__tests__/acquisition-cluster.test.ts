@@ -68,7 +68,8 @@ describe("acquisition cluster registry", () => {
       expect(page.byline).toBe("DeliciousDuck Editorial");
       expect(page.updated).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(page.basedOn.length).toBeGreaterThanOrEqual(2);
-      expect(page.notTested.length).toBeGreaterThan(40);
+      expect(page.evidenceBasis.length).toBeGreaterThan(40);
+      expect(page.evidenceBasis.toLowerCase()).not.toMatch(/have not|not tested|hands-on/);
     }
   });
 
