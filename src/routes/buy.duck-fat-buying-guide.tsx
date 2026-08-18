@@ -90,7 +90,7 @@ function Page() {
         rows={DUCK_FAT_OPTIONS}
         placement="duck_fat_quick_picks"
         shopNoun="duck fat"
-        intro="If you already know the format you want, these are the sellers covered below and who each one suits. No prices, ratings, or stock claims."
+        intro="The formats covered below, and who each one suits. Where a format has a verified seller link, it is here too. No prices, ratings, or stock claims."
       />
 
       <MethodologyPanel guide={DG} />
