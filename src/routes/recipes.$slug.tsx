@@ -8,7 +8,6 @@ import {
   StepList,
 } from "@/components/site/ArticleShell";
 import { DisclosureBanner, ShopThisGuide } from "@/components/site/Commerce";
-import { CommercialCallout } from "@/components/site/CommercialLink";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
