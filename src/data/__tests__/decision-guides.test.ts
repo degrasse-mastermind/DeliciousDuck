@@ -49,12 +49,12 @@ describe("decision-guide registry integrity", () => {
     }
   });
 
-  it("declares a methodology, an evaluation standard, and a not-tested statement", () => {
+  it("declares a methodology, an evaluation standard, and a positive evidence basis", () => {
     for (const g of DECISION_GUIDES) {
       expect(g.evaluationStandard.length).toBeGreaterThan(40);
       expect(g.methodology.length).toBeGreaterThanOrEqual(2);
-      expect(g.notTested.length).toBeGreaterThan(40);
-      expect(g.notTested.toLowerCase()).toMatch(/not (hands-on tested|placed|bought|tested)|have not/);
+      expect(g.evidenceBasis.length).toBeGreaterThan(40);
+      expect(g.evidenceBasis.toLowerCase()).not.toMatch(/have not|not tested|hands-on/);
       expect(g.byline.length).toBeGreaterThan(0);
       expect(g.reviewedBy.length).toBeGreaterThan(0);
     }
