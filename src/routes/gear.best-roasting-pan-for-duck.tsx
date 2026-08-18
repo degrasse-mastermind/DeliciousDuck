@@ -7,6 +7,7 @@ import {
   EvaluationNote,
   ShopThisGuide,
 } from "@/components/site/Commerce";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { ROASTING_PANS, ROASTING_PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";

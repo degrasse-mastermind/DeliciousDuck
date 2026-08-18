@@ -431,7 +431,7 @@ export function auditCommercialLinks(
   // Merchant destinations that exist in the codebase but were never registered
   // here would be rendered outside the disclosure/rel/tracking system.
   for (const merchant of MERCHANTS) {
-    const url = seed.url && isMonetized(merchant) ? seed.url : destinationForMerchant(merchant);
+    const url = destinationForMerchant(merchant);
     if (!url) continue;
     if (!links.some((l) => l.merchantId === merchant.id)) {
       issues.push({
