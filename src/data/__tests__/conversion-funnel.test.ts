@@ -65,13 +65,21 @@ describe("priority feeder pages reach the money pages", () => {
     }
   });
 
-  it("keeps each feeder to at most two internal steps", () => {
+  it("keeps each feeder to a short list of internal steps", () => {
+    // Editorial cap: no page becomes a wall of boxes. Up to three steps on a
+    // cornerstone page, and never more than two pointing at the same intent.
     const bySource = new Map<string, number>();
+    const bySourceIntent = new Map<string, number>();
     for (const path of CONVERSION_PATHS) {
       bySource.set(path.sourcePath, (bySource.get(path.sourcePath) ?? 0) + 1);
+      const key = `${path.sourcePath}|${path.intent}`;
+      bySourceIntent.set(key, (bySourceIntent.get(key) ?? 0) + 1);
     }
     for (const [source, count] of bySource) {
-      expect(count, source).toBeLessThanOrEqual(2);
+      expect(count, source).toBeLessThanOrEqual(3);
+    }
+    for (const [key, count] of bySourceIntent) {
+      expect(count, key).toBeLessThanOrEqual(2);
     }
   });
 

@@ -21,7 +21,9 @@ const idTokenised = (value: string) =>
 /** `/gear/best-pan-for-duck-breast` -> `src/routes/gear.best-pan-for-duck-breast.tsx` */
 function routeFileFor(path: string): string {
   const segments = path.split("/").filter(Boolean);
-  return `src/routes/${segments.join(".")}.tsx`;
+  const base = `src/routes/${segments.join(".")}`;
+  // Hub paths such as "/gear" render from their `.index.tsx` leaf, not the layout.
+  return existsSync(resolve(process.cwd(), `${base}.index.tsx`)) ? `${base}.index.tsx` : `${base}.tsx`;
 }
 
 const routeExists = (path: string) =>
