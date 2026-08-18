@@ -107,7 +107,10 @@ export function captureEvent(
 export function capturePostHogPageView(path?: string): void {
   if (typeof window === "undefined") return;
   if (!analyticsEnabled(path)) return;
-  const pathname = path ?? currentPath();
+  // Query strings and hashes are stripped: mailbox tokens
+  // (/newsletter/unsubscribe?t=...) must never reach PostHog.
+  const raw = path ?? currentPath();
+  const pathname = raw ? ((raw.split("#")[0] ?? "").split("?")[0] || "/") : undefined;
   captureEvent("$pageview", {
     $current_url:
       pathname && typeof window !== "undefined"

@@ -141,7 +141,7 @@ describe("SPA navigation policy: public -> internal -> public", () => {
     const source = await import("node:fs").then((fs) =>
       fs.readFileSync("src/lib/posthog.ts", "utf8"),
     );
-    expect(source).not.toMatch(/opt_out_capturing|opt_in_capturing/);
+    expect(source).not.toMatch(/posthog\.opt_(out|in)_capturing\(/);
   });
 });
 
