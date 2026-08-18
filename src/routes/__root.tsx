@@ -191,7 +191,7 @@ function RootComponent() {
     // Lazy, one-shot initialization: a session that landed directly on
     // /internal/* or /api/* loaded neither SDK, so both come up here the first
     // time it reaches a public route.
-    try { initPostHog(pathname); } catch (e) { (window as any).__ddeffect.push('THROW:'+String(e)); throw e; }
+    initPostHog(pathname);
     const gaLoad = ensureGtagLoaded(GA_MEASUREMENT_ID, pathname);
     // Manual PostHog pageview per navigation, including the first load.
     capturePostHogPageView(pathname);
