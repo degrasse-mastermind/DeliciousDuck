@@ -1,13 +1,10 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ExternalLink, Info, ShoppingBag } from "lucide-react";
-import {
-  DISCLOSURE_TEXT_ACTIVE,
-  DISCLOSURE_TEXT_PENDING,
-  type ComparisonRow,
-} from "@/data/comparisons";
+import { ArrowRight, ExternalLink, ShoppingBag } from "lucide-react";
+import { AFFILIATE_DISCLOSURE_SENTENCE, type ComparisonRow } from "@/data/comparisons";
 import { trackAffiliateClick } from "@/lib/analytics";
 import { HAS_ACTIVE_AFFILIATE_PROGRAM, resolveCommerceLink } from "@/data/affiliates";
+import { COMMERCE_PANEL, CTA, DECISION_LABELS } from "@/lib/cta";
 
 /**
  * Commercial modules for money pages.
@@ -15,33 +12,32 @@ import { HAS_ACTIVE_AFFILIATE_PROGRAM, resolveCommerceLink } from "@/data/affili
  * CTA policy: the destination is resolved by `resolveCommerceLink` against the
  * merchant registry (src/data/affiliates.ts). A sponsored affiliate CTA renders
  * only when that registry says the program is active AND holds a real tracking
- * URL. Otherwise the row falls back to a neutral "Visit seller" link, and to no
+ * URL. Otherwise the row falls back to a neutral direct seller link, and to no
  * link at all when there is no legitimate destination. Placeholder "#" links
  * are never rendered, and a merchant is never treated as monetized just because
  * an application was filed.
  *
- * Disclosure policy: the banner claims commissions only when at least one
- * program is genuinely active. While all programs are pending it states that no
- * link on the page earns anything.
+ * Disclosure policy: exactly ONE plain-language disclosure per page, placed
+ * before the first affiliate link, and only on pages that actually carry one.
+ * Non-affiliate links get no status label at all — readers do not need a running
+ * ledger of which links do not pay us.
  */
 export function DisclosureBanner({ compact = false }: { compact?: boolean }) {
+  // No active program means no affiliate link on any page, so no page-level
+  // disclosure is shown. Never claim a relationship that is not live.
+  if (!HAS_ACTIVE_AFFILIATE_PROGRAM) return null;
+
   return (
     <aside
-      aria-label={
-        HAS_ACTIVE_AFFILIATE_PROGRAM ? "Affiliate disclosure" : "Commercial links disclosure"
-      }
-      className={`flex items-start gap-3 rounded-sm border border-accent/40 bg-accent/10 text-sm text-foreground/85 ${
-        compact ? "p-3" : "p-4"
+      aria-label="Affiliate disclosure"
+      className={`rounded-sm border-l-2 border-accent bg-cream/70 text-sm leading-relaxed text-foreground/85 ${
+        compact ? "px-4 py-3" : "px-5 py-4"
       }`}
     >
-      <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-gold-foreground" />
       <p>
-        <span className="font-semibold">
-          {HAS_ACTIVE_AFFILIATE_PROGRAM ? "Affiliate disclosure. " : "How links here work. "}
-        </span>
-        {HAS_ACTIVE_AFFILIATE_PROGRAM ? DISCLOSURE_TEXT_ACTIVE : DISCLOSURE_TEXT_PENDING}{" "}
-        <Link to="/affiliate-disclosure" className="text-primary underline underline-offset-4">
-          Full disclosure
+        {AFFILIATE_DISCLOSURE_SENTENCE}{" "}
+        <Link to="/editorial-standards" className="text-primary underline underline-offset-4">
+          How we choose recommendations
         </Link>
         .
       </p>
@@ -49,13 +45,32 @@ export function DisclosureBanner({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; placement?: string }) {
+
+/**
+ * Outbound seller CTA for a comparison row.
+ *
+ * Label is specific and action-oriented ("Shop duck at Culver Duck") rather than
+ * a vague "Visit seller". Affiliate and direct destinations share the same
+ * commercial treatment — affiliate status is disclosed once per page, not
+ * re-stated on every button.
+ */
+function RowCta({
+  row,
+  placement = "comparison_card",
+  shopNoun,
+}: {
+  row: ComparisonRow;
+  placement?: string;
+  shopNoun?: string;
+}) {
   const link = resolveCommerceLink({
     merchantId: row.merchantId,
     affiliateUrl: row.affiliateStatus === "active" ? row.affiliateUrl : undefined,
     directUrl: row.directUrl,
     name: row.name,
   });
+
+  const label = shopNoun ? `Shop ${shopNoun} at ${row.name}` : `Shop at ${row.name}`;
 
   if (link.kind === "affiliate" && link.href) {
     return (
@@ -66,7 +81,7 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
         onClick={() =>
           trackAffiliateClick({
             linkUrl: link.href!,
-            linkText: "Check availability",
+            linkText: label,
             merchant: link.merchantName ?? row.name,
             merchantId: link.merchantId,
             placement,
@@ -74,10 +89,10 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
             destinationType: "affiliate_tracking",
           })
         }
-        className="inline-flex items-center gap-2 rounded-sm bg-primary px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground transition-colors hover:bg-forest-deep"
+        className={CTA.commercial}
       >
-        Check availability
-        <ExternalLink aria-hidden="true" className="size-3.5" />
+        <ShoppingBag aria-hidden="true" className="size-3.5" />
+        {label}
       </a>
     );
   }
@@ -91,7 +106,7 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
         onClick={() =>
           trackAffiliateClick({
             linkUrl: link.href!,
-            linkText: "Visit seller",
+            linkText: label,
             merchant: link.merchantName ?? row.name,
             merchantId: link.merchantId,
             placement,
@@ -99,10 +114,10 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
             destinationType: "merchant_direct",
           })
         }
-        className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary underline-offset-4 hover:underline"
+        className={CTA.commercial}
       >
-        Visit seller
         <ExternalLink aria-hidden="true" className="size-3.5" />
+        {label}
       </a>
     );
   }
@@ -113,6 +128,7 @@ function RowCta({ row, placement = "comparison_card" }: { row: ComparisonRow; pl
     </p>
   );
 }
+
 
 /**
  * Evaluation-methodology trust statement for commercial pages.
@@ -156,17 +172,19 @@ export function ComparisonCard({
   row,
   factors,
   placement = "comparison_card",
+  shopNoun,
 }: {
   row: ComparisonRow;
   factors: readonly { key: string; label: string }[];
   placement?: string;
+  shopNoun?: string;
 }) {
   return (
-    <article className="rounded-sm border border-border bg-card p-6">
+    <article className={COMMERCE_PANEL}>
       <span className="eyebrow text-primary">{row.kind}</span>
       <h3 className="mt-2 font-display text-2xl leading-snug text-foreground">{row.name}</h3>
-      <p className="mt-3 text-sm leading-relaxed text-foreground/85">
-        <span className="font-semibold text-foreground">Best for: </span>
+      <p className="mt-3 rounded-sm bg-card p-3 text-sm leading-relaxed text-foreground/85">
+        <span className="font-semibold text-foreground">{DECISION_LABELS.bestFor}: </span>
         {row.bestFor}
       </p>
 
@@ -188,7 +206,7 @@ export function ComparisonCard({
       <div className="mt-5 grid gap-5 sm:grid-cols-2">
         <div>
           <h4 className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-primary">
-            Strengths
+            {DECISION_LABELS.standsOut}
           </h4>
           <ul className="mt-2 space-y-2 text-sm leading-relaxed text-foreground/85">
             {row.pros.map((p) => (
@@ -200,7 +218,7 @@ export function ComparisonCard({
         </div>
         <div>
           <h4 className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Trade-offs
+            {DECISION_LABELS.check}
           </h4>
           <ul className="mt-2 space-y-2 text-sm leading-relaxed text-foreground/85">
             {row.tradeoffs.map((t) => (
@@ -213,13 +231,13 @@ export function ComparisonCard({
       </div>
 
       {row.note && (
-        <p className="mt-5 rounded-sm bg-cream p-3 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-5 rounded-sm bg-card p-3 text-xs leading-relaxed text-muted-foreground">
           {row.note}
         </p>
       )}
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-        <RowCta row={row} placement={placement} />
+        <RowCta row={row} placement={placement} {...(shopNoun ? { shopNoun } : {})} />
         <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
           Details checked {row.lastVerified}
         </p>
@@ -227,6 +245,54 @@ export function ComparisonCard({
     </article>
   );
 }
+
+/**
+ * "Best options at a glance" — a compact decision layer near the top of a long
+ * commercial page.
+ *
+ * Built only from rows already published further down the page: the name, who it
+ * suits, and the same outbound CTA. No rankings, no prices, no stock claims.
+ */
+export function QuickPicks({
+  rows,
+  placement,
+  shopNoun,
+  heading = "Best options at a glance",
+  intro,
+}: {
+  rows: ComparisonRow[];
+  placement: string;
+  shopNoun?: string;
+  heading?: string;
+  intro?: string;
+}) {
+  const pickable = rows.filter((row) => row.merchantId || row.directUrl);
+  if (pickable.length === 0) return null;
+
+  return (
+    <section aria-labelledby="quick-picks" className="mt-8">
+      <h2 id="quick-picks" className="font-display text-2xl leading-snug text-foreground">
+        {heading}
+      </h2>
+      {intro && <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{intro}</p>}
+      <ul className="mt-5 grid gap-4 sm:grid-cols-2">
+        {pickable.map((row) => (
+          <li key={row.id} className={`${COMMERCE_PANEL} flex flex-col`}>
+            <h3 className="font-display text-xl leading-snug text-foreground">{row.name}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/85">
+              <span className="font-semibold">{DECISION_LABELS.bestFor}: </span>
+              {row.bestFor}
+            </p>
+            <div className="mt-4 pt-1">
+              <RowCta row={row} placement={placement} {...(shopNoun ? { shopNoun } : {})} />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 
 /** Side-by-side factor comparison. Scrolls horizontally on small screens. */
 export function ComparisonTable({
@@ -341,7 +407,10 @@ export function ShopThisGuide({
   intro?: string;
 }) {
   return (
-    <section aria-labelledby="shop-this-guide" className="mt-16 rounded-sm border border-border p-6 lg:p-7">
+    <section
+      aria-labelledby="shop-this-guide"
+      className="mt-16 rounded-sm border border-accent/35 bg-cream/70 p-6 lg:p-7"
+    >
       <div className="flex items-center gap-2.5">
         <ShoppingBag aria-hidden="true" className="size-4 text-primary" />
         <h2 id="shop-this-guide" className="eyebrow text-primary">
@@ -349,20 +418,20 @@ export function ShopThisGuide({
         </h2>
       </div>
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{intro}</p>
-      <div className="mt-5">
-        <DisclosureBanner compact />
-      </div>
+      {/*
+        No disclosure block here: the one page-level disclosure is rendered
+        above the first affiliate link, and repeating it is exactly the
+        duplication this module used to create.
+      */}
       <ul className="mt-5 space-y-4">
         {items.map((item) => (
           <li key={item.label} className="border-t border-border pt-4">
             <h3 className="font-display text-lg text-foreground">{item.label}</h3>
             <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.why}</p>
             {item.to && (
-              <Link
-                to={item.to}
-                className="mt-2 inline-block text-xs font-semibold uppercase tracking-[0.14em] text-primary underline-offset-4 hover:underline"
-              >
+              <Link to={item.to} className={`mt-2 ${CTA.tertiarySmall}`}>
                 {item.linkLabel ?? "Read the buying guide"}
+                <ArrowRight aria-hidden="true" className="size-3.5" />
               </Link>
             )}
           </li>
@@ -371,3 +440,4 @@ export function ShopThisGuide({
     </section>
   );
 }
+
