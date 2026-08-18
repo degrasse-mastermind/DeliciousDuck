@@ -57,13 +57,17 @@ describe("priority feeder pages reach the money pages", () => {
     }
   });
 
-  it("renders the module on every feeder route with the matching sourcePath", () => {
+  it("renders a conversion module on every feeder route with the matching sourcePath", () => {
     for (const source of Object.keys(FUNNEL)) {
       const text = readFileSync(routeFile(source), "utf8");
-      expect(text, source).toContain("<ConversionPaths");
+      // Duck-fat supporting pages use the render/buy/substitute module instead
+      // of the generic nav, so the buying guide is offered exactly once.
+      const module = text.includes("<ConversionPaths") ? "<ConversionPaths" : "<DuckFatDecision";
+      expect(text, source).toContain(module);
       expect(text, source).toContain(`sourcePath="${source}"`);
     }
   });
+
 
   it("keeps each feeder to a short list of internal steps", () => {
     // Editorial cap: no page becomes a wall of boxes. Up to three steps on a
