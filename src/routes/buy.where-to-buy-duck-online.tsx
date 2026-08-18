@@ -225,18 +225,25 @@ function Page() {
       <BestForGrid guide={DG} />
 
       <CommercialCallout
-        heading="Where you can order duck right now"
-        intro="One national mail-order seller whose public catalogue lists duck by the cut, with what it is practically useful for. We have not ordered from them for a hands-on review, and this link earns us nothing."
+        heading="Best current options for ordering duck online"
+        intro="Five sellers whose public catalogues list duck by the cut, ordered by how well each solves a common reader problem rather than by whether it pays us. We have not ordered from any of them for a hands-on review, and none of these links earns us anything."
         placement="buy_duck_primary_options"
-        linkIds={["dartagnan-duck"]}
+        linkIds={[
+          "culver-duck",
+          "tastyduck-duck",
+          "fossil-farms-duck",
+          "dartagnan-duck",
+          "wild-fork-duck",
+        ]}
         criteria={[
-          "The cut and breed are named on the product page, not just \"duck\".",
+          "The cut is named on the product page, not just \"duck\".",
           "Frozen shipping is packed and scheduled, with a delivery window you will be home for.",
           "The order minimum and shipping cost make sense for the quantity you actually cook.",
-          "Duck fat is available separately, so a single order covers the render you will need later.",
+          "Rendered fat is available separately, so a single order covers the render you will need later.",
         ]}
-        footnote="We do not publish prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
+        footnote="We do not publish prices, ratings, or stock claims. Availability moves week to week — check the seller's own page for current cuts and terms."
       />
+
 
       <CommercialCallout
         heading="Duck fat, not duck meat: US Wellness Meats"
