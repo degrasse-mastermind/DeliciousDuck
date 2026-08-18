@@ -36,14 +36,16 @@ export function AnswerFirst({ page }: { page: AcquisitionPageMeta }) {
   );
 }
 
-/** Byline, review date, and editorial-standards link. */
+/** Quiet metadata line: how-we-judge link + last-updated date. */
 export function ArticleByline({ page }: { page: AcquisitionPageMeta }) {
   return (
     <div className="mt-1 flex flex-col gap-2 border-y border-border py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
       <p>
-        By <span className="font-semibold text-foreground">{page.byline}</span> · {page.reviewedBy}{" "}
-        <Link to="/editorial-standards" className="text-primary underline underline-offset-4">
-          Editorial standards
+        <Link
+          to="/editorial-standards"
+          className="text-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          How we judge
         </Link>
       </p>
       <p className="flex items-center gap-1.5 whitespace-nowrap">
@@ -56,6 +58,7 @@ export function ArticleByline({ page }: { page: AcquisitionPageMeta }) {
     </div>
   );
 }
+
 
 /** What the page is based on, and what has explicitly not been done. */
 export function ArticleBasis({ page }: { page: AcquisitionPageMeta }) {
