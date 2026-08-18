@@ -4,6 +4,8 @@
  * - D'Artagnan is declined and unmonetized, kept only on catalogue merit.
  * - Culver Duck, TastyDuck and Fossil Farms render as direct and unpaid.
  */
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   MERCHANTS,
