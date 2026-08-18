@@ -1,5 +1,5 @@
 import { ExternalLink, ShoppingBag } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import {
   commercialLinkById,
   destinationHost,
@@ -8,6 +8,7 @@ import {
   type CommercialLinkEntry,
 } from "@/data/commercial-links";
 import { trackCommercialClick } from "@/lib/analytics";
+import { withAffiliateTracking } from "@/lib/affiliate-tracking";
 import { COMMERCE_PANEL, CTA, DECISION_LABELS } from "@/lib/cta";
 
 /**
@@ -37,9 +38,11 @@ export function CommercialLink({
   variant?: "button" | "inline";
   className?: string;
 }) {
+  const pathname = useLocation({ select: (l) => l.pathname });
   const link = commercialLinkById(id);
   if (!link) return null;
 
+  const href = withAffiliateTracking(link.url, { placement, sourcePath: pathname });
   const text = label ?? link.ctaLabel ?? `Shop at ${link.merchant}`;
   const host = destinationHost(link.url);
   const base = variant === "button" ? CTA.commercial : CTA.tertiary;
@@ -47,7 +50,7 @@ export function CommercialLink({
 
   return (
     <a
-      href={link.url}
+      href={href}
       target="_blank"
       rel={relForLink(link)}
       onClick={() => trackCommercialClick({ link, placement })}
