@@ -28,13 +28,11 @@ let captureSuspended = false;
  * public route (pass that route's path).
  */
 export function initPostHog(path?: string): void {
-  if (typeof window !== "undefined") (window as any).__ddentry = { path, initialized, enabled: analyticsEnabled(path), host: window.location.hostname };
   if (typeof window === "undefined" || initialized) return;
   // Production analytics only loads on the canonical public hosts, and never
   // on internal tooling routes. Preview/editor/localhost never initializes,
   // so no autocapture or session replay starts there either.
   if (!analyticsEnabled(path)) return;
-  (window as any).__ddprobe = { called: path };
   initialized = true;
   captureSuspended = false;
   try {
@@ -45,12 +43,9 @@ export function initPostHog(path?: string): void {
       capture_pageleave: true,
       autocapture: true,
     });
-    (window as any).__ddprobe.afterInit = (posthog as any).__loaded;
-  } catch (e) {
-    (window as any).__ddprobe.err = String(e);
+  } catch {
     // Analytics must never break the app.
   }
-  (window as any).__ddprobe.end = true;
 }
 
 
@@ -89,6 +84,7 @@ export function syncPostHogRoutePolicy(path?: string): void {
 export function resetPostHogStateForTests(): void {
   initialized = false;
   captureSuspended = false;
+  lastPageViewPath = null;
 }
 
 /** Path-only current location, safe on the server. */
@@ -109,14 +105,18 @@ export function captureEvent(
   for (const [key, value] of Object.entries(properties)) {
     if (value !== undefined && value !== "") clean[key] = value;
   }
-  (window as any).__ddcap = [...((window as any).__ddcap ?? []), name];
   try {
     posthog.capture(name, clean);
-    (window as any).__ddcap.push('ok:'+name);
-  } catch (e) {
-    (window as any).__ddcap.push('err:'+String(e));
+  } catch {
     // Never block a click, navigation, or signup.
   }
+}
+
+let lastPageViewPath: string | null = null;
+
+/** Test-only reset of the pageview dedupe. */
+export function resetPostHogPageViewDedupeForTests(): void {
+  lastPageViewPath = null;
 }
 
 /** Manual SPA pageview — path only, never the full URL. */
@@ -127,6 +127,10 @@ export function capturePostHogPageView(path?: string): void {
   // (/newsletter/unsubscribe?t=...) must never reach PostHog.
   const raw = path ?? currentPath();
   const pathname = raw ? ((raw.split("#")[0] ?? "").split("?")[0] || "/") : undefined;
+  // Effect replay, StrictMode double-invoke and same-path no-op navigations
+  // must not multiply pageviews. A -> B -> A still counts twice for A.
+  if (pathname && lastPageViewPath === pathname) return;
+  lastPageViewPath = pathname ?? null;
   captureEvent("$pageview", {
     $current_url:
       pathname && typeof window !== "undefined"
