@@ -78,8 +78,8 @@ export function ArticleBasis({ page }: { page: AcquisitionPageMeta }) {
         ))}
       </ul>
       <p className="mt-5 border-t border-border pt-4 text-sm leading-relaxed text-muted-foreground">
-        <span className="font-semibold text-foreground">What we haven't done. </span>
-        {page.notTested}
+        <span className="font-semibold text-foreground">Evaluation basis. </span>
+        {page.evidenceBasis}
       </p>
     </section>
   );
