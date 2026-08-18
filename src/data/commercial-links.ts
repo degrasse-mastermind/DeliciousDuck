@@ -15,6 +15,7 @@
  */
 
 import { MERCHANTS, isMonetized, isUsableUrl, type Merchant } from "./affiliates";
+import { AMAZON_CATEGORIES, amazonCategoryUrl, type AmazonCategoryId } from "./amazon";
 
 /**
  * Commercial relationship for a destination.
@@ -34,7 +35,10 @@ export type CommercialCategory =
   | "duck_fat"
   | "thermometer"
   | "pan"
+  | "roasting_pan"
+  | "sheet_pan"
   | "knife"
+  | "fat_storage"
   | "owned_product";
 
 export interface CommercialLinkEntry {
@@ -88,6 +92,11 @@ interface SeedRow {
   merchantId: string;
   category: CommercialCategory;
   useFor: string;
+  /**
+   * Explicit destination, used only where a merchant has no single canonical
+   * URL (Amazon category Special Links). Built centrally — never hand-written.
+   */
+  url?: string;
 }
 
 /**
@@ -117,10 +126,36 @@ const SEEDS: SeedRow[] = [
   },
 ];
 
-export const COMMERCIAL_LINKS: CommercialLinkEntry[] = SEEDS.flatMap((seed) => {
+/**
+ * Amazon equipment categories. Destinations are built by `amazonCategoryUrl`, so
+ * the Associates tag lives in exactly one place. No named-product claims, no
+ * prices, no ratings. Duck meat is deliberately absent from this list.
+ */
+const AMAZON_SEEDS: SeedRow[] = (
+  [
+    ["amazon-cast-iron-skillet", "pan", "Cast-iron skillets, for the steadiest render and the most even crisp."],
+    ["amazon-carbon-steel-skillet", "pan", "Carbon-steel skillets, for a fast-responding pan that still builds fond."],
+    ["amazon-stainless-clad-skillet", "pan", "Stainless-clad skillets, for searing and deglazing an acidic pan sauce in the same pan."],
+    ["amazon-roasting-pan-rack", "roasting_pan", "Roasting pans sold with a rack, for a whole bird lifted clear of its own fat."],
+    ["amazon-sheet-pan-rack", "sheet_pan", "Rimmed sheet pans and oven-safe wire racks, the cheaper route to the same lifted setup."],
+    ["amazon-instant-read-thermometer", "thermometer", "Instant-read thermometers, for spot-checking duck breast as it approaches your target."],
+    ["amazon-leave-in-probe-thermometer", "thermometer", "Leave-in probe thermometers, for tracking a whole roast without opening the oven."],
+    ["amazon-utility-knife", "knife", "Petty and utility knives, the size range that suits scoring duck skin."],
+    ["amazon-boning-knife", "knife", "Boning knives, for jointing a whole duck and lifting breasts off the bone."],
+    ["amazon-fat-storage-jar", "fat_storage", "Heatproof jars with lids, for straining and refrigerating rendered duck fat."],
+  ] as [AmazonCategoryId, CommercialCategory, string][]
+).map(([id, category, useFor]) => ({
+  id,
+  merchantId: "amazon",
+  category,
+  useFor,
+  url: amazonCategoryUrl(id),
+}));
+
+export const COMMERCIAL_LINKS: CommercialLinkEntry[] = [...SEEDS, ...AMAZON_SEEDS].flatMap((seed) => {
   const merchant = MERCHANTS.find((m) => m.id === seed.merchantId);
   if (!merchant) return [];
-  const url = destinationForMerchant(merchant);
+  const url = seed.url && isMonetized(merchant) ? seed.url : destinationForMerchant(merchant);
   if (!url) return [];
   const relationship = relationshipForMerchant(merchant);
   return [
@@ -367,7 +402,7 @@ export function auditCommercialLinks(
   // Merchant destinations that exist in the codebase but were never registered
   // here would be rendered outside the disclosure/rel/tracking system.
   for (const merchant of MERCHANTS) {
-    const url = destinationForMerchant(merchant);
+    const url = seed.url && isMonetized(merchant) ? seed.url : destinationForMerchant(merchant);
     if (!url) continue;
     if (!links.some((l) => l.merchantId === merchant.id)) {
       issues.push({
