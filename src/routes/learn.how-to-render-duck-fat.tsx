@@ -7,6 +7,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
+import { DuckFatDecision } from "@/components/site/DuckFatDecision";
 
 const GUIDE = guideByPath("/learn/how-to-render-duck-fat")!;
 
