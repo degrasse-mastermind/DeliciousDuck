@@ -4,6 +4,7 @@ import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { recipeBySlug } from "@/data/recipe-content";
 import { SOURCES } from "@/data/sources";
+import { sitemapPaths } from "@/lib/sitemap";
 
 const PATH = "/learn/duck-vs-turkey-thanksgiving";
 const FILE = "src/routes/learn.duck-vs-turkey-thanksgiving.tsx";
@@ -180,8 +181,7 @@ describe("duck vs turkey holiday decision guide", () => {
   });
 
   it("is discoverable from the sitemap, hub and neighbouring guides", () => {
-    const sitemap = readFileSync("src/routes/sitemap[.]xml.ts", "utf8");
-    expect(sitemap).toContain("GUIDES");
+    expect(sitemapPaths()).toContain(PATH);
     expect(readFileSync("src/routes/learn.index.tsx", "utf8")).toContain(PATH);
     expect(guideByPath("/cook/whole-roast-duck")!.related).toContain(PATH);
     expect(guideByPath("/learn/whole-duck-cooking-time")!.related).toContain(PATH);

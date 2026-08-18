@@ -6,6 +6,7 @@ import { INGREDIENTS } from "@/data/ingredients";
 import { GUIDES, guideByPath } from "@/data/guides";
 import { SOURCES } from "@/data/sources";
 import { COMMERCIAL_LINKS } from "@/data/commercial-links";
+import { sitemapPaths } from "@/lib/sitemap";
 
 const ROUTE_FILE: Record<string, string> = {
   "/buy/what-cut-of-duck-to-buy": "src/routes/buy.what-cut-of-duck-to-buy.tsx",
@@ -245,12 +246,12 @@ describe("acquisition cluster route files", () => {
 
 describe("cluster discoverability and back-links", () => {
   it("is included in sitemap and search through the guide registry", () => {
-    const sitemap = readFileSync("src/routes/sitemap[.]xml.ts", "utf8");
     const search = readFileSync("src/routes/search.tsx", "utf8");
-    expect(sitemap).toMatch(/GUIDES/);
+    const paths = sitemapPaths();
     expect(search).toMatch(/GUIDES/);
     for (const page of ACQUISITION_PAGES) {
       expect(guideByPath(page.path)!.path).toBe(page.path);
+      expect(paths, `${page.path} missing from sitemap`).toContain(page.path);
     }
   });
 

@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { LEGAL_LINKS } from "@/data/site";
+import { sitemapPaths } from "@/lib/sitemap";
 
 /** DEL-5 trust/disclosure coverage: contact route, footer/sitemap wiring, corrected copy. */
 const read = (p: string) => readFileSync(p, "utf8");
@@ -34,7 +35,7 @@ describe("contact discoverability", () => {
   });
 
   it("appears in the XML sitemap entries", () => {
-    expect(read("src/routes/sitemap[.]xml.ts")).toContain('{ path: "/contact"');
+    expect(sitemapPaths()).toContain("/contact");
   });
 
   it("is linked from the about page closing trust links", () => {
