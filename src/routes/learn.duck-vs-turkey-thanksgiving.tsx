@@ -13,6 +13,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/learn/duck-vs-turkey-thanksgiving")!;
 const PAGE = acquisitionPage("/learn/duck-vs-turkey-thanksgiving")!;
@@ -765,6 +766,13 @@ function Page() {
         heading="Next steps"
         intro="Settle the number of birds first, then the workflow, then the order date."
         items={PAGE.funnel}
+      />
+
+      <ConversionPaths
+        sourcePath="/learn/duck-vs-turkey-thanksgiving"
+        eyebrow="Holiday planning"
+        heading="Order the bird early enough to thaw"
+        intro="Sourcing is the first item on a holiday timeline, not the last."
       />
 
       <FaqList items={FAQ} />

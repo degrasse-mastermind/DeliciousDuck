@@ -4,6 +4,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/cook/ways-to-use-duck-fat")!;
 
@@ -243,6 +244,12 @@ function WaysToUsePage() {
           guarantee for the specific jar you're using.
         </Callout>
       </Section>
+
+      <ConversionPaths
+        sourcePath="/cook/ways-to-use-duck-fat"
+        eyebrow="Restocking"
+        heading="Buying more duck fat"
+      />
 
       <FaqList items={FAQ} />
 

@@ -14,6 +14,7 @@ import {
   MethodologyPanel,
   QuickDecision,
 } from "@/components/site/DecisionGuide";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/buy/duck-fat-buying-guide")!;
 const DG = decisionGuide("/buy/duck-fat-buying-guide")!;
@@ -240,6 +241,12 @@ function Page() {
             linkLabel: "See how to render and store it",
           },
         ]}
+      />
+
+      <ConversionPaths
+        sourcePath="/buy/duck-fat-buying-guide"
+        eyebrow="Read these first"
+        heading="Before you choose a format"
       />
 
       <FaqList items={FAQ} />

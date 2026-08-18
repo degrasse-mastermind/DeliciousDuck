@@ -6,6 +6,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/learn/how-to-render-duck-fat")!;
 
@@ -277,6 +278,12 @@ function RenderFatPage() {
             prevent: "Keep the burner low, use a heavy pot that holds heat evenly, and never leave rendering fat unattended.",
           },
         ]}
+      />
+
+      <ConversionPaths
+        sourcePath="/learn/how-to-render-duck-fat"
+        eyebrow="If you would rather buy it"
+        heading="Buying rendered duck fat instead"
       />
 
       <FaqList items={FAQ} />

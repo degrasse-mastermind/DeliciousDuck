@@ -5,6 +5,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { FaqList } from "@/components/site/ArticleShell";
 import { FatSubstitutionCalculator } from "@/components/tools/FatSubstitutionCalculator";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 export const Route = createFileRoute("/tools/duck-fat-substitution-calculator")({
   head: () => ({
@@ -111,6 +112,12 @@ function Page() {
             over with it.
           </p>
         </div>
+
+        <ConversionPaths
+          sourcePath="/tools/duck-fat-substitution-calculator"
+          eyebrow="Next step"
+          heading="Buying the size you just worked out"
+        />
 
         <FaqList items={FAQ} />
         <RelatedGuides

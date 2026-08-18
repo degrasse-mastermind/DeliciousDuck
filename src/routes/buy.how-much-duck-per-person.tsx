@@ -7,6 +7,7 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/buy/how-much-duck-per-person")!;
 const PAGE = acquisitionPage("/buy/how-much-duck-per-person")!;
@@ -179,6 +180,12 @@ function Page() {
         heading="Next steps once you know your weight"
         intro="Run the numbers, then work out the best way to buy them."
         items={PAGE.funnel}
+      />
+
+      <ConversionPaths
+        sourcePath="/buy/how-much-duck-per-person"
+        eyebrow="Next step"
+        heading="Turning that weight into an order"
       />
 
       <FaqList items={FAQ} />

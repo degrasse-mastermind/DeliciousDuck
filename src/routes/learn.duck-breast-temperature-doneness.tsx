@@ -8,6 +8,7 @@ import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/learn/duck-breast-temperature-doneness")!;
 
@@ -229,6 +230,12 @@ function Page() {
           { to: "/gear/best-thermometer-for-duck", label: "Best thermometer for duck", why: "Which type suits the cook you do most, and the specifications that decide it." },
           { to: "/gear/best-pan-for-duck-breast", label: "Best pan for duck breast", why: "Carryover and render behaviour both change with the pan you are cooking in." },
         ]}
+      />
+
+      <ConversionPaths
+        sourcePath="/learn/duck-breast-temperature-doneness"
+        eyebrow="Verify the finish"
+        heading="Reading these numbers reliably"
       />
 
       <RelatedGuides paths={GUIDE.related} />

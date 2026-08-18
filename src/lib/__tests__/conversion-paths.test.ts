@@ -239,17 +239,36 @@ describe("conversion click event", () => {
     const map = CONVERSION_PATHS.map(
       (p) => `${p.sourcePath} -> ${p.destination} [${p.intent}] #${p.placement}`,
     );
-    expect(map.length).toBe(9);
+    expect(map.length).toBeGreaterThanOrEqual(28);
     expect(map).toMatchInlineSnapshot(`
       [
         "/learn/how-to-score-duck-breast -> /gear/best-knife-for-scoring-duck [equipment] #score_breast_to_knife_guide",
         "/learn/whole-duck-cooking-time -> /gear/best-thermometer-for-duck [temperature_verification] #whole_duck_timing_to_thermometer_guide",
         "/learn/how-to-thaw-duck -> /buy/where-to-buy-duck-online [sourcing] #thaw_duck_to_sourcing_guide",
+        "/cook/whole-roast-duck -> /buy/where-to-buy-duck-online [sourcing] #whole_roast_duck_to_sourcing_guide",
+        "/cook/whole-roast-duck -> /gear/best-roasting-pan-for-duck [equipment] #whole_roast_duck_to_roasting_pan_guide",
+        "/buy/how-to-choose-duck -> /buy/where-to-buy-duck-online [sourcing] #choose_duck_to_sourcing_guide",
+        "/buy/what-cut-of-duck-to-buy -> /buy/where-to-buy-duck-online [sourcing] #what_cut_to_sourcing_guide",
+        "/buy/how-much-duck-per-person -> /buy/where-to-buy-duck-online [sourcing] #how_much_duck_to_sourcing_guide",
+        "/buy/fresh-vs-frozen-duck -> /buy/where-to-buy-duck-online [sourcing] #fresh_vs_frozen_to_sourcing_guide",
+        "/learn/duck-vs-turkey-thanksgiving -> /buy/where-to-buy-duck-online [sourcing] #thanksgiving_to_sourcing_guide",
+        "/cook/how-to-cook-duck-breast -> /buy/where-to-buy-duck-online [sourcing] #cook_breast_to_sourcing_guide",
+        "/learn/why-duck-skin-isnt-crispy -> /gear/best-pan-for-duck-breast [equipment] #crisp_skin_to_pan_guide",
+        "/learn/duck-breast-temperature-doneness -> /gear/best-thermometer-for-duck [temperature_verification] #breast_doneness_to_thermometer_guide",
+        "/tools/duck-doneness-guide -> /gear/best-thermometer-for-duck [temperature_verification] #doneness_guide_to_thermometer_guide",
+        "/cook/duck-leg-confit -> /buy/where-to-buy-duck-online [sourcing] #confit_to_sourcing_guide",
+        "/cook/duck-leg-confit -> /buy/duck-fat-buying-guide [sourcing] #confit_to_duck_fat_guide",
+        "/learn/how-to-render-duck-fat -> /buy/duck-fat-buying-guide [sourcing] #render_fat_to_duck_fat_guide",
+        "/cook/ways-to-use-duck-fat -> /buy/duck-fat-buying-guide [sourcing] #use_duck_fat_to_duck_fat_guide",
+        "/ingredients/duck-fat-vs-butter-oil -> /buy/duck-fat-buying-guide [sourcing] #fat_vs_butter_to_duck_fat_guide",
+        "/tools/duck-fat-substitution-calculator -> /buy/duck-fat-buying-guide [sourcing] #fat_substitution_to_duck_fat_guide",
         "/tools/whole-duck-serving-calculator -> /buy/where-to-buy-duck-online [sourcing] #serving_calculator_to_sourcing_guide",
         "/gear/best-thermometer-for-duck -> /learn/whole-duck-cooking-time [technique_validation] #thermometer_guide_to_whole_duck_timing",
         "/gear/best-thermometer-for-duck -> /learn/duck-breast-temperature-doneness [temperature_verification] #thermometer_guide_to_breast_doneness",
         "/gear/best-knife-for-scoring-duck -> /learn/how-to-score-duck-breast [technique_validation] #knife_guide_to_scoring_technique",
         "/buy/where-to-buy-duck-online -> /learn/how-to-thaw-duck [technique_validation] #sourcing_guide_to_thawing",
+        "/buy/duck-fat-buying-guide -> /learn/how-to-render-duck-fat [technique_validation] #duck_fat_guide_to_rendering",
+        "/buy/duck-fat-buying-guide -> /cook/ways-to-use-duck-fat [technique_validation] #duck_fat_guide_to_uses",
         "/gear/best-pan-for-duck-breast -> /learn/why-duck-skin-isnt-crispy [technique_validation] #pan_guide_to_crisp_skin_troubleshooting",
       ]
     `);
