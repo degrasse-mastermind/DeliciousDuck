@@ -84,7 +84,6 @@ export function syncPostHogRoutePolicy(path?: string): void {
 export function resetPostHogStateForTests(): void {
   initialized = false;
   captureSuspended = false;
-  lastPageViewPath = null;
 }
 
 /** Path-only current location, safe on the server. */
@@ -112,13 +111,6 @@ export function captureEvent(
   }
 }
 
-let lastPageViewPath: string | null = null;
-
-/** Test-only reset of the pageview dedupe. */
-export function resetPostHogPageViewDedupeForTests(): void {
-  lastPageViewPath = null;
-}
-
 /** Manual SPA pageview — path only, never the full URL. */
 export function capturePostHogPageView(path?: string): void {
   if (typeof window === "undefined") return;
@@ -127,10 +119,6 @@ export function capturePostHogPageView(path?: string): void {
   // (/newsletter/unsubscribe?t=...) must never reach PostHog.
   const raw = path ?? currentPath();
   const pathname = raw ? ((raw.split("#")[0] ?? "").split("?")[0] || "/") : undefined;
-  // Effect replay, StrictMode double-invoke and same-path no-op navigations
-  // must not multiply pageviews. A -> B -> A still counts twice for A.
-  if (pathname && lastPageViewPath === pathname) return;
-  lastPageViewPath = pathname ?? null;
   captureEvent("$pageview", {
     $current_url:
       pathname && typeof window !== "undefined"

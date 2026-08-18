@@ -520,18 +520,8 @@ export function trackConversionPathClick(params: {
       event.params.source_path,
     ].join("|");
     if (!shouldSendClick(key)) return;
-    // Independent try/catch per SDK: a gtag failure must never suppress the
-    // PostHog capture (or vice versa) for the same click.
-    try {
-      trackEvent(event.name, { ...event.params });
-    } catch {
-      // Best-effort.
-    }
-    try {
-      captureEvent(event.name, { ...event.params });
-    } catch {
-      // Best-effort.
-    }
+    trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
   } catch {
     // Analytics is best-effort. Never let it break an internal navigation.
   }
@@ -565,18 +555,8 @@ export function trackCommercialClick(input: {
       event.params.source_path,
     ].join("|");
     if (!shouldSendClick(key)) return;
-    // Independent try/catch per SDK: a gtag failure must never suppress the
-    // PostHog capture (or vice versa) for the same click.
-    try {
-      trackEvent(event.name, { ...event.params });
-    } catch {
-      // Best-effort.
-    }
-    try {
-      captureEvent(event.name, { ...event.params });
-    } catch {
-      // Best-effort.
-    }
+    trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
   } catch {
     // Analytics is best-effort. Never let it break an outbound click.
   }
