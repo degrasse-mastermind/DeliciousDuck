@@ -32,7 +32,7 @@ describe("unverified recipe pages", () => {
 
   it("keeps a restrained editorial-standards link and the temperature reminder", () => {
     expect(TRUST_BOX).toContain('href="/editorial-standards"');
-    expect(TRUST_BOX).toContain("Cook to the stated internal temperatures");
+    expect(TRUST_BOX.replace(/\s+/g, " ")).toContain("Cook to the stated internal temperatures");
   });
 
   it("renders no conspicuous negative testing or validation-ledger copy", () => {
