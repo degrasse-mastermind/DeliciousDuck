@@ -181,7 +181,10 @@ function RevenueSwitchboard() {
             </strong>{" "}
             {summary.anyActive
               ? `Active: ${summary.activeMerchants.join(", ")}.`
-              : `Pending or unapplied: ${summary.pendingMerchants.join(", ")}. Every public CTA resolves to a plain merchant link or to no link at all, and GA4 reports affiliate=false.`}{" "}
+              : `Pending or unapplied: ${summary.pendingMerchants.join(", ") || "none"}. Every public CTA resolves to a plain merchant link or to no link at all, and GA4 reports affiliate=false.`}{" "}
+            {summary.declinedMerchants.length > 0
+              ? `Declined: ${summary.declinedMerchants.join(", ")} — no relationship and nothing to activate.`
+              : null}{" "}
             {summary.activeDeepLinkCount} of {summary.deepLinkCount} deep-link slots hold a real
             tracking URL.
           </div>
