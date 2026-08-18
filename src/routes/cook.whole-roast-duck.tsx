@@ -146,6 +146,12 @@ function WholeRoastDuckPage() {
           Set the duck breast-side up on a roasting rack over a tray deep enough to catch the fat
           it will render — a whole duck can release 1–2 cups (240–475 ml) of fat over a roast,
           and an overflowing tray is a real fire risk in a hot oven.
+         Vessel sizing, rack choice, and how to
+          handle a hot pan of fat are covered in the{" "}
+          <Link to="/gear/best-roasting-pan-for-duck" className="text-primary underline underline-offset-4">
+            roasting pan guide
+          </Link>
+          .
         </p>
         <p>
           Two oven strategies both work well. The low-render-then-hot-finish route starts at
