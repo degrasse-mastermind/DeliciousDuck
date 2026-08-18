@@ -7,6 +7,7 @@ import { FaqList } from "@/components/site/ArticleShell";
 import { DonenessGuide } from "@/components/tools/DonenessGuide";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 export const Route = createFileRoute("/tools/duck-doneness-guide")({
   head: () => ({
@@ -95,6 +96,12 @@ function Page() {
           intro="The tool gives you a target. These pages cover everything around hitting it."
           placement="doneness_tool_pathway"
           excludePath="/tools/duck-doneness-guide"
+        />
+
+        <ConversionPaths
+          sourcePath="/tools/duck-doneness-guide"
+          eyebrow="Verify the finish"
+          heading="Reading these numbers reliably"
         />
 
         <FaqList items={FAQ} />

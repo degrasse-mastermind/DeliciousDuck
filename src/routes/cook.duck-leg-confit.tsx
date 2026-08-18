@@ -8,6 +8,7 @@ import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/cook/duck-leg-confit")!;
 
@@ -200,6 +201,13 @@ function DuckLegConfitPage() {
             linkLabel: "15 ways to use duck fat",
           },
         ]}
+      />
+
+      <ConversionPaths
+        sourcePath="/cook/duck-leg-confit"
+        eyebrow="Before you start"
+        heading="Legs and fat: what to buy for confit"
+        intro="Confit is a shopping problem before it is a cooking one."
       />
 
       <FaqList items={FAQ} />

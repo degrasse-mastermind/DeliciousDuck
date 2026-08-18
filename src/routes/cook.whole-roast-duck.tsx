@@ -17,6 +17,7 @@ import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/cook/whole-roast-duck")!;
 
@@ -272,6 +273,13 @@ function WholeRoastDuckPage() {
             linkLabel: "Carve for clean portions first",
           },
         ]}
+      />
+
+      <ConversionPaths
+        sourcePath="/cook/whole-roast-duck"
+        eyebrow="Before you order"
+        heading="Buying the bird for this roast"
+        intro="A whole duck of the right weight, and a pan that gives the fat somewhere to go."
       />
 
       <FaqList items={FAQ} />

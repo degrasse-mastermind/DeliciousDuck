@@ -3,6 +3,7 @@ import { ArticleShell, Section, DataTable, Callout, FaqList } from "@/components
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { ingredientByPath } from "@/data/ingredients";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const PAGE = ingredientByPath("/ingredients/duck-fat-vs-butter-oil")!;
 
@@ -221,6 +222,12 @@ function Page() {
           Mediterranean, use olive oil.
         </p>
       </Section>
+
+      <ConversionPaths
+        sourcePath="/ingredients/duck-fat-vs-butter-oil"
+        eyebrow="Next step"
+        heading="Buying duck fat well"
+      />
 
       <FaqList items={FAQ} />
 

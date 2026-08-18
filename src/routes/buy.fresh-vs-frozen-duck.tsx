@@ -8,6 +8,7 @@ import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { SourceMark } from "@/components/site/SourceMark";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/buy/fresh-vs-frozen-duck")!;
 const PAGE = acquisitionPage("/buy/fresh-vs-frozen-duck")!;
@@ -195,6 +196,12 @@ function Page() {
         heading="Next steps"
         intro="Schedule the thaw, then read the shipping terms before you order."
         items={PAGE.funnel}
+      />
+
+      <ConversionPaths
+        sourcePath="/buy/fresh-vs-frozen-duck"
+        eyebrow="Next step"
+        heading="Who ships fresh, who ships frozen"
       />
 
       <FaqList items={FAQ} />

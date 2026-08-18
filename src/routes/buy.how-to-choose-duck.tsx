@@ -10,6 +10,7 @@ import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { SourceMark } from "@/components/site/SourceMark";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/buy/how-to-choose-duck")!;
 const PAGE = acquisitionPage("/buy/how-to-choose-duck")!;
@@ -232,6 +233,12 @@ function Page() {
         heading="Next steps"
         intro="Where to buy from, and what to cook it in."
         items={PAGE.funnel}
+      />
+
+      <ConversionPaths
+        sourcePath="/buy/how-to-choose-duck"
+        eyebrow="Next step"
+        heading="Where to buy what you just decided on"
       />
 
       <FaqList items={FAQ} />

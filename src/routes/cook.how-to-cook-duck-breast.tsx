@@ -14,6 +14,7 @@ import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { DUCK_BREAST_CLUSTER } from "@/lib/duck-breast-cluster";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/cook/how-to-cook-duck-breast")!;
 
@@ -332,6 +333,12 @@ function Page() {
           { to: "/gear/best-thermometer-for-duck", label: "Best thermometer for duck", why: "The doneness window here is measured in seconds, so read speed and tip thickness matter." },
           { to: "/buy/where-to-buy-duck-online", label: "Where to buy duck online", why: "Breed and cut change how this method behaves. This is how to shop for the right one." },
         ]}
+      />
+
+      <ConversionPaths
+        sourcePath="/cook/how-to-cook-duck-breast"
+        eyebrow="Before you cook"
+        heading="Sourcing the breast for this method"
       />
 
       <RelatedGuides paths={GUIDE.related} />
