@@ -70,7 +70,17 @@ const NOTHING_VERIFIED: ActivationFlags = {
   ga4AffiliateVerified: false,
 };
 
+/**
+ * How we relate to a merchant commercially, beyond program status.
+ * - "affiliate"            a program exists (any status above).
+ * - "partnership-prospect" no program, but the merchant publicly invites
+ *                          cross-promotional or partnership contact. INTERNAL.
+ * - "direct-editorial"     we link them because they are useful. Nothing more.
+ */
+export type CommercialTrack = "affiliate" | "partnership-prospect" | "direct-editorial";
+
 export interface Merchant {
+
   id: string;
   /** Consumer-facing merchant name. */
   name: string;
