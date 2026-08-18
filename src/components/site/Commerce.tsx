@@ -131,36 +131,25 @@ function RowCta({
 
 
 /**
- * Evaluation-methodology trust statement for commercial pages.
+ * Quiet evidence-basis microcopy for commercial pages.
  *
- * States plainly how recommendations are formed today: desk research against
- * published specifications and technique, not hands-on testing.
+ * Positive framing only: it states what the comparison rests on. The complete
+ * policy separating desk research from firsthand testing lives on
+ * /editorial-standards, so it is never restated as a boxed disclaimer here.
  */
 export function EvaluationNote({ scope }: { scope: string }) {
   return (
-    <aside
-      aria-label="How we evaluate"
-      className="mt-6 rounded-sm border border-border bg-cream p-5"
+    <p
+      aria-label={`Evaluation basis for ${scope}`}
+      className="mt-6 border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground"
     >
-      <h2 className="eyebrow text-primary">How we evaluate {scope}</h2>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-        These recommendations are editorial. They come from published
-        specifications, manufacturer and merchant documentation, and duck-cooking
-        technique — not from hands-on testing in our kitchen. We do not publish
-        prices, star ratings, review counts, or test results we have not produced
-        ourselves, and we do not accept payment for placement. Where a category
-        matters more than a brand, we say so and let you shop the category. Once
-        we test equipment or place orders ourselves, those pages will say exactly
-        what was tested and when.
-      </p>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-        Read our{" "}
-        <Link to="/editorial-standards" className="text-primary underline underline-offset-4">
-          editorial standards
-        </Link>
-        .
-      </p>
-    </aside>
+      <span className="font-semibold text-foreground">Evaluation basis: </span>
+      published specifications, manufacturer or seller documentation, and the
+      duck-specific cooking requirements explained in this guide.{" "}
+      <Link to="/editorial-standards" className="text-primary underline underline-offset-4">
+        Editorial standards
+      </Link>
+    </p>
   );
 }
 
