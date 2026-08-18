@@ -6,10 +6,16 @@ import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
 import { STARTER_GUIDE } from "@/data/starter-guide";
 import { SITE } from "@/data/site";
+import {
+  isSitemapEligiblePath,
+  sitemapEntries,
+  sitemapPaths,
+  sitemapXml,
+} from "@/lib/sitemap";
 
 const BASE = process.env["CANONICAL_TEST_BASE_URL"] ?? "http://localhost:8080";
 
-async function sitemapPaths(): Promise<string[] | null> {
+async function fetchServedPaths(): Promise<string[] | null> {
   try {
     const res = await fetch(`${BASE}/sitemap.xml`, { signal: AbortSignal.timeout(5000) });
     if (!res.ok) return null;
@@ -20,7 +26,7 @@ async function sitemapPaths(): Promise<string[] | null> {
   }
 }
 
-const paths = await sitemapPaths();
+const servedPaths = await fetchServedPaths();
 
 describe("robots.txt directives", () => {
   const robots = readFileSync("public/robots.txt", "utf8");
@@ -53,7 +59,10 @@ describe("robots.txt directives", () => {
   });
 });
 
-describe.skipIf(!paths)("sitemap inclusions and exclusions", () => {
+describe("sitemap builder (deterministic, no server required)", () => {
+  const paths = sitemapPaths();
+  const entries = sitemapEntries();
+
   it("includes every intended public canonical route", () => {
     const required = [
       "/",
@@ -77,12 +86,11 @@ describe.skipIf(!paths)("sitemap inclusions and exclusions", () => {
       ...INGREDIENTS.map((i) => i.path),
       ...TOOLS.filter((t) => t.status === "live" && t.to).map((t) => t.to!),
     ];
-    const missing = required.filter((p) => !paths!.includes(p));
-    expect(missing).toEqual([]);
+    expect(required.filter((p) => !paths.includes(p))).toEqual([]);
   });
 
-  it("excludes internal, API, token, search and duplicate-alias URLs", () => {
-    const offenders = paths!.filter(
+  it("excludes internal, API, token, search, alias and malformed paths", () => {
+    const offenders = paths.filter(
       (p) =>
         p.startsWith("/internal") ||
         p.startsWith("/api") ||
@@ -91,13 +99,63 @@ describe.skipIf(!paths)("sitemap inclusions and exclusions", () => {
         p.includes("?") ||
         p.includes("#") ||
         p.includes("$") ||
+        p.includes("*") ||
+        p.includes("//") ||
+        !p.startsWith("/") ||
         (p !== "/" && p.endsWith("/")),
     );
     expect(offenders).toEqual([]);
   });
 
-  it("lists each canonical URL exactly once, absolute against the production origin", () => {
-    expect(new Set(paths!).size).toBe(paths!.length);
-    expect(paths!.length).toBeGreaterThan(55);
+  it("rejects ineligible paths at the builder level", () => {
+    for (const bad of [
+      "/internal",
+      "/internal/growth-dashboard",
+      "/api/generate-sketch",
+      "/newsletter/unsubscribe",
+      "/search",
+      "/recipes/",
+      "recipes",
+      "/recipes/$slug",
+      "/buy?utm_source=x",
+      "/buy//duck",
+    ]) {
+      expect(isSitemapEligiblePath(bad), bad).toBe(false);
+    }
+    for (const good of ["/", "/recipes", "/gear/best-roasting-pan-for-duck"]) {
+      expect(isSitemapEligiblePath(good), good).toBe(true);
+    }
+  });
+
+  it("omits omitted tool routes that are not live", () => {
+    for (const tool of TOOLS.filter((t) => t.status !== "live" || !t.to)) {
+      if (tool.to) expect(paths).not.toContain(tool.to);
+    }
+  });
+
+  it("lists each canonical URL exactly once", () => {
+    expect(new Set(paths).size).toBe(paths.length);
+    expect(paths.length).toBeGreaterThan(55);
+  });
+
+  it("serialises absolute production URLs the route returns verbatim", () => {
+    const xml = sitemapXml();
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]!);
+    expect(locs.length).toBe(entries.length);
+    expect(locs.every((l) => l.startsWith(`${SITE.url}/`))).toBe(true);
+    expect(xml).toContain('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
+  });
+
+  it("is the same builder the /sitemap.xml route uses", () => {
+    const route = readFileSync("src/routes/sitemap[.]xml.ts", "utf8");
+    expect(route).toContain('from "@/lib/sitemap"');
+    expect(route).toContain("sitemapXml()");
+  });
+});
+
+/** Optional smoke test: only runs when a dev server is reachable. */
+describe.skipIf(!servedPaths)("served sitemap matches the builder", () => {
+  it("returns exactly the builder's paths", () => {
+    expect(servedPaths!.sort()).toEqual(sitemapPaths().sort());
   });
 });
