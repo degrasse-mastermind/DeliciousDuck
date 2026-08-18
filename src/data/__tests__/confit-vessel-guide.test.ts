@@ -13,6 +13,7 @@ import { buildCommercialClickEvent } from "@/lib/commercial-events";
 import { trackingToken, withAffiliateTracking } from "@/lib/affiliate-tracking";
 import { RECIPE_CONTENT } from "@/data/recipe-content";
 import { US_WELLNESS_DUCK_FAT_URL } from "@/data/affiliates";
+import { sitemapPaths } from "@/lib/sitemap";
 
 const PATH = "/gear/best-dutch-oven-for-duck-confit";
 const ROUTE_FILE = "src/routes/gear.best-dutch-oven-for-duck-confit.tsx";
@@ -42,8 +43,7 @@ describe("confit vessel guide — route, canonical, sitemap", () => {
   });
 
   it("is emitted in the sitemap through the guides registry", () => {
-    const sitemap = readFileSync("src/routes/sitemap[.]xml.ts", "utf8");
-    expect(sitemap).toContain("GUIDES.map");
+    expect(sitemapPaths()).toContain(PATH);
     expect(GUIDES.some((g) => g.path === PATH)).toBe(true);
   });
 

@@ -17,11 +17,12 @@ import { CTA } from "@/lib/cta";
 export const Route = createFileRoute("/")({
   head: () => ({
     ...pageMeta({
-      title: "DeliciousDuck — Duck Recipes, Guides, Gear & Cooking Tools",
+      title: "Duck Recipes, Cooking Guides & Buying Advice | DeliciousDuck",
       description:
-        "Expert duck recipes, step-by-step guides, buying advice, gear reviews, and practical tools—everything you need to cook, buy, and enjoy amazing duck.",
+        "Cook duck breast with crisp skin, roast a whole duck, use the rendered fat, pick the right pan, and find out where to buy good duck.",
       path: "/",
     }),
+
     scripts: [ldScript(websiteSchema())],
   }),
   component: Home,
@@ -138,7 +139,7 @@ function PopularRecipes() {
             </p>
           </div>
           <Link
-            to="/cook"
+            to="/recipes"
             className={CTA.tertiarySmall}
           >
             All recipes
