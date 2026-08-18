@@ -224,6 +224,20 @@ function Page() {
 
       <BestForGrid guide={DG} />
 
+      <CommercialCallout
+        heading="Where you can order duck right now"
+        intro="Two mail-order sellers whose public catalogues list duck, with what each is practically useful for. Neither has been ordered from for a hands-on review. Our US Wellness Meats link is an affiliate link; the D'Artagnan link earns us nothing."
+        placement="buy_duck_primary_options"
+        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        criteria={[
+          "The cut and breed are named on the product page, not just \"duck\".",
+          "Frozen shipping is packed and scheduled, with a delivery window you will be home for.",
+          "The order minimum and shipping cost make sense for the quantity you actually cook.",
+          "Duck fat is available separately, so a single order covers the render you will need later.",
+        ]}
+        footnote="We do not publish prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
+      />
+
       <Section id="compare" heading="Compare the routes side by side">
         <ComparisonTable caption="Duck sourcing routes compared" rows={DUCK_MERCHANTS} factors={MERCHANT_FACTORS} />
       </Section>
@@ -241,8 +255,9 @@ function Page() {
         <p>
           The two mail-order sellers below appear as sourcing candidates based on their public
           catalogue information as of the last verification date. DeliciousDuck has not placed an
-          order for a hands-on review of either, and no affiliate relationship is currently active
-          with any seller on this page.
+          order for a hands-on review of either. Our link to US Wellness Meats is an affiliate
+          link, so a qualifying purchase can earn us a commission; the D'Artagnan link earns us
+          nothing. Neither fact affects which seller suits your order.
         </p>
         <div className="mt-6 grid gap-6">
           {DUCK_MERCHANTS.map((row) => (
@@ -250,20 +265,6 @@ function Page() {
           ))}
         </div>
       </Section>
-
-      <CommercialCallout
-        heading="Where you can order duck right now"
-        intro="Two mail-order sellers whose public catalogues list duck, with what each is practically useful for. Neither has been ordered from for a hands-on review."
-        placement="buy_duck_options"
-        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
-        criteria={[
-          "The cut and breed are named on the product page, not just \"duck\".",
-          "Frozen shipping is packed and scheduled, with a delivery window you will be home for.",
-          "The order minimum and shipping cost make sense for the quantity you actually cook.",
-          "Duck fat is available separately, so a single order covers the render you will need later.",
-        ]}
-        footnote="We do not publish prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
-      />
 
       <ShopThisGuide
         items={[

@@ -7,6 +7,7 @@ import { KNIVES, KNIFE_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 
 const GUIDE = guideByPath("/gear/best-knife-for-scoring-duck")!;
 
@@ -212,11 +213,26 @@ function Page() {
         </div>
         <Callout label="No hands-on testing" tone="gold">
           <p>
-            None of the categories above reflects a hands-on test by DeliciousDuck, and no
-            affiliate relationship is currently active with any manufacturer.
+            None of the categories above reflects a hands-on test by DeliciousDuck. Some links on
+            this page are affiliate links to retail categories, which never changes which blade
+            shape we recommend.
           </p>
         </Callout>
       </Section>
+
+      <CommercialCallout
+        heading="If you do need another blade"
+        intro="Sharpening what you own fixes most scoring problems. If a second knife genuinely helps, these are the two shapes this guide recommends. No models named, no prices or ratings."
+        placement="knife_options"
+        linkIds={["amazon-utility-knife", "amazon-boning-knife"]}
+        criteria={[
+          "A blade short enough to control at a shallow angle — roughly 4–6 inches for scoring.",
+          "A thin edge geometry, so you part skin rather than push it.",
+          "A handle you can hold securely with a wet hand.",
+          "An edge you are willing to maintain, whichever steel you choose.",
+        ]}
+        footnote="Category links, not product recommendations. Check the retailer's own listing for specifications, availability, and terms."
+      />
 
       <ShopThisGuide
         items={[

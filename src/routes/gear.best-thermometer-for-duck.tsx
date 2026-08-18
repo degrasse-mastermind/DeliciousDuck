@@ -236,8 +236,8 @@ function Page() {
           <p>
             ThermoWorks is listed here as a research-stage brand candidate based on its published
             specifications, not a recommendation or a test result. DeliciousDuck has not hands-on
-            tested any model from this or any other brand, and no affiliate relationship is
-            currently active.
+            tested any model from this or any other brand, and we have no affiliate relationship
+            with ThermoWorks — links to it are plain, unpaid links.
           </p>
         </Callout>
       </Section>
@@ -254,6 +254,20 @@ function Page() {
           "A water-resistance rating that covers how you actually intend to clean it.",
         ]}
         footnote="We publish no prices, ratings, or stock claims. Check the manufacturer's own page for current specifications and terms."
+      />
+
+      <CommercialCallout
+        heading="Browse the two thermometer categories"
+        intro="One instant-read for spot checks, one leave-in probe for long roasts. Category links only — we name no models and publish no prices or ratings."
+        placement="thermometer_options"
+        linkIds={["amazon-instant-read-thermometer", "amazon-leave-in-probe-thermometer"]}
+        criteria={[
+          "A published read time and accuracy figure from the manufacturer.",
+          "A thin probe tip, so a duck breast does not drain through the hole.",
+          "For a leave-in probe: an oven-safe cable and a settable alarm.",
+          "Water resistance that matches how you actually clean it.",
+        ]}
+        footnote="Category links, not product recommendations. Check the retailer's own listing for specifications, availability, and terms."
       />
 
       <ShopThisGuide
