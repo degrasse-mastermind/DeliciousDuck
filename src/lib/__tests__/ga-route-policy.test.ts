@@ -166,7 +166,10 @@ describe("bootstrap source", () => {
 
   it("keeps the first pageview path-only and the flag name documented", () => {
     expect(source).toContain('"ga-disable-G-E15CFY209D"');
-    expect(source).toContain("page_location: location.origin + location.pathname");
+    // The path is resolved once (router path, else location.pathname) and the
+    // pageview is stamped from it — origin + path only, never the query string.
+    expect(source).toContain("page_location: location.origin + path");
+    expect(source).toContain("location.pathname");
     expect(source).not.toContain("location.href");
     expect(source).not.toContain("location.search");
   });
