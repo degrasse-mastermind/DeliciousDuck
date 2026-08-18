@@ -168,12 +168,9 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
-  // gtag.js auto-tracks only the first load; send a page_view per SPA route.
+  // gtag.js auto-tracks only the load it was injected on; send a page_view per
+  // subsequent SPA route.
   const firstView = useRef(true);
-  // PostHog: initialize once at startup, alongside (never replacing) GA4.
-  useEffect(() => {
-    initPostHog();
-  }, []);
   useEffect(() => {
     // Campaign-level newsletter attribution for this session (no PII).
     trackEmailLanding();
@@ -191,6 +188,11 @@ function RootComponent() {
     // enhanced-measurement history pageviews are suspended on blocked routes
     // and restored when the session returns to a public route.
     syncGaRoutePolicy(GA_MEASUREMENT_ID, pathname);
+    // Lazy, one-shot initialization: a session that landed directly on
+    // /internal/* or /api/* loaded neither SDK, so both come up here the first
+    // time it reaches a public route.
+    initPostHog(pathname);
+    const gaLoad = ensureGtagLoaded(GA_MEASUREMENT_ID, pathname);
     // Manual PostHog pageview per navigation, including the first load.
     capturePostHogPageView(pathname);
 
@@ -198,8 +200,12 @@ function RootComponent() {
       firstView.current = false;
       return;
     }
+    // When gtag was just injected, its own `config` already sent this route's
+    // path-only page_view — sending another here would double-count.
+    if (gaLoad === "loaded") return;
     trackPageView(pathname, typeof document !== "undefined" ? document.title : undefined);
   }, [pathname]);
+
 
   return (
     <QueryClientProvider client={queryClient}>
