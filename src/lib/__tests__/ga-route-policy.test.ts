@@ -17,6 +17,18 @@ import {
   syncGaRoutePolicy,
 } from "../analytics-gate";
 
+// posthog-js touches module-scope browser globals on import; the GA tests care
+// only about gtag, so the SDK is stubbed out entirely.
+vi.mock("posthog-js", () => ({
+  default: {
+    init: vi.fn(),
+    capture: vi.fn(),
+    set_config: vi.fn(),
+    startSessionRecording: vi.fn(),
+    stopSessionRecording: vi.fn(),
+  },
+}));
+
 const MEASUREMENT_ID = "G-E15CFY209D";
 const FLAG = gaDisableFlagKey(MEASUREMENT_ID);
 
