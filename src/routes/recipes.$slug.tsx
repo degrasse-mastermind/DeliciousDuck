@@ -7,7 +7,7 @@ import {
   Section,
   StepList,
 } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ShopThisGuide } from "@/components/site/Commerce";
+import { ShopThisGuide } from "@/components/site/Commerce";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
