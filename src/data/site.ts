@@ -17,7 +17,7 @@ export const SITE = {
   baseUrl: SITE_URL,
   tagline: "Better Duck. A More Delicious World.",
   description:
-    "Duck recipes, step-by-step guides, buying advice, gear explainers, and practical cooking tools.",
+    "Practical duck recipes, cooking techniques, buying advice, and gear explainers — so you can cook duck with confidence.",
 };
 
 export type PillarKey = "cook" | "learn" | "buy" | "gear" | "ingredients" | "tools";
