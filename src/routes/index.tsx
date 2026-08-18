@@ -139,7 +139,7 @@ function PopularRecipes() {
             </p>
           </div>
           <Link
-            to="/cook"
+            to="/recipes"
             className={CTA.tertiarySmall}
           >
             All recipes
