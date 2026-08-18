@@ -3,7 +3,7 @@ import { ArticleShell, Section, DataTable, Callout, FaqList } from "@/components
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { ingredientByPath } from "@/data/ingredients";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
-import { ConversionPaths } from "@/components/site/ConversionPaths";
+import { DuckFatDecision } from "@/components/site/DuckFatDecision";
 
 const PAGE = ingredientByPath("/ingredients/duck-fat-vs-butter-oil")!;
 
