@@ -8,13 +8,13 @@ import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { decisionGuide } from "@/data/decision-guides";
 import {
-import { ConversionPaths } from "@/components/site/ConversionPaths";
   BestForGrid,
   DecisionMatrixTable,
   EditorialByline,
   MethodologyPanel,
   QuickDecision,
 } from "@/components/site/DecisionGuide";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/buy/duck-fat-buying-guide")!;
 const DG = decisionGuide("/buy/duck-fat-buying-guide")!;
