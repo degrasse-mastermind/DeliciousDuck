@@ -218,7 +218,7 @@ function Page() {
         heading="Sellers you can order duck from"
         intro="One national mail-order seller whose public catalogue lists duck by the cut, with what it is practically useful for. We have not ordered from them for a hands-on review, and this link earns us nothing."
         placement="choose_duck_sources"
-        linkIds={["dartagnan-duck"]}
+        linkIds={["culver-duck"]}
         criteria={[
           "The cut and breed are named on the product page, not just \"duck\".",
           "Frozen shipping is scheduled for a delivery window you will be home for.",
