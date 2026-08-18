@@ -191,12 +191,13 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
         placement: "Comparison card CTA in the sellers comparison, below the decision factors",
       },
       {
-        role: "secondary",
+        role: "contextual",
         merchantId: "us-wellness-meats",
         deepLinkId: "sourcing-us-wellness",
-        intent: "Pasture-raised alternative for readers already buying meat online",
-        placement: "Second comparison card CTA in the same table",
+        intent: "Reader adding rendered duck fat, not duck meat, to the trip",
+        placement: "Separate duck fat note below the sellers comparison — never a duck-meat CTA",
       },
+
       {
         role: "contextual",
         deepLinkId: "duck-fat-jar-category",
