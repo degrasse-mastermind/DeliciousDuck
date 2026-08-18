@@ -59,27 +59,84 @@ export function analyticsEnabled(pathOverride?: string): boolean {
 }
 
 /**
+ * The documented GA4 kill switch: `window['ga-disable-G-XXXX'] = true` stops
+ * every measurement for that property, including gtag's own enhanced
+ * browser-history pageviews. We drive it per route so a client-side navigation
+ * into /internal or /api cannot emit even if GA's history listener fires
+ * before our router effect runs.
+ */
+export function gaDisableFlagKey(measurementId: string): string {
+  return `ga-disable-${measurementId}`;
+}
+
+/**
+ * Route-aware GA suspend/restore. Sets the disable flag to `true` on blocked
+ * paths and on every non-canonical host, and back to `false` when an allowed
+ * public route is active again — a plain boolean on `window`, never persisted
+ * consent state.
+ */
+export function syncGaRoutePolicy(measurementId: string, pathOverride?: string): boolean {
+  if (typeof window === "undefined" || !window.location) return false;
+  const enabled = analyticsEnabled(pathOverride);
+  (window as unknown as Record<string, boolean>)[gaDisableFlagKey(measurementId)] = !enabled;
+  return enabled;
+}
+
+/**
  * Inline bootstrap for gtag.js.
  *
- * The tag itself is injected only on a canonical host and only outside the
- * blocked path prefixes, so a preview or `/internal/` load never requests
- * googletagmanager.com at all. The first `page_view` carries origin + pathname
- * only: mailbox-token links (`/newsletter/unsubscribe?t=...`) must never reach
- * analytics.
+ * Three things happen here, in this order:
+ *
+ * 1. The `ga-disable-<id>` flag is set from the current host + path *before*
+ *    gtag.js is requested, so the library starts out suspended on blocked
+ *    routes and on non-canonical hosts.
+ * 2. `pushState`, `replaceState` and `popstate` are wrapped/observed so the
+ *    flag is updated in the same task as the history change — earlier than
+ *    GA's own history listeners and earlier than the router effect.
+ * 3. Only then, on a canonical host and an allowed path, is the tag injected.
+ *    The first `page_view` carries origin + pathname only: mailbox-token links
+ *    (`/newsletter/unsubscribe?t=...`) must never reach analytics.
  */
 export function gtagBootstrapScript(measurementId: string): string {
   const hosts = JSON.stringify(PRODUCTION_ANALYTICS_HOSTS);
   const blocked = JSON.stringify(ANALYTICS_BLOCKED_PATH_PREFIXES);
+  const disableKey = JSON.stringify(gaDisableFlagKey(measurementId));
   return `
     (function () {
       try {
-        var host = (location.hostname || '').toLowerCase().replace(/\\.$/, '');
-        if (${hosts}.indexOf(host) === -1) return;
-        var path = location.pathname || '/';
+        var hosts = ${hosts};
         var blocked = ${blocked};
-        for (var i = 0; i < blocked.length; i++) {
-          if (path === blocked[i] || path.indexOf(blocked[i] + '/') === 0) return;
+        var disableKey = ${disableKey};
+        var host = (location.hostname || '').toLowerCase().replace(/\\.$/, '');
+        var hostOk = hosts.indexOf(host) !== -1;
+        function pathAllowed() {
+          var path = location.pathname || '/';
+          for (var i = 0; i < blocked.length; i++) {
+            if (path === blocked[i] || path.indexOf(blocked[i] + '/') === 0) return false;
+          }
+          return true;
         }
+        function syncDisableFlag() {
+          window[disableKey] = !(hostOk && pathAllowed());
+          return !window[disableKey];
+        }
+        syncDisableFlag();
+        // Wrap history mutations so the flag flips before any GA listener that
+        // was registered later can read it, and restore it on back/forward.
+        var history = window.history;
+        ['pushState', 'replaceState'].forEach(function (name) {
+          var original = history[name];
+          if (typeof original !== 'function') return;
+          history[name] = function () {
+            var result = original.apply(this, arguments);
+            syncDisableFlag();
+            return result;
+          };
+        });
+        window.addEventListener('popstate', syncDisableFlag, true);
+        window.addEventListener('hashchange', syncDisableFlag, true);
+        window.__ddSyncGaDisableFlag = syncDisableFlag;
+        if (!hostOk || !pathAllowed()) return;
         var s = document.createElement('script');
         s.async = true;
         s.src = 'https://www.googletagmanager.com/gtag/js?id=${measurementId}';
@@ -98,3 +155,4 @@ export function gtagBootstrapScript(measurementId: string): string {
     })();
   `;
 }
+
