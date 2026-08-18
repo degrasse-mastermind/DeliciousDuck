@@ -254,13 +254,9 @@ describe("disclosure precedes the US Wellness affiliate CTA", () => {
 });
 
 describe("other merchant states unchanged", () => {
-  it("keeps D'Artagnan declined and unpaid", () => {
-    const m = merchantById("dartagnan")!;
-    expect(m.status).toBe("declined");
-    expect(m.affiliateUrl).toBeUndefined();
-    expect(isMonetized(m)).toBe(false);
-    expect(commercialLinkById("dartagnan-duck")!.relationship).toBe("direct");
-    expect(relForLink(commercialLinkById("dartagnan-duck")!)).toBe("noopener");
+  it("keeps D'Artagnan removed entirely", () => {
+    expect(merchantById("dartagnan")).toBeUndefined();
+    expect(commercialLinkById("dartagnan-duck")).toBeUndefined();
   });
 
   it("keeps ThermoWorks declined and unpaid", () => {
