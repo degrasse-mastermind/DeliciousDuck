@@ -193,22 +193,6 @@ export const MERCHANTS: Merchant[] = [
       "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link, which is now the canonical registry URL. Owner still needs a live test click and GA4 affiliate=true confirmation. No liver deep link supplied, so liver is not monetized.",
   },
 
-  {
-    id: "dartagnan",
-    name: "D'Artagnan",
-    // Awin publisher ID is retained as internal history: the publisher account
-    // exists, but the D'Artagnan advertiser application was declined, so there
-    // is no program to name here and nothing pending.
-    publisherId: "3034797",
-    status: "declined",
-    directUrl: "https://www.dartagnan.com/",
-    statusReviewed: "2026-08-18",
-    declinedDate: "2026-08-18",
-    track: "direct-editorial",
-    activation: { ...NOTHING_VERIFIED },
-    internalNote:
-      "Historical record: the Delicious Duck Awin publisher account (publisher ID 3034797) is active, and a D'Artagnan advertiser application was submitted through it. The advertiser declined the application on 2026-08-18, so there is no relationship, nothing pending, and nothing to activate. D'Artagnan stays a plain direct merchant editorially, on catalogue grounds only. Do not add an affiliate URL and do not re-open this row as pending without a new application.",
-  },
 
   {
     id: "thermoworks",
