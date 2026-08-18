@@ -239,7 +239,7 @@ describe("conversion click event", () => {
     const map = CONVERSION_PATHS.map(
       (p) => `${p.sourcePath} -> ${p.destination} [${p.intent}] #${p.placement}`,
     );
-    expect(map.length).toBe(9);
+    expect(map.length).toBeGreaterThanOrEqual(28);
     expect(map).toMatchInlineSnapshot(`
       [
         "/learn/how-to-score-duck-breast -> /gear/best-knife-for-scoring-duck [equipment] #score_breast_to_knife_guide",
