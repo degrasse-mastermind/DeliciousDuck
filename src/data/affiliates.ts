@@ -70,7 +70,17 @@ const NOTHING_VERIFIED: ActivationFlags = {
   ga4AffiliateVerified: false,
 };
 
+/**
+ * How we relate to a merchant commercially, beyond program status.
+ * - "affiliate"            a program exists (any status above).
+ * - "partnership-prospect" no program, but the merchant publicly invites
+ *                          cross-promotional or partnership contact. INTERNAL.
+ * - "direct-editorial"     we link them because they are useful. Nothing more.
+ */
+export type CommercialTrack = "affiliate" | "partnership-prospect" | "direct-editorial";
+
 export interface Merchant {
+
   id: string;
   /** Consumer-facing merchant name. */
   name: string;
@@ -109,9 +119,12 @@ export interface Merchant {
   termsNotes?: string;
   /** Owner-verified activation gates. */
   activation: ActivationFlags;
+  /** INTERNAL commercial track. Never rendered publicly. */
+  track?: CommercialTrack;
   /** Internal note about what is still required to activate. */
   internalNote?: string;
 }
+
 
 /**
  * US Wellness Meats / Grassland Beef verified deep link to the rendered duck fat
@@ -120,6 +133,14 @@ export interface Merchant {
  * derive variants from it.
  */
 export const US_WELLNESS_DUCK_FAT_URL = "https://grasslandbeefllc.sjv.io/xJoWgR";
+
+/**
+ * HISTORICAL ONLY. The original generic storefront tracking link, superseded by
+ * the duck fat deep link above. Retained so a future reviewer can see what the
+ * first US Wellness placement pointed at. It must never power a CTA.
+ */
+export const US_WELLNESS_STOREFRONT_URL_HISTORICAL = "https://grasslandbeefllc.sjv.io/2R7EN0";
+
 
 /**
  * INTERNAL record of the manual catalogue review. Kept in data (not copy) so no
@@ -145,15 +166,16 @@ export const MERCHANTS: Merchant[] = [
     name: "US Wellness Meats",
     program: "Impact",
     status: "active",
-    // Generic merchant tracking URL. Retained for monetization state and history
-    // only: it must never power a CTA implying US Wellness sells duck meat.
-    // Duck placements use the product-specific deep link above.
-    affiliateUrl: "https://grasslandbeefllc.sjv.io/2R7EN0",
+    // Canonical monetized destination: the verified rendered-duck-fat deep link.
+    // The older generic storefront link is kept as history only, in
+    // US_WELLNESS_STOREFRONT_URL_HISTORICAL, and powers nothing.
+    affiliateUrl: US_WELLNESS_DUCK_FAT_URL,
     directUrl: "https://grasslandbeef.com/",
     statusReviewed: "2026-08",
     approvalDate: "2026-08",
     activationDate: "2026-08-18",
     lastCheckedDate: "2026-08-18",
+    track: "affiliate",
     allowedCategories: ["Rendered duck fat"],
     excludedCategories: [
       "Whole duck, duck breast, duck leg quarters and general duck meat — absent from the live collection reviewed 2026-08-18",
@@ -168,21 +190,26 @@ export const MERCHANTS: Merchant[] = [
       disclosureVerified: true,
     },
     internalNote:
-      "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link. Owner still needs a live test click and GA4 affiliate=true confirmation. No liver deep link supplied, so liver is not monetized.",
+      "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link, which is now the canonical registry URL. Owner still needs a live test click and GA4 affiliate=true confirmation. No liver deep link supplied, so liver is not monetized.",
   },
 
   {
     id: "dartagnan",
     name: "D'Artagnan",
-    program: "Awin",
+    // Awin publisher ID is retained as internal history: the publisher account
+    // exists, but the D'Artagnan advertiser application was declined, so there
+    // is no program to name here and nothing pending.
     publisherId: "3034797",
-    status: "applied",
+    status: "declined",
     directUrl: "https://www.dartagnan.com/",
-    statusReviewed: "2026-08",
+    statusReviewed: "2026-08-18",
+    declinedDate: "2026-08-18",
+    track: "direct-editorial",
     activation: { ...NOTHING_VERIFIED },
     internalNote:
-      "Delicious Duck Awin publisher account is activated (publisher ID 3034797); D'Artagnan advertiser program application has been submitted and is pending approval.",
+      "Historical record: the Delicious Duck Awin publisher account (publisher ID 3034797) is active, and a D'Artagnan advertiser application was submitted through it. The advertiser declined the application on 2026-08-18, so there is no relationship, nothing pending, and nothing to activate. D'Artagnan stays a plain direct merchant editorially, on catalogue grounds only. Do not add an affiliate URL and do not re-open this row as pending without a new application.",
   },
+
   {
     id: "thermoworks",
     name: "ThermoWorks",
@@ -226,7 +253,76 @@ export const MERCHANTS: Merchant[] = [
     internalNote:
       "Approved by Amazon Associates in 2026-08 and activated with tracking ID deliciousduck-20. Equipment/gear categories only. Owner still needs to complete a live test click and confirm GA4 reports affiliate=true. No commission terms recorded here until the program's fee schedule has been read.",
   },
+
+  /* ---------------------------------------------------------------- *
+   * Duck sellers we link because they are useful. None is monetized.  *
+   * "partnership-prospect" is INTERNAL and means only that the seller  *
+   * publicly invites cross-promotional contact — never a relationship. *
+   * ---------------------------------------------------------------- */
+  {
+    id: "culver-duck",
+    name: "Culver Duck",
+    status: "candidate",
+    directUrl: "https://culverduck.com/shop/",
+    statusReviewed: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    track: "partnership-prospect",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Duck producer with a direct-to-consumer shop reviewed 2026-08-18: whole duck, raw breast, legs, ground duck, duck fat, confit, smoked breast, stuffed duck and halal duck. No affiliate program has been confirmed, so every link stays plain and unpaid. Their site feedback form explicitly invites cross-promotional opportunities, which makes them a partnership prospect to contact — not an affiliate.",
+  },
+  {
+    id: "tastyduck-jurgielewicz",
+    name: "Joe Jurgielewicz & Son (TastyDuck)",
+    status: "candidate",
+    directUrl: "https://tastyduck.com/shop/",
+    statusReviewed: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    track: "partnership-prospect",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Family duck producer whose shop, reviewed 2026-08-18, lists whole duck, breasts, legs, sampler kits and prepared products. No affiliate program confirmed; links stay direct and unpaid. Their feedback form invites cross-promotional opportunities, so treat as a partnership prospect to contact.",
+  },
+  {
+    id: "fossil-farms",
+    name: "Fossil Farms",
+    status: "candidate",
+    directUrl: "https://www.fossilfarms.com/collections/duck",
+    statusReviewed: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    track: "partnership-prospect",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Game and specialty meat retailer with a broad duck collection reviewed 2026-08-18, spanning several breeds, cuts and prepared products. No public affiliate program confirmed; links stay direct and unpaid. Partnership prospect worth an outreach email.",
+  },
+  {
+    id: "wild-fork",
+    name: "Wild Fork",
+    status: "candidate",
+    directUrl: "https://wildforkfoods.com/",
+    statusReviewed: "2026-08-18",
+    lastCheckedDate: "2026-08-18",
+    track: "direct-editorial",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Frozen-meat retailer with physical stores and delivery. Useful as a mainstream, non-specialist option where duck is in stock, but the duck range moves, so no cut-level claim is published. No affiliate program applied for. Verify duck availability at each page review.",
+  },
+  {
+    id: "meat-n-bone",
+    name: "Meat N' Bone",
+    // Recorded for internal follow-up only. No application has been filed, so
+    // the status stays "candidate" rather than "applied".
+    program: "Rakuten Advertising (advertiser ID 47482) / Shopify affiliate program",
+    status: "candidate",
+    directUrl: "https://meatnbone.com/",
+    statusReviewed: "2026-08-18",
+    track: "affiliate",
+    activation: { ...NOTHING_VERIFIED },
+    internalNote:
+      "Runs a public affiliate program via Shopify and Rakuten Advertising (advertiser ID 47482), so this is the strongest near-term application candidate for duck sourcing. Duck inventory looked thin or sold out at the 2026-08-18 review, so they are not featured as a current source. Move to \"applied\" only when an application is genuinely filed.",
+  },
 ];
+
 
 
 export function merchantById(id?: string): Merchant | undefined {

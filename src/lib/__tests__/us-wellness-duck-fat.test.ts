@@ -154,8 +154,15 @@ describe("no US Wellness duck-meat placements", () => {
       );
       expect(recipeNeedsDuckFat(slug)).toBe(declared);
     }
+    // Recipe pages no longer render merchant CTAs at all: cut-level availability
+    // moves, so they route to the sourcing guide, and to the fat guide when the
+    // recipe actually calls for rendered fat.
     const source = read("src/routes/recipes.$slug.tsx");
-    expect(source).toContain("needsDuckFat ? [\"dartagnan-duck\", \"us-wellness-duck-fat\"] : [\"dartagnan-duck\"]");
+    expect(source).not.toContain("<CommercialCallout");
+    expect(source).not.toContain("us-wellness");
+    expect(source).toContain("/buy/where-to-buy-duck-online");
+    expect(source).toContain("needsDuckFat ?");
+    expect(source).toContain("/buy/duck-fat-buying-guide");
   });
 });
 
@@ -209,7 +216,9 @@ describe("public copy makes no duck-meat or stock claims for US Wellness", () =>
 
 describe("duck liver stays unmonetized", () => {
   it("has no liver affiliate link anywhere", () => {
-    expect(COMMERCIAL_LINKS.some((l) => /liver/i.test(l.id) || /liver/i.test(l.useFor))).toBe(false);
+    expect(COMMERCIAL_LINKS.some((l) => /\bliver/i.test(l.id) || /\bliver/i.test(l.useFor))).toBe(
+      false,
+    );
     for (const file of publicSources) {
       const text = read(file);
       if (!/liver/i.test(text)) continue;
@@ -227,7 +236,7 @@ describe("disclosure precedes the US Wellness affiliate CTA", () => {
     expect(callout).toBeGreaterThan(banner);
     expect(text).toMatch(/us-wellness-duck-fat/);
     // Editorial independence language stays put.
-    expect(text.replace(/\s+/g, " ")).toContain("not ordered either for a hands-on review");
+    expect(text.replace(/\s+/g, " ")).toContain("not ordered from any of them for a hands-on review");
   });
 
   it("renders the disclosure banner before the specialty note on the sourcing page", () => {
@@ -237,18 +246,20 @@ describe("disclosure precedes the US Wellness affiliate CTA", () => {
     );
   });
 
-  it("keeps the disclosure ahead of recipe sourcing modules", () => {
+  it("keeps recipe pages free of merchant CTAs and disclosure banners they do not need", () => {
     const text = read("src/routes/recipes.$slug.tsx");
-    expect(text.indexOf("<CommercialCallout")).toBeGreaterThan(text.indexOf("<DisclosureBanner"));
+    expect(text).not.toContain("<CommercialCallout");
+    expect(text).not.toContain("grasslandbeefllc");
   });
 });
 
 describe("other merchant states unchanged", () => {
-  it("keeps D'Artagnan pending and unpaid", () => {
+  it("keeps D'Artagnan declined and unpaid", () => {
     const m = merchantById("dartagnan")!;
-    expect(m.status).toBe("applied");
+    expect(m.status).toBe("declined");
+    expect(m.affiliateUrl).toBeUndefined();
     expect(isMonetized(m)).toBe(false);
-    expect(commercialLinkById("dartagnan-duck")!.relationship).toBe("affiliate_pending");
+    expect(commercialLinkById("dartagnan-duck")!.relationship).toBe("direct");
     expect(relForLink(commercialLinkById("dartagnan-duck")!)).toBe("noopener");
   });
 

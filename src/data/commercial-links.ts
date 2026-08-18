@@ -113,12 +113,44 @@ interface SeedRow {
  */
 const SEEDS: SeedRow[] = [
   {
+    id: "culver-duck",
+    merchantId: "culver-duck",
+    category: "duck_source",
+    useFor:
+      "The widest single-producer duck range we found: whole birds, raw breast, legs, ground duck, rendered fat, and prepared items like confit and smoked breast.",
+    ctaLabel: "See Culver Duck's shop",
+  },
+  {
+    id: "tastyduck-duck",
+    merchantId: "tastyduck-jurgielewicz",
+    category: "duck_source",
+    useFor:
+      "Whole ducks, breasts, legs and sampler kits from a family producer — a straightforward first order if you are not sure which cut you want yet.",
+    ctaLabel: "See TastyDuck's shop",
+  },
+  {
+    id: "fossil-farms-duck",
+    merchantId: "fossil-farms",
+    category: "duck_source",
+    useFor:
+      "A broad duck collection across breeds and cuts, plus prepared duck — useful when a recipe names a specific breed or an unusual cut.",
+    ctaLabel: "See the duck collection",
+  },
+  {
     id: "dartagnan-duck",
     merchantId: "dartagnan",
     category: "duck_source",
     useFor:
-      "Whole ducks, breasts, legs and rendered duck fat from a specialty butcher that ships nationally.",
+      "Named duck cuts — magret, leg quarters, rendered fat — from a specialty distributor that ships nationally.",
     ctaLabel: "See current duck options",
+  },
+  {
+    id: "wild-fork-duck",
+    merchantId: "wild-fork",
+    category: "duck_source",
+    useFor:
+      "A mainstream frozen-meat retailer with stores and delivery — worth a look when you want duck without a specialty order, provided it is stocked near you.",
+    ctaLabel: "Check Wild Fork for duck",
   },
   {
     /**
@@ -135,6 +167,14 @@ const SEEDS: SeedRow[] = [
     ctaLabel: "Check current duck fat",
   },
   {
+    id: "culver-duck-fat",
+    merchantId: "culver-duck",
+    category: "duck_fat",
+    useFor:
+      "Rendered duck fat listed alongside the cuts, so fat and a bird can travel in one box.",
+    ctaLabel: "See Culver Duck's shop",
+  },
+  {
     id: "thermoworks-thermometer",
     merchantId: "thermoworks",
     category: "thermometer",
@@ -142,6 +182,7 @@ const SEEDS: SeedRow[] = [
       "Fast-read instant thermometers for pulling duck breast at a target internal temperature.",
   },
 ];
+
 
 
 /**
@@ -237,11 +278,18 @@ export interface CommercialPlacement {
 
 export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
   {
-    // Duck meat only. US Wellness is deliberately absent: their live collection
-    // does not list whole duck, breast or leg quarters.
+    // Duck meat only, ordered by how well each seller solves reader intent —
+    // not by whether it pays us. US Wellness is deliberately absent: their live
+    // collection does not list whole duck, breast or leg quarters.
     path: "/buy/where-to-buy-duck-online",
     placement: "buy_duck_primary_options",
-    linkIds: ["dartagnan-duck"],
+    linkIds: [
+      "culver-duck",
+      "tastyduck-duck",
+      "fossil-farms-duck",
+      "dartagnan-duck",
+      "wild-fork-duck",
+    ],
   },
   {
     // Separate, accurate note: the US Wellness duck link is for rendered fat.
@@ -253,20 +301,16 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     // Primary US Wellness monetization path on the site.
     path: "/buy/duck-fat-buying-guide",
     placement: "duck_fat_sources",
-    linkIds: ["us-wellness-duck-fat", "dartagnan-duck"],
+    linkIds: ["us-wellness-duck-fat", "culver-duck-fat", "dartagnan-duck"],
   },
   {
     path: "/buy/how-to-choose-duck",
     placement: "choose_duck_sources",
-    linkIds: ["dartagnan-duck"],
+    linkIds: ["culver-duck", "dartagnan-duck"],
   },
-  {
-    // Generic recipe sourcing is duck meat. The duck-fat link is added only for
-    // recipes whose ingredients genuinely call for rendered duck fat.
-    path: "/recipes/$slug",
-    placement: "recipe_sourcing",
-    linkIds: ["dartagnan-duck", "us-wellness-duck-fat"],
-  },
+  // Recipes deliberately carry no merchant CTA: cut-level stock moves between
+  // sellers, so recipe pages route readers to the sourcing guide instead.
+
 
   {
     path: "/cook/how-to-cook-duck-breast",

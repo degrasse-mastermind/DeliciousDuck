@@ -7,8 +7,7 @@ import {
   Section,
   StepList,
 } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ShopThisGuide } from "@/components/site/Commerce";
-import { CommercialCallout } from "@/components/site/CommercialLink";
+import { ShopThisGuide } from "@/components/site/Commerce";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
@@ -244,23 +243,36 @@ function RecipePage() {
 
       <ShopThisGuide items={content.sourcing} intro="Where to source what this recipe needs." />
 
-      <div className="mt-8">
-        <DisclosureBanner compact />
-      </div>
 
-      <CommercialCallout
-        heading="Buy what this recipe needs"
-        intro={
-          needsDuckFat
-            ? "A mail-order seller whose catalogue lists duck by the cut, plus rendered duck fat by the quart for the volume this recipe needs. Neither has been ordered from for a hands-on review, and each link's relationship is labelled beneath it."
-            : "A mail-order seller whose public catalogue lists duck by the cut. We have not ordered from them for a hands-on review, and this link earns us nothing."
-        }
-        placement={`recipe_sourcing_${slug.replace(/[^a-z0-9]+/gi, "_")}`}
-        linkIds={
-          needsDuckFat ? ["dartagnan-duck", "us-wellness-duck-fat"] : ["dartagnan-duck"]
-        }
-        footnote="We publish no prices, stock, or shipping claims. Check the seller's own page for current availability and terms."
-      />
+
+      <Callout label="Where to buy what this recipe needs">
+        <p>
+          Which sellers currently stock which cut changes week to week, so we send you to the
+          sourcing guide rather than a single shop. It compares the duck sellers whose catalogues
+          list cuts by name, and says plainly which links earn us anything.{" "}
+          <Link
+            to="/buy/where-to-buy-duck-online"
+            className="text-primary underline underline-offset-4"
+          >
+            Where to buy duck online
+          </Link>
+          .
+          {needsDuckFat ? (
+            <>
+              {" "}
+              This recipe also calls for rendered duck fat, which is a separate shopping problem —{" "}
+              <Link
+                to="/buy/duck-fat-buying-guide"
+                className="text-primary underline underline-offset-4"
+              >
+                the duck fat buying guide
+              </Link>{" "}
+              covers formats, quantities, and where to buy it.
+            </>
+          ) : null}
+        </p>
+      </Callout>
+
 
 
       <FaqList items={content.faq} />

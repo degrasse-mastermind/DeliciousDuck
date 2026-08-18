@@ -52,15 +52,102 @@ export const DISCLOSURE_TEXT_PENDING =
 /* ------------------------------------------------------------------ */
 
 export const MERCHANT_FACTORS = [
-  { key: "cuts", label: "Cut availability" },
-  { key: "labelling", label: "Breed & species labelling" },
-  { key: "state", label: "Fresh or frozen" },
-  { key: "shipping", label: "Shipping & minimums" },
-  { key: "transparency", label: "Sourcing transparency" },
-  { key: "geography", label: "Where it ships" },
+  { key: "cuts", label: "Whole duck, breast & legs" },
+  { key: "specialty", label: "Specialty & prepared duck" },
+  { key: "breadth", label: "Breadth of selection" },
+  { key: "fit", label: "Best fit" },
+  { key: "relationship", label: "Our relationship" },
 ] as const;
 
+/**
+ * Online duck sellers, ordered by how well each solves current reader intent —
+ * not by whether it pays us. Every attribute below comes from the seller's own
+ * public catalogue at the last verification date. No prices, no ratings, no
+ * shipping promises, and no live stock claims.
+ *
+ * US Wellness Meats is deliberately absent: their live duck collection, reviewed
+ * 2026-08-18, lists rendered duck fat and duck livers only — no whole duck,
+ * breast or leg quarters — so they are not a duck-meat sourcing route. Their
+ * duck fat link lives in the commercial-link registry under `duck_fat`.
+ */
 export const DUCK_MERCHANTS: ComparisonRow[] = [
+  {
+    id: "culver-duck",
+    name: "Culver Duck",
+    kind: "Duck producer with a direct shop (US)",
+    bestFor:
+      "Cooks who want one order to cover a whole bird, portioned cuts, and rendered fat.",
+    decisionFactors: {
+      cuts: "Whole duck, raw breast, leg quarters and ground duck all listed by name.",
+      specialty: "Confit, smoked breast, stuffed duck and halal duck appear in the shop.",
+      breadth: "The widest single-producer duck range in this comparison.",
+      fit: "A duck-first order where you want the cut named precisely.",
+      relationship: "Direct link — we earn nothing.",
+    },
+    pros: [
+      "Duck is the whole business, so cuts are named the way recipes name them.",
+      "Rendered fat and prepared duck sit alongside the raw cuts, so one box can cover a menu.",
+    ],
+    tradeoffs: [
+      "Availability shifts with production; check the shop rather than assuming a cut is stocked.",
+      "Frozen delivery means you still owe the bird a day or more of fridge thawing.",
+    ],
+    affiliateStatus: "none",
+    merchantId: "culver-duck",
+    lastVerified: "2026-08-18",
+    note: "Catalogue reviewed 2026-08-18. No affiliate relationship, and we have not ordered from them for a hands-on review.",
+  },
+  {
+    id: "tastyduck-jurgielewicz",
+    name: "Joe Jurgielewicz & Son (TastyDuck)",
+    kind: "Family duck producer with a direct shop (US)",
+    bestFor: "A first duck order, or a sampler when you are not yet sure which cut you want.",
+    decisionFactors: {
+      cuts: "Whole duck, breasts and legs listed individually.",
+      specialty: "Sampler kits and prepared duck products.",
+      breadth: "Focused range — the core cuts plus kits, rather than a long catalogue.",
+      fit: "Trying duck for the first time without committing to one cut.",
+      relationship: "Direct link — we earn nothing.",
+    },
+    pros: [
+      "Sampler kits are a genuinely useful way to learn which cut suits how you cook.",
+      "Single-producer sourcing, so the birds in one order are consistent with each other.",
+    ],
+    tradeoffs: [
+      "Narrower selection than a full specialty distributor.",
+      "Cut-level availability moves; the shop page is the only reliable answer.",
+    ],
+    affiliateStatus: "none",
+    merchantId: "tastyduck-jurgielewicz",
+    lastVerified: "2026-08-18",
+    note: "Catalogue reviewed 2026-08-18. No affiliate relationship, and no hands-on order.",
+  },
+  {
+    id: "fossil-farms",
+    name: "Fossil Farms",
+    kind: "Game & specialty meat retailer (US)",
+    bestFor:
+      "Recipes that name a specific breed or an unusual cut you cannot find elsewhere.",
+    decisionFactors: {
+      cuts: "Whole birds and portioned cuts across more than one duck type.",
+      specialty: "Prepared duck products alongside the raw catalogue.",
+      breadth: "Broad, and unusually specific about which duck you are buying.",
+      fit: "Cooking to a recipe that specifies the duck, not just 'duck'.",
+      relationship: "Direct link — we earn nothing.",
+    },
+    pros: [
+      "Listings distinguish between duck types, which most sellers do not.",
+      "Useful when you are buying other game or specialty meat in the same order.",
+    ],
+    tradeoffs: [
+      "A general specialty retailer, so duck sits inside a much larger catalogue.",
+      "We publish no breed-by-breed cooking adjustments — the name tells you less than the bird does.",
+    ],
+    affiliateStatus: "none",
+    merchantId: "fossil-farms",
+    lastVerified: "2026-08-18",
+    note: "Catalogue reviewed 2026-08-18. No affiliate relationship, and no hands-on order.",
+  },
   {
     id: "dartagnan",
     name: "D'Artagnan",
@@ -68,12 +155,11 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     bestFor:
       "Cooks who want named duck cuts — magret, leg quarters, rendered fat — from one order.",
     decisionFactors: {
-      cuts: "Broad duck range across whole birds, breast, legs, and rendered fat.",
-      labelling: "Publishes breed and producer detail on many duck listings.",
-      state: "Typically ships frozen with cold-chain packaging.",
-      shipping: "Flat or tiered shipping with order minimums; confirm at checkout.",
-      transparency: "Producer-network sourcing described on the site.",
-      geography: "United States.",
+      cuts: "Whole birds, magret and leg quarters listed by name.",
+      specialty: "Rendered fat, confit and charcuterie-style duck products.",
+      breadth: "Broad duck range inside a long specialty catalogue.",
+      fit: "A French-leaning menu where magret and confit are the point.",
+      relationship: "Direct link — we earn nothing.",
     },
     pros: [
       "One of the few US sellers offering magret, leg quarters, and fat together.",
@@ -85,64 +171,36 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
     ],
     affiliateStatus: "none",
     merchantId: "dartagnan",
-    lastVerified: "2026-08",
-    note: "Listed as a sourcing candidate based on public catalogue information. No affiliate relationship is in place, and we have not ordered from them for a hands-on review.",
-  },
-  // US Wellness Meats was previously listed here as a duck-meat seller. Their
-  // live duck collection, manually reviewed 2026-08-18, lists only rendered duck
-  // fat and duck livers — no whole duck, breast or leg quarters — so they are no
-  // longer a duck-meat sourcing route. Their duck fat link lives in the
-  // commercial-link registry under the duck_fat category.
-
-  {
-    id: "local-asian-market",
-    name: "Asian supermarkets & local butchers",
-    kind: "In-person sourcing",
-    bestFor: "Anyone within reach of one — usually the cheapest whole duck you'll find.",
-    decisionFactors: {
-      cuts: "Whole ducks are common; breast and leg quarters are less predictable.",
-      labelling: "Often minimal; ask staff about breed and delivery day.",
-      state: "Frequently fresh or previously frozen, sometimes hanging roast-ready.",
-      shipping: "None — no shipping cost, no thaw wait.",
-      transparency: "Varies enormously; conversation is your best tool.",
-      geography: "Wherever you are.",
-    },
-    pros: [
-      "No cold-chain shipping cost, and you can inspect the bird before buying.",
-      "Whole ducks are usually far cheaper than mail order.",
-    ],
-    tradeoffs: [
-      "Availability of specific cuts is unpredictable.",
-      "Breed and processing-date information may be unavailable.",
-    ],
-    affiliateStatus: "none",
-    lastVerified: "2026-08",
+    lastVerified: "2026-08-18",
+    note: "Listed on catalogue grounds only. We have no commercial relationship with D'Artagnan and earn nothing from this link.",
   },
   {
-    id: "farm-direct",
-    name: "Farm-direct producers",
-    kind: "Small-producer direct sales",
-    bestFor: "Seasonal buyers who want traceability down to the flock.",
+    id: "wild-fork",
+    name: "Wild Fork",
+    kind: "Frozen-meat retailer, stores plus delivery (US)",
+    bestFor: "Buying duck without placing a specialty order, when it is stocked near you.",
     decisionFactors: {
-      cuts: "Usually whole birds; cuts depend on the processor.",
-      labelling: "Best-in-class — breed, feed, and processing date are often known.",
-      state: "Fresh in season, otherwise frozen.",
-      shipping: "Local pickup or regional courier; minimums are common.",
-      transparency: "You can usually ask the person who raised the bird.",
-      geography: "Regional.",
+      cuts: "Duck appears in the frozen range, but which cuts varies — check before you plan a menu.",
+      specialty: "Limited; this is a mainstream retailer rather than a duck specialist.",
+      breadth: "Narrow for duck, wide for everything else in the same basket.",
+      fit: "A weeknight duck buy alongside the rest of your shopping.",
+      relationship: "Direct link — we earn nothing.",
     },
     pros: [
-      "Best traceability of any route, which is what actually predicts flavour and fat.",
-      "Often the freshest bird available outside a butcher counter.",
+      "Store pickup avoids cold-chain shipping cost and the courier risk entirely.",
+      "Everything is already frozen and portioned, which suits buying one or two pieces.",
     ],
     tradeoffs: [
-      "Seasonal windows and limited quantities.",
-      "Rarely offers portioned cuts or rendered fat.",
+      "Duck selection is inconsistent between locations and over time.",
+      "Less producer detail than any of the duck specialists above.",
     ],
     affiliateStatus: "none",
-    lastVerified: "2026-08",
+    merchantId: "wild-fork",
+    lastVerified: "2026-08-18",
+    note: "Included as a mainstream option. Verify current duck availability yourself; we make no stock claim, and we earn nothing from this link.",
   },
 ];
+
 
 /* ------------------------------------------------------------------ */
 /* Thermometers                                                        */

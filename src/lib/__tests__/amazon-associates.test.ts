@@ -94,12 +94,13 @@ describe("other merchants stay truthful", () => {
   it("keeps US Wellness active on the canonical tracking URL", () => {
     const m = merchantById("us-wellness-meats")!;
     expect(m.status).toBe("active");
-    expect(m.affiliateUrl).toBe("https://grasslandbeefllc.sjv.io/2R7EN0");
+    expect(m.affiliateUrl).toBe("https://grasslandbeefllc.sjv.io/xJoWgR");
   });
 
-  it("keeps D'Artagnan pending and ThermoWorks declined, neither monetized", () => {
+  it("keeps D'Artagnan and ThermoWorks declined, neither monetized", () => {
     const dartagnan = merchantById("dartagnan")!;
-    expect(dartagnan.status).toBe("applied");
+    expect(dartagnan.status).toBe("declined");
+    expect(dartagnan.affiliateUrl).toBeUndefined();
     expect(isMonetized(dartagnan)).toBe(false);
     const tw = merchantById("thermoworks")!;
     expect(tw.status).toBe("declined");
