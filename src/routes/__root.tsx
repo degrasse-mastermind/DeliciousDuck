@@ -90,11 +90,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DeliciousDuck — Duck Recipes, Guides, Gear & Cooking Tools" },
+      { title: "DeliciousDuck — Duck Recipes, Cooking Techniques, Gear & Buying Advice" },
       {
         name: "description",
         content:
-          "Expert duck recipes, step-by-step guides, buying advice, gear reviews, and practical cooking tools.",
+          "Practical duck recipes, cooking techniques, buying advice, and gear explainers — so you can cook duck with confidence.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "DeliciousDuck" },
