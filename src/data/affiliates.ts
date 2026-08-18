@@ -137,13 +137,15 @@ export const MERCHANTS: Merchant[] = [
     id: "thermoworks",
     name: "ThermoWorks",
     program: "Impact",
-    status: "applied",
+    status: "declined",
     directUrl: "https://www.thermoworks.com/",
     statusReviewed: "2026-08",
+    declinedDate: "2026-08",
     activation: { ...NOTHING_VERIFIED },
     internalNote:
-      "ThermoWorks Impact application was submitted and is pending approval. Impact site-verification meta tag is installed. Do not set status to active until Impact issues an approved tracking URL; paste it into affiliateUrl at that point.",
+      "Historical record: a ThermoWorks Impact application was submitted in 2026-08 and the Impact site-verification meta tag was installed. The application was declined without a stated reason, so there is no relationship, no approval, and no expected activation. ThermoWorks may still be referenced editorially on specification grounds only. Do not add an affiliate URL, and do not re-open this row as pending without a new application.",
   },
+
 ];
 
 export function merchantById(id?: string): Merchant | undefined {
