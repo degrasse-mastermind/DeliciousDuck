@@ -116,8 +116,16 @@ describe("relationship to rel mapping", () => {
     }
   });
 
-  it("today's registry renders no sponsored links", () => {
-    expect(COMMERCIAL_LINKS.some(isAffiliateActive)).toBe(false);
+  it("US Wellness Meats is the active affiliate destination on the canonical tracking URL", () => {
+    const link = COMMERCIAL_LINKS.find((l) => l.merchantId === "us-wellness-meats")!;
+    expect(isAffiliateActive(link)).toBe(true);
+    expect(link.url).toBe("https://grasslandbeefllc.sjv.io/2R7EN0");
+    expect(relForLink(link)).toBe("sponsored nofollow noopener");
+  });
+
+  it("no other merchant is monetized yet", () => {
+    const affiliates = COMMERCIAL_LINKS.filter(isAffiliateActive).map((l) => l.merchantId);
+    expect(affiliates).toEqual(["us-wellness-meats"]);
   });
 });
 
