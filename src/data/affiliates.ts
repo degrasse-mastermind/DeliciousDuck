@@ -85,6 +85,8 @@ export interface Merchant {
   statusReviewed: string;
   /** YYYY-MM(-DD) the network approved us. Blank until approval is real. */
   approvalDate?: string;
+  /** YYYY-MM(-DD) the application was declined. Only set when status is declined. */
+  declinedDate?: string;
   /** YYYY-MM the owner last read this program's terms. Blank if never read. */
   termsReviewedDate?: string;
   /** YYYY-MM(-DD) the program went live on the site. Blank until active. */
