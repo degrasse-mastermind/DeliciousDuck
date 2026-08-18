@@ -137,13 +137,14 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
   {
     id: "duck-fat-jar-category",
     name: "Rendered duck fat — category slot",
-    useCase: "Reader would rather buy rendered fat than render their own",
+    useCase: "Fallback for formats no active program covers, such as small jars and tins",
     status: "category-placeholder",
-    lastVerified: "2026-08",
-    editorialRelationship: "/buy/duck-fat-buying-guide (primary)",
+    lastVerified: "2026-08-18",
+    editorialRelationship: "/buy/duck-fat-buying-guide (format fallback)",
     handsOn: "untested",
-    note: "Both sourcing merchants list rendered fat; slot activates with whichever program approves first.",
+    note: "The quart-tub format is now covered by the active US Wellness duck fat deep link. This slot remains for jar and tin formats no active program carries.",
   },
+
   {
     id: "fat-storage-category",
     name: "Fine strainer and sealable heatproof jar — category slot",
