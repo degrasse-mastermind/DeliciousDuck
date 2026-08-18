@@ -729,3 +729,19 @@ export const recipeContentBySlug = (slug: string): RecipeContent | undefined =>
   RECIPE_CONTENT[slug];
 
 export const recipePath = (slug: string) => `/recipes/${slug}`;
+
+/**
+ * True when a recipe's own ingredient list calls for rendered duck fat.
+ *
+ * Drives whether a recipe page may show a duck-fat seller CTA. Derived from the
+ * ingredients rather than hardcoded per slug, so a recipe that stops calling for
+ * duck fat stops showing the fat link automatically.
+ */
+export const recipeNeedsDuckFat = (slug: string): boolean => {
+  const content = RECIPE_CONTENT[slug];
+  if (!content) return false;
+  return content.ingredientGroups.some((group) =>
+    group.items.some((item) => /duck fat/i.test(item)),
+  );
+};
+
