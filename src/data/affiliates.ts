@@ -135,6 +135,14 @@ export interface Merchant {
 export const US_WELLNESS_DUCK_FAT_URL = "https://grasslandbeefllc.sjv.io/xJoWgR";
 
 /**
+ * HISTORICAL ONLY. The original generic storefront tracking link, superseded by
+ * the duck fat deep link above. Retained so a future reviewer can see what the
+ * first US Wellness placement pointed at. It must never power a CTA.
+ */
+export const US_WELLNESS_STOREFRONT_URL_HISTORICAL = "https://grasslandbeefllc.sjv.io/2R7EN0";
+
+
+/**
  * INTERNAL record of the manual catalogue review. Kept in data (not copy) so no
  * page has to make brittle stock claims, and so a future reviewer can see what
  * the live collection actually contained when these placements were written.
