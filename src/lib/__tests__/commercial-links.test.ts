@@ -81,7 +81,7 @@ describe("registry integrity", () => {
 
   it("flags an unbacked affiliate_active row", () => {
     const issues = auditCommercialLinks([
-      sample({ id: "fake", merchantId: "dartagnan", relationship: "affiliate_active", disclosureLabel: DISCLOSURE_LABELS.affiliate_active }),
+      sample({ id: "fake", merchantId: "thermoworks", relationship: "affiliate_active", disclosureLabel: DISCLOSURE_LABELS.affiliate_active }),
     ]);
     expect(issues.some((i) => i.code === "unbacked_affiliate_status")).toBe(true);
   });
@@ -213,7 +213,7 @@ describe("placements and journeys", () => {
   });
 
   it("derives hosts without www", () => {
-    expect(destinationHost("https://www.dartagnan.com/")).toBe("dartagnan.com");
+    expect(destinationHost("https://www.fossilfarms.com/")).toBe("fossilfarms.com");
     expect(destinationHost("not a url")).toBe("");
   });
 });
