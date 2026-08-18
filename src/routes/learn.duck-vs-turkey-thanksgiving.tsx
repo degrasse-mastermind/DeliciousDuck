@@ -380,8 +380,9 @@ function Page() {
             className="text-primary underline underline-offset-4"
           >
             what to serve with duck
-          </Link>{" "}
+          </Link>
           . These guides offer practical combinations for building the rest of the plate. A
+
           gravy-and-stuffing spread can still work around a duck, but it will read as two competing
           dinners unless something sharp lands on the plate.
 
