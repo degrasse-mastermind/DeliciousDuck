@@ -46,6 +46,7 @@ import { Route as CookWholeRoastDuckRouteImport } from './routes/cook.whole-roas
 import { Route as GearIndexRouteImport } from './routes/gear.index'
 import { Route as GearBestKnifeForScoringDuckRouteImport } from './routes/gear.best-knife-for-scoring-duck'
 import { Route as GearBestPanForDuckBreastRouteImport } from './routes/gear.best-pan-for-duck-breast'
+import { Route as GearBestRoastingPanForDuckRouteImport } from './routes/gear.best-roasting-pan-for-duck'
 import { Route as GearBestThermometerForDuckRouteImport } from './routes/gear.best-thermometer-for-duck'
 import { Route as GuidesDuckCookingStarterGuideRouteImport } from './routes/guides.duck-cooking-starter-guide'
 import { Route as IngredientsIndexRouteImport } from './routes/ingredients.index'
@@ -275,6 +276,12 @@ const GearBestPanForDuckBreastRoute =
   GearBestPanForDuckBreastRouteImport.update({
     id: '/best-pan-for-duck-breast',
     path: '/best-pan-for-duck-breast',
+    getParentRoute: () => GearRoute,
+  } as any)
+const GearBestRoastingPanForDuckRoute =
+  GearBestRoastingPanForDuckRouteImport.update({
+    id: '/best-roasting-pan-for-duck',
+    path: '/best-roasting-pan-for-duck',
     getParentRoute: () => GearRoute,
   } as any)
 const GearBestThermometerForDuckRoute =
@@ -533,6 +540,7 @@ export interface FileRoutesByFullPath {
   '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
+  '/gear/best-roasting-pan-for-duck': typeof GearBestRoastingPanForDuckRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
   '/guides/duck-cooking-starter-guide': typeof GuidesDuckCookingStarterGuideRoute
   '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
@@ -605,6 +613,7 @@ export interface FileRoutesByTo {
   '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
+  '/gear/best-roasting-pan-for-duck': typeof GearBestRoastingPanForDuckRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
   '/guides/duck-cooking-starter-guide': typeof GuidesDuckCookingStarterGuideRoute
   '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
@@ -685,6 +694,7 @@ export interface FileRoutesById {
   '/cook/whole-roast-duck': typeof CookWholeRoastDuckRoute
   '/gear/best-knife-for-scoring-duck': typeof GearBestKnifeForScoringDuckRoute
   '/gear/best-pan-for-duck-breast': typeof GearBestPanForDuckBreastRoute
+  '/gear/best-roasting-pan-for-duck': typeof GearBestRoastingPanForDuckRoute
   '/gear/best-thermometer-for-duck': typeof GearBestThermometerForDuckRoute
   '/guides/duck-cooking-starter-guide': typeof GuidesDuckCookingStarterGuideRoute
   '/ingredients/best-acid-for-duck': typeof IngredientsBestAcidForDuckRoute
@@ -766,6 +776,7 @@ export interface FileRouteTypes {
     | '/cook/whole-roast-duck'
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
+    | '/gear/best-roasting-pan-for-duck'
     | '/gear/best-thermometer-for-duck'
     | '/guides/duck-cooking-starter-guide'
     | '/ingredients/best-acid-for-duck'
@@ -838,6 +849,7 @@ export interface FileRouteTypes {
     | '/cook/whole-roast-duck'
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
+    | '/gear/best-roasting-pan-for-duck'
     | '/gear/best-thermometer-for-duck'
     | '/guides/duck-cooking-starter-guide'
     | '/ingredients/best-acid-for-duck'
@@ -917,6 +929,7 @@ export interface FileRouteTypes {
     | '/cook/whole-roast-duck'
     | '/gear/best-knife-for-scoring-duck'
     | '/gear/best-pan-for-duck-breast'
+    | '/gear/best-roasting-pan-for-duck'
     | '/gear/best-thermometer-for-duck'
     | '/guides/duck-cooking-starter-guide'
     | '/ingredients/best-acid-for-duck'
@@ -1255,6 +1268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GearBestPanForDuckBreastRouteImport
       parentRoute: typeof GearRoute
     }
+    '/gear/best-roasting-pan-for-duck': {
+      id: '/gear/best-roasting-pan-for-duck'
+      path: '/best-roasting-pan-for-duck'
+      fullPath: '/gear/best-roasting-pan-for-duck'
+      preLoaderRoute: typeof GearBestRoastingPanForDuckRouteImport
+      parentRoute: typeof GearRoute
+    }
     '/gear/best-thermometer-for-duck': {
       id: '/gear/best-thermometer-for-duck'
       path: '/best-thermometer-for-duck'
@@ -1587,6 +1607,7 @@ const CookRouteWithChildren = CookRoute._addFileChildren(CookRouteChildren)
 interface GearRouteChildren {
   GearBestKnifeForScoringDuckRoute: typeof GearBestKnifeForScoringDuckRoute
   GearBestPanForDuckBreastRoute: typeof GearBestPanForDuckBreastRoute
+  GearBestRoastingPanForDuckRoute: typeof GearBestRoastingPanForDuckRoute
   GearBestThermometerForDuckRoute: typeof GearBestThermometerForDuckRoute
   GearIndexRoute: typeof GearIndexRoute
 }
@@ -1594,6 +1615,7 @@ interface GearRouteChildren {
 const GearRouteChildren: GearRouteChildren = {
   GearBestKnifeForScoringDuckRoute: GearBestKnifeForScoringDuckRoute,
   GearBestPanForDuckBreastRoute: GearBestPanForDuckBreastRoute,
+  GearBestRoastingPanForDuckRoute: GearBestRoastingPanForDuckRoute,
   GearBestThermometerForDuckRoute: GearBestThermometerForDuckRoute,
   GearIndexRoute: GearIndexRoute,
 }
