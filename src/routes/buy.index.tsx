@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { GuideGrid } from "@/components/site/GuideGrid";
-import { DisclosureBanner } from "@/components/site/Commerce";
 import { guidesByPillar } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 
@@ -61,11 +60,7 @@ function BuyPage() {
       />
 
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
-        <div className="max-w-3xl">
-          <DisclosureBanner />
-        </div>
-
-        <h2 className="mt-14 font-display text-3xl text-foreground">Sourcing guides</h2>
+        <h2 className="font-display text-3xl text-foreground">Sourcing guides</h2>
         <GuideGrid guides={guidesByPillar("buy")} />
 
         <h2 className="mt-20 font-display text-3xl text-foreground">

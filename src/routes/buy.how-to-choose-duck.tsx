@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
 import { AnswerFirst, ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
-import { DisclosureBanner } from "@/components/site/Commerce";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
@@ -212,7 +211,6 @@ function Page() {
       <ArticleBasis page={PAGE} />
 
       <div className="mt-12">
-        <DisclosureBanner compact />
       </div>
 
       <CommercialCallout
