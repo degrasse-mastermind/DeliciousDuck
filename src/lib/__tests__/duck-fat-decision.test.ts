@@ -66,7 +66,7 @@ describe("duck-fat render/buy/substitute module", () => {
 
   it("registers every placement id, uniquely, in the site-wide placement list", () => {
     const ids = duckFatDecisionPlacementIds();
-    expect(ids.length).toBe(6);
+    expect(ids.length).toBe(8);
     expect(new Set(ids).size).toBe(ids.length);
     const all = allConversionPlacementIds();
     for (const id of ids) {
