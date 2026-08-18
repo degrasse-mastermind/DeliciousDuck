@@ -108,6 +108,7 @@ export function ConversionPaths({
   heading = "Where this leads next",
   intro,
   className,
+  omit,
 }: {
   sourcePath: string;
   id?: string;
@@ -115,14 +116,21 @@ export function ConversionPaths({
   heading?: string;
   intro?: string;
   className?: string;
+  /**
+   * Placement ids handled by a more specific module on the same page, so the
+   * same destination is never offered twice.
+   */
+  omit?: string[];
 }) {
-  const items = conversionPathsForSource(sourcePath).map((p) => ({
-    placement: p.placement,
-    destination: p.destination,
-    intent: p.intent,
-    anchor: p.anchor,
-    reason: p.reason,
-  }));
+  const items = conversionPathsForSource(sourcePath)
+    .filter((p) => !omit?.includes(p.placement))
+    .map((p) => ({
+      placement: p.placement,
+      destination: p.destination,
+      intent: p.intent,
+      anchor: p.anchor,
+      reason: p.reason,
+    }));
 
   return (
     <PathNav
@@ -135,6 +143,7 @@ export function ConversionPaths({
     />
   );
 }
+
 
 /**
  * Recipe pathway, built from the recipe's own `equipment` and `sourcing` data
