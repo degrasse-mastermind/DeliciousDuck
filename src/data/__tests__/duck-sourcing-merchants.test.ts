@@ -55,15 +55,31 @@ describe("US Wellness is duck fat only", () => {
   });
 });
 
-describe("D'Artagnan is declined and unmonetized", () => {
-  it("carries no affiliate URL and no pending language", () => {
-    const m = merchantById("dartagnan")!;
-    expect(m.status).toBe("declined");
-    expect(m.affiliateUrl).toBeUndefined();
-    expect(isMonetized(m)).toBe(false);
-    const link = commercialLinkById("dartagnan-duck")!;
-    expect(link.relationship).toBe("direct");
-    expect(link.url).not.toContain("awin");
+describe("D'Artagnan is removed site-wide", () => {
+  it("has no merchant, link, comparison row or placement entry", () => {
+    expect(merchantById("dartagnan")).toBeUndefined();
+    expect(commercialLinkById("dartagnan-duck")).toBeUndefined();
+    expect(MERCHANTS.some((m) => /artagnan/i.test(m.name))).toBe(false);
+    expect(COMMERCIAL_LINKS.some((l) => /artagnan/i.test(l.url))).toBe(false);
+    expect(DUCK_MERCHANTS.some((r) => /artagnan/i.test(r.name))).toBe(false);
+    for (const placement of COMMERCIAL_PLACEMENTS) {
+      expect(placement.linkIds.some((id) => /artagnan/i.test(id)), placement.placement).toBe(false);
+    }
+  });
+
+  it("appears in no source file under src/routes or src/data", () => {
+    const roots = ["src/routes", "src/data", "src/components", "src/lib"];
+    const offenders: string[] = [];
+    for (const root of roots) {
+      for (const file of readdirSync(root, { recursive: true }) as string[]) {
+        const full = join(root, file);
+        if (!/\.(ts|tsx)$/.test(full)) continue;
+        if (!statSync(full).isFile()) continue;
+        if (full.includes("__tests__") || full.endsWith(".test.ts")) continue;
+        if (/artagnan/i.test(readFileSync(full, "utf8"))) offenders.push(full);
+      }
+    }
+    expect(offenders).toEqual([]);
   });
 });
 
