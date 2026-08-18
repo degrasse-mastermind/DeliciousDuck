@@ -30,6 +30,7 @@ export type CommercialEventName = (typeof COMMERCIAL_EVENTS)[keyof typeof COMMER
 export const ALLOWED_EVENT_PARAMS = [
   "commercial_link_id",
   "merchant",
+  "merchant_id",
   "category",
   "relationship",
   "source_path",
@@ -42,6 +43,8 @@ export interface CommercialClickEvent {
   params: {
     commercial_link_id: string;
     merchant: string;
+    /** Registry slug, e.g. "us-wellness-meats" — stable across name changes. */
+    merchant_id: string;
     category: string;
     relationship: CommercialRelationship;
     source_path: string;
@@ -77,6 +80,7 @@ export function buildCommercialClickEvent(input: {
     params: {
       commercial_link_id: link.id,
       merchant: link.merchant,
+      merchant_id: link.merchantId,
       category: link.category,
       relationship: link.relationship,
       source_path: safeSourcePath(input.sourcePath),
