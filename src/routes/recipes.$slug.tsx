@@ -243,9 +243,7 @@ function RecipePage() {
 
       <ShopThisGuide items={content.sourcing} intro="Where to source what this recipe needs." />
 
-      <div className="mt-8">
-        <DisclosureBanner compact />
-      </div>
+
 
       <Callout label="Where to buy what this recipe needs">
         <p>
