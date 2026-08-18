@@ -247,10 +247,38 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
     slots: [
       {
         role: "primary",
+        merchantId: "culver-duck",
+        deepLinkId: "sourcing-culver-duck",
+        intent: "One duck-first order covering a whole bird, cuts and rendered fat",
+        placement: "Lead row of the sellers comparison and its callout CTA — direct, unpaid",
+      },
+      {
+        role: "secondary",
+        merchantId: "tastyduck-jurgielewicz",
+        deepLinkId: "sourcing-tastyduck",
+        intent: "First duck order or sampler kit",
+        placement: "Sellers comparison and callout CTA — direct, unpaid",
+      },
+      {
+        role: "secondary",
+        merchantId: "fossil-farms",
+        deepLinkId: "sourcing-fossil-farms",
+        intent: "Specific duck type or unusual cut",
+        placement: "Sellers comparison and callout CTA — direct, unpaid",
+      },
+      {
+        role: "secondary",
         merchantId: "dartagnan",
         deepLinkId: "sourcing-dartagnan",
-        intent: "Named duck cuts from one US order",
-        placement: "Comparison card CTA in the sellers comparison, below the decision factors",
+        intent: "Magret, leg quarters and confit from one specialist order",
+        placement: "Sellers comparison and callout CTA — direct, unpaid after the declined application",
+      },
+      {
+        role: "secondary",
+        merchantId: "wild-fork",
+        deepLinkId: "sourcing-wild-fork",
+        intent: "Mainstream frozen duck without a specialty order",
+        placement: "Sellers comparison and callout CTA — direct, unpaid",
       },
       {
         role: "contextual",
@@ -282,9 +310,16 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
       },
       {
         role: "secondary",
+        merchantId: "culver-duck",
+        deepLinkId: "sourcing-culver-duck",
+        intent: "Rendered fat added to a duck order from a duck producer",
+        placement: "Duck fat sellers callout, listed as a direct, unpaid alternative",
+      },
+      {
+        role: "secondary",
         merchantId: "dartagnan",
         intent: "Rendered fat added to a specialist duck order",
-        placement: "Comparison card CTA where the merchant carries the format",
+        placement: "Duck fat sellers callout, listed as a direct, unpaid alternative",
       },
 
       {
@@ -295,6 +330,7 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
       },
     ],
   },
+
   {
     path: "/gear/best-thermometer-for-duck",
     label: "Best thermometer for duck",
