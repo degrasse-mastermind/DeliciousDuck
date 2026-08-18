@@ -48,18 +48,22 @@ function Hero() {
       <div className="mx-auto grid max-w-7xl items-stretch lg:grid-cols-2">
         <div className="flex flex-col justify-center px-5 py-16 text-forest-foreground lg:px-8 lg:py-28">
           <span className="eyebrow text-accent">The duck authority</span>
-          <h1 className="mt-5 max-w-xl font-display text-[2.75rem] leading-[1.03] lg:text-[4.25rem]">
+          <p className="mt-5 max-w-xl font-display text-[2.75rem] leading-[1.03] lg:text-[4.25rem]">
             Better Duck.
             <br />
             A More Delicious World.
+          </p>
+          <h1 className="mt-6 max-w-xl font-display text-2xl leading-snug text-forest-foreground/95 lg:text-[2rem]">
+            Duck Recipes, Cooking Guides &amp; Buying Advice
           </h1>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-forest-foreground/80 lg:text-lg">
-            Expert recipes, step-by-step guides, buying advice, gear reviews, and practical
-            tools—everything you need to cook, buy, and enjoy amazing duck.
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-forest-foreground/80 lg:text-lg">
+            Duck breast with crackling crisp skin, whole roast duck for the table, what to do with
+            all that rendered duck fat, the equipment that actually earns its space, and where to
+            buy duck you'll be glad you paid for.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link
-              to="/cook"
+              to="/recipes"
               className={CTA.primary}
             >
               Explore the Recipes
