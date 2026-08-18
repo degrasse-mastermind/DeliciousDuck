@@ -118,7 +118,7 @@ const SEEDS: SeedRow[] = [
     category: "duck_source",
     useFor:
       "The widest single-producer duck range we found: whole birds, raw breast, legs, ground duck, rendered fat, and prepared items like confit and smoked breast.",
-    ctaLabel: "See Culver Duck's shop",
+    ctaLabel: "Shop duck at Culver Duck",
   },
   {
     id: "tastyduck-duck",
@@ -126,7 +126,7 @@ const SEEDS: SeedRow[] = [
     category: "duck_source",
     useFor:
       "Whole ducks, breasts, legs and sampler kits from a family producer — a straightforward first order if you are not sure which cut you want yet.",
-    ctaLabel: "See TastyDuck's shop",
+    ctaLabel: "Shop duck at TastyDuck",
   },
   {
     id: "fossil-farms-duck",
@@ -134,7 +134,7 @@ const SEEDS: SeedRow[] = [
     category: "duck_source",
     useFor:
       "A broad duck collection across breeds and cuts, plus prepared duck — useful when a recipe names a specific breed or an unusual cut.",
-    ctaLabel: "See the duck collection",
+    ctaLabel: "Shop duck at Fossil Farms",
   },
   {
     id: "wild-fork-duck",
@@ -142,7 +142,7 @@ const SEEDS: SeedRow[] = [
     category: "duck_source",
     useFor:
       "A mainstream frozen-meat retailer with stores and delivery — worth a look when you want duck without a specialty order, provided it is stocked near you.",
-    ctaLabel: "Check Wild Fork for duck",
+    ctaLabel: "Shop duck at Wild Fork",
   },
   {
     /**
@@ -156,7 +156,7 @@ const SEEDS: SeedRow[] = [
     url: US_WELLNESS_DUCK_FAT_URL,
     useFor:
       "Rendered duck fat by the quart — the practical format when you want a tub rather than an hour of rendering.",
-    ctaLabel: "Check current duck fat",
+    ctaLabel: "Shop duck fat at US Wellness Meats",
   },
   {
     id: "culver-duck-fat",
@@ -164,7 +164,7 @@ const SEEDS: SeedRow[] = [
     category: "duck_fat",
     useFor:
       "Rendered duck fat listed alongside the cuts, so fat and a bird can travel in one box.",
-    ctaLabel: "See Culver Duck's shop",
+    ctaLabel: "Shop duck fat at Culver Duck",
   },
   {
     id: "thermoworks-thermometer",
