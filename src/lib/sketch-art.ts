@@ -124,6 +124,11 @@ export const SKETCH = {
     src: ovenRoast,
     alt: "Colored-pencil sketch of an open oven with a roasting tin under warm light",
   },
+  roastingPans: {
+    src: roastingPans,
+    alt: "Colored-pencil sketch of a roasting pan holding a wire rack beside a rimmed sheet pan and a cast-iron skillet",
+    transparent: true,
+  },
   duckVsTurkey: {
     src: duckVsTurkey,
     alt: "Colored-pencil sketch of a roast duck and a roast turkey side by side on platters with sage, cranberries and orange",
