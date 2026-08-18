@@ -192,9 +192,9 @@ describe("recipe context paths", () => {
     expect(file).toContain("sourcing={content.sourcing}");
   });
 
-  it("states plainly that products were not tested or endorsed", () => {
+  it("frames equipment guidance by category rather than product endorsement", () => {
     expect(read("src/components/site/ConversionPaths.tsx")).toContain(
-      "We have not tested or endorsed specific products.",
+      "The guides work at the level of category and material.",
     );
   });
 });
