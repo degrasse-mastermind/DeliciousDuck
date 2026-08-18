@@ -25,6 +25,8 @@ const BUTTON_BASE =
 export const CTA = {
   /** Dominant action. High-contrast warm gold on deep forest text. */
   primary: `${BUTTON_BASE} bg-accent text-gold-foreground hover:bg-gold-soft`,
+  /** Dominant action, compact — tight headers on small screens. Still 44px tall. */
+  primaryCompact: `inline-flex min-h-11 items-center justify-center gap-1.5 rounded-sm bg-accent px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-gold-foreground transition-colors hover:bg-gold-soft ${FOCUS}`,
   /** Outbound commercial action. Distinct filled deep-forest treatment. */
   commercial: `${BUTTON_BASE} bg-forest text-forest-foreground hover:bg-forest-deep`,
   /** Alternative action. Bordered, never filled. */

@@ -63,7 +63,7 @@ export function Header() {
           hash="starter-guide"
           onClick={() => setOpen(false)}
           data-mobile-guide-cta
-          className={`shrink-0 px-3 ${CTA.primary} lg:hidden`}
+          className={`shrink-0 ${CTA.primaryCompact} lg:hidden`}
         >
           Free Guide
         </Link>
