@@ -381,9 +381,10 @@ function Page() {
           >
             what to serve with duck
           </Link>{" "}
-          set out the combinations we actually cook. A gravy-and-stuffing spread can still work
-          around a duck, but it will read as two competing dinners unless something sharp lands on
-          the plate.
+          . These guides offer practical combinations for building the rest of the plate. A
+          gravy-and-stuffing spread can still work around a duck, but it will read as two competing
+          dinners unless something sharp lands on the plate.
+
         </p>
         <p>
           Duck can feel every bit as celebratory as turkey without imitating the turkey plate. Design
