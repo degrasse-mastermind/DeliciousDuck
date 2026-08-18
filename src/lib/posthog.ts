@@ -13,8 +13,49 @@ import posthog from "posthog-js";
 import { analyticsEnabled } from "./analytics-gate";
 
 export const POSTHOG_KEY = "phc_nTL8XA9PoPBexJHqaP9nrrqUgNrhJbVM5M3kCudC9qA3";
-/** PostHog Cloud US ingestion host. */
+/** PostHog Cloud US ingestion host — the safe default, used today. */
 export const POSTHOG_HOST = "https://us.i.posthog.com";
+/** PostHog Cloud US app host. Stays the UI host even behind a proxy. */
+export const POSTHOG_UI_HOST = "https://us.posthog.com";
+
+/**
+ * Optional managed reverse-proxy ingestion host.
+ *
+ * Readiness only — nothing is activated here. When (and only when) the public
+ * build-time variable `VITE_POSTHOG_API_HOST` is set to a valid absolute HTTPS
+ * origin (intended future value: a first-party subdomain such as
+ * `https://e.deliciousduck.com`, which is deliberately NOT hardcoded), the SDK
+ * ingests through it and `ui_host` keeps pointing at the normal PostHog app.
+ * Anything unsafe or malformed is ignored and the direct US host is used.
+ *
+ * Conservative validation: `https:` only, no credentials, no query, no hash,
+ * no port-only or path tricks beyond a trailing slash.
+ */
+export function resolvePostHogApiHost(raw?: string | undefined): string {
+  const value = (raw ?? "").trim();
+  if (!value) return POSTHOG_HOST;
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    return POSTHOG_HOST;
+  }
+  if (url.protocol !== "https:") return POSTHOG_HOST;
+  if (url.username || url.password) return POSTHOG_HOST;
+  if (url.search || url.hash) return POSTHOG_HOST;
+  if (url.pathname !== "/" && url.pathname !== "") return POSTHOG_HOST;
+  return url.origin;
+}
+
+/** The configured ingestion host for this build. */
+export function postHogApiHost(): string {
+  const configured =
+    typeof import.meta !== "undefined"
+      ? (import.meta.env?.["VITE_POSTHOG_API_HOST"] as string | undefined)
+      : undefined;
+  return resolvePostHogApiHost(configured);
+}
+
 
 let initialized = false;
 /** Mirrors the capture state currently applied to the SDK. */
