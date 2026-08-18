@@ -390,11 +390,11 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
     slots: [
       {
         role: "primary",
-        merchantId: "dartagnan",
-        deepLinkId: "sourcing-dartagnan",
-        intent: "Buy skin-on breasts for this recipe",
-        placement: "Shop-this-guide sourcing recap under the method",
+        intent: "Source skin-on breasts once the reader commits to cooking",
+        placement:
+          "Internal link to /buy/where-to-buy-duck-online in the sourcing note — no merchant CTA on recipe pages, because cut-level availability moves",
       },
+
       {
         role: "secondary",
         merchantId: "thermoworks",
