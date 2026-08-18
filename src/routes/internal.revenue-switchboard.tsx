@@ -212,7 +212,8 @@ function RevenueSwitchboard() {
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Readiness is derived, not typed: a merchant can only read “ready to activate” when the
           registry holds a real tracking URL and every gate is verified. Pending programs are
-          always shown as not monetized so they can never be mistaken for a live relationship.
+          always shown as not monetized, and a declined application reads as declined so it can
+          never be mistaken for a live or forthcoming relationship.
         </p>
         <div className="mt-6 space-y-5">
           {MERCHANTS.map((m) => (

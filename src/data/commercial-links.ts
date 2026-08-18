@@ -68,6 +68,9 @@ export const DISCLOSURE_LABELS: Record<CommercialRelationship, string> = {
 export function relationshipForMerchant(merchant?: Merchant): CommercialRelationship {
   if (!merchant) return "direct";
   if (isMonetized(merchant)) return "affiliate_active";
+  // A declined application is checked before the pending states so a rejected
+  // program can never render as pending, and never as an affiliate link.
+  if (merchant.status === "declined") return "direct";
   if (merchant.status === "applied" || merchant.status === "approved-no-link") {
     return "affiliate_pending";
   }
