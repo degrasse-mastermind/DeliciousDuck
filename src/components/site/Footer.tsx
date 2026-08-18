@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { FOOTER_COLUMNS, LEGAL_LINKS, SITE } from "@/data/site";
 import { Wordmark } from "./Wordmark";
+import { AMAZON_REQUIRED_STATEMENT } from "@/data/amazon";
 
 export function Footer() {
   return (
@@ -36,9 +37,21 @@ export function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col gap-4 border-t border-forest-foreground/15 pt-6 text-xs text-forest-foreground/60 sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {new Date().getFullYear()} {SITE.domain}. All rights reserved.
-          </p>
+          <div className="space-y-1.5">
+            <p>
+              © {new Date().getFullYear()} {SITE.domain}. All rights reserved.
+            </p>
+            <p className="max-w-md">
+              Some links on this site are affiliate links. {AMAZON_REQUIRED_STATEMENT}{" "}
+              <Link
+                to="/affiliate-disclosure"
+                className="underline underline-offset-4 transition-colors hover:text-accent"
+              >
+                Affiliate disclosure
+              </Link>
+              .
+            </p>
+          </div>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {LEGAL_LINKS.map((link) => (
               <li key={link.label}>
