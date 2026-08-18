@@ -13,37 +13,37 @@ import posthog from "posthog-js";
 import { analyticsEnabled } from "./analytics-gate";
 
 export const POSTHOG_KEY = "phc_nTL8XA9PoPBexJHqaP9nrrqUgNrhJbVM5M3kCudC9qA3";
-/** PostHog Cloud US ingestion host — the safe default, used today. */
-export const POSTHOG_HOST = "https://us.i.posthog.com";
+/** Activated managed reverse-proxy ingestion host for deliciousduck.com. */
+export const POSTHOG_PROXY_HOST = "https://e.deliciousduck.com";
+/** Direct US PostHog Cloud ingestion host — the one-line rollback target. */
+export const POSTHOG_DIRECT_HOST = "https://us.i.posthog.com";
 /** PostHog Cloud US app host. Stays the UI host even behind a proxy. */
 export const POSTHOG_UI_HOST = "https://us.posthog.com";
 
 /**
- * Optional managed reverse-proxy ingestion host.
+ * Optional override of the managed reverse-proxy ingestion host.
  *
- * Readiness only — nothing is activated here. When (and only when) the public
- * build-time variable `VITE_POSTHOG_API_HOST` is set to a valid absolute HTTPS
- * origin (intended future value: a first-party subdomain such as
- * `https://e.deliciousduck.com`, which is deliberately NOT hardcoded), the SDK
- * ingests through it and `ui_host` keeps pointing at the normal PostHog app.
- * Anything unsafe or malformed is ignored and the direct US host is used.
+ * The default is `POSTHOG_PROXY_HOST` (`https://e.deliciousduck.com`), which is
+ * now activated in preview. A build-time `VITE_POSTHOG_API_HOST` variable can
+ * still override this for future flexibility, but it is not required.
  *
  * Conservative validation: `https:` only, no credentials, no query, no hash,
- * no port-only or path tricks beyond a trailing slash.
+ * origin only — a path other than `/` is rejected. Any absent or malformed value
+ * falls back to `POSTHOG_PROXY_HOST` so analytics never break.
  */
 export function resolvePostHogApiHost(raw?: string | undefined): string {
   const value = (raw ?? "").trim();
-  if (!value) return POSTHOG_HOST;
+  if (!value) return POSTHOG_PROXY_HOST;
   let url: URL;
   try {
     url = new URL(value);
   } catch {
-    return POSTHOG_HOST;
+    return POSTHOG_PROXY_HOST;
   }
-  if (url.protocol !== "https:") return POSTHOG_HOST;
-  if (url.username || url.password) return POSTHOG_HOST;
-  if (url.search || url.hash) return POSTHOG_HOST;
-  if (url.pathname !== "/" && url.pathname !== "") return POSTHOG_HOST;
+  if (url.protocol !== "https:") return POSTHOG_PROXY_HOST;
+  if (url.username || url.password) return POSTHOG_PROXY_HOST;
+  if (url.search || url.hash) return POSTHOG_PROXY_HOST;
+  if (url.pathname !== "/" && url.pathname !== "") return POSTHOG_PROXY_HOST;
   return url.origin;
 }
 
