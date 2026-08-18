@@ -38,7 +38,6 @@ export type CommercialCategory =
   | "roasting_pan"
   | "sheet_pan"
   | "knife"
-  | "fat_storage"
   | "owned_product";
 
 export interface CommercialLinkEntry {
@@ -147,7 +146,6 @@ const AMAZON_SEEDS: SeedRow[] = (
     ["amazon-leave-in-probe-thermometer", "thermometer", "Leave-in probe thermometers, for tracking a whole roast without opening the oven."],
     ["amazon-utility-knife", "knife", "Petty and utility knives, the size range that suits scoring duck skin."],
     ["amazon-boning-knife", "knife", "Boning knives, for jointing a whole duck and lifting breasts off the bone."],
-    ["amazon-fat-storage-jar", "fat_storage", "Heatproof jars with lids, for straining and refrigerating rendered duck fat."],
   ] as [AmazonCategoryId, CommercialCategory, string][]
 ).map(([id, category, useFor]) => ({
   id,
@@ -282,11 +280,6 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     path: "/gear/best-knife-for-scoring-duck",
     placement: "knife_options",
     linkIds: ["amazon-utility-knife", "amazon-boning-knife"],
-  },
-  {
-    path: "/cook/ways-to-use-duck-fat",
-    placement: "duck_fat_storage",
-    linkIds: ["amazon-fat-storage-jar"],
   },
 ];
 

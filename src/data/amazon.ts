@@ -57,7 +57,6 @@ export const AMAZON_CATEGORIES = {
   "amazon-leave-in-probe-thermometer": "leave in probe thermometer oven",
   "amazon-utility-knife": "petty utility kitchen knife",
   "amazon-boning-knife": "boning knife",
-  "amazon-fat-storage-jar": "heatproof glass storage jar with lid",
 } as const;
 
 export type AmazonCategoryId = keyof typeof AMAZON_CATEGORIES;
