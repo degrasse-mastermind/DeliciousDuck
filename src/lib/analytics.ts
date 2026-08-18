@@ -65,6 +65,20 @@ export function currentPagePath(): string | undefined {
   return window.location.pathname;
 }
 
+/**
+ * Path-only, defensive normalization for analytics payloads.
+ *
+ * Strips any query string or hash that ever reached us, so mailbox tokens and
+ * other query parameters can never leave the page inside an event property.
+ */
+export function normalizedPath(raw = currentPagePath()): string | undefined {
+  if (!raw) return undefined;
+  const path = (raw.split("#")[0] ?? "").split("?")[0] ?? "";
+  if (!path) return "/";
+  return path.startsWith("/") ? path : `/${path}`;
+}
+
+
 /** Drop undefined values so GA never receives empty parameters. */
 function clean(params: GtagParams): GtagParams {
   const out: GtagParams = {};
@@ -377,7 +391,20 @@ export function trackNewsletterIntent(params: {
 
 /**
  * Successful subscription only — fired after durable persistence resolves.
- * Never carries the email address or any other PII.
+ *
+ * One successful form submission emits exactly one GA4 `newsletter_signup` and
+ * exactly one PostHog `newsletter_signup` (the short dedupe window below also
+ * guards a double-invocation). Neither carries the email address, subscriber or
+ * contact IDs, tokens, full URLs, or query strings.
+ *
+ * The PostHog payload is a strict allowlist: `placement`, `source`, `interest`,
+ * and `source_path` as a normalized path only.
+ *
+ * Accepted semantics: a duplicate submission of an address already on the list
+ * can still produce a signup conversion. The client deliberately cannot learn
+ * stored membership state — the server returns one constant shape for every
+ * accepted signup — so slightly over-counting conversions is the price of not
+ * exposing an address-membership oracle. This is intentional.
  */
 export function trackNewsletterSignup(params: {
   placement?: string;
@@ -395,14 +422,14 @@ export function trackNewsletterSignup(params: {
     content_slug: contentSlugFromPath(path),
   });
 
-  // PostHog mirror — placement / lead magnet source and path only, no PII.
+  // PostHog mirror — allowlisted properties only, path never a full URL.
   captureEvent(ANALYTICS_EVENTS.newsletterSignup, {
     placement: params.placement,
     source: params.source,
     interest: params.interest,
-    source_path: path,
-    content_slug: contentSlugFromPath(path),
+    source_path: normalizedPath(path),
   });
+
 }
 
 /** Click inside the post-signup "Start here while you wait" module. No PII. */

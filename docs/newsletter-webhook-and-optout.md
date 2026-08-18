@@ -1,7 +1,11 @@
 # Duck Drop: provider webhook + mailbox-token opt-out
 
-Status: implemented in code, **not activated**. No Resend webhook exists, no secret
-is stored, no template links to these pages yet, and nothing here has been deployed.
+Status on 2026-08-18: **deployed and verified in production.** A live end-to-end
+lifecycle passed: first-time signup, Resend welcome delivery, field-guide access,
+duplicate idempotency (no second welcome, no provider call), and mailbox-token
+unsubscribe. The signed Resend webhook receiver is implemented and deployed; the
+provider-side webhook registration and `RESEND_WEBHOOK_SECRET` remain owner
+steps, so provider-originated bounces/complaints are still not synced locally.
 
 ## 1. Webhook receiver
 
@@ -215,20 +219,20 @@ Custom event fields go in `payload`, which is what Resend Automations expose as
 - Failures throw a status classification (`welcome_event_unauthorized`,
   `welcome_event_rate_limited`, …). The provider's response body is never read
   into a log or error, because it can echo the submitted address.
-### Owner-controlled, still REQUIRED before deployment
+### Owner-controlled steps (welcome email now verified end to end)
 
-Nothing in this sprint touched the live Resend event definition, template, or
-automation. Before the welcome email can render working links, the owner must:
+The Resend event definition, template, and automation are owner-managed. Welcome
+delivery was observed working in production on 2026-08-18. If the template is
+ever rebuilt, the same prerequisites apply:
 
-1. Update the existing `newsletter.subscribed` **event definition** to accept
-   `unsubscribe_url` and `preferences_url` as strings (the code's fallback
-   registration only fires on a 404/422 dispatch and was never called in testing).
-2. Add `{{unsubscribe_url}}` and `{{preferences_url}}` to the welcome
-   **template** footer, alongside the existing `{{guide_url}}`.
-3. Only then deploy and run the staged single-address test.
+1. Keep the `newsletter.subscribed` **event definition** accepting
+   `unsubscribe_url` and `preferences_url` as strings.
+2. Keep `{{unsubscribe_url}}` and `{{preferences_url}}` in the welcome
+   **template** footer, alongside `{{guide_url}}`.
 
-Until step 1 is done, a dispatch may be rejected; the row is recorded
-`welcome_event_status = "error"` and the subscriber is still durably stored.
+If the definition ever stops accepting those fields a dispatch may be rejected;
+the row is recorded `welcome_event_status = "error"` and the subscriber is still
+durably stored.
 
 ### No deprecated audience route remains
 
@@ -264,7 +268,7 @@ index, `preference_token`, and the suppression columns already exist.
   correctly suppressed row with a missing event row, resolved by the retry —
   never an unapplied suppression.
 
-## 6. Activation steps (owner-controlled, none performed)
+## 6. Remaining owner-controlled steps (webhook registration only)
 
 1. In Resend, create a webhook endpoint pointing at
    `https://deliciousduck.com/api/webhooks/resend` and subscribe to

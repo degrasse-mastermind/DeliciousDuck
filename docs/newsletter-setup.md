@@ -91,7 +91,14 @@ group by 1;
 - `newsletter_intent` — genuine interaction with a signup surface (field focus).
   Not a conversion. Deduped once per component instance.
 - `newsletter_signup` — fires ONLY after durable database persistence succeeds,
-  even if Resend sync is `pending`. Mark this one as the conversion in GA4.
+  even if Resend sync is `pending`. Mark this one as the conversion in GA4. The same
+  event is mirrored to PostHog with an allowlisted payload (`placement`, `source`,
+  `interest`, `source_path` as a normalized path) and never any PII.
+  Accepted semantics: a duplicate submission from an address already on the list can
+  still count as a conversion, because the client cannot be told membership state
+  without turning the form into an address-membership oracle. Existing subscribers
+  get the same generic success UI, but no Resend contact/event call and no repeated
+  welcome email.
 
 ## Lead magnet + welcome email (current behaviour)
 
@@ -103,7 +110,8 @@ group by 1;
 - After the subscriber row is durably stored and the Resend contact is synced, the
   server fires the Resend custom event `newsletter.subscribed` for that email with
   payload `{ guide_url: "https://deliciousduck.com/downloads/duck-fundamentals-field-guide.pdf" }`.
-  Configure the Resend automation to send the welcome email off that event.
+  The Resend automation sends the welcome email off that event; delivery was verified
+  in production on 2026-08-18.
 - Auditability lives on `newsletter_subscribers.welcome_event_status`
   (`pending` | `sent` | `error` | `skipped`) plus `welcome_event_at`.
   Send-on-first-subscribe: a row already marked `sent` is skipped, so repeat
