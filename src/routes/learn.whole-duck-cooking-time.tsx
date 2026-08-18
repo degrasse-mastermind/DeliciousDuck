@@ -81,7 +81,12 @@ function WholeDuckCookingTimePage() {
 
       <Section id="planning-ranges" heading="Planning ranges by weight and oven temperature">
         <p>
-          The ranges below assume a fridge-cold, unstuffed bird roasted breast-side up on a rack.
+          The ranges below assume a fridge-cold, unstuffed bird roasted breast-side up on a rack.{" "}
+          If you are still deciding what to roast it in, the{" "}
+          <Link to="/gear/best-roasting-pan-for-duck" className="text-primary underline underline-offset-4">
+            roasting pan guide
+          </Link>{" "}
+          covers sizing and fat capacity.
           They are wide on purpose — real ovens, real birds and real thermometers disagree more
           than recipe cards admit.
         </p>

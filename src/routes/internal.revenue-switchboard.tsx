@@ -46,6 +46,7 @@ export const Route = createFileRoute("/internal/revenue-switchboard")({
 
 const READINESS_TONE: Record<ReadinessLevel, string> = {
   blocked: "border-destructive/40 bg-destructive/5",
+  declined: "border-muted-foreground/40 bg-muted",
   "in-progress": "border-accent/50 bg-accent/10",
   "ready-to-activate": "border-primary/40 bg-primary/5",
   live: "border-primary bg-primary/10",
@@ -90,6 +91,7 @@ function MerchantCard({ merchant }: { merchant: Merchant }) {
           ["Direct URL", merchant.directUrl ?? "Not set"],
           ["Publisher ID", merchant.publisherId ?? "—"],
           ["Approval date", merchant.approvalDate ?? "Not approved yet"],
+          ["Declined date", merchant.declinedDate ?? "—"],
           ["Terms last reviewed", merchant.termsReviewedDate ?? "Never"],
           ["Activation date", merchant.activationDate ?? "—"],
           ["Link last checked", merchant.lastCheckedDate ?? "—"],
@@ -179,7 +181,10 @@ function RevenueSwitchboard() {
             </strong>{" "}
             {summary.anyActive
               ? `Active: ${summary.activeMerchants.join(", ")}.`
-              : `Pending or unapplied: ${summary.pendingMerchants.join(", ")}. Every public CTA resolves to a plain merchant link or to no link at all, and GA4 reports affiliate=false.`}{" "}
+              : `Pending or unapplied: ${summary.pendingMerchants.join(", ") || "none"}. Every public CTA resolves to a plain merchant link or to no link at all, and GA4 reports affiliate=false.`}{" "}
+            {summary.declinedMerchants.length > 0
+              ? `Declined: ${summary.declinedMerchants.join(", ")} — no relationship and nothing to activate.`
+              : null}{" "}
             {summary.activeDeepLinkCount} of {summary.deepLinkCount} deep-link slots hold a real
             tracking URL.
           </div>
@@ -207,7 +212,8 @@ function RevenueSwitchboard() {
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Readiness is derived, not typed: a merchant can only read “ready to activate” when the
           registry holds a real tracking URL and every gate is verified. Pending programs are
-          always shown as not monetized so they can never be mistaken for a live relationship.
+          always shown as not monetized, and a declined application reads as declined so it can
+          never be mistaken for a live or forthcoming relationship.
         </p>
         <div className="mt-6 space-y-5">
           {MERCHANTS.map((m) => (

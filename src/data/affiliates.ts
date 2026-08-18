@@ -8,6 +8,8 @@
  * Status meanings (internal only — never rendered to visitors):
  * - "candidate"        We reference the merchant editorially. No application filed.
  * - "applied"          Application submitted, awaiting review. NOT monetized.
+ * - "declined"         The network or advertiser rejected the application. NOT
+ *                      monetized, not pending, and never "ready to activate".
  * - "approved-no-link" Approved by the network, but no tracking URL configured yet.
  * - "active"           Approved AND a real tracking URL is present below.
  *
@@ -16,13 +18,21 @@
  * - A merchant is only treated as monetized when status === "active" AND
  *   `affiliateUrl` is set. Anything else falls back to the plain, non-affiliate
  *   `directUrl`, or to no link at all.
+ * - A declined merchant may still be referenced editorially, but no copy may
+ *   imply a relationship, an approval, or an expected activation.
  * - No secrets (API keys, network passwords, tokens) belong in this file.
  * - `commissionSummary` is INTERNAL ONLY and must be left blank unless the owner
  *   has read the terms in the network dashboard. It is never rendered publicly.
  * - No prices, ratings, or review counts live in this file.
  */
 
-export type MerchantStatus = "candidate" | "applied" | "approved-no-link" | "active";
+export type MerchantStatus =
+  | "candidate"
+  | "applied"
+  | "declined"
+  | "approved-no-link"
+  | "active";
+
 
 /** Owner-verified activation gates. Each flag must be verified, never assumed. */
 export interface ActivationFlags {
@@ -75,6 +85,8 @@ export interface Merchant {
   statusReviewed: string;
   /** YYYY-MM(-DD) the network approved us. Blank until approval is real. */
   approvalDate?: string;
+  /** YYYY-MM(-DD) the application was declined. Only set when status is declined. */
+  declinedDate?: string;
   /** YYYY-MM the owner last read this program's terms. Blank if never read. */
   termsReviewedDate?: string;
   /** YYYY-MM(-DD) the program went live on the site. Blank until active. */
@@ -127,13 +139,15 @@ export const MERCHANTS: Merchant[] = [
     id: "thermoworks",
     name: "ThermoWorks",
     program: "Impact",
-    status: "applied",
+    status: "declined",
     directUrl: "https://www.thermoworks.com/",
     statusReviewed: "2026-08",
+    declinedDate: "2026-08",
     activation: { ...NOTHING_VERIFIED },
     internalNote:
-      "ThermoWorks Impact application was submitted and is pending approval. Impact site-verification meta tag is installed. Do not set status to active until Impact issues an approved tracking URL; paste it into affiliateUrl at that point.",
+      "Historical record: a ThermoWorks Impact application was submitted in 2026-08 and the Impact site-verification meta tag was installed. The application was declined without a stated reason, so there is no relationship, no approval, and no expected activation. ThermoWorks may still be referenced editorially on specification grounds only. Do not add an affiliate URL, and do not re-open this row as pending without a new application.",
   },
+
 ];
 
 export function merchantById(id?: string): Merchant | undefined {
@@ -160,7 +174,12 @@ export function openActivationSteps(merchant: Merchant): string[] {
   return ACTIVATION_FLAG_LABELS.filter((f) => !flags[f.key]).map((f) => f.label);
 }
 
-export type ReadinessLevel = "blocked" | "in-progress" | "ready-to-activate" | "live";
+export type ReadinessLevel =
+  | "blocked"
+  | "declined"
+  | "in-progress"
+  | "ready-to-activate"
+  | "live";
 
 export interface Readiness {
   level: ReadinessLevel;
@@ -170,9 +189,32 @@ export interface Readiness {
   open: string[];
 }
 
+/** True when the network or advertiser rejected the application. */
+export function isDeclined(merchant?: Merchant): boolean {
+  return merchant?.status === "declined";
+}
+
+/** True only while an application is genuinely awaiting a decision. */
+export function isPendingApproval(merchant?: Merchant): boolean {
+  if (!merchant) return false;
+  return merchant.status === "applied" || merchant.status === "approved-no-link";
+}
+
 /** Activation readiness for the switchboard. Fail-safe: defaults to blocked. */
 export function activationReadiness(merchant: Merchant): Readiness {
   const open = openActivationSteps(merchant);
+
+  // Declined is checked before anything else so a rejected application can
+  // never read as monetized, pending, or ready to activate.
+  if (merchant.status === "declined") {
+    return {
+      level: "declined",
+      label: "Declined — no relationship",
+      nextAction:
+        "Nothing to activate. Keep links plain and direct, keep editorial references specification-based, and only re-apply if the program reopens.",
+      open,
+    };
+  }
 
   if (isMonetized(merchant)) {
     return {
@@ -204,6 +246,7 @@ export function activationReadiness(merchant: Merchant): Readiness {
   }
   // approved-no-link
   if (open.length === 0) {
+
     return {
       level: "ready-to-activate",
       label: "Ready to activate",

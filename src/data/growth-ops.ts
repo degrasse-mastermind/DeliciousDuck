@@ -153,7 +153,8 @@ export const CONTENT_QUEUE: QueueCluster[] = [
         intent: "Commercial — comparing a specific tool",
         role: "Highest-converting gear page candidate",
         trust: "money",
-        evidenceNeeded: "Our own side-probe use documented; ThermoWorks program approval",
+        evidenceNeeded:
+          "Our own side-probe use documented. No merchant program to wait on: the ThermoWorks affiliate application was declined in 2026-08.",
         updateTrigger:
           "Impressions with low CTR, or clicks with no outbound clicks — title first, then CTA",
       },

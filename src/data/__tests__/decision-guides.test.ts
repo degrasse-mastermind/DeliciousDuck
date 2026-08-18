@@ -172,7 +172,9 @@ describe("no fake affiliate state on commercial pages", () => {
   it("keeps ThermoWorks at its registry-derived relationship", () => {
     const link = commercialLinkById("thermoworks-thermometer");
     expect(link).toBeTruthy();
-    expect(link!.relationship).toBe("affiliate_pending");
+    // The affiliate application was declined, so the destination is an ordinary
+    // direct link — never affiliate, and never pending.
+    expect(link!.relationship).toBe("direct");
     expect(link!.disclosureLabel).toBe("Direct link — we earn nothing");
   });
 
