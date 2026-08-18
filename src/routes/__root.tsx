@@ -21,7 +21,7 @@ import {
   trackPageView,
 } from "@/lib/analytics";
 import { capturePostHogPageView, initPostHog, syncPostHogRoutePolicy } from "@/lib/posthog";
-import { gtagBootstrapScript } from "@/lib/analytics-gate";
+import { gtagBootstrapScript, syncGaRoutePolicy } from "@/lib/analytics-gate";
 
 
 
@@ -187,6 +187,10 @@ function RootComponent() {
     // into /internal or /api must silence autocapture, page-leave and session
     // recording, and returning to a public route restores them.
     syncPostHogRoutePolicy(pathname);
+    // Same idea for GA4: flip window['ga-disable-<id>'] so gtag's own
+    // enhanced-measurement history pageviews are suspended on blocked routes
+    // and restored when the session returns to a public route.
+    syncGaRoutePolicy(GA_MEASUREMENT_ID, pathname);
     // Manual PostHog pageview per navigation, including the first load.
     capturePostHogPageView(pathname);
 
