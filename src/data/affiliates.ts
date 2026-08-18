@@ -8,6 +8,8 @@
  * Status meanings (internal only — never rendered to visitors):
  * - "candidate"        We reference the merchant editorially. No application filed.
  * - "applied"          Application submitted, awaiting review. NOT monetized.
+ * - "declined"         The network or advertiser rejected the application. NOT
+ *                      monetized, not pending, and never "ready to activate".
  * - "approved-no-link" Approved by the network, but no tracking URL configured yet.
  * - "active"           Approved AND a real tracking URL is present below.
  *
@@ -16,13 +18,21 @@
  * - A merchant is only treated as monetized when status === "active" AND
  *   `affiliateUrl` is set. Anything else falls back to the plain, non-affiliate
  *   `directUrl`, or to no link at all.
+ * - A declined merchant may still be referenced editorially, but no copy may
+ *   imply a relationship, an approval, or an expected activation.
  * - No secrets (API keys, network passwords, tokens) belong in this file.
  * - `commissionSummary` is INTERNAL ONLY and must be left blank unless the owner
  *   has read the terms in the network dashboard. It is never rendered publicly.
  * - No prices, ratings, or review counts live in this file.
  */
 
-export type MerchantStatus = "candidate" | "applied" | "approved-no-link" | "active";
+export type MerchantStatus =
+  | "candidate"
+  | "applied"
+  | "declined"
+  | "approved-no-link"
+  | "active";
+
 
 /** Owner-verified activation gates. Each flag must be verified, never assumed. */
 export interface ActivationFlags {
