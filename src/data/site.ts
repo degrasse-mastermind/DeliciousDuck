@@ -37,7 +37,7 @@ export const PILLARS: Pillar[] = [
     key: "cook",
     label: "Cook",
     to: "/cook",
-    kicker: "Recipes & technique",
+    kicker: "Duck Recipes & Cooking Techniques",
     headline: "Cook",
     blurb:
       "Detailed recipes and technique walkthroughs for breast, legs, whole birds, and everything rendered in between.",
@@ -47,7 +47,7 @@ export const PILLARS: Pillar[] = [
     key: "learn",
     label: "Learn",
     to: "/learn",
-    kicker: "Guides & fundamentals",
+    kicker: "How to Cook Duck: Beginner Guides",
     headline: "Learn",
     blurb:
       "How duck works: cuts, fat, doneness, resting, safety, and the questions people actually search for.",
@@ -57,7 +57,7 @@ export const PILLARS: Pillar[] = [
     key: "buy",
     label: "Buy",
     to: "/buy",
-    kicker: "Sourcing & shopping",
+    kicker: "Where to Buy Duck & How to Choose It",
     headline: "Buy",
     blurb:
       "Where to buy duck online and in person, what the labels mean, and how to judge quality before you pay.",
@@ -67,7 +67,7 @@ export const PILLARS: Pillar[] = [
     key: "gear",
     label: "Gear",
     to: "/gear",
-    kicker: "The duck kitchen",
+    kicker: "Best Gear for Cooking Duck",
     headline: "Gear",
     blurb:
       "The short list of pans, thermometers, and knives that make duck easier — and what you can skip.",
@@ -77,7 +77,7 @@ export const PILLARS: Pillar[] = [
     key: "ingredients",
     label: "Ingredients",
     to: "/ingredients",
-    kicker: "Fat, pairings & sauces",
+    kicker: "Duck Fat, Sauces, Sides & Seasonings",
     headline: "Ingredients",
     blurb:
       "Duck fat, stone fruit, aromatics, and the pantry pairings that make a duck dinner taste finished.",
@@ -87,7 +87,7 @@ export const PILLARS: Pillar[] = [
     key: "tools",
     label: "Tools",
     to: "/tools",
-    kicker: "Calculators & references",
+    kicker: "Duck Cooking Times, Temperatures & Calculators",
     headline: "Tools",
     blurb:
       "Interactive calculators and quick-reference charts for timing, doneness, portions, and substitutions.",

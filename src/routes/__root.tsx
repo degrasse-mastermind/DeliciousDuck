@@ -21,20 +21,8 @@ import {
   trackPageView,
 } from "@/lib/analytics";
 import { capturePostHogPageView, initPostHog } from "@/lib/posthog";
+import { gtagBootstrapScript } from "@/lib/analytics-gate";
 
-function gtagInitScript(measurementId: string) {
-  return `
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '${measurementId}', {
-      // Strip query strings from the automatic first page_view: mailbox-token
-      // links (/newsletter/unsubscribe?t=...) must never reach analytics.
-      page_location: window.location.origin + window.location.pathname,
-      page_path: window.location.pathname
-    });
-  `;
-}
 
 
 function NotFoundComponent() {
@@ -157,14 +145,14 @@ function RootShell({ children }: { children: ReactNode }) {
           name: "impact-site-verification",
           value: "0a7d07f1-b741-4412-8973-aefb551b0262",
         } as any)}
-        {/* Google Analytics 4 — loaded once globally for every route */}
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        />
+        {/*
+          Google Analytics 4 — the tag is injected by this bootstrap only on the
+          canonical public hosts and outside /internal/* and /api/*, so preview,
+          editor, and localhost sessions never contact googletagmanager.com.
+        */}
         <script
           dangerouslySetInnerHTML={{
-            __html: gtagInitScript(GA_MEASUREMENT_ID),
+            __html: gtagBootstrapScript(GA_MEASUREMENT_ID),
           }}
         />
       </head>

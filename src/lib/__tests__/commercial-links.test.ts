@@ -172,7 +172,12 @@ describe("tracking never blocks navigation", () => {
       throw new Error("blocked");
     });
     vi.stubGlobal("window", {
-      location: { pathname: "/buy/where-to-buy-duck-online", search: "" },
+      location: {
+        hostname: "deliciousduck.com",
+        pathname: "/buy/where-to-buy-duck-online",
+        search: "",
+        origin: "https://deliciousduck.com",
+      },
       dataLayer: [],
       gtag,
     });

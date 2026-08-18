@@ -53,7 +53,13 @@ function captureEvents() {
   vi.stubGlobal("window", {
     gtag,
     dataLayer: [],
-    location: { pathname: "/buy/where-to-buy-duck-online", search: "", origin: "https://deliciousduck.com" },
+    // Canonical production host: analytics only emit on deliciousduck.com.
+    location: {
+      hostname: "deliciousduck.com",
+      pathname: "/buy/where-to-buy-duck-online",
+      search: "",
+      origin: "https://deliciousduck.com",
+    },
   });
   return calls;
 }

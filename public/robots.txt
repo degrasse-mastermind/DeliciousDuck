@@ -1,37 +1,81 @@
+# DeliciousDuck — public crawling is welcome.
+# Internal tooling, raw API endpoints, mailbox-token pages, and search-result
+# URLs are excluded for every crawler, named or not.
+
 User-agent: Googlebot
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
+Disallow: /search
 
 User-agent: Bingbot
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
+Disallow: /search
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
 
 # AI / LLM crawlers — ChatGPT, OpenAI, and general assistants
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
+Disallow: /search
 
 User-agent: OpenAI
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
+Disallow: /search
 
 User-agent: GPTBot
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
+Disallow: /search
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
+Disallow: /search
 
 User-agent: Claude-Web
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
+Disallow: /search
 
 User-agent: anthropic-ai
 Allow: /
+Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
+Disallow: /search
 
 User-agent: *
 Allow: /
 Disallow: /search
 Disallow: /internal/
+Disallow: /api/
+Disallow: /newsletter/
 
 Sitemap: https://deliciousduck.com/sitemap.xml
