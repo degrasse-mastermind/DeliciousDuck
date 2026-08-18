@@ -82,15 +82,16 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
   {
     id: "sourcing-us-wellness",
     merchantId: "us-wellness-meats",
-    name: "Pasture-raised duck and duck fat",
-    useCase: "Reader shopping duck alongside other pasture-raised meat",
-    directUrl: "https://grasslandbeef.com/",
+    name: "Rendered duck fat — 1 quart",
+    useCase: "Reader would rather buy a tub of rendered duck fat than render their own",
+    directUrl: "https://grasslandbeef.com/collections/duck",
     status: "active",
-    lastVerified: "2026-08",
-    editorialRelationship: "/buy/where-to-buy-duck-online (secondary sourcing slot)",
+    lastVerified: "2026-08-18",
+    editorialRelationship: "/buy/duck-fat-buying-guide (primary duck fat slot)",
     handsOn: "untested",
-    note: "Approved and live on the canonical Grassland Beef tracking URL held in src/data/affiliates.ts. A duck-category deep link can replace the storefront link if the advertiser issues one.",
+    note: "Live duck collection reviewed 2026-08-18: rendered duck fat and duck livers only, no whole duck, breast or leg quarters. Monetized on the verified duck fat deep link (US_WELLNESS_DUCK_FAT_URL in src/data/affiliates.ts). Duck-meat sourcing slots were removed. Liver stays unmonetized until the owner supplies a liver deep link.",
   },
+
   {
     id: "thermometer-thermoworks",
     merchantId: "thermoworks",
