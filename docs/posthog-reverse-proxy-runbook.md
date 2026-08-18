@@ -1,48 +1,53 @@
-# PostHog managed reverse proxy — readiness runbook
+# PostHog managed reverse proxy — runbook
 
-Status on 2026-08-18: **ready, not activated.** The app still ingests directly to
-`https://us.i.posthog.com`. No proxy hostname exists, no DNS record was created,
-and no environment variable is set.
+Status on 2026-08-18: **DNS/TLS-valid and code-activated in preview.** The app now
+defaults to the first-party proxy `https://e.deliciousduck.com` for PostHog ingestion.
+Publication and production verification are still pending.
 
 ## How the code is wired
 
-- `src/lib/posthog.ts` reads one public build-time variable,
-  `VITE_POSTHOG_API_HOST`, through `postHogApiHost()`.
-- `resolvePostHogApiHost()` validates it conservatively and falls back to the
-  direct US host on anything questionable:
+- `src/lib/posthog.ts` defines:
+  - `POSTHOG_PROXY_HOST` = `https://e.deliciousduck.com` — the current default.
+  - `POSTHOG_DIRECT_HOST` = `https://us.i.posthog.com` — the one-line rollback target.
+  - `POSTHOG_UI_HOST` = `https://us.posthog.com` — always the real PostHog app.
+- `postHogApiHost()` returns `POSTHOG_PROXY_HOST` unless the optional public build-time
+  variable `VITE_POSTHOG_API_HOST` is set to a valid absolute HTTPS origin.
+- `resolvePostHogApiHost()` validates any override conservatively and falls back to
+  `POSTHOG_PROXY_HOST` on empty, malformed, or unsafe values:
   - `https:` only (no `http:`, no scheme-relative, no `javascript:`)
   - no username/password
   - no query string, no hash
   - origin only — a path other than `/` is rejected
-- `ui_host` stays `https://us.posthog.com` so links out of the SDK and toolbar
-  keep resolving to the real PostHog app even when ingestion is proxied.
-- Everything else is unchanged: host/path gating still lives in
-  `src/lib/analytics-gate.ts`, pageviews are still manual and path-only.
+- `ui_host` stays `https://us.posthog.com` so links out of the SDK and toolbar keep
+  resolving to the real PostHog app even when ingestion is proxied.
+- Everything else is unchanged: host/path gating still lives in `src/lib/analytics-gate.ts`,
+  pageviews are still manual and path-only, and no event names or properties changed.
 
-The intended future value is a first-party ingestion subdomain — for example
-`https://e.deliciousduck.com`. It is deliberately not hardcoded anywhere.
+## Why the environment variable is not used
 
-## Activation steps (no code change required)
+This Lovable project does not expose a usable public environment-variable field, so
+`VITE_POSTHOG_API_HOST` cannot be configured through the owner UI. The proxy is therefore
+activated in code by changing the default host constant. The override path is preserved
+for future flexibility and remains safe because any malformed override falls back to
+the proxy default rather than breaking analytics.
 
-1. In PostHog: **Settings → Project → Managed reverse proxy**, create a proxy for
-   the chosen subdomain. PostHog shows a CNAME target.
-2. In the DNS provider for `deliciousduck.com`, add the CNAME PostHog specifies
-   (e.g. `e` → PostHog's target). Wait for PostHog to report the proxy healthy
-   and certificate issued.
-3. In Lovable project settings, set `VITE_POSTHOG_API_HOST` to
-   `https://<subdomain>.deliciousduck.com` (origin only, no trailing path).
-4. Rebuild/redeploy so the public build picks up the variable.
+## Rollback
 
-Rollback is the reverse and equally code-free: unset the variable and redeploy;
-the default direct host returns.
+To revert to direct PostHog ingestion, change one constant in `src/lib/posthog.ts`:
 
-## Verification after activation
+```ts
+export const POSTHOG_PROXY_HOST = "https://us.i.posthog.com"; // was https://e.deliciousduck.com
+```
+
+Then redeploy. There is no DNS or environment-variable step.
+
+## Verification after publication
 
 On the canonical production host, with an ad blocker disabled:
 
 1. **Proxy in use** — in PostHog, open a fresh event and confirm the property
-   `$lib_custom_api_host` equals the proxy origin. Network tab: requests go to
-   `https://<subdomain>.deliciousduck.com/i/v0/e/` (or `/e/`), not `us.i.posthog.com`.
+   `$lib_custom_api_host` equals `https://e.deliciousduck.com`. Network tab: requests go to
+   `https://e.deliciousduck.com/i/v0/e/` (or `/e/`), not `us.i.posthog.com`.
 2. **Pageviews** — navigate `/` → `/recipes` → `/gear`. Exactly one `$pageview`
    per navigation, `$pathname` path-only, no query strings.
 3. **affiliate_click** — click the Amazon roasting-pan CTA and the US Wellness
