@@ -113,12 +113,44 @@ interface SeedRow {
  */
 const SEEDS: SeedRow[] = [
   {
+    id: "culver-duck",
+    merchantId: "culver-duck",
+    category: "duck_source",
+    useFor:
+      "The widest single-producer duck range we found: whole birds, raw breast, legs, ground duck, rendered fat, and prepared items like confit and smoked breast.",
+    ctaLabel: "See Culver Duck's shop",
+  },
+  {
+    id: "tastyduck-duck",
+    merchantId: "tastyduck-jurgielewicz",
+    category: "duck_source",
+    useFor:
+      "Whole ducks, breasts, legs and sampler kits from a family producer — a straightforward first order if you are not sure which cut you want yet.",
+    ctaLabel: "See TastyDuck's shop",
+  },
+  {
+    id: "fossil-farms-duck",
+    merchantId: "fossil-farms",
+    category: "duck_source",
+    useFor:
+      "A broad duck collection across breeds and cuts, plus prepared duck — useful when a recipe names a specific breed or an unusual cut.",
+    ctaLabel: "See the duck collection",
+  },
+  {
     id: "dartagnan-duck",
     merchantId: "dartagnan",
     category: "duck_source",
     useFor:
-      "Whole ducks, breasts, legs and rendered duck fat from a specialty butcher that ships nationally.",
+      "Named duck cuts — magret, leg quarters, rendered fat — from a specialty distributor that ships nationally.",
     ctaLabel: "See current duck options",
+  },
+  {
+    id: "wild-fork-duck",
+    merchantId: "wild-fork",
+    category: "duck_source",
+    useFor:
+      "A mainstream frozen-meat retailer with stores and delivery — worth a look when you want duck without a specialty order, provided it is stocked near you.",
+    ctaLabel: "Check Wild Fork for duck",
   },
   {
     /**
@@ -135,6 +167,14 @@ const SEEDS: SeedRow[] = [
     ctaLabel: "Check current duck fat",
   },
   {
+    id: "culver-duck-fat",
+    merchantId: "culver-duck",
+    category: "duck_fat",
+    useFor:
+      "Rendered duck fat listed alongside the cuts, so fat and a bird can travel in one box.",
+    ctaLabel: "See Culver Duck's shop",
+  },
+  {
     id: "thermoworks-thermometer",
     merchantId: "thermoworks",
     category: "thermometer",
@@ -142,6 +182,7 @@ const SEEDS: SeedRow[] = [
       "Fast-read instant thermometers for pulling duck breast at a target internal temperature.",
   },
 ];
+
 
 
 /**
