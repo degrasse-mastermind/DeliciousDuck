@@ -82,3 +82,24 @@ payload contains an address, token, or full query string.
   autocapture, no session recording, no commercial events.
 - Confirm no automated Amazon/US Wellness request is issued on page load — the
   affiliate request must only follow a real click.
+
+## Automated browser verification and PostHog bot filtering
+
+PostHog's client SDK suppresses **all** ingestion when it detects an automated
+browser (`navigator.webdriver === true`, headless user agents). `posthog.capture()`
+still returns normally, so a Playwright run can show "no analytics requests" while
+the app code is completely correct.
+
+When verifying PostHog end to end with Playwright, use a real desktop user agent
+and hide the automation flag:
+
+```python
+ctx = await browser.new_context(user_agent="Mozilla/5.0 ... Chrome/131.0.0.0 Safari/537.36")
+await ctx.add_init_script("Object.defineProperty(navigator,'webdriver',{get:()=>false})")
+```
+
+GA4 has no equivalent filter, so gtag `/g/collect` hits appear either way.
+
+Verified with this setup on `/gear/best-roasting-pan-for-duck`: one `$pageview`
+on load, and clicking the first Amazon CTA emits `affiliate_click` to both
+`/g/collect` (GA4) and `us.i.posthog.com/i/v0/e/` (PostHog).
