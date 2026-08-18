@@ -58,6 +58,8 @@ export interface CommercialLinkEntry {
   lastVerified: string;
   /** What this destination is useful for, in editorial terms. */
   useFor: string;
+  /** Useful, non-hype CTA label. Never promotional ("best deal", "cheapest"). */
+  ctaLabel?: string;
 }
 
 /** Visitor-facing disclosure labels. Accurate for each state, never aspirational. */
@@ -92,6 +94,7 @@ interface SeedRow {
   merchantId: string;
   category: CommercialCategory;
   useFor: string;
+  ctaLabel?: string;
   /**
    * Explicit destination, used only where a merchant has no single canonical
    * URL (Amazon category Special Links). Built centrally — never hand-written.
@@ -110,12 +113,14 @@ const SEEDS: SeedRow[] = [
     category: "duck_source",
     useFor:
       "Whole ducks, breasts, legs and rendered duck fat from a specialty butcher that ships nationally.",
+    ctaLabel: "See current duck options",
   },
   {
     id: "us-wellness-meats-duck",
     merchantId: "us-wellness-meats",
     category: "duck_source",
     useFor: "Frozen duck cuts and duck fat alongside other pasture-raised meat orders.",
+    ctaLabel: "Check current duck selection",
   },
   {
     id: "thermoworks-thermometer",
@@ -149,6 +154,7 @@ const AMAZON_SEEDS: SeedRow[] = (
   merchantId: "amazon",
   category,
   useFor,
+  ctaLabel: "Browse this category on Amazon",
   url: amazonCategoryUrl(id),
 }));
 
@@ -169,6 +175,7 @@ export const COMMERCIAL_LINKS: CommercialLinkEntry[] = [...SEEDS, ...AMAZON_SEED
       disclosureLabel: DISCLOSURE_LABELS[relationship],
       lastVerified: merchant.lastCheckedDate ?? merchant.statusReviewed,
       useFor: seed.useFor,
+      ...(seed.ctaLabel ? { ctaLabel: seed.ctaLabel } : {}),
     },
   ];
 });
