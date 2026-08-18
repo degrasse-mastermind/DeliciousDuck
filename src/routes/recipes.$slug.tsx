@@ -7,7 +7,8 @@ import {
   Section,
   StepList,
 } from "@/components/site/ArticleShell";
-import { ShopThisGuide } from "@/components/site/Commerce";
+import { DisclosureBanner, ShopThisGuide } from "@/components/site/Commerce";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
@@ -235,6 +236,18 @@ function RecipePage() {
       <UseTheWholeDuck items={content.leftovers} />
 
       <ShopThisGuide items={content.sourcing} intro="Where to source what this recipe needs." />
+
+      <div className="mt-8">
+        <DisclosureBanner compact />
+      </div>
+
+      <CommercialCallout
+        heading="Buy the duck for this recipe"
+        intro="Two mail-order sellers whose public catalogues list duck. Neither has been ordered from for a hands-on review, and each link's relationship is labelled beneath it."
+        placement={`recipe_sourcing_${slug.replace(/[^a-z0-9]+/gi, "_")}`}
+        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        footnote="We publish no prices, stock, or shipping claims. Check the seller's own page for current availability and terms."
+      />
 
       <FaqList items={content.faq} />
 

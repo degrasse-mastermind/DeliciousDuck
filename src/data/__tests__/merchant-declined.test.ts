@@ -89,7 +89,8 @@ describe("ThermoWorks registry row", () => {
     const summary = revenueSummary();
     expect(summary.pendingMerchants).not.toContain("ThermoWorks");
     expect(summary.declinedMerchants).toContain("ThermoWorks");
-    expect(summary.anyActive).toBe(false);
+    // ThermoWorks stays unmonetized even though other programs are now live.
+    expect(summary.activeMerchants ?? []).not.toContain("ThermoWorks");
   });
 
   it("marks the thermometer deep-link slot declined rather than awaiting approval", () => {

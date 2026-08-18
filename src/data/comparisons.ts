@@ -110,10 +110,10 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
       "Duck stock rotates, so a specific cut may not be available when you need it.",
       "Fewer duck-specific cuts than a speciality game supplier.",
     ],
-    affiliateStatus: "none",
+    affiliateStatus: "active",
     merchantId: "us-wellness-meats",
     lastVerified: "2026-08",
-    note: "Listed as a sourcing candidate from public catalogue information. No affiliate relationship or hands-on order review yet.",
+    note: "Listed from public catalogue information. Links to this seller are affiliate links, and we have not ordered from them for a hands-on review.",
   },
   {
     id: "local-asian-market",

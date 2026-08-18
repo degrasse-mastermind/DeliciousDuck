@@ -116,12 +116,21 @@ export const MERCHANTS: Merchant[] = [
     id: "us-wellness-meats",
     name: "US Wellness Meats",
     program: "Impact",
-    status: "applied",
+    status: "active",
+    // Canonical US Wellness / Grassland Beef tracking URL. Do not edit or append to it.
+    affiliateUrl: "https://grasslandbeefllc.sjv.io/2R7EN0",
     directUrl: "https://grasslandbeef.com/",
     statusReviewed: "2026-08",
-    activation: { ...NOTHING_VERIFIED },
+    approvalDate: "2026-08",
+    activationDate: "2026-08-18",
+    activation: {
+      ...NOTHING_VERIFIED,
+      approvalConfirmed: true,
+      trackingUrlPresent: true,
+      disclosureVerified: true,
+    },
     internalNote:
-      "Impact site verification meta tag is installed. Application is pending review. Do not set status to active until Impact issues an approved tracking URL; paste it into affiliateUrl at that point.",
+      "Approved by the advertiser and activated with the canonical Grassland Beef tracking URL. Owner still needs to complete a live test click and confirm GA4 reports affiliate=true. No commission terms recorded here until the network terms have been read.",
   },
   {
     id: "dartagnan",

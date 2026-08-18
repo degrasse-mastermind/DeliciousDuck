@@ -203,15 +203,15 @@ function Page() {
         </div>
         <Callout label="No hands-on testing" tone="gold">
           <p>
-            None of the formats above reflects a hands-on test by DeliciousDuck, and no affiliate
-            relationship is currently active with any brand or seller.
+            None of the formats above reflects a hands-on test by DeliciousDuck. Where a seller link
+            below is an affiliate link, it is labelled as one.
           </p>
         </Callout>
       </Section>
 
       <CommercialCallout
         heading="Sellers whose catalogues list rendered duck fat"
-        intro="Both are registered duck sources on this site. We name no brand of fat and have not ordered either for a hands-on review."
+        intro="Both are registered duck sources on this site. We name no brand of fat and have not ordered either for a hands-on review. Each link's relationship is labelled beneath it."
         placement="duck_fat_sources"
         linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
         criteria={[

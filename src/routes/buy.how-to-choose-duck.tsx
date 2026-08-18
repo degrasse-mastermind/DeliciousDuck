@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
 import { AnswerFirst, ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
+import { DisclosureBanner } from "@/components/site/Commerce";
+import { CommercialCallout } from "@/components/site/CommercialLink";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { acquisitionPage } from "@/data/acquisition-cluster";
@@ -207,6 +209,23 @@ function Page() {
       </Section>
 
       <ArticleBasis page={PAGE} />
+
+      <div className="mt-12">
+        <DisclosureBanner compact />
+      </div>
+
+      <CommercialCallout
+        heading="Sellers you can order duck from"
+        intro="Two mail-order sellers whose public catalogues list duck, with what each is practically useful for. Neither has been ordered from for a hands-on review."
+        placement="choose_duck_sources"
+        linkIds={["dartagnan-duck", "us-wellness-meats-duck"]}
+        criteria={[
+          "The cut and breed are named on the product page, not just \"duck\".",
+          "Frozen shipping is scheduled for a delivery window you will be home for.",
+          "The order minimum and shipping cost suit the quantity you actually cook.",
+        ]}
+        footnote="We publish no prices, ratings, or stock claims. Check the seller's own page for current availability and terms."
+      />
 
       <DecisionNextSteps
         heading="Next steps"
