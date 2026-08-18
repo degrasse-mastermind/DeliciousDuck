@@ -215,7 +215,7 @@ function Page() {
 
       <CommercialCallout
         heading="Sellers you can order duck from"
-        intro="One national mail-order seller whose public catalogue lists duck by the cut, with what it is practically useful for. We have not ordered from them for a hands-on review, and this link earns us nothing."
+        intro="One national mail-order seller whose public catalogue lists duck by the cut, with what it is practically useful for. Catalogue reviewed 2026-08-18."
         placement="choose_duck_sources"
         linkIds={["culver-duck"]}
         criteria={[

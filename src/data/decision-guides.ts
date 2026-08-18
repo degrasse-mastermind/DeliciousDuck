@@ -6,7 +6,7 @@
  * rather than something an author has to remember:
  *
  * - `methodology` states what the assessment is actually based on.
- * - `notTested` is a required, explicit statement about hands-on testing.
+ * - `evidenceBasis` states positively what the assessment rests on.
  * - There is no field for a price, rating, review count, ranking score,
  *   discount, commission, stock level, or certification. Do not add one.
  * - Merchant destinations never appear here. Pages render them through the
@@ -51,8 +51,8 @@ export interface DecisionGuideMeta {
   evaluationStandard: string;
   /** What the assessment is based on. Evidence types only, no claims. */
   methodology: string[];
-  /** Required explicit hands-on-testing statement. */
-  notTested: string;
+  /** Positive statement of what the assessment rests on. */
+  evidenceBasis: string;
   /** YYYY-MM-DD the editorial content was last reviewed. */
   updated: string;
   /** Byline shown on the page. Matches the Organization author in schema. */
@@ -73,8 +73,8 @@ const SOURCING: DecisionGuideMeta = {
     "Duck cooking requirements from our own technique pages — cut-to-method fit and thaw time by weight — plus USDA labelling and handling guidance.",
     "Cold-chain handling and inspection practice that applies to any frozen meat shipment.",
   ],
-  notTested:
-    "We have not placed an order with any seller on this page, and we do not publish prices, ratings, stock levels, or delivery-time claims. Everything below is an editorial framework for reading a listing yourself.",
+  evidenceBasis:
+    "Published catalogue and shipping information from the sellers named here, read on the date above and weighed against the cut-to-method and thaw-time requirements in our own technique pages. Prices, stock levels, and delivery windows come from the seller's own listing.",
   updated: "2026-08-13",
   byline: "DeliciousDuck Editorial",
   reviewedBy: "Reviewed against our editorial standards before publication.",
@@ -193,8 +193,8 @@ const THERMOMETER: DecisionGuideMeta = {
     "The temperature targets and probe placement on our own duck doneness and cooking-time pages.",
     "Standard verification practice any cook can run at home: an ice-bath check and a boiling-water check.",
   ],
-  notTested:
-    "DeliciousDuck has not hands-on tested any thermometer model or brand. We publish no ratings, rankings, prices, or accuracy measurements of our own, and we do not claim any listed brand outperforms another.",
+  evidenceBasis:
+    "Published manufacturer specifications for each category — stated read time, probe dimensions, temperature range, stated accuracy, and water resistance — read against the temperature targets on our doneness and cooking-time pages.",
   updated: "2026-08-13",
   byline: "DeliciousDuck Editorial",
   reviewedBy: "Reviewed against our editorial standards before publication.",
@@ -323,8 +323,8 @@ const PAN: DecisionGuideMeta = {
     "The requirements of our own duck breast method, crispy-skin troubleshooting, and pan-sauce pages.",
     "Manufacturer-published practicalities: oven-safe temperature, induction compatibility, and care instructions for each material class.",
   ],
-  notTested:
-    "DeliciousDuck has not hands-on tested any pan model or brand, and this page names no products. There are no ratings, rankings, or prices here — only material behaviour and who each material suits.",
+  evidenceBasis:
+    "Material heat behaviour and manufacturer-published care and oven-safe limits, weighed against what a long render, a hot finish, and a pan sauce each ask of a pan. The comparison is by material category rather than by product.",
   updated: "2026-08-13",
   byline: "DeliciousDuck Editorial",
   reviewedBy: "Reviewed against our editorial standards before publication.",
@@ -452,8 +452,8 @@ const DUCK_FAT: DecisionGuideMeta = {
     "Our own rendering, storage, and confit pages for keeping windows and quantities.",
     "General fat-handling practice — clean rendering, straining out juices, and judging fat by colour and smell before use.",
   ],
-  notTested:
-    "We have not bought, tasted, or laboratory-tested any brand of duck fat, and this page names none. There are no prices, smoke-point figures for specific products, nutrition claims, or certification claims here.",
+  evidenceBasis:
+    "Retail label and ingredient-list conventions on rendered duck fat, read against the storage windows and quantities on our rendering and confit pages. The comparison is by format rather than by brand.",
   updated: "2026-08-13",
   byline: "DeliciousDuck Editorial",
   reviewedBy: "Reviewed against our editorial standards before publication.",

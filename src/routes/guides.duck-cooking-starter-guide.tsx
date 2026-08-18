@@ -269,8 +269,8 @@ function StarterGuidePage() {
         <Section id="checklist" heading="Your first duck shopping checklist">
           <p>
             Six things cover every method on this site. The gear pages explain how we think about
-            each category and what the trade-offs are; they are editorial explainers, not hands-on
-            product tests.
+            each category and what the trade-offs are, using published specifications and the
+            requirements of the methods themselves.
           </p>
           <ul className="mt-6 divide-y divide-border border-y border-border">
             {CHECKLIST.map((entry) => (

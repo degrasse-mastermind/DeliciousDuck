@@ -66,12 +66,9 @@ function GearPage() {
           <div className="rounded-sm bg-cream p-6 lg:p-8">
             <h2 className="font-display text-2xl text-foreground">How we assess gear</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              We describe what a tool does and why it matters for duck specifically. We do not
-              publish star ratings, review counts, or prices, and we do not claim hands-on testing we
-              have not done. Where a brand is named, it is included for comparison based on published
-              specifications; hands-on review pending.
-
-
+              We describe what a tool does and why it matters for duck specifically. Named brands
+              are compared using published specifications, and the guides work at the level of
+              category and material, which is where most duck-cooking decisions are actually made.
             </p>
             <Link
               to="/editorial-standards"

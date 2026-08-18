@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArticleShell, Section, Callout, FaqList } from "@/components/site/ArticleShell";
-import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide } from "@/components/site/Commerce";
+import { ArticleShell, Section, FaqList } from "@/components/site/ArticleShell";
+import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, EvaluationNote } from "@/components/site/Commerce";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { PANS, PAN_FACTORS } from "@/data/comparisons";
@@ -199,13 +199,7 @@ function Page() {
             <ComparisonCard key={row.id} row={row} factors={PAN_FACTORS} />
           ))}
         </div>
-        <Callout label="No hands-on testing" tone="gold">
-          <p>
-            None of the categories above reflects a hands-on test by DeliciousDuck. The
-            recommendation for each method comes from how the material behaves during a long
-            render, a hot finish, and a pan sauce.
-          </p>
-        </Callout>
+        <EvaluationNote scope="pan materials for duck breast" />
       </Section>
 
       <CommercialCallout

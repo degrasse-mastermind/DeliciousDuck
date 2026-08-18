@@ -211,13 +211,7 @@ function Page() {
             <ComparisonCard key={row.id} row={row} factors={KNIFE_FACTORS} />
           ))}
         </div>
-        <Callout label="No hands-on testing" tone="gold">
-          <p>
-            None of the categories above reflects a hands-on test by DeliciousDuck. The blade shape
-            we recommend follows from what a shallow, controlled score through skin actually asks
-            of a knife.
-          </p>
-        </Callout>
+        <EvaluationNote scope="blade shapes for scoring duck" />
       </Section>
 
       <CommercialCallout

@@ -239,7 +239,7 @@ function Page() {
 
       <CommercialCallout
         heading="Best current options for ordering duck online"
-        intro="Four sellers whose public catalogues list duck by the cut, ordered by how well each solves a common reader problem rather than by whether it pays us. We have not ordered from any of them for a hands-on review, and none of these links earns us anything."
+        intro="Four sellers whose public catalogues list duck by the cut, ordered by how well each solves a common reader problem rather than by whether it pays us. Catalogues reviewed 2026-08-18."
         placement="buy_duck_primary_options"
         linkIds={[
           "culver-duck",
@@ -294,9 +294,8 @@ function Page() {
 
       <Section id="candidates" heading="Each seller in detail">
         <p>
-          The notes below come from public catalogue information as of the last verification date.
-          DeliciousDuck has not placed an order for a hands-on review of any of them, and none of
-          these links earns us anything.
+          The notes below come from public catalogue information as of the last verification date
+          shown on each card. Check the seller's own page for current cuts and terms.
         </p>
 
         <div className="mt-6 grid gap-6">

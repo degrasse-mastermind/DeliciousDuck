@@ -235,8 +235,8 @@ describe("disclosure precedes the US Wellness affiliate CTA", () => {
     expect(banner).toBeGreaterThan(-1);
     expect(callout).toBeGreaterThan(banner);
     expect(text).toMatch(/us-wellness-duck-fat/);
-    // Editorial independence language stays put.
-    expect(text.replace(/\s+/g, " ")).toContain("not ordered from either for a hands-on review");
+    // Positive evidence framing stays put.
+    expect(text.replace(/\s+/g, " ")).toContain("published catalogues, reviewed 2026-08-18");
   });
 
   it("renders the disclosure banner before the specialty note on the sourcing page", () => {

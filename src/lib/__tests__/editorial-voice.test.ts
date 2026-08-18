@@ -96,9 +96,10 @@ describe("editorial voice: unsupported claims", () => {
     }
     expect(offenders).toEqual([]);
   });
-  it("uses 'hands-on review pending' rather than testing-flavoured hedges", () => {
+  it("states the gear evaluation basis positively, without testing-flavoured hedges", () => {
     const gear = readFileSync(join(ROUTES, "gear.index.tsx"), "utf8");
-    expect(gear).toContain("hands-on review pending");
+    expect(gear).toContain("compared using published specifications");
+    expect(gear).not.toMatch(/hands-on review pending/i);
     expect(gear).not.toMatch(/not because we have tested/i);
   });
 

@@ -28,7 +28,7 @@ const STANDARDS = [
   },
   {
     title: "Product recommendations",
-    body: "We describe what a product does and why it helps with duck. We do not publish prices, ratings, or review counts, and we do not present untested items as tested. Where we have not hands-on tested something, the page says we have not.",
+    body: "We describe what a product does and why it helps with duck, working from published specifications, manufacturer and seller documentation, and duck-cooking technique. DeliciousDuck distinguishes desk research from firsthand testing: we label something \"tested\" or \"reviewed\" only when that experience actually occurred, and we publish no prices, ratings, or review counts.",
   },
   {
     title: "Food safety",

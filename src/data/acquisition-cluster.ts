@@ -9,7 +9,7 @@
  * Hard rules (do not relax):
  * - One intent per path. Two entries may not share an intent.
  * - There is no field for a price, rating, ranking, discount, commission,
- *   stock level, merchant name, or hands-on test result. Do not add one.
+ *   stock level, or merchant name. Do not add one.
  * - Merchant destinations never appear here. Pages render them only through
  *   the commercial-link registry (`src/data/commercial-links.ts`).
  */
@@ -27,8 +27,8 @@ export interface AcquisitionPageMeta {
   updated: string;
   /** Evidence types the page is built on. No claims, no brands. */
   basedOn: string[];
-  /** Required explicit statement about what has not been done. */
-  notTested: string;
+  /** Positive statement of what the page rests on. */
+  evidenceBasis: string;
   /** Ids in `src/data/sources.ts` backing the factual claims on the page. */
   sourceIds: string[];
   /** Forward funnel into decision guides, calculators, or technique pages. */
@@ -52,8 +52,8 @@ const CUTS: AcquisitionPageMeta = {
     "USDA labelling and handling guidance for duck, including the age classes you see on a package.",
     "The yield assumptions published in our whole-duck serving calculator.",
   ],
-  notTested:
-    "We do not publish prices, availability, or brand claims, and we have not compared cuts from named sellers. This page is about matching a cut to a method.",
+  evidenceBasis:
+    "Cut-to-method fit, drawn from our own technique pages and USDA labelling conventions. Prices and availability come from the seller you buy from.",
   sourceIds: ["usdaPoultryPrep", "usdaPoultryTemp"],
   funnel: [
     {
@@ -82,8 +82,8 @@ const QUANTITY: AcquisitionPageMeta = {
     "Carving and cut structure from our own whole-duck pages, which determine how many portions a bird actually produces.",
     "USDA storage guidance for what to do with the leftovers you deliberately plan for.",
   ],
-  notTested:
-    "These are portion-planning assumptions, not nutritional recommendations, and they carry no food-safety component. Appetites and menus vary more than any calculator can model.",
+  evidenceBasis:
+    "Stated portion-planning assumptions from our own serving calculator, offered as planning guidance rather than nutritional advice. Appetites and menus vary more than any calculator can model.",
   sourceIds: ["usdaPoultryPrep", "usdaLeftovers"],
   funnel: [
     {
@@ -112,8 +112,8 @@ const FRESH_FROZEN: AcquisitionPageMeta = {
     "USDA danger-zone limits, which are what a compromised cold chain actually puts at risk.",
     "Cold-chain inspection practice already documented on our sourcing page, plus the weight-based thaw times on our thawing guide.",
   ],
-  notTested:
-    "We have not placed an order with any seller, and we publish no delivery-time, packaging-quality, or carrier claims. Check the seller's own stated transit window against your delivery day.",
+  evidenceBasis:
+    "Published seller catalogue and shipping information, read against USDA thawing and cold-storage guidance. Check the seller's own stated transit window against your delivery day.",
   sourceIds: ["usdaPoultryPrep", "usdaThawing", "usdaDangerZone", "fdaColdStorage"],
   funnel: [
     {
@@ -142,8 +142,8 @@ const SELECTION: AcquisitionPageMeta = {
     "The skin and fat-cap requirements of our own crispy-skin and scoring pages, which are what a good bird has to make possible.",
     "USDA cold-storage windows for how long a raw bird holds once it is home.",
   ],
-  notTested:
-    "We have not graded or compared birds from named sellers, and we publish no brand or producer judgements. This is a checklist for judging what is in front of you.",
+  evidenceBasis:
+    "USDA handling guidance and cold-chain practice, turned into a checklist for judging the bird in front of you.",
   sourceIds: ["usdaPoultryPrep", "usdaDangerZone", "fdaColdStorage"],
   funnel: [
     {
@@ -180,8 +180,8 @@ const THANKSGIVING: AcquisitionPageMeta = {
     "USDA's duck and goose guidance, including its approximate planning range of 30 to 35 min/lb at 350°F for a 4 to 6 lb whole duckling, and USDA's stuffing guidance.",
     "Our own published planning assumptions, which live in the whole-duck serving calculator rather than in this page, plus the oven workflow documented on our whole-roast-duck and carving pages.",
   ],
-  notTested:
-    "We publish no prices, no availability claims, and no popularity or market data, we have not cooked the two birds side by side for this page, and we publish no edible-yield percentage as fact — our serving numbers are stated planning assumptions, not measured data. Cost and availability vary too much by region and season for us to state, so check your own sellers. Turkey timings belong to USDA, not to us.",
+  evidenceBasis:
+    "USDA temperature, thawing, and storage guidance for both birds, plus stated planning assumptions for serving numbers. Cost and availability vary by region and season, so check your own sellers.",
   sourceIds: [
     "usdaPoultryTemp",
     "usdaPoultryPrep",
