@@ -26,6 +26,8 @@
  * - No prices, ratings, or review counts live in this file.
  */
 
+import { AMAZON_TAG } from "./amazon";
+
 export type MerchantStatus =
   | "candidate"
   | "applied"
