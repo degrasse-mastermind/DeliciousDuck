@@ -45,13 +45,13 @@ describe("US Wellness is duck fat only", () => {
         COMMERCIAL_LINKS.some((l) => l.id === id && l.merchantId === "us-wellness-meats"),
       );
       if (ids.length === 0) continue;
-      expect(placement.id).toMatch(/fat/i);
+      expect(placement.placement).toMatch(/fat/i);
     }
     expect(DUCK_MERCHANTS.some((r) => r.merchantId === "us-wellness-meats")).toBe(false);
   });
 
   it("has no recipe sourcing placement at all", () => {
-    expect(COMMERCIAL_PLACEMENTS.some((p) => p.id === "recipe_sourcing")).toBe(false);
+    expect(COMMERCIAL_PLACEMENTS.some((p) => p.placement === "recipe_sourcing")).toBe(false);
   });
 });
 
