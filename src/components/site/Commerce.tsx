@@ -50,7 +50,7 @@ export function DisclosureBanner({ compact = false }: { compact?: boolean }) {
  * Outbound seller CTA for a comparison row.
  *
  * Label is specific and action-oriented ("Shop duck at Culver Duck") rather than
- * a vague "Visit seller". Affiliate and direct destinations share the same
+ * a vague generic seller label. Affiliate and direct destinations share the same
  * commercial treatment — affiliate status is disclosed once per page, not
  * re-stated on every button.
  */

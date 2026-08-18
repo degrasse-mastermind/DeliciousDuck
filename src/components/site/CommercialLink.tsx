@@ -64,7 +64,7 @@ export function CommercialLink({
  * Neutral destination note rendered beside a commercial option.
  *
  * States only facts a buyer can use: where the link goes and when we last
- * checked it. No commission ledger — affiliate status is covered once per page
+ * checked it. No paid/unpaid ledger — affiliate status is covered once per page
  * by the plain-language disclosure.
  */
 export function RelationshipNote({ link }: { link: CommercialLinkEntry }) {
