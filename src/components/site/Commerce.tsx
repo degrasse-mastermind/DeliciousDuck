@@ -237,42 +237,99 @@ export function ComparisonTable({
   rows: ComparisonRow[];
   factors: readonly { key: string; label: string }[];
 }) {
+  const uid = useId();
+  const hintId = `${uid}-scroll-hint`;
+  const scroller = useRef<HTMLDivElement | null>(null);
+  const [scrollable, setScrollable] = useState(false);
+  const [atEnd, setAtEnd] = useState(false);
+
+  useEffect(() => {
+    const el = scroller.current;
+    if (!el) return;
+
+    const measure = () => {
+      const overflow = el.scrollWidth - el.clientWidth;
+      setScrollable(overflow > 8);
+      setAtEnd(overflow <= 8 || el.scrollLeft >= overflow - 8);
+    };
+
+    measure();
+    el.addEventListener("scroll", measure, { passive: true });
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    observer?.observe(el);
+    return () => {
+      el.removeEventListener("scroll", measure);
+      observer?.disconnect();
+    };
+  }, [rows.length, factors.length]);
+
+  const showHint = scrollable && !atEnd;
+
   return (
-    <div className="mt-6 overflow-x-auto">
-      <table className="w-full min-w-[44rem] border-collapse text-left text-sm">
-        <caption className="mb-3 text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
-          {caption}
-        </caption>
-        <thead>
-          <tr className="border-y border-border bg-cream">
-            <th scope="col" className="px-3 py-3 font-semibold text-foreground">
-              Option
-            </th>
-            {factors.map((f) => (
-              <th key={f.key} scope="col" className="px-3 py-3 font-semibold text-foreground">
-                {f.label}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row) => (
-            <tr key={row.id} className="border-b border-border align-top">
-              <th scope="row" className="px-3 py-4 text-left font-medium text-foreground">
-                {row.name}
-              </th>
-              {factors.map((f) => (
-                <td key={f.key} className="px-3 py-4 text-muted-foreground">
-                  {row.decisionFactors[f.key] ?? "—"}
-                </td>
+    <div className="mt-6">
+      <div className="relative">
+        <div
+          ref={scroller}
+          role="group"
+          aria-label={caption}
+          tabIndex={0}
+          className="overflow-x-auto rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          <table
+            className="w-full min-w-[44rem] border-collapse text-left text-sm"
+            {...(scrollable ? { "aria-describedby": hintId } : {})}
+          >
+            <caption className="mb-3 text-left text-xs uppercase tracking-[0.14em] text-muted-foreground">
+              {caption}
+            </caption>
+            <thead>
+              <tr className="border-y border-border bg-cream">
+                <th scope="col" className="px-3 py-3 font-semibold text-foreground">
+                  Option
+                </th>
+                {factors.map((f) => (
+                  <th key={f.key} scope="col" className="px-3 py-3 font-semibold text-foreground">
+                    {f.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row) => (
+                <tr key={row.id} className="border-b border-border align-top">
+                  <th scope="row" className="px-3 py-4 text-left font-medium text-foreground">
+                    {row.name}
+                  </th>
+                  {factors.map((f) => (
+                    <td key={f.key} className="px-3 py-4 text-muted-foreground">
+                      {row.decisionFactors[f.key] ?? "—"}
+                    </td>
+                  ))}
+                </tr>
               ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-background to-transparent motion-safe:transition-opacity motion-safe:duration-200 ${
+            showHint ? "opacity-100" : "opacity-0"
+          }`}
+        />
+      </div>
+
+      <p
+        id={hintId}
+        data-table-scroll-hint
+        className={`mt-2 text-xs text-muted-foreground ${showHint ? "" : "hidden"}`}
+      >
+        {showHint ? "Scroll to compare \u2192" : "End of table"}
+      </p>
     </div>
   );
 }
+
 
 /** "Shop this guide" — a compact recap of what a reader might buy, if anything. */
 export function ShopThisGuide({
