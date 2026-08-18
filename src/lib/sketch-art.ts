@@ -167,7 +167,9 @@ const BY_PATH: Record<string, SketchKey> = {
 
   "/gear": "gearFlatlay",
   "/gear/best-pan-for-duck-breast": "gearFlatlay",
-  "/gear/best-roasting-pan-for-duck": "ovenRoast",
+  // Bound explicitly: keyword fallback would reach for a bird or an oven, not
+  // the vessels this page is actually about.
+  "/gear/best-roasting-pan-for-duck": "roastingPans",
   "/gear/best-knife-for-scoring-duck": "scoring",
   "/gear/best-thermometer-for-duck": "thermometer",
 
