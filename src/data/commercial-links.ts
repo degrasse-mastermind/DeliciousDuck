@@ -188,6 +188,21 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
   },
   {
+    path: "/buy/duck-fat-buying-guide",
+    placement: "duck_fat_sources",
+    linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
+  },
+  {
+    path: "/buy/how-to-choose-duck",
+    placement: "choose_duck_sources",
+    linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
+  },
+  {
+    path: "/recipes/$slug",
+    placement: "recipe_sourcing",
+    linkIds: ["dartagnan-duck", "us-wellness-meats-duck"],
+  },
+  {
     path: "/cook/how-to-cook-duck-breast",
     placement: "duck_breast_next_steps",
     linkIds: ["dartagnan-duck", "thermoworks-thermometer"],
