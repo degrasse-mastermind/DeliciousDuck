@@ -101,7 +101,39 @@ describe("editorial voice: unsupported claims", () => {
     expect(gear).toContain("hands-on review pending");
     expect(gear).not.toMatch(/not because we have tested/i);
   });
+
+  /**
+   * Files that *define* the documented-testing tiers or record the evidence a
+   * tier requires. They describe the standard rather than claim it in reader copy.
+   */
+  const HANDS_ON_ALLOWED = [
+    "components/site/RecipeTrustBox.tsx",
+    "data/revenue.ts",
+    "data/growth-ops.ts",
+    "data/duck-drop.ts",
+  ];
+
+  it("flags undocumented first-person hands-on experience claims", () => {
+    // Narrow, meaning-bearing claims only: an explicit kitchen of our own, or
+    // an emphasised assertion that we cook/test the thing ourselves.
+    const CLAIM =
+      /\b(?:from|in) our (?:test )?kitchen\b|\bwe (?:have )?actually (?:cook|cooked)\b|\bwe personally (?:cook|cooked|test|tested)\b/gi;
+    const offenders: string[] = [];
+    for (const file of publicFiles) {
+      const rel = file.replace(process.cwd() + "/", "").replace(/\\/g, "/");
+      if (HANDS_ON_ALLOWED.some((frag) => rel.includes(frag))) continue;
+      const text = readFileSync(file, "utf8");
+      for (const m of text.matchAll(CLAIM)) {
+        // Copy that explicitly denies hands-on testing is honest and allowed.
+        const context = text.slice(Math.max(0, (m.index ?? 0) - 120), m.index ?? 0);
+        if (/\bnot\b|\bnever\b|\bno\b|\byet\b|\bwhen\b/i.test(context)) continue;
+        offenders.push(`${rel}: ${m[0]}`);
+      }
+    }
+    expect(offenders).toEqual([]);
+  });
 });
+
 
 describe("editorial voice: preferred safety vocabulary", () => {
   it("labels structural safety headings by the official minimum, not the authority", () => {
