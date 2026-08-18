@@ -80,7 +80,7 @@ export function buildCommercialClickEvent(input: {
     params: {
       commercial_link_id: link.id,
       merchant: link.merchant,
-      merchant_id: link.merchantId,
+      merchant_id: link.merchantId ?? "(unknown)",
       category: link.category,
       relationship: link.relationship,
       source_path: safeSourcePath(input.sourcePath),
