@@ -39,9 +39,9 @@ export const Route = createFileRoute("/ingredients/orange-with-duck")({
       ),
       ldScript(
         articleSchema({
-          headline: GUIDE.title,
-          description: GUIDE.description,
-          path: GUIDE.path,
+          headline: PAGE.title,
+          description: PAGE.description,
+          path: PAGE.path,
         }),
       ),
       ldScript(faqSchema(FAQ)),

@@ -40,9 +40,9 @@ export const Route = createFileRoute("/ingredients/duck-fat-vs-butter-oil")({
       ),
       ldScript(
         articleSchema({
-          headline: GUIDE.title,
-          description: GUIDE.description,
-          path: GUIDE.path,
+          headline: PAGE.title,
+          description: PAGE.description,
+          path: PAGE.path,
         }),
       ),
       ldScript(faqSchema(FAQ)),
