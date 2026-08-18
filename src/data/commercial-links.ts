@@ -69,8 +69,8 @@ export interface CommercialLinkEntry {
 
 /** Visitor-facing disclosure labels. Accurate for each state, never aspirational. */
 export const DISCLOSURE_LABELS: Record<CommercialRelationship, string> = {
-  direct: "Direct link — we earn nothing",
-  affiliate_pending: "Direct link — we earn nothing",
+  direct: "Direct link to the seller",
+  affiliate_pending: "Direct link to the seller",
   affiliate_active: "Affiliate link — we may earn a commission",
   owned: "Our own resource",
 };
