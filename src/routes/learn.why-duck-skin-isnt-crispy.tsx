@@ -3,7 +3,7 @@ import { ArticleShell, Section, Callout } from "@/components/site/ArticleShell";
 import { QuackFix } from "@/components/site/QuackFix";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
@@ -21,6 +21,13 @@ export const Route = createFileRoute("/learn/why-duck-skin-isnt-crispy")({
           { name: "Learn", item: "/learn" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
     ],
   }),

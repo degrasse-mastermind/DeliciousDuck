@@ -11,7 +11,7 @@ import { CommercialCallout } from "@/components/site/CommercialLink";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { ROASTING_PANS, ROASTING_PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/gear/best-roasting-pan-for-duck")!;
 
@@ -61,6 +61,13 @@ export const Route = createFileRoute("/gear/best-roasting-pan-for-duck")({
           { name: "Gear", item: "/gear" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

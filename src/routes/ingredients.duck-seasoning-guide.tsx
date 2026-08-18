@@ -4,7 +4,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { ingredientByPath } from "@/data/ingredients";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const PAGE = ingredientByPath("/ingredients/duck-seasoning-guide")!;
 
@@ -38,6 +38,13 @@ export const Route = createFileRoute("/ingredients/duck-seasoning-guide")({
           { name: "Ingredients", item: "/ingredients" },
           { name: PAGE.title, item: PAGE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: PAGE.title,
+          description: PAGE.description,
+          path: PAGE.path,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

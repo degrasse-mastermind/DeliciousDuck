@@ -6,7 +6,7 @@ import { SafetyNote } from "@/components/site/SafetyNote";
 import { ShopThisGuide } from "@/components/site/Commerce";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SketchBand } from "@/components/site/SketchFigure";
 import { SKETCH } from "@/lib/sketch-art";
@@ -28,6 +28,13 @@ export const Route = createFileRoute("/cook/how-to-cook-duck-breast")({
           { name: "Cook", item: "/cook" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
     ],
   }),

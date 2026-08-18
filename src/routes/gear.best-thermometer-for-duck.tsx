@@ -6,7 +6,7 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { THERMOMETERS, THERMOMETER_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { decisionGuide } from "@/data/decision-guides";
@@ -31,6 +31,14 @@ export const Route = createFileRoute("/gear/best-thermometer-for-duck")({
           { name: "Gear", item: "/gear" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+          updated: DG.updated,
+        }),
       ),
       ldScript(faqSchema(FAQ)),
     ],

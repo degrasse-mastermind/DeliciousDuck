@@ -3,7 +3,7 @@ import { ArticleShell, Section, DataTable } from "@/components/site/ArticleShell
 import { DuckMatchmaker } from "@/components/site/DuckMatchmaker";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 
 const GUIDE = guideByPath("/cook/what-to-serve-with-duck-breast")!;
 
@@ -17,6 +17,13 @@ export const Route = createFileRoute("/cook/what-to-serve-with-duck-breast")({
           { name: "Cook", item: "/cook" },
           { name: GUIDE.title, item: GUIDE.path },
         ]),
+      ),
+      ldScript(
+        articleSchema({
+          headline: GUIDE.title,
+          description: GUIDE.description,
+          path: GUIDE.path,
+        }),
       ),
     ],
   }),
