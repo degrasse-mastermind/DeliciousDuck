@@ -15,16 +15,18 @@ function formatUpdated(iso: string): string {
 }
 
 /**
- * Byline + last-updated + editorial-review transparency line.
- * Author is the organisation, matching the Organization author used in schema.
+ * Quiet metadata line: how-we-judge link + last-updated date.
+ * Structured author metadata stays in schema; nothing is bylined visibly.
  */
 export function EditorialByline({ guide }: { guide: DecisionGuideMeta }) {
   return (
     <div className="mt-1 flex flex-col gap-2 border-y border-border py-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
       <p>
-        By <span className="font-semibold text-foreground">{guide.byline}</span> · {guide.reviewedBy}{" "}
-        <Link to="/editorial-standards" className="text-primary underline underline-offset-4">
-          Editorial standards
+        <Link
+          to="/editorial-standards"
+          className="text-primary underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        >
+          How we judge
         </Link>
       </p>
       <p className="flex items-center gap-1.5 whitespace-nowrap">
@@ -37,6 +39,7 @@ export function EditorialByline({ guide }: { guide: DecisionGuideMeta }) {
     </div>
   );
 }
+
 
 /** Honest methodology / evaluation-standard panel. */
 export function MethodologyPanel({ guide }: { guide: DecisionGuideMeta }) {
