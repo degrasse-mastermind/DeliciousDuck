@@ -170,7 +170,14 @@ describe("acquisition cluster route files", () => {
       expect(code).toContain("<ArticleByline page={PAGE} />");
       expect(code).toContain("<ArticleBasis page={PAGE} />");
       expect(code).toContain("<SourceNotes ids={PAGE.sourceIds} />");
-      expect(code).toContain("items={PAGE.funnel}");
+      // The Thanksgiving hub replaces the generic funnel band with its own
+      // tracked plan, table-choice and commercial modules, so that every
+      // destination on the page is offered exactly once.
+      if (page.path !== "/learn/thanksgiving-duck-dinner") {
+        expect(code).toContain("items={PAGE.funnel}");
+      } else {
+        expect(code).toContain("<ThanksgivingCommercialModule />");
+      }
     }
   });
 
