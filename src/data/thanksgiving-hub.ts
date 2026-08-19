@@ -331,7 +331,7 @@ export const THANKSGIVING_CHECKLIST: ThanksgivingChecklistGroup[] = [
       "Duck goes in at the scheduled time; fat poured off into a heatproof jar as it collects",
       "Thigh reads 165°F (73.9°C) away from bone before the bird comes out",
       "Bird rests while the potatoes re-crisp uncovered",
-      "Legs off at the joint first, then the breasts, then sliced",
+      "Carve after the rest: legs off at the joint first, then the breasts, then sliced",
     ],
   },
   {
