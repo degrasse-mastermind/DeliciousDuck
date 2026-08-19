@@ -25,6 +25,9 @@ import ovenRoast from "@/assets/sketch/oven-roast.jpg";
 import duckVsTurkey from "@/assets/sketch/duck-vs-turkey.png";
 // Transparent-alpha master, bound explicitly to the roasting-pan gear guide.
 import roastingPans from "@/assets/sketch/roasting-pans.png";
+// Transparent-alpha master, drawn for the duck-breast buying guide: package
+// formats, a scale, and blank label shapes — no merchant marks, no prices.
+import duckBreastPackages from "@/assets/sketch/duck-breast-packages.png";
 
 export type SketchArt = {
   src: string;
