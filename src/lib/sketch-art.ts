@@ -139,6 +139,11 @@ export const SKETCH = {
     alt: "Colored-pencil sketch of a roast duck and a roast turkey side by side on platters with sage, cranberries and orange",
     transparent: true,
   },
+  duckBreastPackages: {
+    src: duckBreastPackages,
+    alt: "Colored-pencil sketch of three unbranded duck breast packages on butcher paper — a vacuum-sealed pair, a paper-wrapped single breast, and an open tray of two skin-on breasts — beside a kitchen scale and two blank labels",
+    transparent: true,
+  },
 } satisfies Record<string, SketchArt>;
 
 /** Registry key for a named illustration. */
