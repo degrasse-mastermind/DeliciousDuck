@@ -68,7 +68,7 @@ const FAQ = [
   },
   {
     q: "How many duck breasts should I order per person?",
-    a: "One breast per person is the normal plating unit, and a larger magret-style breast is often sliced across for two smaller plates. Weights vary between sellers and between packs, so read the weight on the listing rather than assuming — we don't publish a guaranteed weight for anyone's breast.",
+    a: "One breast per person is the normal plating unit, and a larger magret-style breast is often sliced across for two smaller plates. Weights vary between sellers and between packs, so read the weight on the listing rather than assuming — we don't publish a weight on any seller's behalf.",
   },
   {
     q: "Will mail-order duck breast arrive frozen, and how do I thaw it?",

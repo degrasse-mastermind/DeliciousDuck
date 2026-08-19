@@ -349,7 +349,7 @@ export const GUIDES: GuideEntry[] = [
     title: "Where to Buy Duck Breast Online",
     seoTitle: "Where to Buy Duck Breast Online: Formats, Weights & Sellers | DeliciousDuck",
     description:
-      "How to buy duck breast online: skin-on formats, Pekin versus Moulard magret, portion weights, pack counts, frozen versus fresh, arrival checks, and which seller suits your cook.",
+      "How to buy duck breast online: skin-on formats, Pekin versus Moulard magret, portion weights, pack counts, arrival checks, and which seller suits your cook.",
     teaser: "Formats, weights and arrival checks — then the seller that fits your cook.",
     pillar: "buy",
     cluster: "commerce",
