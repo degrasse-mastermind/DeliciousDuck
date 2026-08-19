@@ -200,11 +200,11 @@ export const RECIPES: Recipe[] = [
     slug: "air-fryer-duck-breast",
     name: "Air Fryer Duck Breast",
     description:
-      "Render the fat cap at a low setting, crisp it at a high one, and pull by thermometer — the air fryer route to crisp skin without a smoking kitchen.",
+      "Air fryer duck breast with crisp skin: render the fat gently, finish at high heat, and use a thermometer while managing smoke and hot rendered fat.",
     image: airFryerHero,
     cardImage: airFryerCard,
     imageAlt:
-      "Sliced air fryer duck breast with crisp golden-brown skin and a rosy centre, with a dark cherry glaze",
+      "Sliced air fryer duck breast with crisp golden-brown skin and a rosy centre, served with an optional dark cherry sauce that is not part of the recipe below",
     category: "Duck breast",
     prepTimeMinutes: 15,
     cookTimeMinutes: 20,

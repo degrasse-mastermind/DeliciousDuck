@@ -150,17 +150,37 @@ function RecipePage() {
         />
       }
     >
-      <img
-        src={recipe.illustration ?? recipe.image}
-        alt={
-          recipe.illustration
-            ? (recipe.illustrationAlt ?? `${recipe.name}, illustrated`)
-            : (recipe.imageAlt ?? `${recipe.name}, finished and sliced`)
-        }
-        width={1024}
-        height={768}
-        className="aspect-[4/3] w-full rounded-sm object-cover"
-      />
+      <figure className="m-0">
+        <img
+          src={recipe.illustration ?? recipe.image}
+          alt={
+            recipe.illustration
+              ? (recipe.illustrationAlt ?? `${recipe.name}, illustrated`)
+              : (recipe.imageAlt ?? `${recipe.name}, finished and sliced`)
+          }
+          width={1024}
+          height={768}
+          className="aspect-[4/3] w-full rounded-sm object-cover"
+        />
+        {content.imageCaption && (
+          <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            {content.imageCaption.text}
+            {content.imageCaption.to && (
+              <>
+                {" "}
+                <Link
+                  to={content.imageCaption.to}
+                  className="text-primary underline underline-offset-4"
+                >
+                  {content.imageCaption.linkLabel ?? "Read the pairing guide"}
+                </Link>
+                .
+              </>
+            )}
+          </figcaption>
+        )}
+      </figure>
+
 
       <RecipeTrustBox
         recipe={recipe}

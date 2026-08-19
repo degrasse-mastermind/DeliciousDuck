@@ -224,9 +224,6 @@ const BY_PATH: Record<string, SketchKey> = {
 
   "/recipes": "slicedBreast",
   "/recipes/pan-seared-duck-breast": "duckBreastPan",
-  // Bound explicitly: the keyword rules reach for the skillet drawing, and a
-  // pan is exactly the appliance this page is not using.
-  "/recipes/air-fryer-duck-breast": "slicedBreast",
   "/recipes/duck-leg-confit": "confit",
   "/recipes/roasted-whole-duck": "wholeRoastDuck",
   // Bound explicitly: the keyword rules would match "orange" and reach for the
@@ -354,6 +351,15 @@ const BY_KEYWORD: Array<[string, SketchKey]> = [
 /** Routes that should stay illustration-free (internal, legal, utility). */
 const NO_ART_PREFIXES = ["/internal", "/privacy", "/terms", "/legal", "/api"];
 
+/**
+ * Exact routes that lead with their own photograph instead of a drawing. The
+ * air fryer breast page has a bound recipe photograph as its first culinary
+ * visual; a generic sliced-breast drawing above the H1 read as pale white
+ * poultry and said nothing about the appliance.
+ */
+const NO_ART_PATHS = ["/recipes/air-fryer-duck-breast"];
+
+
 /** Last-resort art for any content route we can't classify. */
 const SITE_DEFAULT: SketchKey = "ducksFlight";
 
@@ -386,6 +392,8 @@ export function sketchForPath(pathname: string): SketchArt | null {
 
   if (path === "/" || path === "") return null;
   if (NO_ART_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`))) return null;
+  if (NO_ART_PATHS.includes(path)) return null;
+
 
   const exact = BY_PATH[path];
   if (exact) return SKETCH[exact];
@@ -424,8 +432,6 @@ const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
   // Holiday planning hub: oven, bird, board, table — never the turkey compare.
   "/learn/thanksgiving-duck-dinner": ["ovenRoast", "carving", "sides"],
   "/recipes/duck-fat-roasted-potatoes": [],
-  // Air fryer breast: thermometer and sides fit; the skillet drawing does not.
-  "/recipes/air-fryer-duck-breast": ["thermometer", "sides"],
   // Breast buying guide: the page's own package drawing carries it. The only
   // fitting companion is the skillet, and repeating one drawing down a buying
   // page reads worse than an unillustrated stretch — so no companion bands.
