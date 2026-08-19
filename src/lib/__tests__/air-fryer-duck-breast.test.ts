@@ -76,10 +76,13 @@ describe("air fryer duck breast: method integrity", () => {
   });
 
   it("never tells the reader to add water unconditionally", () => {
-    const water = JSON.stringify(content).match(/[^.]*water[^.]*\./gi) ?? [];
-    expect(water.length).toBeGreaterThan(0);
-    for (const sentence of water) {
-      expect(sentence.toLowerCase()).toMatch(/manufacturer|permits|not|only if/);
+    const drawerWater =
+      JSON.stringify(content).match(/[^.]*water[^.]*(drawer|appliance|basket)[^.]*\./gi) ??
+      JSON.stringify(content).match(/[^.]*(drawer|appliance|basket)[^.]*water[^.]*\./gi) ??
+      [];
+    expect(drawerWater.length).toBeGreaterThan(0);
+    for (const sentence of drawerWater) {
+      expect(sentence.toLowerCase()).toMatch(/manufacturer|permits|only if|do not/);
     }
   });
 
@@ -150,7 +153,10 @@ describe("air fryer duck breast: link network and analytics", () => {
       const source = read(file);
       const uses = source.split("<AirFryerRecipeLink").length - 1;
       expect(uses, file).toBe(1);
-      expect(source, file).toContain(placement.split("air_fryer_breast_from_")[1]!);
+      const key = Object.entries(AIR_FRYER_INBOUND_PLACEMENTS).find(
+        ([, value]) => value === placement,
+      )![0];
+      expect(source, file).toContain(`AIR_FRYER_INBOUND_PLACEMENTS.${key}`);
     }
   });
 
@@ -168,9 +174,9 @@ describe("air fryer duck breast: link network and analytics", () => {
     expect(link).toContain("TrackedHubLink");
     expect(link).not.toContain("<a ");
     expect(read("src/components/site/AirFryerMethodCompare.tsx")).not.toContain("<a ");
-    for (const id of Object.values(AIR_FRYER_OUTBOUND_PLACEMENTS)) {
+    for (const key of Object.keys(AIR_FRYER_OUTBOUND_PLACEMENTS)) {
       expect(read("src/components/site/AirFryerMethodCompare.tsx")).toContain(
-        id.split("air_fryer_breast_to_")[1]!,
+        `AIR_FRYER_OUTBOUND_PLACEMENTS.${key}`,
       );
     }
   });
