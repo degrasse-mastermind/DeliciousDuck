@@ -32,6 +32,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <HomeIntentRouter />
       <JourneySection />
       <PopularRecipes />
       <ToolsSection />
