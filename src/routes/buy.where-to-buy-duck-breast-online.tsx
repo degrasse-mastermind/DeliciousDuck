@@ -1,4 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
+import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
 import { DisclosureBanner, ComparisonTable } from "@/components/site/Commerce";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
@@ -318,6 +320,14 @@ function Page() {
       <div className="mt-14">
         <NewsletterSignup id="field-guide" interest="sourcing" />
       </div>
+
+      <AirFryerRecipeLink
+        placement={AIR_FRYER_INBOUND_PLACEMENTS.breastSourcingGuide}
+        className="mt-10"
+      >
+        No skillet, or no appetite for the spatter? Breast weight and fat-cap thickness matter even
+        more in a basket.
+      </AirFryerRecipeLink>
 
       <ConversionPaths
         heading="Cook what you buy"

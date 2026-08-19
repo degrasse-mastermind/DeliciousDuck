@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
+import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
 import { ArticleShell, Section, StepList, Callout, DataTable } from "@/components/site/ArticleShell";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
@@ -347,6 +349,14 @@ function Page() {
         eyebrow="Before you cook"
         heading="Sourcing the breast for this method"
       />
+
+      <AirFryerRecipeLink
+        placement={AIR_FRYER_INBOUND_PLACEMENTS.breastMethodGuide}
+        className="mt-10"
+      >
+        Cooking in an air fryer instead? The rendering problem is the same one, but the appliance
+        solves it differently — low first, then a short burst of high heat.
+      </AirFryerRecipeLink>
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>
