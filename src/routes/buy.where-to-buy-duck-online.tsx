@@ -97,10 +97,10 @@ function Page() {
       <DisclosureBanner />
 
       <CommercialCallout
-        heading="Need rendered fat rather than a bird?"
-        intro="US Wellness sells rendered duck fat by the quart. It is useful for confit-scale cooking, but it is not a duck-meat source and does not belong in the seller ranking below."
-        linkIds={["us-wellness-duck-fat"]}
-        placement="duck_fat_early_specialty"
+        heading="Start with the broadest duck selection"
+        intro="Culver Duck lists whole birds, raw breast, legs, ground duck, rendered fat, and prepared options. That range makes its shop a useful first check when you are still deciding which cut fits the meal."
+        linkIds={["culver-duck"]}
+        placement="buy_duck_primary_options"
       />
 
       <QuickPicks

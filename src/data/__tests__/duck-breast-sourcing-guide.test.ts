@@ -12,9 +12,12 @@ import { describe, expect, it } from "vitest";
 import { BREAST_SELLERS, BREAST_SELLER_FACTORS, DUCK_MERCHANTS } from "@/data/comparisons";
 import { GUIDES, guideByPath } from "@/data/guides";
 import { decisionGuide } from "@/data/decision-guides";
-import { COMMERCIAL_PLACEMENTS, commercialLinkById } from "@/data/commercial-links";
-import { isAffiliateActive } from "@/data/commercial-links";
-import { relationshipLabel } from "@/components/site/CommercialLink";
+import {
+  COMMERCIAL_PLACEMENTS,
+  commercialLinkById,
+  isAffiliateActive,
+  relationshipLabel,
+} from "@/data/commercial-links";
 import { CONVERSION_PATHS, conversionPathsForSource } from "@/data/conversion-paths";
 import { SKETCH, sketchForPath, sketchRotationForPath } from "@/lib/sketch-art";
 import { sitemapPaths } from "@/lib/sitemap";

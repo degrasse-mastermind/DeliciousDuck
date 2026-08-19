@@ -242,6 +242,13 @@ export function isAffiliateActive(link: CommercialLinkEntry): boolean {
   return link.relationship === "affiliate_active";
 }
 
+/** Compact per-link relationship label, derived only from registry state. */
+export function relationshipLabel(link: CommercialLinkEntry): string {
+  return isAffiliateActive(link)
+    ? "Affiliate link · we may earn a commission"
+    : "Editorial link · no paid relationship";
+}
+
 /**
  * `rel` policy:
  * - active affiliate → "sponsored nofollow noopener"

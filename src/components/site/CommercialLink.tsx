@@ -3,6 +3,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import {
   commercialLinkById,
   destinationHost,
+  relationshipLabel,
   relForLink,
   type CommercialLinkEntry,
 } from "@/data/commercial-links";
@@ -61,19 +62,6 @@ export function CommercialLink({
     </a>
   );
 }
-/**
- * Accurate, compact per-link relationship label, derived from the registry.
- *
- * Only two states are ever shown: a genuinely monetized link says so, and
- * everything else says plainly that no money changes hands. Never a commission
- * claim for a link that pays nothing.
- */
-export function relationshipLabel(link: CommercialLinkEntry): string {
-  return isAffiliateActive(link)
-    ? "Affiliate link · we may earn a commission"
-    : "Editorial link · no paid relationship";
-}
-
 /**
  * Neutral destination note rendered beside a commercial option.
  *

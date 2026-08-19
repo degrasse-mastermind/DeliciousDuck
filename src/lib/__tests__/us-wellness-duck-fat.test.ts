@@ -94,6 +94,33 @@ describe("verified duck fat deep link", () => {
 });
 
 describe("no US Wellness duck-meat placements", () => {
+  it("leads the sourcing page with an intent-matched direct duck seller", () => {
+    const source = read("src/routes/buy.where-to-buy-duck-online.tsx");
+    const earlyCallout = source.indexOf('heading="Start with the broadest duck selection"');
+    const quickPicks = source.indexOf("<QuickPicks");
+    const fatCallout = source.indexOf('placement="duck_fat_specialty_note"');
+    const culver = commercialLinkById("culver-duck")!;
+
+    expect(earlyCallout).toBeGreaterThan(-1);
+    expect(earlyCallout).toBeLessThan(quickPicks);
+    expect(source.slice(earlyCallout, quickPicks)).toContain('linkIds={["culver-duck"]}');
+    expect(source.slice(earlyCallout, quickPicks)).not.toContain("us-wellness-duck-fat");
+    expect(culver.category).toBe("duck_source");
+    expect(culver.relationship).toBe("direct");
+    expect(relForLink(culver)).toBe("noopener");
+    expect(
+      buildCommercialClickEvent({
+        link: culver,
+        placement: "buy_duck_primary_options",
+        sourcePath: "/buy/where-to-buy-duck-online",
+      }),
+    ).toMatchObject({
+      name: "merchant_click",
+      params: { affiliate: false, merchant_id: "culver-duck" },
+    });
+    expect(fatCallout).toBeGreaterThan(quickPicks);
+  });
+
   it("registers no US Wellness duck_source row", () => {
     expect(COMMERCIAL_LINKS.some((l) => l.merchantId === "us-wellness-meats" && l.category === "duck_source")).toBe(
       false,
@@ -241,8 +268,14 @@ describe("disclosure precedes the US Wellness affiliate CTA", () => {
 
   it("renders the disclosure banner before the specialty note on the sourcing page", () => {
     const text = read("src/routes/buy.where-to-buy-duck-online.tsx");
+    expect(text.indexOf('linkIds={["culver-duck"]}')).toBeGreaterThan(
+      text.indexOf("<DisclosureBanner"),
+    );
     expect(text.indexOf('placement="duck_fat_specialty_note"')).toBeGreaterThan(
       text.indexOf("<DisclosureBanner"),
+    );
+    expect(text.indexOf('placement="duck_fat_specialty_note"')).toBeGreaterThan(
+      text.indexOf('linkIds={["culver-duck"]}'),
     );
   });
 
