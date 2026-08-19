@@ -287,6 +287,18 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     ],
   },
   {
+    // Breast intent only: the same four duck-meat sellers, read for the cut.
+    // No duck-fat link here — that is a different purchase and a different page.
+    path: "/buy/where-to-buy-duck-breast-online",
+    placement: "buy_duck_breast_primary_options",
+    linkIds: [
+      "culver-duck",
+      "tastyduck-duck",
+      "fossil-farms-duck",
+      "wild-fork-duck",
+    ],
+  },
+  {
     // Separate, accurate note: the US Wellness duck link is for rendered fat.
     path: "/buy/where-to-buy-duck-online",
     placement: "duck_fat_specialty_note",
