@@ -354,6 +354,15 @@ const BY_KEYWORD: Array<[string, SketchKey]> = [
 /** Routes that should stay illustration-free (internal, legal, utility). */
 const NO_ART_PREFIXES = ["/internal", "/privacy", "/terms", "/legal", "/api"];
 
+/**
+ * Exact routes that lead with their own photograph instead of a drawing. The
+ * air fryer breast page has a bound recipe photograph as its first culinary
+ * visual; a generic sliced-breast drawing above the H1 read as pale white
+ * poultry and said nothing about the appliance.
+ */
+const NO_ART_PATHS = ["/recipes/air-fryer-duck-breast"];
+
+
 /** Last-resort art for any content route we can't classify. */
 const SITE_DEFAULT: SketchKey = "ducksFlight";
 
