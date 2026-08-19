@@ -14,6 +14,8 @@ import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 const GUIDE = guideByPath("/learn/duck-vs-turkey-thanksgiving")!;
 const PAGE = acquisitionPage("/learn/duck-vs-turkey-thanksgiving")!;
@@ -758,17 +760,11 @@ function Page() {
           </Link>{" "}
           guide is a framework for judging them, not a price list.
         </p>
-        <p>
+        <ThanksgivingHubLink placement={THANKSGIVING_INBOUND_PLACEMENTS.duckVsTurkey}>
           If duck is the call, the planning is a separate job: order date, thaw schedule, a
-          single-oven order of play, and a menu built against the richness. That all lives in our{" "}
-          <Link
-            to="/learn/thanksgiving-duck-dinner"
-            className="text-primary underline underline-offset-4"
-          >
-            Thanksgiving duck dinner plan
-          </Link>
-          .
-        </p>
+          single-oven order of play, a printable checklist and a menu built against the richness.
+          That all lives in our
+        </ThanksgivingHubLink>
       </Section>
 
       <ArticleBasis page={PAGE} />

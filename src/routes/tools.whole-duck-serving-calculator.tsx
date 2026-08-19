@@ -4,6 +4,8 @@ import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { PageHeader } from "@/components/site/PageHeader";
 import { WholeDuckServingCalculator } from "@/components/tools/WholeDuckServingCalculator";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 export const Route = createFileRoute("/tools/whole-duck-serving-calculator")({
   head: () => ({
@@ -125,6 +127,14 @@ function CalculatorPage() {
             </ul>
           </aside>
         </div>
+
+        <ThanksgivingHubLink
+          placement={THANKSGIVING_INBOUND_PLACEMENTS.servingCalculator}
+          className="mt-10"
+        >
+          Cooking this for Thanksgiving? The bird count above is the first line of a longer
+          schedule — ordering, thawing, a single-oven order of play and carving — set out in our
+        </ThanksgivingHubLink>
 
         <ConversionPaths
           sourcePath="/tools/whole-duck-serving-calculator"
