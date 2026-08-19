@@ -252,12 +252,7 @@ function RecipePage() {
         <>
           <AirFryerMethodCompare />
           <div className="mt-16">
-            <NewsletterSignup
-              id={AIR_FRYER_NEWSLETTER_PLACEMENT}
-              interest="duck-breast"
-              heading="The Duck Drop"
-              blurb="Occasional email on duck technique — temperatures, rendering, and what we get wrong. No air fryer download, no course, no sequence."
-            />
+            <NewsletterSignup id={AIR_FRYER_NEWSLETTER_PLACEMENT} interest="duck-breast" />
           </div>
         </>
       )}
