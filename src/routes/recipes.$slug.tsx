@@ -111,6 +111,14 @@ function RecipePage() {
   // Duck fat sellers only appear where the ingredients genuinely call for it.
   const needsDuckFat = recipeNeedsDuckFat(slug);
   const path = recipePath(slug);
+  const showConversionModule = (RECIPE_CONVERSION_SLUGS as readonly string[]).includes(slug);
+  /**
+   * When set, every commercial destination is linked exactly once, in the
+   * conversion module below the cooking answer: the equipment list stays plain
+   * and the sourcing modules are omitted.
+   */
+  const linksInModuleOnly = Boolean(content.linksInModuleOnly);
+
 
   return (
     <ArticleShell
