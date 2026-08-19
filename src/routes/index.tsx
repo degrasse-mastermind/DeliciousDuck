@@ -4,11 +4,11 @@ import heroImg from "@/assets/hero-duck-breast.jpg";
 import { PILLARS } from "@/data/site";
 import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
-import { BUYING_GUIDE, KITCHEN_GEAR } from "@/data/products";
 import { CategoryTile } from "@/components/site/CategoryTile";
+import { HomeCommerceCards, HomeIntentRouter } from "@/components/site/HomeIntentRouter";
 import { RecipeCard } from "@/components/site/RecipeCard";
 import { ToolListItem } from "@/components/site/ToolListItem";
-import { AffiliateCallout } from "@/components/site/AffiliateCallout";
+
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ldScript, pageMeta, websiteSchema } from "@/lib/seo";
@@ -32,6 +32,7 @@ function Home() {
   return (
     <>
       <Hero />
+      <HomeIntentRouter />
       <JourneySection />
       <PopularRecipes />
       <ToolsSection />
@@ -197,34 +198,15 @@ function Monetization() {
       <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <SectionHeader
           eyebrow="Buy well"
-          title="Where to Buy Duck Online & The Duck Kitchen"
-          intro="Two practical questions we answer without hype: where good duck actually comes from, and the small set of equipment that makes cooking it straightforward."
+          title="Equipping the Duck Kitchen"
+          intro="Three decisions worth getting right before you cook: how you will know the bird is done, what you will sear breast in, and whether to render duck fat or buy it."
         />
-        <h3 id="shop-heading" className="sr-only">
+        <h2 id="shop-heading" className="sr-only">
           Buying duck and kitchen gear
-        </h3>
+        </h2>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-2">
-          <div>
-            <h3 className="rule-gold font-display text-2xl text-foreground">
-              Where to Buy Duck Online
-            </h3>
-            <div className="mt-6 grid gap-4">
-              {BUYING_GUIDE.map((item) => (
-                <AffiliateCallout key={item.id} item={item} />
-              ))}
-            </div>
-          </div>
-          <div>
-            <h3 className="rule-gold font-display text-2xl text-foreground">
-              The Duck Kitchen
-            </h3>
-            <div className="mt-6 grid gap-4">
-              {KITCHEN_GEAR.map((item) => (
-                <AffiliateCallout key={item.id} item={item} />
-              ))}
-            </div>
-          </div>
+        <div className="mt-12">
+          <HomeCommerceCards />
         </div>
       </div>
     </section>

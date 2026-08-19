@@ -19,6 +19,7 @@
 
 import { RECIPE_CONTENT } from "@/data/recipe-content";
 import { duckFatDecisionPlacementIds } from "@/data/duck-fat-decision";
+import { homepagePlacementIds } from "@/data/homepage-intent";
 import { normalisePath, destinationSlug } from "@/lib/duck-breast-cluster";
 
 export const CONVERSION_INTENTS = [
@@ -26,6 +27,8 @@ export const CONVERSION_INTENTS = [
   "temperature_verification",
   "sourcing",
   "technique_validation",
+  /** Owned audience: an internal step toward the first-party Field Guide signup. */
+  "audience_signup",
 ] as const;
 
 export type ConversionIntent = (typeof CONVERSION_INTENTS)[number];
@@ -460,6 +463,7 @@ export function allConversionPlacementIds(): string[] {
       );
     }),
     ...duckFatDecisionPlacementIds(),
+    ...homepagePlacementIds(),
   ];
 }
 
