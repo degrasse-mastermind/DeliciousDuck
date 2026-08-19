@@ -7,7 +7,6 @@ import {
   Section,
 } from "@/components/site/ArticleShell";
 import { AnswerFirst, ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
-import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import {
   ThanksgivingCommercialModule,
   ThanksgivingLeftovers,
@@ -377,14 +376,6 @@ function Page() {
       <ThanksgivingPrintablePlan />
 
       <ArticleBasis page={PAGE} />
-
-      <div data-print-hide>
-        <DecisionNextSteps
-        heading="Next steps"
-        intro="Bird count first, then the order date, then the oven."
-          items={PAGE.funnel}
-        />
-      </div>
 
       <FaqList items={FAQ} />
 
