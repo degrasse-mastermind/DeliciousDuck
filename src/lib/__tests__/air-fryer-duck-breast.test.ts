@@ -12,6 +12,8 @@ import {
   airFryerPlacementIds,
 } from "@/data/air-fryer-inbound";
 import { sitemapPaths } from "@/lib/sitemap";
+import { pageMeta } from "@/lib/seo";
+import { SKETCH, sketchForPath, sketchRotationForPath } from "@/lib/sketch-art";
 
 const SLUG = "air-fryer-duck-breast";
 const read = (p: string) => readFileSync(p, "utf8");
@@ -186,5 +188,60 @@ describe("air fryer duck breast: link network and analytics", () => {
     expect(route).toContain("AIR_FRYER_NEWSLETTER_PLACEMENT");
     expect(AIR_FRYER_NEWSLETTER_PLACEMENT).toBe("air-fryer-duck-breast-field-guide");
     expect(route.split("<NewsletterSignup").length - 1).toBe(1);
+  });
+});
+
+describe("air fryer duck breast: hero art and photograph integrity", () => {
+  it("no longer binds the reused sliced-breast drawing to this route", () => {
+    const art = read("src/lib/sketch-art.ts");
+    expect(art).not.toContain('"/recipes/air-fryer-duck-breast": "slicedBreast"');
+    expect(sketchForPath(AIR_FRYER_RECIPE_PATH)).toBeNull();
+    expect(sketchRotationForPath(AIR_FRYER_RECIPE_PATH)).toEqual([]);
+    // Other routes keep their drawings.
+    expect(sketchForPath("/recipes")).toBe(SKETCH.slicedBreast);
+  });
+
+  it("keeps the unique photograph as the recipe, card and social image", () => {
+    expect(recipe.image).toContain("recipe-air-fryer-duck-breast");
+    expect(recipe.image).not.toContain("sliced-breast");
+    expect(recipe.cardImage).toContain("recipe-air-fryer-duck-breast-card");
+    const route = read("src/routes/recipes.$slug.tsx");
+    expect(route).toContain("image: recipe.image");
+    const meta = pageMeta({
+      title: "t",
+      description: "d",
+      path: AIR_FRYER_RECIPE_PATH,
+      ogType: "article",
+      image: recipe.image,
+    }).meta;
+    const og = meta.filter((m: Record<string, string>) => m.property === "og:image");
+    const tw = meta.filter((m: Record<string, string>) => m.name === "twitter:image");
+    expect(og).toHaveLength(1);
+    expect(tw).toHaveLength(1);
+    expect(og[0]!.content).toMatch(/^https:\/\/deliciousduck\.com\/.*recipe-air-fryer-duck-breast/);
+    expect(tw[0]!.content).toBe(og[0]!.content);
+  });
+});
+
+describe("air fryer duck breast: optional sauce and description accuracy", () => {
+  it("labels the cherry sauce optional in the caption and the alt text", () => {
+    expect(content.imageCaption?.text).toMatch(/optional dark cherry sauce/i);
+    expect(content.imageCaption?.to).toBe("/ingredients/cherry-plum-with-duck");
+    expect(recipe.imageAlt).toMatch(/optional dark cherry sauce/i);
+    expect(read("src/routes/recipes.$slug.tsx")).toContain("content.imageCaption");
+  });
+
+  it("keeps cherry sauce out of the ingredients, steps and schema", () => {
+    const core = JSON.stringify([content.ingredientGroups, content.steps]).toLowerCase();
+    expect(core).not.toContain("cherry");
+  });
+
+  it("drops the smoke-free absolute from the meta description", () => {
+    expect(recipe.description).not.toContain("without a smoking kitchen");
+    expect(recipe.description).toBe(
+      "Air fryer duck breast with crisp skin: render the fat gently, finish at high heat, and use a thermometer while managing smoke and hot rendered fat.",
+    );
+    // Smoke management is still taught on the page.
+    expect(JSON.stringify(content).toLowerCase()).toContain("smok");
   });
 });
