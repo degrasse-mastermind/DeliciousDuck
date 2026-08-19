@@ -120,6 +120,17 @@ function Page() {
           sold on its own — are far less consistently stocked, and a seller that lists them clearly
           by name is doing you a real favour over one that just says "duck breast."
         </p>
+        <p>
+          Already settled on breast? The formats, portion weights and arrival checks that only
+          matter for that cut are covered separately in{" "}
+          <Link
+            to="/buy/where-to-buy-duck-breast-online"
+            className="text-primary underline underline-offset-4"
+          >
+            where to buy duck breast online
+          </Link>
+          .
+        </p>
       </Section>
 
       <Section id="labelling" heading="Breed and label terms: what they do and don't tell you">
