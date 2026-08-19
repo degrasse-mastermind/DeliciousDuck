@@ -1,19 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Section, Callout, DataTable, FaqList } from "@/components/site/ArticleShell";
-import {
-  DisclosureBanner,
-  ComparisonCard,
-  ComparisonTable,
-  QuickPicks,
-  ShopThisGuide,
-} from "@/components/site/Commerce";
+import { DisclosureBanner, ComparisonTable } from "@/components/site/Commerce";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
-import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { BREAST_SELLERS, BREAST_SELLER_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
-import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { decisionGuide } from "@/data/decision-guides";
 import {
@@ -23,9 +15,17 @@ import {
   MethodologyPanel,
   QuickDecision,
 } from "@/components/site/DecisionGuide";
+import duckBreastPackages from "@/assets/sketch/duck-breast-packages.png";
 
 const GUIDE = guideByPath("/buy/where-to-buy-duck-breast-online")!;
 const DG = decisionGuide("/buy/where-to-buy-duck-breast-online")!;
+
+/**
+ * Social preview image. The hero drawing lives at a stable project asset
+ * filename, and `pageMeta` routes it through `absUrl`, so og:image/twitter:image
+ * resolve to a durable production URL rather than a preview-host address.
+ */
+const SOCIAL_IMAGE = duckBreastPackages;
 
 export const Route = createFileRoute("/buy/where-to-buy-duck-breast-online")({
   head: () => ({
@@ -34,6 +34,7 @@ export const Route = createFileRoute("/buy/where-to-buy-duck-breast-online")({
       description: GUIDE.description,
       path: GUIDE.path,
       ogType: "article",
+      image: SOCIAL_IMAGE,
     }),
     scripts: [
       ldScript(
@@ -49,6 +50,7 @@ export const Route = createFileRoute("/buy/where-to-buy-duck-breast-online")({
           description: GUIDE.description,
           path: GUIDE.path,
           updated: DG.updated,
+          image: SOCIAL_IMAGE,
         }),
       ),
       ldScript(faqSchema(FAQ)),
@@ -84,6 +86,24 @@ const FAQ = [
   },
 ];
 
+/**
+ * Page-specific "best for" copy for the four sellers, read for breast only.
+ *
+ * Deliberately narrower than the registry's site-wide summaries: the comparison
+ * scope here is these four sellers and this one cut, so no claim reaches beyond
+ * what the recorded catalogue review supports.
+ */
+const BREAST_USE_FOR: Record<string, string> = {
+  "culver-duck":
+    "The broadest duck range of these four at the last catalogue check: raw breast alongside whole birds, legs and rendered fat, so one box can cover more than the cut.",
+  "tastyduck-duck":
+    "A straightforward first breast order from a family producer, with whole birds and legs listed beside it if you change your mind.",
+  "fossil-farms-duck":
+    "Useful when a recipe names a breed or a specific breast format, because the collection spans more than one duck type.",
+  "wild-fork-duck":
+    "A mainstream frozen-meat route to portioned breast, including store pickup — worth checking whether duck is carried where you are.",
+};
+
 function Page() {
   return (
     <ArticleShell
@@ -110,11 +130,25 @@ function Page() {
 
       <DisclosureBanner />
 
-      <QuickPicks
-        rows={BREAST_SELLERS}
-        placement="where_to_buy_breast_quick_picks"
-        shopNoun="duck breast"
-        intro="The four sellers covered below, read for breast intent only, with who each one suits. Every detail comes from the seller's own public catalogue at the last check — no prices, rankings, or stock claims."
+      {/*
+        The page's single seller decision surface: one tracked CTA per seller,
+        registry-backed, with each link's present relationship stated compactly.
+        No second button for the same seller anywhere below.
+      */}
+      <CommercialCallout
+        heading="Where duck breast is currently listed by name"
+        intro="The four duck-meat sellers we cover, ordered by how well each solves a breast-specific problem rather than by whether it pays us. Catalogues reviewed 2026-08-18 — check the current listing for formats, weights, and pack counts."
+        placement="buy_duck_breast_primary_options"
+        linkIds={["culver-duck", "tastyduck-duck", "fossil-farms-duck", "wild-fork-duck"]}
+        showRelationship
+        useForById={BREAST_USE_FOR}
+        criteria={[
+          "Breast is named as its own product, with skin-on or skinless stated in words.",
+          "The listing gives a weight per breast and a pack count, so you can plan a headcount.",
+          "Frozen shipping is scheduled to a delivery day you will actually be home for.",
+          "The order minimum makes sense for two breasts, not just for a freezer restock.",
+        ]}
+        footnote="We publish no prices, ratings, or stock claims, and no weight or delivery promises on a seller's behalf. Availability moves week to week."
       />
 
       <MethodologyPanel guide={DG} />
@@ -129,14 +163,7 @@ function Page() {
           >
             general guide to buying duck online
           </Link>{" "}
-          covers the wider comparison, and{" "}
-          <Link
-            to="/buy/what-cut-of-duck-to-buy"
-            className="text-primary underline underline-offset-4"
-          >
-            what cut of duck to buy
-          </Link>{" "}
-          works through the choice itself.
+          covers whole birds, legs, general assortment, and how to judge a seller.
         </p>
       </Callout>
 
@@ -184,14 +211,7 @@ function Page() {
         <p>
           Thickness matters as much as weight. A thicker breast gives you longer to render the fat
           before the centre passes the window you were aiming for, which is exactly why it's the
-          friendlier cut for a plate you intend to slice. The{" "}
-          <Link
-            to="/learn/duck-breast-temperature-doneness"
-            className="text-primary underline underline-offset-4"
-          >
-            pull temperatures and carryover
-          </Link>{" "}
-          page is where that window is set out.
+          friendlier cut for a plate you intend to slice.
         </p>
       </Section>
 
@@ -280,25 +300,11 @@ function Page() {
 
       <BestForGrid guide={DG} />
 
-      <CommercialCallout
-        heading="Where duck breast is currently listed by name"
-        intro="The same four duck-meat sellers we cover site-wide, ordered by how well each solves a breast-specific problem rather than by whether it pays us. Catalogues reviewed 2026-08-18 — check the current listing for formats, weights, and pack counts."
-        placement="buy_duck_breast_primary_options"
-        linkIds={["culver-duck", "tastyduck-duck", "fossil-farms-duck", "wild-fork-duck"]}
-        criteria={[
-          "Breast is named as its own product, with skin-on or skinless stated in words.",
-          "The listing gives a weight per breast and a pack count, so you can plan a headcount.",
-          "Frozen shipping is scheduled to a delivery day you will actually be home for.",
-          "The order minimum makes sense for two breasts, not just for a freezer restock.",
-        ]}
-        footnote="We publish no prices, ratings, or stock claims, and no weight or delivery promises on a seller's behalf. Availability moves week to week."
-      />
-
       <Section id="compare" heading="The sellers, read for breast">
         <p>
-          Same four sellers as the general sourcing guide, compared on the things that only matter
-          when breast is what you came for. Every attribute comes from the seller's own public
-          catalogue at the verification date shown.
+          The same four sellers, compared on the things that only matter when breast is what you came
+          for. Every attribute comes from the seller's own public catalogue at the verification date
+          shown, and each seller's link sits once in the decision panel above.
         </p>
         <ComparisonTable
           caption="Online duck breast sellers compared"
@@ -307,55 +313,6 @@ function Page() {
         />
       </Section>
 
-      <Section id="candidates" heading="Each seller in detail">
-        <p>
-          Notes below come from public catalogue information as of the verification date on each
-          card. Check the seller's own page for current formats and terms.
-        </p>
-        <div className="mt-6 grid gap-6">
-          {BREAST_SELLERS.map((row) => (
-            <ComparisonCard
-              key={row.id}
-              row={row}
-              factors={BREAST_SELLER_FACTORS}
-              shopNoun="duck breast"
-            />
-          ))}
-        </div>
-      </Section>
-
-      <DuckBreastJourney
-        id="cluster-cook-it"
-        title="Cooking the breast once it lands"
-        intro="Buying is step one. These pages take it from the package to the plate."
-        placement="buy_breast_after_delivery"
-        groups={["before", "stove", "troubleshooting"]}
-        excludePath="/buy/where-to-buy-duck-breast-online"
-      />
-
-      <ShopThisGuide
-        items={[
-          {
-            label: "Boneless, skin-on breast",
-            why: "The format the cold-pan method is built around, and the one worth insisting on.",
-            to: "/recipes/pan-seared-duck-breast",
-            linkLabel: "See the recipe",
-          },
-          {
-            label: "A pan that fits two breasts flat",
-            why: "Crowding steams the skin — pan size and piece size have to agree.",
-            to: "/gear/best-pan-for-duck-breast",
-            linkLabel: "See the pan guide",
-          },
-          {
-            label: "A fast-reading probe",
-            why: "Breast lives in a few-degree window, and guessing costs you the whole cut.",
-            to: "/gear/best-thermometer-for-duck",
-            linkLabel: "See the thermometer guide",
-          },
-        ]}
-      />
-
       <FaqList items={FAQ} />
 
       <div className="mt-14">
@@ -363,13 +320,11 @@ function Page() {
       </div>
 
       <ConversionPaths
-        heading="What to read before you order"
+        heading="Cook what you buy"
         sourcePath="/buy/where-to-buy-duck-breast-online"
         eyebrow="Next step"
-        intro="The cook decides the format — so start with the method you intend to use."
+        intro="One step each to the method, the temperature window, and the two tools the cook depends on."
       />
-
-      <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>
   );
 }

@@ -408,9 +408,10 @@ const GENERIC_ROTATION: SketchKey[] = ["ducksFlight", "duckFat", "spices", "side
  */
 const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
   "/recipes/duck-fat-roasted-potatoes": [],
-  // Breast buying guide: the /buy rotation would add the duck-fat jar, which
-  // has nothing to do with buying breast. Keep it to the two that fit.
-  "/buy/where-to-buy-duck-breast-online": ["duckBreastPackages", "duckBreastPan"],
+  // Breast buying guide: the page's own package drawing carries it. The only
+  // fitting companion is the skillet, and repeating one drawing down a buying
+  // page reads worse than an unillustrated stretch — so no companion bands.
+  "/buy/where-to-buy-duck-breast-online": [],
 };
 
 /**

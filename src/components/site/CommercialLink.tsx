@@ -64,16 +64,37 @@ export function CommercialLink({
 }
 
 /**
+ * Accurate, compact per-link relationship label, derived from the registry.
+ *
+ * Only two states are ever shown: a genuinely monetized link says so, and
+ * everything else says plainly that no money changes hands. Never a commission
+ * claim for a link that pays nothing.
+ */
+export function relationshipLabel(link: CommercialLinkEntry): string {
+  return isAffiliateActive(link)
+    ? "Affiliate link · we may earn a commission"
+    : "Editorial link · no paid relationship";
+}
+
+/**
  * Neutral destination note rendered beside a commercial option.
  *
  * States only facts a buyer can use: where the link goes and when we last
- * checked it. No paid/unpaid ledger — affiliate status is covered once per page
- * by the plain-language disclosure.
+ * checked it. Pass `showRelationship` on pages where the present status of each
+ * individual seller link should be unambiguous; the site-wide disclosure
+ * component stays in place for future-proofing either way.
  */
-export function RelationshipNote({ link }: { link: CommercialLinkEntry }) {
+export function RelationshipNote({
+  link,
+  showRelationship = false,
+}: {
+  link: CommercialLinkEntry;
+  showRelationship?: boolean;
+}) {
   return (
     <p className="text-xs leading-relaxed text-muted-foreground">
       {destinationHost(link.url)} · checked {link.lastVerified}
+      {showRelationship && <> · {relationshipLabel(link)}</>}
     </p>
   );
 }
@@ -92,6 +113,8 @@ export function CommercialCallout({
   placement,
   criteria,
   footnote,
+  showRelationship = false,
+  useForById,
 }: {
   heading: string;
   intro?: string;
@@ -99,6 +122,14 @@ export function CommercialCallout({
   placement: string;
   criteria?: string[];
   footnote?: React.ReactNode;
+  /** Show the compact per-link relationship label from the registry. */
+  showRelationship?: boolean;
+  /**
+   * Page-specific "best for" copy, keyed by registry id. Used where a page reads
+   * a seller for one cut and the registry's site-wide summary would be broader
+   * than the comparison scope on this page.
+   */
+  useForById?: Record<string, string>;
 }) {
   const links = linkIds.map(commercialLinkById).filter(Boolean) as CommercialLinkEntry[];
   if (links.length === 0) return null;
@@ -132,13 +163,13 @@ export function CommercialCallout({
             <p className="font-display text-lg text-foreground">{link.merchant}</p>
             <p className="mt-1 text-sm leading-relaxed text-foreground/85">
               <span className="font-semibold">{DECISION_LABELS.bestFor}: </span>
-              {link.useFor}
+              {useForById?.[link.id] ?? link.useFor}
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <CommercialLink id={link.id} placement={placement} />
             </div>
             <div className="mt-2">
-              <RelationshipNote link={link} />
+              <RelationshipNote link={link} showRelationship={showRelationship} />
             </div>
           </li>
         ))}
