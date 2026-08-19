@@ -395,6 +395,8 @@ export function sketchForPath(pathname: string): SketchArt | null {
 
   if (path === "/" || path === "") return null;
   if (NO_ART_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`))) return null;
+  if (NO_ART_PATHS.includes(path)) return null;
+
 
   const exact = BY_PATH[path];
   if (exact) return SKETCH[exact];
