@@ -74,6 +74,7 @@ import { Route as LearnHowToCarveADuckRouteImport } from './routes/learn.how-to-
 import { Route as LearnHowToRenderDuckFatRouteImport } from './routes/learn.how-to-render-duck-fat'
 import { Route as LearnHowToScoreDuckBreastRouteImport } from './routes/learn.how-to-score-duck-breast'
 import { Route as LearnHowToThawDuckRouteImport } from './routes/learn.how-to-thaw-duck'
+import { Route as LearnThanksgivingDuckDinnerRouteImport } from './routes/learn.thanksgiving-duck-dinner'
 import { Route as LearnWholeDuckCookingTimeRouteImport } from './routes/learn.whole-duck-cooking-time'
 import { Route as LearnWhyDuckSkinIsntCrispyRouteImport } from './routes/learn.why-duck-skin-isnt-crispy'
 import { Route as LearnWildDuckVsFarmedDuckRouteImport } from './routes/learn.wild-duck-vs-farmed-duck'
@@ -439,6 +440,12 @@ const LearnHowToThawDuckRoute = LearnHowToThawDuckRouteImport.update({
   path: '/how-to-thaw-duck',
   getParentRoute: () => LearnRoute,
 } as any)
+const LearnThanksgivingDuckDinnerRoute =
+  LearnThanksgivingDuckDinnerRouteImport.update({
+    id: '/thanksgiving-duck-dinner',
+    path: '/thanksgiving-duck-dinner',
+    getParentRoute: () => LearnRoute,
+  } as any)
 const LearnWholeDuckCookingTimeRoute =
   LearnWholeDuckCookingTimeRouteImport.update({
     id: '/whole-duck-cooking-time',
@@ -587,6 +594,7 @@ export interface FileRoutesByFullPath {
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
   '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/thanksgiving-duck-dinner': typeof LearnThanksgivingDuckDinnerRoute
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
@@ -663,6 +671,7 @@ export interface FileRoutesByTo {
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
   '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/thanksgiving-duck-dinner': typeof LearnThanksgivingDuckDinnerRoute
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
@@ -747,6 +756,7 @@ export interface FileRoutesById {
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
   '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/thanksgiving-duck-dinner': typeof LearnThanksgivingDuckDinnerRoute
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
@@ -832,6 +842,7 @@ export interface FileRouteTypes {
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
     | '/learn/how-to-thaw-duck'
+    | '/learn/thanksgiving-duck-dinner'
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
@@ -908,6 +919,7 @@ export interface FileRouteTypes {
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
     | '/learn/how-to-thaw-duck'
+    | '/learn/thanksgiving-duck-dinner'
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
@@ -991,6 +1003,7 @@ export interface FileRouteTypes {
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
     | '/learn/how-to-thaw-duck'
+    | '/learn/thanksgiving-duck-dinner'
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
@@ -1503,6 +1516,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnHowToThawDuckRouteImport
       parentRoute: typeof LearnRoute
     }
+    '/learn/thanksgiving-duck-dinner': {
+      id: '/learn/thanksgiving-duck-dinner'
+      path: '/thanksgiving-duck-dinner'
+      fullPath: '/learn/thanksgiving-duck-dinner'
+      preLoaderRoute: typeof LearnThanksgivingDuckDinnerRouteImport
+      parentRoute: typeof LearnRoute
+    }
     '/learn/whole-duck-cooking-time': {
       id: '/learn/whole-duck-cooking-time'
       path: '/whole-duck-cooking-time'
@@ -1723,6 +1743,7 @@ interface LearnRouteChildren {
   LearnHowToRenderDuckFatRoute: typeof LearnHowToRenderDuckFatRoute
   LearnHowToScoreDuckBreastRoute: typeof LearnHowToScoreDuckBreastRoute
   LearnHowToThawDuckRoute: typeof LearnHowToThawDuckRoute
+  LearnThanksgivingDuckDinnerRoute: typeof LearnThanksgivingDuckDinnerRoute
   LearnWholeDuckCookingTimeRoute: typeof LearnWholeDuckCookingTimeRoute
   LearnWhyDuckSkinIsntCrispyRoute: typeof LearnWhyDuckSkinIsntCrispyRoute
   LearnWildDuckVsFarmedDuckRoute: typeof LearnWildDuckVsFarmedDuckRoute
@@ -1738,6 +1759,7 @@ const LearnRouteChildren: LearnRouteChildren = {
   LearnHowToRenderDuckFatRoute: LearnHowToRenderDuckFatRoute,
   LearnHowToScoreDuckBreastRoute: LearnHowToScoreDuckBreastRoute,
   LearnHowToThawDuckRoute: LearnHowToThawDuckRoute,
+  LearnThanksgivingDuckDinnerRoute: LearnThanksgivingDuckDinnerRoute,
   LearnWholeDuckCookingTimeRoute: LearnWholeDuckCookingTimeRoute,
   LearnWhyDuckSkinIsntCrispyRoute: LearnWhyDuckSkinIsntCrispyRoute,
   LearnWildDuckVsFarmedDuckRoute: LearnWildDuckVsFarmedDuckRoute,
