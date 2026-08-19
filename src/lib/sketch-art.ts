@@ -410,7 +410,12 @@ const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
   "/recipes/duck-fat-roasted-potatoes": [],
   // Breast buying guide: the /buy rotation would add the duck-fat jar, which
   // has nothing to do with buying breast. Keep it to the two that fit.
-  "/buy/where-to-buy-duck-breast-online": ["duckBreastPackages", "duckBreastPan"],
+  "/buy/where-to-buy-duck-breast-online": [
+    "duckBreastPackages",
+    "buyingDuck",
+    "duckBreastPan",
+    "thawing",
+  ],
 };
 
 /**
