@@ -24,7 +24,7 @@ const NON_HOMEPAGE_ROUTES = [
 
 describe("homepage seasonal announcement", () => {
   it("uses the exact approved copy", () => {
-    expect(HOME_ANNOUNCEMENT.eyebrow).toBe("THANKSGIVING DUCK PLAN");
+    expect(HOME_ANNOUNCEMENT.eyebrow).toBe("DUCK FOR THANKSGIVING? ABSOLUTELY.");
     expect(HOME_ANNOUNCEMENT.message).toBe("Menu, timeline, bird count & printable checklist");
     expect(HOME_ANNOUNCEMENT.ctaLabel).toBe("Plan the feast");
   });
