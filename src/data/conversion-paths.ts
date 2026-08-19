@@ -26,6 +26,8 @@ export const CONVERSION_INTENTS = [
   "temperature_verification",
   "sourcing",
   "technique_validation",
+  /** Owned audience: an internal step toward the first-party Field Guide signup. */
+  "audience_signup",
 ] as const;
 
 export type ConversionIntent = (typeof CONVERSION_INTENTS)[number];
