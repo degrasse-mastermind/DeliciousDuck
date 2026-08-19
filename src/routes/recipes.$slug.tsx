@@ -224,11 +224,10 @@ function RecipePage() {
           columns={content.temperatures.columns}
           rows={content.temperatures.rows}
         />
-        <Callout label="Verify, don't trust" tone="gold">
+        <Callout label={content.verifyNote?.label ?? "Verify, don't trust"} tone="gold">
           <p>
-            Every number here is a starting range, not a guarantee. Bird size, oven calibration and
-            starting temperature all move the finish line — a thermometer is the only thing that
-            tells you where you actually are.
+            {content.verifyNote?.body ??
+              "Every number here is a starting range, not a guarantee. Bird size, oven calibration and starting temperature all move the finish line — a thermometer is the only thing that tells you where you actually are."}
           </p>
         </Callout>
       </Section>
