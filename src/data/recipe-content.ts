@@ -37,8 +37,13 @@ export interface RecipeContent {
    * something that has no doneness temperature.
    */
   verifyNote?: { label: string; body: string };
+  /** Overrides the method-basis line's "how to read the numbers" clause. */
+  guidanceNote?: string;
   quackFix: { symptom: string; cause: string; fixNow: string; prevent: string }[];
   leftovers: { part: string; use: string; to?: string; linkLabel?: string }[];
+  /** Heading/intro for the leftovers module, when "the whole duck" doesn't fit. */
+  leftoversHeading?: string;
+  leftoversIntro?: string;
   faq: { q: string; a: string }[];
   /** Guide + tool paths for the Related module. */
   related: string[];
@@ -1068,6 +1073,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         ["After turning", "220°C / 425°F", "20–30 min", "Deep golden on two or three faces, hollow-sounding"],
       ],
     },
+    guidanceNote: "Go by the visual and texture cues in the method rather than by the clock.",
     verifyNote: {
       label: "Go by the potatoes, not the clock",
       body: "Every number here is a starting range. Most home ovens run 10–15°C / 20–25°F off their dial, and a heavy metal tray, a thin one, or a crowded one will all brown at different rates — so read the tray rather than the timer. Cut to a consistent 4–5 cm and expect smaller pieces to finish sooner. They are ready when the crust is deep golden on two or three faces, the undersides lift off the metal without tearing, and a skewer slides through the centre with no resistance. If they stick, they need more time, not more force.",
@@ -1098,6 +1104,9 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         prevent: "Cut to an even size, leave gaps between pieces, and use two trays for larger batches.",
       },
     ],
+    leftoversHeading: "Save what's left",
+    leftoversIntro:
+      "Two things are worth keeping after this tray comes out, and one of them is worth more than the potatoes.",
     leftovers: [
       {
         part: "Fat left in the tray",

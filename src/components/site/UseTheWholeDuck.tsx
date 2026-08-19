@@ -14,9 +14,12 @@ export interface WholeDuckUse {
 export function UseTheWholeDuck({
   items,
   intro = "Nothing here needs to go in the bin. Each of these is worth more than the packaging suggests.",
+  /** Overridable for pages whose leftovers are not parts of a bird. */
+  heading = "Use the Whole Duck",
 }: {
   items: WholeDuckUse[];
   intro?: string;
+  heading?: string;
 }) {
   return (
     <section
@@ -26,7 +29,7 @@ export function UseTheWholeDuck({
       <div className="flex items-center gap-2.5">
         <Recycle aria-hidden="true" className="size-4 text-accent" />
         <h2 id="use-whole-duck" className="eyebrow text-accent">
-          Use the Whole Duck
+          {heading}
         </h2>
       </div>
       <p className="mt-3 max-w-2xl text-sm leading-relaxed text-forest-foreground/80">{intro}</p>

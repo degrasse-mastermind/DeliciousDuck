@@ -153,7 +153,10 @@ function RecipePage() {
         className="aspect-[4/3] w-full rounded-sm object-cover"
       />
 
-      <RecipeTrustBox recipe={recipe} />
+      <RecipeTrustBox
+        recipe={recipe}
+        {...(content.guidanceNote ? { guidanceNote: content.guidanceNote } : {})}
+      />
 
       <Section id="ingredients" heading="Ingredients">
         {content.ingredientGroups.map((group) => (
@@ -254,7 +257,11 @@ function RecipePage() {
         />
       )}
 
-      <UseTheWholeDuck items={content.leftovers} />
+      <UseTheWholeDuck
+        items={content.leftovers}
+        {...(content.leftoversHeading ? { heading: content.leftoversHeading } : {})}
+        {...(content.leftoversIntro ? { intro: content.leftoversIntro } : {})}
+      />
 
       {!linksInModuleOnly && (
         <ShopThisGuide items={content.sourcing} intro="Where to source what this recipe needs." />
