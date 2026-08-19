@@ -10,14 +10,18 @@ import {
 import { allConversionPlacementIds } from "@/data/conversion-paths";
 
 const read = (p: string) => readFileSync(resolve(process.cwd(), p), "utf8");
-const routeFileFor = (path: string) => `src/routes/${path.split("/").filter(Boolean).join(".")}.tsx`;
+const routeFileFor = (path: string) =>
+  path.startsWith("/recipes/")
+    ? "src/routes/recipes.$slug.tsx"
+    : `src/routes/${path.split("/").filter(Boolean).join(".")}.tsx`;
 
 describe("duck-fat render/buy/substitute module", () => {
-  it("covers the three supporting pages in the cluster", () => {
+  it("covers the supporting pages in the cluster", () => {
     expect(DUCK_FAT_DECISIONS.map((d) => d.sourcePath).sort()).toEqual([
       "/cook/ways-to-use-duck-fat",
       "/ingredients/duck-fat-vs-butter-oil",
       "/learn/how-to-render-duck-fat",
+      "/recipes/duck-fat-roasted-potatoes",
     ]);
   });
 
@@ -66,7 +70,7 @@ describe("duck-fat render/buy/substitute module", () => {
 
   it("registers every placement id, uniquely, in the site-wide placement list", () => {
     const ids = duckFatDecisionPlacementIds();
-    expect(ids.length).toBe(8);
+    expect(ids.length).toBe(11);
     expect(new Set(ids).size).toBe(ids.length);
     const all = allConversionPlacementIds();
     for (const id of ids) {
@@ -79,7 +83,12 @@ describe("duck-fat render/buy/substitute module", () => {
   it("renders on each supporting route, and the buying guide is not also offered by the generic nav", () => {
     for (const set of DUCK_FAT_DECISIONS) {
       const file = read(routeFileFor(set.sourcePath));
-      expect(file, set.sourcePath).toContain(`<DuckFatDecision sourcePath="${set.sourcePath}"`);
+      // The recipe route is dynamic: it passes its own path to the module.
+      expect(file, set.sourcePath).toContain(
+        set.sourcePath.startsWith("/recipes/")
+          ? "<DuckFatDecision sourcePath={path} />"
+          : `<DuckFatDecision sourcePath="${set.sourcePath}"`,
+      );
       if (file.includes("<ConversionPaths")) {
         expect(file, set.sourcePath).toContain("omit={[");
       }

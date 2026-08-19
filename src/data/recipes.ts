@@ -5,6 +5,7 @@ import smokedPlum from "@/assets/recipe-smoked-plum.jpg";
 import orangeCard from "@/assets/duck-a-lorange-card.jpg";
 import orangeIllustration from "@/assets/duck-a-lorange-illustration.jpg";
 import wholeRoastCard from "@/assets/roasted-whole-duck-card.jpg";
+import potatoesCard from "@/assets/duck-fat-roasted-potatoes-card.jpg";
 
 /**
  * Recipe data shape is Recipe schema-ready: fields map 1:1 onto
@@ -167,6 +168,23 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Advanced",
     keyTechnique: "Low-and-slow smoking",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "duck-fat-roasted-potatoes",
+    name: "Duck Fat Roasted Potatoes",
+    description:
+      "Parboiled, roughed up, and roasted in preheated duck fat until the outsides shatter and the insides stay fluffy.",
+    image: potatoesCard,
+    imageAlt:
+      "Deeply golden duck fat roasted potatoes with craggy edges on a dark metal roasting tray",
+    category: "Sides",
+    prepTimeMinutes: 15,
+    cookTimeMinutes: 55,
+    recipeYield: "Serves 4 as a side",
+    difficulty: "Easy",
+    keyTechnique: "Parboil, rough up, roast in preheated fat",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },

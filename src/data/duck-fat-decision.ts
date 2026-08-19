@@ -136,6 +136,23 @@ export const DUCK_FAT_DECISIONS: DuckFatDecisionSet[] = [
       ),
     ],
   },
+  {
+    sourcePath: "/recipes/duck-fat-roasted-potatoes",
+    heading: "Render it, buy it, or swap it?",
+    intro:
+      "This tray takes about 90 g of fat. Which way you get hold of it depends on what is already in your kitchen — all three answers make good potatoes.",
+    options: [
+      RENDER_OPTION("duck_fat_choice_potatoes_recipe_render"),
+      BUY_OPTION(
+        "duck_fat_choice_potatoes_recipe_buy",
+        "A jar covers two or three trays. The guide covers formats, what the label terms mean, and how long an opened container keeps once you are into it.",
+      ),
+      SUBSTITUTE_OPTION(
+        "duck_fat_choice_potatoes_recipe_substitute",
+        "No fat in the house tonight? Beef dripping or a high-heat oil still crisps — the calculator converts the amount so you are not guessing at a swap.",
+      ),
+    ],
+  },
 ];
 
 export function duckFatDecisionFor(sourcePath: string): DuckFatDecisionSet | undefined {

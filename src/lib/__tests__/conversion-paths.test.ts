@@ -26,9 +26,15 @@ function routeFileFor(path: string): string {
   return existsSync(resolve(process.cwd(), `${base}.index.tsx`)) ? `${base}.index.tsx` : `${base}.tsx`;
 }
 
-const routeExists = (path: string) =>
-  existsSync(resolve(process.cwd(), routeFileFor(path))) ||
-  existsSync(resolve(process.cwd(), `src/routes/${path.split("/").filter(Boolean).join(".")}.index.tsx`));
+const routeExists = (path: string) => {
+  // Recipe URLs resolve through the dynamic `$slug` route, keyed on the data.
+  const recipe = /^\/recipes\/([a-z0-9-]+)$/.exec(path);
+  if (recipe) return Boolean(RECIPE_CONTENT[recipe[1]!]);
+  return (
+    existsSync(resolve(process.cwd(), routeFileFor(path))) ||
+    existsSync(resolve(process.cwd(), `src/routes/${path.split("/").filter(Boolean).join(".")}.index.tsx`))
+  );
+};
 
 /* ------------------------------------------------------------------ *
  * Placement map integrity
@@ -268,6 +274,9 @@ describe("conversion click event", () => {
         "/cook/ways-to-use-duck-fat -> /buy/duck-fat-buying-guide [sourcing] #use_duck_fat_to_duck_fat_guide",
         "/ingredients/duck-fat-vs-butter-oil -> /buy/duck-fat-buying-guide [sourcing] #fat_vs_butter_to_duck_fat_guide",
         "/tools/duck-fat-substitution-calculator -> /buy/duck-fat-buying-guide [sourcing] #fat_substitution_to_duck_fat_guide",
+        "/tools/duck-fat-substitution-calculator -> /recipes/duck-fat-roasted-potatoes [technique_validation] #fat_substitution_to_potatoes_recipe",
+        "/buy/duck-fat-buying-guide -> /recipes/duck-fat-roasted-potatoes [technique_validation] #duck_fat_guide_to_potatoes_recipe",
+        "/learn/how-to-render-duck-fat -> /recipes/duck-fat-roasted-potatoes [technique_validation] #render_fat_to_potatoes_recipe",
         "/tools/whole-duck-serving-calculator -> /buy/where-to-buy-duck-online [sourcing] #serving_calculator_to_sourcing_guide",
         "/gear/best-thermometer-for-duck -> /learn/whole-duck-cooking-time [technique_validation] #thermometer_guide_to_whole_duck_timing",
         "/gear/best-thermometer-for-duck -> /learn/duck-breast-temperature-doneness [temperature_verification] #thermometer_guide_to_breast_doneness",
