@@ -3,7 +3,6 @@ import confit from "@/assets/recipe-confit.jpg";
 import wholeRoast from "@/assets/recipe-whole-roast.jpg";
 import smokedPlum from "@/assets/recipe-smoked-plum.jpg";
 import orangeCard from "@/assets/duck-a-lorange-card.jpg";
-import orangeIllustration from "@/assets/duck-a-lorange-illustration.jpg";
 
 /**
  * Recipe data shape is Recipe schema-ready: fields map 1:1 onto
@@ -105,9 +104,6 @@ export const RECIPES: Recipe[] = [
     image: orangeCard,
     imageAlt:
       "Whole roast Duck \u00e0 l\u2019Orange with crisp mahogany skin and orange gastrique",
-    illustration: orangeIllustration,
-    illustrationAlt:
-      "Colored-pencil illustration of whole roast Duck \u00e0 l\u2019Orange with orange gastrique",
     category: "Whole duck",
     cuisine: "French",
     prepTimeMinutes: 30,
