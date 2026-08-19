@@ -50,7 +50,7 @@ const FAQ = [
   },
   {
     q: "Can I roast a duck and a turkey in the same oven?",
-    a: "You can, but not comfortably at once. Both birds want air around them, the two planning ranges assume different oven settings, and a duck sheds a lot of fat that needs somewhere to go. If you want both, roast the duck first, rest it while the turkey finishes, and carve the duck last.",
+    a: "You can, but not comfortably at once. Both birds want air around them, the two planning ranges assume different oven settings, and a duck sheds a lot of fat that needs somewhere to go. If you want both, time the duck so its 20-minute rest lands inside the turkey's last stretch of cooking or its own rest, and carve the duck last. If the two schedules will not meet there, use a second oven or serve portioned duck — breasts or confit legs — rather than leaving a whole cooked duck standing for a long wait.",
   },
   {
     q: "What do I serve with a Thanksgiving duck?",

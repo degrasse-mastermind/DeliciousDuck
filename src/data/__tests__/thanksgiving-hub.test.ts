@@ -162,6 +162,27 @@ describe("thanksgiving hub schedule truthfulness", () => {
     expect(code).toContain("40°F and 140°F");
   });
 
+  it("never suggests a cooked whole duck waits out a turkey", () => {
+    const mixed = THANKSGIVING_TABLE_CHOICES.find((c) => /larger or mixed/i.test(c.guests))!;
+    const surfaces = [mixed.tradeoff, code, read("src/routes/learn.duck-vs-turkey-thanksgiving.tsx")];
+    for (const text of surfaces) {
+      const lower = text.toLowerCase();
+      for (const banned of [
+        "rest it while the turkey finishes",
+        "turkey finishes",
+        "roast the duck first and rest it",
+      ]) {
+        expect(lower.includes(banned), banned).toBe(false);
+      }
+    }
+    // The bounded overlap and both fallbacks stay.
+    expect(mixed.tradeoff).toMatch(/20-minute rest overlaps the turkey's final cooking or resting window/);
+    expect(mixed.tradeoff).toMatch(/second oven/);
+    expect(mixed.tradeoff).toMatch(/portioned course/);
+    expect(mixed.tradeoff).not.toMatch(/\b\d+\s*(hours|hrs|min\/lb)\b/);
+    expect(code).toMatch(/second oven or serve portioned duck/);
+  });
+
   it("makes no seller dispatch, stock or sell-through claim", () => {
     const lower = code.toLowerCase();
     for (const banned of [
