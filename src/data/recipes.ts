@@ -3,7 +3,6 @@ import confit from "@/assets/recipe-confit.jpg";
 import wholeRoast from "@/assets/recipe-whole-roast.jpg";
 import smokedPlum from "@/assets/recipe-smoked-plum.jpg";
 import orangeCard from "@/assets/duck-a-lorange-card.jpg";
-import orangeIllustration from "@/assets/duck-a-lorange-illustration.jpg";
 
 /**
  * Recipe data shape is Recipe schema-ready: fields map 1:1 onto
