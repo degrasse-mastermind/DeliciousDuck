@@ -584,7 +584,7 @@ export const GUIDES: GuideEntry[] = [
     seoTitle: "Thanksgiving Duck Dinner: Plan, Timeline & Menu | DeliciousDuck",
     description:
       "A complete Thanksgiving duck plan: how many birds to order, when to order and thaw, a single-oven schedule, safe temperatures, the menu that suits duck, and carving.",
-    teaser: "Order date, thaw date, oven schedule and menu — the whole holiday, backward from dinner.",
+    teaser: "Choose your table, then order date, thaw date, oven schedule and menu — with a printable checklist.",
     pillar: "learn",
     cluster: "whole-duck",
     kind: "reference",
