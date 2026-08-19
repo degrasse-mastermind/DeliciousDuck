@@ -111,6 +111,14 @@ function RecipePage() {
   // Duck fat sellers only appear where the ingredients genuinely call for it.
   const needsDuckFat = recipeNeedsDuckFat(slug);
   const path = recipePath(slug);
+  const showConversionModule = (RECIPE_CONVERSION_SLUGS as readonly string[]).includes(slug);
+  /**
+   * When set, every commercial destination is linked exactly once, in the
+   * conversion module below the cooking answer: the equipment list stays plain
+   * and the sourcing modules are omitted.
+   */
+  const linksInModuleOnly = Boolean(content.linksInModuleOnly);
+
 
   return (
     <ArticleShell
@@ -170,7 +178,7 @@ function RecipePage() {
             <li key={item.label} className="border-t border-border pt-4">
               <h3 className="font-display text-lg text-foreground">{item.label}</h3>
               <p className="mt-1 text-base leading-[1.7] text-foreground/85">{item.why}</p>
-              {item.to && (
+              {item.to && !linksInModuleOnly && (
                 <Link
                   to={item.to}
                   className="mt-2 inline-block text-xs font-semibold uppercase tracking-[0.14em] text-primary underline-offset-4 hover:underline"
@@ -183,13 +191,14 @@ function RecipePage() {
         </ul>
       </Section>
 
-      {(RECIPE_CONVERSION_SLUGS as readonly string[]).includes(slug) && (
+      {showConversionModule && !linksInModuleOnly && (
         <RecipeConversionPaths
           slug={slug}
           equipment={content.equipment}
           sourcing={content.sourcing}
         />
       )}
+
 
       <Section id="before-you-start" heading="Before you start">
         {content.before.map((block) => (
@@ -241,46 +250,55 @@ function RecipePage() {
 
       <UseTheWholeDuck items={content.leftovers} />
 
-      <ShopThisGuide items={content.sourcing} intro="Where to source what this recipe needs." />
+      {!linksInModuleOnly && (
+        <ShopThisGuide items={content.sourcing} intro="Where to source what this recipe needs." />
+      )}
 
-
-
-      <Callout label="Where to buy what this recipe needs">
-        <p>
-          Which sellers currently stock which cut changes week to week, so we send you to the
-          sourcing guide rather than a single shop. It compares the duck sellers whose catalogues
-          list cuts by name, and says plainly which links earn us anything.{" "}
-          <Link
-            to="/buy/where-to-buy-duck-online"
-            className="text-primary underline underline-offset-4"
-          >
-            Where to buy duck online
-          </Link>
-          .
-          {needsDuckFat ? (
-            <>
-              {" "}
-              This recipe also calls for rendered duck fat, which is a separate shopping problem —{" "}
-              <Link
-                to="/buy/duck-fat-buying-guide"
-                className="text-primary underline underline-offset-4"
-              >
-                the duck fat buying guide
-              </Link>{" "}
-              covers formats, quantities, and where to buy it.
-            </>
-          ) : null}
-        </p>
-      </Callout>
-
-
+      {!linksInModuleOnly && (
+        <Callout label="Where to buy what this recipe needs">
+          <p>
+            Which sellers currently stock which cut changes week to week, so we send you to the
+            sourcing guide rather than a single shop. It compares the duck sellers whose catalogues
+            list cuts by name, and says plainly which links earn us anything.{" "}
+            <Link
+              to="/buy/where-to-buy-duck-online"
+              className="text-primary underline underline-offset-4"
+            >
+              Where to buy duck online
+            </Link>
+            .
+            {needsDuckFat ? (
+              <>
+                {" "}
+                This recipe also calls for rendered duck fat, which is a separate shopping problem —{" "}
+                <Link
+                  to="/buy/duck-fat-buying-guide"
+                  className="text-primary underline underline-offset-4"
+                >
+                  the duck fat buying guide
+                </Link>{" "}
+                covers formats, quantities, and where to buy it.
+              </>
+            ) : null}
+          </p>
+        </Callout>
+      )}
 
       <FaqList items={content.faq} />
+
+      {showConversionModule && linksInModuleOnly && (
+        <RecipeConversionPaths
+          slug={slug}
+          equipment={content.equipment}
+          sourcing={content.sourcing}
+        />
+      )}
 
       <RelatedGuides
         paths={content.related}
         intro="The technique guides and calculators behind this recipe."
       />
+
 
       <SourceNotes ids={content.sourceIds} />
     </ArticleShell>

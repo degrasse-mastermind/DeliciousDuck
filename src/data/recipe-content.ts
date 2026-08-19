@@ -37,6 +37,13 @@ export interface RecipeContent {
   related: string[];
   /** Sourcing links (Buy pillar). */
   sourcing: { label: string; why: string; to: string; linkLabel?: string }[];
+  /**
+   * When true, the page's commercial destinations are linked in exactly one
+   * place: the dedicated conversion module, placed after the cooking answer.
+   * The equipment list stays a plain list and the sourcing modules are omitted,
+   * so no destination appears twice on the page.
+   */
+  linksInModuleOnly?: boolean;
   sourceIds: string[];
 }
 
@@ -724,6 +731,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
   },
   "duck-a-lorange": {
     slug: "duck-a-lorange",
+    linksInModuleOnly: true,
     intro:
       "Duck à l'orange earned its reputation twice: once as the best thing a bitter orange can do to a rich bird, and once as a sticky, sweet parody of itself. The difference is the sauce. Build it as a gastrique — sugar taken to a proper caramel, then stopped with vinegar and citrus juice — and it stays sharp, glossy and savoury enough to cut a whole roast duck. Everything else is the two-stage roast: render low, brown hot, sauce at the end.",
     confidence: {
@@ -752,7 +760,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
           "60 g (¼ cup) caster or granulated sugar",
           "60 ml (¼ cup) red wine vinegar",
           "250 ml (1 cup) duck or chicken stock",
-          "1 tbsp Seville orange marmalade or 2 tsp lemon juice, to sharpen at the end",
+          "2 tsp lemon juice or extra red wine vinegar, to sharpen at the end",
+          "1 tsp Seville orange marmalade (optional) — for bitter-orange depth, bearing in mind it also adds sweetness",
           "15 g (1 tbsp) cold unsalted butter",
           "Salt, to taste",
         ],
@@ -827,7 +836,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         title: "Rest the duck, finish the sauce",
-        body: "Rest the bird 15–20 minutes, loosely tented. Spoon a tablespoon of the tin drippings into the gastrique, reduce until it coats a spoon, then taste: it should read sharp first and sweet second. Sharpen with marmalade or lemon juice, whisk in the cold butter off the heat, and season.",
+        body: "Rest the bird 15–20 minutes, loosely tented. Spoon a tablespoon of the tin drippings into the gastrique and reduce until it coats a spoon, then taste: it should read sharp first and sweet second. Sharpen with lemon juice or a little more vinegar — those are the acid. If it tastes sharp but thin on bitter-orange character, a teaspoon of Seville marmalade adds that depth, though it adds sweetness with it, so re-taste and re-sharpen after. Whisk in the cold butter off the heat and season.",
         watchFor: "If it tastes like dessert, add vinegar or lemon in half-teaspoons until the edge comes back.",
       },
       {
@@ -851,13 +860,13 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         symptom: "The sauce tastes like marmalade",
         cause: "Too much sugar, under-caramelised, or not enough acid to balance it.",
-        fixNow: "Add red wine vinegar or lemon juice half a teaspoon at a time, reducing briefly between additions, until the sharpness leads.",
+        fixNow: "Add red wine vinegar or lemon juice half a teaspoon at a time, reducing briefly between additions, until the sharpness leads. Marmalade will not fix this — it adds sweetness along with its bitter-orange depth.",
         prevent: "Take the caramel to dark honey, keep the juice fresh rather than from concentrate, and taste before the butter goes in.",
       },
       {
         symptom: "The sauce is bitter in a harsh, chemical way",
         cause: "White pith went in with the zest, or the caramel went past amber into burnt.",
-        fixNow: "Strain out the zest, then soften what's left with a spoonful of stock and a little marmalade.",
+        fixNow: "Strain out the zest, then soften what's left with a spoonful of stock and, if you have it, a teaspoon of marmalade for rounder bitterness.",
         prevent: "Peel wide strips with no pith, and pull the caramel one shade early.",
       },
       {
@@ -876,7 +885,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     leftovers: [
       {
         part: "Rendered fat",
-        use: "Strain and jar it. A whole duck usually gives you several hundred millilitres, and it is the best roasting fat in the kitchen.",
+        use: "Strain and jar it. How much you get depends on the size and breed of the bird, but it is the best roasting fat in the kitchen however much lands in the jar.",
         to: "/cook/ways-to-use-duck-fat",
         linkLabel: "Fifteen uses for duck fat",
       },
@@ -886,7 +895,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         part: "Leftover gastrique",
-        use: "Keeps a week refrigerated. Warm it gently for cold sliced duck, pork, or roast carrots.",
+        use: "Cool it quickly, seal it, and use it within 3–4 days refrigerated. Warm gently for cold sliced duck, pork, or roast carrots.",
       },
       {
         part: "Picked meat",
@@ -900,11 +909,11 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         q: "Can I make this with duck breasts instead of a whole duck?",
-        a: "Yes. Render the breasts skin-side down in a cold pan, pull them at 130–135°F (54–57°C) for rosy, and make the gastrique separately, finishing it with a spoonful of the rendered fat rather than tin drippings.",
+        a: "Yes. Render the breasts skin-side down in a cold pan, pull them at 130–135°F (54–57°C) for rosy, and make the gastrique separately, finishing it with a spoonful of the rendered fat rather than tin drippings. That pull temperature is a culinary convention, not a safety one: the official safe minimum for poultry is 165°F (73.9°C), and cooking below it carries added risk.",
       },
       {
         q: "Which oranges work best?",
-        a: "Seville or other bitter oranges are the traditional choice and need less vinegar. With ordinary sweet oranges, keep the vinegar as written and sharpen at the end with marmalade or lemon juice.",
+        a: "Seville or other bitter oranges are the traditional choice and need less vinegar. With ordinary sweet oranges, keep the vinegar as written and sharpen at the end with lemon juice or a little more vinegar; a teaspoon of Seville marmalade can add the missing bitter-orange depth, but it sweetens as well, so adjust the acid afterwards.",
       },
       {
         q: "Can I make the sauce ahead?",
