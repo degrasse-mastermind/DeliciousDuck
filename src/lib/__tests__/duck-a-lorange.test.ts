@@ -98,12 +98,9 @@ describe("duck a l'orange: two distinct image roles", () => {
     expect(ROUTE).toContain("image: recipe.image");
   });
 
-  it("uses the colored-pencil illustration only as the detail-page visual", () => {
-    expect(recipe.illustration).toMatch(/duck-a-lorange-illustration/);
-    expect(recipe.illustrationAlt).toBe(
-      "Colored-pencil illustration of whole roast Duck à l’Orange with orange gastrique",
-    );
-    expect(recipe.illustration).not.toBe(recipe.image);
+  it("uses the same photograph as the detail-page visual", () => {
+    expect(recipe.illustration).toBeUndefined();
+    expect(recipe.illustrationAlt).toBeUndefined();
     expect(ROUTE).toContain("src={recipe.illustration ?? recipe.image}");
   });
 
