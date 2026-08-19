@@ -17,6 +17,8 @@ import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { decisionGuide } from "@/data/decision-guides";
 import {
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
   BestForGrid,
   DecisionMatrixTable,
   EditorialByline,
@@ -353,6 +355,14 @@ function Page() {
       <div className="mt-14">
         <NewsletterSignup id="field-guide" interest="sourcing" />
       </div>
+
+      <ThanksgivingHubLink
+        placement={THANKSGIVING_INBOUND_PLACEMENTS.sourcingGuide}
+        className="mt-10"
+      >
+        Buying for Thanksgiving adds a deadline to all of this: the delivery date has to leave room
+        for the thaw. Work back from dinner with our
+      </ThanksgivingHubLink>
 
       <ConversionPaths
         heading="What happens after delivery"
