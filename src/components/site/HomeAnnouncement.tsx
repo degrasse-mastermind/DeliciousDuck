@@ -43,7 +43,7 @@ export function HomeAnnouncement({
             <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-cranberry">
               {announcement.eyebrow}
             </span>
-            <span className="mt-1 block font-display text-lg font-medium leading-snug text-cream lg:text-xl">
+            <span className="mt-1 block font-display text-lg font-medium leading-snug text-forest-foreground lg:text-xl">
               {announcement.message}
             </span>
           </p>
