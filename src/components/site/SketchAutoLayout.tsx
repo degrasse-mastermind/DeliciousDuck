@@ -80,8 +80,11 @@ export function SketchAutoLayout({
 
   const blocks = Children.toArray(children).filter((child) => child !== "");
 
+  // A single-entry rotation means the page's own drawing and nothing else, so
+  // there is no companion art to place in the body — better an unillustrated
+  // stretch than the same drawing three times, or a borrowed, unrelated one.
   const slots =
-    disabled || rotation.length === 0
+    disabled || rotation.length < 2
       ? []
       : sketchPlacements({
           sections: blocks.length,
