@@ -170,6 +170,9 @@ const BY_PATH: Record<string, SketchKey> = {
   "/learn/how-to-render-duck-fat": "renderingFat",
   "/learn/wild-duck-vs-farmed-duck": "wildVsFarmed",
   "/learn/duck-vs-turkey-thanksgiving": "duckVsTurkey",
+  // Bound explicitly: the "thanksgiving" keyword would inherit the duck-and-
+  // turkey comparison drawing, but this hub assumes duck is already chosen.
+  "/learn/thanksgiving-duck-dinner": "ovenRoast",
 
   "/buy": "buyingDuck",
   "/buy/where-to-buy-duck-online": "buyingDuck",
@@ -407,6 +410,8 @@ const GENERIC_ROTATION: SketchKey[] = ["ducksFlight", "duckFat", "spices", "side
  * "page illustration only, no companion bands".
  */
 const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
+  // Holiday planning hub: oven, bird, board, table — never the turkey compare.
+  "/learn/thanksgiving-duck-dinner": ["wholeRoastDuck", "carving", "sides"],
   "/recipes/duck-fat-roasted-potatoes": [],
   // Breast buying guide: the page's own package drawing carries it. The only
   // fitting companion is the skillet, and repeating one drawing down a buying
