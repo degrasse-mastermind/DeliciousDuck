@@ -954,6 +954,191 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
   },
 
+  "duck-fat-roasted-potatoes": {
+    slug: "duck-fat-roasted-potatoes",
+    linksInModuleOnly: true,
+    intro:
+      "Roast potatoes are a surface problem. The inside only has to be cooked and fluffy; everything people actually queue up for happens in the outer two millimetres. Duck fat helps there for two reasons — it is nearly pure fat, so there is no water to steam the surface soft, and it carries a savoury, roasted flavour that oil does not. The rest is mechanical: parboil, rough up the edges, and get the fat properly hot before the potatoes touch it.",
+    confidence: {
+      cut: "Floury or all-rounder potatoes, 1.2 kg (2½ lb)",
+      biggestRisk: "Cold fat and a crowded tray — both steam the potatoes instead of frying them",
+      essentialTechnique: "Parboil, dry, rough the edges, then into preheated fat",
+      targetResult: "A shatter-crisp shell over a fluffy centre, evenly browned on two or three faces",
+      essentialTool: "A heavy metal roasting tray, not glass or ceramic",
+      saveAfterwards: "Strain and chill the fat left in the tray — it is good for at least one more roast",
+    },
+    ingredientGroups: [
+      {
+        heading: "For the potatoes",
+        items: [
+          "1.2 kg (2½ lb) floury or all-rounder potatoes — Maris Piper, King Edward, russet, or Yukon Gold",
+          "90 g (about ⅓ cup) rendered duck fat",
+          "1 tbsp fine salt, for the parboiling water",
+          "Flaky sea salt, to finish",
+        ],
+      },
+      {
+        heading: "Optional aromatics",
+        items: [
+          "4 garlic cloves, unpeeled and lightly crushed",
+          "3 sprigs rosemary or thyme",
+          "Freshly cracked black pepper, to finish",
+        ],
+      },
+    ],
+    equipment: [
+      {
+        label: "Heavy metal roasting tray",
+        why: "Metal takes and gives back heat fast, which is what fries the cut faces on contact. Glass and ceramic heat slowly and tend to steam the undersides.",
+      },
+      {
+        label: "Large saucepan and a colander",
+        why: "The parboil needs room for the potatoes to move; draining well and letting them steam dry is what makes the roughing-up step work.",
+      },
+      {
+        label: "Fish slice or thin metal spatula",
+        why: "Turning potatoes that have bonded to the tray is how the crust gets torn off. A thin edge lifts them cleanly.",
+      },
+    ],
+    before: [
+      {
+        heading: "Choose the right potato",
+        body: "Floury varieties — Maris Piper, King Edward, russet — break down slightly at the surface during the parboil, which is exactly the rough, starchy layer that crisps. Waxy potatoes hold their shape and stay smooth, so they roast pleasantly but never get that craggy shell. All-rounders like Yukon Gold sit in between and work well. Cut into even 4–5 cm (1½–2 in) pieces so they finish together.",
+      },
+      {
+        heading: "Preheat the fat, not just the oven",
+        body: "Put the duck fat in the tray and slide it into the oven while it comes up to temperature. Potatoes dropped into hot fat start frying immediately; potatoes sitting in cold fat as it warms release moisture and steam their own surfaces soft. This one step accounts for more of the difference than any brand of fat.",
+      },
+      {
+        heading: "Salt the water, finish with salt too",
+        body: "Salting the parboiling water seasons the potato all the way through — you cannot fix that later from the outside. Salt on the surface, though, draws moisture, so hold the flaky salt back until the potatoes come out of the oven, when it stays on the crust rather than softening it.",
+      },
+    ],
+    steps: [
+      {
+        title: "Heat the oven and the fat",
+        body: "Heat the oven to 220°C / 425°F (200°C / 400°F fan). Spoon the duck fat into a heavy metal roasting tray large enough to hold the potatoes in a single layer with gaps, and put the tray in the oven to heat.",
+        watchFor: "If the tray looks tight for 1.2 kg of potatoes, use two trays. Crowding is the most common reason roast potatoes come out pale.",
+      },
+      {
+        title: "Parboil for 8–10 minutes",
+        body: "Put the cut potatoes in a large pan, cover with cold water, add the tablespoon of salt, and bring to a boil. Simmer 8–10 minutes from boiling — until a knife tip slides into the outer layer but meets resistance in the centre.",
+        watchFor: "Edges starting to fluff and blur is the signal you want. Pieces collapsing mean you have gone too far; drain immediately and handle them gently.",
+      },
+      {
+        title: "Drain and steam dry",
+        body: "Drain thoroughly in a colander and leave them for 3–4 minutes. The residual heat drives off surface water, and a dry surface is what lets the fat get to work instead of boiling moisture away.",
+      },
+      {
+        title: "Rough up the edges",
+        body: "Put the lid on the pan or the colander and shake firmly two or three times, or scuff each piece with a fork. You want a fuzzy, broken outer layer on every face — that ragged starch is the future crust, and smooth potatoes simply cannot produce it.",
+        watchFor: "Fuzzy, not mashed. If pieces are falling apart, one gentle shake is enough.",
+      },
+      {
+        title: "Into the hot fat",
+        body: "Pull the tray out and add the potatoes in one layer, turning each piece so it is coated, with a cut face against the metal. Leave a finger's width between pieces. Add the garlic and herbs now if you are using them.",
+        watchFor: "You should hear an immediate sizzle. Silence means the fat was not hot enough — give the tray a few more minutes in the oven next time.",
+      },
+      {
+        title: "Roast 25 minutes, then turn",
+        body: "Roast undisturbed for 25 minutes, then turn each potato onto a fresh face and roast for another 20–30 minutes, turning once more if the browning looks uneven.",
+        watchFor: "Do not turn early. Potatoes need to release from the tray on their own; forcing them at 10 minutes tears the crust off.",
+      },
+      {
+        title: "Finish and serve",
+        body: "The potatoes are done when they are deep golden brown, sound hollow and hard when tapped with a spoon, and give no resistance to a skewer through the middle. Lift them out of the fat onto a warm dish, season with flaky salt and pepper, and serve straight away.",
+        watchFor: "Left sitting in the fat or covered with foil, the crust softens within minutes. Serve them uncovered.",
+      },
+    ],
+    temperatures: {
+      caption: "Timings and temperatures for 4–5 cm potato pieces",
+      columns: ["Stage", "Setting", "Time", "What you are looking for"],
+      rows: [
+        ["Preheat fat in tray", "220°C / 425°F", "10–15 min", "Fat fully liquid and shimmering"],
+        ["Parboil", "Simmering water, salted", "8–10 min", "Knife enters the edge, centre still firm"],
+        ["Steam dry", "Off heat, in the colander", "3–4 min", "Surface matte and dry to the touch"],
+        ["First roast", "220°C / 425°F", "25 min", "Undersides set and releasing from the tray"],
+        ["After turning", "220°C / 425°F", "20–30 min", "Deep golden on two or three faces, hollow-sounding"],
+      ],
+    },
+    quackFix: [
+      {
+        symptom: "Pale and greasy rather than crisp",
+        cause: "The fat was cold when the potatoes went in, so they absorbed it instead of frying in it.",
+        fixNow: "Turn the oven up 10°C / 25°F and give them another 10–15 minutes, turning once. Some crust usually still comes.",
+        prevent: "Preheat the fat in the tray while the oven heats, and listen for a sizzle as the potatoes land.",
+      },
+      {
+        symptom: "Smooth, hard shells with no craggy crust",
+        cause: "Either a waxy potato or the roughing-up step was skipped.",
+        fixNow: "Nothing rescues the surface mid-roast; roast them to deep gold and enjoy them as they are.",
+        prevent: "Use a floury or all-rounder variety and shake the drained potatoes until the edges look fuzzy.",
+      },
+      {
+        symptom: "Insides gluey or waterlogged",
+        cause: "Overboiled, or drained and dressed while still wet.",
+        fixNow: "Spread them further apart and keep roasting — extra time drives off some of the moisture.",
+        prevent: "Parboil to firm-centred only, then let them steam dry in the colander before the fat.",
+      },
+      {
+        symptom: "Some burnt, some still pale",
+        cause: "Uneven piece sizes, an overcrowded tray, or oven hot spots.",
+        fixNow: "Move the darkest pieces to the cooler edge of the tray and rotate the tray front to back.",
+        prevent: "Cut to an even size, leave gaps between pieces, and use two trays for larger batches.",
+      },
+    ],
+    leftovers: [
+      {
+        part: "Fat left in the tray",
+        use: "Strain it through a fine sieve into a clean jar while warm, then refrigerate. It has picked up potato starch and salt, so use it for another tray of potatoes or vegetables rather than a delicate sauce, and discard it once it smells anything but clean.",
+        to: "/learn/how-to-render-duck-fat",
+        linkLabel: "Straining and storing rendered fat",
+      },
+      {
+        part: "Cold roast potatoes",
+        use: "Refrigerate within two hours in a shallow container and eat within 3–4 days. Reheat spread out on a hot tray at 200°C / 400°F for 10–12 minutes; a microwave will make them soft.",
+      },
+      {
+        part: "Garlic and herbs from the tray",
+        use: "Squeeze the soft garlic into a mayonnaise or mash it into butter for whatever you are serving alongside.",
+      },
+    ],
+    faq: [
+      {
+        q: "Do I have to parboil the potatoes?",
+        a: "You can roast them raw, but you will not get the same shell. Parboiling gelatinises the starch at the surface so the roughing-up step produces a rough, starchy layer that fries crisp. Raw potatoes roast to a smoother, denser surface and take longer to cook through.",
+      },
+      {
+        q: "How much duck fat do I need for a tray of potatoes?",
+        a: "For 1.2 kg of potatoes, about 90 g (roughly ⅓ cup) is enough to coat everything and leave a shallow film in the tray. You are frying the contact faces, not deep-frying, so more fat mostly means more fat to strain afterwards.",
+      },
+      {
+        q: "Can I use a different fat?",
+        a: "Yes — beef dripping, lard, or a high-heat neutral oil all crisp well, since all of them are close to pure fat. What changes is flavour: duck fat brings a savoury, roasted note the others do not. Butter on its own is the poor choice here, because its water and milk solids steam the surface and burn before the potatoes are done.",
+      },
+      {
+        q: "Can I get these ready in advance?",
+        a: "Partly. Parboil, drain, rough up and refrigerate the potatoes uncovered on a tray up to a day ahead — the extra drying time in the fridge helps rather than hurts. Roast them from cold in preheated fat and allow about five extra minutes. Fully roasting ahead and reheating gives you a good potato, not a great one.",
+      },
+      {
+        q: "Why did my potatoes stick to the tray?",
+        a: "Almost always because they were turned too early. Potatoes bond to hot metal while the crust is forming and release on their own once it sets. Leave the first side a full 25 minutes and use a thin metal spatula rather than tongs.",
+      },
+      {
+        q: "Can I reuse the fat from the tray?",
+        a: "Once or twice, if you strain it while it is still warm and keep it refrigerated. It carries starch and salt from the potatoes, which shortens how long it keeps, so use it for roasting rather than saving it long-term, and throw it out if it smells sour or sharp.",
+      },
+    ],
+    related: [
+      "/cook/ways-to-use-duck-fat",
+      "/learn/how-to-render-duck-fat",
+      "/ingredients/duck-fat-vs-butter-oil",
+      "/tools/recipe-scaler",
+    ],
+    sourcing: [],
+    sourceIds: [],
+  },
+
 };
 
 export const recipeBySlug = (slug: string): Recipe | undefined =>
