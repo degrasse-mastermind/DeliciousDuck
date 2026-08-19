@@ -14,6 +14,7 @@ const ROUTE_FILE: Record<string, string> = {
   "/buy/fresh-vs-frozen-duck": "src/routes/buy.fresh-vs-frozen-duck.tsx",
   "/buy/how-to-choose-duck": "src/routes/buy.how-to-choose-duck.tsx",
   "/learn/duck-vs-turkey-thanksgiving": "src/routes/learn.duck-vs-turkey-thanksgiving.tsx",
+  "/learn/thanksgiving-duck-dinner": "src/routes/learn.thanksgiving-duck-dinner.tsx",
 };
 
 
