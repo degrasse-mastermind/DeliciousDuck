@@ -26,9 +26,15 @@ function routeFileFor(path: string): string {
   return existsSync(resolve(process.cwd(), `${base}.index.tsx`)) ? `${base}.index.tsx` : `${base}.tsx`;
 }
 
-const routeExists = (path: string) =>
-  existsSync(resolve(process.cwd(), routeFileFor(path))) ||
-  existsSync(resolve(process.cwd(), `src/routes/${path.split("/").filter(Boolean).join(".")}.index.tsx`));
+const routeExists = (path: string) => {
+  // Recipe URLs resolve through the dynamic `$slug` route, keyed on the data.
+  const recipe = /^\/recipes\/([a-z0-9-]+)$/.exec(path);
+  if (recipe) return Boolean(RECIPE_CONTENT[recipe[1]!]);
+  return (
+    existsSync(resolve(process.cwd(), routeFileFor(path))) ||
+    existsSync(resolve(process.cwd(), `src/routes/${path.split("/").filter(Boolean).join(".")}.index.tsx`))
+  );
+};
 
 /* ------------------------------------------------------------------ *
  * Placement map integrity
