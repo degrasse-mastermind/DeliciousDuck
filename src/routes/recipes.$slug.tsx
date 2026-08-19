@@ -248,6 +248,21 @@ function RecipePage() {
         intro="The four ways this recipe usually goes wrong, what to do about it mid-cook, and how to stop it happening again."
       />
 
+      {slug === "air-fryer-duck-breast" && (
+        <>
+          <AirFryerMethodCompare />
+          <div className="mt-16">
+            <NewsletterSignup
+              id={AIR_FRYER_NEWSLETTER_PLACEMENT}
+              interest="duck-breast"
+              heading="The Duck Drop"
+              blurb="Occasional email on duck technique — temperatures, rendering, and what we get wrong. No air fryer download, no course, no sequence."
+            />
+          </div>
+        </>
+      )}
+
+
       {slug === "pan-seared-duck-breast" && (
         <DuckBreastJourney
           id="cluster-from-the-recipe"
