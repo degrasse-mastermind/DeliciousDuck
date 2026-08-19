@@ -248,6 +248,33 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     anchor: "Need rendered duck fat?",
     reason: "Buy the size that matches the amount you just worked out, not the cheapest per gram.",
   },
+  {
+    placement: "fat_substitution_to_potatoes_recipe",
+    sourcePath: "/tools/duck-fat-substitution-calculator",
+    destination: "/recipes/duck-fat-roasted-potatoes",
+    intent: "technique_validation",
+    direction: "commercial_to_editorial",
+    anchor: "See the swap in a real recipe: duck fat roasted potatoes",
+    reason: "The clearest test of whether duck fat earns its place, and how much a tray actually takes.",
+  },
+  {
+    placement: "duck_fat_guide_to_potatoes_recipe",
+    sourcePath: "/buy/duck-fat-buying-guide",
+    destination: "/recipes/duck-fat-roasted-potatoes",
+    intent: "technique_validation",
+    direction: "commercial_to_editorial",
+    anchor: "The use case that decides the size: duck fat roasted potatoes",
+    reason: "One tray takes about 90 g, which makes sizing a jar or tub a concrete decision rather than a guess.",
+  },
+  {
+    placement: "render_fat_to_potatoes_recipe",
+    sourcePath: "/learn/how-to-render-duck-fat",
+    destination: "/recipes/duck-fat-roasted-potatoes",
+    intent: "technique_validation",
+    direction: "commercial_to_editorial",
+    anchor: "Put the jar to work: duck fat roasted potatoes",
+    reason: "The first thing worth cooking with fat you have just rendered and strained.",
+  },
 
   {
 

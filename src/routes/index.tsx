@@ -135,8 +135,8 @@ function PopularRecipes() {
               Popular Duck Recipes
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              The four recipes worth learning first. Each one teaches a technique that carries over
-              to every other duck dish.
+              The recipes worth learning first. Each one teaches a technique that carries over to
+              every other duck dish.
             </p>
           </div>
           <Link
@@ -148,8 +148,8 @@ function PopularRecipes() {
           </Link>
         </div>
 
-        <div className="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-          {RECIPES.slice(0, 4).map((recipe, index) => (
+        <div className="mt-12 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {RECIPES.slice(0, 6).map((recipe, index) => (
             <RecipeCard key={recipe.slug} recipe={recipe} priority={index < 2} />
           ))}
         </div>

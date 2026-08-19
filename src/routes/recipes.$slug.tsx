@@ -9,6 +9,7 @@ import {
 } from "@/components/site/ArticleShell";
 import { ShopThisGuide } from "@/components/site/Commerce";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
+import { DuckFatDecision } from "@/components/site/DuckFatDecision";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
 import { RecipeTrustBox } from "@/components/site/RecipeTrustBox";
@@ -232,9 +233,11 @@ function RecipePage() {
         </Callout>
       </Section>
 
-      <div className="mt-16">
-        <SafetyNote />
-      </div>
+      {content.sourceIds.length > 0 && (
+        <div className="mt-16">
+          <SafetyNote />
+        </div>
+      )}
 
       <QuackFix
         items={content.quackFix}
@@ -287,6 +290,8 @@ function RecipePage() {
           </p>
         </Callout>
       )}
+
+      <DuckFatDecision sourcePath={path} />
 
       <FaqList items={content.faq} />
 
