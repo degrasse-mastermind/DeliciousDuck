@@ -33,6 +33,8 @@ import {
   pageMeta,
   recipeSchema,
 } from "@/lib/seo";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 export const Route = createFileRoute("/recipes/$slug")({
   loader: ({ params }) => {
@@ -295,6 +297,26 @@ function RecipePage() {
             ) : null}
           </p>
         </Callout>
+      )}
+
+      {slug === "roasted-whole-duck" && (
+        <ThanksgivingHubLink
+          placement={THANKSGIVING_INBOUND_PLACEMENTS.roastedWholeDuckRecipe}
+          className="mt-10"
+        >
+          Cooking this bird for Thanksgiving? The recipe is the easy part; the calendar is not.
+          Order date, thaw days, a single-oven order of play and a printable checklist live in our
+        </ThanksgivingHubLink>
+      )}
+
+      {slug === "duck-fat-roasted-potatoes" && (
+        <ThanksgivingHubLink
+          placement={THANKSGIVING_INBOUND_PLACEMENTS.duckFatPotatoes}
+          className="mt-10"
+        >
+          On a holiday table these are best roasted earlier in the day and re-crisped while the bird
+          rests, which is exactly how they are scheduled in our
+        </ThanksgivingHubLink>
       )}
 
       <DuckFatDecision sourcePath={path} />

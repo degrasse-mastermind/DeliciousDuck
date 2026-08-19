@@ -52,6 +52,8 @@ export const ANALYTICS_EVENTS = {
   calculatorComplete: "calculator_complete",
   starterGuideView: "starter_guide_view",
   starterGuidePrint: "starter_guide_print",
+  planPrint: "plan_print",
+
   duckBreastClusterClick: CLUSTER_CLICK_EVENT,
   internalConversionClick: CONVERSION_PATH_CLICK_EVENT,
   commercialPageView: ENGAGEMENT_EVENTS.commercialPageView,
@@ -390,6 +392,19 @@ export function trackStarterGuidePrint(params: { path: string }): void {
     content_slug: contentSlugFromPath(params.path),
   });
 }
+
+/**
+ * User printed a page's planning checklist. Same shape as the Starter Guide
+ * print event plus the stable placement of the control. No PII.
+ */
+export function trackPlanPrint(params: { placement: string; path: string }): void {
+  trackEvent(ANALYTICS_EVENTS.planPrint, {
+    page_path: params.path,
+    content_slug: contentSlugFromPath(params.path),
+    placement: params.placement,
+  });
+}
+
 
 /* ------------------------------------------------------------------ *
  * Duck-breast cluster wayfinding

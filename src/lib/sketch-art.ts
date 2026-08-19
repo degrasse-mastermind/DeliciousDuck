@@ -28,6 +28,10 @@ import roastingPans from "@/assets/sketch/roasting-pans.png";
 // Transparent-alpha master, drawn for the duck-breast buying guide: package
 // formats, a scale, and blank label shapes — no merchant marks, no prices.
 import duckBreastPackages from "@/assets/sketch/duck-breast-packages.png";
+// Drawn for the Thanksgiving planning hub: roast duck centrepiece, handwritten
+// timeline and checklist, platter, restrained autumn details. Its own hero, so
+// the hub never borrows the whole-roast or duck-versus-turkey drawings.
+import thanksgivingPlan from "@/assets/sketch/thanksgiving-plan.jpg";
 
 export type SketchArt = {
   src: string;
@@ -125,6 +129,10 @@ export const SKETCH = {
     src: thawing,
     alt: "Colored-pencil sketch of a covered tray thawing on a refrigerator shelf",
   },
+  thanksgivingPlan: {
+    src: thanksgivingPlan,
+    alt: "Colored-pencil sketch of a Thanksgiving planning scene: a roast duck on a serving platter beside a handwritten timeline and checklist",
+  },
   ovenRoast: {
     src: ovenRoast,
     alt: "Colored-pencil sketch of an open oven with a roasting tin under warm light",
@@ -172,7 +180,7 @@ const BY_PATH: Record<string, SketchKey> = {
   "/learn/duck-vs-turkey-thanksgiving": "duckVsTurkey",
   // Bound explicitly: the "thanksgiving" keyword would inherit the duck-and-
   // turkey comparison drawing, but this hub assumes duck is already chosen.
-  "/learn/thanksgiving-duck-dinner": "ovenRoast",
+  "/learn/thanksgiving-duck-dinner": "thanksgivingPlan",
 
   "/buy": "buyingDuck",
   "/buy/where-to-buy-duck-online": "buyingDuck",
@@ -411,7 +419,7 @@ const GENERIC_ROTATION: SketchKey[] = ["ducksFlight", "duckFat", "spices", "side
  */
 const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
   // Holiday planning hub: oven, bird, board, table — never the turkey compare.
-  "/learn/thanksgiving-duck-dinner": ["wholeRoastDuck", "carving", "sides"],
+  "/learn/thanksgiving-duck-dinner": ["ovenRoast", "carving", "sides"],
   "/recipes/duck-fat-roasted-potatoes": [],
   // Breast buying guide: the page's own package drawing carries it. The only
   // fitting companion is the skillet, and repeating one drawing down a buying

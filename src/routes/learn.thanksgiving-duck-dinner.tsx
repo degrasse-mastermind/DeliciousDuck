@@ -7,12 +7,16 @@ import {
   Section,
 } from "@/components/site/ArticleShell";
 import { AnswerFirst, ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
-import { DecisionNextSteps } from "@/components/site/DecisionGuide";
-import { ThanksgivingPlan } from "@/components/site/ThanksgivingPlan";
+import {
+  ThanksgivingCommercialModule,
+  ThanksgivingLeftovers,
+  ThanksgivingPlan,
+  ThanksgivingPrintablePlan,
+  ThanksgivingTableChoice,
+} from "@/components/site/ThanksgivingPlan";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
-import { SketchSlot } from "@/components/site/SketchSlot";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { SKETCH } from "@/lib/sketch-art";
 import { acquisitionPage } from "@/data/acquisition-cluster";
@@ -23,10 +27,18 @@ import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "
 const GUIDE = guideByPath("/learn/thanksgiving-duck-dinner")!;
 const PAGE = acquisitionPage("/learn/thanksgiving-duck-dinner")!;
 
+/**
+ * Social preview image. The hub's own colored-pencil hero lives at a stable
+ * project asset filename, and `pageMeta`/`articleSchema` route it through
+ * `absUrl`, so og:image and twitter:image resolve to a durable production URL
+ * rather than a preview-host screenshot.
+ */
+const SOCIAL_IMAGE = SKETCH.thanksgivingPlan.src;
+
 const FAQ = [
   {
     q: "How far ahead should I order duck for Thanksgiving?",
-    a: "Two to three weeks. Most holiday duck ships frozen on set dispatch days, sizes sell through, and a frozen bird still needs two or three days of refrigerator thawing after it lands. Order early enough that the delivery date and the cooking date are different weeks, not different mornings.",
+    a: "Give yourself two to three weeks. That is long enough to check what a seller actually has in the size you want, confirm whether it arrives fresh or frozen, pick a delivery date you will be home for, and still leave two or three days of refrigerator thawing if it lands frozen. Aim for the delivery date and the cooking date to fall in different weeks, not different mornings.",
   },
   {
     q: "How many ducks do I need for Thanksgiving dinner?",
@@ -46,7 +58,7 @@ const FAQ = [
   },
   {
     q: "How do I handle all the rendered fat?",
-    a: "Pour it off as it collects rather than letting the bird sit in it, and keep it. Strained into a clean jar and refrigerated, it is the best roasting fat in your kitchen — and the potatoes you make with it while the duck rests are usually the dish guests remember.",
+    a: "Pour it off as it collects rather than letting the bird sit in it, and keep it. Strained into a clean jar and refrigerated, it is the best roasting fat in your kitchen. For the holiday itself, roast the potatoes in duck fat earlier in the day — saved fat from an earlier bird, or a jar bought for the purpose — and re-crisp them uncovered while the duck rests. Fresh potatoes take most of an hour and will not cook in a 20-minute rest.",
   },
   {
     q: "How long can Thanksgiving duck sit out, and how long do leftovers keep?",
@@ -65,6 +77,7 @@ export const Route = createFileRoute("/learn/thanksgiving-duck-dinner")({
       description: GUIDE.description,
       path: GUIDE.path,
       ogType: "article",
+      image: SOCIAL_IMAGE,
     }),
     scripts: [
       ldScript(
@@ -80,6 +93,7 @@ export const Route = createFileRoute("/learn/thanksgiving-duck-dinner")({
           description: GUIDE.description,
           path: GUIDE.path,
           updated: PAGE.updated,
+          image: SOCIAL_IMAGE,
         }),
       ),
       ldScript(faqSchema(FAQ)),
@@ -103,6 +117,8 @@ function Page() {
       <AnswerFirst page={PAGE} />
       <ArticleByline page={PAGE} />
 
+      <ThanksgivingTableChoice />
+
       <Section id="countdown" heading="The countdown, working backward from dinner">
         <p>
           A duck holiday is easier than a turkey one in the oven and harder in the calendar. The bird
@@ -121,7 +137,7 @@ function Page() {
             [
               "Two to three weeks out",
               "Order the duck",
-              "Holiday stock and dispatch days are finite, and frozen shipping is the norm",
+              "Ordering early is what lets you verify size, format and delivery date instead of hoping",
             ],
             [
               "One week out",
@@ -148,15 +164,8 @@ function Page() {
         <Callout label="One number to settle first">
           <p>
             Duck yields less meat per pound than turkey, so the guest count is a real decision rather
-            than a formality. Run it through the{" "}
-            <Link
-              to="/tools/whole-duck-serving-calculator"
-              className="text-primary underline underline-offset-4"
-            >
-              whole-duck serving calculator
-            </Link>{" "}
-            before you order — it shows the assumptions behind its answer and returns raw weight, not
-            a vague reassurance.
+            than a formality. Settle it in <em>Choose your table first</em> above, where the
+            calculator returns raw weight to order rather than a vague reassurance.
           </p>
         </Callout>
       </Section>
@@ -173,13 +182,44 @@ function Page() {
           caption="A single-oven holiday order of play"
           columns={["Slot", "What's in the oven", "What you're doing meanwhile"]}
           rows={[
-            ["Morning", "Nothing — bird tempering on the counter", "Prep vegetables, make the sauce base"],
-            ["Mid-afternoon", "Anything that bakes hot and holds", "Set the table, chill the drinks"],
-            ["Two to three hours out", "The duck, on a rack", "Pour off fat as it collects, baste nothing"],
-            ["Final 30 minutes", "Duck, oven turned up to finish the skin", "Thermometer in the thigh, sauce finished"],
-            ["Rest, 20 minutes", "Potatoes in the poured-off duck fat", "Carve at the end of the rest, not the start"],
+            [
+              "Morning",
+              "Potatoes: parboiled, then roasted in duck fat until nearly done",
+              "Bird stays covered in the refrigerator; prep vegetables and make the sauce base",
+            ],
+            [
+              "Mid-afternoon",
+              "Anything else that bakes hot and holds",
+              "Set the table, chill the drinks, pull the potatoes out and leave them on their tray",
+            ],
+            [
+              "Two to three hours out",
+              "The duck, on a rack",
+              "Pour off fat as it collects, baste nothing",
+            ],
+            [
+              "Final 30 minutes",
+              "Duck, oven turned up to finish the skin",
+              "Thermometer in the thigh, sauce finished",
+            ],
+            [
+              "Rest, 20 minutes",
+              "Potatoes back in, uncovered, for 10 to 12 minutes to re-crisp",
+              "Carve at the end of the rest, not the start",
+            ],
           ]}
         />
+        <Callout label="The one honest catch about the potatoes">
+          <p>
+            Potatoes roasted in duck fat need most of an hour, so they cannot be started from raw
+            during a 20-minute rest. Roast them earlier in the day and re-crisp them uncovered while
+            the bird rests — that reheating window is the recipe's own. Doing it that way means using
+            fat you saved from an earlier bird or a jar you bought, because <em>this</em> bird's fat
+            only appears once it is in the oven. If you would rather use the fat from the duck in
+            front of you, the honest options are to serve the potatoes fifteen or twenty minutes
+            after the duck, or to pick a quicker side and save the fat for the weekend.
+          </p>
+        </Callout>
         <Callout label="Don't stuff a whole duckling">
           <p>
             Cook the stuffing separately in a casserole. A duck cavity is small, the bird cooks fast,
@@ -187,14 +227,6 @@ function Page() {
             worth being strict about.
           </p>
         </Callout>
-
-        <SketchSlot
-          art={SKETCH.wholeRoastDuck}
-          context="articleBreak"
-          height="short"
-          caption="Rack, clearance, and a jar for the fat — the whole holiday setup in one tin."
-          className="mt-8"
-        />
       </Section>
 
       <Section id="menu" heading="A menu built against the richness">
@@ -337,23 +369,25 @@ function Page() {
 
       <ThanksgivingPlan sourcePath={THANKSGIVING_HUB_PATH} />
 
-      <ArticleBasis page={PAGE} />
+      <ThanksgivingCommercialModule />
 
-      <DecisionNextSteps
-        heading="Next steps"
-        intro="Bird count first, then the order date, then the oven."
-        items={PAGE.funnel}
-      />
+      <ThanksgivingLeftovers />
+
+      <ThanksgivingPrintablePlan />
+
+      <ArticleBasis page={PAGE} />
 
       <FaqList items={FAQ} />
 
       <SourceNotes ids={PAGE.sourceIds} />
 
-      <div className="mt-16">
-        <NewsletterSignup id="thanksgiving-duck-dinner" interest="whole-duck" />
+      <div data-print-hide className="mt-16">
+        <NewsletterSignup id="thanksgiving_duck_dinner_hub" interest="whole-duck" />
       </div>
 
-      <RelatedGuides paths={GUIDE.related} />
+      <div data-print-hide>
+        <RelatedGuides paths={GUIDE.related} />
+      </div>
     </ArticleShell>
   );
 }

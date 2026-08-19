@@ -113,6 +113,7 @@ export function NewsletterSignup({
   return (
     <section
       id={id}
+      data-placement={id}
       aria-labelledby={`${id}-heading`}
       className="scroll-mt-24 overflow-hidden rounded-sm bg-forest text-forest-foreground"
     >
