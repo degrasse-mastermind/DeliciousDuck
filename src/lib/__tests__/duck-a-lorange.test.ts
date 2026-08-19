@@ -87,3 +87,30 @@ describe("duck a l'orange: safety and claim corrections", () => {
     expect(recipe.verification).toBe("editorialDraft");
   });
 });
+
+describe("duck a l'orange: two distinct image roles", () => {
+  it("uses the photograph for cards, JSON-LD and social previews", () => {
+    expect(recipe.image).toMatch(/duck-a-lorange-card/);
+    expect(recipe.imageAlt).toBe(
+      "Whole roast Duck à l’Orange with crisp mahogany skin and orange gastrique",
+    );
+    // Route metadata and Recipe schema both read recipe.image, not the illustration.
+    expect(ROUTE).toContain("image: recipe.image");
+  });
+
+  it("uses the colored-pencil illustration only as the detail-page visual", () => {
+    expect(recipe.illustration).toMatch(/duck-a-lorange-illustration/);
+    expect(recipe.illustrationAlt).toBe(
+      "Colored-pencil illustration of whole roast Duck à l’Orange with orange gastrique",
+    );
+    expect(recipe.illustration).not.toBe(recipe.image);
+    expect(ROUTE).toContain("src={recipe.illustration ?? recipe.image}");
+  });
+
+  it("leaves other recipe thumbnails untouched", () => {
+    for (const r of RECIPES.filter((r) => r.slug !== SLUG)) {
+      expect(r.image).not.toMatch(/duck-a-lorange/);
+      expect(r.illustration).toBeUndefined();
+    }
+  });
+});
