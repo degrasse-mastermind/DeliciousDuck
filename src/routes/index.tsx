@@ -198,34 +198,15 @@ function Monetization() {
       <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <SectionHeader
           eyebrow="Buy well"
-          title="Where to Buy Duck Online & The Duck Kitchen"
-          intro="Two practical questions we answer without hype: where good duck actually comes from, and the small set of equipment that makes cooking it straightforward."
+          title="Buying Duck & Equipping the Kitchen"
+          intro="Four decisions worth getting right before you cook: where the bird comes from, how you'll know it's done, what you'll sear it in, and whether to render fat or buy it."
         />
-        <h3 id="shop-heading" className="sr-only">
+        <h2 id="shop-heading" className="sr-only">
           Buying duck and kitchen gear
-        </h3>
+        </h2>
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-2">
-          <div>
-            <h3 className="rule-gold font-display text-2xl text-foreground">
-              Where to Buy Duck Online
-            </h3>
-            <div className="mt-6 grid gap-4">
-              {BUYING_GUIDE.map((item) => (
-                <AffiliateCallout key={item.id} item={item} />
-              ))}
-            </div>
-          </div>
-          <div>
-            <h3 className="rule-gold font-display text-2xl text-foreground">
-              The Duck Kitchen
-            </h3>
-            <div className="mt-6 grid gap-4">
-              {KITCHEN_GEAR.map((item) => (
-                <AffiliateCallout key={item.id} item={item} />
-              ))}
-            </div>
-          </div>
+        <div className="mt-12">
+          <HomeCommerceCards />
         </div>
       </div>
     </section>
