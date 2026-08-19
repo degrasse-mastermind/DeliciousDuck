@@ -17,14 +17,14 @@ import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { decisionGuide } from "@/data/decision-guides";
 import {
-import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
-import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
   BestForGrid,
   DecisionMatrixTable,
   EditorialByline,
   MethodologyPanel,
   QuickDecision,
 } from "@/components/site/DecisionGuide";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 const GUIDE = guideByPath("/buy/where-to-buy-duck-online")!;
 const DG = decisionGuide("/buy/where-to-buy-duck-online")!;

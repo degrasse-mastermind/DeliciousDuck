@@ -27,14 +27,14 @@ import { RECIPE_CONVERSION_SLUGS } from "@/data/conversion-paths";
 import { formatMinutes, isoDuration, totalTimeMinutes } from "@/data/recipes";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import {
-import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
-import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
   breadcrumbSchema,
   faqSchema,
   ldScript,
   pageMeta,
   recipeSchema,
 } from "@/lib/seo";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 export const Route = createFileRoute("/recipes/$slug")({
   loader: ({ params }) => {
