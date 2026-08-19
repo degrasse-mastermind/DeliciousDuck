@@ -3,6 +3,8 @@ import confit from "@/assets/recipe-confit.jpg";
 import wholeRoast from "@/assets/recipe-whole-roast.jpg";
 import smokedPlum from "@/assets/recipe-smoked-plum.jpg";
 import orangeCard from "@/assets/duck-a-lorange-card.jpg";
+import orangeIllustration from "@/assets/duck-a-lorange-illustration.jpg";
+import wholeRoastCard from "@/assets/roasted-whole-duck-card.jpg";
 
 /**
  * Recipe data shape is Recipe schema-ready: fields map 1:1 onto
@@ -104,6 +106,9 @@ export const RECIPES: Recipe[] = [
     image: orangeCard,
     imageAlt:
       "Whole roast Duck \u00e0 l\u2019Orange with crisp mahogany skin and orange gastrique",
+    illustration: orangeIllustration,
+    illustrationAlt:
+      "Colored-pencil illustration of a whole roast Duck \u00e0 l\u2019Orange on a platter with oranges",
     category: "Whole duck",
     cuisine: "French",
     prepTimeMinutes: 30,
@@ -135,7 +140,12 @@ export const RECIPES: Recipe[] = [
     name: "Roasted Whole Duck",
     description:
       "A two-stage roast that renders the fat cap, keeps the breast juicy, and gets the legs fully tender.",
-    image: wholeRoast,
+    image: wholeRoastCard,
+    imageAlt:
+      "Whole roasted duck with crisp mahogany skin, roast potatoes and thyme",
+    illustration: wholeRoast,
+    illustrationAlt:
+      "Whole roasted duck resting on a platter with roast potatoes, thyme and a charred shallot",
     category: "Whole duck",
     prepTimeMinutes: 20,
     cookTimeMinutes: 135,
