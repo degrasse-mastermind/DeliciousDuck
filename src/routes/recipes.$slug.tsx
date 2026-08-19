@@ -8,6 +8,9 @@ import {
   StepList,
 } from "@/components/site/ArticleShell";
 import { ShopThisGuide } from "@/components/site/Commerce";
+import { AirFryerMethodCompare } from "@/components/site/AirFryerMethodCompare";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { AIR_FRYER_NEWSLETTER_PLACEMENT } from "@/data/air-fryer-inbound";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckFatDecision } from "@/components/site/DuckFatDecision";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
