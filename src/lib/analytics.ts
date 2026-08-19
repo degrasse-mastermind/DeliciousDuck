@@ -52,6 +52,8 @@ export const ANALYTICS_EVENTS = {
   calculatorComplete: "calculator_complete",
   starterGuideView: "starter_guide_view",
   starterGuidePrint: "starter_guide_print",
+  planPrint: "plan_print",
+
   duckBreastClusterClick: CLUSTER_CLICK_EVENT,
   internalConversionClick: CONVERSION_PATH_CLICK_EVENT,
   commercialPageView: ENGAGEMENT_EVENTS.commercialPageView,
