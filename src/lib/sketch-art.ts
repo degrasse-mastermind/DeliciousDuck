@@ -224,9 +224,6 @@ const BY_PATH: Record<string, SketchKey> = {
 
   "/recipes": "slicedBreast",
   "/recipes/pan-seared-duck-breast": "duckBreastPan",
-  // Bound explicitly: the keyword rules reach for the skillet drawing, and a
-  // pan is exactly the appliance this page is not using.
-  "/recipes/air-fryer-duck-breast": "slicedBreast",
   "/recipes/duck-leg-confit": "confit",
   "/recipes/roasted-whole-duck": "wholeRoastDuck",
   // Bound explicitly: the keyword rules would match "orange" and reach for the
@@ -435,8 +432,6 @@ const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
   // Holiday planning hub: oven, bird, board, table — never the turkey compare.
   "/learn/thanksgiving-duck-dinner": ["ovenRoast", "carving", "sides"],
   "/recipes/duck-fat-roasted-potatoes": [],
-  // Air fryer breast: thermometer and sides fit; the skillet drawing does not.
-  "/recipes/air-fryer-duck-breast": ["thermometer", "sides"],
   // Breast buying guide: the page's own package drawing carries it. The only
   // fitting companion is the skillet, and repeating one drawing down a buying
   // page reads worse than an unillustrated stretch — so no companion bands.
