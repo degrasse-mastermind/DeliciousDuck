@@ -8,7 +8,7 @@ import { CategoryTile } from "@/components/site/CategoryTile";
 import { HomeCommerceCards, HomeIntentRouter } from "@/components/site/HomeIntentRouter";
 import { RecipeCard } from "@/components/site/RecipeCard";
 import { ToolListItem } from "@/components/site/ToolListItem";
-import { AffiliateCallout } from "@/components/site/AffiliateCallout";
+
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ldScript, pageMeta, websiteSchema } from "@/lib/seo";
