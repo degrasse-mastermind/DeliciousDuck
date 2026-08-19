@@ -2,6 +2,8 @@ import panSeared from "@/assets/recipe-pan-seared.jpg";
 import confit from "@/assets/recipe-confit.jpg";
 import wholeRoast from "@/assets/recipe-whole-roast.jpg";
 import smokedPlum from "@/assets/recipe-smoked-plum.jpg";
+import orangeCard from "@/assets/duck-a-lorange-card.jpg";
+import orangeIllustration from "@/assets/duck-a-lorange-illustration.jpg";
 
 /**
  * Recipe data shape is Recipe schema-ready: fields map 1:1 onto
@@ -19,6 +21,13 @@ export interface Recipe {
    * caption never implies a picture we do not have.
    */
   imageAlt?: string;
+  /**
+   * Optional editorial illustration for the recipe detail page. Cards,
+   * listings, Recipe JSON-LD and social previews always use `image` (the
+   * photograph); only the detail page's prominent visual uses this.
+   */
+  illustration?: string;
+  illustrationAlt?: string;
   category: string;
   cuisine?: string;
   prepTimeMinutes: number;
@@ -93,9 +102,12 @@ export const RECIPES: Recipe[] = [
     name: "Duck \u00e0 l\u2019Orange",
     description:
       "A whole duck roasted in two stages, served with a bitter-orange gastrique built from the pan drippings \u2014 sharp and glossy rather than sweet.",
-    image: wholeRoast,
+    image: orangeCard,
     imageAlt:
-      "A whole roast duck with deeply browned, rendered skin \u2014 the base this recipe finishes with orange gastrique",
+      "Whole roast Duck \u00e0 l\u2019Orange with crisp mahogany skin and orange gastrique",
+    illustration: orangeIllustration,
+    illustrationAlt:
+      "Colored-pencil illustration of whole roast Duck \u00e0 l\u2019Orange with orange gastrique",
     category: "Whole duck",
     cuisine: "French",
     prepTimeMinutes: 30,
