@@ -34,6 +34,7 @@ import { Route as BuyFreshVsFrozenDuckRouteImport } from './routes/buy.fresh-vs-
 import { Route as BuyHowMuchDuckPerPersonRouteImport } from './routes/buy.how-much-duck-per-person'
 import { Route as BuyHowToChooseDuckRouteImport } from './routes/buy.how-to-choose-duck'
 import { Route as BuyWhatCutOfDuckToBuyRouteImport } from './routes/buy.what-cut-of-duck-to-buy'
+import { Route as BuyWhereToBuyDuckBreastOnlineRouteImport } from './routes/buy.where-to-buy-duck-breast-online'
 import { Route as BuyWhereToBuyDuckOnlineRouteImport } from './routes/buy.where-to-buy-duck-online'
 import { Route as CookIndexRouteImport } from './routes/cook.index'
 import { Route as CookBestSaucesForDuckBreastRouteImport } from './routes/cook.best-sauces-for-duck-breast'
@@ -215,6 +216,12 @@ const BuyWhatCutOfDuckToBuyRoute = BuyWhatCutOfDuckToBuyRouteImport.update({
   path: '/what-cut-of-duck-to-buy',
   getParentRoute: () => BuyRoute,
 } as any)
+const BuyWhereToBuyDuckBreastOnlineRoute =
+  BuyWhereToBuyDuckBreastOnlineRouteImport.update({
+    id: '/where-to-buy-duck-breast-online',
+    path: '/where-to-buy-duck-breast-online',
+    getParentRoute: () => BuyRoute,
+  } as any)
 const BuyWhereToBuyDuckOnlineRoute = BuyWhereToBuyDuckOnlineRouteImport.update({
   id: '/where-to-buy-duck-online',
   path: '/where-to-buy-duck-online',
@@ -544,6 +551,7 @@ export interface FileRoutesByFullPath {
   '/buy/how-much-duck-per-person': typeof BuyHowMuchDuckPerPersonRoute
   '/buy/how-to-choose-duck': typeof BuyHowToChooseDuckRoute
   '/buy/what-cut-of-duck-to-buy': typeof BuyWhatCutOfDuckToBuyRoute
+  '/buy/where-to-buy-duck-breast-online': typeof BuyWhereToBuyDuckBreastOnlineRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
   '/cook/duck-leg-confit': typeof CookDuckLegConfitRoute
@@ -619,6 +627,7 @@ export interface FileRoutesByTo {
   '/buy/how-much-duck-per-person': typeof BuyHowMuchDuckPerPersonRoute
   '/buy/how-to-choose-duck': typeof BuyHowToChooseDuckRoute
   '/buy/what-cut-of-duck-to-buy': typeof BuyWhatCutOfDuckToBuyRoute
+  '/buy/where-to-buy-duck-breast-online': typeof BuyWhereToBuyDuckBreastOnlineRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
   '/cook/duck-leg-confit': typeof CookDuckLegConfitRoute
@@ -702,6 +711,7 @@ export interface FileRoutesById {
   '/buy/how-much-duck-per-person': typeof BuyHowMuchDuckPerPersonRoute
   '/buy/how-to-choose-duck': typeof BuyHowToChooseDuckRoute
   '/buy/what-cut-of-duck-to-buy': typeof BuyWhatCutOfDuckToBuyRoute
+  '/buy/where-to-buy-duck-breast-online': typeof BuyWhereToBuyDuckBreastOnlineRoute
   '/buy/where-to-buy-duck-online': typeof BuyWhereToBuyDuckOnlineRoute
   '/cook/best-sauces-for-duck-breast': typeof CookBestSaucesForDuckBreastRoute
   '/cook/duck-leg-confit': typeof CookDuckLegConfitRoute
@@ -786,6 +796,7 @@ export interface FileRouteTypes {
     | '/buy/how-much-duck-per-person'
     | '/buy/how-to-choose-duck'
     | '/buy/what-cut-of-duck-to-buy'
+    | '/buy/where-to-buy-duck-breast-online'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
     | '/cook/duck-leg-confit'
@@ -861,6 +872,7 @@ export interface FileRouteTypes {
     | '/buy/how-much-duck-per-person'
     | '/buy/how-to-choose-duck'
     | '/buy/what-cut-of-duck-to-buy'
+    | '/buy/where-to-buy-duck-breast-online'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
     | '/cook/duck-leg-confit'
@@ -943,6 +955,7 @@ export interface FileRouteTypes {
     | '/buy/how-much-duck-per-person'
     | '/buy/how-to-choose-duck'
     | '/buy/what-cut-of-duck-to-buy'
+    | '/buy/where-to-buy-duck-breast-online'
     | '/buy/where-to-buy-duck-online'
     | '/cook/best-sauces-for-duck-breast'
     | '/cook/duck-leg-confit'
@@ -1208,6 +1221,13 @@ declare module '@tanstack/react-router' {
       path: '/what-cut-of-duck-to-buy'
       fullPath: '/buy/what-cut-of-duck-to-buy'
       preLoaderRoute: typeof BuyWhatCutOfDuckToBuyRouteImport
+      parentRoute: typeof BuyRoute
+    }
+    '/buy/where-to-buy-duck-breast-online': {
+      id: '/buy/where-to-buy-duck-breast-online'
+      path: '/where-to-buy-duck-breast-online'
+      fullPath: '/buy/where-to-buy-duck-breast-online'
+      preLoaderRoute: typeof BuyWhereToBuyDuckBreastOnlineRouteImport
       parentRoute: typeof BuyRoute
     }
     '/buy/where-to-buy-duck-online': {
@@ -1604,6 +1624,7 @@ interface BuyRouteChildren {
   BuyHowMuchDuckPerPersonRoute: typeof BuyHowMuchDuckPerPersonRoute
   BuyHowToChooseDuckRoute: typeof BuyHowToChooseDuckRoute
   BuyWhatCutOfDuckToBuyRoute: typeof BuyWhatCutOfDuckToBuyRoute
+  BuyWhereToBuyDuckBreastOnlineRoute: typeof BuyWhereToBuyDuckBreastOnlineRoute
   BuyWhereToBuyDuckOnlineRoute: typeof BuyWhereToBuyDuckOnlineRoute
   BuyIndexRoute: typeof BuyIndexRoute
 }
@@ -1614,6 +1635,7 @@ const BuyRouteChildren: BuyRouteChildren = {
   BuyHowMuchDuckPerPersonRoute: BuyHowMuchDuckPerPersonRoute,
   BuyHowToChooseDuckRoute: BuyHowToChooseDuckRoute,
   BuyWhatCutOfDuckToBuyRoute: BuyWhatCutOfDuckToBuyRoute,
+  BuyWhereToBuyDuckBreastOnlineRoute: BuyWhereToBuyDuckBreastOnlineRoute,
   BuyWhereToBuyDuckOnlineRoute: BuyWhereToBuyDuckOnlineRoute,
   BuyIndexRoute: BuyIndexRoute,
 }
