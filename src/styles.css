@@ -47,6 +47,8 @@
   --color-gold-soft: var(--gold-soft);
   --color-gold-foreground: var(--gold-foreground);
   --color-cream: var(--cream);
+  --color-cranberry: var(--cranberry);
+  --color-cranberry-foreground: var(--cranberry-foreground);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -75,6 +77,9 @@
   --forest: oklch(0.32 0.045 155);
   --forest-deep: oklch(0.24 0.04 158);
   --forest-foreground: oklch(0.97 0.012 110);
+
+  --cranberry: oklch(0.72 0.14 20);
+  --cranberry-foreground: oklch(0.24 0.04 158);
 
   --gold: oklch(0.72 0.12 78);
   --gold-soft: oklch(0.88 0.07 88);
@@ -111,6 +116,8 @@
 }
 
 .dark {
+  --cranberry: oklch(0.76 0.13 20);
+  --cranberry-foreground: oklch(0.18 0.02 250);
   --background: oklch(0.19 0.02 250);
   --foreground: oklch(0.97 0.008 100);
   --cream: oklch(0.26 0.02 250);
@@ -179,6 +186,16 @@
     height: 2px;
     background: var(--color-gold);
   }
+}
+
+/* Subtle pencil-on-paper hatch for editorial surfaces. Token-driven, so it
+   follows the theme instead of shipping a background image. */
+@utility paper-grain {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--forest-foreground) 4%, transparent) 0 1px,
+    transparent 1px 6px
+  );
 }
 
 /* ---------------------------------------------------------------------------

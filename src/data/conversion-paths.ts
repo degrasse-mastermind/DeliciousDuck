@@ -20,6 +20,7 @@
 import { RECIPE_CONTENT } from "@/data/recipe-content";
 import { duckFatDecisionPlacementIds } from "@/data/duck-fat-decision";
 import { homepagePlacementIds } from "@/data/homepage-intent";
+import { homeAnnouncementPlacementIds } from "@/data/homepage-announcement";
 import { thanksgivingHubPlacementIds } from "@/data/thanksgiving-hub";
 import { normalisePath, destinationSlug } from "@/lib/duck-breast-cluster";
 
@@ -563,6 +564,7 @@ export function allConversionPlacementIds(): string[] {
     }),
     ...duckFatDecisionPlacementIds(),
     ...homepagePlacementIds(),
+    ...homeAnnouncementPlacementIds(),
     ...thanksgivingHubPlacementIds(),
   ];
 }
