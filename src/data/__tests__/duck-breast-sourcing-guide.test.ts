@@ -13,6 +13,8 @@ import { BREAST_SELLERS, BREAST_SELLER_FACTORS, DUCK_MERCHANTS } from "@/data/co
 import { GUIDES, guideByPath } from "@/data/guides";
 import { decisionGuide } from "@/data/decision-guides";
 import { COMMERCIAL_PLACEMENTS, commercialLinkById } from "@/data/commercial-links";
+import { isAffiliateActive } from "@/data/commercial-links";
+import { relationshipLabel } from "@/components/site/CommercialLink";
 import { CONVERSION_PATHS, conversionPathsForSource } from "@/data/conversion-paths";
 import { SKETCH, sketchForPath, sketchRotationForPath } from "@/lib/sketch-art";
 import { sitemapPaths } from "@/lib/sitemap";
@@ -127,11 +129,15 @@ describe("seller comparison", () => {
 
   it("shows the same disclosure and comparison modules the site uses elsewhere", () => {
     expect(src).toContain("<DisclosureBanner");
-    expect(src).toContain("<QuickPicks");
+    expect(src).toContain("<QuickDecision");
     expect(src).toContain("<ComparisonTable");
-    expect(src).toContain("<ComparisonCard");
     expect(src).toContain("BREAST_SELLERS");
     expect(src).not.toContain("DUCK_MERCHANTS");
+  });
+
+  it("does not repeat the general guide's seller-card block", () => {
+    expect(src).not.toContain("<ComparisonCard");
+    expect(src).not.toContain("<DuckBreastJourney");
   });
 });
 
@@ -153,30 +159,59 @@ describe("commercial links and tracking", () => {
     expect(src).not.toMatch(/<a\s[^>]*href="https?:/);
   });
 
-  it("links each internal commercial destination exactly once", () => {
-    for (const destination of [
-      "/gear/best-pan-for-duck-breast",
-      "/gear/best-thermometer-for-duck",
-      "/recipes/pan-seared-duck-breast",
-      GENERAL,
-    ]) {
-      const hits = src.split(`"${destination}"`).length - 1;
-      expect(hits, destination).toBe(1);
+  it("offers exactly one tracked CTA per seller, in one module", () => {
+    expect(src.match(/<CommercialCallout/g)).toHaveLength(1);
+    expect(src).not.toContain("<CommercialLink");
+    const ids = src
+      .slice(src.indexOf("<CommercialCallout"), src.indexOf("<MethodologyPanel"))
+      .match(/"[a-z-]+-duck"/g)!;
+    // Four sellers, each named exactly once inside the single decision surface.
+    expect(new Set(ids).size).toBe(4);
+    expect(ids.filter((id) => id.includes("-duck"))).toHaveLength(4);
+  });
+
+  it("labels each seller relationship from the registry, never claiming an unpaid commission", () => {
+    expect(src).toContain("showRelationship");
+    for (const id of ["culver-duck", "tastyduck-duck", "fossil-farms-duck", "wild-fork-duck"]) {
+      const link = commercialLinkById(id)!;
+      const label = relationshipLabel(link);
+      expect(label, id).toBe(
+        isAffiliateActive(link)
+          ? "Affiliate link · we may earn a commission"
+          : "Editorial link · no paid relationship",
+      );
     }
+  });
+
+  it("links the general sourcing guide once, as a contextual aside", () => {
+    expect(src.split(`"${GENERAL}"`).length - 1).toBe(1);
   });
 });
 
 describe("internal conversion paths", () => {
-  it("sends the page onward to at most two editorial checks", () => {
+  it("hands off once to each intended cook/gear destination", () => {
     const paths = conversionPathsForSource(PATH);
-    expect(paths.length).toBeGreaterThan(0);
-    expect(paths.length).toBeLessThanOrEqual(4);
+    expect(paths).toHaveLength(5);
+    const destinations = paths.map((p) => p.destination);
+    expect(new Set(destinations).size).toBe(5);
+    expect(destinations.sort()).toEqual(
+      [
+        "/cook/how-to-cook-duck-breast",
+        "/gear/best-pan-for-duck-breast",
+        "/gear/best-thermometer-for-duck",
+        "/learn/duck-breast-temperature-doneness",
+        "/recipes/pan-seared-duck-breast",
+      ].sort(),
+    );
     for (const p of paths) {
       expect(p.direction).toBe("commercial_to_editorial");
-      expect(p.destination.startsWith("/learn/")).toBe(true);
     }
-    expect(src).toContain("<ConversionPaths");
+    expect(src.match(/<ConversionPaths/g)).toHaveLength(1);
     expect(src).toContain(`sourcePath="${PATH}"`);
+  });
+
+  it("does not repeat the same destinations as related-guide cards", () => {
+    expect(src).not.toContain("<RelatedGuides");
   });
 
   it("is fed by the breast cornerstones", () => {
@@ -208,6 +243,7 @@ describe("internal conversion paths", () => {
   });
 });
 
+
 describe("illustration", () => {
   it("binds its own duck-breast package drawing, not an inherited one", () => {
     const art = sketchForPath(PATH)!;
@@ -217,10 +253,18 @@ describe("illustration", () => {
     expect(art.transparent).toBe(true);
   });
 
-  it("restricts companion art to drawings that fit the page", () => {
+  it("shows the package hero and no repeated companion drawings", () => {
     const rotation = sketchRotationForPath(PATH).map((a) => a.src);
-    expect(rotation[0]).toBe(SKETCH.duckBreastPackages.src);
+    expect(rotation).toEqual([SKETCH.duckBreastPackages.src]);
+    // Zero or one skillet illustration — here, zero.
+    expect(rotation.filter((s) => s === SKETCH.duckBreastPan.src)).toHaveLength(0);
     expect(rotation).not.toContain(SKETCH.duckFat.src);
+  });
+
+  it("uses a stable project asset for the hero and its social metadata", () => {
+    expect(src).toContain('from "@/assets/sketch/duck-breast-packages.png"');
+    expect(src).toContain("image: SOCIAL_IMAGE");
+    expect(src).not.toMatch(/lovable\.app|id-preview/);
   });
 });
 
