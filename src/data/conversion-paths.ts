@@ -568,6 +568,7 @@ export function allConversionPlacementIds(): string[] {
     ...homepagePlacementIds(),
     ...homeAnnouncementPlacementIds(),
     ...thanksgivingHubPlacementIds(),
+    ...airFryerPlacementIds(),
   ];
 }
 
