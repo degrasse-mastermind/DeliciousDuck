@@ -236,7 +236,7 @@ export const THANKSGIVING_TABLE_CHOICES: ThanksgivingTableChoice[] = [
     suits:
       "Big or traditional tables where turkey is expected, and hosts who want duck on the table without rebuilding the whole meal around it.",
     tradeoff:
-      "Two whole birds rarely share one oven comfortably. Either roast the duck first and rest it while the turkey finishes, or serve duck as a portioned course — breasts or confit legs — which cooks in stages and holds better than a second whole bird.",
+      "Two whole birds rarely share one oven comfortably. Time the duck so its 20-minute rest overlaps the turkey's final cooking or resting window; if the two schedules will not meet there, use a second oven or serve duck as a portioned course — breasts or confit legs — rather than holding a whole cooked duck for a long wait.",
   },
 ];
 
