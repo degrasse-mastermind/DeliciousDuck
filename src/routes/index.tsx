@@ -198,8 +198,8 @@ function Monetization() {
       <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
         <SectionHeader
           eyebrow="Buy well"
-          title="Buying Duck & Equipping the Kitchen"
-          intro="Four decisions worth getting right before you cook: where the bird comes from, how you'll know it's done, what you'll sear it in, and whether to render fat or buy it."
+          title="Equipping the Duck Kitchen"
+          intro="Three decisions worth getting right before you cook: how you will know the bird is done, what you will sear breast in, and whether to render duck fat or buy it."
         />
         <h2 id="shop-heading" className="sr-only">
           Buying duck and kitchen gear

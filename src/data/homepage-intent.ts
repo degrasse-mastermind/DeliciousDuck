@@ -86,20 +86,11 @@ export interface HomeCommerceCard {
 }
 
 /**
- * One card per distinct decision. The roasting pan lives in the intent router
- * above, so it is deliberately absent here — no homepage destination repeats.
+ * One card per distinct decision. Where to buy the bird and the roasting pan
+ * are both answered by the intent router above, so they are deliberately absent
+ * here — no homepage destination appears twice.
  */
 export const HOMEPAGE_COMMERCE_CARDS: HomeCommerceCard[] = [
-  {
-    placement: "home_commerce_where_to_buy_duck",
-    decision: "Where the bird comes from",
-    heading: "Buying duck online",
-    bestFor: "Anyone without a butcher who stocks duck year round.",
-    why: "Specialist shippers and farm-direct producers behave differently on cuts, cold chain and traceability. The guide lays out how to compare them.",
-    to: "/buy/where-to-buy-duck-online",
-    ctaLabel: "Compare online sellers",
-    intent: "sourcing",
-  },
   {
     placement: "home_commerce_thermometer",
     decision: "Knowing when it's done",

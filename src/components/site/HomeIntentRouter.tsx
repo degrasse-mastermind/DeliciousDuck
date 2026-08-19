@@ -109,7 +109,7 @@ export function HomeIntentRouter() {
  */
 export function HomeCommerceCards() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {HOMEPAGE_COMMERCE_CARDS.map((card) => (
         <article key={card.placement} className={`flex h-full flex-col ${COMMERCE_PANEL}`}>
           <span className="eyebrow text-primary">{card.decision}</span>

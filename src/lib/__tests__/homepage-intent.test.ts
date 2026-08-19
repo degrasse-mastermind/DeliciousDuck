@@ -97,7 +97,6 @@ describe("homepage commerce cards", () => {
   it("covers the established money pages, once each", () => {
     const destinations = HOMEPAGE_COMMERCE_CARDS.map((c) => c.to);
     expect(destinations).toEqual([
-      "/buy/where-to-buy-duck-online",
       "/gear/best-thermometer-for-duck",
       "/gear/best-pan-for-duck-breast",
       "/buy/duck-fat-buying-guide",
