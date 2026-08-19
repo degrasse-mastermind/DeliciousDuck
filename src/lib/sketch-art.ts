@@ -207,7 +207,7 @@ const BY_PATH: Record<string, SketchKey> = {
   // Bound explicitly: the keyword rules would match "orange" and reach for the
   // fruit still life, but this page is a whole roast bird with a sauce.
   "/recipes/duck-a-lorange": "wholeRoastDuck",
-  "/recipes/duck-fat-potatoes": "duckFat",
+  "/recipes/duck-fat-roasted-potatoes": "duckFat",
 
   "/guides/duck-cooking-starter-guide": "ducksFlight",
   "/search": "ducksFlight",
@@ -389,6 +389,17 @@ const SECTION_ROTATION: Array<[string, SketchKey[]]> = [
 const GENERIC_ROTATION: SketchKey[] = ["ducksFlight", "duckFat", "spices", "sides"];
 
 /**
+ * Exact-path companion overrides. A section rotation is a reasonable default,
+ * but some pages are not about the section's usual subject — the duck-fat
+ * potatoes recipe is not about sliced breast, pan sauce, or a spread of sides,
+ * and inheriting that art would be contextually wrong. An empty list means
+ * "page illustration only, no companion bands".
+ */
+const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
+  "/recipes/duck-fat-roasted-potatoes": [],
+};
+
+/**
  * Ordered, de-duplicated art for a route: the route's own illustration first,
  * then fitting companions so a long page can carry several bands without
  * repeating the same drawing.
@@ -398,6 +409,10 @@ export function sketchRotationForPath(pathname: string): SketchArt[] {
   if (!primary) return [];
 
   const path = normalize(pathname).toLowerCase();
+  const override = ROTATION_BY_PATH[path];
+  if (override) return [primary, ...override.map((key) => SKETCH[key])].filter(
+    (art, index, all) => all.indexOf(art) === index,
+  );
   const section = SECTION_ROTATION.find(([p]) => path === p || path.startsWith(`${p}/`));
   const keys = section ? section[1] : GENERIC_ROTATION;
 

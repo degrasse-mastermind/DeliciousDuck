@@ -5,6 +5,8 @@ import { RECIPE_CONTENT, recipeNeedsDuckFat, recipePath } from "@/data/recipe-co
 import { allConversionPlacementIds, conversionPathsForSource } from "@/data/conversion-paths";
 import { duckFatDecisionFor, duckFatDecisionPlacementIds } from "@/data/duck-fat-decision";
 import { sitemapPaths } from "@/lib/sitemap";
+import { SKETCH, sketchForPath, sketchRotationForPath } from "@/lib/sketch-art";
+import { sketchPlacements } from "@/components/site/SketchAutoLayout";
 
 /**
  * Guardrails for the duck-fat funnel:
@@ -49,6 +51,16 @@ describe("duck fat roasted potatoes: registration", () => {
     ]) {
       expect(homepageSlugs).toContain(cornerstone);
     }
+  });
+
+  it("keeps the single-H1 structure and the metadata/schema wiring intact", () => {
+    // Only ArticleShell renders the page H1; every in-body block is h2/h3.
+    expect(ROUTE.match(/<h1/g)).toHaveLength(1); // the not-found component only
+    expect(ROUTE).toContain("Recipe: Step by Step | DeliciousDuck");
+    expect(ROUTE).toContain("description: recipe.description");
+    expect(ROUTE).toContain("recipeSchema({");
+    expect(ROUTE).toContain("breadcrumbSchema([");
+    expect(ROUTE).toContain("faqSchema(content.faq)");
   });
 
   it("has complete, schema-ready recipe data", () => {
@@ -140,5 +152,83 @@ describe("duck fat funnel: return paths", () => {
         expect(row.destination.startsWith("/")).toBe(true);
       }
     }
+  });
+});
+
+/* ------------------------------------------------------------------ *
+ * Template-leak guardrails: nothing on this page belongs to a bird
+ * ------------------------------------------------------------------ */
+
+describe("duck fat roasted potatoes: no inherited duck-meat template art or copy", () => {
+  const rotation = sketchRotationForPath(PATH);
+  const alts = rotation.map((art) => art.alt);
+
+  it("omits the three unrelated recipe illustrations", () => {
+    for (const banned of [
+      "Colored-pencil sketch of sliced duck breast on a plate with dark fruit sauce",
+      "Colored-pencil sketch of a spoon lifting glossy reduction sauce from a pan",
+      "Colored-pencil sketch of braised greens, roast potatoes and pickles in bowls",
+    ]) {
+      expect(alts, banned).not.toContain(banned);
+    }
+  });
+
+  it("keeps the duck-fat-and-potatoes illustration as the page's only drawing", () => {
+    expect(alts).toEqual([SKETCH.duckFat.alt]);
+    expect(sketchForPath(PATH)).toBe(SKETCH.duckFat);
+    // A single-entry rotation places no companion bands in the body.
+    expect(sketchPlacements({ sections: 12 }).length).toBeGreaterThan(0);
+    expect(rotation.length).toBeLessThan(2);
+  });
+
+  it("does not substitute other unrelated recipe art for the meat rotation", () => {
+    for (const key of ["slicedBreast", "sauce", "sides", "wholeRoastDuck", "thermometer"] as const) {
+      expect(rotation).not.toContain(SKETCH[key]);
+    }
+  });
+
+  it("replaces the bird-size, thermometer-led timing callout", () => {
+    const note = content!.verifyNote;
+    expect(note).toBeTruthy();
+    const text = `${note!.label} ${note!.body}`;
+    for (const banned of [/bird/i, /thermometer/i, /\bprobe\b/i, /internal temperature/i, /carryover/i, /doneness/i]) {
+      expect(text, String(banned)).not.toMatch(banned);
+    }
+    // Potato-specific factors the reader actually needs.
+    for (const needed of [/oven/i, /tray/i, /crowd/i, /golden/i, /skewer/i, /4–5 cm/]) {
+      expect(text, String(needed)).toMatch(needed);
+    }
+    expect(ROUTE).toContain('content.verifyNote?.label ?? "Verify, don\'t trust"');
+  });
+
+  it("keeps meat-doneness and bird-part wording out of the rest of the page", () => {
+    const prose = [
+      content!.intro,
+      JSON.stringify(content!.confidence),
+      ...content!.before.map((b) => `${b.heading} ${b.body}`),
+      ...content!.steps.map((s) => `${s.title} ${s.body} ${s.watchFor ?? ""}`),
+      ...content!.quackFix.map((q) => `${q.symptom} ${q.cause} ${q.fixNow} ${q.prevent}`),
+      ...content!.leftovers.map((l) => `${l.part} ${l.use}`),
+      ...content!.faq.map((f) => `${f.q} ${f.a}`),
+      content!.leftoversHeading ?? "",
+      content!.leftoversIntro ?? "",
+      content!.guidanceNote ?? "",
+    ].join(" ");
+    for (const banned of [/thermometer/i, /\bbreast\b/i, /\bthigh\b/i, /\bbird\b/i, /carve/i, /\bgiblet/i, /internal temperature/i]) {
+      expect(prose, String(banned)).not.toMatch(banned);
+    }
+  });
+
+  it("labels the leftovers module and method basis without bird language", () => {
+    expect(content!.leftoversHeading).toBe("Save what's left");
+    expect(content!.guidanceNote).toMatch(/visual and texture cues/);
+    expect(content!.guidanceNote).not.toMatch(/internal temperature/i);
+    expect(ROUTE).toContain("content.leftoversHeading ? { heading: content.leftoversHeading }");
+    expect(ROUTE).toContain("content.guidanceNote ? { guidanceNote: content.guidanceNote }");
+    // Meat recipes keep the thermometer-led defaults.
+    const other = RECIPE_CONTENT["pan-seared-duck-breast"]!;
+    expect(other.verifyNote).toBeUndefined();
+    expect(other.guidanceNote).toBeUndefined();
+    expect(other.leftoversHeading).toBeUndefined();
   });
 });

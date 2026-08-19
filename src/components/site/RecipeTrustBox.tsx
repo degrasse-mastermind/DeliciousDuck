@@ -15,7 +15,18 @@ import type { Recipe } from "@/data/recipes";
  * supports it, so a stray flag alone cannot produce a testing claim. Nothing
  * here emits rating or review schema.
  */
-export function RecipeTrustBox({ recipe }: { recipe: Recipe }) {
+export function RecipeTrustBox({
+  recipe,
+  /**
+   * How to read the method's numbers. Defaults to internal temperatures, which
+   * is right for meat; recipes with no internal target temperature pass their
+   * own so the line stays true for the dish on the page.
+   */
+  guidanceNote = "Cook to the stated internal temperatures rather than to the clock.",
+}: {
+  recipe: Recipe;
+  guidanceNote?: string;
+}) {
   const v = recipe.validation;
   const verified =
     recipe.verification === "kitchenVerified" &&
@@ -29,8 +40,7 @@ export function RecipeTrustBox({ recipe }: { recipe: Recipe }) {
         className="border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground"
       >
         <span className="font-semibold text-foreground">Method basis: </span>
-        established culinary technique and published food-safety guidance. Cook to the stated
-        internal temperatures rather than to the clock.{" "}
+        established culinary technique and published food-safety guidance. {guidanceNote}{" "}
         <a href="/editorial-standards" className="text-primary underline underline-offset-4">
           Editorial standards
         </a>
