@@ -702,8 +702,130 @@ const CONFIT_VESSEL: DecisionGuideMeta = {
   },
 };
 
+const BREAST_SOURCING: DecisionGuideMeta = {
+  path: "/buy/where-to-buy-duck-breast-online",
+  evaluationStandard:
+    "We judge a duck-breast purchase on the four things that change your cook: the format (skin on or off, boneless or not), the size of an individual breast, how many pieces the pack commits you to, and the state it arrives in. Seller choice follows from those, not the other way round.",
+  methodology: [
+    "Publicly published catalogue and shipping information from the sellers named on this page, read on the date below.",
+    "Our own duck-breast technique pages — cold-pan rendering, pull temperatures, and pan fit — and what each asks of the cut.",
+    "USDA labelling, handling, thawing, and storage guidance for raw poultry, applied to a mail-order shipment.",
+  ],
+  evidenceBasis:
+    "Published catalogue information from the sellers named here, read on the date above, weighed against the breast-cooking requirements in our own technique pages. Weights, pack counts, prices, and delivery windows come from the seller's own listing.",
+  updated: "2026-08-19",
+  byline: "DeliciousDuck Editorial",
+  quickPicks: [
+    {
+      situation: "It's your first time pan-searing duck breast",
+      choice: "Boneless, skin-on breast — two pieces, at the smaller end of the range",
+      why: "The skin is the whole point of the method, and a smaller breast reaches its pull temperature before the fat cap runs out of patience.",
+    },
+    {
+      situation: "You want a larger, steak-like breast to slice for a plate",
+      choice: "A magret-style breast, where the listing names the duck type",
+      why: "Moulard breast is conventionally sold larger and thicker, which buys you more margin between crisp skin and an overcooked centre.",
+    },
+    {
+      situation: "You're cooking dinner for two",
+      choice: "A two-pack of individually sized breasts",
+      why: "One breast per person is the normal plating unit, and two pieces fit a single 10–12 inch pan without crowding.",
+    },
+    {
+      situation: "You're buying for several guests",
+      choice: "A multi-pack from one producer — or whole birds instead",
+      why: "Consistent piece sizes cook to the same schedule, and past four or five breasts a whole-bird order often makes more sense.",
+    },
+    {
+      situation: "Availability or budget decides it",
+      choice: "Frozen portioned breast, including store pickup",
+      why: "Frozen at the processor and kept frozen is a sound cold chain; pickup removes courier risk from the equation entirely.",
+    },
+  ],
+  bestFor: [
+    {
+      option: "Boneless skin-on breast (Pekin-type)",
+      forWhom: "The default for pan searing: a manageable piece, an intact fat cap, and no bone to work around.",
+      notFor: "Anyone who wanted a thick centre-cut steak to slice across for a crowd.",
+    },
+    {
+      option: "Magret-style larger breast",
+      forWhom: "Cooks who slice breast for a plate and want a wider temperature window while the skin renders.",
+      notFor: "A first attempt, or a pan too small to hold it flat.",
+    },
+    {
+      option: "Skinless breast",
+      forWhom: "Grilling, stir-fries, salads, and anything where the skin was never going to be crisped.",
+      notFor: "The cold-pan method — with no fat cap there is nothing to render.",
+    },
+    {
+      option: "Frozen portioned multi-pack",
+      forWhom: "Buying in twos over several weeks, or feeding a table with pieces that cook to one schedule.",
+      notFor: "Cooking tonight; refrigerator thawing is the safe route and it takes time.",
+    },
+  ],
+  matrix: {
+    caption: "Four duck-breast formats compared on what each one asks of your cook",
+    criterionLabel: "What you're deciding on",
+    options: [
+      "Boneless skin-on (Pekin-type)",
+      "Magret-style larger breast",
+      "Skinless breast",
+      "Frozen portioned multi-pack",
+    ],
+    rows: [
+      {
+        criterion: "Crisp-skin potential",
+        values: [
+          "The whole reason to buy this format — score it and render from cold",
+          "Same method, more fat to render, so allow longer",
+          "None; there is no fat cap to work with",
+          "As good as the format inside the pack — check whether it says skin-on",
+        ],
+      },
+      {
+        criterion: "Portion planning",
+        values: [
+          "One breast per person",
+          "Often carved across for two smaller plates",
+          "One per person, but expect a leaner plate",
+          "Read the pack count; pieces are usually sized alike",
+        ],
+      },
+      {
+        criterion: "Method fit",
+        values: [
+          "Cold-pan sear, then rest",
+          "Cold-pan sear with a longer render, or sear then finish in the oven",
+          "Fast, hot cooking — grill, griddle, or slice raw for stir-fry",
+          "Any of the above, once fully thawed",
+        ],
+      },
+      {
+        criterion: "What to check on the listing",
+        values: [
+          "\"Boneless, skin-on\" stated plainly, plus the weight per breast",
+          "Whether the duck type is named, and the weight per breast",
+          "That skinless is deliberate, not a photograph you inferred it from",
+          "Pack count, weight per piece, and whether it ships frozen",
+        ],
+      },
+      {
+        criterion: "Where it goes wrong",
+        values: [
+          "Starting the pan hot, so the skin seizes over unrendered fat",
+          "Treating it like a small breast and pulling it too early",
+          "Expecting crisp skin from a cut that has none",
+          "Cooking from a partial thaw, so the centre lags the surface",
+        ],
+      },
+    ],
+  },
+};
+
 export const DECISION_GUIDES: DecisionGuideMeta[] = [
   SOURCING,
+  BREAST_SOURCING,
   THERMOMETER,
   PAN,
   DUCK_FAT,

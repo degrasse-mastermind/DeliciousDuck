@@ -169,6 +169,133 @@ export const DUCK_MERCHANTS: ComparisonRow[] = [
   },
 ];
 
+/* ------------------------------------------------------------------ */
+/* Where to buy duck breast online                                     */
+/* ------------------------------------------------------------------ */
+
+export const BREAST_SELLER_FACTORS = [
+  { key: "breastFormat", label: "Breast formats listed" },
+  { key: "typeNamed", label: "Duck type named" },
+  { key: "packPortion", label: "Pack & portion notes" },
+  { key: "arrival", label: "Shipping & arrival" },
+  { key: "fit", label: "Best fit" },
+] as const;
+
+/**
+ * The same four sellers as `DUCK_MERCHANTS`, read for breast intent only.
+ *
+ * Every attribute is a restatement of what the seller's own public catalogue
+ * showed at the verification date, or a neutral instruction to check the
+ * current listing. Deliberately absent, because nothing in the project
+ * supports them: individual breast weights, pack counts, prices, stock
+ * levels, transit times, shipping promises, ratings, and any claim that a
+ * named breed guarantees a size, fat cover, or flavour.
+ */
+export const BREAST_SELLERS: ComparisonRow[] = [
+  {
+    id: "culver-duck-breast",
+    name: "Culver Duck",
+    kind: "Duck producer with a direct shop (US)",
+    bestFor: "One order that covers breast plus the rendered fat and legs you will want later.",
+    decisionFactors: {
+      breastFormat: "Raw breast is listed by name, alongside smoked breast as a separate product.",
+      typeNamed: "A single-producer catalogue rather than a breed menu — check the listing for what a given pack contains.",
+      packPortion: "Pack count and per-breast weight vary by product; the listing is the only reliable answer.",
+      arrival: "Frozen shipment, so plan a refrigerator thaw rather than cooking on delivery day.",
+      fit: "Buying breast as part of a wider duck order.",
+    },
+    pros: [
+      "Raw breast is named as its own product instead of hiding inside \"duck\".",
+      "Rendered fat and other cuts ship in the same box, which suits a whole menu.",
+    ],
+    tradeoffs: [
+      "Availability shifts with production — check the shop rather than assuming breast is stocked.",
+      "Smoked breast and raw breast are different products; read which one you are adding.",
+    ],
+    affiliateStatus: "none",
+    merchantId: "culver-duck",
+    lastVerified: "2026-08-18",
+    note: "Catalogue reviewed 2026-08-18. Check the current listing for formats and weights.",
+  },
+  {
+    id: "tastyduck-breast",
+    name: "Joe Jurgielewicz & Son (TastyDuck)",
+    kind: "Family duck producer with a direct shop (US)",
+    bestFor: "A first duck-breast order, or dinner for two without committing to a large pack.",
+    decisionFactors: {
+      breastFormat: "Breasts are listed individually, and sampler kits pair them with other cuts.",
+      typeNamed: "Single-producer sourcing, so pieces in one order are consistent with each other.",
+      packPortion: "Kits bundle cuts you did not specifically choose — read the contents before ordering for a fixed headcount.",
+      arrival: "Frozen shipment; thaw in the refrigerator before you cook.",
+      fit: "Learning what you like before buying breast in quantity.",
+    },
+    pros: [
+      "A focused catalogue, so the breast listing is easy to find.",
+      "Sampler kits are a genuinely useful way to compare cuts from one producer.",
+    ],
+    tradeoffs: [
+      "Narrower selection than a full specialty distributor.",
+      "Cut-level availability moves; the shop page is the only reliable answer.",
+    ],
+    affiliateStatus: "none",
+    merchantId: "tastyduck-jurgielewicz",
+    lastVerified: "2026-08-18",
+    note: "Catalogue reviewed 2026-08-18. Check the current listing for pack contents.",
+  },
+  {
+    id: "fossil-farms-breast",
+    name: "Fossil Farms",
+    kind: "Game & specialty meat retailer (US)",
+    bestFor: "A recipe that asks for a larger, steak-like breast rather than any duck breast.",
+    decisionFactors: {
+      breastFormat: "Portioned cuts across more than one duck type, so more than one breast size can appear.",
+      typeNamed: "Listings distinguish duck types — the practical place to check whether a magret-style breast is currently listed.",
+      packPortion: "Size language sits on the product page; treat it as the listing's claim, not ours.",
+      arrival: "Frozen shipment inside a wider specialty order.",
+      fit: "Buying to a recipe that specifies the duck, not just \"duck\".",
+    },
+    pros: [
+      "Unusually specific about which duck you are buying, which most sellers are not.",
+      "Convenient when other specialty meat is going in the same order.",
+    ],
+    tradeoffs: [
+      "Duck sits inside a much larger catalogue, so breast takes some searching.",
+      "We publish no breed-by-breed cooking adjustments — judge the breast in front of you.",
+    ],
+    affiliateStatus: "none",
+    merchantId: "fossil-farms",
+    lastVerified: "2026-08-18",
+    note: "Catalogue reviewed 2026-08-18. Type and size wording comes from the seller's listing.",
+  },
+  {
+    id: "wild-fork-breast",
+    name: "Wild Fork",
+    kind: "Frozen-meat retailer, stores plus delivery (US)",
+    bestFor: "Getting breast this week without a specialty order, when it is stocked near you.",
+    decisionFactors: {
+      breastFormat: "Duck appears in the frozen range, but which cuts varies — confirm breast before planning a menu.",
+      typeNamed: "Less producer and type detail than the duck specialists.",
+      packPortion: "Already frozen and portioned, which suits buying one or two pieces.",
+      arrival: "Store pickup avoids courier cold-chain risk entirely.",
+      fit: "A weeknight breast buy alongside the rest of your shopping.",
+    },
+    pros: [
+      "No cold-chain shipping to plan around if a store is near you.",
+      "Portioned frozen pieces are easy to buy in twos.",
+    ],
+    tradeoffs: [
+      "Duck breast availability is inconsistent between locations and over time.",
+      "Little detail about the producer or the duck type.",
+    ],
+    affiliateStatus: "none",
+    merchantId: "wild-fork",
+    lastVerified: "2026-08-18",
+    note: "Availability varies by location; we make no stock claim. Check the current listing.",
+  },
+];
+
+
+
 
 /* ------------------------------------------------------------------ */
 /* Thermometers                                                        */

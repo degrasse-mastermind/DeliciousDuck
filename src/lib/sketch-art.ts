@@ -25,6 +25,9 @@ import ovenRoast from "@/assets/sketch/oven-roast.jpg";
 import duckVsTurkey from "@/assets/sketch/duck-vs-turkey.png";
 // Transparent-alpha master, bound explicitly to the roasting-pan gear guide.
 import roastingPans from "@/assets/sketch/roasting-pans.png";
+// Transparent-alpha master, drawn for the duck-breast buying guide: package
+// formats, a scale, and blank label shapes — no merchant marks, no prices.
+import duckBreastPackages from "@/assets/sketch/duck-breast-packages.png";
 
 export type SketchArt = {
   src: string;
@@ -136,6 +139,11 @@ export const SKETCH = {
     alt: "Colored-pencil sketch of a roast duck and a roast turkey side by side on platters with sage, cranberries and orange",
     transparent: true,
   },
+  duckBreastPackages: {
+    src: duckBreastPackages,
+    alt: "Colored-pencil sketch of three unbranded duck breast packages on butcher paper — a vacuum-sealed pair, a paper-wrapped single breast, and an open tray of two skin-on breasts — beside a kitchen scale and two blank labels",
+    transparent: true,
+  },
 } satisfies Record<string, SketchArt>;
 
 /** Registry key for a named illustration. */
@@ -170,6 +178,9 @@ const BY_PATH: Record<string, SketchKey> = {
   "/buy/how-much-duck-per-person": "wholeRoastDuck",
   "/buy/fresh-vs-frozen-duck": "thawing",
   "/buy/how-to-choose-duck": "buyingDuck",
+  // Bound explicitly: keyword rules would reach for the generic buying drawing
+  // or the pan, and this page is about package formats and portion weight.
+  "/buy/where-to-buy-duck-breast-online": "duckBreastPackages",
 
 
   "/gear": "gearFlatlay",
@@ -397,6 +408,9 @@ const GENERIC_ROTATION: SketchKey[] = ["ducksFlight", "duckFat", "spices", "side
  */
 const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
   "/recipes/duck-fat-roasted-potatoes": [],
+  // Breast buying guide: the /buy rotation would add the duck-fat jar, which
+  // has nothing to do with buying breast. Keep it to the two that fit.
+  "/buy/where-to-buy-duck-breast-online": ["duckBreastPackages", "duckBreastPan"],
 };
 
 /**

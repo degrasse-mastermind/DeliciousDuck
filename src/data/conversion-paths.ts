@@ -326,6 +326,48 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     anchor: "How to thaw duck safely, with timings by weight",
     reason: "Most mail-order duck arrives frozen, so plan the thaw before you plan the dinner.",
   },
+
+  /* --- breast sourcing guide -> the editorial checks it depends on -
+     Kept to two /learn/ steps: recipe, pan and thermometer paths are linked
+     once each in the page's own modules, so nothing appears twice. --------- */
+  {
+    placement: "breast_sourcing_to_doneness",
+    sourcePath: "/buy/where-to-buy-duck-breast-online",
+    destination: "/learn/duck-breast-temperature-doneness",
+    intent: "temperature_verification",
+    direction: "commercial_to_editorial",
+    anchor: "Duck breast pull temperatures and carryover",
+    reason: "A thicker breast buys margin — this is the window you are aiming for.",
+  },
+  {
+    placement: "breast_sourcing_to_thawing",
+    sourcePath: "/buy/where-to-buy-duck-breast-online",
+    destination: "/learn/how-to-thaw-duck",
+    intent: "technique_validation",
+    direction: "commercial_to_editorial",
+    anchor: "How to thaw duck safely, with timings by weight",
+    reason: "Mail-order breast arrives frozen — thaw it in the refrigerator, not on the counter.",
+  },
+
+  /* --- breast cornerstones -> breast sourcing guide ---------------- */
+  {
+    placement: "cook_breast_to_breast_sourcing",
+    sourcePath: "/cook/how-to-cook-duck-breast",
+    destination: "/buy/where-to-buy-duck-breast-online",
+    intent: "sourcing",
+    direction: "cornerstone_to_commercial",
+    anchor: "Where to buy duck breast online",
+    reason: "Skin-on, weight per breast, pack count — the three things worth checking first.",
+  },
+  {
+    placement: "breast_doneness_to_breast_sourcing",
+    sourcePath: "/learn/duck-breast-temperature-doneness",
+    destination: "/buy/where-to-buy-duck-breast-online",
+    intent: "sourcing",
+    direction: "cornerstone_to_commercial",
+    anchor: "Where to buy duck breast online",
+    reason: "A thicker breast is more forgiving of the window — so the format you buy matters.",
+  },
   {
     placement: "duck_fat_guide_to_rendering",
     sourcePath: "/buy/duck-fat-buying-guide",
