@@ -35,17 +35,24 @@ function AnchorCta({ route }: { route: HomeIntentRoute }) {
     <a
       href={route.to}
       data-placement={route.placement}
-      onClick={() => {
+      onClick={(event) => {
         track(route);
         const section = document.getElementById(FIELD_GUIDE_ANCHOR_ID);
         const field = document.getElementById(`${FIELD_GUIDE_ANCHOR_ID}-email`);
         if (!section) return;
+        // Handled here so focus lands in the signup field; the plain href stays
+        // as the no-JS fallback.
+        event.preventDefault();
         const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
         section.scrollIntoView({
           behavior: reduced ? "auto" : "smooth",
           block: "start",
         });
-        (field ?? section).focus?.({ preventScroll: true });
+        // After the scroll is scheduled, so focus never fights it.
+        requestAnimationFrame(() => {
+          const target = field ?? section;
+          target.focus?.({ preventScroll: true });
+        });
       }}
       className={CTA.tertiarySmall}
     >
