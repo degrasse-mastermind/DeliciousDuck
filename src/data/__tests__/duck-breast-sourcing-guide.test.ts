@@ -253,10 +253,18 @@ describe("illustration", () => {
     expect(art.transparent).toBe(true);
   });
 
-  it("restricts companion art to drawings that fit the page", () => {
+  it("shows the package hero and no repeated companion drawings", () => {
     const rotation = sketchRotationForPath(PATH).map((a) => a.src);
-    expect(rotation[0]).toBe(SKETCH.duckBreastPackages.src);
+    expect(rotation).toEqual([SKETCH.duckBreastPackages.src]);
+    // Zero or one skillet illustration — here, zero.
+    expect(rotation.filter((s) => s === SKETCH.duckBreastPan.src)).toHaveLength(0);
     expect(rotation).not.toContain(SKETCH.duckFat.src);
+  });
+
+  it("uses a stable project asset for the hero and its social metadata", () => {
+    expect(src).toContain('from "@/assets/sketch/duck-breast-packages.png"');
+    expect(src).toContain("image: SOCIAL_IMAGE");
+    expect(src).not.toMatch(/lovable\.app|id-preview/);
   });
 });
 
