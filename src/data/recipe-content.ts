@@ -482,7 +482,6 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     ],
     related: [
       "/cook/how-to-cook-duck-breast",
-      "/recipes/pan-seared-duck-breast",
       "/learn/how-to-score-duck-breast",
       "/learn/duck-breast-temperature-doneness",
       "/learn/why-duck-skin-isnt-crispy",
