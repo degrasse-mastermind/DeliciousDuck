@@ -108,24 +108,6 @@ export const RECIPES: Recipe[] = [
     validation: UNTESTED("1.0"),
   },
   {
-    slug: "air-fryer-duck-breast",
-    name: "Air Fryer Duck Breast",
-    description:
-      "Render the fat cap at a low setting, crisp it at a high one, and pull by thermometer — the air fryer route to crisp skin without a smoking kitchen.",
-    image: airFryerHero,
-    cardImage: airFryerCard,
-    imageAlt:
-      "Sliced air fryer duck breast with crisp golden-brown skin and a rosy centre, with a dark cherry glaze",
-    category: "Duck breast",
-    prepTimeMinutes: 15,
-    cookTimeMinutes: 20,
-    recipeYield: "2 servings",
-    difficulty: "Easy",
-    keyTechnique: "Two-stage air frying, skin-side up",
-    verification: "editorialDraft",
-    validation: UNTESTED("1.0"),
-  },
-  {
     slug: "duck-a-lorange",
     name: "Duck \u00e0 l\u2019Orange",
     description:
@@ -211,6 +193,24 @@ export const RECIPES: Recipe[] = [
     recipeYield: "Serves 4 as a side",
     difficulty: "Easy",
     keyTechnique: "Parboil, rough up, roast in preheated fat",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "air-fryer-duck-breast",
+    name: "Air Fryer Duck Breast",
+    description:
+      "Render the fat cap at a low setting, crisp it at a high one, and pull by thermometer — the air fryer route to crisp skin without a smoking kitchen.",
+    image: airFryerHero,
+    cardImage: airFryerCard,
+    imageAlt:
+      "Sliced air fryer duck breast with crisp golden-brown skin and a rosy centre, with a dark cherry glaze",
+    category: "Duck breast",
+    prepTimeMinutes: 15,
+    cookTimeMinutes: 20,
+    recipeYield: "2 servings",
+    difficulty: "Easy",
+    keyTechnique: "Two-stage air frying, skin-side up",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
