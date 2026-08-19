@@ -86,11 +86,11 @@ describe("homepage seasonal announcement", () => {
     expect(bannerSource).toContain('aria-hidden="true"');
     // Desktop presentation is at least 64px tall and intentionally reframed.
     expect(bannerSource).toContain("h-16");
-    expect(bannerSource).toContain("object-[42%_46%]");
+    expect(bannerSource).toContain("w-[203%]");
     // No floating-card treatment: no heavy ring, border or shadow.
     expect(bannerSource).not.toMatch(/ring-1|shadow-/);
     // Hidden on narrow screens to keep the strip compact.
-    expect(bannerSource).toContain("hidden h-16");
+    expect(bannerSource).toContain("hidden h-16 w-24");
     // The hub's descriptive alt text is never repeated on the homepage.
     expect(bannerSource).not.toContain(SKETCH.thanksgivingPlan.alt);
   });
