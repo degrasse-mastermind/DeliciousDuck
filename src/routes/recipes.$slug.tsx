@@ -170,7 +170,7 @@ function RecipePage() {
             <li key={item.label} className="border-t border-border pt-4">
               <h3 className="font-display text-lg text-foreground">{item.label}</h3>
               <p className="mt-1 text-base leading-[1.7] text-foreground/85">{item.why}</p>
-              {item.to && (
+              {item.to && !linksInModuleOnly && (
                 <Link
                   to={item.to}
                   className="mt-2 inline-block text-xs font-semibold uppercase tracking-[0.14em] text-primary underline-offset-4 hover:underline"
@@ -183,13 +183,14 @@ function RecipePage() {
         </ul>
       </Section>
 
-      {(RECIPE_CONVERSION_SLUGS as readonly string[]).includes(slug) && (
+      {showConversionModule && !linksInModuleOnly && (
         <RecipeConversionPaths
           slug={slug}
           equipment={content.equipment}
           sourcing={content.sourcing}
         />
       )}
+
 
       <Section id="before-you-start" heading="Before you start">
         {content.before.map((block) => (
