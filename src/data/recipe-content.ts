@@ -243,6 +243,264 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
   },
 
+  "air-fryer-duck-breast": {
+    slug: "air-fryer-duck-breast",
+    intro:
+      "An air fryer can crisp duck skin, but it does it differently from a skillet: hot moving air browns the surface while the fat cap has to drain rather than fry. That makes the appliance a good choice when you want a hands-off cook and one thing to wash, and a poor choice when you want a pan sauce or fine control over the crust. The method below renders the fat at a low setting first, crisps at a high one for a short window, and ends on a thermometer reading rather than a timer — because basket size, wattage and fan strength differ enough between machines that no single time can be promised.",
+    confidence: {
+      cut: "Skin-on duck breast, 170–250 g (6–9 oz) each",
+      biggestRisk: "The meat climbing past your target before the fat cap has rendered",
+      essentialTechnique: "Low render stage, then a short high-heat crisping stage, skin-side up",
+      targetResult:
+        "Skin rendered and crisp in patches, centre pulled at 130–135°F (54–57°C) for rosy",
+      essentialTool: "A fast instant-read thermometer",
+      saveAfterwards: "The fat collected in the drawer — strain it once cool",
+    },
+    ingredientGroups: [
+      {
+        heading: "For the duck",
+        items: [
+          "2 skin-on duck breasts, about 170–250 g (6–9 oz) each",
+          "1 tsp fine sea salt (or roughly 1% of the breast weight)",
+          "Freshly cracked black pepper, to finish",
+        ],
+      },
+    ],
+    equipment: [
+      {
+        label: "Instant-read thermometer",
+        why: "Air fryers vary by basket design, wattage, fan strength and preheat behaviour, so the timings here are starting ranges. A probe reading is the only thing that tells you where the centre actually is.",
+        to: "/gear/best-thermometer-for-duck",
+        linkLabel: "Thermometer buying guide",
+      },
+      {
+        label: "Sharp, thin-bladed knife",
+        why: "Scoring is a controlled cut through skin and fat only. A dull blade drags into the meat, which leaks juice into a basket you cannot deglaze.",
+        to: "/gear/best-knife-for-scoring-duck",
+        linkLabel: "Knife buying guide",
+      },
+      {
+        label: "Tongs and a heatproof container",
+        why: "Rendered fat pools under the basket while it is still dangerously hot. You want to move breasts with tongs and pour fat into something that will not soften or tip.",
+      },
+    ],
+    before: [
+      {
+        heading: "Dry the skin, then salt it",
+        body: "Pat the skin bone-dry with paper towel and salt it. Surface moisture has to boil off before browning starts, and in an air fryer that steam has nowhere useful to go. If you have a few hours, salt the skin and leave the breasts uncovered on a rack in the fridge — a drier surface browns sooner, which shortens the time the meat spends heating up.",
+      },
+      {
+        heading: "Score the fat cap, shallowly",
+        body: "Cut a 1 cm (⅜ in) crosshatch or parallel lines through skin and fat, stopping short of the meat. If the knife shows red you have gone too deep, and the cut will leak. The channels matter more here than in a pan: draining is the only way fat leaves an air fryer basket.",
+      },
+      {
+        heading: "Skip the preheat, and check your manual",
+        body: "A cold start buys the fat cap a few extra minutes of gentle rendering before the meat climbs, which is the whole difficulty of this cook. If your machine's instructions require a preheat, preheat at the lowest setting it allows and expect the render stage to run shorter. Do not add water to the drawer unless the manufacturer explicitly permits it.",
+      },
+      {
+        heading: "Cook two at most, with air between them",
+        body: "Duck breast needs airflow on all sides and room for fat to drain. Two breasts in a standard basket, not touching, is the practical limit for most machines; a crowded basket steams instead of browning and the two pieces finish at different times.",
+      },
+    ],
+    steps: [
+      {
+        title: "Set the breasts skin-side up",
+        body: "Lay the breasts in the basket skin-side up, not touching, and do not oil them. Skin-side up puts the fan directly on the surface you want dry and brown, and lets melted fat run down and away rather than sitting under the skin.",
+        watchFor:
+          "Any part of a breast touching the basket wall will brown differently. Give each piece a clear gap before you start.",
+      },
+      {
+        title: "Render low: 300–325°F (150–160°C) for 8–12 minutes",
+        body: "Run the low stage until the fat cap has visibly thinned, the skin has shrunk back and the surface has gone from pale and slack to matte, tacky and faintly golden. This is the stage that decides the result; rushing it is the single most common reason air-fried duck skin stays rubbery.",
+        watchFor:
+          "Fat should render steadily without spitting or smoking. Heavy smoke at this point means the setting is too high — drop it and add time.",
+      },
+      {
+        title: "Pause and drain the fat",
+        body: "Open the basket, lift the breasts onto a plate with tongs, and tip the collected fat into a heatproof container. Standing fat is what smokes, spits and eventually flares; draining it once mid-cook removes most of that risk. Let the fat cool before you cover or move it, and never pour hot fat into a sink or a thin plastic tub.",
+        watchFor:
+          "If the drawer is close to full at this point, drain it again before the crisping stage rather than after.",
+      },
+      {
+        title: "Crisp high: 390–400°F (200–205°C) for 3–6 minutes",
+        body: "Return the breasts skin-side up and raise the setting. This short window is where the crust forms. Check at three minutes and then every minute or so — the difference between deep amber and burnt is about ninety seconds at this temperature, and the meat is climbing fast now.",
+        watchFor:
+          "Pull the basket early if the thinnest edges darken ahead of the centre; those edges will keep browning on residual heat.",
+      },
+      {
+        title: "Measure, don't guess",
+        body: "Probe from the side into the thickest part, keeping the tip in the middle of the muscle and clear of the fat layer. Pull at 130–135°F (54–57°C) for rosy or 140–145°F (60–63°C) for medium. If the skin is not where you want it but the centre is close, stop cooking: the crust cannot be recovered from an overcooked breast, and a short pass under a hot grill afterwards is the safer trade.",
+        watchFor:
+          "The safe minimum for all poultry, duck included, is 165°F (73.9°C). Cooking to a lower temperature is a widespread culinary practice, not a food-safety recommendation.",
+      },
+      {
+        title: "Rest 5–10 minutes, skin-side up",
+        body: "Rest on a rack, uncovered, skin-side up. Carryover adds roughly 3–5°F, and resting on a plate or under foil traps steam against the crust you just built. Slice across the grain at a slight angle and season with pepper and flaky salt at the table.",
+        watchFor:
+          "A crust that softens during the rest was never fully rendered — extend the low stage next time rather than the high one.",
+      },
+    ],
+    temperatures: {
+      caption: "Starting ranges by breast thickness. Your machine will differ.",
+      columns: ["Breast", "Low render stage", "High crisp stage", "Pull at"],
+      rows: [
+        [
+          "Small, 170–190 g / thin fat cap",
+          "300–325°F (150–160°C), 8–9 min",
+          "390–400°F (200–205°C), 3–4 min",
+          "130–135°F (54–57°C) for rosy",
+        ],
+        [
+          "Medium, 190–220 g",
+          "300–325°F (150–160°C), 10–12 min",
+          "390–400°F (200–205°C), 4–5 min",
+          "130–135°F (54–57°C) for rosy",
+        ],
+        [
+          "Large, 220–250 g / thick fat cap",
+          "300–325°F (150–160°C), 12–14 min",
+          "390–400°F (200–205°C), 5–6 min",
+          "130–135°F (54–57°C) for rosy",
+        ],
+        [
+          "Cooked through",
+          "As above",
+          "As above",
+          "165°F (73.9°C), the safe minimum for poultry",
+        ],
+      ],
+    },
+    verifyNote: {
+      label: "Treat every time here as a starting point",
+      body: "Basket design, wattage, fan strength, preheat behaviour, breast size, skin thickness and fridge temperature all move these numbers, and small drawer machines run hotter at the top of the basket than large ones. Read the skin and the probe rather than the clock: the low stage ends when the fat cap has thinned and the surface has gone matte, and the cook ends at your pull temperature.",
+    },
+    guidanceNote:
+      "Times are starting ranges for a domestic basket air fryer; the thermometer and the look of the skin decide the finish.",
+    quackFix: [
+      {
+        symptom: "Skin is pale and rubbery when the meat is done",
+        cause: "The low render stage was too short, so fat was still under the skin when the meat hit temperature.",
+        fixNow:
+          "Slice the breast, then crisp the skin side alone for a minute or two under a hot grill or in a dry pan. Do not put a cooked breast back into a 400°F basket.",
+        prevent:
+          "Judge the low stage by the fat cap, not the clock — matte, shrunken, faintly golden before you raise the heat.",
+      },
+      {
+        symptom: "Meat overcooked before the skin crisped",
+        cause: "Too much time at the high setting, or a machine that runs hotter than its dial.",
+        fixNow:
+          "Nothing recovers a grey breast. Slice thin, across the grain, and serve with something sharp.",
+        prevent:
+          "Start probing at the beginning of the crisping stage and accept a lighter crust when the centre reaches your target.",
+      },
+      {
+        symptom: "The kitchen fills with smoke",
+        cause: "Fat pooling in the drawer and hitting its smoke point, usually late in the cook.",
+        fixNow:
+          "Stop the machine, let it settle for a moment, then drain the fat with tongs and a heatproof container before continuing.",
+        prevent:
+          "Drain between stages as a matter of course, and keep the render stage at or below 325°F (160°C). Add water to the drawer only if the manufacturer says you may.",
+      },
+      {
+        symptom: "Skin sticks to the basket",
+        cause: "The breast was started skin-side down, or moved before the surface had set.",
+        fixNow:
+          "Slide a thin spatula under the whole piece rather than pulling with tongs, and lift it flat.",
+        prevent: "Cook skin-side up throughout, and leave the breasts alone during the low stage.",
+      },
+      {
+        symptom: "Browning is uneven across one breast",
+        cause: "Fan hot spots, a curling breast, or a piece too close to the basket wall.",
+        fixNow: "Rotate the breast 180° at the halfway point of the crisping stage.",
+        prevent:
+          "Leave a clear gap around each piece, and press a curling breast flat with a spatula early in the low stage.",
+      },
+      {
+        symptom: "Fat spatters up onto the element or the food",
+        cause: "A deep pool of hot fat plus high fan speed.",
+        fixNow:
+          "Pause, drain, and wipe the inside of the lid or shield once the machine has cooled. Do not throw liquid at hot fat.",
+        prevent: "Drain mid-cook, and do not run the high stage with a full drawer.",
+      },
+      {
+        symptom: "Two breasts finish minutes apart",
+        cause: "Different weights or thicknesses, or unequal airflow in the basket.",
+        fixNow:
+          "Pull the smaller one when it reaches temperature and let it rest while the larger finishes.",
+        prevent:
+          "Buy breasts of a similar weight where you can, probe each one separately, and never treat one reading as covering both.",
+      },
+    ],
+    leftovers: [
+      {
+        part: "Fat from the drawer",
+        use: "Strain it once cool and refrigerate it — how much you get depends on the size and breed of the breast.",
+        to: "/cook/ways-to-use-duck-fat",
+        linkLabel: "Ways to use duck fat",
+      },
+      {
+        part: "Cold cooked breast",
+        use: "Slice thin the next day for sandwiches or a warm salad. Refrigerate within two hours and use within 3–4 days.",
+      },
+      {
+        part: "Trimmed skin and edges",
+        use: "Render them slowly into cracklings while the breasts rest; salt while hot.",
+      },
+    ],
+    leftoversHeading: "Waste nothing from the basket",
+    leftoversIntro:
+      "The fat is the second reason to cook duck breast, and an air fryer collects it in one place for you.",
+    faq: [
+      {
+        q: "Should I preheat the air fryer for duck breast?",
+        a: "Not if your machine allows a cold start. Starting cold gives the fat cap a few extra minutes of gentle rendering before the meat climbs, which is the hardest part of this cook to get right. If the manufacturer's instructions require preheating, preheat at the lowest setting available and expect the low stage to run shorter.",
+      },
+      {
+        q: "Skin-side up or skin-side down?",
+        a: "Skin-side up throughout. The fan works on the top surface, so skin-side up dries and browns the skin while melted fat drains away from it. Skin-side down puts the skin in the fat that has just left it, and it tends to stick to the basket.",
+      },
+      {
+        q: "Is an air fryer better than a skillet for duck breast?",
+        a: "It is different, not better. The air fryer is more hands-off, contains most of the mess and needs no fat management beyond draining. A skillet gives you direct contact browning, continuous control of the render, and a pan you can build a sauce in. If crust quality is the priority, the skillet still has the advantage.",
+      },
+      {
+        q: "Can I put water in the drawer to stop the smoke?",
+        a: "Only if your manufacturer explicitly permits it — many do not, and water meeting hot fat or a heating element is a real hazard. Draining the rendered fat between stages solves the same problem without that risk.",
+      },
+      {
+        q: "How long does air fryer duck breast take?",
+        a: "Roughly 12–20 minutes of cooking for most breasts, split between a low render stage and a short high-heat stage, plus a 5–10 minute rest. Treat that as a starting range: basket design, wattage, fan strength, breast size and starting temperature all move it, which is why the finish is decided by a thermometer.",
+      },
+      {
+        q: "Can I cook duck breast from frozen in an air fryer?",
+        a: "Thaw it in the refrigerator first. A frozen breast releases water as it cooks, which stops the skin from browning, and the outside overcooks long before the centre is where you want it.",
+      },
+      {
+        q: "Do I need to add oil?",
+        a: "No. Skin-on duck breast releases plenty of its own fat, and added oil only increases what pools in the drawer — which is what smokes and spatters.",
+      },
+    ],
+    related: [
+      "/cook/how-to-cook-duck-breast",
+      "/learn/how-to-score-duck-breast",
+      "/learn/duck-breast-temperature-doneness",
+      "/learn/why-duck-skin-isnt-crispy",
+      "/cook/best-sauces-for-duck-breast",
+      "/cook/what-to-serve-with-duck-breast",
+      "/tools/duck-doneness-guide",
+    ],
+    sourcing: [
+      {
+        label: "Buying duck breast",
+        why: "Breast weights and fat-cap thickness vary widely between suppliers, and both change the render stage. The cut-specific guide covers formats, weights and what to check when the box arrives.",
+        to: "/buy/where-to-buy-duck-breast-online",
+        linkLabel: "Where to buy duck breast online",
+      },
+    ],
+    linksInModuleOnly: true,
+    sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep", "usdaLeftovers"],
+  },
+
   "duck-leg-confit": {
     slug: "duck-leg-confit",
     intro:

@@ -8,6 +8,13 @@ import {
   StepList,
 } from "@/components/site/ArticleShell";
 import { ShopThisGuide } from "@/components/site/Commerce";
+import { AirFryerMethodCompare } from "@/components/site/AirFryerMethodCompare";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import {
+  AIR_FRYER_INBOUND_PLACEMENTS,
+  AIR_FRYER_NEWSLETTER_PLACEMENT,
+} from "@/data/air-fryer-inbound";
+import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckFatDecision } from "@/components/site/DuckFatDecision";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
@@ -248,6 +255,16 @@ function RecipePage() {
         intro="The four ways this recipe usually goes wrong, what to do about it mid-cook, and how to stop it happening again."
       />
 
+      {slug === "air-fryer-duck-breast" && (
+        <>
+          <AirFryerMethodCompare />
+          <div className="mt-16">
+            <NewsletterSignup id={AIR_FRYER_NEWSLETTER_PLACEMENT} interest="duck-breast" />
+          </div>
+        </>
+      )}
+
+
       {slug === "pan-seared-duck-breast" && (
         <DuckBreastJourney
           id="cluster-from-the-recipe"
@@ -320,6 +337,16 @@ function RecipePage() {
       )}
 
       <DuckFatDecision sourcePath={path} />
+
+      {slug === "pan-seared-duck-breast" && (
+        <AirFryerRecipeLink
+          placement={AIR_FRYER_INBOUND_PLACEMENTS.panSearedRecipe}
+          className="mt-10"
+        >
+          Want the same result without an open pan spitting fat across the hob? The tradeoffs are
+          real, and they are laid out in
+        </AirFryerRecipeLink>
+      )}
 
       <FaqList items={content.faq} />
 

@@ -22,6 +22,7 @@ import { duckFatDecisionPlacementIds } from "@/data/duck-fat-decision";
 import { homepagePlacementIds } from "@/data/homepage-intent";
 import { homeAnnouncementPlacementIds } from "@/data/homepage-announcement";
 import { thanksgivingHubPlacementIds } from "@/data/thanksgiving-hub";
+import { airFryerPlacementIds } from "@/data/air-fryer-inbound";
 import { normalisePath, destinationSlug } from "@/lib/duck-breast-cluster";
 
 export const CONVERSION_INTENTS = [
@@ -513,6 +514,7 @@ export const RECIPE_CONVERSION_SLUGS = [
   "duck-a-lorange",
   "roasted-whole-duck",
   "duck-leg-confit",
+  "air-fryer-duck-breast",
 ] as const;
 
 export function conversionPathsForSource(path: string): ConversionPath[] {
@@ -566,6 +568,7 @@ export function allConversionPlacementIds(): string[] {
     ...homepagePlacementIds(),
     ...homeAnnouncementPlacementIds(),
     ...thanksgivingHubPlacementIds(),
+    ...airFryerPlacementIds(),
   ];
 }
 

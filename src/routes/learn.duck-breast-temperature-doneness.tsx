@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
+import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
 import { ArticleShell, Section, DataTable, Callout } from "@/components/site/ArticleShell";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
@@ -244,6 +246,14 @@ function Page() {
         eyebrow="Verify the finish"
         heading="Reading these numbers reliably"
       />
+
+      <AirFryerRecipeLink
+        placement={AIR_FRYER_INBOUND_PLACEMENTS.donenessGuide}
+        className="mt-10"
+      >
+        These same pull temperatures decide an air fryer cook, where timings shift between machines
+        and the probe is all you have.
+      </AirFryerRecipeLink>
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

@@ -1,4 +1,6 @@
 import panSeared from "@/assets/recipe-pan-seared.jpg";
+import airFryerHero from "@/assets/recipe-air-fryer-duck-breast.jpg";
+import airFryerCard from "@/assets/recipe-air-fryer-duck-breast-card.jpg";
 import confit from "@/assets/recipe-confit.jpg";
 import wholeRoast from "@/assets/recipe-whole-roast.jpg";
 import smokedPlum from "@/assets/recipe-smoked-plum.jpg";
@@ -23,6 +25,12 @@ export interface Recipe {
    * caption never implies a picture we do not have.
    */
   imageAlt?: string;
+  /**
+   * Optional smaller crop of the SAME photograph, used only by cards and
+   * listings. `image` stays the wide original, so Recipe JSON-LD and social
+   * previews always reference the durable full-size asset.
+   */
+  cardImage?: string;
   /**
    * Optional editorial illustration for the recipe detail page. Cards,
    * listings, Recipe JSON-LD and social previews always use `image` (the
@@ -185,6 +193,24 @@ export const RECIPES: Recipe[] = [
     recipeYield: "Serves 4 as a side",
     difficulty: "Easy",
     keyTechnique: "Parboil, rough up, roast in preheated fat",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "air-fryer-duck-breast",
+    name: "Air Fryer Duck Breast",
+    description:
+      "Render the fat cap at a low setting, crisp it at a high one, and pull by thermometer — the air fryer route to crisp skin without a smoking kitchen.",
+    image: airFryerHero,
+    cardImage: airFryerCard,
+    imageAlt:
+      "Sliced air fryer duck breast with crisp golden-brown skin and a rosy centre, with a dark cherry glaze",
+    category: "Duck breast",
+    prepTimeMinutes: 15,
+    cookTimeMinutes: 20,
+    recipeYield: "2 servings",
+    difficulty: "Easy",
+    keyTechnique: "Two-stage air frying, skin-side up",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },

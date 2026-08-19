@@ -7,7 +7,7 @@ export function RecipeCard({ recipe, priority = false }: { recipe: Recipe; prior
       <Link to="/recipes/$slug" params={{ slug: recipe.slug }} className="block">
         <div className="overflow-hidden rounded-sm bg-muted bg-[repeating-linear-gradient(135deg,hsl(var(--border)/0.22)_0_1px,transparent_1px_10px)]">
           <img
-            src={recipe.image}
+            src={recipe.cardImage ?? recipe.image}
             alt={recipe.imageAlt ?? `${recipe.name} being prepared in the kitchen`}
             loading={priority ? "eager" : "lazy"}
             fetchPriority={priority ? "high" : "auto"}
