@@ -513,6 +513,7 @@ export const RECIPE_CONVERSION_SLUGS = [
   "duck-a-lorange",
   "roasted-whole-duck",
   "duck-leg-confit",
+  "air-fryer-duck-breast",
 ] as const;
 
 export function conversionPathsForSource(path: string): ConversionPath[] {
