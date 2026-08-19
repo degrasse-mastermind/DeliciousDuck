@@ -36,5 +36,19 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  {
+    // TanStack route modules and shared UI/component modules intentionally
+    // co-export route metadata, variants, layout helpers, and hooks. Those
+    // exports are part of their public API rather than hot-reload boundaries.
+    files: [
+      "src/routes/**/*.{ts,tsx}",
+      "src/components/ui/**/*.{ts,tsx}",
+      "src/components/site/SketchAutoLayout.tsx",
+      "src/components/site/SketchFigure.tsx",
+    ],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
   eslintPluginPrettier,
 );

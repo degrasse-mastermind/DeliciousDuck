@@ -8,6 +8,7 @@ import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 
 const GUIDE = guideByPath("/gear/best-knife-for-scoring-duck")!;
 
@@ -75,6 +76,13 @@ function Page() {
       </p>
 
       <DisclosureBanner />
+
+      <CommercialCallout
+        heading="A useful shape, if your current knife is not up to it"
+        intro="Try sharpening what you own first. If the blade is still too thick or hard to steer, a slim utility knife is the sensible next option."
+        linkIds={["amazon-utility-knife"]}
+        placement="knife_early_option"
+      />
 
       <EvaluationNote scope="knives" />
 
@@ -251,6 +259,8 @@ function Page() {
           },
         ]}
       />
+
+      <NewsletterSignup id="knife-guide-secondary" interest="duck-breast" />
 
       <FaqList items={FAQ} />
 

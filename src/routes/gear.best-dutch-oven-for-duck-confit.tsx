@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
 import { DisclosureBanner, EvaluationNote, ShopThisGuide } from "@/components/site/Commerce";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceMark } from "@/components/site/SourceMark";
@@ -112,6 +113,13 @@ function Page() {
       </Callout>
 
       <DisclosureBanner />
+
+      <CommercialCallout
+        heading="If the pot you own fails the fit test"
+        intro="An enameled Dutch oven is the durable all-purpose option when you need a snug, lidded, nonreactive vessel. Measure your legs and existing pot before buying."
+        linkIds={["amazon-enameled-dutch-oven"]}
+        placement="confit_vessel_early_option"
+      />
 
       <MethodologyPanel guide={DG} />
 
@@ -318,6 +326,8 @@ function Page() {
           },
         ]}
       />
+
+      <NewsletterSignup id="confit-vessel-guide-secondary" interest="duck-fat" />
 
       <FaqList items={FAQ} />
 

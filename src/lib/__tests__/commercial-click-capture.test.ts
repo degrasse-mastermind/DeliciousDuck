@@ -82,6 +82,7 @@ describe("commercial click capture", () => {
     expect(params["commercial_link_id"]).toBe("amazon-roasting-pan-rack");
     expect(params["placement"]).toBe("gear-roasting-pan-primary");
     expect(params["source_path"]).toBe("/gear/best-roasting-pan-for-duck");
+    expect(params["affiliate"]).toBe(true);
     // GA4 receives the same event name.
     expect(gtag.mock.calls.some((call) => call[1] === "affiliate_click")).toBe(true);
   });
@@ -101,6 +102,20 @@ describe("commercial click capture", () => {
     expect((captures[0]![1] as Record<string, unknown>)["commercial_link_id"]).toBe(
       "us-wellness-duck-fat",
     );
+    expect((captures[0]![1] as Record<string, unknown>)["affiliate"]).toBe(true);
+  });
+
+  it("captures merchant_click, never affiliate_click, for a direct seller", async () => {
+    const { analytics, links } = await loadAnalytics(
+      "/buy/where-to-buy-duck-online",
+      vi.fn(),
+    );
+    const link = links.commercialLinkById("culver-duck")!;
+    analytics.trackCommercialClick({ link, placement: "buy_duck_primary_options" });
+    expect(affiliateCaptures()).toHaveLength(0);
+    const merchant = sdk.capture.mock.calls.filter((call) => call[0] === "merchant_click");
+    expect(merchant).toHaveLength(1);
+    expect((merchant[0]![1] as Record<string, unknown>)["affiliate"]).toBe(false);
   });
 
   it("sends no PII: payload keys are allowlisted and path-only", async () => {
@@ -146,5 +161,11 @@ describe("rendered CTA wiring", () => {
     expect(source).toMatch(/onClick=\{/);
     // The anchor must stay a real anchor so the destination is unchanged.
     expect(source).toMatch(/<a\b/);
+  });
+
+  it("routes comparison-card CTAs through the same registry-backed taxonomy", () => {
+    const source = readFileSync(resolve(process.cwd(), "src/components/site/Commerce.tsx"), "utf8");
+    expect(source).toContain("trackCommercialClick");
+    expect(source).not.toContain("trackAffiliateClick");
   });
 });

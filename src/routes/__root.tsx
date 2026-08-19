@@ -147,8 +147,8 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
         {createElement("meta", {
           name: "impact-site-verification",
-          value: "0a7d07f1-b741-4412-8973-aefb551b0262",
-        } as any)}
+          content: "0a7d07f1-b741-4412-8973-aefb551b0262",
+        })}
         {/*
           Google Analytics 4 — the tag is injected by this bootstrap only on the
           canonical public hosts and outside /internal/* and /api/*, so preview,

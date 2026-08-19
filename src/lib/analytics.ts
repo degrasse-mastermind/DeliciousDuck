@@ -153,17 +153,6 @@ export function trackPageView(path: string, title?: string): void {
   });
 }
 
-/** Content classification for commercial events — parameters, not new event names. */
-export type CommercialContentType = "buy_duck" | "gear" | "ingredients" | "editorial";
-
-export function contentTypeFromPath(path = currentPagePath()): CommercialContentType {
-  if (!path) return "editorial";
-  if (path.startsWith("/buy")) return "buy_duck";
-  if (path.startsWith("/gear")) return "gear";
-  if (path.startsWith("/ingredients")) return "ingredients";
-  return "editorial";
-}
-
 export function contentSlugFromPath(path = currentPagePath()): string | undefined {
   if (!path) return undefined;
   const parts = path.split("/").filter(Boolean);
@@ -189,78 +178,6 @@ function shouldSendClick(key: string): boolean {
   if (last !== undefined && now - last <= CLICK_DEDUPE_MS) return false;
   recentClicks.set(key, now);
   return true;
-}
-
-/**
- * Outbound commercial click.
- *
- * `affiliate` is true ONLY when the destination is a real affiliate tracking
- * URL. A plain merchant link reports `link_type: "direct_seller"` and
- * `affiliate: false`, so revenue reporting is never inflated by neutral links.
- * No PII: merchant, placement, path, destination kind and the affiliate boolean
- * only.
- */
-export function trackAffiliateClick(params: {
-  linkUrl: string;
-  linkText?: string;
-  merchant?: string;
-  /** Registry id from src/data/affiliates.ts, when the row maps to a merchant. */
-  merchantId?: string | undefined;
-  placement?: string;
-  linkType?: "affiliate" | "direct_seller";
-  /** Where the click lands: a tracking link, or the merchant's own site. */
-  destinationType?: "affiliate_tracking" | "merchant_direct";
-  contentType?: CommercialContentType;
-  contentSlug?: string;
-}): void {
-  const path = currentPagePath();
-  const linkType = params.linkType ?? "affiliate";
-  const isAffiliate = linkType === "affiliate";
-  const destinationType =
-    params.destinationType ?? (isAffiliate ? "affiliate_tracking" : "merchant_direct");
-
-  const key = [
-    params.merchantId ?? params.merchant ?? merchantFromUrl(params.linkUrl),
-    params.placement,
-    path,
-    destinationType,
-    params.linkUrl,
-  ].join("|");
-  if (!shouldSendClick(key)) return;
-
-  trackEvent(ANALYTICS_EVENTS.affiliateClick, {
-    link_url: params.linkUrl,
-    link_text: params.linkText,
-    merchant: params.merchant ?? merchantFromUrl(params.linkUrl),
-    merchant_id: params.merchantId,
-    merchant_domain: merchantFromUrl(params.linkUrl),
-    placement: params.placement,
-    link_type: linkType,
-    destination_type: destinationType,
-    affiliate: isAffiliate,
-    content_type: params.contentType ?? contentTypeFromPath(path),
-    content_slug: params.contentSlug ?? contentSlugFromPath(path),
-    page_path: path,
-    // Lets us tell whether newsletter traffic actually converts downstream,
-    // without ever identifying the subscriber.
-    email_attributed: isEmailAttributedSession(),
-    email_campaign: emailAttribution()?.campaign,
-  });
-
-  // PostHog mirror of the same non-sensitive properties.
-  captureEvent(ANALYTICS_EVENTS.affiliateClick, {
-    merchant: params.merchant ?? merchantFromUrl(params.linkUrl),
-    merchant_id: params.merchantId,
-    offer_label: params.linkText,
-    destination_host: merchantFromUrl(params.linkUrl),
-    placement: params.placement,
-    link_type: linkType,
-    destination_type: destinationType,
-    affiliate: isAffiliate,
-    content_type: params.contentType ?? contentTypeFromPath(path),
-    content_slug: params.contentSlug ?? contentSlugFromPath(path),
-    source_path: path,
-  });
 }
 
 /* ------------------------------------------------------------------ *
@@ -356,14 +273,6 @@ export function trackDuckDropCtaClick(params: {
 
 
 /** Hostname as a coarse merchant label — never a partnership claim. */
-export function merchantFromUrl(url: string): string | undefined {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return undefined;
-  }
-}
-
 /**
  * Interaction with a signup surface. Intent, NOT a subscription conversion.
  *
@@ -626,6 +535,7 @@ export function trackCommercialPageView(params: { path?: string | undefined } = 
     lastSeenPagePath = seenKey;
     if (!event) return;
     trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
   } catch {
     // Analytics is best-effort and must never affect rendering.
   }
@@ -652,6 +562,7 @@ export function trackLeadMagnetDownload(params: {
     const key = ["lead_magnet", event.params.asset_id, event.params.placement, event.params.source_path].join("|");
     if (!shouldSendClick(key)) return;
     trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
   } catch {
     // Never block the download.
   }

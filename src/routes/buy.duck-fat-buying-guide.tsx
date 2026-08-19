@@ -13,6 +13,7 @@ import { DUCK_FAT_OPTIONS, DUCK_FAT_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { decisionGuide } from "@/data/decision-guides";
 import {
   BestForGrid,
@@ -94,6 +95,13 @@ function Page() {
       <QuickDecision guide={DG} />
 
       <DisclosureBanner />
+
+      <CommercialCallout
+        heading="The practical bulk-fat option"
+        intro="If you need enough rendered fat for confit rather than a single roast, start with the quart format; the comparison below explains when a smaller jar makes more sense."
+        linkIds={["us-wellness-duck-fat"]}
+        placement="duck_fat_early_option"
+      />
 
       <QuickPicks
         rows={DUCK_FAT_OPTIONS}
@@ -259,6 +267,8 @@ function Page() {
           },
         ]}
       />
+
+      <NewsletterSignup id="duck-fat-guide-secondary" interest="sourcing" />
 
       <ConversionPaths
         sourcePath="/buy/duck-fat-buying-guide"

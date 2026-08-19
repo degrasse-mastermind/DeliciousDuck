@@ -140,6 +140,17 @@ describe("event payloads", () => {
     expect(eventNameForRelationship("direct")).toBe("merchant_click");
   });
 
+  it("sets the affiliate boolean from active relationship only", () => {
+    expect(buildCommercialClickEvent({
+      link: sample({ relationship: "affiliate_active" }),
+      placement: "test",
+    }).params.affiliate).toBe(true);
+    expect(buildCommercialClickEvent({
+      link: sample({ relationship: "direct" }),
+      placement: "test",
+    }).params.affiliate).toBe(false);
+  });
+
   it("carries only allowed, PII-free parameters and no query strings", () => {
     const event = buildCommercialClickEvent({
       link: sample({ url: "https://shop.example.com/x?token=secret" }),

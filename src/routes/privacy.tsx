@@ -87,8 +87,15 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
     heading: "Cookies and analytics",
     body: (
       <p>
-        We do not use advertising or cross-site tracking cookies. If aggregate analytics are used,
-        they measure which guides, recipes, and tools are useful — never individual profiles.
+        We use GA4 and PostHog to measure which guides, recipes, tools, and commercial links are
+        useful. We send explicit page-view and interaction events with a path (never a query string),
+        content category, placement, merchant, and affiliate status where relevant. Email addresses,
+        subscriber identifiers, form contents, and mailbox tokens are not included. PostHog DOM
+        autocapture, page-leave capture, and session recording are disabled, so we do not retain
+        replay video, typed text, or a general log of page interactions. The analytics services still
+        receive ordinary request and SDK metadata such as a timestamp, browser/device information,
+        a pseudonymous analytics identifier, and network information needed to deliver the request.
+        We do not use advertising or cross-site tracking cookies.
         Following an affiliate link may allow that retailer to set its own cookies under their
         privacy policy, which we do not control; see our{" "}
         <a href="/affiliate-disclosure" className="text-primary underline underline-offset-4">

@@ -3,7 +3,6 @@ import { Link, useLocation } from "@tanstack/react-router";
 import {
   commercialLinkById,
   destinationHost,
-  isAffiliateActive,
   relForLink,
   type CommercialLinkEntry,
 } from "@/data/commercial-links";
@@ -62,7 +61,6 @@ export function CommercialLink({
     </a>
   );
 }
-
 /**
  * Accurate, compact per-link relationship label, derived from the registry.
  *
@@ -188,7 +186,3 @@ export function CommercialCallout({
     </aside>
   );
 }
-
-/** Exported for callers that need to branch on live monetization state. */
-export { isAffiliateActive };
-

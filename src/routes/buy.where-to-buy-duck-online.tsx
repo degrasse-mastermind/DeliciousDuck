@@ -96,6 +96,13 @@ function Page() {
 
       <DisclosureBanner />
 
+      <CommercialCallout
+        heading="Need rendered fat rather than a bird?"
+        intro="US Wellness sells rendered duck fat by the quart. It is useful for confit-scale cooking, but it is not a duck-meat source and does not belong in the seller ranking below."
+        linkIds={["us-wellness-duck-fat"]}
+        placement="duck_fat_early_specialty"
+      />
+
       <QuickPicks
         rows={DUCK_MERCHANTS}
         placement="where_to_buy_quick_picks"

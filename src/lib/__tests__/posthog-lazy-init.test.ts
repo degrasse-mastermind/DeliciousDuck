@@ -110,7 +110,8 @@ describe("public -> internal -> public", () => {
     ph.initPostHog("/gear/best-pan-for-duck-breast");
     ph.capturePostHogPageView("/gear/best-pan-for-duck-breast");
     expect(sdk.init).toHaveBeenCalledTimes(1);
-    expect(sdk.startSessionRecording).toHaveBeenCalledTimes(1);
+    expect(sdk.startSessionRecording).not.toHaveBeenCalled();
+    expect(sdk.stopSessionRecording).toHaveBeenCalledTimes(2);
     expect(pageViews()).toHaveLength(2);
   });
 });

@@ -45,7 +45,9 @@ describe("initialization gating", () => {
     expect(sdk.init).toHaveBeenCalledTimes(1);
     const config = sdk.init.mock.calls[0]![1] as Record<string, unknown>;
     expect(config["capture_pageview"]).toBe(false);
-    expect(config["autocapture"]).toBe(true);
+    expect(config["autocapture"]).toBe(false);
+    expect(config["capture_pageleave"]).toBe(false);
+    expect(config["disable_session_recording"]).toBe(true);
   });
 
   it("never initializes on preview or noncanonical hosts", async () => {
@@ -84,7 +86,7 @@ describe("initialization gating", () => {
 });
 
 describe("SPA navigation policy: public -> internal -> public", () => {
-  it("suspends automatic capture and recording on internal routes and restores them on return", async () => {
+  it("blocks explicit capture internally while automatic capture and replay stay disabled", async () => {
     setLocation("deliciousduck.com", "/");
     const ph = await loadModule();
     ph.initPostHog();
@@ -123,11 +125,12 @@ describe("SPA navigation policy: public -> internal -> public", () => {
     setLocation("deliciousduck.com", "/gear/best-roasting-pan-for-duck");
     ph.syncPostHogRoutePolicy("/gear/best-roasting-pan-for-duck");
     expect(sdk.set_config).toHaveBeenLastCalledWith({
-      autocapture: true,
-      capture_pageleave: true,
+      autocapture: false,
+      capture_pageleave: false,
       capture_pageview: false,
     });
-    expect(sdk.startSessionRecording).toHaveBeenCalledTimes(1);
+    expect(sdk.startSessionRecording).not.toHaveBeenCalled();
+    expect(sdk.stopSessionRecording).toHaveBeenCalledTimes(2);
     ph.capturePostHogPageView("/gear/best-roasting-pan-for-duck");
     expect(sdk.capture).toHaveBeenCalledTimes(1);
   });
@@ -146,6 +149,24 @@ describe("SPA navigation policy: public -> internal -> public", () => {
 });
 
 describe("PII exclusions survive the policy sync", () => {
+  it("drops unapproved events and properties at the PostHog boundary", async () => {
+    setLocation("deliciousduck.com", "/");
+    const ph = await loadModule();
+    ph.initPostHog();
+    ph.captureEvent("unapproved_event", { email: "reader@example.com" });
+    expect(sdk.capture).not.toHaveBeenCalled();
+
+    ph.captureEvent("merchant_click", {
+      merchant: "Culver Duck",
+      affiliate: false,
+      email: "reader@example.com",
+    });
+    expect(sdk.capture).toHaveBeenCalledWith("merchant_click", {
+      merchant: "Culver Duck",
+      affiliate: false,
+    });
+  });
+
   it("sends path-only pageviews and never a query string", async () => {
     setLocation("deliciousduck.com", "/newsletter/unsubscribe");
     const ph = await loadModule();

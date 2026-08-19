@@ -2,7 +2,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink, ShoppingBag } from "lucide-react";
 import { AFFILIATE_DISCLOSURE_SENTENCE, type ComparisonRow } from "@/data/comparisons";
-import { trackAffiliateClick } from "@/lib/analytics";
+import { COMMERCIAL_LINKS, commercialLinkById } from "@/data/commercial-links";
+import { trackCommercialClick } from "@/lib/analytics";
 import { HAS_ACTIVE_AFFILIATE_PROGRAM, resolveCommerceLink } from "@/data/affiliates";
 import { COMMERCE_PANEL, CTA, DECISION_LABELS } from "@/lib/cta";
 
@@ -71,6 +72,9 @@ function RowCta({
   });
 
   const label = shopNoun ? `Shop ${shopNoun} at ${row.name}` : `Shop at ${row.name}`;
+  const registryLink =
+    commercialLinkById(row.id) ??
+    COMMERCIAL_LINKS.find((candidate) => candidate.merchantId === row.merchantId);
 
   if (link.kind === "affiliate" && link.href) {
     return (
@@ -78,17 +82,7 @@ function RowCta({
         href={link.href}
         rel="sponsored noopener noreferrer"
         target="_blank"
-        onClick={() =>
-          trackAffiliateClick({
-            linkUrl: link.href!,
-            linkText: label,
-            merchant: link.merchantName ?? row.name,
-            merchantId: link.merchantId,
-            placement,
-            linkType: "affiliate",
-            destinationType: "affiliate_tracking",
-          })
-        }
+        onClick={() => registryLink && trackCommercialClick({ link: registryLink, placement })}
         className={CTA.commercial}
       >
         <ShoppingBag aria-hidden="true" className="size-3.5" />
@@ -103,17 +97,7 @@ function RowCta({
         href={link.href}
         rel="noopener noreferrer nofollow"
         target="_blank"
-        onClick={() =>
-          trackAffiliateClick({
-            linkUrl: link.href!,
-            linkText: label,
-            merchant: link.merchantName ?? row.name,
-            merchantId: link.merchantId,
-            placement,
-            linkType: "direct_seller",
-            destinationType: "merchant_direct",
-          })
-        }
+        onClick={() => registryLink && trackCommercialClick({ link: registryLink, placement })}
         className={CTA.commercial}
       >
         <ExternalLink aria-hidden="true" className="size-3.5" />

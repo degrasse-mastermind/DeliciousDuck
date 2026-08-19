@@ -8,6 +8,7 @@ import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { decisionGuide } from "@/data/decision-guides";
 import {
   BestForGrid,
@@ -88,6 +89,13 @@ function Page() {
       <QuickDecision guide={DG} />
 
       <DisclosureBanner />
+
+      <CommercialCallout
+        heading="Start with the pan material that matches your cook"
+        intro="Cast iron is the steady-heat default; carbon steel is easier to lift, and stainless is the most flexible for acidic pan sauces."
+        linkIds={["amazon-cast-iron-skillet"]}
+        placement="pan_early_option"
+      />
 
       <MethodologyPanel guide={DG} />
 
@@ -253,6 +261,8 @@ function Page() {
           },
         ]}
       />
+
+      <NewsletterSignup id="pan-guide-secondary" interest="duck-breast" />
 
       <FaqList items={FAQ} />
 

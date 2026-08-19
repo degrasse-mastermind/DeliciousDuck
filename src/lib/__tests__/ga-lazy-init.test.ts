@@ -33,7 +33,6 @@ function setLocation(hostname: string, pathname: string) {
 }
 
 function bootstrap() {
-  // eslint-disable-next-line @typescript-eslint/no-implied-eval
   new Function(gtagBootstrapScript(ID))();
 }
 

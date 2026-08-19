@@ -36,6 +36,7 @@ export const ALLOWED_EVENT_PARAMS = [
   "source_path",
   "placement",
   "destination_host",
+  "affiliate",
 ] as const;
 
 export interface CommercialClickEvent {
@@ -50,6 +51,7 @@ export interface CommercialClickEvent {
     source_path: string;
     placement: string;
     destination_host: string;
+    affiliate: boolean;
   };
 }
 
@@ -86,6 +88,7 @@ export function buildCommercialClickEvent(input: {
       source_path: safeSourcePath(input.sourcePath),
       placement,
       destination_host: destinationHost(link.url),
+      affiliate: isAffiliateActive(link),
     },
   };
 }

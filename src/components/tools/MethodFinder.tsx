@@ -142,14 +142,17 @@ export function MethodFinder() {
     });
   }
 
-  const inputs: Inputs = { cut, skin, provenance, time, equipment };
+  const inputs = useMemo<Inputs>(
+    () => ({ cut, skin, provenance, time, equipment }),
+    [cut, skin, provenance, time, equipment],
+  );
 
   const recommendations = useMemo(() => {
     const matched = METHODS.filter((m) => m.matches(inputs))
       .sort((a, b) => b.priority - a.priority)
       .slice(0, 3);
     return matched.length > 0 ? matched : [FALLBACK];
-  }, [cut, skin, provenance, time, equipment]);
+  }, [inputs]);
 
   useCalculatorComplete({
     calculatorName: "What should I cook",

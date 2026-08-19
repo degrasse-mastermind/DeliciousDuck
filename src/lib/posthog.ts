@@ -61,6 +61,54 @@ let initialized = false;
 /** Mirrors the capture state currently applied to the SDK. */
 let captureSuspended = false;
 
+const POSTHOG_EVENT_PROPERTY_ALLOWLIST: Readonly<Record<string, readonly string[]>> = {
+  $pageview: ["$current_url", "$pathname"],
+  affiliate_click: [
+    "commercial_link_id",
+    "merchant",
+    "merchant_id",
+    "category",
+    "relationship",
+    "source_path",
+    "placement",
+    "destination_host",
+    "affiliate",
+  ],
+  merchant_click: [
+    "commercial_link_id",
+    "merchant",
+    "merchant_id",
+    "category",
+    "relationship",
+    "source_path",
+    "placement",
+    "destination_host",
+    "affiliate",
+  ],
+  commercial_page_view: [
+    "page_path",
+    "source_path",
+    "content_type",
+    "content_slug",
+    "commercial_surface",
+  ],
+  newsletter_signup: ["placement", "source", "interest", "source_path"],
+  lead_magnet_download: [
+    "asset_id",
+    "asset_format",
+    "placement",
+    "source_path",
+    "content_slug",
+  ],
+  internal_conversion_click: [
+    "destination_slug",
+    "destination_path",
+    "intent",
+    "placement",
+    "source_path",
+  ],
+};
+
 /**
  * Initializes PostHog at most once per session.
  *
@@ -83,8 +131,11 @@ export function initPostHog(path?: string): void {
 
       // Pageviews are sent manually per SPA navigation with path-only URLs.
       capture_pageview: false,
-      capture_pageleave: true,
-      autocapture: true,
+      // Trust-preserving baseline: only the explicit, allowlisted events in
+      // analytics.ts are retained. No DOM autocapture or session replay.
+      capture_pageleave: false,
+      autocapture: false,
+      disable_session_recording: true,
     });
   } catch {
     // Analytics must never break the app.
@@ -97,9 +148,8 @@ export function initPostHog(path?: string): void {
  *
  * PostHog may already be running because the session started on a public
  * production page. Client-side navigation into `/internal/*` or `/api/*` must
- * silence automatic capture, page-leave capture, and session recording for as
- * long as the reader stays there — and restore them when the same session
- * navigates back to a public route.
+ * Automatic capture, page-leave capture, and session recording stay disabled
+ * everywhere; this route gate only suspends explicit capture on blocked paths.
  *
  * Uses `set_config` + `stopSessionRecording`/`startSessionRecording`, both
  * supported by the installed posthog-js. Deliberately **not** `opt_out_capturing`,
@@ -112,12 +162,11 @@ export function syncPostHogRoutePolicy(path?: string): void {
   captureSuspended = !allowed;
   try {
     posthog.set_config({
-      autocapture: allowed,
-      capture_pageleave: allowed,
+      autocapture: false,
+      capture_pageleave: false,
       capture_pageview: false,
     });
-    if (allowed) posthog.startSessionRecording();
-    else posthog.stopSessionRecording();
+    posthog.stopSessionRecording();
   } catch {
     // Analytics must never break navigation.
   }
@@ -143,9 +192,12 @@ export function captureEvent(
 ): void {
   if (typeof window === "undefined" || !initialized) return;
   if (!analyticsEnabled()) return;
+  const allowedProperties = POSTHOG_EVENT_PROPERTY_ALLOWLIST[name];
+  if (!allowedProperties) return;
+  const allowed = new Set(allowedProperties);
   const clean: Record<string, string | number | boolean> = {};
   for (const [key, value] of Object.entries(properties)) {
-    if (value !== undefined && value !== "") clean[key] = value;
+    if (allowed.has(key) && value !== undefined && value !== "") clean[key] = value;
   }
   try {
     posthog.capture(name, clean);

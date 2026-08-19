@@ -16,7 +16,10 @@ function walk(dir: string): string[] {
 }
 
 const publicFiles = [...walk(ROUTES), ...walk(COMPONENTS), ...walk(DATA)].filter(
-  (p) => !p.includes("routes/internal.") && !p.includes("routes/api"),
+  (p) => {
+    const normalized = p.replace(/\\/g, "/");
+    return !normalized.includes("/routes/internal.") && !normalized.includes("/routes/api");
+  },
 );
 
 /**

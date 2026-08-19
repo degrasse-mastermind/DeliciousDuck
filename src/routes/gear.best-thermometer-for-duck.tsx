@@ -9,6 +9,7 @@ import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { decisionGuide } from "@/data/decision-guides";
 import {
   BestForGrid,
@@ -90,6 +91,13 @@ function Page() {
       <QuickDecision guide={DG} />
 
       <DisclosureBanner />
+
+      <CommercialCallout
+        heading="The thermometer most duck cooks need first"
+        intro="An instant-read thermometer handles breast, legs, and spot checks. Add a leave-in probe only if whole-bird roasting is a regular job."
+        linkIds={["amazon-instant-read-thermometer"]}
+        placement="thermometer_early_option"
+      />
 
       <MethodologyPanel guide={DG} />
 
@@ -287,6 +295,8 @@ function Page() {
           },
         ]}
       />
+
+      <NewsletterSignup id="thermometer-guide-secondary" interest="duck-breast" />
 
       <FaqList items={FAQ} />
 

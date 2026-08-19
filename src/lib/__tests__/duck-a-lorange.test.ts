@@ -14,7 +14,7 @@ import { recipeConversionPlacements } from "@/data/conversion-paths";
 const SLUG = "duck-a-lorange";
 const content = RECIPE_CONTENT[SLUG]!;
 const recipe = RECIPES.find((r) => r.slug === SLUG)!;
-const ROUTE = readFileSync("src/routes/recipes.$slug.tsx", "utf8");
+const ROUTE = readFileSync("src/routes/recipes.$slug.tsx", "utf8").replace(/\r\n/g, "\n");
 
 const allProse = JSON.stringify(content);
 

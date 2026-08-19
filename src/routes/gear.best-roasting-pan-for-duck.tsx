@@ -8,6 +8,7 @@ import {
   ShopThisGuide,
 } from "@/components/site/Commerce";
 import { CommercialCallout } from "@/components/site/CommercialLink";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { ROASTING_PANS, ROASTING_PAN_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
@@ -134,6 +135,13 @@ function Page() {
       </p>
 
       <DisclosureBanner />
+
+      <CommercialCallout
+        heading="The setup that solves the actual problem"
+        intro="A rack that keeps the bird above rendered fat matters more than a premium pan. Start with a roasting-pan-and-rack setup, then compare the lower-cost sheet-pan route below."
+        linkIds={["amazon-roasting-pan-rack"]}
+        placement="roasting_pan_early_option"
+      />
 
       <Callout label="The short answer" tone="gold">
         <p>
@@ -349,6 +357,8 @@ function Page() {
           },
         ]}
       />
+
+      <NewsletterSignup id="roasting-pan-guide-secondary" interest="whole-duck" />
 
       <FaqList items={FAQ} />
 

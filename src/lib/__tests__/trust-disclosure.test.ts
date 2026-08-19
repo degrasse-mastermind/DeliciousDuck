@@ -74,7 +74,7 @@ describe("corrected trust copy", () => {
   });
 
   it("sourcing page drops the absolute food-safety guarantee claim", () => {
-    const src = read("src/routes/buy.where-to-buy-duck-online.tsx");
+    const src = read("src/routes/buy.where-to-buy-duck-online.tsx").replace(/\r\n/g, "\n");
     expect(src).not.toContain("only way to guarantee food safety");
     expect(src).toContain("cold\n          chain across multi-day transit");
   });
