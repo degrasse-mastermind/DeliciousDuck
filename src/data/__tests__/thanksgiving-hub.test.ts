@@ -163,7 +163,7 @@ describe("thanksgiving hub schedule truthfulness", () => {
   });
 
   it("never suggests a cooked whole duck waits out a turkey", () => {
-    const mixed = THANKSGIVING_TABLE_CHOICES.find((c) => /larger or mixed/i.test(c.table))!;
+    const mixed = THANKSGIVING_TABLE_CHOICES.find((c) => /larger or mixed/i.test(c.guests))!;
     const surfaces = [mixed.tradeoff, code, read("src/routes/learn.duck-vs-turkey-thanksgiving.tsx")];
     for (const text of surfaces) {
       const lower = text.toLowerCase();
