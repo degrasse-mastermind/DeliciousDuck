@@ -230,4 +230,29 @@
   section {
     box-shadow: none !important;
   }
+
+  /* Illustrations are chrome on paper; a print-kept figure opts back in. */
+  img,
+  svg,
+  figure {
+    display: none !important;
+  }
+
+  [data-print-keep] img,
+  [data-print-keep] figure {
+    display: block !important;
+  }
+
+  /* Checklist boxes print as clear empty squares, never as a filled control. */
+  input[type="checkbox"] {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 11pt !important;
+    height: 11pt !important;
+    border: 1pt solid #111 !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    display: inline-block !important;
+  }
 }
