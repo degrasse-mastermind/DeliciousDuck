@@ -29,16 +29,22 @@ export function HomeAnnouncement({
     >
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:gap-6 lg:px-8">
         <div className="flex min-w-0 flex-1 items-center gap-4">
-          <img
-            src={art.src}
-            alt=""
+          <span
             aria-hidden="true"
-            width={192}
-            height={128}
-            loading="lazy"
-            decoding="async"
-            className="hidden h-16 w-24 shrink-0 rounded-sm object-cover object-[42%_46%] sm:block lg:h-[4.5rem] lg:w-28"
-          />
+            className="relative hidden h-16 w-24 shrink-0 overflow-hidden rounded-sm sm:block lg:h-[4.5rem] lg:w-28"
+          >
+            <img
+              src={art.src}
+              alt=""
+              aria-hidden="true"
+              width={284}
+              height={182}
+              loading="lazy"
+              decoding="async"
+              className="absolute left-[-14%] top-[-9%] w-[203%] max-w-none"
+            />
+          </span>
+
           <p className="min-w-0">
             <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-cranberry">
               {announcement.eyebrow}
