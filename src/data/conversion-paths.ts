@@ -22,6 +22,7 @@ import { duckFatDecisionPlacementIds } from "@/data/duck-fat-decision";
 import { homepagePlacementIds } from "@/data/homepage-intent";
 import { homeAnnouncementPlacementIds } from "@/data/homepage-announcement";
 import { thanksgivingHubPlacementIds } from "@/data/thanksgiving-hub";
+import { airFryerPlacementIds } from "@/data/air-fryer-inbound";
 import { normalisePath, destinationSlug } from "@/lib/duck-breast-cluster";
 
 export const CONVERSION_INTENTS = [
