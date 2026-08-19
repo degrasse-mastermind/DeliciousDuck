@@ -214,12 +214,14 @@ describe("air fryer duck breast: hero art and photograph integrity", () => {
       ogType: "article",
       image: recipe.image,
     }).meta;
-    const og = meta.filter((m: Record<string, string>) => m.property === "og:image");
-    const tw = meta.filter((m: Record<string, string>) => m.name === "twitter:image");
+    const og = meta.filter((m: Record<string, string>) => m["property"] === "og:image");
+    const tw = meta.filter((m: Record<string, string>) => m["name"] === "twitter:image");
     expect(og).toHaveLength(1);
     expect(tw).toHaveLength(1);
-    expect(og[0]!.content).toMatch(/^https:\/\/deliciousduck\.com\/.*recipe-air-fryer-duck-breast/);
-    expect(tw[0]!.content).toBe(og[0]!.content);
+    expect(og[0]!["content"]).toMatch(
+      /^https:\/\/deliciousduck\.com\/.*recipe-air-fryer-duck-breast/,
+    );
+    expect(tw[0]!["content"]).toBe(og[0]!["content"]);
   });
 });
 
