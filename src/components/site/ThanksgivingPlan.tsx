@@ -71,7 +71,6 @@ export function ThanksgivingPlan({
                         destination: step.to,
                         intent: step.intent,
                         placement: step.placement,
-                        sourcePath,
                       })
                     }
                     className="group mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary underline-offset-4 hover:underline"
