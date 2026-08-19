@@ -326,37 +326,10 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     anchor: "How to thaw duck safely, with timings by weight",
     reason: "Most mail-order duck arrives frozen, so plan the thaw before you plan the dinner.",
   },
-  {
-    // Splits breast intent off the general sourcing guide rather than
-    // duplicating it: readers who already know they want breast go sideways.
-    placement: "sourcing_guide_to_breast_sourcing",
-    sourcePath: "/buy/where-to-buy-duck-online",
-    destination: "/buy/where-to-buy-duck-breast-online",
-    intent: "sourcing",
-    direction: "commercial_to_editorial",
-    anchor: "Buying duck breast specifically",
-    reason: "Formats, portion weights and arrival checks that only matter for breast.",
-  },
 
-  /* --- breast sourcing guide -> the cook that justifies it --------- */
-  {
-    placement: "breast_sourcing_to_pan_seared_recipe",
-    sourcePath: "/buy/where-to-buy-duck-breast-online",
-    destination: "/recipes/pan-seared-duck-breast",
-    intent: "technique_validation",
-    direction: "commercial_to_editorial",
-    anchor: "Pan-seared duck breast, start to finish",
-    reason: "The cook this purchase is for — read it before you choose a format.",
-  },
-  {
-    placement: "breast_sourcing_to_breast_technique",
-    sourcePath: "/buy/where-to-buy-duck-breast-online",
-    destination: "/cook/how-to-cook-duck-breast",
-    intent: "technique_validation",
-    direction: "commercial_to_editorial",
-    anchor: "How to cook duck breast",
-    reason: "Why the fat cap and the piece size decide the method you can use.",
-  },
+  /* --- breast sourcing guide -> the editorial checks it depends on -
+     Kept to two /learn/ steps: recipe, pan and thermometer paths are linked
+     once each in the page's own modules, so nothing appears twice. --------- */
   {
     placement: "breast_sourcing_to_doneness",
     sourcePath: "/buy/where-to-buy-duck-breast-online",
@@ -365,24 +338,6 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     direction: "commercial_to_editorial",
     anchor: "Duck breast pull temperatures and carryover",
     reason: "A thicker breast buys margin — this is the window you are aiming for.",
-  },
-  {
-    placement: "breast_sourcing_to_pan_guide",
-    sourcePath: "/buy/where-to-buy-duck-breast-online",
-    destination: "/gear/best-pan-for-duck-breast",
-    intent: "equipment",
-    direction: "commercial_to_editorial",
-    anchor: "Choosing a pan for duck breast",
-    reason: "Piece size and pan size have to agree, or the skin steams instead of browning.",
-  },
-  {
-    placement: "breast_sourcing_to_thermometer_guide",
-    sourcePath: "/buy/where-to-buy-duck-breast-online",
-    destination: "/gear/best-thermometer-for-duck",
-    intent: "equipment",
-    direction: "commercial_to_editorial",
-    anchor: "Choosing a thermometer for duck",
-    reason: "Breast lives in a few-degree window; a fast probe is how you hit it.",
   },
   {
     placement: "breast_sourcing_to_thawing",
