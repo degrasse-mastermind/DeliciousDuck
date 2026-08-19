@@ -5,6 +5,7 @@ import { PILLARS } from "@/data/site";
 import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
 import { CategoryTile } from "@/components/site/CategoryTile";
+import { HomeAnnouncement } from "@/components/site/HomeAnnouncement";
 import { HomeCommerceCards, HomeIntentRouter } from "@/components/site/HomeIntentRouter";
 import { RecipeCard } from "@/components/site/RecipeCard";
 import { ToolListItem } from "@/components/site/ToolListItem";
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <>
+      <HomeAnnouncement />
       <Hero />
       <HomeIntentRouter />
       <JourneySection />
