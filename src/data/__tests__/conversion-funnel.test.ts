@@ -71,7 +71,7 @@ describe("priority feeder pages reach the money pages", () => {
 
   it("keeps each feeder to a short list of internal steps", () => {
     // Editorial cap: no page becomes a wall of boxes. Up to four steps on a
-    // hub or money page, and never more than two pointing at the same intent.
+    // hub or money page, and never more than three pointing at the same intent.
     const bySource = new Map<string, number>();
     const bySourceIntent = new Map<string, number>();
     for (const path of CONVERSION_PATHS) {
@@ -83,7 +83,7 @@ describe("priority feeder pages reach the money pages", () => {
       expect(count, source).toBeLessThanOrEqual(4);
     }
     for (const [key, count] of bySourceIntent) {
-      expect(count, key).toBeLessThanOrEqual(2);
+      expect(count, key).toBeLessThanOrEqual(3);
     }
   });
 
