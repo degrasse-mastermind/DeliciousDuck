@@ -29,24 +29,31 @@ export function HomeAnnouncement({
     >
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:gap-6 lg:px-8">
         <div className="flex min-w-0 flex-1 items-center gap-4">
-          <img
-            src={art.src}
-            alt=""
+          <span
             aria-hidden="true"
-            width={96}
-            height={96}
-            loading="lazy"
-            decoding="async"
-            className="hidden size-14 shrink-0 rounded-sm object-cover object-center ring-1 ring-forest-foreground/20 sm:block"
-          />
+            className="relative hidden h-16 w-24 shrink-0 overflow-hidden rounded-sm sm:block lg:h-[4.5rem] lg:w-28"
+          >
+            <img
+              src={art.src}
+              alt=""
+              aria-hidden="true"
+              width={284}
+              height={182}
+              loading="lazy"
+              decoding="async"
+              className="absolute left-[-33%] top-[-25%] w-[203%] max-w-none"
+            />
+          </span>
+
           <p className="min-w-0">
             <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-cranberry">
               {announcement.eyebrow}
             </span>
-            <span className="mt-1 block font-display text-lg leading-snug text-forest-foreground">
+            <span className="mt-1 block font-display text-lg font-medium leading-snug text-forest-foreground lg:text-xl">
               {announcement.message}
             </span>
           </p>
+
         </div>
 
         <Link

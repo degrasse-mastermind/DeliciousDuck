@@ -30,7 +30,7 @@ export interface HomeAnnouncement {
 
 export const HOME_ANNOUNCEMENT: HomeAnnouncement = {
   placement: "home_announcement_thanksgiving_hub",
-  eyebrow: "THANKSGIVING DUCK PLAN",
+  eyebrow: "DUCK FOR THANKSGIVING? ABSOLUTELY.",
   message: "Menu, timeline, bird count & printable checklist",
   ctaLabel: "Plan the feast",
   ctaAccessibleName: "Plan your Thanksgiving duck dinner",

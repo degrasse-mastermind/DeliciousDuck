@@ -24,7 +24,7 @@ const NON_HOMEPAGE_ROUTES = [
 
 describe("homepage seasonal announcement", () => {
   it("uses the exact approved copy", () => {
-    expect(HOME_ANNOUNCEMENT.eyebrow).toBe("THANKSGIVING DUCK PLAN");
+    expect(HOME_ANNOUNCEMENT.eyebrow).toBe("DUCK FOR THANKSGIVING? ABSOLUTELY.");
     expect(HOME_ANNOUNCEMENT.message).toBe("Menu, timeline, bird count & printable checklist");
     expect(HOME_ANNOUNCEMENT.ctaLabel).toBe("Plan the feast");
   });
@@ -78,15 +78,28 @@ describe("homepage seasonal announcement", () => {
     expect(routeSource).toContain('path: "/"');
   });
 
-  it("uses the stable Thanksgiving illustration decoratively", () => {
+  it("uses the stable Thanksgiving illustration decoratively, cropped for legibility", () => {
     expect(bannerSource).toContain("SKETCH[announcement.art]");
     expect(HOME_ANNOUNCEMENT.art).toBe("thanksgivingPlan");
     expect(SKETCH.thanksgivingPlan.src).toBeTruthy();
     expect(bannerSource).toContain('alt=""');
     expect(bannerSource).toContain('aria-hidden="true"');
+    // Desktop presentation is at least 64px tall and intentionally reframed.
+    expect(bannerSource).toContain("h-16");
+    expect(bannerSource).toContain("w-[203%]");
+    // No floating-card treatment: no heavy ring, border or shadow.
+    expect(bannerSource).not.toMatch(/ring-1|shadow-/);
+    // Hidden on narrow screens to keep the strip compact.
+    expect(bannerSource).toContain("hidden h-16 w-24");
     // The hub's descriptive alt text is never repeated on the homepage.
     expect(bannerSource).not.toContain(SKETCH.thanksgivingPlan.alt);
   });
+
+  it("gives the benefit message the stronger type treatment", () => {
+    expect(bannerSource).toMatch(/font-display text-lg font-medium[^"]*text-forest-foreground/);
+    expect(bannerSource).toContain("text-[0.65rem] font-semibold uppercase");
+  });
+
 
   it("is a plain seasonal strip: no dismiss, sticky, storage or date logic", () => {
     expect(bannerSource).not.toMatch(/dismiss|localStorage|sessionStorage|new Date|Date\.now/);
