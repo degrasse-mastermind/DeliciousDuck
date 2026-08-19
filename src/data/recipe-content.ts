@@ -386,11 +386,18 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     sourcing: [
       {
         label: "Buying duck legs and rendered fat",
-        why: "Leg quarters are often cheaper than breast and freeze well; jarred rendered fat saves you a rendering session.",
+        why: "Confit needs enough fat to submerge the legs, and jarred rendered fat saves you a rendering session — the guide covers formats and how much a batch actually takes.",
         to: "/buy/duck-fat-buying-guide",
         linkLabel: "Duck fat buying guide",
       },
+      {
+        label: "Buying duck leg quarters",
+        why: "Leg quarters are often cheaper than breast and freeze well, but few supermarkets carry them — the guide compares sellers who list cuts by name.",
+        to: "/buy/where-to-buy-duck-online",
+        linkLabel: "Where to buy duck online",
+      },
     ],
+    linksInModuleOnly: true,
     sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
   },
 
@@ -430,7 +437,9 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     equipment: [
       {
         label: "Roasting tin with a rack",
-        why: "The bird must sit above the fat it releases, or the underside braises instead of roasting.",
+        why: "The bird must sit above the fat it releases, or the underside braises instead of roasting — and the tin has to hold a lot of rendered fat without warping at 450°F.",
+        to: "/gear/best-roasting-pan-for-duck",
+        linkLabel: "Roasting pan buying guide",
       },
       {
         label: "Instant-read thermometer",
@@ -561,6 +570,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         linkLabel: "Where to buy duck online",
       },
     ],
+    linksInModuleOnly: true,
     sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
   },
 
