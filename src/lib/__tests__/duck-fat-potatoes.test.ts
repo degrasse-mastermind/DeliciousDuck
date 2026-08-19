@@ -53,6 +53,16 @@ describe("duck fat roasted potatoes: registration", () => {
     }
   });
 
+  it("keeps the single-H1 structure and the metadata/schema wiring intact", () => {
+    // Only ArticleShell renders the page H1; every in-body block is h2/h3.
+    expect(ROUTE.match(/<h1/g)).toHaveLength(1); // the not-found component only
+    expect(ROUTE).toContain("Recipe: Step by Step | DeliciousDuck");
+    expect(ROUTE).toContain("description: recipe.description");
+    expect(ROUTE).toContain("recipeSchema({");
+    expect(ROUTE).toContain("breadcrumbSchema([");
+    expect(ROUTE).toContain("faqSchema(content.faq)");
+  });
+
   it("has complete, schema-ready recipe data", () => {
     expect(recipe!.prepTimeMinutes).toBeGreaterThan(0);
     expect(recipe!.cookTimeMinutes).toBeGreaterThan(0);
