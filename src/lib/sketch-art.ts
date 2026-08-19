@@ -178,6 +178,9 @@ const BY_PATH: Record<string, SketchKey> = {
   "/buy/how-much-duck-per-person": "wholeRoastDuck",
   "/buy/fresh-vs-frozen-duck": "thawing",
   "/buy/how-to-choose-duck": "buyingDuck",
+  // Bound explicitly: keyword rules would reach for the generic buying drawing
+  // or the pan, and this page is about package formats and portion weight.
+  "/buy/where-to-buy-duck-breast-online": "duckBreastPackages",
 
 
   "/gear": "gearFlatlay",
