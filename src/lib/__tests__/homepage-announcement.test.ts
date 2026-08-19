@@ -115,6 +115,7 @@ describe("homepage seasonal announcement", () => {
     expect(hubSource).toContain("thanksgiving-duck-dinner");
     expect(hubSource).toContain("data-print");
     expect(stylesSource).toContain("[data-print-hide]");
-    expect(sourcingSource).toContain("breast_sourcing_to_pan_guide");
+    expect(sourcingSource).toContain("/buy/where-to-buy-duck-breast-online");
+    expect(allConversionPlacementIds()).toContain("breast_sourcing_to_pan_guide");
   });
 });

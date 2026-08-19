@@ -6,7 +6,8 @@ import { trackConversionPathClick } from "@/lib/analytics";
 
 /**
  * HomeAnnouncement — the seasonal editorial strip between the global header and
- * the homepage hero. Homepage only, never sticky, never dismissible.
+ * the homepage hero. Homepage only, in normal document flow, with no close
+ * control: it is a deliberate seasonal feature.
  *
  * One semantic anchor (the CTA), no nested interactive elements, and the
  * illustration is purely decorative so it adds no screen-reader content. Clicks
