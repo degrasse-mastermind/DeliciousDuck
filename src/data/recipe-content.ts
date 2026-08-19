@@ -30,6 +30,13 @@ export interface RecipeContent {
   before: { heading: string; body: string }[];
   steps: RecipeStep[];
   temperatures: { caption: string; columns: string[]; rows: string[][] };
+  /**
+   * Callout under the timings table. Meat recipes inherit the default
+   * thermometer-led wording; recipes with no internal target temperature (a
+   * vegetable side, say) supply their own, so no page tells a reader to probe
+   * something that has no doneness temperature.
+   */
+  verifyNote?: { label: string; body: string };
   quackFix: { symptom: string; cause: string; fixNow: string; prevent: string }[];
   leftovers: { part: string; use: string; to?: string; linkLabel?: string }[];
   faq: { q: string; a: string }[];
@@ -1060,6 +1067,10 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         ["First roast", "220°C / 425°F", "25 min", "Undersides set and releasing from the tray"],
         ["After turning", "220°C / 425°F", "20–30 min", "Deep golden on two or three faces, hollow-sounding"],
       ],
+    },
+    verifyNote: {
+      label: "Go by the potatoes, not the clock",
+      body: "Every number here is a starting range. Most home ovens run 10–15°C / 20–25°F off their dial, and a heavy metal tray, a thin one, or a crowded one will all brown at different rates — so read the tray rather than the timer. Cut to a consistent 4–5 cm and expect smaller pieces to finish sooner. They are ready when the crust is deep golden on two or three faces, the undersides lift off the metal without tearing, and a skewer slides through the centre with no resistance. If they stick, they need more time, not more force.",
     },
     quackFix: [
       {
