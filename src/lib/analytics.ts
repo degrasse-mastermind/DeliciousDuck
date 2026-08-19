@@ -391,6 +391,19 @@ export function trackStarterGuidePrint(params: { path: string }): void {
   });
 }
 
+/**
+ * User printed a page's planning checklist. Same shape as the Starter Guide
+ * print event plus the stable placement of the control. No PII.
+ */
+export function trackPlanPrint(params: { placement: string; path: string }): void {
+  trackEvent(ANALYTICS_EVENTS.planPrint, {
+    page_path: params.path,
+    content_slug: contentSlugFromPath(params.path),
+    placement: params.placement,
+  });
+}
+
+
 /* ------------------------------------------------------------------ *
  * Duck-breast cluster wayfinding
  * ------------------------------------------------------------------ */
