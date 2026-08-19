@@ -463,6 +463,7 @@ export function allConversionPlacementIds(): string[] {
       );
     }),
     ...duckFatDecisionPlacementIds(),
+    ...homepagePlacementIds(),
   ];
 }
 
