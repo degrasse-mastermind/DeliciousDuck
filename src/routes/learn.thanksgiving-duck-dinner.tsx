@@ -95,9 +95,8 @@ function Page() {
       title={GUIDE.title}
       intro={GUIDE.teaser}
       trail={[
-        { label: "Home", to: "/" },
-        { label: "Learn", to: "/learn" },
-        { label: GUIDE.title },
+        { name: "Learn", to: "/learn" },
+        { name: GUIDE.title, to: GUIDE.path },
       ]}
       meta={`${GUIDE.minutes} min read`}
     >
