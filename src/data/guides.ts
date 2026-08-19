@@ -569,7 +569,8 @@ export const GUIDES: GuideEntry[] = [
     kind: "reference",
     minutes: 10,
     related: [
-      "/learn/thanksgiving-duck-dinner",
+      // The hub gets one intentional tracked link in the article body instead,
+      // so the related-guides band does not offer it a second, untracked time.
       "/cook/whole-roast-duck",
       "/tools/whole-duck-serving-calculator",
       "/learn/whole-duck-cooking-time",
