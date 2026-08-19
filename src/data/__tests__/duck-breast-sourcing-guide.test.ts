@@ -220,7 +220,7 @@ describe("illustration", () => {
   it("restricts companion art to drawings that fit the page", () => {
     const rotation = sketchRotationForPath(PATH).map((a) => a.src);
     expect(rotation[0]).toBe(SKETCH.duckBreastPackages.src);
-    expect(rotation).not.toContain(SKETCH.duckFatJar?.src);
+    expect(rotation).not.toContain(SKETCH.duckFat.src);
   });
 });
 
