@@ -217,7 +217,7 @@ const THANKSGIVING_PLAN_HUB: AcquisitionPageMeta = {
     "Menu logic from our own pairing and ingredient guides: acidity, tart fruit, bitter leaves, savoury accents, and restrained sweetness against rich dark meat.",
   ],
   evidenceBasis:
-    "USDA temperature, thawing, stuffing, and storage guidance, plus our own stated planning assumptions for serving numbers and oven scheduling. Holiday duck pricing and availability vary by region and season, so check your own sellers.",
+    "Primary food-safety guidance for temperature, thawing, stuffing, and storage, plus our own stated planning assumptions for serving numbers and oven scheduling. Holiday duck pricing and availability vary by region and season, so check your own sellers.",
   sourceIds: [
     "usdaPoultryTemp",
     "usdaPoultryPrep",
