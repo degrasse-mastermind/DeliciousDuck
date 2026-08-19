@@ -758,6 +758,17 @@ function Page() {
           </Link>{" "}
           guide is a framework for judging them, not a price list.
         </p>
+        <p>
+          If duck is the call, the planning is a separate job: order date, thaw schedule, a
+          single-oven order of play, and a menu built against the richness. That all lives in our{" "}
+          <Link
+            to="/learn/thanksgiving-duck-dinner"
+            className="text-primary underline underline-offset-4"
+          >
+            Thanksgiving duck dinner plan
+          </Link>
+          .
+        </p>
       </Section>
 
       <ArticleBasis page={PAGE} />
