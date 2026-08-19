@@ -33,20 +33,21 @@ export function HomeAnnouncement({
             src={art.src}
             alt=""
             aria-hidden="true"
-            width={96}
-            height={96}
+            width={192}
+            height={128}
             loading="lazy"
             decoding="async"
-            className="hidden size-14 shrink-0 rounded-sm object-cover object-center ring-1 ring-forest-foreground/20 sm:block"
+            className="hidden h-16 w-24 shrink-0 rounded-sm object-cover object-[42%_46%] sm:block lg:h-[4.5rem] lg:w-28"
           />
           <p className="min-w-0">
             <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-cranberry">
               {announcement.eyebrow}
             </span>
-            <span className="mt-1 block font-display text-lg leading-snug text-forest-foreground">
+            <span className="mt-1 block font-display text-lg font-medium leading-snug text-cream lg:text-xl">
               {announcement.message}
             </span>
           </p>
+
         </div>
 
         <Link
