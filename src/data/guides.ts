@@ -332,6 +332,7 @@ export const GUIDES: GuideEntry[] = [
     kind: "money",
     minutes: 11,
     related: [
+      "/buy/where-to-buy-duck-breast-online",
       "/buy/what-cut-of-duck-to-buy",
       "/buy/fresh-vs-frozen-duck",
       "/buy/how-to-choose-duck",
@@ -342,6 +343,28 @@ export const GUIDES: GuideEntry[] = [
       "/gear/best-thermometer-for-duck",
     ],
 
+  },
+  {
+    path: "/buy/where-to-buy-duck-breast-online",
+    title: "Where to Buy Duck Breast Online",
+    seoTitle: "Where to Buy Duck Breast Online: Formats, Weights & Sellers | DeliciousDuck",
+    description:
+      "How to buy duck breast online: skin-on formats, Pekin versus Moulard magret, portion weights, pack counts, frozen versus fresh, arrival checks, and which seller suits your cook.",
+    teaser: "Formats, weights and arrival checks — then the seller that fits your cook.",
+    pillar: "buy",
+    cluster: "commerce",
+    kind: "money",
+    minutes: 12,
+    related: [
+      "/buy/where-to-buy-duck-online",
+      "/recipes/pan-seared-duck-breast",
+      "/cook/how-to-cook-duck-breast",
+      "/learn/duck-breast-temperature-doneness",
+      "/gear/best-pan-for-duck-breast",
+      "/gear/best-thermometer-for-duck",
+      "/buy/fresh-vs-frozen-duck",
+      "/learn/how-to-thaw-duck",
+    ],
   },
   {
     path: "/gear/best-thermometer-for-duck",
