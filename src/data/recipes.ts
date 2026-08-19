@@ -13,6 +13,12 @@ export interface Recipe {
   name: string;
   description: string;
   image: string;
+  /**
+   * Honest alt text for the recipe photograph. Set it whenever the image is a
+   * related dish rather than a photograph of this exact finished plate, so the
+   * caption never implies a picture we do not have.
+   */
+  imageAlt?: string;
   category: string;
   cuisine?: string;
   prepTimeMinutes: number;
@@ -79,6 +85,24 @@ export const RECIPES: Recipe[] = [
     recipeYield: "2 servings",
     difficulty: "Easy",
     keyTechnique: "Cold-pan rendering",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "duck-a-lorange",
+    name: "Duck \u00e0 l\u2019Orange",
+    description:
+      "A whole duck roasted in two stages, served with a bitter-orange gastrique built from the pan drippings \u2014 sharp and glossy rather than sweet.",
+    image: wholeRoast,
+    imageAlt:
+      "A whole roast duck with deeply browned, rendered skin \u2014 the base this recipe finishes with orange gastrique",
+    category: "Whole duck",
+    cuisine: "French",
+    prepTimeMinutes: 30,
+    cookTimeMinutes: 150,
+    recipeYield: "4 servings",
+    difficulty: "Intermediate",
+    keyTechnique: "Two-stage roasting with a caramel gastrique",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },

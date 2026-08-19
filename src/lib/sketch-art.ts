@@ -204,6 +204,9 @@ const BY_PATH: Record<string, SketchKey> = {
   "/recipes/pan-seared-duck-breast": "duckBreastPan",
   "/recipes/duck-leg-confit": "confit",
   "/recipes/roasted-whole-duck": "wholeRoastDuck",
+  // Bound explicitly: the keyword rules would match "orange" and reach for the
+  // fruit still life, but this page is a whole roast bird with a sauce.
+  "/recipes/duck-a-lorange": "wholeRoastDuck",
   "/recipes/duck-fat-potatoes": "duckFat",
 
   "/guides/duck-cooking-starter-guide": "ducksFlight",

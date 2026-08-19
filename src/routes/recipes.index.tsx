@@ -10,7 +10,7 @@ export const Route = createFileRoute("/recipes/")({
     ...pageMeta({
       title: "Duck Recipes: Step-by-Step, Thermometer-Led | DeliciousDuck",
       description:
-        "Full duck recipes with ingredients, step-by-step method, target temperatures, troubleshooting, and what to do with the fat: pan-seared breast, confit, whole roast, and smoked duck.",
+        "Full duck recipes with ingredients, step-by-step method, target temperatures, troubleshooting, and what to do with the fat: duck à l’orange, pan-seared breast, confit, whole roast, and smoked duck.",
       path: "/recipes",
     }),
     scripts: [
@@ -37,12 +37,12 @@ function RecipesIndex() {
       <PageHeader
         eyebrow="Recipes"
         title="Duck Recipes"
-        intro="Four complete recipes, each written around the variable that actually decides the outcome: how the fat renders and where you pull the meat. Ingredients, method, temperatures, and the fixes for when it goes sideways."
+        intro="Complete recipes, each written around the variable that actually decides the outcome: how the fat renders and where you pull the meat. Ingredients, method, temperatures, and the fixes for when it goes sideways."
         trail={[{ name: "Recipes", to: "/recipes" }]}
       />
 
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
-        <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {RECIPES.map((recipe, index) => (
             <RecipeCard key={recipe.slug} recipe={recipe} priority={index < 2} />
           ))}

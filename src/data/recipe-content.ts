@@ -722,6 +722,219 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     ],
     sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
   },
+  "duck-a-lorange": {
+    slug: "duck-a-lorange",
+    intro:
+      "Duck à l'orange earned its reputation twice: once as the best thing a bitter orange can do to a rich bird, and once as a sticky, sweet parody of itself. The difference is the sauce. Build it as a gastrique — sugar taken to a proper caramel, then stopped with vinegar and citrus juice — and it stays sharp, glossy and savoury enough to cut a whole roast duck. Everything else is the two-stage roast: render low, brown hot, sauce at the end.",
+    confidence: {
+      cut: "Whole duck, 2–2.7 kg (4.5–6 lb)",
+      biggestRisk: "A sauce that turns into marmalade — too much sugar, not enough acid",
+      essentialTechnique: "Low render, hot finish, gastrique built on the drippings",
+      targetResult: "Thigh at 175–185°F (79–85°C), mahogany skin, a sauce that coats a spoon",
+      essentialTool: "An instant-read thermometer and a heavy saucepan",
+      saveAfterwards: "Rendered fat for potatoes, carcass for stock, orange zest strips for the sauce",
+    },
+    ingredientGroups: [
+      {
+        heading: "For the duck",
+        items: [
+          "1 whole duck, 2–2.7 kg (4.5–6 lb), giblets removed and reserved",
+          "2 tsp fine sea salt",
+          "1 tsp cracked black pepper",
+          "1 orange, halved, plus 2 bay leaves for the cavity",
+        ],
+      },
+      {
+        heading: "For the orange gastrique",
+        items: [
+          "Zest of 2 oranges, removed in wide strips with no white pith",
+          "300 ml (1¼ cups) fresh orange juice, from about 4 oranges",
+          "60 g (¼ cup) caster or granulated sugar",
+          "60 ml (¼ cup) red wine vinegar",
+          "250 ml (1 cup) duck or chicken stock",
+          "1 tbsp Seville orange marmalade or 2 tsp lemon juice, to sharpen at the end",
+          "15 g (1 tbsp) cold unsalted butter",
+          "Salt, to taste",
+        ],
+      },
+      {
+        heading: "Optional garnish",
+        items: [
+          "1 orange, peeled and cut into segments, pith removed",
+          "A few sprigs thyme",
+        ],
+      },
+    ],
+    equipment: [
+      {
+        label: "Instant-read thermometer",
+        why: "The legs and the breast finish 40°F apart on the same bird. A probe is the only way to know which one is holding you up.",
+        to: "/gear/best-thermometer-for-duck",
+        linkLabel: "Thermometer buying guide",
+      },
+      {
+        label: "Roasting tin with a rack",
+        why: "The duck has to sit above the fat it renders, and the tin has to leave air on all four sides or the skin steams instead of browning.",
+        to: "/gear/best-roasting-pan-for-duck",
+        linkLabel: "Roasting pan buying guide",
+      },
+      {
+        label: "Heavy-based saucepan",
+        why: "Caramel scorches in thin pans. A heavy base gives you a few seconds of margin between amber and burnt.",
+      },
+    ],
+    before: [
+      {
+        heading: "Dry the skin, ideally overnight",
+        body: "Pat the bird dry inside and out, salt the skin, and leave it uncovered on a rack in the fridge overnight. Nothing else you do matters as much for the finish: a damp skin spends its first half-hour evaporating water instead of rendering fat.",
+      },
+      {
+        heading: "Prick the fat, don't cut it",
+        body: "Angle a skewer or the tip of a sharp knife into the breast sides, thighs and tail fat pad. You want channels for fat to drain, not openings for juice to leak.",
+      },
+      {
+        heading: "Zest before you juice",
+        body: "Take the zest off in wide strips while the oranges are still whole, avoiding the white pith. Pith is where the harsh bitterness lives; the coloured skin is where the aromatic bitterness you want lives.",
+      },
+      {
+        heading: "Plan the timing",
+        body: "Work out the roast window from the bird's weight before you start, and decide how much duck you actually need if you are buying for a table.",
+      },
+    ],
+    steps: [
+      {
+        title: "Season and fill the cavity",
+        body: "Salt the skin and cavity, then put the halved orange and bay leaves inside. Aromatics only — a packed cavity slows the roast and soaks up the fat you are trying to render out.",
+      },
+      {
+        title: "Stage one: render low, breast-side up",
+        body: "Roast at 300–325°F (150–165°C) for roughly 60–90 minutes depending on weight, on a rack over a tin. Fat should collect steadily rather than spit.",
+        watchFor: "Pour the fat off into a heatproof bowl every 30 minutes. A deep pool in the tin smokes later and steams the underside now.",
+      },
+      {
+        title: "Make the gastrique while the duck renders",
+        body: "Melt the sugar in the dry saucepan over medium heat, without stirring, until it turns a deep amber caramel. Stand back and pour in the vinegar — it will seize and spit — then the orange juice and zest strips. Simmer until the caramel dissolves, add the stock, and reduce to roughly 250 ml (1 cup). Set aside off the heat.",
+        watchFor: "Pale caramel gives a flat, sweet sauce. Take it to the colour of dark honey, one shade before it smells acrid.",
+      },
+      {
+        title: "Check the legs before you brown",
+        body: "Probe the thickest part of a thigh, avoiding bone. The legs should be heading for 175–185°F (79–85°C), where the connective tissue has broken down and the meat gives easily. If they are lagging, extend the low stage rather than rushing the hot one.",
+      },
+      {
+        title: "Stage two: brown hot and fast",
+        body: "Raise the oven to 425–450°F (220–230°C) for 15–25 minutes until the skin is deep mahogany and tight. Do not brush the sauce on the bird — the sugar in it will burn at this heat and you will lose both the skin and the sauce.",
+        watchFor: "Stay in the kitchen. The gap between burnished and bitter is a few minutes at this temperature.",
+      },
+      {
+        title: "Rest the duck, finish the sauce",
+        body: "Rest the bird 15–20 minutes, loosely tented. Spoon a tablespoon of the tin drippings into the gastrique, reduce until it coats a spoon, then taste: it should read sharp first and sweet second. Sharpen with marmalade or lemon juice, whisk in the cold butter off the heat, and season.",
+        watchFor: "If it tastes like dessert, add vinegar or lemon in half-teaspoons until the edge comes back.",
+      },
+      {
+        title: "Carve and sauce the plate",
+        body: "Take the legs off at the joint, lift the breasts off the crown whole, then slice them across the grain. Spoon the sauce onto the plate and set the duck on top — sauce over the skin undoes twenty minutes of browning. Scatter orange segments and thyme if you are using them.",
+      },
+    ],
+    temperatures: {
+      caption: "Target temperatures and stages",
+      columns: ["Stage or part", "Target", "Why"],
+      rows: [
+        ["Low render", "300–325°F (150–165°C), 60–90 min", "Fat melts out before the skin sets"],
+        ["Hot finish", "425–450°F (220–230°C), 15–25 min", "Skin tightens and browns"],
+        ["Thigh / leg", "175–185°F (79–85°C)", "Connective tissue breaks down; the meat gives"],
+        ["Breast (culinary)", "135–145°F (57–63°C)", "Juicy; commonly served slightly pink"],
+        ["USDA recommendation", "165°F (73.9°C) throughout", "Food-safety minimum for all poultry"],
+        ["Rest", "15–20 minutes", "Juices redistribute; several degrees of carryover"],
+      ],
+    },
+    quackFix: [
+      {
+        symptom: "The sauce tastes like marmalade",
+        cause: "Too much sugar, under-caramelised, or not enough acid to balance it.",
+        fixNow: "Add red wine vinegar or lemon juice half a teaspoon at a time, reducing briefly between additions, until the sharpness leads.",
+        prevent: "Take the caramel to dark honey, keep the juice fresh rather than from concentrate, and taste before the butter goes in.",
+      },
+      {
+        symptom: "The sauce is bitter in a harsh, chemical way",
+        cause: "White pith went in with the zest, or the caramel went past amber into burnt.",
+        fixNow: "Strain out the zest, then soften what's left with a spoonful of stock and a little marmalade.",
+        prevent: "Peel wide strips with no pith, and pull the caramel one shade early.",
+      },
+      {
+        symptom: "Skin is pale and soft",
+        cause: "The bird went in damp, or the hot stage was cut short.",
+        fixNow: "Return it to a 450°F (230°C) oven for up to 10 minutes, watching closely.",
+        prevent: "Dry the skin uncovered in the fridge overnight and commit to the full hot finish.",
+      },
+      {
+        symptom: "Breast is dry by the time the legs are tender",
+        cause: "The roast ran too hot, so the breast overshot while the legs caught up.",
+        fixNow: "Slice the breast thin and serve it generously sauced.",
+        prevent: "Keep the low stage low, shield the breast with foil if it runs ahead, and probe both parts.",
+      },
+    ],
+    leftovers: [
+      {
+        part: "Rendered fat",
+        use: "Strain and jar it. A whole duck usually gives you several hundred millilitres, and it is the best roasting fat in the kitchen.",
+        to: "/cook/ways-to-use-duck-fat",
+        linkLabel: "Fifteen uses for duck fat",
+      },
+      {
+        part: "Carcass and giblets",
+        use: "Brown them and simmer with aromatics for a stock richer than chicken — the base for next time's sauce.",
+      },
+      {
+        part: "Leftover gastrique",
+        use: "Keeps a week refrigerated. Warm it gently for cold sliced duck, pork, or roast carrots.",
+      },
+      {
+        part: "Picked meat",
+        use: "Duck and orange salad with bitter leaves, or a quick ragù.",
+      },
+    ],
+    faq: [
+      {
+        q: "What is a gastrique, and why use one for duck à l'orange?",
+        a: "A gastrique is caramelised sugar stopped with vinegar, then built out with juice and stock. It gives you the sweetness of the classic sauce with a sharp backbone, which is what keeps it from sliding into marmalade against a rich bird.",
+      },
+      {
+        q: "Can I make this with duck breasts instead of a whole duck?",
+        a: "Yes. Render the breasts skin-side down in a cold pan, pull them at 130–135°F (54–57°C) for rosy, and make the gastrique separately, finishing it with a spoonful of the rendered fat rather than tin drippings.",
+      },
+      {
+        q: "Which oranges work best?",
+        a: "Seville or other bitter oranges are the traditional choice and need less vinegar. With ordinary sweet oranges, keep the vinegar as written and sharpen at the end with marmalade or lemon juice.",
+      },
+      {
+        q: "Can I make the sauce ahead?",
+        a: "Make it up to two days ahead through the stock reduction and refrigerate it. Add the drippings, final sharpening and cold butter while the duck rests.",
+      },
+      {
+        q: "Should I glaze the duck with the sauce?",
+        a: "No. The sugar in the sauce burns at browning temperatures. Sauce the plate, not the bird.",
+      },
+    ],
+    related: [
+      "/cook/whole-roast-duck",
+      "/ingredients/orange-with-duck",
+      "/cook/best-sauces-for-duck-breast",
+      "/learn/whole-duck-cooking-time",
+      "/learn/how-to-carve-a-duck",
+      "/tools/duck-cooking-time-planner",
+      "/tools/whole-duck-serving-calculator",
+    ],
+    sourcing: [
+      {
+        label: "Buying a whole duck",
+        why: "Most whole ducks are Pekin and sold frozen, so allow 24–48 hours in the fridge to thaw and check the weight against your tin.",
+        to: "/buy/where-to-buy-duck-online",
+        linkLabel: "Where to buy duck online",
+      },
+    ],
+    sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
+  },
+
 };
 
 export const recipeBySlug = (slug: string): Recipe | undefined =>

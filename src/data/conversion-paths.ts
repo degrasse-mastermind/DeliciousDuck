@@ -411,6 +411,7 @@ export function recipePlacementId(
 /** Recipe slugs that render the contextual equipment/sourcing pathway. */
 export const RECIPE_CONVERSION_SLUGS = [
   "pan-seared-duck-breast",
+  "duck-a-lorange",
   "roasted-whole-duck",
   "duck-leg-confit",
 ] as const;
