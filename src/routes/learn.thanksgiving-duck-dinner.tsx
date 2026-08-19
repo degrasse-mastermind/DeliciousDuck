@@ -378,21 +378,25 @@ function Page() {
 
       <ArticleBasis page={PAGE} />
 
-      <DecisionNextSteps
+      <div data-print-hide>
+        <DecisionNextSteps
         heading="Next steps"
         intro="Bird count first, then the order date, then the oven."
-        items={PAGE.funnel}
-      />
+          items={PAGE.funnel}
+        />
+      </div>
 
       <FaqList items={FAQ} />
 
       <SourceNotes ids={PAGE.sourceIds} />
 
-      <div className="mt-16">
+      <div data-print-hide className="mt-16">
         <NewsletterSignup id="thanksgiving_duck_dinner_hub" interest="whole-duck" />
       </div>
 
-      <RelatedGuides paths={GUIDE.related} />
+      <div data-print-hide>
+        <RelatedGuides paths={GUIDE.related} />
+      </div>
     </ArticleShell>
   );
 }
