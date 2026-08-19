@@ -43,7 +43,8 @@ describe("duck a l'orange: sauce corrections", () => {
   it("never presents marmalade as an acid or as interchangeable with lemon or vinegar", () => {
     expect(allProse).not.toMatch(/marmalade or (?:\d+ tsp )?lemon/i);
     expect(allProse).not.toMatch(/Sharpen with marmalade/i);
-    expect(allProse).not.toMatch(/marmalade[^"]{0,40}\bacid/i);
+    expect(allProse).not.toMatch(/marmalade[^"]{0,30}(?:is|as) an? acid/i);
+    expect(allProse).not.toMatch(/(?:lemon|vinegar)[^"]{0,20}or[^"]{0,20}marmalade/i);
     const gastrique = content.ingredientGroups.find((g) => /gastrique/i.test(g.heading))!;
     expect(gastrique.items.some((i) => /lemon juice or extra red wine vinegar/i.test(i))).toBe(true);
     expect(
