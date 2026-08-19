@@ -87,6 +87,12 @@ function LearnPage() {
             >
               Duck vs. turkey
             </Link>
+            <Link
+              to="/learn/thanksgiving-duck-dinner"
+              className="underline-offset-4 hover:underline"
+            >
+              Thanksgiving duck plan
+            </Link>
 
             <Link to="/tools/duck-doneness-guide" className="underline-offset-4 hover:underline">
               Doneness guide
