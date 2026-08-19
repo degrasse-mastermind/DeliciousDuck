@@ -41,7 +41,7 @@ export function HomeAnnouncement({
               height={182}
               loading="lazy"
               decoding="async"
-              className="absolute left-[-33%] top-[-25%] w-[203%] max-w-none"
+              className="absolute left-[-48%] top-[-25%] w-[203%] max-w-none"
             />
           </span>
 
