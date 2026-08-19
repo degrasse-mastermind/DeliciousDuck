@@ -235,9 +235,9 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     sourcing: [
       {
         label: "Buying duck breast",
-        why: "Breast weights vary widely between suppliers, so render to the look of the fat cap and check temperature rather than following a fixed time.",
-        to: "/buy/where-to-buy-duck-online",
-        linkLabel: "Where to buy duck online",
+        why: "Breast weights vary widely between suppliers, so render to the look of the fat cap and check temperature rather than following a fixed time. The cut-specific guide covers formats, weights, and what to check when the box arrives.",
+        to: "/buy/where-to-buy-duck-breast-online",
+        linkLabel: "Where to buy duck breast online",
       },
     ],
     sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
