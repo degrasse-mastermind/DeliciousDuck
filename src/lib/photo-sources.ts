@@ -81,10 +81,16 @@ export const PHOTO_SIZES = {
   hero: "(min-width: 1024px) 700px, 100vw",
   /** Three-up card grid. */
   card: "(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw",
-  /** Pillar tile grid. */
-  tile: "(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw",
-  /** Featured pillar tile, which spans most or all of the grid. */
-  tileFeatured: "(min-width: 1024px) 1100px, 100vw",
+  /**
+   * Pillar tiles, keyed by how many columns of the three-up grid they occupy.
+   * A tile that spans two or three columns needs the large variant; a single
+   * column does not.
+   */
+  tileSpan: {
+    1: "(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw",
+    2: "(min-width: 1024px) 740px, 100vw",
+    3: "(min-width: 1024px) 1120px, 100vw",
+  } as Record<1 | 2 | 3, string>,
 } as const;
 
 /** Every photo variant is generated at this single ratio. */

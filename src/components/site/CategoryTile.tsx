@@ -3,7 +3,16 @@ import { ArrowRight } from "lucide-react";
 import type { Pillar } from "@/data/site";
 import { photoSrcSet, PHOTO_SIZES } from "@/lib/photo-sources";
 
-export function CategoryTile({ pillar, featured = false }: { pillar: Pillar; featured?: boolean }) {
+export function CategoryTile({
+  pillar,
+  featured = false,
+  span = 1,
+}: {
+  pillar: Pillar;
+  featured?: boolean;
+  /** Columns the tile occupies in the pillar grid; drives the `sizes` hint. */
+  span?: 1 | 2 | 3;
+}) {
   // Tiles fill their frame rather than sitting at the shared 4:3, so they take
   // the responsive sources directly instead of going through <Photograph>.
   const srcSet = photoSrcSet(pillar.image);
@@ -18,7 +27,7 @@ export function CategoryTile({ pillar, featured = false }: { pillar: Pillar; fea
       <img
         src={pillar.image}
         {...(srcSet
-          ? { srcSet, sizes: featured ? PHOTO_SIZES.tileFeatured : PHOTO_SIZES.tile }
+          ? { srcSet, sizes: PHOTO_SIZES.tileSpan[span] }
           : {})}
         alt=""
         aria-hidden="true"

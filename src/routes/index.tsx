@@ -118,7 +118,11 @@ function JourneySection() {
             key={pillar.key}
             className={i === 0 ? "lg:col-span-2" : i === 5 ? "lg:col-span-3" : undefined}
           >
-            <CategoryTile pillar={pillar} featured={i === 0} />
+            <CategoryTile
+              pillar={pillar}
+              featured={i === 0}
+              span={i === 0 ? 2 : i === 5 ? 3 : 1}
+            />
           </div>
         ))}
       </div>
