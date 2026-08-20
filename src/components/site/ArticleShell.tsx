@@ -39,7 +39,7 @@ export function ArticleShell({
       )}
       <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         {sidebar ? (
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_23rem] lg:gap-16">
             <article className="min-w-0 max-w-[46rem]">
               <SketchAutoLayout column="narrow" disabled={!autoSketch}>
                 {children}
@@ -48,7 +48,7 @@ export function ArticleShell({
             <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">{sidebar}</aside>
           </div>
         ) : (
-          <article className="mx-auto max-w-[46rem]">
+          <article className="max-w-[46rem]">
             <SketchAutoLayout column="wide" disabled={!autoSketch}>
               {children}
             </SketchAutoLayout>
