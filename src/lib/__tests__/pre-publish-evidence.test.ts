@@ -83,8 +83,9 @@ describe("conversion_module_view coverage", () => {
   for (const [label, placement, source] of required) {
     it(`instruments the ${label} exactly once`, () => {
       const key = placementKey(placement);
+      // `data-placement={...}` is a debugging attribute, not a registration.
       const refs = [
-        ...(source.match(/placement=\{MODULE_PLACEMENTS\.([A-Za-z]+)\}/g) ?? []),
+        ...(source.match(/(?<!data-)placement=\{MODULE_PLACEMENTS\.([A-Za-z]+)\}/g) ?? []),
         ...(source.match(/placement: MODULE_PLACEMENTS\.([A-Za-z]+)/g) ?? []),
       ].filter((m) => m.endsWith(key) || m.endsWith(`${key}}`));
       // Present, and registered exactly once: one impression per module.
@@ -125,7 +126,7 @@ describe("conversion_module_view coverage", () => {
     for (const source of [homeSource, recipeSource]) {
       const wrappers = (source.match(/<ModuleImpression/g) ?? []).length;
       const placements = new Set(
-        (source.match(/placement=\{MODULE_PLACEMENTS\.([A-Za-z]+)\}/g) ?? []),
+        source.match(/(?<!data-)placement=\{MODULE_PLACEMENTS\.([A-Za-z]+)\}/g) ?? [],
       );
       expect(wrappers).toBe(placements.size);
     }
