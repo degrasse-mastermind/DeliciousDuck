@@ -24,18 +24,16 @@ export function HomeAnnouncement({
       data-print-hide
       className="paper-grain border-b border-accent/30 bg-forest-deep"
     >
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:gap-6 lg:px-8">
-        <div className="flex min-w-0 flex-1 items-center gap-4">
-          <p className="min-w-0">
-            <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-cranberry">
-              {announcement.eyebrow}
-            </span>
-            <span className="mt-1 block font-display text-lg font-medium leading-snug text-forest-foreground lg:text-xl">
-              {announcement.message}
-            </span>
-          </p>
+      <div className="mx-auto flex max-w-4xl flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-center sm:gap-8 lg:px-8">
+        <p className="min-w-0 sm:text-right">
+          <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-cranberry">
+            {announcement.eyebrow}
+          </span>
+          <span className="mt-1 block font-display text-lg font-medium leading-snug text-forest-foreground lg:text-xl">
+            {announcement.message}
+          </span>
+        </p>
 
-        </div>
 
         <Link
           to={announcement.to}
