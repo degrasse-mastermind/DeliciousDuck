@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { HOME_ANNOUNCEMENT, type HomeAnnouncement } from "@/data/homepage-announcement";
-import { SKETCH } from "@/lib/sketch-art";
 import { trackConversionPathClick } from "@/lib/analytics";
 
 /**
