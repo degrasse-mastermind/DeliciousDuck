@@ -351,7 +351,7 @@ describe("QA exclusion behaviour", () => {
       moduleType: "intent_selector",
       destinationType: "internal",
     });
-    expect(built.params.source_path).toBe("/");
+    expect(built.params['source_path']).toBe("/");
     expect(JSON.stringify(built.params)).not.toContain("dd_qa");
   });
 
@@ -420,7 +420,7 @@ describe("newsletter form semantics", () => {
         sourcePath: "/",
         errorType: type,
       });
-      expect(built.params.error_type).toBe(type);
+      expect(built.params['error_type']).toBe(type);
       expect(Object.keys(built.params).sort()).toEqual([
         "content_slug",
         "content_type",
