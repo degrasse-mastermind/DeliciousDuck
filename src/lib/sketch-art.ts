@@ -222,14 +222,10 @@ const BY_PATH: Record<string, SketchKey> = {
   "/tools/duck-fat-substitution-calculator": "duckFat",
   "/tools/duck-pairing-finder": "fruitPairings",
 
+  // Recipe hub only. Individual recipes are photography-led by rule — see
+  // PHOTOGRAPHY_LED_PREFIXES below — so no drawing is bound to a recipe slug.
   "/recipes": "slicedBreast",
-  "/recipes/pan-seared-duck-breast": "duckBreastPan",
-  "/recipes/duck-leg-confit": "confit",
-  "/recipes/roasted-whole-duck": "wholeRoastDuck",
-  // Bound explicitly: the keyword rules would match "orange" and reach for the
-  // fruit still life, but this page is a whole roast bird with a sauce.
-  "/recipes/duck-a-lorange": "wholeRoastDuck",
-  "/recipes/duck-fat-roasted-potatoes": "duckFat",
+
 
   "/guides/duck-cooking-starter-guide": "ducksFlight",
   "/search": "ducksFlight",
