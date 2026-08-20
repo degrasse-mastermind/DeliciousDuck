@@ -17,6 +17,13 @@ export interface RecipeContent {
   slug: string;
   /** One-paragraph editorial intro under the H1. */
   intro: string;
+  /**
+   * Optional two-to-three sentence answer to the question the page is found
+   * for ("how do I cook this?"), placed above the recipe body. Every fact in
+   * it must already appear in the steps and temperature table below — it is a
+   * summary of this page, never a new claim.
+   */
+  answerFirst?: string;
   confidence: {
     cut: string;
     biggestRisk: string;
