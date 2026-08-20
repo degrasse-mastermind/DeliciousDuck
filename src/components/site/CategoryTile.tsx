@@ -17,14 +17,20 @@ export function CategoryTile({ pillar, featured = false }: { pillar: Pillar; fea
         loading="lazy"
         width={900}
         height={1100}
-        className="absolute inset-0 -z-10 size-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
+        className="absolute inset-0 -z-10 size-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
       />
       <span
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-gradient-to-t from-forest-deep via-forest-deep/60 to-forest-deep/10"
       />
       <div className="mt-auto flex w-full flex-col gap-2 p-6">
+        {/* Gold rule reveal on hover, matching the editorial grids. */}
+        <span
+          aria-hidden="true"
+          className="mb-1 block h-[2px] w-10 origin-left scale-x-0 bg-gold transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-visible:scale-x-100"
+        />
         <span className="eyebrow text-accent">{pillar.kicker}</span>
+
         <h3
           className={`font-display text-forest-foreground ${
             featured ? "text-4xl lg:text-5xl" : "text-3xl"
