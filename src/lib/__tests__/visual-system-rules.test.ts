@@ -74,9 +74,10 @@ describe("recipe card meta stats", () => {
   it("stacks Total / Serves / Level with generous tracking instead of one dense row", () => {
     const card = read("src/components/site/RecipeCard.tsx");
     expect(card).toContain("grid-cols-3");
-    expect(card).toContain("tracking-[0.16em]");
-    for (const label of ['label="Total"', 'label="Serves"', 'label="Level"']) {
+    expect(read("src/components/site/MetaStats.tsx")).toContain("tracking-[0.16em]");
+    for (const label of ['label: "Total"', 'label: "Serves"', 'label: "Level"']) {
       expect(card).toContain(label);
     }
   });
 });
+
