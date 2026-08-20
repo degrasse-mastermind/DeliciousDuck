@@ -117,7 +117,15 @@ export function Header() {
   );
 }
 
-function SearchField({ id = "site-search", onSubmit }: { id?: string; onSubmit?: () => void }) {
+function SearchField({
+  id = "site-search",
+  onSubmit,
+  autoFocus = false,
+}: {
+  id?: string;
+  onSubmit?: () => void;
+  autoFocus?: boolean;
+}) {
   return (
     <form
       role="search"
