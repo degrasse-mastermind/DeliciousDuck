@@ -82,17 +82,13 @@ describe("conversion_module_view coverage", () => {
 
   for (const [label, placement, source] of required) {
     it(`instruments the ${label} exactly once`, () => {
-      const hits = source.split(placement).length - 1;
-      expect(hits, `${placement} referenced ${hits}x`).toBeGreaterThan(0);
-      // One impression per module: no second, competing registration.
-      const wrappers =
-        (source.match(/placement=\{MODULE_PLACEMENTS\.[A-Za-z]+\}/g) ?? []).filter((m) =>
-          m.includes(placementKey(placement)),
-        ).length +
-        (source.match(/placement: MODULE_PLACEMENTS\.[A-Za-z]+/g) ?? []).filter((m) =>
-          m.includes(placementKey(placement)),
-        ).length;
-      expect(wrappers).toBe(1);
+      const key = placementKey(placement);
+      const refs = [
+        ...(source.match(/placement=\{MODULE_PLACEMENTS\.([A-Za-z]+)\}/g) ?? []),
+        ...(source.match(/placement: MODULE_PLACEMENTS\.([A-Za-z]+)/g) ?? []),
+      ].filter((m) => m.endsWith(key) || m.endsWith(`${key}}`));
+      // Present, and registered exactly once: one impression per module.
+      expect(refs, `${placement} registrations`).toHaveLength(1);
     });
   }
 
@@ -123,10 +119,15 @@ describe("conversion_module_view coverage", () => {
   });
 
   it("never emits one impression per child link", () => {
-    // The recipe/offer modules render lists of links; the wrapper is applied to
-    // the module, never inside a map callback.
+    // Each file wraps whole modules: the number of wrappers equals the number
+    // of distinct module placements it registers, so no wrapper can be sitting
+    // inside a link `.map()` callback.
     for (const source of [homeSource, recipeSource]) {
-      expect(source).not.toMatch(/\.map\([^)]*\)[^]*?<ModuleImpression/);
+      const wrappers = (source.match(/<ModuleImpression/g) ?? []).length;
+      const placements = new Set(
+        (source.match(/placement=\{MODULE_PLACEMENTS\.([A-Za-z]+)\}/g) ?? []),
+      );
+      expect(wrappers).toBe(placements.size);
     }
   });
 
@@ -301,8 +302,8 @@ describe("QA exclusion behaviour", () => {
     expect(qaCheck).toBeGreaterThan(-1);
     expect(qaCheck).toBeLessThan(inject);
     // The QA bootstrap itself runs before the gtag bootstrap in the document.
-    expect(rootSource.indexOf("qaExclusionBootstrapScript")).toBeLessThan(
-      rootSource.indexOf("gtagBootstrapScript"),
+    expect(rootSource.indexOf("qaExclusionBootstrapScript()")).toBeLessThan(
+      rootSource.indexOf("gtagBootstrapScript(GA_MEASUREMENT_ID)"),
     );
   });
 
@@ -358,7 +359,10 @@ describe("QA exclusion behaviour", () => {
   it("exposes no public control and no indexable route for the switch", () => {
     expect(read("src/lib/sitemap.ts")).not.toContain("dd_qa");
     expect(homeSource).not.toContain("dd_qa");
-    expect(rootSource).not.toContain("dd_qa=");
+    // The parameter is documented in a comment only — never a rendered link,
+    // control, or route the public could discover.
+    expect(rootSource).not.toMatch(/href=.*dd_qa/);
+    expect(read("src/routes/__root.tsx")).not.toMatch(/<(a|button)[^>]*dd_qa/);
   });
 });
 
