@@ -28,7 +28,7 @@ describe("hub section marks", () => {
     const registered = new Set(Object.keys(HUB_SECTION_MARKS));
     for (const route of HUB_ROUTES) {
       for (const m of readFileSync(route, "utf8").matchAll(/mark="([a-z-]+)"/g)) {
-        expect(registered.has(m[1])).toBe(true);
+        expect(registered.has(m[1] ?? "")).toBe(true);
       }
     }
   });
