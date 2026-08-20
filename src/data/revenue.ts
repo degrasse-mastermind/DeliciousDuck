@@ -94,14 +94,14 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
   {
     id: "sourcing-fossil-farms",
     merchantId: "fossil-farms",
-    name: "Duck collection across breeds, cuts and prepared products",
+    name: "Pekin duck collection — whole birds, breasts and legs",
     useCase: "Reader needs a specific duck type or an unusual cut",
-    directUrl: "https://www.fossilfarms.com/collections/duck",
+    directUrl: "https://www.fossilfarms.com/collections/pekin-duck-meat",
     status: "category-placeholder",
     lastVerified: "2026-08-18",
     editorialRelationship: "/buy/where-to-buy-duck-online (specialist option)",
     handsOn: "untested",
-    note: "No public affiliate program confirmed; direct and unpaid. Partnership prospect worth an outreach email.",
+    note: "Re-checked 2026-08-19: the combined duck landing page now 404s, so this points at the Pekin collection. No public affiliate program confirmed; direct and unpaid. Partnership prospect worth an outreach email.",
   },
   {
     id: "sourcing-wild-fork",
