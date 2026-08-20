@@ -45,6 +45,7 @@ function LearnPage() {
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
         <GuideCluster
           id="breast-fundamentals"
+          mark="learn-breast"
           eyebrow="Fundamentals"
           heading="Duck breast fundamentals"
           intro="Temperature, scoring, and the diagnostic guide for skin that refuses to crisp — the three things that decide a breast."
@@ -53,6 +54,7 @@ function LearnPage() {
 
         <GuideCluster
           id="whole-fundamentals"
+          mark="learn-whole"
           eyebrow="Planning & handling"
           heading="Whole duck: timing, carving & handling"
           intro="Planning a roast, verifying it, taking it apart, and thawing it safely in the first place."
@@ -61,6 +63,7 @@ function LearnPage() {
 
         <GuideCluster
           id="fat-fundamentals"
+          mark="learn-fat"
           eyebrow="By-products"
           heading="Duck fat"
           intro="The by-product that is arguably the best thing about cooking duck."
@@ -69,6 +72,7 @@ function LearnPage() {
 
         <GuideCluster
           id="wild-fundamentals"
+          mark="learn-wild"
           eyebrow="Game birds"
           heading="Wild duck"
           intro="Why techniques that work on a farmed Pekin can ruin a wild bird."
