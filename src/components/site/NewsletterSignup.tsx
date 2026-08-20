@@ -358,10 +358,17 @@ export function NewsletterSignup({
                   Email address
                 </label>
                 <input
+                  ref={emailRef}
                   id={`${id}-email`}
                   type="email"
                   name="email"
                   autoComplete="email"
+                  // Native semantics preserved: `type="email"` plus `required`
+                  // make the required/invalid state programmatically
+                  // determinable, while `noValidate` on the form keeps our own
+                  // accessible messaging (and the categorical error events).
+                  required
+                  aria-required="true"
                   maxLength={255}
                   value={email}
                   onChange={(e) => {
