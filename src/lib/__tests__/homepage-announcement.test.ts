@@ -78,19 +78,12 @@ describe("homepage seasonal announcement", () => {
     expect(routeSource).toContain('path: "/"');
   });
 
-  it("uses the stable Thanksgiving illustration decoratively, cropped for legibility", () => {
-    expect(bannerSource).toContain("SKETCH[announcement.art]");
-    expect(HOME_ANNOUNCEMENT.art).toBe("thanksgivingPlan");
-    expect(SKETCH.thanksgivingPlan.src).toBeTruthy();
-    expect(bannerSource).toContain('alt=""');
-    expect(bannerSource).toContain('aria-hidden="true"');
-    // Desktop presentation is at least 64px tall and intentionally reframed.
-    expect(bannerSource).toContain("h-16");
-    expect(bannerSource).toContain("w-[203%]");
+  it("is a text-and-CTA strip with no illustration", () => {
+    expect(bannerSource).not.toMatch(/<img|SKETCH/);
+    expect(bannerSource).not.toContain("art");
+    expect(HOME_ANNOUNCEMENT).not.toHaveProperty("art");
     // No floating-card treatment: no heavy ring, border or shadow.
     expect(bannerSource).not.toMatch(/ring-1|shadow-/);
-    // Hidden on narrow screens to keep the strip compact.
-    expect(bannerSource).toContain("hidden h-16 w-24");
     // The hub's descriptive alt text is never repeated on the homepage.
     expect(bannerSource).not.toContain(SKETCH.thanksgivingPlan.alt);
   });
