@@ -161,8 +161,8 @@ function PopularRecipes() {
 
 function ToolsSection() {
   return (
-    <section aria-labelledby="tools-heading" className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
-      <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
+    <section aria-labelledby="tools-heading" className="paper-grain border-y border-border bg-secondary/60">
+      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:px-8 lg:py-28">
         <div>
           <span className="eyebrow text-primary">Useful tools</span>
           <h2
