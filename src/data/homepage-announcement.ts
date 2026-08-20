@@ -8,7 +8,6 @@
  */
 
 import type { ConversionIntent } from "@/data/conversion-paths";
-import type { SketchKey } from "@/lib/sketch-art";
 
 export interface HomeAnnouncement {
   /** Stable analytics placement id, shared with the conversion registry. */
@@ -24,8 +23,6 @@ export interface HomeAnnouncement {
   /** Internal route only. */
   to: string;
   intent: ConversionIntent;
-  /** Existing local illustration used as a decorative crop. */
-  art: SketchKey;
 }
 
 export const HOME_ANNOUNCEMENT: HomeAnnouncement = {
@@ -36,7 +33,6 @@ export const HOME_ANNOUNCEMENT: HomeAnnouncement = {
   ctaAccessibleName: "Plan your Thanksgiving duck dinner",
   to: "/learn/thanksgiving-duck-dinner",
   intent: "technique_validation",
-  art: "thanksgivingPlan",
 };
 
 /** Every announcement placement id, for the shared registry and tests. */
