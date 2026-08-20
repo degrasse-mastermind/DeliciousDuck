@@ -176,6 +176,11 @@ export function SketchBackdrop({
           : {})}
         alt=""
         aria-hidden="true"
+        // Decorative and absolutely positioned, so it cannot shift layout —
+        // intrinsic dimensions are still declared so no image on the page is
+        // missing them.
+        width={SKETCH_DIMENSIONS.width}
+        height={SKETCH_DIMENSIONS.height}
         loading="lazy"
         fetchPriority="low"
         decoding="async"

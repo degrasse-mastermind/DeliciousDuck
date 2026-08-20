@@ -48,7 +48,19 @@ function Home() {
       <PopularRecipes />
       <ToolsSection />
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
-        <NewsletterSignup />
+        {/*
+          The Field Guide module is a conversion module as well as a newsletter
+          offer: `newsletter_offer_view` measures the funnel, while
+          `conversion_module_view` keeps the homepage module inventory complete
+          and comparable with the intent selector and the buying/gear module.
+        */}
+        <ModuleImpression
+          placement={MODULE_PLACEMENTS.homeNewsletterOffer}
+          moduleType="newsletter_offer"
+          destinationType="onsite_form"
+        >
+          <NewsletterSignup />
+        </ModuleImpression>
       </section>
       <Monetization />
     </>

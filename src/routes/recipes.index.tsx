@@ -11,7 +11,7 @@ export const Route = createFileRoute("/recipes/")({
     ...pageMeta({
       title: "Duck Recipes: Step-by-Step, Thermometer-Led | DeliciousDuck",
       description:
-        "Full duck recipes with ingredients, step-by-step method, target temperatures, troubleshooting, and what to do with the fat: duck à l’orange, pan-seared breast, confit, whole roast, and smoked duck.",
+        "Full duck recipes with method, target temperatures and troubleshooting: duck à l’orange, pan-seared breast, confit, whole roast duck and smoked duck.",
       path: "/recipes",
     }),
     scripts: [

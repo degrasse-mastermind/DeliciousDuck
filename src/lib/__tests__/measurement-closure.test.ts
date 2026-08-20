@@ -242,8 +242,10 @@ describe("instrumented surfaces", () => {
   });
 
   it("wraps the high-value homepage modules exactly once each", () => {
-    expect(homeSource.match(/<ModuleImpression/g)).toHaveLength(2);
+    // Intent selector, Field Guide offer, buying-and-gear cards.
+    expect(homeSource.match(/<ModuleImpression/g)).toHaveLength(3);
     expect(homeSource).toContain("MODULE_PLACEMENTS.homeIntentSelector");
+    expect(homeSource).toContain("MODULE_PLACEMENTS.homeNewsletterOffer");
     expect(homeSource).toContain("MODULE_PLACEMENTS.homeCommerceCards");
   });
 

@@ -9,6 +9,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const searchToggleRef = useRef<HTMLButtonElement>(null);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
 
   /**
    * The desktop search field expands in place rather than in a dialog, so it
@@ -22,8 +23,22 @@ export function Header() {
     requestAnimationFrame(() => searchToggleRef.current?.focus());
   }
 
+  /** Same contract for the phone menu: Escape closes it, focus returns. */
+  function closeMenu() {
+    setOpen(false);
+    requestAnimationFrame(() => menuToggleRef.current?.focus());
+  }
+
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header
+      // Escape closes the phone menu wherever focus sits — on the toggle
+      // itself, on a nav link, or in the menu's search field — and focus
+      // returns to the toggle, never to a removed element.
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && open) closeMenu();
+      }}
+      className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-5 lg:h-20 lg:gap-4 lg:px-8">
         <Link
           to="/"
@@ -87,6 +102,7 @@ export function Header() {
         </Link>
 
         <button
+          ref={menuToggleRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
@@ -115,7 +131,7 @@ export function Header() {
               ))}
             </ul>
             <div className="mt-4 space-y-3">
-              <SearchField id="mobile-search" onSubmit={() => setOpen(false)} />
+              <SearchField id="mobile-search" onSubmit={() => setOpen(false)} onDismiss={closeMenu} />
               <Link
                 to="/tools"
                 hash="starter-guide"
