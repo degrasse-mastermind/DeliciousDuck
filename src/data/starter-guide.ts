@@ -10,9 +10,9 @@ import { SITE_URL } from "./site";
 export const STARTER_GUIDE = {
   path: "/guides/duck-cooking-starter-guide",
   title: "The Duck Cooking Starter Guide",
-  seoTitle: "The Duck Cooking Starter Guide: Your First Duck, Step by Step | DeliciousDuck",
+  seoTitle: "Duck Cooking Starter Guide: Your First Duck | DeliciousDuck",
   description:
-    "A concise starter reference for cooking duck: how duck differs from chicken, which cut to start with, the five techniques that matter, USDA temperature guidance, and a first-duck shopping checklist.",
+    "A starter reference for cooking duck: how it differs from chicken, which cut to begin with, the five core techniques, safe temperatures and a shopping checklist.",
   teaser:
     "Everything a first-time duck cook needs on one page: cut chooser, five core techniques, temperatures, and a shopping checklist.",
   minutes: 9,

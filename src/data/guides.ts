@@ -201,7 +201,7 @@ export const GUIDES: GuideEntry[] = [
   {
     path: "/cook/what-to-serve-with-duck-breast",
     title: "What to Serve With Duck Breast",
-    seoTitle: "What to Serve With Duck Breast: Sides by Sauce & Season | DeliciousDuck",
+    seoTitle: "What to Serve With Duck Breast: Sides & Sauces | DeliciousDuck",
     description:
       "A pairing matrix for duck breast sides: starch, vegetable and acid choices matched to your sauce, the season, and whether it's a weeknight or a celebration.",
     teaser: "A side-dish matrix built from your sauce, your season and your occasion.",
@@ -452,7 +452,7 @@ export const GUIDES: GuideEntry[] = [
   {
     path: "/buy/where-to-buy-duck-breast-online",
     title: "Where to Buy Duck Breast Online",
-    seoTitle: "Where to Buy Duck Breast Online: Formats, Weights & Sellers | DeliciousDuck",
+    seoTitle: "Where to Buy Duck Breast Online: How to Compare | DeliciousDuck",
     description:
       "How to buy duck breast online: skin-on formats, Pekin versus Moulard magret, portion weights, pack counts, arrival checks, and which seller suits your cook.",
     teaser: "Formats, weights and arrival checks — then the seller that fits your cook.",
@@ -542,7 +542,7 @@ export const GUIDES: GuideEntry[] = [
     title: "Best Roasting Pan for Duck",
     seoTitle: "Best Roasting Pan for Duck: Fit, Racks & Fat | DeliciousDuck",
     description:
-      "What a whole duck actually needs from a roasting pan: a rack that lifts the bird out of its fat, room for the render, a measured fit for your bird and oven, and safe handling.",
+      "What a whole duck needs from a roasting pan: a rack that lifts the bird out of its fat, room for the render, and a measured fit for your bird and oven.",
     teaser: "A rack, room for the fat, and a measured fit \u2014 the rest is preference.",
     pillar: "gear",
     cluster: "commerce",
@@ -692,7 +692,7 @@ export const GUIDES: GuideEntry[] = [
     title: "Duck vs. Turkey for Thanksgiving",
     seoTitle: "Duck vs. Turkey for Thanksgiving | DeliciousDuck",
     description:
-      "Duck or turkey for Thanksgiving? An honest side-by-side on flavour, serving yield, oven logistics, leftovers and guest familiarity — plus who should choose each and how to plan either.",
+      "Duck or turkey for Thanksgiving? A side-by-side on flavour, serving yield, oven logistics, leftovers and guest familiarity — plus who should choose each.",
     teaser: "The verdict up front, then the tradeoffs nobody mentions until the oven is full.",
     pillar: "learn",
     cluster: "whole-duck",
