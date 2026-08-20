@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { HUB_SECTION_DIVIDER } from "@/components/site/HubDivider";
+import { HubSectionMark } from "@/components/site/HubSectionMark";
 import { GuideGrid } from "@/components/site/GuideGrid";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { guidesByPillar } from "@/data/guides";
@@ -64,6 +65,7 @@ function GearPage() {
 
         <div className={`${HUB_SECTION_DIVIDER} grid gap-10 lg:grid-cols-2`}>
           <div>
+            <HubSectionMark mark="gear-skip" />
             <h2 className="font-display text-3xl text-foreground">What to skip</h2>
             <ul className="mt-6 space-y-3 text-sm leading-relaxed text-muted-foreground">
               {SKIP.map((s) => (
