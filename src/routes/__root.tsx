@@ -186,6 +186,8 @@ function RootComponent() {
   useEffect(() => {
     // Apply / expose the browser-local QA exclusion before any SDK comes up.
     syncQaExclusionFromLocation();
+    // Apply / expose the browser-local QA exclusion before any SDK comes up.
+    syncQaExclusionFromLocation();
     // Campaign-level newsletter attribution for this session (no PII).
     trackEmailLanding();
     // One `commercial_page_view` per navigation that enters a commercial
