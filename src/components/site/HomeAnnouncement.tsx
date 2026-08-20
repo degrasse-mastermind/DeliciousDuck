@@ -18,8 +18,6 @@ export function HomeAnnouncement({
 }: {
   announcement?: HomeAnnouncement;
 }) {
-  const art = SKETCH[announcement.art];
-
   return (
     <aside
       data-home-announcement
