@@ -117,17 +117,26 @@ export function NewsletterSignup({
 
   const valid = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
 
+  /**
+   * Shows a failure and returns focus to the field the reader must fix. The
+   * message text is ours, never the server's — no raw message is rendered.
+   */
+  function failWith(message: string) {
+    setError(message);
+    emailRef.current?.focus();
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!onSubscribe || pending) return;
     const cleaned = email.trim().toLowerCase();
     if (!cleaned) {
-      setError("Please enter a valid email address.");
+      failWith("Please enter your email address.");
       trackNewsletterFormError({ placement: id, errorType: "required" });
       return;
     }
     if (!valid(cleaned) || cleaned.length > 255) {
-      setError("Please enter a valid email address.");
+      failWith("Please enter a valid email address.");
       // Category only — never the typed value.
       trackNewsletterFormError({ placement: id, errorType: "invalid_format" });
       return;
@@ -158,7 +167,7 @@ export function NewsletterSignup({
       }
       setDone(true);
     } catch (cause) {
-      setError("We couldn't sign you up just now. Please try again in a moment.");
+      failWith("We couldn't sign you up just now. Please try again in a moment.");
       // Coarse classification only: the raw message, response body and stack
       // trace never reach analytics.
       trackNewsletterFormError({ placement: id, errorType: classifyFailure(cause) });
