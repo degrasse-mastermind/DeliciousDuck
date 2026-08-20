@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
+import { HUB_SECTION_DIVIDER } from "@/components/site/HubDivider";
 import type { GuideEntry } from "@/data/guides";
 
 const KIND_LABEL: Record<GuideEntry["kind"], string> = {
@@ -68,7 +69,7 @@ export function GuideCluster({
   return (
     <section
       aria-labelledby={id}
-      className="mt-20 border-t-2 border-gold/70 pt-10 first:mt-0 first:border-t-0 first:pt-0"
+      className={HUB_SECTION_DIVIDER}
     >
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <div className="max-w-2xl">
