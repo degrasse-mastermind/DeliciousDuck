@@ -114,3 +114,45 @@ GA4 has no equivalent filter, so gtag `/g/collect` hits appear either way.
 Verified with this setup on `/gear/best-roasting-pan-for-duck`: one `$pageview`
 on load, and clicking the first Amazon CTA emits `affiliate_click` to both
 `/g/collect` (GA4) and `us.i.posthog.com/i/v0/e/` (PostHog).
+
+## Founder / QA traffic exclusion (`?dd_qa=1`)
+
+One browser can be marked as QA traffic so nothing it does reaches GA4 or
+PostHog. There is no visible control and no route — the switch is a single
+localStorage flag, `dd_analytics_optout = "1"` (see `src/lib/qa-exclusion.ts`).
+
+**Turn it on**
+
+1. Visit any page with `?dd_qa=1` appended, e.g.
+   `https://deliciousduck.com/?dd_qa=1`. Once per browser is enough; the flag
+   persists across sessions and pages.
+2. Alternative, from the browser console:
+   `localStorage.setItem('dd_analytics_optout', '1')` — or `window.__ddQaExclude(true)`.
+
+**Turn it off**
+
+1. Visit any page with `?dd_qa=0` (also accepts `false` / `off`), or
+2. `localStorage.removeItem('dd_analytics_optout')` — or `window.__ddQaExclude(false)`.
+
+**Confirm it is active**
+
+- Console: `localStorage.getItem('dd_analytics_optout')` returns `"1"`.
+- Network tab, hard reload: no request to `googletagmanager.com` and no request
+  to `e.deliciousduck.com`. The gate runs in the inline bootstrap **before** any
+  tag is injected, so gtag.js is never even downloaded — not merely muted.
+- `window.dataLayer` stays absent, and `window.posthog` never initializes.
+
+**What it does and does not touch**
+
+- Suppresses every GA4 event, every PostHog event, PostHog init, pageviews,
+  impressions and the newsletter funnel events.
+- Does not touch newsletter signup, delivery, unsubscribe, or the signed Resend
+  webhook: a QA signup still subscribes for real, it just is not measured.
+- Per browser and per profile. A different browser, a private window, or a
+  cleared site data store is measured normally.
+- Nothing about the flag is ever sent anywhere: `dd_qa` is read from the address
+  bar and dropped. Analytics payloads stay path-only, and the parameter cannot
+  appear in one.
+
+Each of these behaviours is asserted in
+`src/lib/__tests__/pre-publish-evidence.test.ts` ("QA exclusion behaviour").
