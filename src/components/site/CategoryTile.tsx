@@ -1,8 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import type { Pillar } from "@/data/site";
+import { photoSrcSet, PHOTO_SIZES } from "@/lib/photo-sources";
 
 export function CategoryTile({ pillar, featured = false }: { pillar: Pillar; featured?: boolean }) {
+  // Tiles fill their frame rather than sitting at the shared 4:3, so they take
+  // the responsive sources directly instead of going through <Photograph>.
+  const srcSet = photoSrcSet(pillar.image);
+
   return (
     <Link
       to={pillar.to}
@@ -12,13 +17,16 @@ export function CategoryTile({ pillar, featured = false }: { pillar: Pillar; fea
     >
       <img
         src={pillar.image}
+        {...(srcSet ? { srcSet, sizes: PHOTO_SIZES.tile } : {})}
         alt=""
         aria-hidden="true"
         loading="lazy"
+        decoding="async"
         width={900}
         height={1100}
         className="absolute inset-0 -z-10 size-full object-cover opacity-80 transition-transform duration-700 ease-out group-hover:scale-[1.06]"
       />
+
       <span
         aria-hidden="true"
         className="absolute inset-0 -z-10 bg-gradient-to-t from-forest-deep via-forest-deep/60 to-forest-deep/10"
