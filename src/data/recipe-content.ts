@@ -257,7 +257,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       linkLabel: "Cherry and plum with duck",
     },
     intro:
-      "An air fryer can crisp duck skin, but it does it differently from a skillet: hot moving air browns the surface while the fat cap has to drain rather than fry. That makes the appliance a good choice when you want a hands-off cook and one thing to wash, and a poor choice when you want a pan sauce or fine control over the crust. The method below renders the fat at a low setting first, crisps at a high one for a short window, and ends on a thermometer reading rather than a timer — because basket size, wattage and fan strength differ enough between machines that no single time can be promised.",
+      "An air fryer crisps duck skin differently from a skillet: hot moving air browns the surface while the fat cap drains instead of frying. The method below renders low first, crisps hot briefly, and finishes on a thermometer rather than a timer.",
     confidence: {
       cut: "Skin-on duck breast, 170–250 g (6–9 oz) each",
       biggestRisk: "The meat climbing past your target before the fat cap has rendered",
