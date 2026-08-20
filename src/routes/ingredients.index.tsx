@@ -51,7 +51,7 @@ export const Route = createFileRoute("/ingredients/")({
     ...pageMeta({
       title: "Duck Ingredients: Seasoning, Fat, Fruit & Acid | DeliciousDuck",
       description:
-        "The pantry side of duck cooking: herbs and spices, seasoning and dry brining, duck fat versus butter and oil, orange and stone fruit pairings, and the best acids for rich duck.",
+        "The pantry side of duck cooking: herbs and spices, seasoning and dry brining, duck fat versus butter and oil, fruit pairings and the best acids for duck.",
       path: "/ingredients",
     }),
     scripts: [
