@@ -238,11 +238,20 @@ function RecipePage() {
       </Section>
 
       {showConversionModule && !linksInModuleOnly && (
-        <RecipeConversionPaths
-          slug={slug}
-          equipment={content.equipment}
-          sourcing={content.sourcing}
-        />
+        // One impression for the whole recipe equipment/sourcing module — the
+        // honest denominator for the per-link internal_conversion_click events
+        // inside it, never one impression per child link.
+        <ModuleImpression
+          placement={MODULE_PLACEMENTS.recipeEquipment}
+          moduleType="recipe_equipment"
+          destinationType="internal"
+        >
+          <RecipeConversionPaths
+            slug={slug}
+            equipment={content.equipment}
+            sourcing={content.sourcing}
+          />
+        </ModuleImpression>
       )}
 
 
