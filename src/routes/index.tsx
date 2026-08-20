@@ -12,6 +12,8 @@ import { ToolListItem } from "@/components/site/ToolListItem";
 
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SectionHeader } from "@/components/site/SectionHeader";
+import { ModuleImpression } from "@/components/site/ModuleImpression";
+import { MODULE_PLACEMENTS } from "@/lib/impression-events";
 import { ldScript, pageMeta, websiteSchema } from "@/lib/seo";
 import { CTA } from "@/lib/cta";
 import { photoSrcSet } from "@/lib/photo-sources";
@@ -35,7 +37,13 @@ function Home() {
     <>
       <HomeAnnouncement />
       <Hero />
-      <HomeIntentRouter />
+      <ModuleImpression
+        placement={MODULE_PLACEMENTS.homeIntentSelector}
+        moduleType="intent_selector"
+        destinationType="internal"
+      >
+        <HomeIntentRouter />
+      </ModuleImpression>
       <JourneySection />
       <PopularRecipes />
       <ToolsSection />
@@ -206,18 +214,27 @@ function Monetization() {
   return (
     <section aria-labelledby="shop-heading" className="border-t border-border bg-cream">
       <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+        {/*
+          One heading for this section. The visible H2 now names both halves of
+          the job — buying the bird and equipping the kitchen — so the section's
+          accessible name is the text sighted readers see, and the duplicated
+          screen-reader-only H2 is gone.
+        */}
         <SectionHeader
+          id="shop-heading"
           eyebrow="Buy well"
-          title="Equipping the Duck Kitchen"
+          title={"Buying Duck & Equipping the Duck Kitchen"}
           intro="Three decisions worth getting right before you cook: how you will know the bird is done, what you will sear breast in, and whether to render duck fat or buy it."
         />
-        <h2 id="shop-heading" className="sr-only">
-          Buying duck and kitchen gear
-        </h2>
 
-        <div className="mt-12">
+        <ModuleImpression
+          placement={MODULE_PLACEMENTS.homeCommerceCards}
+          moduleType="commerce_cards"
+          destinationType="merchant"
+          className="mt-12"
+        >
           <HomeCommerceCards />
-        </div>
+        </ModuleImpression>
       </div>
     </section>
   );

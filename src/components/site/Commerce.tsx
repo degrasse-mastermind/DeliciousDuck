@@ -3,7 +3,9 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, ExternalLink, ShoppingBag } from "lucide-react";
 import { AFFILIATE_DISCLOSURE_SENTENCE, type ComparisonRow } from "@/data/comparisons";
 import { COMMERCIAL_LINKS, commercialLinkById } from "@/data/commercial-links";
-import { trackCommercialClick } from "@/lib/analytics";
+import { trackCommercialClick, trackConversionModuleView } from "@/lib/analytics";
+import { useModuleImpression } from "@/hooks/useModuleImpression";
+import { MODULE_PLACEMENTS } from "@/lib/impression-events";
 import { HAS_ACTIVE_AFFILIATE_PROGRAM, resolveCommerceLink } from "@/data/affiliates";
 import { COMMERCE_PANEL, CTA, DECISION_LABELS } from "@/lib/cta";
 
@@ -379,8 +381,20 @@ export function ShopThisGuide({
   items: { label: string; why: string; to?: string; linkLabel?: string }[];
   intro?: string;
 }) {
+  // One impression per session for the offer group, so its internal buying-guide
+  // clicks have a denominator. Clicks keep their own existing events.
+  const ref = useModuleImpression<HTMLElement>(() =>
+    trackConversionModuleView({
+      placement: MODULE_PLACEMENTS.guideOfferGroup,
+      moduleType: "offer_group",
+      destinationType: "internal",
+    }),
+  );
+
   return (
     <section
+      ref={ref}
+      data-placement={MODULE_PLACEMENTS.guideOfferGroup}
       aria-labelledby="shop-this-guide"
       className="mt-16 rounded-sm border border-accent/35 bg-cream/70 p-6 lg:p-7"
     >

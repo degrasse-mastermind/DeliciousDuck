@@ -11,6 +11,7 @@
 
 import posthog from "posthog-js";
 import { analyticsEnabled } from "./analytics-gate";
+import { IMPRESSION_PROPERTY_ALLOWLIST } from "./impression-events";
 
 export const POSTHOG_KEY = "phc_nTL8XA9PoPBexJHqaP9nrrqUgNrhJbVM5M3kCudC9qA3";
 /** Activated managed reverse-proxy ingestion host for deliciousduck.com. */
@@ -107,6 +108,8 @@ const POSTHOG_EVENT_PROPERTY_ALLOWLIST: Readonly<Record<string, readonly string[
     "placement",
     "source_path",
   ],
+  // Impression + newsletter-funnel events share one strict allowlist with GA4.
+  ...IMPRESSION_PROPERTY_ALLOWLIST,
 };
 
 /**

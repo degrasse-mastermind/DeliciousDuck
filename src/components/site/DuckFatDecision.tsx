@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, Compass } from "lucide-react";
 import { duckFatDecisionFor } from "@/data/duck-fat-decision";
-import { trackConversionPathClick } from "@/lib/analytics";
+import { trackConversionPathClick, trackConversionModuleView } from "@/lib/analytics";
+import { useModuleImpression } from "@/hooks/useModuleImpression";
+import { MODULE_PLACEMENTS } from "@/lib/impression-events";
 
 /**
  * DuckFatDecision — the shared render / buy / substitute fork for the duck-fat
@@ -13,16 +15,29 @@ import { trackConversionPathClick } from "@/lib/analytics";
  * module — affiliate links and their single per-page disclosure stay on
  * `/buy/duck-fat-buying-guide`.
  *
+ * The module also emits one `conversion_module_view` per session when it is
+ * meaningfully visible, so the internal clicks below have an honest denominator.
+ *
  * Analytics reuses the existing `internal_conversion_click` event with the
  * placement ids from `@/data/duck-fat-decision`. Tracking never blocks
  * navigation.
  */
 export function DuckFatDecision({ sourcePath }: { sourcePath: string }) {
   const set = duckFatDecisionFor(sourcePath);
+  const ref = useModuleImpression<HTMLElement>(() =>
+    trackConversionModuleView({
+      placement: MODULE_PLACEMENTS.duckFatDecision,
+      moduleType: "decision_fork",
+      destinationType: "internal",
+      intent: "sourcing",
+    }),
+  );
   if (!set) return null;
 
   return (
     <section
+      ref={ref}
+      data-placement={MODULE_PLACEMENTS.duckFatDecision}
       aria-labelledby="duck-fat-decision"
       className="mt-12 rounded-sm border border-border bg-cream p-5 sm:p-6"
     >
