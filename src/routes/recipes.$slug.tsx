@@ -151,13 +151,12 @@ function RecipePage() {
       }
     >
       <figure className="m-0">
+        {/* Recipes are photography-led by site rule: the dish photograph is the
+            first culinary visual, never a drawing. */}
         <img
-          src={recipe.illustration ?? recipe.image}
-          alt={
-            recipe.illustration
-              ? (recipe.illustrationAlt ?? `${recipe.name}, illustrated`)
-              : (recipe.imageAlt ?? `${recipe.name}, finished and sliced`)
-          }
+          src={recipe.image}
+          alt={recipe.imageAlt ?? `${recipe.name}, finished and sliced`}
+
           width={1024}
           height={768}
           className="aspect-[4/3] w-full rounded-sm object-cover"
