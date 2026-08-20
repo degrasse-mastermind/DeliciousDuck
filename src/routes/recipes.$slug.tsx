@@ -10,6 +10,8 @@ import {
 import { ShopThisGuide } from "@/components/site/Commerce";
 import { AirFryerMethodCompare } from "@/components/site/AirFryerMethodCompare";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { ModuleImpression } from "@/components/site/ModuleImpression";
+import { MODULE_PLACEMENTS } from "@/lib/impression-events";
 import {
   AIR_FRYER_INBOUND_PLACEMENTS,
   AIR_FRYER_NEWSLETTER_PLACEMENT,
