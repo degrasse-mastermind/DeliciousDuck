@@ -9,6 +9,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const searchToggleRef = useRef<HTMLButtonElement>(null);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
 
   /**
    * The desktop search field expands in place rather than in a dialog, so it
@@ -20,6 +21,12 @@ export function Header() {
     setSearchOpen(false);
     // Restore focus after React removes the field from the DOM.
     requestAnimationFrame(() => searchToggleRef.current?.focus());
+  }
+
+  /** Same contract for the phone menu: Escape closes it, focus returns. */
+  function closeMenu() {
+    setOpen(false);
+    requestAnimationFrame(() => menuToggleRef.current?.focus());
   }
 
   return (
