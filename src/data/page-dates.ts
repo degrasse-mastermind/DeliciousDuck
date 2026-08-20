@@ -189,9 +189,17 @@ export const PAGE_DATES: Record<string, PageDates> = {
     "modified": "2026-08-19",
     "published": "2026-08-12"
   },
+  "/learn/is-duck-healthy": {
+    "modified": "2026-08-20",
+    "published": "2026-08-20"
+  },
   "/learn/thanksgiving-duck-dinner": {
     "modified": "2026-08-19",
     "published": "2026-08-19"
+  },
+  "/learn/what-does-duck-taste-like": {
+    "modified": "2026-08-20",
+    "published": "2026-08-20"
   },
   "/learn/whole-duck-cooking-time": {
     "modified": "2026-08-18",
