@@ -27,10 +27,28 @@ const recipeItems: Record<string, RelatedItem> = Object.fromEntries(
   ]),
 );
 
+/**
+ * Shorter, hand-written teasers for the tools, kept so the related modules read
+ * as editorial recommendations rather than registry summaries. Any live tool
+ * without an entry here falls back to its registry summary.
+ */
+const TOOL_TEASERS: Record<string, string> = {
+  "/tools/duck-pairing-finder":
+    "Cut, flavour direction and occasion in \u2014 sauce, acid, starch and greens out.",
+  "/tools/whole-duck-serving-calculator": "Turn a guest count into how many birds to buy.",
+  "/tools/duck-cooking-time-planner":
+    "A planning range for a whole duck by weight and oven temperature.",
+  "/tools/duck-doneness-guide": "Targets, probe placement and carryover by cut and method.",
+  "/tools/duck-fat-substitution-calculator":
+    "Swap butter or oil for duck fat across tbsp, cups and grams.",
+  "/tools/recipe-scaler": "Scale any ingredient list from its original servings to yours.",
+  "/tools/what-should-i-cook": "Answer five questions, get a method that suits what you have.",
+};
+
 const toolItems: Record<string, RelatedItem> = Object.fromEntries(
   TOOLS.filter((t) => t.status === "live" && t.to).map((t) => [
     t.to!,
-    { path: t.to!, title: t.name, teaser: t.promise },
+    { path: t.to!, title: t.name, teaser: TOOL_TEASERS[t.to!] ?? t.summary },
   ]),
 );
 
