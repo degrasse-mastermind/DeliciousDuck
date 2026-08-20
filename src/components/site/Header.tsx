@@ -30,7 +30,14 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header
+      // Escape closes the phone menu wherever focus sits — on the toggle
+      // itself, on a nav link, or in the menu's search field — and focus
+      // returns to the toggle, never to a removed element.
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && open) closeMenu();
+      }}
+      className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-5 lg:h-20 lg:gap-4 lg:px-8">
         <Link
           to="/"
@@ -107,13 +114,7 @@ export function Header() {
       </div>
 
       {open && (
-        <div
-          id="mobile-nav"
-          className="border-t border-border bg-cream lg:hidden"
-          onKeyDown={(event) => {
-            if (event.key === "Escape") closeMenu();
-          }}
-        >
+        <div id="mobile-nav" className="border-t border-border bg-cream lg:hidden">
           <nav aria-label="Mobile" className="mx-auto max-w-7xl px-5 py-5">
             <ul className="grid gap-1">
               {[...NAV_LINKS, { label: "ABOUT", to: "/about" }].map((link) => (
