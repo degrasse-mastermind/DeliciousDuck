@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { PageHeader } from "./PageHeader";
 import type { Crumb } from "./Breadcrumbs";
 import { SketchAutoLayout } from "./SketchAutoLayout";
+import { MetaStats, type MetaStat } from "./MetaStats";
 
 /**
  * Long-form article shell: editorial page header, a readable single measure
@@ -13,6 +14,7 @@ export function ArticleShell({
   intro,
   trail,
   meta,
+  stats,
   children,
   sidebar,
   autoSketch = true,
@@ -22,6 +24,8 @@ export function ArticleShell({
   intro: string;
   trail: Crumb[];
   meta?: string;
+  /** Stacked detail stats (Total / Serves / Level), preferred over `meta`. */
+  stats?: readonly MetaStat[];
   children: ReactNode;
   sidebar?: ReactNode;
   /** Opt out of automatic in-body illustrations for this page. */
@@ -30,7 +34,15 @@ export function ArticleShell({
   return (
     <>
       <PageHeader eyebrow={eyebrow} title={title} intro={intro} trail={trail} />
-      {meta && (
+      {stats && stats.length > 0 && (
+        <div className="border-b border-border bg-background">
+          <MetaStats
+            className="mx-auto flex max-w-7xl flex-wrap gap-x-12 gap-y-4 px-5 py-4 lg:px-8"
+            stats={stats}
+          />
+        </div>
+      )}
+      {!stats && meta && (
         <div className="border-b border-border bg-background">
           <p className="mx-auto max-w-7xl px-5 py-3 text-xs uppercase tracking-[0.14em] text-muted-foreground lg:px-8">
             {meta}
@@ -39,8 +51,8 @@ export function ArticleShell({
       )}
       <div className="mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
         {sidebar ? (
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_23rem] lg:gap-16">
-            <article className="min-w-0 max-w-[46rem]">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_21rem] lg:gap-12">
+            <article className="min-w-0 max-w-[48rem]">
               <SketchAutoLayout column="narrow" disabled={!autoSketch}>
                 {children}
               </SketchAutoLayout>
