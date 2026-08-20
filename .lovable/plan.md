@@ -1,38 +1,13 @@
-# Deferred: Named-dish recipe pilot
+# Remove the illustration from the homepage announcement banner
 
-Status: Backlogged — not scheduled for immediate implementation.
+The seasonal Thanksgiving strip below the header keeps its copy, gold CTA, colors and texture — only the decorative artwork crop comes out, so the banner becomes a clean text + button strip on all screen sizes.
 
-From the 2026-08-18 traffic analysis, the recipe section is the thinnest part of the site (4 named-dish pages) while dish-name searches carry the highest duck-query demand. This plan captures the proposed pilot so it can be picked up later without re-researching the rationale.
+## Changes
 
-## Traffic insight
+1. `src/components/site/HomeAnnouncement.tsx` — delete the decorative `<span aria-hidden>` wrapper and its `<img>`, drop the now-unused `SKETCH` import and `art` variable. Layout keeps the flex row (message left, CTA right); no other styling changes.
+2. `src/data/homepage-announcement.ts` — remove the `art` field and its `SketchKey` import from the `HomeAnnouncement` type and the `HOME_ANNOUNCEMENT` record.
+3. `src/lib/__tests__/homepage-announcement.test.ts` — replace the illustration test block (crop sizing, `alt=""`, `h-16 w-24`, `w-[203%]`, art key) with an assertion that the banner renders no `<img>` and no `SKETCH` reference. Keep all other assertions (copy, single anchor, tracking, tokens, print/focus rules) unchanged.
 
-- "duck recipes" ~60.5k/mo, KD 36
-- "roast duck recipe" ~6.6k/mo, KD 27
-- "duck a l'orange" ~5.4k/mo
-- Current site: 31 guides, only 9 starter recipes, 4 named-dish pages
+## Verification
 
-## Pilot scope
-
-Build one named-dish recipe page at `/recipes/duck-a-lorange`:
-
-- Full Recipe JSON-LD schema
-- Editorial voice and SourceMark sourcing
-- Internal links to COOK, BUY, GEAR, and existing tools
-- Conversion paths (US Wellness duck fat, ThermoWorks thermometer, Amazon gear)
-- Seasonal/entertaining tie-in
-
-## Why this is the right first test
-
-- Existing Recipe schema and `/recipes` hub can support it
-- Guides already cover the underlying techniques
-- Low-risk way to read Search Console impressions before expanding to Peking, roast duck, confit, etc.
-
-## Not in scope
-
-- Bulk recipe expansion
-- New tools or components
-- Schema changes beyond Recipe JSON-LD
-
-## Next step
-
-When ready, approve this plan and implement the `/recipes/duck-a-lorange` pilot page. Success metric: impressions and clicks in Search Console within 30 days of publish.
+Run the full test suite and a typecheck; check the homepage at desktop and 393px for no leftover gap or overflow.
