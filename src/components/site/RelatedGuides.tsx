@@ -1,11 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
-import { guideByPath } from "@/data/guides";
-import { ingredientByPath } from "@/data/ingredients";
+import { relatedItems } from "@/lib/related-items";
 
 /**
- * Related Guides — driven by the structured `related` field in the guide
- * registry, never by random recirculation.
+ * Related Guides — driven by the structured `related` field in the guide,
+ * ingredient and recipe registries, never by random recirculation.
+ *
+ * Resolution lives in `@/lib/related-items` so guides, ingredients, recipes and
+ * tools all render, and so the link-graph tests measure the same edges the HTML
+ * actually publishes.
  */
 export function RelatedGuides({
   paths,
@@ -16,9 +19,7 @@ export function RelatedGuides({
   title?: string;
   intro?: string;
 }) {
-  const items = paths
-    .map((path) => guideByPath(path) ?? ingredientByPath(path) ?? TOOL_FALLBACKS[path])
-    .filter(Boolean) as { path: string; title: string; teaser: string }[];
+  const items = relatedItems(paths);
 
   if (items.length === 0) return null;
 
@@ -54,47 +55,3 @@ export function RelatedGuides({
     </section>
   );
 }
-
-/** Tool pages are not guides, but they belong in related modules. */
-const TOOL_FALLBACKS: Record<string, { path: string; title: string; teaser: string }> = {
-  "/tools/duck-pairing-finder": {
-    path: "/tools/duck-pairing-finder",
-    title: "Duck Pairing Finder",
-    teaser: "Cut, flavour direction and occasion in — sauce, acid, starch and greens out.",
-  },
-  "/recipes/smoked-duck-with-plum-sauce": {
-    path: "/recipes/smoked-duck-with-plum-sauce",
-    title: "Smoked Duck with Plum Sauce",
-    teaser: "Smoke, dark fruit and vinegar, balanced for rich duck.",
-  },
-  "/tools/whole-duck-serving-calculator": {
-    path: "/tools/whole-duck-serving-calculator",
-    title: "Whole-Duck Serving Calculator",
-    teaser: "Turn a guest count into how many birds to buy.",
-  },
-  "/tools/duck-cooking-time-planner": {
-    path: "/tools/duck-cooking-time-planner",
-    title: "Duck Cooking-Time Planner",
-    teaser: "A planning range for a whole duck by weight and oven temperature.",
-  },
-  "/tools/duck-doneness-guide": {
-    path: "/tools/duck-doneness-guide",
-    title: "Interactive Duck Doneness Guide",
-    teaser: "Targets, probe placement and carryover by cut and method.",
-  },
-  "/tools/duck-fat-substitution-calculator": {
-    path: "/tools/duck-fat-substitution-calculator",
-    title: "Duck-Fat Substitution Calculator",
-    teaser: "Swap butter or oil for duck fat across tbsp, cups and grams.",
-  },
-  "/tools/recipe-scaler": {
-    path: "/tools/recipe-scaler",
-    title: "Recipe Scaler",
-    teaser: "Scale any ingredient list from its original servings to yours.",
-  },
-  "/tools/what-should-i-cook": {
-    path: "/tools/what-should-i-cook",
-    title: "What Should I Do With This Duck?",
-    teaser: "Answer five questions, get a method that suits what you have.",
-  },
-};
