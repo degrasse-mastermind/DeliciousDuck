@@ -115,28 +115,12 @@
   --sidebar-ring: oklch(0.72 0.12 78);
 }
 
-.dark {
-  --cranberry: oklch(0.76 0.13 20);
-  --cranberry-foreground: oklch(0.18 0.02 250);
-  --background: oklch(0.19 0.02 250);
-  --foreground: oklch(0.97 0.008 100);
-  --cream: oklch(0.26 0.02 250);
-  --card: oklch(0.23 0.02 250);
-  --card-foreground: oklch(0.97 0.008 100);
-  --popover: oklch(0.23 0.02 250);
-  --popover-foreground: oklch(0.97 0.008 100);
-  --primary: oklch(0.62 0.09 155);
-  --primary-foreground: oklch(0.16 0.02 250);
-  --secondary: oklch(0.27 0.02 250);
-  --secondary-foreground: oklch(0.96 0.008 100);
-  --muted: oklch(0.27 0.02 250);
-  --muted-foreground: oklch(0.72 0.015 200);
-  --accent: oklch(0.76 0.12 78);
-  --accent-foreground: oklch(0.18 0.02 250);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 18%);
-  --ring: oklch(0.76 0.12 78);
-}
+/* No dark theme ships on this site: the brand is a warm paper-and-ink
+   publication and nothing toggles a `.dark` class. The dead `.dark` token block
+   was removed rather than left to rot. The class-based `dark` variant above is
+   intentionally kept so any stray `dark:` utility stays inert instead of
+   activating from the visitor's OS preference. */
+
 
 @layer base {
   * {

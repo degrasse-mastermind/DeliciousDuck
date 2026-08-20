@@ -12,12 +12,17 @@ const KIND_LABEL: Record<GuideEntry["kind"], string> = {
 
 export function GuideCard({ guide }: { guide: GuideEntry }) {
   return (
-    <li className="border-t border-border pt-5">
+    <li className="group border-t border-border pt-5">
+      {/* Gold rule reveal: the grid answers the cursor without shouting. */}
+      <span
+        aria-hidden="true"
+        className="mb-3 block h-[2px] w-8 origin-left scale-x-0 bg-gold transition-transform duration-300 ease-out group-hover:scale-x-100 group-focus-within:scale-x-100"
+      />
       <span className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-primary">
         {KIND_LABEL[guide.kind]}
       </span>
       <h3 className="mt-2 font-display text-xl leading-snug text-foreground">
-        <Link to={guide.path} className="group inline-flex items-start gap-1.5 hover:text-primary">
+        <Link to={guide.path} className="inline-flex items-start gap-1.5 hover:text-primary">
           {guide.title}
           <ArrowUpRight
             aria-hidden="true"
@@ -32,6 +37,7 @@ export function GuideCard({ guide }: { guide: GuideEntry }) {
     </li>
   );
 }
+
 
 export function GuideGrid({ guides }: { guides: GuideEntry[] }) {
   return (

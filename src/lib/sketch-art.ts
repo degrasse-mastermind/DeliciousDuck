@@ -222,14 +222,10 @@ const BY_PATH: Record<string, SketchKey> = {
   "/tools/duck-fat-substitution-calculator": "duckFat",
   "/tools/duck-pairing-finder": "fruitPairings",
 
+  // Recipe hub only. Individual recipes are photography-led by rule — see
+  // PHOTOGRAPHY_LED_PREFIXES below — so no drawing is bound to a recipe slug.
   "/recipes": "slicedBreast",
-  "/recipes/pan-seared-duck-breast": "duckBreastPan",
-  "/recipes/duck-leg-confit": "confit",
-  "/recipes/roasted-whole-duck": "wholeRoastDuck",
-  // Bound explicitly: the keyword rules would match "orange" and reach for the
-  // fruit still life, but this page is a whole roast bird with a sauce.
-  "/recipes/duck-a-lorange": "wholeRoastDuck",
-  "/recipes/duck-fat-roasted-potatoes": "duckFat",
+
 
   "/guides/duck-cooking-starter-guide": "ducksFlight",
   "/search": "ducksFlight",
@@ -352,12 +348,19 @@ const BY_KEYWORD: Array<[string, SketchKey]> = [
 const NO_ART_PREFIXES = ["/internal", "/privacy", "/terms", "/legal", "/api"];
 
 /**
- * Exact routes that lead with their own photograph instead of a drawing. The
- * air fryer breast page has a bound recipe photograph as its first culinary
- * visual; a generic sliced-breast drawing above the H1 read as pale white
- * poultry and said nothing about the appliance.
+ * Site rule for visual media, applied here so no template can drift:
+ *
+ * - Commercial, learn, cook, gear, ingredients, tools and hub pages lead with
+ *   the colored-pencil illustration system.
+ * - Individual recipes lead with photography. A recipe's own bound photograph
+ *   is the first culinary visual on the page, and no drawing is placed above or
+ *   inside it — a generic sketch there competes with the dish and says less.
+ *
+ * The recipe hub (`/recipes`) is an index, not a recipe, so it keeps its art.
  */
-const NO_ART_PATHS = ["/recipes/air-fryer-duck-breast"];
+const PHOTOGRAPHY_LED_PREFIXES = ["/recipes/"];
+
+
 
 
 /** Last-resort art for any content route we can't classify. */
@@ -392,7 +395,7 @@ export function sketchForPath(pathname: string): SketchArt | null {
 
   if (path === "/" || path === "") return null;
   if (NO_ART_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`))) return null;
-  if (NO_ART_PATHS.includes(path)) return null;
+  if (PHOTOGRAPHY_LED_PREFIXES.some((p) => path.startsWith(p))) return null;
 
 
   const exact = BY_PATH[path];
