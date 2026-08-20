@@ -1,5 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { formatMinutes, totalTimeMinutes, type Recipe } from "@/data/recipes";
+import { Photograph } from "@/components/site/Photograph";
+import { PHOTO_SIZES } from "@/lib/photo-sources";
+
 
 /**
  * Three small stacked stats instead of one dense micro-caps row: the label sits
