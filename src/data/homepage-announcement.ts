@@ -8,7 +8,6 @@
  */
 
 import type { ConversionIntent } from "@/data/conversion-paths";
-import type { SketchKey } from "@/lib/sketch-art";
 
 export interface HomeAnnouncement {
   /** Stable analytics placement id, shared with the conversion registry. */
