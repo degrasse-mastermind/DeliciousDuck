@@ -25,6 +25,17 @@ import {
   ENGAGEMENT_EVENTS,
 } from "./engagement-events";
 import type { CommercialLinkEntry } from "@/data/commercial-links";
+import {
+  buildImpressionEvent,
+  impressionDedupeKey,
+  IMPRESSION_EVENTS,
+  markImpressionOnce,
+  type DestinationType,
+  type ImpressionEventInput,
+  type ImpressionEventName,
+  type ModuleType,
+  type NewsletterErrorType,
+} from "./impression-events";
 import { captureEvent } from "./posthog";
 import { analyticsEnabled, syncGaRoutePolicy } from "./analytics-gate";
 
@@ -59,6 +70,11 @@ export const ANALYTICS_EVENTS = {
   commercialPageView: ENGAGEMENT_EVENTS.commercialPageView,
   leadMagnetDownload: ENGAGEMENT_EVENTS.leadMagnetDownload,
   outboundSocialClick: ENGAGEMENT_EVENTS.outboundSocialClick,
+
+  newsletterOfferView: IMPRESSION_EVENTS.newsletterOfferView,
+  newsletterFormStart: IMPRESSION_EVENTS.newsletterFormStart,
+  newsletterFormError: IMPRESSION_EVENTS.newsletterFormError,
+  conversionModuleView: IMPRESSION_EVENTS.conversionModuleView,
 } as const;
 
 /** Current path, safe on the server. */
@@ -602,4 +618,80 @@ export function trackOutboundSocialClick(params: {
   } catch {
     // Never block the outbound click.
   }
+}
+
+/* ------------------------------------------------------------------ *
+ * Impression + newsletter-funnel events (measurement closure sprint)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Emit one of the four allowlisted impression/funnel events, once per browser
+ * session per event + placement + normalized path.
+ *
+ * The payload is produced entirely by `buildImpressionEvent`, so a caller
+ * cannot smuggle an email address, typed value, raw server message, query
+ * string, hash, or arbitrary attribute into GA4 or PostHog: unlisted keys are
+ * dropped and `error_type` must be one of the five documented categories.
+ */
+function emitImpressionEvent(
+  name: ImpressionEventName,
+  input: Omit<ImpressionEventInput, "sourcePath">,
+): void {
+  try {
+    const path = normalizedPath();
+    const event = buildImpressionEvent(name, { ...input, sourcePath: path });
+    if (!markImpressionOnce(impressionDedupeKey(name, input.placement, path))) return;
+    trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
+  } catch {
+    // Analytics is best-effort and must never break a render or a submit.
+  }
+}
+
+/** A newsletter module became meaningfully visible. Not a mount, not a click. */
+export function trackNewsletterOfferView(params: { placement: string }): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.newsletterOfferView, {
+    placement: params.placement,
+  });
+}
+
+/** First meaningful interaction with the email field or the submit flow. */
+export function trackNewsletterFormStart(params: { placement: string }): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.newsletterFormStart, {
+    placement: params.placement,
+  });
+}
+
+/**
+ * A signup attempt failed. `errorType` is a closed category — never the typed
+ * address, the raw message, the response body, or a stack trace.
+ */
+export function trackNewsletterFormError(params: {
+  placement: string;
+  errorType: NewsletterErrorType;
+}): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.newsletterFormError, {
+    placement: params.placement,
+    errorType: params.errorType,
+  });
+}
+
+/**
+ * One impression per high-value conversion module. The honest denominator for
+ * the click events already measured inside those modules; it never replaces or
+ * reclassifies `internal_conversion_click`, `affiliate_click`, or
+ * `merchant_click`.
+ */
+export function trackConversionModuleView(params: {
+  placement: string;
+  moduleType: ModuleType;
+  destinationType: DestinationType;
+  intent?: string | undefined;
+}): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.conversionModuleView, {
+    placement: params.placement,
+    moduleType: params.moduleType,
+    destinationType: params.destinationType,
+    intent: params.intent,
+  });
 }
