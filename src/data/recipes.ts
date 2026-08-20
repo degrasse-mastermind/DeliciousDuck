@@ -2,10 +2,8 @@ import panSeared from "@/assets/recipe-pan-seared.jpg";
 import airFryerHero from "@/assets/recipe-air-fryer-duck-breast.jpg";
 import airFryerCard from "@/assets/recipe-air-fryer-duck-breast-card.jpg";
 import confit from "@/assets/recipe-confit.jpg";
-import wholeRoast from "@/assets/recipe-whole-roast.jpg";
 import smokedPlum from "@/assets/recipe-smoked-plum.jpg";
 import orangeCard from "@/assets/duck-a-lorange-card.jpg";
-import orangeIllustration from "@/assets/duck-a-lorange-illustration.jpg";
 import wholeRoastCard from "@/assets/roasted-whole-duck-card.jpg";
 import potatoesCard from "@/assets/duck-fat-roasted-potatoes-card.jpg";
 
@@ -32,12 +30,10 @@ export interface Recipe {
    */
   cardImage?: string;
   /**
-   * Optional editorial illustration for the recipe detail page. Cards,
-   * listings, Recipe JSON-LD and social previews always use `image` (the
-   * photograph); only the detail page's prominent visual uses this.
+   * Recipes are photography-led site-wide, so there is no illustration field:
+   * every recipe surface (card, detail hero, JSON-LD, social) reads `image`.
+   * Drawings belong to commercial and learn templates.
    */
-  illustration?: string;
-  illustrationAlt?: string;
   category: string;
   cuisine?: string;
   prepTimeMinutes: number;
@@ -115,9 +111,6 @@ export const RECIPES: Recipe[] = [
     image: orangeCard,
     imageAlt:
       "Whole roast Duck \u00e0 l\u2019Orange with crisp mahogany skin and orange gastrique",
-    illustration: orangeIllustration,
-    illustrationAlt:
-      "Colored-pencil illustration of a whole roast Duck \u00e0 l\u2019Orange on a platter with oranges",
     category: "Whole duck",
     cuisine: "French",
     prepTimeMinutes: 30,
@@ -152,9 +145,6 @@ export const RECIPES: Recipe[] = [
     image: wholeRoastCard,
     imageAlt:
       "Whole roasted duck with crisp mahogany skin, roast potatoes and thyme",
-    illustration: wholeRoast,
-    illustrationAlt:
-      "Whole roasted duck resting on a platter with roast potatoes, thyme and a charred shallot",
     category: "Whole duck",
     prepTimeMinutes: 20,
     cookTimeMinutes: 135,
