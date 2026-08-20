@@ -32,8 +32,9 @@ describe("air fryer duck breast: registration", () => {
   it("binds its own photograph to both the hero and the card", () => {
     expect(recipe.image).toContain("recipe-air-fryer-duck-breast");
     expect(recipe.cardImage).toContain("recipe-air-fryer-duck-breast-card");
-    // Never inherits another recipe's art, and has no illustration override.
-    expect(recipe.illustration).toBeUndefined();
+    // Never inherits another recipe's art. Recipes are photography-led, so no
+    // illustration field exists to override the photograph.
+    expect("illustration" in recipe).toBe(false);
     expect(recipe.imageAlt).toMatch(/crisp/i);
     const others = RECIPES.filter((r) => r.slug !== SLUG);
     expect(others.some((r) => r.image === recipe.image)).toBe(false);

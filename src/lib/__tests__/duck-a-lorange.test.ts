@@ -98,17 +98,17 @@ describe("duck a l'orange: two distinct image roles", () => {
     expect(ROUTE).toContain("image: recipe.image");
   });
 
-  it("uses the illustration as the detail-page visual", () => {
-    expect(recipe.illustration).toMatch(/duck-a-lorange-illustration/);
-    expect(recipe.illustrationAlt).toMatch(/illustration/i);
-    expect(recipe.illustration).not.toBe(recipe.image);
-    expect(ROUTE).toContain("src={recipe.illustration ?? recipe.image}");
+  it("leads the detail page with the photograph, not a drawing", () => {
+    // Site rule: commercial/learn templates use illustration, recipes use
+    // photography. No illustration field exists on recipes any more.
+    expect("illustration" in recipe).toBe(false);
+    expect(ROUTE).toContain("src={recipe.image}");
+    expect(ROUTE).not.toContain("recipe.illustration");
   });
 
   it("leaves other recipe thumbnails untouched", () => {
     for (const r of RECIPES.filter((r) => r.slug !== SLUG)) {
       expect(r.image).not.toMatch(/duck-a-lorange/);
-      expect(r.illustration ?? "").not.toMatch(/duck-a-lorange/);
     }
   });
 });

@@ -51,8 +51,7 @@ describe("roasted whole duck: tracked commercial path", () => {
     expect(recipe.imageAlt).toBe(
       "Whole roasted duck with crisp mahogany skin, roast potatoes and thyme",
     );
-    expect(recipe.illustration).toMatch(/recipe-whole-roast/);
-    expect(recipe.illustration).not.toBe(recipe.image);
+    expect("illustration" in recipe).toBe(false);
     expect(ROUTE).toContain("image: recipe.image");
   });
 });
