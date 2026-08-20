@@ -50,16 +50,14 @@ function Hero() {
   return (
     <section className="bg-forest-deep">
       <div className="mx-auto grid max-w-7xl items-stretch lg:grid-cols-2">
-        <div className="flex flex-col justify-center px-5 py-16 text-forest-foreground lg:px-8 lg:py-28">
+        <div className="order-last flex flex-col justify-center px-5 py-16 text-forest-foreground lg:order-none lg:px-8 lg:py-28">
           <span className="eyebrow text-accent">The duck authority</span>
-          <p className="mt-5 max-w-xl font-display text-[2.75rem] leading-[1.03] lg:text-[4.25rem]">
-            Better Duck.
-            <br />
-            A More Delicious World.
-          </p>
-          <h1 className="mt-6 max-w-xl font-display text-2xl leading-snug text-forest-foreground/95 lg:text-[2rem]">
+          <h1 className="mt-5 max-w-xl font-display text-[2.5rem] leading-[1.05] lg:text-[3.75rem]">
             Duck Recipes, Cooking Guides &amp; Buying Advice
           </h1>
+          <p className="mt-5 max-w-xl font-display text-xl leading-snug text-accent lg:text-2xl">
+            Better Duck. A More Delicious World.
+          </p>
           <p className="mt-5 max-w-lg text-base leading-relaxed text-forest-foreground/80 lg:text-lg">
             Duck breast with crackling crisp skin, whole roast duck for the table, what to do with
             all that rendered duck fat, the equipment that actually earns its space, and where to

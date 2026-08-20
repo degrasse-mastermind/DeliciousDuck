@@ -147,6 +147,7 @@ function SearchField({
         type="search"
         required
         placeholder="Search duck recipes"
+        autoFocus={autoFocus}
         className="h-10 w-full rounded-sm border border-input bg-card pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground lg:w-56"
       />
     </form>
