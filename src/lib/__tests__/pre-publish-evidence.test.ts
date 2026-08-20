@@ -444,3 +444,35 @@ describe("newsletter form semantics", () => {
     expect(JSON.stringify(smuggled.params)).not.toContain("@");
   });
 });
+
+/**
+ * Header keyboard contract.
+ *
+ * Both expanding surfaces in the header — the desktop search field and the
+ * phone menu — must be dismissible with Escape and must hand focus back to the
+ * control that opened them, so focus is never left on a removed element.
+ * Verified interactively in a real browser at 390px and 1280px; these
+ * assertions keep the wiring from being removed.
+ */
+describe("header keyboard dismissal", () => {
+  const header = read("src/components/site/Header.tsx");
+
+  it("returns focus to the toggle that opened the desktop search field", () => {
+    expect(header).toContain("searchToggleRef");
+    expect(header).toMatch(/function closeSearch\(\)[\s\S]*searchToggleRef\.current\?\.focus\(\)/);
+    expect(header).toContain('ref={searchToggleRef}');
+  });
+
+  it("closes the phone menu on Escape from anywhere in the header", () => {
+    // The handler sits on <header>, so Escape works whether focus is on the
+    // toggle itself, a menu link, or the menu's search field.
+    expect(header).toMatch(/<header[\s\S]*?onKeyDown=\{\(event\) => \{[\s\S]*?closeMenu\(\)/);
+    expect(header).toMatch(/function closeMenu\(\)[\s\S]*menuToggleRef\.current\?\.focus\(\)/);
+    expect(header).toContain("ref={menuToggleRef}");
+  });
+
+  it("keeps the menu toggle programmatically described", () => {
+    expect(header).toContain('aria-controls="mobile-nav"');
+    expect(header).toContain("aria-expanded={open}");
+  });
+});
