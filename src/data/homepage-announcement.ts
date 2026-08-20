@@ -33,7 +33,6 @@ export const HOME_ANNOUNCEMENT: HomeAnnouncement = {
   ctaAccessibleName: "Plan your Thanksgiving duck dinner",
   to: "/learn/thanksgiving-duck-dinner",
   intent: "technique_validation",
-  art: "thanksgivingPlan",
 };
 
 /** Every announcement placement id, for the shared registry and tests. */
