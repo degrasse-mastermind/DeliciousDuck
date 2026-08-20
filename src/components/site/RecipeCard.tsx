@@ -24,18 +24,15 @@ export function RecipeCard({ recipe, priority = false }: { recipe: Recipe; prior
   return (
     <article className="group">
       <Link to="/recipes/$slug" params={{ slug: recipe.slug }} className="block">
-        <div className="overflow-hidden rounded-sm bg-muted bg-[repeating-linear-gradient(135deg,hsl(var(--border)/0.22)_0_1px,transparent_1px_10px)]">
-          <img
-            src={recipe.cardImage ?? recipe.image}
-            alt={recipe.imageAlt ?? `${recipe.name} being prepared in the kitchen`}
-            loading={priority ? "eager" : "lazy"}
-            fetchPriority={priority ? "high" : "auto"}
-            decoding="async"
-            width={1024}
-            height={768}
-            className="aspect-[4/3] w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
-          />
-        </div>
+        <Photograph
+          src={recipe.cardImage ?? recipe.image}
+          alt={recipe.imageAlt ?? `${recipe.name} being prepared in the kitchen`}
+          sizes={PHOTO_SIZES.card}
+          priority={priority}
+          className="bg-[repeating-linear-gradient(135deg,hsl(var(--border)/0.22)_0_1px,transparent_1px_10px)]"
+          imgClassName="transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+        />
+
 
         <div className="mt-4">
           {/* Gold rule reveals on hover so the grid feels interactive. */}
