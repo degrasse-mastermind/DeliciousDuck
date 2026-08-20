@@ -94,6 +94,7 @@ export function Header() {
         </Link>
 
         <button
+          ref={menuToggleRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
@@ -106,7 +107,13 @@ export function Header() {
       </div>
 
       {open && (
-        <div id="mobile-nav" className="border-t border-border bg-cream lg:hidden">
+        <div
+          id="mobile-nav"
+          className="border-t border-border bg-cream lg:hidden"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") closeMenu();
+          }}
+        >
           <nav aria-label="Mobile" className="mx-auto max-w-7xl px-5 py-5">
             <ul className="grid gap-1">
               {[...NAV_LINKS, { label: "ABOUT", to: "/about" }].map((link) => (
@@ -122,7 +129,7 @@ export function Header() {
               ))}
             </ul>
             <div className="mt-4 space-y-3">
-              <SearchField id="mobile-search" onSubmit={() => setOpen(false)} />
+              <SearchField id="mobile-search" onSubmit={() => setOpen(false)} onDismiss={closeMenu} />
               <Link
                 to="/tools"
                 hash="starter-guide"
