@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { NAV_LINKS } from "@/data/site";
 import { Wordmark } from "./Wordmark";
@@ -8,6 +8,19 @@ import { CTA } from "@/lib/cta";
 export function Header() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const searchToggleRef = useRef<HTMLButtonElement>(null);
+
+  /**
+   * The desktop search field expands in place rather than in a dialog, so it
+   * needs no focus trap — Tab must keep moving through the header. What keyboard
+   * users do need is a way out: Escape closes the field and returns focus to the
+   * toggle that opened it, so focus is never left on a removed element.
+   */
+  function closeSearch() {
+    setSearchOpen(false);
+    // Restore focus after React removes the field from the DOM.
+    requestAnimationFrame(() => searchToggleRef.current?.focus());
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -38,11 +51,13 @@ export function Header() {
 
         <div className="hidden items-center gap-3 lg:flex">
           {searchOpen ? (
-            <SearchField autoFocus onSubmit={() => setSearchOpen(false)} />
+            <SearchField autoFocus onSubmit={() => setSearchOpen(false)} onDismiss={closeSearch} />
           ) : (
             <button
+              ref={searchToggleRef}
               type="button"
               onClick={() => setSearchOpen(true)}
+              aria-expanded={false}
               aria-label="Search DeliciousDuck"
               className="inline-flex size-10 items-center justify-center rounded-sm border border-border text-foreground/70 transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             >
@@ -120,10 +135,13 @@ export function Header() {
 function SearchField({
   id = "site-search",
   onSubmit,
+  onDismiss,
   autoFocus = false,
 }: {
   id?: string;
   onSubmit?: () => void;
+  /** Escape handler — closes an expandable search and restores focus. */
+  onDismiss?: () => void;
   autoFocus?: boolean;
 }) {
   return (
@@ -132,6 +150,12 @@ function SearchField({
       method="get"
       action="/search"
       onSubmit={onSubmit}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && onDismiss) {
+          event.stopPropagation();
+          onDismiss();
+        }
+      }}
       className="relative flex items-center"
     >
       <label htmlFor={id} className="sr-only">
