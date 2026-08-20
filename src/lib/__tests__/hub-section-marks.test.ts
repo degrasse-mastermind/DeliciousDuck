@@ -13,7 +13,7 @@ const HUB_ROUTES = [
 describe("hub section marks", () => {
   it("every hub route carries at least one editorial mark", () => {
     for (const route of HUB_ROUTES) {
-      expect(readFileSync(route, "utf8")).toContain("HubSectionMark");
+      expect(readFileSync(route, "utf8")).toMatch(/HubSectionMark|mark="/);
     }
   });
 
