@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, Check, Clock, Download } from "lucide-react";
 import {
   trackNewsletterFormError,
@@ -83,6 +83,12 @@ export function NewsletterSignup({
   const [signupSent, setSignupSent] = useState(false);
 
   const [startSent, setStartSent] = useState(false);
+  /**
+   * Focus target after a failed submission: the field the reader must correct.
+   * The error paragraph is already linked with `aria-describedby`, so moving
+   * focus here announces the message with the field's own name and state.
+   */
+  const emailRef = useRef<HTMLInputElement | null>(null);
 
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
   const context = newsletterContext(interest);
