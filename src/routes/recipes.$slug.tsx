@@ -141,11 +141,13 @@ function RecipePage() {
         { name: "Recipes", to: "/recipes" },
         { name: recipe.name, to: path },
       ]}
-      meta={`Prep ${formatMinutes(recipe.prepTimeMinutes)} · Cook ${formatMinutes(
-        recipe.cookTimeMinutes,
-      )} · Total ${formatMinutes(totalTimeMinutes(recipe))} · ${recipe.recipeYield} · ${
-        recipe.difficulty
-      }`}
+      stats={[
+        { label: "Prep", value: formatMinutes(recipe.prepTimeMinutes) },
+        { label: "Cook", value: formatMinutes(recipe.cookTimeMinutes) },
+        { label: "Total", value: formatMinutes(totalTimeMinutes(recipe)) },
+        { label: "Serves", value: recipe.recipeYield.replace(" servings", "") },
+        { label: "Level", value: recipe.difficulty },
+      ]}
       sidebar={
         <DuckConfidenceCard
           data={{ ...content.confidence, difficulty: recipe.difficulty }}
@@ -160,9 +162,10 @@ function RecipePage() {
           src={recipe.image}
           alt={recipe.imageAlt ?? `${recipe.name}, finished and sliced`}
           sizes={PHOTO_SIZES.hero}
+          ratio="3/2"
           priority
         />
-        {content.imageCaption && (
+        {content.imageCaption ? (
           <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">
             {content.imageCaption.text}
             {content.imageCaption.to && (
@@ -177,6 +180,12 @@ function RecipePage() {
                 .
               </>
             )}
+          </figcaption>
+        ) : (
+          /* Every hero photo gets a caption: it names what the reader is looking
+             at rather than leaving the largest image on the page unlabelled. */
+          <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            {recipe.imageAlt ?? `${recipe.name}, finished and ready to serve`}
           </figcaption>
         )}
       </figure>
