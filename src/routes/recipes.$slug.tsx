@@ -17,6 +17,8 @@ import {
 import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckFatDecision } from "@/components/site/DuckFatDecision";
+import { Photograph } from "@/components/site/Photograph";
+import { PHOTO_SIZES } from "@/lib/photo-sources";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
 import { RecipeTrustBox } from "@/components/site/RecipeTrustBox";
@@ -152,14 +154,13 @@ function RecipePage() {
     >
       <figure className="m-0">
         {/* Recipes are photography-led by site rule: the dish photograph is the
-            first culinary visual, never a drawing. */}
-        <img
+            first culinary visual, never a drawing. It is also the page's largest
+            paint, so it loads eagerly with responsive WebP sources. */}
+        <Photograph
           src={recipe.image}
           alt={recipe.imageAlt ?? `${recipe.name}, finished and sliced`}
-
-          width={1024}
-          height={768}
-          className="aspect-[4/3] w-full rounded-sm object-cover"
+          sizes={PHOTO_SIZES.hero}
+          priority
         />
         {content.imageCaption && (
           <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">

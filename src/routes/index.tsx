@@ -14,6 +14,7 @@ import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ldScript, pageMeta, websiteSchema } from "@/lib/seo";
 import { CTA } from "@/lib/cta";
+import { photoSrcSet } from "@/lib/photo-sources";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -47,6 +48,8 @@ function Home() {
 }
 
 function Hero() {
+  const heroSrcSet = photoSrcSet(heroImg);
+
   return (
     <section className="bg-forest-deep">
       <div className="mx-auto grid max-w-7xl items-stretch lg:grid-cols-2">
@@ -86,10 +89,12 @@ function Hero() {
         <div className="relative min-h-[22rem] lg:min-h-[38rem]">
           <img
             src={heroImg}
+            {...(heroSrcSet ? { srcSet: heroSrcSet, sizes: "(min-width: 1024px) 50vw, 100vw" } : {})}
             alt="Roasted duck breast, sliced to show a rosy interior and crisp golden skin"
             width={1280}
             height={1600}
             fetchPriority="high"
+            decoding="async"
             className="absolute inset-0 size-full object-cover"
           />
         </div>
@@ -113,7 +118,11 @@ function JourneySection() {
             key={pillar.key}
             className={i === 0 ? "lg:col-span-2" : i === 5 ? "lg:col-span-3" : undefined}
           >
-            <CategoryTile pillar={pillar} featured={i === 0} />
+            <CategoryTile
+              pillar={pillar}
+              featured={i === 0}
+              span={i === 0 ? 2 : i === 5 ? 3 : 1}
+            />
           </div>
         ))}
       </div>
