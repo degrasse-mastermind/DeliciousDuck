@@ -45,6 +45,7 @@ function LearnPage() {
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
         <GuideCluster
           id="breast-fundamentals"
+          eyebrow="Fundamentals"
           heading="Duck breast fundamentals"
           intro="Temperature, scoring, and the diagnostic guide for skin that refuses to crisp — the three things that decide a breast."
           guides={LEARN_GUIDES.filter((g) => g.cluster === "breast")}
@@ -52,6 +53,7 @@ function LearnPage() {
 
         <GuideCluster
           id="whole-fundamentals"
+          eyebrow="Planning & handling"
           heading="Whole duck: timing, carving & handling"
           intro="Planning a roast, verifying it, taking it apart, and thawing it safely in the first place."
           guides={LEARN_GUIDES.filter((g) => g.cluster === "whole-duck")}
@@ -59,6 +61,7 @@ function LearnPage() {
 
         <GuideCluster
           id="fat-fundamentals"
+          eyebrow="By-products"
           heading="Duck fat"
           intro="The by-product that is arguably the best thing about cooking duck."
           guides={LEARN_GUIDES.filter((g) => g.cluster === "duck-fat")}
@@ -66,6 +69,7 @@ function LearnPage() {
 
         <GuideCluster
           id="wild-fundamentals"
+          eyebrow="Game birds"
           heading="Wild duck"
           intro="Why techniques that work on a farmed Pekin can ruin a wild bird."
           guides={LEARN_GUIDES.filter((g) => g.cluster === "wild-duck")}

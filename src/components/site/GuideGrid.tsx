@@ -55,20 +55,39 @@ export function GuideCluster({
   heading,
   intro,
   guides,
+  eyebrow,
 }: {
   id: string;
   heading: string;
   intro: string;
   guides: GuideEntry[];
+  /** Small label above the heading, e.g. the cut or stage this section covers. */
+  eyebrow?: string;
 }) {
   if (guides.length === 0) return null;
   return (
-    <section aria-labelledby={id} className="mt-16 first:mt-0">
-      <h2 id={id} className="font-display text-3xl text-foreground">
-        {heading}
-      </h2>
+    <section
+      aria-labelledby={id}
+      className="mt-20 border-t-2 border-gold/70 pt-10 first:mt-0 first:border-t-0 first:pt-0"
+    >
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <div className="max-w-2xl">
+          {eyebrow && (
+            <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-primary">
+              {eyebrow}
+            </span>
+          )}
+          <h2 id={id} className="mt-2 font-display text-3xl text-foreground lg:text-[2.5rem]">
+            {heading}
+          </h2>
+        </div>
+        <span className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground/80">
+          {guides.length} {guides.length === 1 ? "guide" : "guides"}
+        </span>
+      </div>
       <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">{intro}</p>
       <GuideGrid guides={guides} />
     </section>
   );
 }
+
