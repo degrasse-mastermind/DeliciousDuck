@@ -23,8 +23,6 @@ export interface HomeAnnouncement {
   /** Internal route only. */
   to: string;
   intent: ConversionIntent;
-  /** Existing local illustration used as a decorative crop. */
-  art: SketchKey;
 }
 
 export const HOME_ANNOUNCEMENT: HomeAnnouncement = {
