@@ -1,0 +1,13 @@
+import { sitemapPaths } from "@/lib/sitemap";
+const sp = sitemapPaths();
+console.log("sitemap count", sp.length);
+const rt = await Bun.file("src/routeTree.gen.ts").text();
+const m = rt.match(/interface FileRoutesByTo \{([\s\S]*?)\n\}/);
+const routes = [...(m?.[1] ?? "").matchAll(/'([^']+)':/g)].map(x=>x[1]);
+console.log("routes", routes.length);
+const set = new Set(sp);
+console.log("IN ROUTES NOT SITEMAP:");
+for (const r of routes) if (!set.has(r)) console.log("  ", r);
+console.log("IN SITEMAP NOT ROUTES:");
+const rset = new Set(routes);
+for (const p of sp) if (!rset.has(p)) console.log("  ", p);
