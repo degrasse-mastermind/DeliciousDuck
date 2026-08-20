@@ -348,12 +348,19 @@ const BY_KEYWORD: Array<[string, SketchKey]> = [
 const NO_ART_PREFIXES = ["/internal", "/privacy", "/terms", "/legal", "/api"];
 
 /**
- * Exact routes that lead with their own photograph instead of a drawing. The
- * air fryer breast page has a bound recipe photograph as its first culinary
- * visual; a generic sliced-breast drawing above the H1 read as pale white
- * poultry and said nothing about the appliance.
+ * Site rule for visual media, applied here so no template can drift:
+ *
+ * - Commercial, learn, cook, gear, ingredients, tools and hub pages lead with
+ *   the colored-pencil illustration system.
+ * - Individual recipes lead with photography. A recipe's own bound photograph
+ *   is the first culinary visual on the page, and no drawing is placed above or
+ *   inside it — a generic sketch there competes with the dish and says less.
+ *
+ * The recipe hub (`/recipes`) is an index, not a recipe, so it keeps its art.
  */
-const NO_ART_PATHS = ["/recipes/air-fryer-duck-breast"];
+const PHOTOGRAPHY_LED_PREFIXES = ["/recipes/"];
+
+
 
 
 /** Last-resort art for any content route we can't classify. */
