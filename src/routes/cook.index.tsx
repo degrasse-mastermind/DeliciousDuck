@@ -47,6 +47,7 @@ function CookPage() {
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
         <GuideCluster
           id="breast-cluster"
+          mark="cook-breast"
           eyebrow="The cut"
           heading="Duck breast"
           intro="The fastest route to a very good duck dinner, and the cut with the least forgiveness. Start with the method, then choose a sauce and sides."
@@ -55,6 +56,7 @@ function CookPage() {
 
         <GuideCluster
           id="whole-cluster"
+          mark="cook-whole"
           eyebrow="The centrepiece"
           heading="Whole duck"
           intro="Centrepiece roasting: planning, fat management, and getting the legs done without ruining the breast."
@@ -63,6 +65,7 @@ function CookPage() {
 
         <GuideCluster
           id="fat-cluster"
+          mark="cook-fat"
           eyebrow="Slow & make-ahead"
           heading="Legs, confit & duck fat"
           intro="The slow, forgiving, make-ahead side of duck cooking — and what to do with the fat it produces."
@@ -71,6 +74,7 @@ function CookPage() {
 
         <GuideCluster
           id="wild-cluster"
+          mark="cook-wild"
           eyebrow="Game birds"
           heading="Wild duck"
           intro="Leaner, smaller, and far more variable than anything in a supermarket. Different bird, different method."

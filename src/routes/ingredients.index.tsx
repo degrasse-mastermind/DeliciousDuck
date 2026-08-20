@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { HUB_SECTION_DIVIDER } from "@/components/site/HubDivider";
+import { HubSectionMark, type HubSectionMarkId } from "@/components/site/HubSectionMark";
 import { PageHeader } from "@/components/site/PageHeader";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import {
@@ -108,6 +109,7 @@ function IngredientsPage() {
           if (!items.length) return null;
           return (
             <div key={cluster} className={`${HUB_SECTION_DIVIDER} mt-20`}>
+              <HubSectionMark mark={`ingredients-${cluster}` as HubSectionMarkId} />
               <h2 className="font-display text-3xl text-foreground">
                 {INGREDIENT_CLUSTER_LABELS[cluster]}
               </h2>

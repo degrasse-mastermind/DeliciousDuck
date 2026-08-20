@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import { HUB_SECTION_DIVIDER } from "@/components/site/HubDivider";
+import { HubSectionMark, type HubSectionMarkId } from "@/components/site/HubSectionMark";
 import type { GuideEntry } from "@/data/guides";
 
 const KIND_LABEL: Record<GuideEntry["kind"], string> = {
@@ -57,6 +58,7 @@ export function GuideCluster({
   intro,
   guides,
   eyebrow,
+  mark,
 }: {
   id: string;
   heading: string;
@@ -64,6 +66,8 @@ export function GuideCluster({
   guides: GuideEntry[];
   /** Small label above the heading, e.g. the cut or stage this section covers. */
   eyebrow?: string;
+  /** Unique editorial mark for this section. */
+  mark?: HubSectionMarkId;
 }) {
   if (guides.length === 0) return null;
   return (
@@ -73,6 +77,7 @@ export function GuideCluster({
     >
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <div className="max-w-2xl">
+          {mark && <HubSectionMark mark={mark} />}
           {eyebrow && (
             <span className="block text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-primary">
               {eyebrow}
