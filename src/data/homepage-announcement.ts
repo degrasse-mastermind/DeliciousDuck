@@ -1,13 +1,19 @@
 /**
- * Homepage seasonal announcement — a single, swappable editorial strip that
- * sits between the global header and the homepage hero.
+ * Homepage seasonal announcement — compatibility view over the single typed
+ * seasonal-promotion source in `@/data/seasonal-promotions`.
  *
- * Deliberately tiny: one record, one internal destination, one stable placement
- * id. Swapping the season means editing this object (or passing a different one
- * to the component), not building a campaign system.
+ * The scheduling, copy, destination and placement now live there. This module
+ * keeps the older `HomeAnnouncement` shape (used by the component's props and
+ * by the shared placement registry) so nothing downstream had to change when
+ * the roster gained windows and priorities.
  */
 
 import type { ConversionIntent } from "@/data/conversion-paths";
+import {
+  SEASONAL_PROMOTIONS,
+  seasonalPromotionPlacementIds,
+  type SeasonalPromotion,
+} from "@/data/seasonal-promotions";
 
 export interface HomeAnnouncement {
   /** Stable analytics placement id, shared with the conversion registry. */
@@ -25,17 +31,25 @@ export interface HomeAnnouncement {
   intent: ConversionIntent;
 }
 
-export const HOME_ANNOUNCEMENT: HomeAnnouncement = {
-  placement: "home_announcement_thanksgiving_hub",
-  eyebrow: "DUCK FOR THANKSGIVING? ABSOLUTELY.",
-  message: "Menu, timeline, bird count & printable checklist",
-  ctaLabel: "Plan the feast",
-  ctaAccessibleName: "Plan your Thanksgiving duck dinner",
-  to: "/learn/thanksgiving-duck-dinner",
-  intent: "technique_validation",
-};
+/** Projects a scheduled promotion onto the announcement shape. */
+export function announcementFromPromotion(promotion: SeasonalPromotion): HomeAnnouncement {
+  return {
+    placement: promotion.placement,
+    eyebrow: promotion.eyebrow,
+    message: promotion.headline,
+    ctaLabel: promotion.ctaLabel,
+    ctaAccessibleName: promotion.ctaAccessibleName,
+    to: promotion.destination,
+    intent: promotion.intent,
+  };
+}
+
+/** The currently configured Thanksgiving strip, independent of its window. */
+export const HOME_ANNOUNCEMENT: HomeAnnouncement = announcementFromPromotion(
+  SEASONAL_PROMOTIONS[0] as SeasonalPromotion,
+);
 
 /** Every announcement placement id, for the shared registry and tests. */
 export function homeAnnouncementPlacementIds(): string[] {
-  return [HOME_ANNOUNCEMENT.placement];
+  return seasonalPromotionPlacementIds();
 }
