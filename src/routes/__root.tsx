@@ -22,6 +22,7 @@ import {
 } from "@/lib/analytics";
 import { capturePostHogPageView, initPostHog, syncPostHogRoutePolicy } from "@/lib/posthog";
 import { ensureGtagLoaded, gtagBootstrapScript, syncGaRoutePolicy } from "@/lib/analytics-gate";
+import { qaExclusionBootstrapScript, syncQaExclusionFromLocation } from "@/lib/qa-exclusion";
 
 
 
@@ -150,6 +151,13 @@ function RootShell({ children }: { children: ReactNode }) {
           content: "0a7d07f1-b741-4412-8973-aefb551b0262",
         })}
         {/*
+          Founder / QA exclusion. Runs before any tag is injected so a browser
+          marked with ?dd_qa=1 never loads gtag.js at all.
+        */}
+        <script
+          dangerouslySetInnerHTML={{ __html: qaExclusionBootstrapScript() }}
+        />
+        {/*
           Google Analytics 4 — the tag is injected by this bootstrap only on the
           canonical public hosts and outside /internal/* and /api/*, so preview,
           editor, and localhost sessions never contact googletagmanager.com.
@@ -176,6 +184,8 @@ function RootComponent() {
   // subsequent SPA route.
   const firstView = useRef(true);
   useEffect(() => {
+    // Apply / expose the browser-local QA exclusion before any SDK comes up.
+    syncQaExclusionFromLocation();
     // Campaign-level newsletter attribution for this session (no PII).
     trackEmailLanding();
     // One `commercial_page_view` per navigation that enters a commercial
