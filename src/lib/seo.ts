@@ -1,4 +1,5 @@
 import { SITE } from "@/data/site";
+import { pageDates } from "@/data/page-dates";
 
 /**
  * Absolutises an internal path against the production origin.
@@ -70,7 +71,15 @@ export function websiteSchema() {
     alternateName: SITE.domain,
     description: SITE.description,
     url: absUrl("/"),
-    publisher: { "@type": "Organization", name: SITE.name },
+    publisher: { "@type": "Organization", name: SITE.name, url: absUrl("/") },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${absUrl("/search")}?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
@@ -169,11 +178,14 @@ export function articleSchema(a: {
   headline: string;
   description: string;
   path: string;
-  /** ISO date shown to readers as "Updated" / "Reviewed". Omitted when the page has no dated review. */
+  /** ISO date shown to readers as "Updated" / "Reviewed". Falls back to the route's real last-revision date. */
   updated?: string;
+  /** ISO first-publication date. Falls back to the route's real first-commit date. */
+  published?: string;
   image?: string;
 }) {
   const url = absUrl(a.path);
+  const dates = pageDates(a.path);
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -181,7 +193,10 @@ export function articleSchema(a: {
     description: a.description,
     url,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
-    ...(a.updated ? { dateModified: a.updated } : {}),
+    ...(a.published ?? dates?.published
+      ? { datePublished: a.published ?? dates!.published }
+      : {}),
+    ...(a.updated ?? dates?.modified ? { dateModified: a.updated ?? dates!.modified } : {}),
     ...(a.image ? { image: absUrl(a.image) } : {}),
     author: { "@type": "Organization", name: SITE.name, url: absUrl("/") },
     publisher: { "@type": "Organization", name: SITE.name, url: absUrl("/") },

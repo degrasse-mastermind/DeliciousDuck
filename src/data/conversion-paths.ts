@@ -58,6 +58,26 @@ export interface ConversionPath {
  * page turns into a wall of repeated boxes.
  */
 export const CONVERSION_PATHS: ConversionPath[] = [
+  {
+    placement: "taste_guide_to_breast_sourcing",
+    sourcePath: "/learn/what-does-duck-taste-like",
+    destination: "/buy/where-to-buy-duck-breast-online",
+    intent: "sourcing",
+    direction: "cornerstone_to_commercial",
+    anchor: "Where to buy duck breast online",
+    reason:
+      "A single skin-on breast is the cheapest way to find out whether you like duck, and most readers cannot buy one locally.",
+  },
+  {
+    placement: "health_guide_to_duck_fat_buying",
+    sourcePath: "/learn/is-duck-healthy",
+    destination: "/buy/duck-fat-buying-guide",
+    intent: "sourcing",
+    direction: "cornerstone_to_commercial",
+    anchor: "How to choose duck fat worth buying",
+    reason:
+      "Readers who care about the fat profile usually want a jar of rendered fat before they want a whole bird.",
+  },
   /* --- cornerstone -> commercial ---------------------------------- */
   {
     placement: "score_breast_to_knife_guide",
@@ -152,8 +172,7 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     intent: "sourcing",
     direction: "cornerstone_to_commercial",
     anchor: "Compare online duck sellers",
-    reason:
-      "Holiday duck is a planning step, not a last-minute one — order early enough to thaw.",
+    reason: "Holiday duck is a planning step, not a last-minute one — order early enough to thaw.",
   },
 
   /* --- breast and skin technique ----------------------------------- */
@@ -258,7 +277,8 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     intent: "technique_validation",
     direction: "commercial_to_editorial",
     anchor: "See the swap in a real recipe: duck fat roasted potatoes",
-    reason: "The clearest test of whether duck fat earns its place, and how much a tray actually takes.",
+    reason:
+      "The clearest test of whether duck fat earns its place, and how much a tray actually takes.",
   },
   {
     placement: "duck_fat_guide_to_potatoes_recipe",
@@ -267,7 +287,8 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     intent: "technique_validation",
     direction: "commercial_to_editorial",
     anchor: "The use case that decides the size: duck fat roasted potatoes",
-    reason: "One tray takes about 90 g, which makes sizing a jar or tub a concrete decision rather than a guess.",
+    reason:
+      "One tray takes about 90 g, which makes sizing a jar or tub a concrete decision rather than a guess.",
   },
   {
     placement: "render_fat_to_potatoes_recipe",
@@ -280,7 +301,6 @@ export const CONVERSION_PATHS: ConversionPath[] = [
   },
 
   {
-
     placement: "serving_calculator_to_sourcing_guide",
     sourcePath: "/tools/whole-duck-serving-calculator",
     destination: "/buy/where-to-buy-duck-online",
@@ -299,8 +319,7 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     intent: "technique_validation",
     direction: "commercial_to_editorial",
     anchor: "Whole-duck timing ranges and where to probe",
-    reason:
-      "See what a probe is for on a whole bird before deciding which one you need.",
+    reason: "See what a probe is for on a whole bird before deciding which one you need.",
   },
   {
     placement: "thermometer_guide_to_breast_doneness",
@@ -571,7 +590,6 @@ export function allConversionPlacementIds(): string[] {
     ...airFryerPlacementIds(),
   ];
 }
-
 
 /* ------------------------------------------------------------------ *
  * Event builder
