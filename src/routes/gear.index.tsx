@@ -52,6 +52,7 @@ function GearPage() {
       />
 
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+        <HubSectionMark mark="gear-guides" />
         <h2 className="font-display text-3xl text-foreground">Equipment guides</h2>
         <GuideGrid guides={GEAR_GUIDES} />
 
