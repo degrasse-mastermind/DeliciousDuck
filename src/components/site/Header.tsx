@@ -7,6 +7,7 @@ import { CTA } from "@/lib/cta";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
@@ -32,26 +33,28 @@ export function Header() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                to="/about"
-                className="eyebrow text-foreground/70 transition-colors hover:text-primary"
-                activeProps={{ className: "text-primary" }}
-              >
-                ABOUT
-              </Link>
-            </li>
           </ul>
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <SearchField />
+          {searchOpen ? (
+            <SearchField autoFocus onSubmit={() => setSearchOpen(false)} />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search DeliciousDuck"
+              className="inline-flex size-10 items-center justify-center rounded-sm border border-border text-foreground/70 transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              <Search aria-hidden="true" className="size-4" />
+            </button>
+          )}
           <Link
             to="/tools"
             hash="starter-guide"
             className={CTA.primary}
           >
-            Get the Free Guide
+            Free Guide
           </Link>
         </div>
 
