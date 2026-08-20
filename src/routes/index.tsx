@@ -223,7 +223,7 @@ function Monetization() {
         <SectionHeader
           id="shop-heading"
           eyebrow="Buy well"
-          title="Buying Duck &amp; Equipping the Duck Kitchen"
+          title={"Buying Duck & Equipping the Duck Kitchen"}
           intro="Three decisions worth getting right before you cook: how you will know the bird is done, what you will sear breast in, and whether to render duck fat or buy it."
         />
 
