@@ -64,9 +64,11 @@ describe("homepage seasonal announcement", () => {
     expect(bannerSource).not.toMatch(/<button/);
     expect(bannerSource).toContain("data-placement={announcement.placement}");
     expect(bannerSource).toContain("trackConversionPathClick");
-    // Tracking happens on activation only — never during render.
+    // Click tracking happens on activation only — never during render.
     expect(bannerSource).toContain("onClick={() =>");
-    expect(bannerSource).not.toMatch(/useEffect|posthog|gtag|impression/i);
+    // The impression is emitted by the shared wrapper, not by ad-hoc SDK calls.
+    expect(bannerSource).toContain("<ModuleImpression");
+    expect(bannerSource).not.toMatch(/posthog|gtag|useEffect/i);
     // Standard link behaviour preserved: no preventDefault, no manual navigation.
     expect(bannerSource).not.toContain("preventDefault");
     expect(bannerSource).not.toContain("window.location");
@@ -94,8 +96,9 @@ describe("homepage seasonal announcement", () => {
   });
 
 
-  it("is a plain seasonal strip: no dismiss, sticky, storage or date logic", () => {
+  it("is a plain seasonal strip: no dismiss, sticky or storage logic, and window logic lives in the data layer", () => {
     expect(bannerSource).not.toMatch(/dismiss|localStorage|sessionStorage|new Date|Date\.now/);
+    expect(bannerSource).toContain("activeSeasonalPromotion()");
     expect(bannerSource).not.toMatch(/sticky|fixed/);
     expect(bannerSource).not.toMatch(/animate-/);
   });
