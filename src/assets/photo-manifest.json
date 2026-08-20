@@ -48,11 +48,25 @@
       "1400": 1024
     }
   },
+  "recipe-oven-roasted-duck-breast": {
+    "tone": "#997b64",
+    "variants": {
+      "700": 700,
+      "1400": 1365
+    }
+  },
   "recipe-pan-seared": {
     "tone": "#47362b",
     "variants": {
       "700": 700,
       "1400": 1024
+    }
+  },
+  "recipe-peking-duck": {
+    "tone": "#9c6a4c",
+    "variants": {
+      "700": 700,
+      "1400": 1365
     }
   },
   "recipe-smoked-plum": {

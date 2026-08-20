@@ -7,13 +7,7 @@
 export type GuidePillar = "cook" | "learn" | "buy" | "gear";
 
 export type GuideCluster =
-  | "breast"
-  | "whole-duck"
-  | "duck-fat"
-  | "wild-duck"
-  | "commerce"
-  | "sourcing";
-
+  "breast" | "whole-duck" | "duck-fat" | "wild-duck" | "commerce" | "sourcing";
 
 export type GuideKind = "technique" | "reference" | "diagnostic" | "pairing" | "money";
 
@@ -33,11 +27,63 @@ export interface GuideEntry {
   kind: GuideKind;
   /** Reading time in minutes, rounded. */
   minutes: number;
+  /**
+   * Two-to-three-sentence answer shown above the article on question-shaped
+   * pages. Omit it where the page is not answering a single question.
+   */
+  answer?: string;
   /** Deliberate funnel: paths of the pages this one should send readers to. */
   related: string[];
 }
 
 export const GUIDES: GuideEntry[] = [
+  {
+    path: "/learn/what-does-duck-taste-like",
+    title: "What Does Duck Taste Like?",
+    seoTitle: "What Does Duck Taste Like? An Honest Answer | DeliciousDuck",
+    description:
+      "Duck tastes like rich dark meat, closer to steak than chicken, with flavour driven by fat rather than gaminess. What breast, leg, farmed and wild duck each taste like.",
+    teaser: "Closer to steak than chicken — and why fat, not gaminess, drives the flavour.",
+    pillar: "learn",
+    cluster: "breast",
+    kind: "reference",
+    minutes: 7,
+    answer:
+      "Duck tastes like rich, dark, faintly sweet red meat — much closer to a steak than to chicken, with a clean flavour that comes from its fat rather than from gaminess. Farmed duck (almost all duck sold in the US) is mild and buttery; wild duck is leaner, darker, and genuinely livery. Cooked properly, the skin is the best part: thin, crisp, and savoury.",
+    related: [
+      "/cook/how-to-cook-duck-breast",
+      "/learn/duck-breast-temperature-doneness",
+      "/learn/wild-duck-vs-farmed-duck",
+      "/learn/is-duck-healthy",
+      "/recipes/pan-seared-duck-breast",
+      "/buy/what-cut-of-duck-to-buy",
+      "/cook/best-sauces-for-duck-breast",
+    ],
+  },
+  {
+    path: "/learn/is-duck-healthy",
+    title: "Is Duck Healthy?",
+    seoTitle: "Is Duck Healthy? Nutrition, Fat and How It Compares | DeliciousDuck",
+    description:
+      "Duck nutrition without the spin: calories and protein for breast and skin-on duck, how duck fat compares to butter and olive oil, and how duck stacks up against chicken.",
+    teaser: "The real numbers for skin-on and skin-off duck, and how duck fat actually compares.",
+    pillar: "learn",
+    cluster: "duck-fat",
+    kind: "reference",
+    minutes: 8,
+    answer:
+      "Duck is a nutrient-dense red-style poultry: roasted duck meat without skin runs about 201 calories and 23.5 g of protein per 100 g, close to a lean cut of beef. Leave the skin on and it roughly doubles the fat and lifts the same portion to about 337 calories. Duck fat itself is about half monounsaturated — closer to olive oil's profile than butter's — but it is still pure fat, so portion decides the outcome more than the fat's profile does.",
+    related: [
+      "/learn/how-to-render-duck-fat",
+      "/cook/ways-to-use-duck-fat",
+      "/ingredients/duck-fat-vs-butter-oil",
+      "/learn/what-does-duck-taste-like",
+      "/cook/how-to-cook-duck-breast",
+      "/recipes/pan-seared-duck-breast",
+      "/buy/duck-fat-buying-guide",
+    ],
+  },
+
   {
     path: "/cook/how-to-cook-duck-breast",
     title: "How to Cook Duck Breast",
@@ -55,6 +101,11 @@ export const GUIDES: GuideEntry[] = [
       "/learn/why-duck-skin-isnt-crispy",
       "/cook/best-sauces-for-duck-breast",
       "/gear/best-pan-for-duck-breast",
+      "/recipes/pan-seared-duck-breast",
+      "/recipes/air-fryer-duck-breast",
+      "/cook/what-to-serve-with-duck-breast",
+      "/learn/what-does-duck-taste-like",
+      "/recipes/oven-roasted-duck-breast",
     ],
   },
   {
@@ -68,11 +119,15 @@ export const GUIDES: GuideEntry[] = [
     cluster: "breast",
     kind: "reference",
     minutes: 9,
+    answer:
+      "Pull duck breast at 130–135°F (54–57°C) in the centre for the rosy, medium-rare finish restaurants serve, then rest five minutes while carryover takes it a few degrees higher. Cook it to 165°F (74°C) if you want the official poultry safety minimum, accepting a firmer, greyer centre. Measure into the thickest part from the side, never through the skin.",
     related: [
       "/cook/how-to-cook-duck-breast",
       "/tools/duck-doneness-guide",
       "/gear/best-thermometer-for-duck",
       "/learn/whole-duck-cooking-time",
+      "/recipes/pan-seared-duck-breast",
+      "/learn/what-does-duck-taste-like",
     ],
   },
   {
@@ -86,10 +141,13 @@ export const GUIDES: GuideEntry[] = [
     cluster: "breast",
     kind: "technique",
     minutes: 7,
+    answer:
+      "Score the skin in a shallow crosshatch about ¼ in (6 mm) apart, cutting through the fat but stopping before the meat. The cuts open more surface for fat to escape during a slow render; if your knife reaches the flesh, juices leak out and the skin steams instead of crisping.",
     related: [
       "/cook/how-to-cook-duck-breast",
       "/learn/why-duck-skin-isnt-crispy",
       "/gear/best-knife-for-scoring-duck",
+      "/recipes/pan-seared-duck-breast",
     ],
   },
   {
@@ -103,11 +161,16 @@ export const GUIDES: GuideEntry[] = [
     cluster: "breast",
     kind: "diagnostic",
     minutes: 10,
+    answer:
+      "Skin stays flabby because the fat underneath never fully rendered — almost always the result of starting in a hot pan, a wet surface, or too little time on the skin side. Start skin-side down in a cold, dry pan over low heat, pour off fat as it collects, and give it 12–18 minutes before you think about browning.",
     related: [
       "/cook/how-to-cook-duck-breast",
       "/learn/how-to-score-duck-breast",
       "/gear/best-pan-for-duck-breast",
       "/learn/how-to-render-duck-fat",
+      "/recipes/pan-seared-duck-breast",
+      "/recipes/air-fryer-duck-breast",
+      "/cook/best-sauces-for-duck-breast",
     ],
   },
   {
@@ -128,6 +191,11 @@ export const GUIDES: GuideEntry[] = [
       "/ingredients/orange-with-duck",
       "/ingredients/cherry-plum-with-duck",
       "/ingredients/best-acid-for-duck",
+      "/recipes/duck-a-lorange",
+      "/recipes/smoked-duck-with-plum-sauce",
+      "/cook/how-to-cook-wild-duck-breast",
+      "/ingredients/duck-marinade-guide",
+      "/learn/what-does-duck-taste-like",
     ],
   },
   {
@@ -147,6 +215,7 @@ export const GUIDES: GuideEntry[] = [
       "/cook/how-to-cook-duck-breast",
       "/ingredients/best-acid-for-duck",
       "/tools/duck-pairing-finder",
+      "/recipes/duck-fat-roasted-potatoes",
     ],
   },
   {
@@ -169,8 +238,14 @@ export const GUIDES: GuideEntry[] = [
       "/learn/duck-vs-turkey-thanksgiving",
       "/ingredients/dry-brine-duck",
       "/ingredients/duck-seasoning-guide",
+      "/recipes/roasted-whole-duck",
+      "/recipes/duck-a-lorange",
+      "/learn/thanksgiving-duck-dinner",
+      "/learn/how-to-thaw-duck",
+      "/buy/how-much-duck-per-person",
+      "/gear/best-roasting-pan-for-duck",
+      "/recipes/peking-duck-at-home",
     ],
-
   },
   {
     path: "/learn/whole-duck-cooking-time",
@@ -183,14 +258,19 @@ export const GUIDES: GuideEntry[] = [
     cluster: "whole-duck",
     kind: "reference",
     minutes: 9,
+    answer:
+      "A 5–6 lb (2.3–2.7 kg) whole duck takes roughly 2 to 2½ hours at 325°F (163°C), or about 20–25 minutes per pound, plus a 15–20 minute rest. Time is only a planning tool: the bird is done when the thigh reads 175°F (79°C) and the skin is deep and taut.",
     related: [
       "/tools/duck-cooking-time-planner",
       "/tools/whole-duck-serving-calculator",
       "/cook/whole-roast-duck",
       "/learn/duck-vs-turkey-thanksgiving",
       "/learn/duck-breast-temperature-doneness",
+      "/recipes/roasted-whole-duck",
+      "/learn/thanksgiving-duck-dinner",
+      "/learn/how-to-thaw-duck",
+      "/gear/best-roasting-pan-for-duck",
     ],
-
   },
   {
     path: "/learn/how-to-carve-a-duck",
@@ -203,11 +283,15 @@ export const GUIDES: GuideEntry[] = [
     cluster: "whole-duck",
     kind: "technique",
     minutes: 8,
+    answer:
+      "Carve a duck by taking the legs off at the hip joint first, then removing each breast as one whole piece along the breastbone before slicing it across the grain. Duck is smaller and more angular than turkey, so carving off the bone at the board — not at the table — gets far more usable meat.",
     related: [
       "/cook/whole-roast-duck",
       "/learn/how-to-render-duck-fat",
       "/tools/whole-duck-serving-calculator",
       "/gear/best-knife-for-scoring-duck",
+      "/recipes/roasted-whole-duck",
+      "/learn/thanksgiving-duck-dinner",
     ],
   },
   {
@@ -221,13 +305,17 @@ export const GUIDES: GuideEntry[] = [
     cluster: "whole-duck",
     kind: "reference",
     minutes: 7,
+    answer:
+      "Thaw a whole duck in the refrigerator, allowing roughly 24 hours per 4–5 lb (2–2.5 kg), on a tray on the bottom shelf. For a faster thaw, submerge the sealed bird in cold water and change the water every 30 minutes, then cook it the same day. Never thaw duck on the counter.",
     related: [
       "/cook/whole-roast-duck",
       "/learn/whole-duck-cooking-time",
       "/buy/fresh-vs-frozen-duck",
       "/buy/where-to-buy-duck-online",
+      "/recipes/roasted-whole-duck",
+      "/learn/duck-vs-turkey-thanksgiving",
+      "/learn/thanksgiving-duck-dinner",
     ],
-
   },
   {
     path: "/cook/duck-leg-confit",
@@ -246,6 +334,8 @@ export const GUIDES: GuideEntry[] = [
       "/gear/best-dutch-oven-for-duck-confit",
       "/cook/ways-to-use-duck-fat",
       "/learn/how-to-thaw-duck",
+      "/recipes/duck-leg-confit",
+      "/ingredients/best-herbs-spices-for-duck",
     ],
   },
   {
@@ -259,11 +349,16 @@ export const GUIDES: GuideEntry[] = [
     cluster: "duck-fat",
     kind: "technique",
     minutes: 9,
+    answer:
+      "Render duck fat by cooking trimmings or skin, cut small, in a heavy pan over low heat with a splash of water until the solids turn golden and stop bubbling — usually 30–45 minutes. Strain it while warm through a fine sieve; it keeps refrigerated for months and freezes indefinitely.",
     related: [
       "/cook/ways-to-use-duck-fat",
       "/buy/duck-fat-buying-guide",
       "/tools/duck-fat-substitution-calculator",
       "/cook/duck-leg-confit",
+      "/recipes/duck-fat-roasted-potatoes",
+      "/gear/best-dutch-oven-for-duck-confit",
+      "/learn/is-duck-healthy",
     ],
   },
   {
@@ -282,6 +377,11 @@ export const GUIDES: GuideEntry[] = [
       "/tools/duck-fat-substitution-calculator",
       "/buy/duck-fat-buying-guide",
       "/cook/what-to-serve-with-duck-breast",
+      "/recipes/duck-fat-roasted-potatoes",
+      "/recipes/duck-leg-confit",
+      "/cook/duck-leg-confit",
+      "/gear/best-dutch-oven-for-duck-confit",
+      "/learn/is-duck-healthy",
     ],
   },
   {
@@ -295,12 +395,16 @@ export const GUIDES: GuideEntry[] = [
     cluster: "wild-duck",
     kind: "reference",
     minutes: 9,
+    answer:
+      "Wild duck is leaner, darker, and much more strongly flavoured than farmed duck, with almost none of the fat cap that makes farmed breast forgiving. Cook wild breast fast and hot to medium-rare; save the low, patient rendering for farmed birds.",
     related: [
       "/cook/how-to-cook-wild-duck-breast",
       "/learn/duck-breast-temperature-doneness",
       "/buy/where-to-buy-duck-online",
+      "/recipes/pan-seared-duck-breast",
+      "/tools/what-should-i-cook",
+      "/learn/what-does-duck-taste-like",
     ],
-
   },
   {
     path: "/cook/how-to-cook-wild-duck-breast",
@@ -318,6 +422,8 @@ export const GUIDES: GuideEntry[] = [
       "/learn/duck-breast-temperature-doneness",
       "/gear/best-thermometer-for-duck",
       "/cook/best-sauces-for-duck-breast",
+      "/recipes/pan-seared-duck-breast",
+      "/ingredients/duck-marinade-guide",
     ],
   },
   {
@@ -342,7 +448,6 @@ export const GUIDES: GuideEntry[] = [
       "/cook/how-to-cook-duck-breast",
       "/gear/best-thermometer-for-duck",
     ],
-
   },
   {
     path: "/buy/where-to-buy-duck-breast-online",
@@ -364,6 +469,7 @@ export const GUIDES: GuideEntry[] = [
       "/gear/best-thermometer-for-duck",
       "/buy/fresh-vs-frozen-duck",
       "/learn/how-to-thaw-duck",
+      "/buy/how-to-choose-duck",
     ],
   },
   {
@@ -384,6 +490,9 @@ export const GUIDES: GuideEntry[] = [
       "/cook/how-to-cook-duck-breast",
       "/gear/best-pan-for-duck-breast",
       "/tools/duck-cooking-time-planner",
+      "/buy/where-to-buy-duck-breast-online",
+      "/buy/where-to-buy-duck-online",
+      "/gear/best-roasting-pan-for-duck",
     ],
   },
   {
@@ -403,6 +512,7 @@ export const GUIDES: GuideEntry[] = [
       "/learn/how-to-render-duck-fat",
       "/gear/best-thermometer-for-duck",
       "/cook/ways-to-use-duck-fat",
+      "/recipes/duck-leg-confit",
     ],
   },
   {
@@ -422,6 +532,9 @@ export const GUIDES: GuideEntry[] = [
       "/learn/how-to-render-duck-fat",
       "/learn/duck-breast-temperature-doneness",
       "/gear/best-thermometer-for-duck",
+      "/buy/where-to-buy-duck-breast-online",
+      "/gear/best-roasting-pan-for-duck",
+      "/recipes/pan-seared-duck-breast",
     ],
   },
   {
@@ -441,6 +554,7 @@ export const GUIDES: GuideEntry[] = [
       "/learn/how-to-render-duck-fat",
       "/gear/best-pan-for-duck-breast",
       "/gear/best-thermometer-for-duck",
+      "/recipes/roasted-whole-duck",
     ],
   },
   {
@@ -458,6 +572,7 @@ export const GUIDES: GuideEntry[] = [
       "/learn/how-to-score-duck-breast",
       "/learn/how-to-carve-a-duck",
       "/cook/how-to-cook-duck-breast",
+      "/recipes/pan-seared-duck-breast",
     ],
   },
   {
@@ -479,6 +594,9 @@ export const GUIDES: GuideEntry[] = [
       "/buy/where-to-buy-duck-online",
       "/ingredients/duck-fat-vs-butter-oil",
       "/buy/fresh-vs-frozen-duck",
+      "/gear/best-dutch-oven-for-duck-confit",
+      "/recipes/duck-fat-roasted-potatoes",
+      "/learn/is-duck-healthy",
     ],
   },
   {
@@ -492,6 +610,8 @@ export const GUIDES: GuideEntry[] = [
     cluster: "sourcing",
     kind: "reference",
     minutes: 9,
+    answer:
+      "Buy breast for a quick, steak-like dinner, legs for confit and braises, and a whole bird when you want a roast plus rendered fat and stock. The cut decides the method far more than the brand does.",
     related: [
       "/buy/how-much-duck-per-person",
       "/buy/where-to-buy-duck-online",
@@ -499,6 +619,9 @@ export const GUIDES: GuideEntry[] = [
       "/cook/whole-roast-duck",
       "/cook/duck-leg-confit",
       "/tools/what-should-i-cook",
+      "/buy/how-to-choose-duck",
+      "/learn/wild-duck-vs-farmed-duck",
+      "/learn/what-does-duck-taste-like",
     ],
   },
   {
@@ -512,12 +635,16 @@ export const GUIDES: GuideEntry[] = [
     cluster: "sourcing",
     kind: "reference",
     minutes: 8,
+    answer:
+      "Plan on about 1¼ lb (570 g) of whole, bone-in duck per person — so a 5–6 lb bird serves four generously, three if the duck is the centrepiece. For boneless breast, one 6–9 oz (170–250 g) breast per person is right.",
     related: [
       "/tools/whole-duck-serving-calculator",
       "/buy/what-cut-of-duck-to-buy",
       "/buy/where-to-buy-duck-online",
       "/learn/how-to-carve-a-duck",
       "/cook/whole-roast-duck",
+      "/learn/thanksgiving-duck-dinner",
+      "/tools/recipe-scaler",
     ],
   },
   {
@@ -531,6 +658,8 @@ export const GUIDES: GuideEntry[] = [
     cluster: "sourcing",
     kind: "reference",
     minutes: 9,
+    answer:
+      "Frozen duck is the better buy for most home cooks: nearly all duck is frozen soon after processing, so a properly frozen bird is often fresher than one that has sat thawed in a case. Buy fresh only when you can confirm how long it has been out, and cook it within a day or two.",
     related: [
       "/learn/how-to-thaw-duck",
       "/buy/where-to-buy-duck-online",
@@ -555,6 +684,7 @@ export const GUIDES: GuideEntry[] = [
       "/buy/what-cut-of-duck-to-buy",
       "/learn/why-duck-skin-isnt-crispy",
       "/learn/how-to-score-duck-breast",
+      "/tools/what-should-i-cook",
     ],
   },
   {
@@ -568,6 +698,8 @@ export const GUIDES: GuideEntry[] = [
     cluster: "whole-duck",
     kind: "reference",
     minutes: 10,
+    answer:
+      "Duck suits a Thanksgiving table of two to six: it roasts in about half the time of a turkey, all the meat is dark and moist, and it renders fat you can cook the rest of the meal in. Turkey still wins on sheer volume — above roughly eight guests you need two ducks or a second oven.",
     related: [
       // The hub gets one intentional tracked link in the article body instead,
       // so the related-guides band does not offer it a second, untracked time.
@@ -577,6 +709,8 @@ export const GUIDES: GuideEntry[] = [
       "/learn/how-to-thaw-duck",
       "/buy/where-to-buy-duck-online",
       "/gear/best-thermometer-for-duck",
+      "/recipes/roasted-whole-duck",
+      "/learn/thanksgiving-duck-dinner",
     ],
   },
   {
@@ -585,7 +719,8 @@ export const GUIDES: GuideEntry[] = [
     seoTitle: "Thanksgiving Duck Dinner: Plan, Timeline & Menu | DeliciousDuck",
     description:
       "A complete Thanksgiving duck plan: how many birds to order, when to order and thaw, a single-oven schedule, safe temperatures, the menu that suits duck, and carving.",
-    teaser: "Choose your table, then order date, thaw date, oven schedule and menu — with a printable checklist.",
+    teaser:
+      "Choose your table, then order date, thaw date, oven schedule and menu — with a printable checklist.",
     pillar: "learn",
     cluster: "whole-duck",
     kind: "reference",
@@ -598,10 +733,12 @@ export const GUIDES: GuideEntry[] = [
       "/learn/how-to-carve-a-duck",
       "/learn/duck-vs-turkey-thanksgiving",
       "/recipes/duck-fat-roasted-potatoes",
+      "/buy/how-much-duck-per-person",
+      "/recipes/roasted-whole-duck",
+      "/learn/whole-duck-cooking-time",
     ],
   },
 ];
-
 
 export const guideByPath = (path: string): GuideEntry | undefined =>
   GUIDES.find((g) => g.path === path);
@@ -620,4 +757,3 @@ export const CLUSTER_LABELS: Record<GuideCluster, string> = {
   commerce: "Buying & gear",
   sourcing: "Sourcing & selection",
 };
-

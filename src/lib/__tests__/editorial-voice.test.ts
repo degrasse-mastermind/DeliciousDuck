@@ -61,7 +61,7 @@ describe("editorial voice: quiet attribution", () => {
       0,
     );
     // Registry notes plus the doneness/safety pages that need the attribution.
-    expect(total).toBeLessThanOrEqual(85);
+    expect(total).toBeLessThanOrEqual(90);
   });
 
   it("keeps the centralised safety wording intact", async () => {

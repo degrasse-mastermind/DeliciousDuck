@@ -1,4 +1,6 @@
 import panSeared from "@/assets/recipe-pan-seared.jpg";
+import pekingDuck from "@/assets/recipe-peking-duck.jpg";
+import ovenBreast from "@/assets/recipe-oven-roasted-duck-breast.jpg";
 import airFryerHero from "@/assets/recipe-air-fryer-duck-breast.jpg";
 import airFryerCard from "@/assets/recipe-air-fryer-duck-breast-card.jpg";
 import confit from "@/assets/recipe-confit.jpg";
@@ -109,8 +111,7 @@ export const RECIPES: Recipe[] = [
     description:
       "A whole duck roasted in two stages, served with a bitter-orange gastrique built from the pan drippings \u2014 sharp and glossy rather than sweet.",
     image: orangeCard,
-    imageAlt:
-      "Whole roast Duck \u00e0 l\u2019Orange with crisp mahogany skin and orange gastrique",
+    imageAlt: "Whole roast Duck \u00e0 l\u2019Orange with crisp mahogany skin and orange gastrique",
     category: "Whole duck",
     cuisine: "French",
     prepTimeMinutes: 30,
@@ -143,8 +144,7 @@ export const RECIPES: Recipe[] = [
     description:
       "A two-stage roast that renders the fat cap, keeps the breast juicy, and gets the legs fully tender.",
     image: wholeRoastCard,
-    imageAlt:
-      "Whole roasted duck with crisp mahogany skin, roast potatoes and thyme",
+    imageAlt: "Whole roasted duck with crisp mahogany skin, roast potatoes and thyme",
     category: "Whole duck",
     prepTimeMinutes: 20,
     cookTimeMinutes: 135,
@@ -201,6 +201,42 @@ export const RECIPES: Recipe[] = [
     recipeYield: "2 servings",
     difficulty: "Easy",
     keyTechnique: "Two-stage air frying, skin-side up",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "peking-duck-at-home",
+    name: "Peking Duck at Home",
+    description:
+      "A home cook's route to lacquered, shatter-crisp Peking-style duck: air-dry, scald, glaze, and roast, served with pancakes, scallion and hoisin.",
+    image: pekingDuck,
+    imageAlt:
+      "Whole Peking-style duck with lacquered mahogany skin beside sliced skin, thin pancakes, scallion, cucumber and hoisin",
+    category: "Whole duck",
+    cuisine: "Chinese",
+    prepTimeMinutes: 45,
+    cookTimeMinutes: 105,
+    recipeYield: "4 servings",
+    difficulty: "Advanced",
+    keyTechnique: "Scalding and air-drying the skin, then a two-temperature roast",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "oven-roasted-duck-breast",
+    name: "Oven-Roasted Duck Breast",
+    description:
+      "Duck breast rendered in a skillet and finished in the oven — the steadier route to crisp skin and an even rosy centre when you are cooking four or more.",
+    image: ovenBreast,
+    imageAlt:
+      "Sliced oven-roasted duck breast with golden crisp skin and a rosy centre, with a spoon of pan jus",
+    category: "Duck breast",
+    cuisine: "French",
+    prepTimeMinutes: 15,
+    cookTimeMinutes: 30,
+    recipeYield: "4 servings",
+    difficulty: "Easy",
+    keyTechnique: "Skillet render, oven finish, thermometer pull",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },

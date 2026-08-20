@@ -124,6 +124,7 @@ export const INGREDIENTS: IngredientEntry[] = [
       "/cook/ways-to-use-duck-fat",
       "/buy/duck-fat-buying-guide",
       "/ingredients/best-acid-for-duck",
+      "/learn/is-duck-healthy",
     ],
   },
   {
@@ -141,6 +142,7 @@ export const INGREDIENTS: IngredientEntry[] = [
       "/cook/how-to-cook-duck-breast",
       "/cook/whole-roast-duck",
       "/ingredients/cherry-plum-with-duck",
+      "/recipes/duck-a-lorange",
     ],
   },
   {
@@ -158,6 +160,7 @@ export const INGREDIENTS: IngredientEntry[] = [
       "/ingredients/best-acid-for-duck",
       "/tools/duck-pairing-finder",
       "/cook/how-to-cook-duck-breast",
+      "/recipes/smoked-duck-with-plum-sauce",
     ],
   },
   {
@@ -175,6 +178,7 @@ export const INGREDIENTS: IngredientEntry[] = [
       "/ingredients/duck-fat-vs-butter-oil",
       "/ingredients/orange-with-duck",
       "/tools/duck-pairing-finder",
+      "/recipes/smoked-duck-with-plum-sauce",
     ],
   },
 ];
