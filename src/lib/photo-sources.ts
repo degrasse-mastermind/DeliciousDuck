@@ -82,7 +82,9 @@ export const PHOTO_SIZES = {
   /** Three-up card grid. */
   card: "(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw",
   /** Pillar tile grid. */
-  tile: "(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw",
+  tile: "(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw",
+  /** Featured pillar tile, which spans most or all of the grid. */
+  tileFeatured: "(min-width: 1024px) 1100px, 100vw",
 } as const;
 
 /** Every photo variant is generated at this single ratio. */

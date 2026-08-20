@@ -17,7 +17,9 @@ export function CategoryTile({ pillar, featured = false }: { pillar: Pillar; fea
     >
       <img
         src={pillar.image}
-        {...(srcSet ? { srcSet, sizes: PHOTO_SIZES.tile } : {})}
+        {...(srcSet
+          ? { srcSet, sizes: featured ? PHOTO_SIZES.tileFeatured : PHOTO_SIZES.tile }
+          : {})}
         alt=""
         aria-hidden="true"
         loading="lazy"
