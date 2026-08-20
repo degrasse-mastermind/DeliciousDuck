@@ -190,8 +190,11 @@ describe("QA exclusion", () => {
 
   it("suppresses the gate and the pre-tag bootstrap", () => {
     expect(gateSource).toContain("qaExclusionActive()");
-    expect(gateSource).toContain(QA_EXCLUSION_KEY);
-    expect(gateSource).toContain(QA_EXCLUSION_VALUE);
+    // The bootstrap serializes the shared constants rather than restating them.
+    expect(gateSource).toContain("JSON.stringify(QA_EXCLUSION_KEY)");
+    expect(gateSource).toContain("JSON.stringify(QA_EXCLUSION_VALUE)");
+    expect(QA_EXCLUSION_KEY).toBe("dd_analytics_optout");
+    expect(QA_EXCLUSION_VALUE).toBe("1");
     // The bootstrap must consult exclusion before injecting gtag.
     expect(gateSource.indexOf("qaExcluded")).toBeLessThan(gateSource.indexOf("var hostOk"));
     expect(rootSource).toContain("qaExclusionBootstrapScript()");
