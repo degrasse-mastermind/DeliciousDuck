@@ -1,9 +1,34 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Calculator } from "lucide-react";
+import {
+  ArrowRight,
+  Calculator,
+  ChefHat,
+  Clock,
+  Droplets,
+  Scale,
+  Thermometer,
+  Users,
+  Wine,
+} from "lucide-react";
 import type { DuckTool } from "@/data/tools";
+
+/**
+ * One distinct mark per tool, so the list scans as seven different answers
+ * rather than seven copies of the same calculator glyph.
+ */
+const TOOL_ICONS: Record<string, typeof Calculator> = {
+  "duck-pairing-finder": Wine,
+  "duck-cooking-time-planner": Clock,
+  "duck-doneness-guide": Thermometer,
+  "whole-duck-serving-calculator": Users,
+  "duck-fat-substitution-calculator": Droplets,
+  "recipe-scaler": Scale,
+  "what-should-i-cook": ChefHat,
+};
 
 export function ToolListItem({ tool }: { tool: DuckTool }) {
   const live = tool.status === "live" && tool.to;
+  const Icon = TOOL_ICONS[tool.slug] ?? Calculator;
 
   const body = (
     <>
@@ -11,7 +36,7 @@ export function ToolListItem({ tool }: { tool: DuckTool }) {
         aria-hidden="true"
         className="mt-0.5 inline-flex size-10 shrink-0 items-center justify-center rounded-sm bg-secondary text-primary"
       >
-        <Calculator className="size-5" />
+        <Icon className="size-5" />
       </span>
       <span className="flex-1">
         <span className="flex flex-wrap items-center gap-3">

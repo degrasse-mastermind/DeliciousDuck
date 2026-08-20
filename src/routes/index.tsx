@@ -105,6 +105,7 @@ function JourneySection() {
         eyebrow="Start anywhere"
         title="Your Duck Journey Starts Here"
         intro="Six routes into duck, whether you are searching for a technique, comparing where to buy, or working out how much to cook tonight."
+        align="center"
       />
       <div className="mt-12 grid gap-4 lg:grid-cols-3">
         {PILLARS.map((pillar, i) => (
