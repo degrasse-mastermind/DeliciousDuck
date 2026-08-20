@@ -29,7 +29,6 @@ export function RecipeCard({ recipe, priority = false }: { recipe: Recipe; prior
           alt={recipe.imageAlt ?? `${recipe.name} being prepared in the kitchen`}
           sizes={PHOTO_SIZES.card}
           priority={priority}
-          className="bg-[repeating-linear-gradient(135deg,hsl(var(--border)/0.22)_0_1px,transparent_1px_10px)]"
           imgClassName="transition-transform duration-700 ease-out group-hover:scale-[1.06]"
         />
 
