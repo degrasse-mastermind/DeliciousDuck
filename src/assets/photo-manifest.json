@@ -1,0 +1,121 @@
+{
+  "duck-a-lorange-card": {
+    "tone": "#472817",
+    "variants": {
+      "700": 700,
+      "1400": 1024
+    }
+  },
+  "duck-a-lorange-illustration": {
+    "tone": "#b88759",
+    "variants": {
+      "700": 700,
+      "1400": 1365
+    }
+  },
+  "duck-fat-roasted-potatoes-card": {
+    "tone": "#45280f",
+    "variants": {
+      "700": 700,
+      "1400": 1365
+    }
+  },
+  "hero-duck-breast": {
+    "tone": "#664d40",
+    "variants": {
+      "700": 700,
+      "1400": 1280
+    }
+  },
+  "recipe-air-fryer-duck-breast": {
+    "tone": "#6b5136",
+    "variants": {
+      "700": 700,
+      "1400": 1400
+    }
+  },
+  "recipe-air-fryer-duck-breast-card": {
+    "tone": "#6b5136",
+    "variants": {
+      "700": 700,
+      "1400": 1024
+    }
+  },
+  "recipe-confit": {
+    "tone": "#4f4031",
+    "variants": {
+      "700": 700,
+      "1400": 1024
+    }
+  },
+  "recipe-pan-seared": {
+    "tone": "#47362b",
+    "variants": {
+      "700": 700,
+      "1400": 1024
+    }
+  },
+  "recipe-smoked-plum": {
+    "tone": "#33231c",
+    "variants": {
+      "700": 700,
+      "1400": 1024
+    }
+  },
+  "recipe-whole-roast": {
+    "tone": "#492a1a",
+    "variants": {
+      "700": 700,
+      "1400": 1131
+    }
+  },
+  "roasted-whole-duck-card": {
+    "tone": "#8b5f43",
+    "variants": {
+      "700": 700,
+      "1400": 1365
+    }
+  },
+  "tile-buy": {
+    "tone": "#9f8875",
+    "variants": {
+      "700": 700,
+      "1400": 900
+    }
+  },
+  "tile-cook": {
+    "tone": "#815c46",
+    "variants": {
+      "700": 700,
+      "1400": 900
+    }
+  },
+  "tile-gear": {
+    "tone": "#46403e",
+    "variants": {
+      "700": 700,
+      "1400": 900
+    }
+  },
+  "tile-ingredients": {
+    "tone": "#98775e",
+    "variants": {
+      "700": 700,
+      "1400": 900
+    }
+  },
+  "tile-learn": {
+    "tone": "#bf7e67",
+    "variants": {
+      "700": 700,
+      "1400": 900
+    }
+  },
+  "tile-tools": {
+    "tone": "#9f7c70",
+    "variants": {
+      "700": 700,
+      "1400": 900
+    }
+  }
+}

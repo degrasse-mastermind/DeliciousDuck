@@ -6,10 +6,12 @@ src/lib/sketch-sources.ts. The photographs did not: a 1536x1024 JPEG was being
 painted into a 384px card. This script gives every photo the same treatment.
 
 For each src/assets/*.jpg photo it writes:
-  <name>-700.webp   crop-normalised to 4:3, 700px wide
-  <name>-1400.webp  crop-normalised to 4:3, 1400px wide
-and records an average tone per photo in src/assets/photo-tones.json so a card
-can paint a warm placeholder instead of flashing empty paper.
+  <name>-700.webp   crop-normalised to 4:3, up to 700px wide
+  <name>-1400.webp  crop-normalised to 4:3, up to 1400px wide (never upscaled)
+and records the real pixel width of each variant plus an average tone per photo
+in src/assets/photo-manifest.json, so srcset descriptors stay honest (several
+originals are only 1024px wide) and a card can paint a warm placeholder instead
+of flashing empty paper.
 
 Run: python3 scripts/gen-photo-variants.py
 """
@@ -23,7 +25,7 @@ ASSETS = pathlib.Path(__file__).resolve().parent.parent / "src" / "assets"
 RATIO = 4 / 3  # one card/hero ratio for the whole collection
 WIDTHS = (700, 1400)
 
-tones: dict[str, str] = {}
+manifest: dict[str, dict] = {}
 
 for jpg in sorted(ASSETS.glob("*.jpg")):
     name = jpg.stem
@@ -41,18 +43,24 @@ for jpg in sorted(ASSETS.glob("*.jpg")):
         cropped = im.crop(box)
 
         r, g, b = (round(v) for v in ImageStat.Stat(cropped.resize((16, 12))).mean[:3])
-        tones[name] = f"#{r:02x}{g:02x}{b:02x}"
+        entry: dict = {"tone": f"#{r:02x}{g:02x}{b:02x}", "variants": {}}
 
         for width in WIDTHS:
-            if cropped.width < width and width != WIDTHS[0]:
-                # Never upscale past the original beyond the small variant.
-                continue
-            target_w = min(width, cropped.width) if width != WIDTHS[0] else width
+            # Never upscale: a 1024px original keeps its own width in the large
+            # slot, and the manifest records that real width for the descriptor.
+            target_w = min(width, cropped.width)
             target_h = round(target_w / RATIO)
+            if entry["variants"].get(str(WIDTHS[0])) == target_w and width != WIDTHS[0]:
+                continue  # large variant would duplicate the small one
             out = cropped.resize((target_w, target_h), Image.LANCZOS)
             dest = ASSETS / f"{name}-{width}.webp"
             out.save(dest, "WEBP", quality=82, method=6)
+            entry["variants"][str(width)] = target_w
             print(f"{dest.name}  {out.width}x{out.height}  {dest.stat().st_size // 1024}kB")
 
-(ASSETS / "photo-tones.json").write_text(json.dumps(dict(sorted(tones.items())), indent=2) + "\n")
-print(f"\nwrote photo-tones.json ({len(tones)} photos)")
+        manifest[name] = entry
+
+(ASSETS / "photo-manifest.json").write_text(
+    json.dumps(dict(sorted(manifest.items())), indent=2) + "\n"
+)
+print(f"\nwrote photo-manifest.json ({len(manifest)} photos)")
