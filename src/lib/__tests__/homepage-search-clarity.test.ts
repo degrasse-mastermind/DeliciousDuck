@@ -11,14 +11,13 @@ describe("homepage hero semantics", () => {
     expect(home).toMatch(/<h1[^>]*>\s*Duck Recipes, Cooking Guides &amp; Buying Advice/);
   });
 
-  it("keeps the brand line prominent but not as the H1", () => {
-    expect(home).toContain("Better Duck.");
-    expect(home).toContain("A More Delicious World.");
+  it("keeps the brand line present as supporting copy under the H1", () => {
+    expect(home).toContain("Better Duck. A More Delicious World.");
     expect(SITE.tagline).toBe("Better Duck. A More Delicious World.");
     const brandIndex = home.indexOf("Better Duck.");
     const h1Index = home.indexOf("<h1");
-    expect(brandIndex).toBeLessThan(h1Index);
-    expect(home.slice(brandIndex - 200, brandIndex)).not.toContain("<h1");
+    // The search-aligned H1 now leads the hero; the brand line supports it.
+    expect(h1Index).toBeLessThan(brandIndex);
   });
 
   it("mentions the site's search territory in supporting copy", () => {

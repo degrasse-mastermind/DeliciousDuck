@@ -179,9 +179,10 @@ describe("mobile header lead-magnet CTA", () => {
     expect((header.match(/hash="starter-guide"/g) ?? []).length).toBe(3);
   });
 
-  it("preserves the desktop header and does not restore a desktop-only search change", () => {
+  it("preserves the desktop header actions with a compact search affordance", () => {
     expect(header).toContain('className="hidden items-center gap-3 lg:flex"');
-    expect(header).toContain("<SearchField />");
-    expect(header).toContain("Get the Free Guide");
+    expect(header).toContain('aria-label="Search DeliciousDuck"');
+    expect(header).toContain("<SearchField");
+    expect(header).toContain("Free Guide");
   });
 });
