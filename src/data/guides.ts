@@ -562,7 +562,7 @@ export const GUIDES: GuideEntry[] = [
     title: "Best Knife for Scoring Duck",
     seoTitle: "Best Knife for Scoring Duck Skin: What to Look For | DeliciousDuck",
     description:
-      "Which knife scores duck skin cleanly: chef's knife, petty or utility, boning and paring options compared on tip control, blade length, edge geometry and knuckle clearance.",
+      "Which knife scores duck skin cleanly: chef's, petty, boning and paring options compared on tip control, blade length, edge geometry and knuckle clearance.",
     teaser: "Tip control beats prestige — four blade shapes, honestly compared.",
     pillar: "gear",
     cluster: "commerce",
