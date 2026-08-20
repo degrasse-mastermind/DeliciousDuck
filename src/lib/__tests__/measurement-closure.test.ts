@@ -29,7 +29,7 @@ import {
   QA_EXCLUSION_KEY,
   QA_EXCLUSION_PARAM,
   QA_EXCLUSION_VALUE,
-  qaExclusionFromSearch,
+  qaToggleFromSearch,
 } from "@/lib/qa-exclusion";
 import {
   SEASONAL_PROMOTIONS,
@@ -159,33 +159,33 @@ describe("session deduplication", () => {
 });
 
 describe("visibility rule", () => {
-  const box = (height: number, visible: number) => ({
-    ratio: visible / height,
-    visiblePx: visible,
+  const box = (elementHeight: number, visibleHeight: number, viewportHeight = 800) => ({
+    intersectionRatio: visibleHeight / elementHeight,
+    visibleHeight,
+    elementHeight,
+    viewportHeight,
   });
 
   it("fires a short module at 35% visible", () => {
-    const { ratio, visiblePx } = box(400, 140);
-    expect(isMeaningfullyVisible({ ratio, visiblePx })).toBe(true);
+    expect(isMeaningfullyVisible(box(400, 140))).toBe(true);
   });
 
   it("does not fire a short module barely peeking in", () => {
-    const { ratio, visiblePx } = box(400, 40);
-    expect(isMeaningfullyVisible({ ratio, visiblePx })).toBe(false);
+    expect(isMeaningfullyVisible(box(400, 40))).toBe(false);
   });
 
   it("fires a tall module on the 180px band even below 35%", () => {
-    const { ratio, visiblePx } = box(2000, 200);
-    expect(ratio).toBeLessThan(0.35);
-    expect(isMeaningfullyVisible({ ratio, visiblePx })).toBe(true);
+    const input = box(2000, 200);
+    expect(input.intersectionRatio).toBeLessThan(0.35);
+    expect(isMeaningfullyVisible(input)).toBe(true);
   });
 });
 
 describe("QA exclusion", () => {
   it("reads the documented query parameter in both directions", () => {
-    expect(qaExclusionFromSearch(`?${QA_EXCLUSION_PARAM}=1`)).toBe(true);
-    expect(qaExclusionFromSearch(`?${QA_EXCLUSION_PARAM}=0`)).toBe(false);
-    expect(qaExclusionFromSearch("?other=1")).toBeNull();
+    expect(qaToggleFromSearch(`?${QA_EXCLUSION_PARAM}=1`)).toBe("on");
+    expect(qaToggleFromSearch(`?${QA_EXCLUSION_PARAM}=0`)).toBe("off");
+    expect(qaToggleFromSearch("?other=1")).toBeNull();
   });
 
   it("suppresses the gate and the pre-tag bootstrap", () => {
