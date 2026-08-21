@@ -441,6 +441,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/tools/duck-doneness-guide",
       "/recipes/pan-seared-duck-breast",
       "/recipes/air-fryer-duck-breast",
+      "/learn/duck-breast-temperature-doneness",
     ],
     sourcing: [
       {
@@ -515,6 +516,10 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         heading: "Score the fat cap",
         body: "Cut a 1 cm (⅜ in) crosshatch or parallel lines through the skin and fat, stopping just short of the meat. The cuts open channels for fat to escape and multiply the surface area that can brown. If the knife hits red, you have gone too deep.",
+      },
+      {
+        heading: "Pick the pan, and know how it behaves",
+        body: "Stainless steel and cast iron both work, but they are not interchangeable. Stainless heats and cools quickly, so it answers the burner fast and lets you back off the moment the render gets loud — useful on a first attempt, and the fond it leaves is the best base for a pan sauce. Cast iron holds heat, so it stays steady through a long render and browns hard at the finish, but it lags when you turn the heat down. Whichever you use, keep it dry and unoiled at the start; skin sticking to stainless is almost always a sign the pan was hot before the duck went in.",
       },
     ],
     steps: [
@@ -620,6 +625,10 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         a: "The safe minimum for all poultry, duck included, is 165°F (73.9°C). Serving duck breast rosy is a widespread restaurant and home practice, but it is a culinary choice rather than a food-safety recommendation. Anyone pregnant, elderly, very young, or immunocompromised should cook to the full 165°F.",
       },
       {
+        q: "Can I cook duck breast in a stainless steel pan?",
+        a: "Yes, and it is a good choice. Start the breast in a cold, dry stainless pan exactly as you would in cast iron; the skin releases its own fat within a couple of minutes and stops sticking. Stainless responds faster to heat changes, so watch the sizzle and drop the burner if the fat starts to spit. Cast iron is steadier but slower to react.",
+      },
+      {
         q: "Should I score in a crosshatch or in lines?",
         a: "Either works. Crosshatch gives slightly more surface area and drainage; parallel lines are easier to keep shallow. Depth matters far more than pattern.",
       },
@@ -636,6 +645,9 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/recipes/air-fryer-duck-breast",
       "/recipes/duck-a-lorange",
       "/recipes/oven-roasted-duck-breast",
+      "/gear/best-pan-for-duck-breast",
+      "/gear/best-thermometer-for-duck",
+      "/gear/best-knife-for-scoring-duck",
     ],
     sourcing: [
       {
@@ -1241,6 +1253,14 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         a: "Broadly 2–2.5 hours for a 2–2.7 kg (4.5–6 lb) bird using the two-stage method, but weight, oven accuracy and starting temperature all shift it. Use the cooking-time planner for a range and confirm with a thermometer.",
       },
       {
+        q: "What is the best way to cook a whole duck?",
+        a: "Two stages in a domestic oven: a long, low phase at 300–325°F (150–165°C) that renders the fat cap, then a short blast at high heat that crisps the skin. Cooking hot the whole way dries the breast before the legs are tender, and cooking low the whole way leaves the skin soft.",
+      },
+      {
+        q: "How do I prepare a whole duck before roasting?",
+        a: "Remove the giblets, dry the skin thoroughly and leave the bird uncovered in the fridge overnight if you can, season inside and out, and set it on a rack so it never sits in the fat it releases. Aromatics go in the cavity; stuffing does not.",
+      },
+      {
         q: "Should I stuff a whole duck?",
         a: "No. Stuffing insulates the cavity, extends the cook, and soaks up fat. Use citrus, garlic and herbs as aromatics instead.",
       },
@@ -1260,6 +1280,11 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/recipes/duck-a-lorange",
       "/ingredients/best-herbs-spices-for-duck",
       "/recipes/peking-duck-at-home",
+      "/learn/duck-breast-temperature-doneness",
+      "/learn/thanksgiving-duck-dinner",
+      "/gear/best-roasting-pan-for-duck",
+      "/learn/how-to-render-duck-fat",
+      "/buy/where-to-buy-duck-online",
     ],
     sourcing: [
       {
