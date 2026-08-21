@@ -20,6 +20,11 @@ const FAQ = [
     a: "Two answers, for two different questions. The USDA safe minimum internal temperature for poultry, including duck, is 165°F (73.9°C). The common restaurant target is medium-rare, pulled at 125–130°F (52–54°C) and finishing at 130–135°F (54–57°C) after a 5–8 minute rest — a texture convention, not a safety clearance.",
   },
   {
+    q: "What internal temperature is duck cooked at, beyond the breast?",
+    a: "165°F (73.9°C) is the safe minimum for every part of the bird. Beyond that, targets follow texture: duck legs and the thigh of a whole bird are usually taken to 175–185°F (79–85°C), where connective tissue has softened and the meat pulls easily, and confit legs sit in fat held at 190–210°F (88–99°C) until a skewer meets no resistance.",
+  },
+
+  {
     q: "What temperature is medium duck breast?",
     a: "Pull at 135–140°F (57–60°C) and it settles at 140–145°F (60–63°C) after resting, giving a pale pink centre that is firmer than medium-rare but still moist.",
   },
