@@ -3,10 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 
 import {
   GAME_PLAN_COOLDOWN_MS,
-  GAME_PLAN_EVENT_NAME,
+  GAME_PLAN_FROM,
   buildGamePlanEventData,
   decideGamePlanDelivery,
-  dispatchGamePlanEvent,
+  dispatchGamePlanEmail,
   runGamePlanDelivery,
   withinCooldown,
   type GamePlanDeliveryDeps,
@@ -119,7 +119,7 @@ describe("Game Plan delivery decisions", () => {
 
     const bad = deps({
       dispatch: vi.fn(async () => {
-        throw new Error("game_plan_event_provider_unavailable");
+        throw new Error("game_plan_email_provider_unavailable");
       }),
     });
     const spy = vi.spyOn(console, "error").mockImplementation(() => {});
@@ -184,41 +184,41 @@ describe("Game Plan email payload", () => {
     expect(data.party_size_bucket).toBe("3-4");
   });
 
-  it("registers the event definition once when the provider does not know it", async () => {
+  it("sends one direct provider email carrying the plan and an unsubscribe link", async () => {
     const calls: Array<{ url: string; body: string }> = [];
-    let first = true;
     const fetchImpl = vi.fn(async (url: string, init: { body: string }) => {
       calls.push({ url, body: init.body });
-      if (url.endsWith("/events/send") && first) {
-        first = false;
-        return { ok: false, status: 404 };
-      }
       return { ok: true, status: 200 };
     });
 
-    await dispatchGamePlanEvent(
+    await dispatchGamePlanEmail(
       { email: "cook@example.com", selection: SELECTION, baseUrl: "https://deliciousduck.com", token: TOKEN },
       "re_test_key",
       fetchImpl as never,
     );
 
-    expect(calls.map((c) => c.url)).toEqual([
-      "https://api.resend.com/events/send",
-      "https://api.resend.com/events",
-      "https://api.resend.com/events/send",
-    ]);
-    expect(calls[0]?.body).toContain(GAME_PLAN_EVENT_NAME);
+    expect(calls).toHaveLength(1);
+    expect(calls[0]?.url).toBe("https://api.resend.com/emails");
+    const body = JSON.parse(calls[0]!.body) as Record<string, unknown>;
+    expect(body["from"]).toBe(GAME_PLAN_FROM);
+    expect(body["to"]).toEqual(["cook@example.com"]);
+    expect(String(body["subject"])).toContain(data.headline);
+    expect(String(body["html"])).toContain(data.primary_url);
+    expect(String(body["html"])).toContain(data.game_plan_url);
+    expect(String(body["html"])).toContain(data.unsubscribe_url);
+    // The address never appears in any link the email contains.
+    expect(String(body["html"])).not.toContain("cook@example.com");
   });
 
   it("throws a status classification, never a provider body", async () => {
     const fetchImpl = vi.fn(async () => ({ ok: false, status: 429 }));
     await expect(
-      dispatchGamePlanEvent(
+      dispatchGamePlanEmail(
         { email: "cook@example.com", selection: SELECTION, baseUrl: "https://deliciousduck.com", token: TOKEN },
         "re_test_key",
         fetchImpl as never,
       ),
-    ).rejects.toThrow("game_plan_event_rate_limited");
+    ).rejects.toThrow("game_plan_email_rate_limited");
   });
 });
 

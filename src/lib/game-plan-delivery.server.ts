@@ -17,7 +17,7 @@ import type { GamePlanRequestPayload } from "./newsletter-schema";
 import type { GamePlanSelection } from "@/data/duck-game-plan";
 import {
   GAME_PLAN_COOLDOWN_MS,
-  dispatchGamePlanEvent,
+  dispatchGamePlanEmail,
   runGamePlanDelivery,
   type GamePlanDeliveryResult,
 } from "./game-plan-delivery";
@@ -155,7 +155,7 @@ export async function requestGamePlanEmail(data: GamePlanRequestPayload): Promis
         durableAt === null ? memory : Math.max(durableAt, memory ?? 0);
       return { token: row?.preference_token ?? null, lastRequestedAt: last };
     },
-    dispatch: (input) => dispatchGamePlanEvent(input, apiKey as string, fetch as never),
+    dispatch: (input) => dispatchGamePlanEmail(input, apiKey as string, fetch as never),
     recordDelivery: async (at) => {
       rememberRecent(email, Date.parse(at));
       await writeDurableCooldown(supabaseAdmin, email, at);
