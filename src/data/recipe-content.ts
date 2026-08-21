@@ -441,7 +441,6 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/tools/duck-doneness-guide",
       "/recipes/pan-seared-duck-breast",
       "/recipes/air-fryer-duck-breast",
-      "/learn/duck-breast-temperature-doneness",
     ],
     sourcing: [
       {
