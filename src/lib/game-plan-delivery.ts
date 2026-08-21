@@ -110,62 +110,94 @@ function headers(apiKey: string): Record<string, string> {
   return { "content-type": "application/json", authorization: `Bearer ${apiKey}` };
 }
 
-/** The dispatch request that triggers the Game Plan delivery automation. */
-export function buildGamePlanEventRequest(
+/** Visible sender identity, matching the verified newsletter sender. */
+export const GAME_PLAN_FROM = "DeliciousDuck <hello@deliciousduck.com>";
+export const GAME_PLAN_EMAIL_SEND_URL = "https://api.resend.com/emails";
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/**
+ * The plan email body. Rendered here and sent directly, rather than handed to a
+ * provider automation: the earlier automation-triggered event was accepted by
+ * the provider but no automation was listening, so nothing was ever delivered
+ * and no send appeared in the provider's logs.
+ */
+export function buildGamePlanEmailHtml(data: GamePlanEventData): string {
+  const e = escapeHtml;
+  return [
+    `<div style="font-family:Georgia,'Times New Roman',serif;color:#1c1c1a;max-width:560px">`,
+    `<p style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#5b6b57;margin:0 0 8px">Your Duck Game Plan</p>`,
+    `<h1 style="font-size:24px;line-height:1.25;margin:0 0 12px">${e(data.headline)}</h1>`,
+    `<p style="font-size:16px;line-height:1.6;margin:0 0 18px">${e(data.summary)}</p>`,
+    `<p style="font-size:16px;line-height:1.6;margin:0 0 6px"><strong>Do this first:</strong> ${e(data.critical_move)}</p>`,
+    `<p style="font-size:16px;line-height:1.6;margin:0 0 6px"><strong>Temperature:</strong> ${e(data.temperature)}</p>`,
+    `<p style="font-size:16px;line-height:1.6;margin:0 0 20px"><strong>Timing:</strong> ${e(data.timing)}</p>`,
+    `<p style="margin:0 0 20px"><a href="${e(data.primary_url)}" style="background:#2f4531;color:#fdfbf6;padding:12px 18px;text-decoration:none;display:inline-block">${e(data.primary_label)}</a></p>`,
+    `<p style="font-size:15px;line-height:1.6;margin:0 0 24px">Want to change an answer or plan a different bird? <a href="${e(data.game_plan_url)}" style="color:#2f4531">Rebuild your plan</a>.</p>`,
+    `<hr style="border:none;border-top:1px solid #e2ddd2;margin:0 0 14px">`,
+    `<p style="font-size:12px;line-height:1.6;color:#6b6b64;margin:0">You asked for this plan on deliciousduck.com. <a href="${e(data.preferences_url)}" style="color:#6b6b64">Email preferences</a> &middot; <a href="${e(data.unsubscribe_url)}" style="color:#6b6b64">Unsubscribe</a></p>`,
+    `</div>`,
+  ].join("");
+}
+
+export function buildGamePlanEmailText(data: GamePlanEventData): string {
+  return [
+    `Your Duck Game Plan`,
+    ``,
+    data.headline,
+    ``,
+    data.summary,
+    ``,
+    `Do this first: ${data.critical_move}`,
+    `Temperature: ${data.temperature}`,
+    `Timing: ${data.timing}`,
+    ``,
+    `${data.primary_label}: ${data.primary_url}`,
+    `Rebuild your plan: ${data.game_plan_url}`,
+    ``,
+    `Email preferences: ${data.preferences_url}`,
+    `Unsubscribe: ${data.unsubscribe_url}`,
+  ].join("\n");
+}
+
+/** The single provider call that delivers the plan. */
+export function buildGamePlanEmailRequest(
   input: GamePlanDeliveryInput,
   apiKey: string,
 ): ProviderJsonRequest {
+  const data = buildGamePlanEventData(input);
   return {
-    url: GAME_PLAN_EVENT_SEND_URL,
+    url: GAME_PLAN_EMAIL_SEND_URL,
     method: "POST",
     headers: headers(apiKey),
     body: JSON.stringify({
-      event: GAME_PLAN_EVENT_NAME,
-      email: input.email,
-      // Resend Automations reference custom event fields as `event.<field>`,
-      // which are sent under `payload`.
-      payload: buildGamePlanEventData(input),
+      from: GAME_PLAN_FROM,
+      to: [input.email],
+      subject: `Your duck game plan: ${data.headline}`,
+      html: buildGamePlanEmailHtml(data),
+      text: buildGamePlanEmailText(data),
+      headers: { "List-Unsubscribe": `<${data.unsubscribe_url}>` },
+      tags: [
+        { name: "type", value: "game_plan" },
+        { name: "recommendation", value: data.recommendation_id },
+      ],
     }),
   };
 }
 
-/** Field types for the one-time event-definition registration. */
-export const GAME_PLAN_EVENT_SCHEMA = {
-  recommendation_id: "string",
-  result_type: "string",
-  headline: "string",
-  summary: "string",
-  critical_move: "string",
-  temperature: "string",
-  timing: "string",
-  cut: "string",
-  method: "string",
-  concern: "string",
-  party_size_bucket: "string",
-  primary_url: "string",
-  primary_label: "string",
-  game_plan_url: "string",
-  unsubscribe_url: "string",
-  preferences_url: "string",
-} as const;
-
-export function buildGamePlanEventDefinitionRequest(apiKey: string): ProviderJsonRequest {
-  return {
-    url: GAME_PLAN_EVENT_DEFINE_URL,
-    method: "POST",
-    headers: headers(apiKey),
-    body: JSON.stringify({ name: GAME_PLAN_EVENT_NAME, schema: GAME_PLAN_EVENT_SCHEMA }),
-  };
-}
-
 /** Status-only classification: a provider body can echo the address. */
-export function gamePlanEventFailureReason(httpStatus: number): string {
-  if (httpStatus === 401 || httpStatus === 403) return "game_plan_event_unauthorized";
-  if (httpStatus === 404) return "game_plan_event_not_registered";
-  if (httpStatus === 422) return "game_plan_event_rejected_request";
-  if (httpStatus === 429) return "game_plan_event_rate_limited";
-  if (httpStatus >= 500) return "game_plan_event_provider_unavailable";
-  return `game_plan_event_status_${httpStatus}`;
+export function gamePlanEmailFailureReason(httpStatus: number): string {
+  if (httpStatus === 401 || httpStatus === 403) return "game_plan_email_unauthorized";
+  if (httpStatus === 422) return "game_plan_email_rejected_request";
+  if (httpStatus === 429) return "game_plan_email_rate_limited";
+  if (httpStatus >= 500) return "game_plan_email_provider_unavailable";
+  return `game_plan_email_status_${httpStatus}`;
 }
 
 export type JsonFetch = (
@@ -173,36 +205,21 @@ export type JsonFetch = (
   init: { method: string; headers: Record<string, string>; body: string },
 ) => Promise<{ ok: boolean; status: number }>;
 
-/**
- * Dispatches the Game Plan event, registering the event definition once if the
- * provider reports it is unknown. Throws a status classification only.
- */
-export async function dispatchGamePlanEvent(
+/** Sends the plan email. Throws a status classification only. */
+export async function dispatchGamePlanEmail(
   input: GamePlanDeliveryInput,
   apiKey: string,
   fetchImpl: JsonFetch,
 ): Promise<void> {
-  const send = () => {
-    const request = buildGamePlanEventRequest(input, apiKey);
-    return fetchImpl(request.url, {
-      method: request.method,
-      headers: { ...request.headers },
-      body: request.body,
-    });
-  };
-
-  let response = await send();
-  if (response.status === 404 || response.status === 422) {
-    const definition = buildGamePlanEventDefinitionRequest(apiKey);
-    await fetchImpl(definition.url, {
-      method: definition.method,
-      headers: { ...definition.headers },
-      body: definition.body,
-    });
-    response = await send();
-  }
-  if (!response.ok) throw new Error(gamePlanEventFailureReason(response.status));
+  const request = buildGamePlanEmailRequest(input, apiKey);
+  const response = await fetchImpl(request.url, {
+    method: request.method,
+    headers: { ...request.headers },
+    body: request.body,
+  });
+  if (!response.ok) throw new Error(gamePlanEmailFailureReason(response.status));
 }
+
 
 /** True while a previous plan email is still inside the cooldown window. */
 export function withinCooldown(
