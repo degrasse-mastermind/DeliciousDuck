@@ -695,3 +695,88 @@ export function trackConversionModuleView(params: {
     intent: params.intent,
   });
 }
+
+/* ------------------------------------------------------------------ *
+ * Duck Game Plan (acquisition funnel)
+ *
+ * Five events, each with a closed property allowlist built by
+ * `@/lib/game-plan-events`. Payloads carry only finite enum members
+ * (cut, method, concern, party-size bucket, result type), a validated
+ * `recommendation_id`, a placement label, and normalized same-origin paths.
+ * The visitor's email address is never passed to any of these helpers.
+ * ------------------------------------------------------------------ */
+
+function emitGamePlanEvent(name: GamePlanEventName, input: Omit<GamePlanEventInput, "sourcePath">): void {
+  try {
+    const event = buildGamePlanEvent(name, { ...input, sourcePath: normalizedPath() });
+    trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
+  } catch {
+    // Analytics is best-effort and must never break the planner.
+  }
+}
+
+/** The visitor began the planner: first answer selected, once per flow. */
+export function trackGamePlanStart(params: { placement: string }): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.start, { placement: params.placement });
+}
+
+/** One completed question. `step` is one of the five documented step names. */
+export function trackGamePlanStepComplete(params: {
+  placement: string;
+  step: GamePlanStep;
+  cut?: GamePlanCut | undefined;
+  method?: GamePlanMethod | undefined;
+  concern?: GamePlanConcern | undefined;
+  partySize?: GamePlanPartySize | undefined;
+}): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.stepComplete, params);
+}
+
+/** Successful signup from inside the planner. Never carries the address. */
+export function trackGamePlanSignup(params: {
+  placement: string;
+  selection: GamePlanSelection;
+  recommendationId: string;
+  resultType: GamePlanResultType;
+}): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.signup, {
+    placement: params.placement,
+    cut: params.selection.cut,
+    method: params.selection.method,
+    concern: params.selection.concern,
+    partySize: params.selection.partySize,
+    recommendationId: params.recommendationId,
+    resultType: params.resultType,
+  });
+}
+
+/** The personalized plan was rendered. Deduped by the caller per plan. */
+export function trackGamePlanResultView(params: {
+  placement: string;
+  selection: GamePlanSelection;
+  recommendationId: string;
+  resultType: GamePlanResultType;
+}): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.resultView, {
+    placement: params.placement,
+    cut: params.selection.cut,
+    method: params.selection.method,
+    concern: params.selection.concern,
+    partySize: params.selection.partySize,
+    recommendationId: params.recommendationId,
+    resultType: params.resultType,
+  });
+}
+
+/** Click on a link inside a rendered plan. Path only, never a full URL. */
+export function trackGamePlanInternalClick(params: {
+  placement: string;
+  destinationPath: string;
+  recommendationId: string;
+  resultType: GamePlanResultType;
+}): void {
+  const key = ["game_plan_click", params.destinationPath, params.placement].join("|");
+  if (!shouldSendClick(key)) return;
+  emitGamePlanEvent(GAME_PLAN_EVENTS.internalClick, params);
+}
