@@ -36,8 +36,24 @@ import {
   type ModuleType,
   type NewsletterErrorType,
 } from "./impression-events";
+import {
+  buildGamePlanEvent,
+  GAME_PLAN_EVENTS,
+  type GamePlanEventInput,
+  type GamePlanEventName,
+  type GamePlanResultType,
+  type GamePlanStep,
+} from "./game-plan-events";
+import type {
+  GamePlanConcern,
+  GamePlanCut,
+  GamePlanMethod,
+  GamePlanPartySize,
+  GamePlanSelection,
+} from "@/data/duck-game-plan";
 import { captureEvent } from "./posthog";
 import { analyticsEnabled, syncGaRoutePolicy } from "./analytics-gate";
+
 
 type GtagParams = Record<string, string | number | boolean | undefined>;
 
