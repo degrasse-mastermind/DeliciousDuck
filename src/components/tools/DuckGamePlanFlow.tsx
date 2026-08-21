@@ -336,6 +336,22 @@ export function DuckGamePlanFlow({
     }
   }, []);
 
+  /**
+   * Deliberate focus management: because a choice auto-advances, keyboard and
+   * screen-reader users would otherwise be left on a button that no longer
+   * exists. Every step change — forward or Back — moves focus to the new
+   * question heading, which is the accessible statement of the new context.
+   * Skipped on first render so the page does not steal focus on load.
+   */
+  const stepMounted = useRef(false);
+  useEffect(() => {
+    if (!stepMounted.current) {
+      stepMounted.current = true;
+      return;
+    }
+    headingRef.current?.focus();
+  }, [step]);
+
   const methods = methodsForCut(selection.cut);
   const stepIndex = STEP_ORDER.indexOf(step);
 
