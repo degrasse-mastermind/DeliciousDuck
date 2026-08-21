@@ -404,7 +404,6 @@ export function DuckGamePlanFlow({
       partySize: next.partySize,
     });
     setStep(STEP_ORDER[STEP_ORDER.indexOf(current) + 1] ?? "email");
-
   }
 
   function back() {
@@ -501,9 +500,9 @@ export function DuckGamePlanFlow({
           >
             <p className="font-semibold text-foreground">Plan ready — check your inbox</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              We&rsquo;ve sent your Duck Game Plan to the address you entered. If it
-              isn&rsquo;t there in a few minutes, check spam or promotions, and make sure
-              the address you typed is right. Your plan is below either way.
+              We&rsquo;ve sent your Duck Game Plan to the address you entered. If it isn&rsquo;t
+              there in a few minutes, check spam or promotions, and make sure the address you typed
+              is right. Your plan is below either way.
             </p>
           </div>
         )}
@@ -561,7 +560,6 @@ export function DuckGamePlanFlow({
             </p>
           )}
           <div role="group" aria-label={QUESTIONS[step]} className="mt-5 grid gap-2.5">
-
             {step === "cut" &&
               GAME_PLAN_CUTS.map((cut: GamePlanCut) => (
                 <ChoiceButton

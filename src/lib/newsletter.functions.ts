@@ -30,7 +30,6 @@ export const subscribeToNewsletterFn = createServerFn({ method: "POST" })
     return publicSubscribeResponse(result.outcome);
   });
 
-
 /**
  * Internal, token-gated resync of subscribers that never reached Resend.
  * Not linked in any navigation. Returns counts only, never emails.
@@ -55,8 +54,6 @@ export const resyncNewsletterFn = createServerFn({ method: "POST" })
  * preference editing belongs on a future emailed, token-linked preference page,
  * where the link itself proves mailbox ownership.
  */
-
-
 
 /**
  * Internal, token-gated list health. Aggregate counts only, never addresses.

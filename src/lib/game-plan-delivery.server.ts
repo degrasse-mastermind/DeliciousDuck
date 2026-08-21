@@ -67,10 +67,7 @@ interface LooseQuery {
       };
     };
     update: (values: Record<string, unknown>) => {
-      eq: (
-        column: string,
-        value: string,
-      ) => Promise<{ error: { message: string } | null }>;
+      eq: (column: string, value: string) => Promise<{ error: { message: string } | null }>;
     };
   };
 }
@@ -97,11 +94,7 @@ async function readDurableCooldown(client: unknown, email: string): Promise<numb
   }
 }
 
-async function writeDurableCooldown(
-  client: unknown,
-  email: string,
-  at: string,
-): Promise<void> {
+async function writeDurableCooldown(client: unknown, email: string, at: string): Promise<void> {
   try {
     const { error } = await (client as unknown as LooseQuery)
       .from("newsletter_subscribers")
@@ -112,7 +105,6 @@ async function writeDurableCooldown(
     console.warn("Game Plan delivery timestamp not stored");
   }
 }
-
 
 /**
  * Stores/refreshes the subscriber, then requests the plan email unless the
@@ -151,8 +143,7 @@ export async function requestGamePlanEmail(data: GamePlanRequestPayload): Promis
       // view so a database without it degrades to the in-memory window instead
       // of failing the request.
       const durableAt = await readDurableCooldown(supabaseAdmin, email);
-      const last =
-        durableAt === null ? memory : Math.max(durableAt, memory ?? 0);
+      const last = durableAt === null ? memory : Math.max(durableAt, memory ?? 0);
       return { token: row?.preference_token ?? null, lastRequestedAt: last };
     },
     dispatch: (input) => dispatchGamePlanEmail(input, apiKey as string, fetch as never),
@@ -160,6 +151,5 @@ export async function requestGamePlanEmail(data: GamePlanRequestPayload): Promis
       rememberRecent(email, Date.parse(at));
       await writeDurableCooldown(supabaseAdmin, email, at);
     },
-
   });
 }

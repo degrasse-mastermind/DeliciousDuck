@@ -78,9 +78,7 @@ export function buildGamePlanEventData(input: GamePlanDeliveryInput): GamePlanEv
     result_type: plan.resultType,
     headline: plan.headline,
     summary: plan.summary,
-    critical_move: plan.refinement
-      ? `${plan.criticalMove} ${plan.refinement}`
-      : plan.criticalMove,
+    critical_move: plan.refinement ? `${plan.criticalMove} ${plan.refinement}` : plan.criticalMove,
     temperature: plan.temperature,
     timing: plan.timing,
     cut: input.selection.cut,
@@ -215,7 +213,6 @@ export async function dispatchGamePlanEmail(
   });
   if (!response.ok) throw new Error(gamePlanEmailFailureReason(response.status));
 }
-
 
 /** True while a previous plan email is still inside the cooldown window. */
 export function withinCooldown(

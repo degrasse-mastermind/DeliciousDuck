@@ -63,7 +63,6 @@ export interface SubscribeInput {
   trap?: string;
 }
 
-
 /**
  * The only thing the browser learns from a signup.
  *
@@ -79,12 +78,10 @@ export interface SubscribeResult {
 
 /** Rejects on any failure. The UI only shows success when this resolves. */
 export const subscribeToNewsletter:
-  | ((input: SubscribeInput) => Promise<SubscribeResult>)
-  | undefined = async (input) => {
+  ((input: SubscribeInput) => Promise<SubscribeResult>) | undefined = async (input) => {
   await subscribeToNewsletterFn({ data: input });
   return { subscribed: true };
 };
-
 
 export interface GamePlanEmailInput extends SubscribeInput {
   acquisitionSource: "duck_game_plan";
@@ -103,9 +100,7 @@ export interface GamePlanEmailInput extends SubscribeInput {
  * subscriber, suppressed address or cooldown all look identical here — and
  * rejects only on a genuine server failure, which is when the UI shows retry.
  */
-export const requestGamePlanEmail = async (
-  input: GamePlanEmailInput,
-): Promise<SubscribeResult> => {
+export const requestGamePlanEmail = async (input: GamePlanEmailInput): Promise<SubscribeResult> => {
   await requestGamePlanEmailFn({ data: input });
   return { subscribed: true };
 };

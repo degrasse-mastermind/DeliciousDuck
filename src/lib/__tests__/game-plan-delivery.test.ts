@@ -134,7 +134,9 @@ describe("Game Plan delivery decisions", () => {
     expect((await runGamePlanDelivery(noKey.deps)).delivery).toBe("skipped_no_api_key");
     expect(noKey.dispatch).not.toHaveBeenCalled();
 
-    const noToken = deps({ loadDeliveryState: async () => ({ token: null, lastRequestedAt: null }) });
+    const noToken = deps({
+      loadDeliveryState: async () => ({ token: null, lastRequestedAt: null }),
+    });
     expect((await runGamePlanDelivery(noToken.deps)).delivery).toBe("skipped_no_token");
     expect(noToken.dispatch).not.toHaveBeenCalled();
   });
@@ -192,7 +194,12 @@ describe("Game Plan email payload", () => {
     });
 
     await dispatchGamePlanEmail(
-      { email: "cook@example.com", selection: SELECTION, baseUrl: "https://deliciousduck.com", token: TOKEN },
+      {
+        email: "cook@example.com",
+        selection: SELECTION,
+        baseUrl: "https://deliciousduck.com",
+        token: TOKEN,
+      },
       "re_test_key",
       fetchImpl as never,
     );
@@ -214,7 +221,12 @@ describe("Game Plan email payload", () => {
     const fetchImpl = vi.fn(async () => ({ ok: false, status: 429 }));
     await expect(
       dispatchGamePlanEmail(
-        { email: "cook@example.com", selection: SELECTION, baseUrl: "https://deliciousduck.com", token: TOKEN },
+        {
+          email: "cook@example.com",
+          selection: SELECTION,
+          baseUrl: "https://deliciousduck.com",
+          token: TOKEN,
+        },
         "re_test_key",
         fetchImpl as never,
       ),
