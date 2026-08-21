@@ -22,7 +22,7 @@ describe("duck_game_plan_entry_click", () => {
 
   it("drops a recommendation id and result type even if a caller passes them", () => {
     const event = buildGamePlanEvent(GAME_PLAN_EVENTS.entryClick, {
-      placement: "home_game-plan",
+      placement: "game-plan-cta",
       sourcePath: "/",
       destinationPath: "/tools/duck-game-plan",
       recommendationId: "duck-breast_pan",
@@ -30,7 +30,7 @@ describe("duck_game_plan_entry_click", () => {
     });
     expect(event.name).toBe("duck_game_plan_entry_click");
     expect(event.params).toEqual({
-      placement: "home_game-plan",
+      placement: "game-plan-cta",
       source_path: "/",
       destination_path: "/tools/duck-game-plan",
     });
@@ -40,7 +40,7 @@ describe("duck_game_plan_entry_click", () => {
 
   it("normalizes the destination to a bare same-origin path", () => {
     const event = buildGamePlanEvent(GAME_PLAN_EVENTS.entryClick, {
-      placement: "starter-guide_game-plan",
+      placement: "game-plan_starter-guide",
       destinationPath: "/tools/duck-game-plan?email=a@b.com#top",
     });
     expect(event.params["destination_path"]).toBe("/tools/duck-game-plan");
