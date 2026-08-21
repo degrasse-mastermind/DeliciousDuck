@@ -271,13 +271,13 @@ export const MERCHANTS: Merchant[] = [
     id: "fossil-farms",
     name: "Fossil Farms",
     status: "candidate",
-    directUrl: "https://www.fossilfarms.com/collections/duck",
+    directUrl: "https://www.fossilfarms.com/collections/pekin-duck-meat",
     statusReviewed: "2026-08-18",
     lastCheckedDate: "2026-08-18",
     track: "partnership-prospect",
     activation: { ...NOTHING_VERIFIED },
     internalNote:
-      "Game and specialty meat retailer with a broad duck collection reviewed 2026-08-18, spanning several breeds, cuts and prepared products. No public affiliate program confirmed; links stay direct and unpaid. Partnership prospect worth an outreach email.",
+      "Game and specialty meat retailer. Re-checked 2026-08-19: the old combined /collections/duck landing is gone (404) and duck is now split by breed, so the link points at the Pekin collection — the breed most home recipes assume. Moulard sits at /collections/moulard-duck-meat if a page ever needs the larger breed. No public affiliate program confirmed; links stay direct and unpaid. Partnership prospect worth an outreach email.",
   },
   {
     id: "wild-fork",

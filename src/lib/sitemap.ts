@@ -16,6 +16,7 @@ import { INGREDIENTS } from "@/data/ingredients";
 import { RECIPES } from "@/data/recipes";
 import { TOOLS } from "@/data/tools";
 import { SITE } from "@/data/site";
+import { PAGE_DATES } from "@/data/page-dates";
 
 export const SITEMAP_BASE_URL = SITE.url;
 
@@ -109,19 +110,35 @@ export function sitemapPaths(): string[] {
   return sitemapEntries().map((e) => e.path);
 }
 
+/**
+ * `<lastmod>` for one path, or `undefined`.
+ *
+ * The only source is `PAGE_DATES`, generated from the git history of that
+ * page's own route file — a real, page-specific revision date. Paths with no
+ * entry (the dynamic `/recipes/$slug` pages, whose content lives in a shared
+ * data module and so has no per-URL timestamp) get no `<lastmod>` at all
+ * rather than a build-time or crawl-time stand-in, which would tell crawlers
+ * every page changed whenever the site was rebuilt.
+ */
+export function sitemapLastmod(path: string): string | undefined {
+  return PAGE_DATES[path]?.modified;
+}
+
 /** Serialises the entries as a sitemap 0.9 document. */
 export function sitemapXml(baseUrl: string = SITEMAP_BASE_URL): string {
-  const urls = sitemapEntries().map((e) =>
-    [
+  const urls = sitemapEntries().map((e) => {
+    const lastmod = sitemapLastmod(e.path);
+    return [
       `  <url>`,
       `    <loc>${baseUrl}${e.path}</loc>`,
+      lastmod ? `    <lastmod>${lastmod}</lastmod>` : null,
       e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
       e.priority ? `    <priority>${e.priority}</priority>` : null,
       `  </url>`,
     ]
       .filter(Boolean)
-      .join("\n"),
-  );
+      .join("\n");
+  });
 
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,

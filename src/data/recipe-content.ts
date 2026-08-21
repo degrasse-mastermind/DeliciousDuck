@@ -17,6 +17,13 @@ export interface RecipeContent {
   slug: string;
   /** One-paragraph editorial intro under the H1. */
   intro: string;
+  /**
+   * Optional two-to-three sentence answer to the question the page is found
+   * for ("how do I cook this?"), placed above the recipe body. Every fact in
+   * it must already appear in the steps and temperature table below — it is a
+   * summary of this page, never a new claim.
+   */
+  answerFirst?: string;
   confidence: {
     cut: string;
     biggestRisk: string;
@@ -450,6 +457,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     slug: "pan-seared-duck-breast",
     intro:
       "Duck breast is a fat problem before it is a meat problem. Nearly everything that separates flabby, greasy skin from a crisp, glassy crust happens in the first ten minutes, at a temperature far lower than most people expect. Start the breast in a cold, dry pan, render patiently, and the finish takes care of itself.",
+    answerFirst:
+      "Score the fat cap, put the breasts skin-side down in a cold, dry, unoiled pan, and only then turn the heat to low. Render for 12\u201318 minutes until the skin is thin, deep gold and crisp, then flip briefly to finish. Pull the breast at 130\u2013135\u00b0F (54\u201357\u00b0C) in the centre for a rosy medium-rare and rest it five minutes, or cook to 165\u00b0F (74\u00b0C) for the official poultry safety minimum.",
     confidence: {
       cut: "Skin-on duck breast, 170–250 g (6–9 oz) each",
       biggestRisk: "Starting hot — the skin seizes and traps unrendered fat underneath",
@@ -1082,6 +1091,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     slug: "roasted-whole-duck",
     intro:
       "A whole duck asks you to solve two problems at once: legs that want a long cook and a breast that does not. The two-stage roast — a long, low fat-rendering phase followed by a short, hot browning phase — is the most reliable way to get both right in a domestic oven.",
+    answerFirst:
+      "Roast a whole duck in two stages: 60\u201390 minutes at 300\u2013325\u00b0F (150\u2013165\u00b0C) breast-side up to render the fat, pouring it off as it collects, then a short blast at high heat to crisp the skin. The legs are ready at 175\u2013185\u00b0F (79\u201385\u00b0C) in the thickest part of the thigh, where the connective tissue has softened; probe there rather than trusting time. Dry the skin uncovered in the fridge overnight and keep the bird on a rack so it never sits in its own fat.",
     confidence: {
       cut: "Whole duck, typically 2–2.7 kg (4.5–6 lb)",
       biggestRisk: "Roasting hot the whole way, which dries the breast before the legs are tender",

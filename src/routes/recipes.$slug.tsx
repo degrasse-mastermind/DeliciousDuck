@@ -23,6 +23,7 @@ import { Photograph } from "@/components/site/Photograph";
 import { PHOTO_SIZES } from "@/lib/photo-sources";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
+import { AnswerFirst } from "@/components/site/AnswerFirst";
 import { RecipeTrustBox } from "@/components/site/RecipeTrustBox";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
@@ -192,6 +193,9 @@ function RecipePage() {
         )}
       </figure>
 
+      {/* Summarises the method already set out below, for readers (and answer
+          engines) that want the short version before the full recipe. */}
+      {content.answerFirst ? <AnswerFirst answer={content.answerFirst} /> : null}
 
       <RecipeTrustBox
         recipe={recipe}

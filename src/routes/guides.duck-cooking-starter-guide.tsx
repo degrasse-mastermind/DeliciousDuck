@@ -37,21 +37,29 @@ export const Route = createFileRoute("/guides/duck-cooking-starter-guide")({
   component: StarterGuidePage,
 });
 
-const CHECKLIST: { item: string; why: string; to?: string }[] = [
+/**
+ * `anchor` is required alongside `to`: a checklist row links out with a phrase
+ * that names its destination, never a bare "Read more". Generic anchors give
+ * crawlers and screen-reader link lists nothing to go on.
+ */
+const CHECKLIST: { item: string; why: string; to?: string; anchor?: string }[] = [
   {
     item: "Instant-read thermometer",
     why: "The only way to know where a duck breast or leg actually is inside. Buy this before anything else.",
     to: "/gear/best-thermometer-for-duck",
+    anchor: "How to choose a duck thermometer",
   },
   {
     item: "Heavy skillet you trust on low heat",
     why: "Duck breast starts in a cold, dry pan and renders slowly; thin pans run hot and scorch the fat.",
     to: "/gear/best-pan-for-duck-breast",
+    anchor: "Choosing a pan for duck breast",
   },
   {
     item: "Small sharp knife with a controllable tip",
     why: "Scoring is shallow, precise work. A large blade makes depth harder to feel.",
     to: "/gear/best-knife-for-scoring-duck",
+    anchor: "Choosing a knife for scoring skin",
   },
   {
     item: "Paper towels",
@@ -65,6 +73,7 @@ const CHECKLIST: { item: string; why: string; to?: string }[] = [
     item: "Heatproof jar or container",
     why: "For the rendered fat you pour off — the most valuable byproduct in the kitchen.",
     to: "/learn/how-to-render-duck-fat",
+    anchor: "How to render and store duck fat",
   },
 ];
 
@@ -289,7 +298,7 @@ function StarterGuidePage() {
                     <>
                       {" "}
                       <Link to={entry.to} className="text-primary underline underline-offset-4">
-                        Read more
+                        {entry.anchor ?? entry.item}
                       </Link>
                       .
                     </>
