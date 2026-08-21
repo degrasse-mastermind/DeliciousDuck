@@ -166,7 +166,11 @@ describe("acquisition cluster route files", () => {
   it("renders transparency, sources and a funnel band", () => {
     for (const page of ACQUISITION_PAGES) {
       const code = src(page.path);
-      expect(code).toContain("<AnswerFirst page={PAGE} />");
+      // Exactly one short-answer block per page: ArticleShell renders it from
+      // the guide registry when the guide has an `answer`, otherwise the route
+      // renders the acquisition-page version itself.
+      const shellAnswer = Boolean(guideByPath(page.path)?.answer);
+      expect(code.includes("<AnswerFirst page={PAGE} />")).toBe(!shellAnswer);
       expect(code).toContain("<ArticleByline page={PAGE} />");
       expect(code).toContain("<ArticleBasis page={PAGE} />");
       expect(code).toContain("<SourceNotes ids={PAGE.sourceIds} />");
