@@ -515,6 +515,8 @@ const METHOD_OVERLAYS: Partial<Record<`${GamePlanCut}:${GamePlanMethod}`, Method
   "duck-legs:air-fryer": {
     caveat:
       "We don't publish an air-fryer duck leg method. Use the air fryer for the crisping stage after a slow cook rather than for the whole thing.",
+    criticalMove:
+      "Cook the legs through slowly first, then use the air fryer only for the final crisping stage — it cannot soften connective tissue.",
   },
   "duck-legs:grill-smoker": {
     caveat:
