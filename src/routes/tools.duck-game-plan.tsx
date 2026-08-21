@@ -128,14 +128,30 @@ function GamePlanPage() {
 
         <div className="mt-14">
           <ToolAssumptions
-            title="How this plan is built"
             items={[
-              "Every temperature, resting window and timing range comes from the DeliciousDuck guide it links to. The tool restates those pages; it does not add new numbers.",
-              "Duck breast has two reference points: the widespread culinary convention of medium-rare, and the USDA minimum for poultry. Both are shown, and they are never merged.",
-              "Portion guidance follows the site's yield assumptions for whole birds and breasts and is a planning estimate, not a promise about a specific bird.",
-              "Where a cut-and-method combination has no guide we stand behind, the plan says so and sends you to the nearest one instead of inventing precision.",
+              {
+                label: "Source of every number",
+                value:
+                  "Temperatures, resting windows and timing ranges come from the DeliciousDuck guide each line links to. The plan restates those pages; it adds no new numbers.",
+              },
+              {
+                label: "Two reference points for breast",
+                value:
+                  "The widespread culinary convention of medium-rare, and the USDA minimum for poultry. Both are shown, and they are never merged into one figure.",
+              },
+              {
+                label: "Portions",
+                value:
+                  "Follows the site's yield assumptions for whole birds and breasts. A planning estimate, not a promise about one specific bird.",
+              },
+              {
+                label: "Combinations we don't cover",
+                value:
+                  "Where a cut-and-method pairing has no guide we stand behind, the plan says so and routes you to the nearest one rather than inventing precision.",
+              },
             ]}
           />
+
         </div>
       </section>
     </>
