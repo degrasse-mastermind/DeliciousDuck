@@ -12,7 +12,7 @@ export const STARTER_GUIDE = {
   title: "The Duck Cooking Starter Guide",
   seoTitle: "Duck Cooking Starter Guide: Your First Duck | DeliciousDuck",
   description:
-    "A starter reference for cooking duck: how it differs from chicken, which cut to begin with, the five core techniques, safe temperatures and a shopping checklist.",
+    "A starter reference for cooking duck: how it differs from chicken, which cut to start with, five core techniques, safe temperatures and a shopping checklist.",
   teaser:
     "Everything a first-time duck cook needs on one page: cut chooser, five core techniques, temperatures, and a shopping checklist.",
   minutes: 9,
