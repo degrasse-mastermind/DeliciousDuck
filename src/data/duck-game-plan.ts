@@ -127,6 +127,13 @@ export interface DuckGamePlan {
   summary: string;
   risk: string;
   criticalMove: string;
+  /**
+   * The concern, applied as a modifier to a more specific move. Present only
+   * when `criticalMove` did not itself come from the concern layer.
+   */
+  refinement?: string;
+  /** Which layer produced `criticalMove` — asserted in tests, not rendered. */
+  criticalMoveSource: "method" | "cut-concern" | "concern" | "cut";
   temperature: string;
   /** Show the shared USDA safety block beneath the temperature line. */
   showSafetyNote: boolean;
