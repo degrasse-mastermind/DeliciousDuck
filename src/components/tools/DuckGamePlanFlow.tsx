@@ -504,7 +504,11 @@ export function DuckGamePlanFlow({
 
       {step !== "email" ? (
         <div className="mt-6">
-          <h2 ref={headingRef} className="font-display text-2xl leading-tight">
+          <h2
+            ref={headingRef}
+            tabIndex={-1}
+            className="font-display text-2xl leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
             {QUESTIONS[step]}
           </h2>
           {step === "method" && selection.cut && (
@@ -512,7 +516,8 @@ export function DuckGamePlanFlow({
               Options that make sense for {CUT_LABELS[selection.cut].toLowerCase()}.
             </p>
           )}
-          <div role="radiogroup" aria-label={QUESTIONS[step]} className="mt-5 grid gap-2.5">
+          <div role="group" aria-label={QUESTIONS[step]} className="mt-5 grid gap-2.5">
+
             {step === "cut" &&
               GAME_PLAN_CUTS.map((cut: GamePlanCut) => (
                 <ChoiceButton
