@@ -42,6 +42,7 @@ import {
   type SubscribeInput,
   type SubscribeResult,
 } from "@/lib/newsletter";
+import type { NewsletterInterest } from "@/data/newsletter-contexts";
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
 import { DUCK_DROP } from "@/data/duck-drop";
 import { SafetyNote } from "@/components/site/SafetyNote";
