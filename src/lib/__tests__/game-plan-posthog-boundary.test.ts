@@ -21,6 +21,15 @@ vi.mock("posthog-js", () => ({
 vi.mock("@/lib/analytics-gate", () => ({ analyticsEnabled: () => true }));
 
 async function loadPostHog() {
+  vi.stubGlobal("window", {
+    location: {
+      hostname: "www.deliciousduck.com",
+      pathname: "/tools/duck-game-plan",
+      search: "",
+      origin: "https://www.deliciousduck.com",
+    },
+  });
+  vi.resetModules();
   const mod = await import("@/lib/posthog");
   mod.resetPostHogStateForTests();
   mod.initPostHog("/tools/duck-game-plan");
