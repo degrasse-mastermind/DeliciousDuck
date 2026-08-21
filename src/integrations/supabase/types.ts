@@ -80,6 +80,7 @@ export type Database = {
           email: string
           email_normalized: string
           first_content_path: string | null
+          game_plan_email_at: string | null
           id: string
           interest: string | null
           interests: string[]
@@ -122,6 +123,7 @@ export type Database = {
           email: string
           email_normalized: string
           first_content_path?: string | null
+          game_plan_email_at?: string | null
           id?: string
           interest?: string | null
           interests?: string[]
@@ -164,6 +166,7 @@ export type Database = {
           email?: string
           email_normalized?: string
           first_content_path?: string | null
+          game_plan_email_at?: string | null
           id?: string
           interest?: string | null
           interests?: string[]

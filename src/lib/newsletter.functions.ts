@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeader } from "@tanstack/react-start/server";
-import { subscribeSchema } from "./newsletter-schema";
+import { gamePlanRequestSchema, subscribeSchema } from "./newsletter-schema";
 import { publicSubscribeResponse } from "./newsletter-response";
 
 /**
@@ -30,7 +30,6 @@ export const subscribeToNewsletterFn = createServerFn({ method: "POST" })
     return publicSubscribeResponse(result.outcome);
   });
 
-
 /**
  * Internal, token-gated resync of subscribers that never reached Resend.
  * Not linked in any navigation. Returns counts only, never emails.
@@ -56,8 +55,6 @@ export const resyncNewsletterFn = createServerFn({ method: "POST" })
  * where the link itself proves mailbox ownership.
  */
 
-
-
 /**
  * Internal, token-gated list health. Aggregate counts only, never addresses.
  */
@@ -71,4 +68,35 @@ export const newsletterStatsFn = createServerFn({ method: "POST" })
     if (!expected || data.token !== expected) throw new Error("not_authorized");
     const { newsletterAggregates } = await import("./newsletter.server");
     return await newsletterAggregates();
+  });
+
+/**
+ * Duck Game Plan delivery request.
+ *
+ * Distinct from `subscribeToNewsletterFn` on purpose. A signup triggers the
+ * one-time welcome, which stays send-once and provider-idempotent — so an
+ * existing subscriber who used the planner previously received no email at all.
+ * This action is transactional: it stores/refreshes the subscriber and then
+ * requests the plan email for both new and returning subscribers, while a
+ * suppressed address is never emailed.
+ *
+ * The response is the same constant accepted shape for every outcome, including
+ * suppression and cooldown, so delivery state can never be probed.
+ */
+export const requestGamePlanEmailFn = createServerFn({ method: "POST" })
+  .validator((input: unknown) => gamePlanRequestSchema.parse(input))
+  .handler(async ({ data }) => {
+    const { rateLimited } = await import("./newsletter.server");
+
+    const ip =
+      getRequestHeader("cf-connecting-ip") ??
+      getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim() ??
+      "unknown";
+    if (rateLimited(ip)) throw new Error("newsletter_rate_limited");
+
+    const { requestGamePlanEmail } = await import("./game-plan-delivery.server");
+    const result = await requestGamePlanEmail(data);
+    // Delivery detail (requested / suppressed / cooldown / provider error) stays
+    // server-side; a hard storage failure still throws and fails closed.
+    return publicSubscribeResponse(result.outcome);
   });

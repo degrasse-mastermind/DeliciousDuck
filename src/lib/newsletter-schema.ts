@@ -59,3 +59,20 @@ export type SubscribePayload = z.infer<typeof subscribeSchema>;
  * preference link will need its own schema, keyed on the emailed token.
  */
 
+
+/**
+ * A Duck Game Plan delivery request.
+ *
+ * Same shape as a signup, but the four finite selections and the acquisition
+ * source are required: this endpoint's whole purpose is to email the plan those
+ * selections resolve to, so a request without them is not a Game Plan request.
+ */
+export const gamePlanRequestSchema = subscribeSchema.extend({
+  acquisitionSource: z.literal("duck_game_plan"),
+  cut: z.enum(GAME_PLAN_CUTS),
+  method: z.enum(GAME_PLAN_METHODS),
+  concern: z.enum(GAME_PLAN_CONCERNS),
+  partySizeBucket: z.enum(GAME_PLAN_PARTY_SIZES),
+});
+
+export type GamePlanRequestPayload = z.infer<typeof gamePlanRequestSchema>;
