@@ -564,7 +564,13 @@ export function DuckGamePlanFlow({
           >
             <Thermometer className="size-5" />
           </span>
-          <h2 className="mt-4 font-display text-2xl leading-tight">Where should we send it?</h2>
+          <h2
+            ref={headingRef}
+            tabIndex={-1}
+            className="mt-4 font-display text-2xl leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            Where should we send it?
+          </h2>
           <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
             Your plan appears right here as soon as you sign up — no waiting on an email. We&apos;ll
             also send it to you so it&apos;s in your pocket at the stove, and start you on{" "}
