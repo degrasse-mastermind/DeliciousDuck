@@ -165,9 +165,33 @@ function PopularRecipes() {
               Popular Duck Recipes
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-              The recipes worth learning first. Each one teaches a technique that carries over to
-              every other duck dish.
+              The recipes worth learning first. Cooking duck comes down to three of them:{" "}
+              <Link
+                to="/recipes/$slug"
+                params={{ slug: "pan-seared-duck-breast" }}
+                className="text-primary underline underline-offset-4"
+              >
+                pan-seared duck breast
+              </Link>{" "}
+              for crisp skin,{" "}
+              <Link
+                to="/recipes/$slug"
+                params={{ slug: "roasted-whole-duck" }}
+                className="text-primary underline underline-offset-4"
+              >
+                roasting a whole duck
+              </Link>{" "}
+              for the table, and knowing{" "}
+
+              <Link
+                to="/learn/duck-breast-temperature-doneness"
+                className="text-primary underline underline-offset-4"
+              >
+                what internal temperature duck is done at
+              </Link>
+              . Each one teaches a technique that carries over to every other duck dish.
             </p>
+
           </div>
           <Link
             to="/recipes"

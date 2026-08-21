@@ -111,9 +111,9 @@ export const GUIDES: GuideEntry[] = [
   {
     path: "/learn/duck-breast-temperature-doneness",
     title: "Duck Breast Temperature & Doneness",
-    seoTitle: "Duck Breast Temperature & Doneness Guide | DeliciousDuck",
+    seoTitle: "Duck Internal Temperature & Doneness Chart | DeliciousDuck",
     description:
-      "USDA safety guidance versus restaurant doneness conventions for duck breast, plus carryover cooking, thermometer placement, thickness, and rest times.",
+      "What internal temperature duck should reach: medium-rare at 130–135°F, the 165°F poultry minimum, plus legs, whole bird, carryover and probe placement.",
     teaser: "What the numbers mean, and where safety guidance and kitchen practice differ.",
     pillar: "learn",
     cluster: "breast",
@@ -129,6 +129,7 @@ export const GUIDES: GuideEntry[] = [
       "/recipes/pan-seared-duck-breast",
       "/recipes/oven-roasted-duck-breast",
       "/learn/what-does-duck-taste-like",
+      "/learn/how-to-score-duck-breast",
     ],
   },
   {
@@ -149,6 +150,8 @@ export const GUIDES: GuideEntry[] = [
       "/learn/why-duck-skin-isnt-crispy",
       "/gear/best-knife-for-scoring-duck",
       "/recipes/pan-seared-duck-breast",
+      "/learn/duck-breast-temperature-doneness",
+      "/recipes/oven-roasted-duck-breast",
     ],
   },
   {
@@ -218,6 +221,7 @@ export const GUIDES: GuideEntry[] = [
       "/ingredients/best-acid-for-duck",
       "/tools/duck-pairing-finder",
       "/recipes/duck-fat-roasted-potatoes",
+      "/recipes/oven-roasted-duck-breast",
     ],
   },
   {
@@ -272,6 +276,7 @@ export const GUIDES: GuideEntry[] = [
       "/learn/thanksgiving-duck-dinner",
       "/learn/how-to-thaw-duck",
       "/gear/best-roasting-pan-for-duck",
+      "/recipes/peking-duck-at-home",
     ],
   },
   {
@@ -496,6 +501,7 @@ export const GUIDES: GuideEntry[] = [
       "/buy/where-to-buy-duck-breast-online",
       "/buy/where-to-buy-duck-online",
       "/gear/best-roasting-pan-for-duck",
+      "/recipes/oven-roasted-duck-breast",
     ],
   },
   {

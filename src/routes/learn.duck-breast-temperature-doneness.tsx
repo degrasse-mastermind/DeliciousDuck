@@ -20,6 +20,11 @@ const FAQ = [
     a: "Two answers, for two different questions. The USDA safe minimum internal temperature for poultry, including duck, is 165°F (73.9°C). The common restaurant target is medium-rare, pulled at 125–130°F (52–54°C) and finishing at 130–135°F (54–57°C) after a 5–8 minute rest — a texture convention, not a safety clearance.",
   },
   {
+    q: "What internal temperature is duck cooked at, beyond the breast?",
+    a: "165°F (73.9°C) is the safe minimum for every part of the bird. Beyond that, targets follow texture: duck legs and the thigh of a whole bird are usually taken to 175–185°F (79–85°C), where connective tissue has softened and the meat pulls easily, and confit legs sit in fat held at 190–210°F (88–99°C) until a skewer meets no resistance.",
+  },
+
+  {
     q: "What temperature is medium duck breast?",
     a: "Pull at 135–140°F (57–60°C) and it settles at 140–145°F (60–63°C) after resting, giving a pale pink centre that is firmer than medium-rare but still moist.",
   },
@@ -138,6 +143,57 @@ function Page() {
           serve immediately with no rest, pull closer to your final target instead.
         </p>
       </Section>
+
+      <Section id="other-cuts" heading="Duck temperature beyond the breast: legs, thighs and whole bird">
+        <p>
+          Breast is the only cut people cook to a rosy centre. Everywhere else on the duck, the
+          useful target sits well above the safety minimum, because legs and thighs are worked
+          muscle that only turns tender once collagen has broken down.
+        </p>
+        <DataTable
+          caption="Where each part of the duck is done"
+          columns={["Cut", "Useful target", "Why that number"]}
+          rows={[
+            [
+              "Duck breast",
+              "130–135°F (54–57°C) final, or 165°F (73.9°C) for the safety minimum",
+              "A few degrees decide rosy versus grey; see the table above",
+            ],
+            [
+              "Whole duck, thigh",
+              "175–185°F (79–85°C)",
+              "Above the 165°F minimum by choice — the legs only pull easily once connective tissue softens",
+            ],
+            [
+              "Duck legs, confit",
+              "Fat held at 190–210°F (88–99°C) until a skewer meets no resistance",
+              "Texture, not temperature, is the endpoint; the meat passes 165°F long before it is tender",
+            ],
+          ]}
+        />
+        <p>
+          For the timings that get a bird to those numbers, see{" "}
+          <a href="/learn/whole-duck-cooking-time" className="text-primary underline underline-offset-4">
+            whole duck cooking time by weight
+          </a>{" "}
+          and the{" "}
+          <a href="/recipes/roasted-whole-duck" className="text-primary underline underline-offset-4">
+            two-stage roasted whole duck recipe
+          </a>
+          . For legs, the{" "}
+          <a href="/cook/duck-leg-confit" className="text-primary underline underline-offset-4">
+            duck leg confit method
+          </a>{" "}
+          explains why the fat temperature matters more than the clock. If you are finishing breast
+          in the oven rather than the pan, the{" "}
+          <a href="/recipes/oven-roasted-duck-breast" className="text-primary underline underline-offset-4">
+            oven-roasted duck breast recipe
+          </a>{" "}
+          uses the same pull temperatures.
+        </p>
+      </Section>
+
+
 
       <Section id="carryover" heading="Why carryover varies by thickness and pan heat">
         <p>
