@@ -162,7 +162,7 @@ export function buildGamePlanEvent(
   input: GamePlanEventInput,
 ): BuiltGamePlanEvent {
   const candidate: Record<string, string | undefined> = {
-    placement: input.placement.slice(0, 64),
+    placement: safeGamePlanPlacement(input.placement),
     source_path: safeGamePlanPath(input.sourcePath),
     step: member(GAME_PLAN_STEPS, input.step),
     cut: member(GAME_PLAN_CUTS, input.cut),
