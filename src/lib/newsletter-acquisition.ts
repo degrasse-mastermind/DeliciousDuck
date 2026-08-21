@@ -16,13 +16,18 @@
 
 import type { SubscribePayload } from "./newsletter-schema";
 
-/** Column names this module owns. Nothing else in the row is touched. */
+/**
+ * Column names this module owns, matching the live `newsletter_subscribers`
+ * schema exactly. They previously used an `acquisition_` prefix that does not
+ * exist in the database, so every Game Plan write hit the missing-column
+ * fallback and silently dropped all five values.
+ */
 export const ACQUISITION_COLUMNS = [
   "acquisition_source",
-  "acquisition_cut",
-  "acquisition_method",
-  "acquisition_concern",
-  "acquisition_party_size",
+  "cut",
+  "method",
+  "concern",
+  "party_size_bucket",
 ] as const;
 
 export type AcquisitionColumn = (typeof ACQUISITION_COLUMNS)[number];
@@ -39,10 +44,10 @@ export function acquisitionColumns(
 ): Partial<Record<AcquisitionColumn, string>> {
   return {
     ...(data.acquisitionSource ? { acquisition_source: data.acquisitionSource } : {}),
-    ...(data.cut ? { acquisition_cut: data.cut } : {}),
-    ...(data.method ? { acquisition_method: data.method } : {}),
-    ...(data.concern ? { acquisition_concern: data.concern } : {}),
-    ...(data.partySizeBucket ? { acquisition_party_size: data.partySizeBucket } : {}),
+    ...(data.cut ? { cut: data.cut } : {}),
+    ...(data.method ? { method: data.method } : {}),
+    ...(data.concern ? { concern: data.concern } : {}),
+    ...(data.partySizeBucket ? { party_size_bucket: data.partySizeBucket } : {}),
   };
 }
 
