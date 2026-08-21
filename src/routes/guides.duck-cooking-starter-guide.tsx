@@ -5,6 +5,7 @@ import { ArticleShell, Section, DataTable, StepList, Callout } from "@/component
 import { QuackFix } from "@/components/site/QuackFix";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
+import { GamePlanCta } from "@/components/site/GamePlanCta";
 import { STARTER_GUIDE } from "@/data/starter-guide";
 import { trackStarterGuidePrint, trackStarterGuideView } from "@/lib/analytics";
 import { articleSchema, breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
@@ -106,13 +107,18 @@ function StarterGuidePage() {
           Print the quick reference
         </button>
         <span className="text-sm text-muted-foreground">
-          Prints the checklist, temperatures, and technique block only. The printable 16-page{" "}
-          <Link to="/" hash="starter-guide" className="text-primary underline underline-offset-4">
-            field guide is the free subscriber download
+          Prints the checklist, temperatures, and technique block only. Want a plan for the duck
+
+          you&apos;re actually cooking?{" "}
+          <Link to="/tools/duck-game-plan" className="text-primary underline underline-offset-4">
+            Build your Duck Game Plan
           </Link>
           .
         </span>
       </div>
+
+      <GamePlanCta id="game-plan_starter-guide" tone="quiet" className="mb-10" />
+
 
       <Section id="start-here" heading="Start here: duck is not chicken">
         <p>

@@ -233,6 +233,7 @@ export const PAGE_DATES: Record<string, PageDates> = {
     "modified": "2026-08-12",
     "published": "2026-08-12"
   },
+  "/tools/duck-game-plan": { modified: "2026-08-21" },
   "/tools/duck-doneness-guide": {
     "modified": "2026-08-18",
     "published": "2026-08-12"

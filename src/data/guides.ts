@@ -53,6 +53,7 @@ export const GUIDES: GuideEntry[] = [
     related: [
       "/cook/how-to-cook-duck-breast",
       "/learn/duck-breast-temperature-doneness",
+      "/tools/duck-game-plan",
       "/learn/wild-duck-vs-farmed-duck",
       "/learn/is-duck-healthy",
       "/recipes/pan-seared-duck-breast",
@@ -97,7 +98,9 @@ export const GUIDES: GuideEntry[] = [
     minutes: 11,
     related: [
       "/learn/duck-breast-temperature-doneness",
+      "/tools/duck-game-plan",
       "/learn/how-to-score-duck-breast",
+      "/tools/duck-game-plan",
       "/learn/why-duck-skin-isnt-crispy",
       "/cook/best-sauces-for-duck-breast",
       "/gear/best-pan-for-duck-breast",

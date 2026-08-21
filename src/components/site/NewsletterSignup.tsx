@@ -192,12 +192,18 @@ export function NewsletterSignup({
             id={`${id}-heading`}
             className="mt-3 font-display text-3xl leading-tight lg:text-[2.75rem]"
           >
-            {FIELD_GUIDE.title}
+            Cooking duck tonight? Don&apos;t guess.
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/80">
-            {context.promise} Subscribers get it as a printable 16-page PDF, plus a short welcome
-            series and occasional DeliciousDuck recipes and guides.
+            {context.promise} Tell us what you&apos;re cooking in the{" "}
+            <a href="/tools/duck-game-plan" className="underline underline-offset-4">
+              Duck Game Plan
+            </a>{" "}
+            and we&apos;ll build your temperature, timing, crispy-skin and serving plan. Subscribers
+            also get the printable {FIELD_GUIDE.pages}-page {FIELD_GUIDE.title}, a short welcome
+            series, and occasional DeliciousDuck recipes and guides.
           </p>
+
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
             {context.bullets.map((point) => (

@@ -9,6 +9,16 @@ export interface DuckTool {
 
 export const TOOLS: DuckTool[] = [
   {
+    slug: "duck-game-plan",
+    name: "Duck Game Plan",
+    summary:
+      "Answer four questions about the duck in front of you and get one card: the real risk, the critical move, temperature, resting, timing, portions and what to serve.",
+    status: "live",
+    to: "/tools/duck-game-plan",
+    useCase: "Cooking duck tonight",
+  },
+  {
+
     slug: "duck-pairing-finder",
     name: "Duck Pairing Finder",
     summary:
