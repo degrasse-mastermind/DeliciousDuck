@@ -1,6 +1,6 @@
 import { ArrowRight, Check } from "lucide-react";
 
-import { trackGamePlanInternalClick } from "@/lib/analytics";
+import { trackGamePlanEntryClick } from "@/lib/analytics";
 import { useModuleImpression } from "@/hooks/useModuleImpression";
 import { trackNewsletterOfferView } from "@/lib/analytics";
 import { DUCK_DROP } from "@/data/duck-drop";
