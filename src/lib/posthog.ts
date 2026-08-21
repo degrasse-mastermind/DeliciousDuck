@@ -110,7 +110,10 @@ const POSTHOG_EVENT_PROPERTY_ALLOWLIST: Readonly<Record<string, readonly string[
   ],
   // Impression + newsletter-funnel events share one strict allowlist with GA4.
   ...IMPRESSION_PROPERTY_ALLOWLIST,
+  // Duck Game Plan funnel: same closed, per-event allowlists GA4 uses.
+  ...GAME_PLAN_PROPERTY_ALLOWLIST,
 };
+
 
 /**
  * Initializes PostHog at most once per session.
