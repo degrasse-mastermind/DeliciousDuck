@@ -27,10 +27,6 @@ import { resolveGamePlan, type GamePlanSelection } from "@/data/duck-game-plan";
 import { mailboxLinks, isPlausibleToken } from "./newsletter-links";
 import type { SignupOutcome } from "./newsletter-response";
 
-export const GAME_PLAN_EVENT_NAME = "duck.game_plan.requested";
-export const GAME_PLAN_EVENT_SEND_URL = "https://api.resend.com/events/send";
-export const GAME_PLAN_EVENT_DEFINE_URL = "https://api.resend.com/events";
-
 /** Site-relative path of the planner, so the email can lead back to it. */
 export const GAME_PLAN_PATH = "/tools/duck-game-plan";
 
