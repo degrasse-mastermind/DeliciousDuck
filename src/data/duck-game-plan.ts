@@ -547,13 +547,22 @@ const METHOD_OVERLAYS: Partial<Record<`${GamePlanCut}:${GamePlanMethod}`, Method
 };
 
 /* ------------------------------------------------------------------ *
- * Concern layer — sets the "biggest risk" and adds one link
+ * Concern layer — sets the "biggest risk", adds one link, and *refines*
+ * the critical move rather than replacing method-specific guidance.
+ *
+ * Precedence (see `resolveGamePlan`): a cut+method critical move wins, then a
+ * cut+concern override, then the generic concern move, then the cut default.
+ * Whenever the winning move did not come from the concern layer, the concern's
+ * one-line `refinement` is attached beneath it so the worry is still answered.
  * ------------------------------------------------------------------ */
 
 interface ConcernOverlay {
   risk: string;
   extra?: PlanLink;
+  /** Fallback move used only when nothing more specific exists. */
   criticalMove?: string;
+  /** Always available as a modifier on a more specific move. */
+  refinement: string;
 }
 
 const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
