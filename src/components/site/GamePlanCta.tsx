@@ -94,12 +94,10 @@ export function GamePlanCta({
         <a
           href={GAME_PLAN_PATH}
           onClick={() =>
-            trackGamePlanInternalClick({
+            // Entry click: no selections exist yet, so no recommendation id.
+            trackGamePlanEntryClick({
               placement: id,
               destinationPath: GAME_PLAN_PATH,
-              // The CTA precedes any selection, so the id records the entry only.
-              recommendationId: "not-bought-yet_unsure",
-              resultType: "general",
             })
           }
           className={cn(
