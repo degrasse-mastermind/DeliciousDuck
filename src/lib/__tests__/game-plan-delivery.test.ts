@@ -252,7 +252,8 @@ describe("planner submission UI contract", () => {
 
     // The failure branch keeps the entered address, shows retry, restores focus,
     // and emits no success or conversion event.
-    const failure = submit.slice(submit.indexOf("} catch (cause) {"));
+    const catchStart = submit.indexOf("} catch (cause) {");
+    const failure = submit.slice(catchStart, submit.indexOf("} finally {", catchStart));
     expect(failure).toContain("emailRef.current?.focus()");
     expect(failure).toContain("trackNewsletterFormError");
     expect(failure).not.toContain("trackNewsletterSignup");
