@@ -17,7 +17,7 @@ import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 export const Route = createFileRoute("/tools/duck-game-plan")({
   head: () => ({
     ...pageMeta({
-      title: "Duck Game Plan: Your Temperature and Timing Plan | DeliciousDuck",
+      title: "Duck Game Plan: Temperature & Timing | DeliciousDuck",
       description:
         "Answer four questions about the duck you're cooking and get a plan: the real risk, the critical move, temperature, resting, timing and what to serve with it.",
       path: "/tools/duck-game-plan",
