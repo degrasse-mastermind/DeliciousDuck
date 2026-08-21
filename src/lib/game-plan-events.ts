@@ -86,12 +86,40 @@ export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<
   duck_game_plan_entry_click: ["placement", "source_path", "destination_path"],
 };
 
-/** Path-only normalization: no query string, no hash, never a full URL. */
+/**
+ * Finite list of the placement labels actually used by current callers. A
+ * placement is a reporting dimension, not free text: anything unknown is
+ * reported as `other` rather than emitted verbatim.
+ */
+export const GAME_PLAN_PLACEMENTS = [
+  "game-plan_tool",
+  "game-plan-cta",
+  "starter-guide",
+  "game-plan_starter-guide",
+  "other",
+] as const;
+export type GamePlanPlacement = (typeof GAME_PLAN_PLACEMENTS)[number];
+
+export function safeGamePlanPlacement(raw: unknown): GamePlanPlacement {
+  return typeof raw === "string" && (GAME_PLAN_PLACEMENTS as readonly string[]).includes(raw)
+    ? (raw as GamePlanPlacement)
+    : "other";
+}
+
+/**
+ * Path-only normalization: no query string, no hash, never a full URL and never
+ * a protocol-relative `//host` reference (which the browser would treat as an
+ * absolute cross-origin URL).
+ */
 export function safeGamePlanPath(raw: string | undefined | null): string | undefined {
   if (!raw) return undefined;
-  const bare = (raw.split("#")[0] ?? "").split("?")[0] ?? "";
+  const trimmed = raw.trim();
+  if (!trimmed) return undefined;
+  const bare = (trimmed.split("#")[0] ?? "").split("?")[0] ?? "";
   if (!bare) return "/";
   if (/^[a-z]+:/i.test(bare)) return undefined;
+  // Protocol-relative and backslash-obfuscated variants are cross-origin.
+  if (/^[/\\]{2}/.test(bare)) return undefined;
   return bare.startsWith("/") ? bare : `/${bare}`;
 }
 
@@ -102,7 +130,7 @@ function member<T extends string>(allowed: readonly T[], value: unknown): T | un
 }
 
 export interface GamePlanEventInput {
-  placement: string;
+  placement: GamePlanPlacement | string;
   sourcePath?: string | undefined;
   step?: GamePlanStep | undefined;
   cut?: GamePlanCut | undefined;
@@ -113,6 +141,7 @@ export interface GamePlanEventInput {
   resultType?: GamePlanResultType | undefined;
   destinationPath?: string | undefined;
 }
+
 
 export interface BuiltGamePlanEvent {
   name: GamePlanEventName;
