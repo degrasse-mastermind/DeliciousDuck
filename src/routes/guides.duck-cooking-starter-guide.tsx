@@ -105,7 +105,9 @@ function StarterGuidePage() {
           <Printer aria-hidden="true" className="size-4" />
           Print the quick reference
         </button>
+        <span className="text-sm text-muted-foreground">
           Prints the checklist, temperatures, and technique block only. Want a plan for the duck
+
           you&apos;re actually cooking?{" "}
           <Link to="/tools/duck-game-plan" className="text-primary underline underline-offset-4">
             Build your Duck Game Plan
