@@ -269,12 +269,19 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   // unsubscribe/preferences links. It never leaves the server except inside the
   // provider event payload; it is never returned to the browser.
   const selection = "id, welcome_event_status, primary_interest, preference_token";
-  const write = (body: Record<string, unknown>) =>
+  // The acquisition columns are additive and may not exist in the generated
+  // types yet, so the row body is passed through untyped at the client edge.
+  const write = (body: typeof payload) =>
     decision.action === "create"
-      ? supabaseAdmin.from("newsletter_subscribers").insert(body).select(selection).single()
+      ? supabaseAdmin
+          .from("newsletter_subscribers")
+          .insert(body as never)
+          .select(selection)
+          .single()
       : supabaseAdmin
           .from("newsletter_subscribers")
-          .update(body)
+          .update(body as never)
+
           // Defensive: refuse the write if the row changed state concurrently.
           .eq("id", existing!.id)
           .eq("status", "subscribed")
