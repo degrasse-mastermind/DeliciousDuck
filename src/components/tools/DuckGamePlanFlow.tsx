@@ -83,7 +83,16 @@ function classifyFailure(cause: unknown): "network" | "server" | "unknown" {
   return "unknown";
 }
 
-/** One large, obvious choice. Radio semantics so arrow keys work as expected. */
+/**
+ * One large, obvious choice.
+ *
+ * Plain `button` semantics on purpose: each option submits an answer and
+ * advances, which is button behaviour, not radio behaviour. Claiming
+ * `role="radio"` without arrow-key navigation, roving tabindex and a checked
+ * model would be a false promise to screen-reader users, so the group is a
+ * labelled `group` of buttons instead. `aria-pressed` still announces the
+ * selected option when the reader steps back to a completed question.
+ */
 function ChoiceButton({
   label,
   selected,
@@ -96,11 +105,11 @@ function ChoiceButton({
   return (
     <button
       type="button"
-      role="radio"
-      aria-checked={selected}
+      aria-pressed={selected}
       onClick={onSelect}
       className={cn(
         "flex min-h-14 w-full items-center justify-between gap-3 rounded-sm border px-4 py-3.5 text-left text-[0.95rem] transition-colors",
+        "motion-reduce:transition-none",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         selected
           ? "border-primary bg-secondary font-medium text-foreground"
