@@ -1,18 +1,42 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
 import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
-import { ArticleShell, Section, DataTable, Callout } from "@/components/site/ArticleShell";
+import { ArticleShell, Section, DataTable, Callout, FaqList } from "@/components/site/ArticleShell";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
-import { articleSchema, breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
+import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/learn/duck-breast-temperature-doneness")!;
+
+const FAQ = [
+  {
+    q: "What internal temperature should duck breast be?",
+    a: "Two answers, for two different questions. The USDA safe minimum internal temperature for poultry, including duck, is 165°F (73.9°C). The common restaurant target is medium-rare, pulled at 125–130°F (52–54°C) and finishing at 130–135°F (54–57°C) after a 5–8 minute rest — a texture convention, not a safety clearance.",
+  },
+  {
+    q: "What temperature is medium duck breast?",
+    a: "Pull at 135–140°F (57–60°C) and it settles at 140–145°F (60–63°C) after resting, giving a pale pink centre that is firmer than medium-rare but still moist.",
+  },
+  {
+    q: "Is pink duck breast safe to eat?",
+    a: "Pink at 130–135°F is a texture choice, not a safety endpoint. Only 165°F (73.9°C) removes the safety question, and colour is an unreliable proxy for doneness in either direction. Cook to 165°F for very young, elderly, pregnant, or immunocompromised diners.",
+  },
+  {
+    q: "How much does duck breast carry over while resting?",
+    a: "A thick magret breast (350–450 g) can climb 8–10°F (4.5–5.5°C) off the heat; a smaller Pekin breast (150–200 g) usually climbs only 4–6°F (2–3°C). Hard, fast cooking increases carryover because the surface-to-centre gradient is steeper.",
+  },
+  {
+    q: "Where do you put the thermometer in a duck breast?",
+    a: "Through the side, horizontally, with the tip in the geometric centre of the thickest part. Probing down through the fat cap, touching the pan, or landing near the tapered thin edge all read high and can leave the centre undercooked.",
+  },
+];
+
 
 export const Route = createFileRoute("/learn/duck-breast-temperature-doneness")({
   head: () => ({
