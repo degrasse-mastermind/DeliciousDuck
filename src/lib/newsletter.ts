@@ -50,9 +50,19 @@ export interface SubscribeInput {
   sourcePath?: string;
   /** Consent text version the visitor was shown. Required by the server. */
   consentVersion?: string;
+  /**
+   * Optional Duck Game Plan acquisition metadata. Finite enum members only —
+   * what the visitor is cooking, never anything about who they are.
+   */
+  acquisitionSource?: "duck_game_plan";
+  cut?: string;
+  method?: string;
+  concern?: string;
+  partySizeBucket?: string;
   /** Honeypot value; must be empty for a real submission. */
   trap?: string;
 }
+
 
 /**
  * The only thing the browser learns from a signup.
