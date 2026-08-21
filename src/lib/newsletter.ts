@@ -13,7 +13,7 @@
  * no conversion event. The Resend token exists only as a server secret.
  */
 
-import { subscribeToNewsletterFn } from "./newsletter.functions";
+import { requestGamePlanEmailFn, subscribeToNewsletterFn } from "./newsletter.functions";
 import { RESEND_AUDIENCE_ID } from "./newsletter-schema";
 
 export type NewsletterProvider = "supabase+resend" | "resend" | "supabase-only";
@@ -85,6 +85,30 @@ export const subscribeToNewsletter:
   return { subscribed: true };
 };
 
+
+export interface GamePlanEmailInput extends SubscribeInput {
+  acquisitionSource: "duck_game_plan";
+  cut: string;
+  method: string;
+  concern: string;
+  partySizeBucket: string;
+}
+
+/**
+ * Requests the Duck Game Plan email for this address.
+ *
+ * Separate from `subscribeToNewsletter` because the plan is a transactional
+ * message that must arrive every time it is asked for, whereas the welcome email
+ * is send-once. Resolves for every accepted submission — new address, existing
+ * subscriber, suppressed address or cooldown all look identical here — and
+ * rejects only on a genuine server failure, which is when the UI shows retry.
+ */
+export const requestGamePlanEmail = async (
+  input: GamePlanEmailInput,
+): Promise<SubscribeResult> => {
+  await requestGamePlanEmailFn({ data: input });
+  return { subscribed: true };
+};
 
 /** True only when a real delivery path exists. */
 export function isNewsletterEnabled(): boolean {
