@@ -83,6 +83,7 @@ export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<
     "recommendation_id",
     "result_type",
   ],
+  duck_game_plan_entry_click: ["placement", "source_path", "destination_path"],
 };
 
 /** Path-only normalization: no query string, no hash, never a full URL. */
