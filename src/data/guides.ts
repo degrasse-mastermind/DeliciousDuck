@@ -129,6 +129,7 @@ export const GUIDES: GuideEntry[] = [
       "/recipes/pan-seared-duck-breast",
       "/recipes/oven-roasted-duck-breast",
       "/learn/what-does-duck-taste-like",
+      "/learn/how-to-score-duck-breast",
     ],
   },
   {
