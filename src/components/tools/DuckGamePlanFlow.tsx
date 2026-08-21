@@ -328,17 +328,18 @@ export function DuckGamePlanFlow({
     }
     setSelection(next);
     setError(null);
+    // The analytics step names are snake_case; only `partySize` differs.
+    const current: Step = key === "partySize" ? "party_size" : (key as Step);
     trackGamePlanStepComplete({
       placement,
-      step: key === "partySize" ? "party_size" : key,
+      step: current,
       cut: next.cut,
       method: next.method,
       concern: next.concern,
       partySize: next.partySize,
     });
-    const order: Step[] = ["cut", "method", "concern", "party_size", "email"];
-    const current = key === "partySize" ? "party_size" : key;
-    setStep(order[order.indexOf(current) + 1] ?? "email");
+    setStep(STEP_ORDER[STEP_ORDER.indexOf(current) + 1] ?? "email");
+
   }
 
   function back() {
