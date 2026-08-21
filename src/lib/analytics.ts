@@ -803,3 +803,19 @@ export function trackGamePlanInternalClick(params: {
   if (!shouldSendClick(key)) return;
   emitGamePlanEvent(GAME_PLAN_EVENTS.internalClick, params);
 }
+
+/**
+ * Click on an entry CTA into the planner, before any question is answered.
+ *
+ * Separate from `trackGamePlanInternalClick` on purpose: an entry click has no
+ * recommendation, so it carries only placement, source path and destination
+ * path. No synthetic recommendation id ever reaches result-level reporting.
+ */
+export function trackGamePlanEntryClick(params: {
+  placement: string;
+  destinationPath: string;
+}): void {
+  const key = ["game_plan_entry", params.destinationPath, params.placement].join("|");
+  if (!shouldSendClick(key)) return;
+  emitGamePlanEvent(GAME_PLAN_EVENTS.entryClick, params);
+}

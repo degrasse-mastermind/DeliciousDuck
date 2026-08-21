@@ -127,6 +127,13 @@ export interface DuckGamePlan {
   summary: string;
   risk: string;
   criticalMove: string;
+  /**
+   * The concern, applied as a modifier to a more specific move. Present only
+   * when `criticalMove` did not itself come from the concern layer.
+   */
+  refinement?: string;
+  /** Which layer produced `criticalMove` — asserted in tests, not rendered. */
+  criticalMoveSource: "method" | "cut-concern" | "concern" | "cut";
   temperature: string;
   /** Show the shared USDA safety block beneath the temperature line. */
   showSafetyNote: boolean;
@@ -245,7 +252,7 @@ const CUT_PLANS: Record<GamePlanCut, CutPlan> = {
     equipment: THERMOMETER,
     pairing: BREAST_SIDES,
     saveTheFat:
-      "Pour the rendered fat into a jar as it collects — one pair of breasts gives you enough to roast potatoes in.",
+      "Pour the rendered fat into a jar as it collects, then strain it once it has cooled. It keeps in the fridge and it is the best roasting fat in your kitchen.",
     primary: {
       label: "Pan-seared duck breast",
       href: "/recipes/pan-seared-duck-breast",
@@ -271,7 +278,7 @@ const CUT_PLANS: Record<GamePlanCut, CutPlan> = {
     temperature: WHOLE_TEMP,
     rest: WHOLE_REST,
     timing:
-      "Plan on 2–2.5 hours at 350°F (177°C) for a 1.8–2 kg (4–4.5 lb) bird, 2.5–3 hours for 2.3–2.7 kg (5–6 lb), and 3–3.5 hours for 2.9–3.2 kg (6.5–7 lb). Most home ovens run 15–25°F off their dial, so treat the range as planning, not truth.",
+      "Plan on 2–2.5 hours at 350°F (177°C) for a 1.8–2 kg (4–4.5 lb) bird, 2.5–3 hours for 2.3–2.7 kg (5–6 lb), and 3–3.5 hours for 2.9–3.2 kg (6.5–7 lb). Ovens drift from their dial, so treat the range as planning and confirm with a thigh reading.",
     equipment: ROASTING_PAN,
     pairing: WHOLE_SIDES,
     saveTheFat: FAT_NOTE,
@@ -353,7 +360,7 @@ const CUT_PLANS: Record<GamePlanCut, CutPlan> = {
       },
     ],
     saveTheFat:
-      "The cooking fat is the point: strain it once cool and reuse it. It gets better with each batch of legs.",
+      "The cooking fat is the point: strain it once cool, keep it refrigerated, and use it for the next batch of legs or for roast potatoes.",
     primary: {
       label: "Duck leg confit",
       href: "/cook/duck-leg-confit",
@@ -515,6 +522,8 @@ const METHOD_OVERLAYS: Partial<Record<`${GamePlanCut}:${GamePlanMethod}`, Method
   "duck-legs:air-fryer": {
     caveat:
       "We don't publish an air-fryer duck leg method. Use the air fryer for the crisping stage after a slow cook rather than for the whole thing.",
+    criticalMove:
+      "Cook the legs through slowly first, then use the air fryer only for the final crisping stage — it cannot soften connective tissue.",
   },
   "duck-legs:grill-smoker": {
     caveat:
@@ -545,13 +554,22 @@ const METHOD_OVERLAYS: Partial<Record<`${GamePlanCut}:${GamePlanMethod}`, Method
 };
 
 /* ------------------------------------------------------------------ *
- * Concern layer — sets the "biggest risk" and adds one link
+ * Concern layer — sets the "biggest risk", adds one link, and *refines*
+ * the critical move rather than replacing method-specific guidance.
+ *
+ * Precedence (see `resolveGamePlan`): a cut+method critical move wins, then a
+ * cut+concern override, then the generic concern move, then the cut default.
+ * Whenever the winning move did not come from the concern layer, the concern's
+ * one-line `refinement` is attached beneath it so the worry is still answered.
  * ------------------------------------------------------------------ */
 
 interface ConcernOverlay {
   risk: string;
   extra?: PlanLink;
+  /** Fallback move used only when nothing more specific exists. */
   criticalMove?: string;
+  /** Always available as a modifier on a more specific move. */
+  refinement: string;
 }
 
 const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
@@ -564,6 +582,8 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Probe the thickest part early and often, and account for carryover: pull below your finish temperature, not at it.",
+    refinement:
+      "Probe early and pull below your finish temperature — carryover does the last few degrees.",
   },
   "crispy-skin": {
     risk: "Skin that turns leathery instead of crisp, usually because moisture and unrendered fat stayed put.",
@@ -574,6 +594,7 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Dry the skin, score through fat only, render gently, and pour off the fat as it collects so the skin fries instead of steaming.",
+    refinement: "Dry the skin before it meets heat: moisture is what stops it crisping.",
   },
   timing: {
     risk: "The duck and the rest of dinner landing at different times.",
@@ -584,6 +605,7 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Fix your serving time first, then subtract the rest, the cook, and the tempering — in that order.",
+    refinement: "Fix the serving time first, then subtract the rest, the cook and the tempering.",
   },
   "how-much-to-buy": {
     risk: "Buying by instinct and finding out duck yields less meat than it looks like it should.",
@@ -594,6 +616,7 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Plan on a 180 g cooked portion per person and buy against a 40% yield for a whole bird.",
+    refinement: "Buy against yield, not sticker weight: 180 g cooked per person, 40% on a whole bird.",
   },
   "what-to-serve": {
     risk: "A rich plate with nothing on it to cut through the fat.",
@@ -604,6 +627,48 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Build the plate around one sharp element and one bitter one, and use the rendered fat on the starch.",
+    refinement: "One sharp element, one bitter one, and the rendered fat on the starch.",
+  },
+};
+
+/**
+ * Cut+concern overrides: used when the generic concern move would be wrong for
+ * the cut in front of the reader (crisping a confit leg is not crisping a raw
+ * breast; a whole bird is judged at the thigh). Every line restates guidance
+ * from the same site pages the cut layer already links to.
+ */
+const CONCERN_BY_CUT: Partial<
+  Record<GamePlanCut, Partial<Record<GamePlanConcern, { criticalMove: string }>>>
+> = {
+  "whole-duck": {
+    overcooking: {
+      criticalMove:
+        "Judge the bird at the thigh, not the breast: at least 165°F (73.9°C), and usually 175–185°F (79–85°C) for legs that pull easily. Start checking before the low end of the time range.",
+    },
+    "crispy-skin": {
+      criticalMove:
+        "Dry the skin well before the bird goes in, and roast it on a rack so it is never sitting in the fat it sheds.",
+    },
+  },
+  "duck-legs": {
+    overcooking: {
+      criticalMove:
+        "Legs are far easier to undercook than to overcook: push past the 165°F (73.9°C) minimum to 175–185°F (79–85°C), where the meat pulls from the bone.",
+    },
+    "crispy-skin": {
+      criticalMove:
+        "Crisp legs at the end, not during the cook: once they are tender, finish skin-side down in a hot pan or a hot oven for 10–15 minutes.",
+    },
+  },
+  "duck-confit": {
+    overcooking: {
+      criticalMove:
+        "Confit has no pull temperature — the endpoint is a skewer meeting no resistance. Keep the fat at a poach, 190–210°F (88–99°C), and let time do the work.",
+    },
+    "crispy-skin": {
+      criticalMove:
+        "Crisping is a separate, final stage: lift the legs from the fat, scrape off the excess, and crisp skin-side down 10–15 minutes in a hot pan or a 425°F (218°C) oven.",
+    },
   },
 };
 
@@ -677,10 +742,31 @@ export function resolveGamePlan(selection: GamePlanSelection): DuckGamePlan {
   const cut = CUT_PLANS[selection.cut];
   const overlay = METHOD_OVERLAYS[`${selection.cut}:${selection.method}`] ?? {};
   const concern = CONCERN_BASE[selection.concern];
+  const cutConcern = CONCERN_BY_CUT[selection.cut]?.[selection.concern];
 
   const primary = overlay.primary ?? cut.primary;
   const equipment = overlay.equipment ?? cut.equipment;
-  const criticalMove = concern.criticalMove ?? overlay.criticalMove ?? cut.criticalMove;
+
+  /**
+   * Precedence, most specific first. The method the reader chose outranks the
+   * generic worry, so a pan cook is never told to do an oven thing; the worry
+   * then rides along as `refinement` instead of being discarded.
+   */
+  let criticalMove: string;
+  let criticalMoveSource: DuckGamePlan["criticalMoveSource"];
+  if (overlay.criticalMove) {
+    criticalMove = overlay.criticalMove;
+    criticalMoveSource = "method";
+  } else if (cutConcern) {
+    criticalMove = cutConcern.criticalMove;
+    criticalMoveSource = "cut-concern";
+  } else if (concern.criticalMove) {
+    criticalMove = concern.criticalMove;
+    criticalMoveSource = "concern";
+  } else {
+    criticalMove = cut.criticalMove;
+    criticalMoveSource = "cut";
+  }
 
   const secondary = dedupeLinks(
     [...(concern.extra ? [concern.extra] : []), ...cut.secondary],
@@ -701,6 +787,7 @@ export function resolveGamePlan(selection: GamePlanSelection): DuckGamePlan {
       : `${CUT_LABELS[selection.cut]} · ${METHOD_LABELS[selection.method]} · ${PARTY_SIZE_LABELS[selection.partySize]}. Built around the thing you said you were worried about: ${CONCERN_LABELS[selection.concern].toLowerCase()}.`,
     risk: concern.risk,
     criticalMove,
+    criticalMoveSource,
     temperature: cut.temperature,
     showSafetyNote: selection.cut !== "not-bought-yet",
     timing: overlay.timing ?? cut.timing,
@@ -709,6 +796,10 @@ export function resolveGamePlan(selection: GamePlanSelection): DuckGamePlan {
     pairing,
     primary,
     secondary,
+    // The concern only refines when something more specific already won.
+    ...(criticalMoveSource === "method" || criticalMoveSource === "cut"
+      ? { refinement: concern.refinement }
+      : {}),
     ...(cut.rest ? { rest: cut.rest } : {}),
     ...(cut.saveTheFat ? { saveTheFat: cut.saveTheFat } : {}),
     ...(cut.commercial ? { commercial: cut.commercial } : {}),

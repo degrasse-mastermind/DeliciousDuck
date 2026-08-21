@@ -83,7 +83,16 @@ function classifyFailure(cause: unknown): "network" | "server" | "unknown" {
   return "unknown";
 }
 
-/** One large, obvious choice. Radio semantics so arrow keys work as expected. */
+/**
+ * One large, obvious choice.
+ *
+ * Plain `button` semantics on purpose: each option submits an answer and
+ * advances, which is button behaviour, not radio behaviour. Claiming
+ * `role="radio"` without arrow-key navigation, roving tabindex and a checked
+ * model would be a false promise to screen-reader users, so the group is a
+ * labelled `group` of buttons instead. `aria-pressed` still announces the
+ * selected option when the reader steps back to a completed question.
+ */
 function ChoiceButton({
   label,
   selected,
@@ -96,11 +105,11 @@ function ChoiceButton({
   return (
     <button
       type="button"
-      role="radio"
-      aria-checked={selected}
+      aria-pressed={selected}
       onClick={onSelect}
       className={cn(
         "flex min-h-14 w-full items-center justify-between gap-3 rounded-sm border px-4 py-3.5 text-left text-[0.95rem] transition-colors",
+        "motion-reduce:transition-none",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         selected
           ? "border-primary bg-secondary font-medium text-foreground"
@@ -205,7 +214,12 @@ export function DuckGamePlanResult({
 
         <dl className="mt-7">
           <PlanRow label="Biggest risk">{plan.risk}</PlanRow>
-          <PlanRow label="Critical move">{plan.criticalMove}</PlanRow>
+          <PlanRow label="Critical move">
+            {plan.criticalMove}
+            {plan.refinement && (
+              <span className="mt-1.5 block text-muted-foreground">{plan.refinement}</span>
+            )}
+          </PlanRow>
           <PlanRow label="Temperature">{plan.temperature}</PlanRow>
           {plan.rest && <PlanRow label="Rest">{plan.rest}</PlanRow>}
           <PlanRow label="Timing">{plan.timing}</PlanRow>
@@ -321,6 +335,22 @@ export function DuckGamePlanFlow({
       setConfirmed(stored);
     }
   }, []);
+
+  /**
+   * Deliberate focus management: because a choice auto-advances, keyboard and
+   * screen-reader users would otherwise be left on a button that no longer
+   * exists. Every step change — forward or Back — moves focus to the new
+   * question heading, which is the accessible statement of the new context.
+   * Skipped on first render so the page does not steal focus on load.
+   */
+  const stepMounted = useRef(false);
+  useEffect(() => {
+    if (!stepMounted.current) {
+      stepMounted.current = true;
+      return;
+    }
+    headingRef.current?.focus();
+  }, [step]);
 
   const methods = methodsForCut(selection.cut);
   const stepIndex = STEP_ORDER.indexOf(step);
@@ -474,7 +504,11 @@ export function DuckGamePlanFlow({
 
       {step !== "email" ? (
         <div className="mt-6">
-          <h2 ref={headingRef} className="font-display text-2xl leading-tight">
+          <h2
+            ref={headingRef}
+            tabIndex={-1}
+            className="font-display text-2xl leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
             {QUESTIONS[step]}
           </h2>
           {step === "method" && selection.cut && (
@@ -482,7 +516,8 @@ export function DuckGamePlanFlow({
               Options that make sense for {CUT_LABELS[selection.cut].toLowerCase()}.
             </p>
           )}
-          <div role="radiogroup" aria-label={QUESTIONS[step]} className="mt-5 grid gap-2.5">
+          <div role="group" aria-label={QUESTIONS[step]} className="mt-5 grid gap-2.5">
+
             {step === "cut" &&
               GAME_PLAN_CUTS.map((cut: GamePlanCut) => (
                 <ChoiceButton
@@ -529,7 +564,13 @@ export function DuckGamePlanFlow({
           >
             <Thermometer className="size-5" />
           </span>
-          <h2 className="mt-4 font-display text-2xl leading-tight">Where should we send it?</h2>
+          <h2
+            ref={headingRef}
+            tabIndex={-1}
+            className="mt-4 font-display text-2xl leading-tight focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          >
+            Where should we send it?
+          </h2>
           <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
             Your plan appears right here as soon as you sign up — no waiting on an email. We&apos;ll
             also send it to you so it&apos;s in your pocket at the stove, and start you on{" "}
