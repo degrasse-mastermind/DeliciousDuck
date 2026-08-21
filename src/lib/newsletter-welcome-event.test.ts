@@ -79,6 +79,8 @@ describe("buildWelcomeEventRequest", () => {
     expect(body.data).toBeUndefined();
     expect(Object.keys(body).sort()).toEqual(["email", "event", "payload"]);
     expect(Object.keys(body.payload).sort()).toEqual([
+      "acquisition_source",
+      "game_plan_url",
       "guide_url",
       "interest",
       "preferences_url",
