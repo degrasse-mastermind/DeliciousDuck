@@ -1,6 +1,17 @@
 import { z } from "zod";
 import { NEWSLETTER_INTERESTS } from "@/data/newsletter-contexts";
+import {
+  GAME_PLAN_CONCERNS,
+  GAME_PLAN_CUTS,
+  GAME_PLAN_METHODS,
+  GAME_PLAN_PARTY_SIZES,
+} from "@/data/duck-game-plan";
 import { NEWSLETTER_CONSENT } from "./newsletter-consent";
+
+/** The only acquisition sources this build recognises. */
+export const ACQUISITION_SOURCES = ["duck_game_plan"] as const;
+export type AcquisitionSource = (typeof ACQUISITION_SOURCES)[number];
+
 
 /** Client-safe validation + shared constants for the newsletter flow. */
 
