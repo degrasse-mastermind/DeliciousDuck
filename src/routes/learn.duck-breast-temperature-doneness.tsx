@@ -56,6 +56,8 @@ export const Route = createFileRoute("/learn/duck-breast-temperature-doneness")(
           path: GUIDE.path,
         }),
       ),
+      ldScript(faqSchema(FAQ)),
+
     ],
   }),
   component: Page,
