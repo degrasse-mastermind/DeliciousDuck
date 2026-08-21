@@ -257,7 +257,10 @@ function Page() {
         }
       />
 
+      <FaqList items={FAQ} />
+
       <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep"]} />
+
       <DecisionNextSteps
         heading="The tools these numbers assume"
         intro="Every target on this page assumes you can read the temperature quickly and in the right spot."
