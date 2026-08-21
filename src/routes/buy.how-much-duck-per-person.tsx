@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
-import { AnswerFirst, ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
+import { ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SourceNotes } from "@/components/site/SourceNotes";
@@ -77,7 +77,6 @@ function Page() {
       ]}
       meta={`${GUIDE.minutes} min read`}
     >
-      <AnswerFirst page={PAGE} />
 
       <ArticleByline page={PAGE} />
 
