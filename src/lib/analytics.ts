@@ -724,7 +724,9 @@ export function trackConversionModuleView(params: {
 /* ------------------------------------------------------------------ *
  * Duck Game Plan (acquisition funnel)
  *
- * Five events, each with a closed property allowlist built by
+ * Six events (start, step complete, signup, result view, internal click and
+ * entry click), each with a closed property allowlist built by
+
  * `@/lib/game-plan-events`. Payloads carry only finite enum members
  * (cut, method, concern, party-size bucket, result type), a validated
  * `recommendation_id`, a placement label, and normalized same-origin paths.
