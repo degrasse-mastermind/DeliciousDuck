@@ -39,6 +39,7 @@ import {
 import {
   buildGamePlanEvent,
   GAME_PLAN_EVENTS,
+  type GamePlanPlacement,
   type GamePlanEventInput,
   type GamePlanEventName,
   type GamePlanResultType,
@@ -744,13 +745,13 @@ function emitGamePlanEvent(name: GamePlanEventName, input: Omit<GamePlanEventInp
 }
 
 /** The visitor began the planner: first answer selected, once per flow. */
-export function trackGamePlanStart(params: { placement: string }): void {
+export function trackGamePlanStart(params: { placement: GamePlanPlacement }): void {
   emitGamePlanEvent(GAME_PLAN_EVENTS.start, { placement: params.placement });
 }
 
 /** One completed question. `step` is one of the five documented step names. */
 export function trackGamePlanStepComplete(params: {
-  placement: string;
+  placement: GamePlanPlacement;
   step: GamePlanStep;
   cut?: GamePlanCut | undefined;
   method?: GamePlanMethod | undefined;
@@ -762,7 +763,7 @@ export function trackGamePlanStepComplete(params: {
 
 /** Successful signup from inside the planner. Never carries the address. */
 export function trackGamePlanSignup(params: {
-  placement: string;
+  placement: GamePlanPlacement;
   selection: GamePlanSelection;
   recommendationId: string;
   resultType: GamePlanResultType;
@@ -780,7 +781,7 @@ export function trackGamePlanSignup(params: {
 
 /** The personalized plan was rendered. Deduped by the caller per plan. */
 export function trackGamePlanResultView(params: {
-  placement: string;
+  placement: GamePlanPlacement;
   selection: GamePlanSelection;
   recommendationId: string;
   resultType: GamePlanResultType;
@@ -798,7 +799,7 @@ export function trackGamePlanResultView(params: {
 
 /** Click on a link inside a rendered plan. Path only, never a full URL. */
 export function trackGamePlanInternalClick(params: {
-  placement: string;
+  placement: GamePlanPlacement;
   destinationPath: string;
   recommendationId: string;
   resultType: GamePlanResultType;
@@ -816,7 +817,7 @@ export function trackGamePlanInternalClick(params: {
  * path. No synthetic recommendation id ever reaches result-level reporting.
  */
 export function trackGamePlanEntryClick(params: {
-  placement: string;
+  placement: GamePlanPlacement;
   destinationPath: string;
 }): void {
   const key = ["game_plan_entry", params.destinationPath, params.placement].join("|");
