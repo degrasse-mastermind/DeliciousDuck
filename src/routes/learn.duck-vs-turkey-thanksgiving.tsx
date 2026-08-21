@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
-import { AnswerFirst, ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
+import { ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { VerdictChoice } from "@/components/site/VerdictChoice";
 import { SketchSlot } from "@/components/site/SketchSlot";
@@ -112,7 +112,6 @@ function Page() {
          into a comparison argument. */
       autoSketch={false}
     >
-      <AnswerFirst page={PAGE} />
 
       <ArticleByline page={PAGE} />
 
