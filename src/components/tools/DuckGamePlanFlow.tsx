@@ -46,6 +46,7 @@ import type { NewsletterInterest } from "@/data/newsletter-contexts";
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
 import { DUCK_DROP } from "@/data/duck-drop";
 import { SafetyNote } from "@/components/site/SafetyNote";
+import type { GamePlanPlacement } from "@/lib/game-plan-events";
 import { cn } from "@/lib/utils";
 
 /**
@@ -139,7 +140,7 @@ function PlanAnchor({
 }: {
   link: PlanLink;
   plan: DuckGamePlan;
-  placement: string;
+  placement: GamePlanPlacement;
   className?: string;
 }) {
   return (
@@ -188,7 +189,7 @@ export function DuckGamePlanResult({
   onRestart,
 }: {
   selection: GamePlanSelection;
-  placement: string;
+  placement: GamePlanPlacement;
   onRestart?: () => void;
 }) {
   const plan = useMemo(() => resolveGamePlan(selection), [selection]);
@@ -307,7 +308,7 @@ export function DuckGamePlanFlow({
   placement = "game-plan_tool",
   onSubscribe = subscribeToNewsletter,
 }: {
-  placement?: string;
+  placement?: GamePlanPlacement;
   onSubscribe?: ((input: SubscribeInput) => Promise<SubscribeResult | void>) | undefined;
 }) {
   const [selection, setSelection] = useState<PartialSelection>({});

@@ -4,6 +4,7 @@ import { trackGamePlanEntryClick } from "@/lib/analytics";
 import { useModuleImpression } from "@/hooks/useModuleImpression";
 import { trackNewsletterOfferView } from "@/lib/analytics";
 import { DUCK_DROP } from "@/data/duck-drop";
+import type { GamePlanPlacement } from "@/lib/game-plan-events";
 import { cn } from "@/lib/utils";
 
 /**
@@ -31,8 +32,8 @@ export function GamePlanCta({
   tone = "forest",
   className,
 }: {
-  /** Placement id: unique per surface, low cardinality. */
-  id?: string;
+  /** Placement id: one of the finite Game Plan placements. */
+  id?: GamePlanPlacement;
   /** `forest` for a full-width band, `quiet` for inside an article. */
   tone?: "forest" | "quiet";
   className?: string;

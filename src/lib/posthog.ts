@@ -12,6 +12,8 @@
 import posthog from "posthog-js";
 import { analyticsEnabled } from "./analytics-gate";
 import { IMPRESSION_PROPERTY_ALLOWLIST } from "./impression-events";
+import { GAME_PLAN_PROPERTY_ALLOWLIST } from "./game-plan-events";
+
 
 export const POSTHOG_KEY = "phc_nTL8XA9PoPBexJHqaP9nrrqUgNrhJbVM5M3kCudC9qA3";
 /** Activated managed reverse-proxy ingestion host for deliciousduck.com. */
@@ -110,7 +112,10 @@ const POSTHOG_EVENT_PROPERTY_ALLOWLIST: Readonly<Record<string, readonly string[
   ],
   // Impression + newsletter-funnel events share one strict allowlist with GA4.
   ...IMPRESSION_PROPERTY_ALLOWLIST,
+  // Duck Game Plan funnel: same closed, per-event allowlists GA4 uses.
+  ...GAME_PLAN_PROPERTY_ALLOWLIST,
 };
+
 
 /**
  * Initializes PostHog at most once per session.
