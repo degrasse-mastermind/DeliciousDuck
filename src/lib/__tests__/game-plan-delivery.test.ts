@@ -25,9 +25,9 @@ import type { SignupOutcome } from "@/lib/newsletter-response";
 
 const SELECTION: GamePlanSelection = {
   cut: "whole-duck",
-  method: "roast",
+  method: "oven",
   concern: "crispy-skin",
-  partySize: "4-6",
+  partySize: "3-4",
 };
 
 const TOKEN = "a".repeat(32);
@@ -72,8 +72,8 @@ describe("Game Plan delivery decisions", () => {
     expect(h.dispatch).toHaveBeenCalledTimes(1);
   });
 
-  it("also delivers for a resubscribed address", async () => {
-    const h = deps({ persist: async () => ({ outcome: "resubscribed" }) });
+  it("also delivers for a legacy active duplicate", async () => {
+    const h = deps({ persist: async () => ({ outcome: "legacy_active_duplicate" }) });
     expect((await runGamePlanDelivery(h.deps)).delivery).toBe("requested");
   });
 
@@ -179,9 +179,9 @@ describe("Game Plan email payload", () => {
 
   it("carries only the finite selection enums", () => {
     expect(data.cut).toBe("whole-duck");
-    expect(data.method).toBe("roast");
+    expect(data.method).toBe("oven");
     expect(data.concern).toBe("crispy-skin");
-    expect(data.party_size_bucket).toBe("4-6");
+    expect(data.party_size_bucket).toBe("3-4");
   });
 
   it("registers the event definition once when the provider does not know it", async () => {
