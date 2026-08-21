@@ -518,7 +518,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         heading: "Pick the pan, and know how it behaves",
-        body: "Stainless steel and cast iron both work, but they are not interchangeable. Stainless heats and cools quickly, so it answers the burner fast and lets you back off the moment the render gets loud — useful on a first attempt, and the fond it leaves is the best base for a pan sauce. Cast iron holds heat, so it stays steady through a long render and browns hard at the finish, but it lags when you turn the heat down. Whichever you use, keep it dry and unoiled at the start; skin sticking to stainless is almost always a sign the pan was hot before the duck went in.",
+        body: "Stainless and cast iron both work, differently. Stainless answers the burner fast, so you can back off the moment the render gets loud, and its fond makes the better pan sauce. Cast iron holds a steady low heat and browns hard at the finish, but it lags when you turn the heat down. Either way, start dry and unoiled: skin sticking to stainless almost always means the pan was hot before the duck went in.",
       },
     ],
     steps: [
@@ -625,7 +625,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         q: "Can I cook duck breast in a stainless steel pan?",
-        a: "Yes, and it is a good choice. Start the breast in a cold, dry stainless pan exactly as you would in cast iron; the skin releases its own fat within a couple of minutes and stops sticking. Stainless responds faster to heat changes, so watch the sizzle and drop the burner if the fat starts to spit. Cast iron is steadier but slower to react.",
+        a: "Yes, and it is a good choice. Start it in a cold, dry stainless pan exactly as you would in cast iron — the skin releases its own fat within a couple of minutes and stops sticking. Stainless reacts faster to heat changes, so go by the sizzle; cast iron is steadier but slower to respond.",
       },
       {
         q: "Should I score in a crosshatch or in lines?",
