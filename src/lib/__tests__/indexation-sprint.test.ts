@@ -15,8 +15,7 @@ import { describe, expect, it } from "vitest";
 import { GUIDES } from "@/data/guides";
 import { INGREDIENTS } from "@/data/ingredients";
 import { RECIPE_CONTENT } from "@/data/recipe-content";
-import { STARTER_GUIDE } from "@/data/starter-guide";
-import { AFFILIATES } from "@/data/affiliates";
+import { MERCHANTS } from "@/data/affiliates";
 import { DEEP_LINKS } from "@/data/revenue";
 import { PAGE_DATES } from "@/data/page-dates";
 import { relatedItem, unresolvableRelatedPaths } from "@/lib/related-items";
@@ -27,8 +26,10 @@ function allRelatedLists(): { owner: string; paths: readonly string[] }[] {
   return [
     ...GUIDES.map((g) => ({ owner: g.path, paths: g.related })),
     ...INGREDIENTS.map((i) => ({ owner: i.path, paths: i.related })),
-    ...RECIPE_CONTENT.map((r) => ({ owner: `/recipes/${r.slug}`, paths: r.related })),
-    { owner: STARTER_GUIDE.path, paths: STARTER_GUIDE.related ?? [] },
+    ...Object.values(RECIPE_CONTENT).map((r) => ({
+      owner: `/recipes/${r.slug}`,
+      paths: r.related,
+    })),
   ];
 }
 
@@ -104,14 +105,14 @@ describe("commercial links", () => {
 
   it("no longer points at the retired Fossil Farms duck landing page", () => {
     const urls = [
-      ...AFFILIATES.map((a) => a.directUrl ?? ""),
+      ...MERCHANTS.map((m) => m.directUrl ?? ""),
       ...DEEP_LINKS.map((d) => d.directUrl ?? ""),
     ];
     for (const url of urls) expect(url.includes(dead)).toBe(false);
   });
 
   it("keeps the affiliate registry and the deep link on the same Fossil Farms URL", () => {
-    const merchant = AFFILIATES.find((a) => a.id === "fossil-farms");
+    const merchant = MERCHANTS.find((m) => m.id === "fossil-farms");
     const link = DEEP_LINKS.find((d) => d.id === "sourcing-fossil-farms");
     expect(merchant?.directUrl).toBeTruthy();
     expect(link?.directUrl).toBe(merchant?.directUrl);
