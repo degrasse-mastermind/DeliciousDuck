@@ -100,7 +100,6 @@ export const GUIDES: GuideEntry[] = [
       "/learn/duck-breast-temperature-doneness",
       "/tools/duck-game-plan",
       "/learn/how-to-score-duck-breast",
-      "/tools/duck-game-plan",
       "/learn/why-duck-skin-isnt-crispy",
       "/cook/best-sauces-for-duck-breast",
       "/gear/best-pan-for-duck-breast",
