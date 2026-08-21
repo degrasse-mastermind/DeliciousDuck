@@ -118,21 +118,28 @@ async function sendWelcomeEvent(
     token: string;
     interest?: string | undefined;
     source_path?: string | undefined;
+    /** `duck_game_plan` when the signup came from the planner. */
+    acquisition_source?: string | undefined;
   },
 ): Promise<void> {
   await dispatchWelcomeEvent(
     {
       email,
+      // Still sent, so an unmodified welcome template keeps working. The
+      // payload now also carries `game_plan_url` and `acquisition_source` so the
+      // automation can lead back to the planner instead.
       guideUrl: FIELD_GUIDE_URL,
       baseUrl: SITE.baseUrl,
       token: meta.token,
       interest: meta.interest,
       sourcePath: meta.source_path,
+      acquisitionSource: meta.acquisition_source,
     },
     apiKey,
     fetch as never,
   );
 }
+
 
 /**
  * Durably stores the subscriber, then — for a genuinely new row only —
