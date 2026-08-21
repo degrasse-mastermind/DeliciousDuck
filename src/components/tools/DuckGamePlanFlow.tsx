@@ -214,7 +214,12 @@ export function DuckGamePlanResult({
 
         <dl className="mt-7">
           <PlanRow label="Biggest risk">{plan.risk}</PlanRow>
-          <PlanRow label="Critical move">{plan.criticalMove}</PlanRow>
+          <PlanRow label="Critical move">
+            {plan.criticalMove}
+            {plan.refinement && (
+              <span className="mt-1.5 block text-muted-foreground">{plan.refinement}</span>
+            )}
+          </PlanRow>
           <PlanRow label="Temperature">{plan.temperature}</PlanRow>
           {plan.rest && <PlanRow label="Rest">{plan.rest}</PlanRow>}
           <PlanRow label="Timing">{plan.timing}</PlanRow>
