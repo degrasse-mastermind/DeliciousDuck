@@ -25,6 +25,13 @@ export const GAME_PLAN_EVENTS = {
   signup: "duck_game_plan_signup",
   resultView: "duck_game_plan_result_view",
   internalClick: "duck_game_plan_internal_click",
+  /**
+   * A click on an entry CTA (homepage band, starter guide) *before* any
+   * selection exists. Deliberately carries no `recommendation_id` and no
+   * `result_type`: there is no recommendation yet, and a synthetic one would
+   * pollute result-level reporting.
+   */
+  entryClick: "duck_game_plan_entry_click",
 } as const;
 
 export type GamePlanEventName = (typeof GAME_PLAN_EVENTS)[keyof typeof GAME_PLAN_EVENTS];
