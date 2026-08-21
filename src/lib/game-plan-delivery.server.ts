@@ -46,9 +46,73 @@ function rememberRecent(email: string, at: number): void {
 
 function missingCooldownColumn(message: string | null | undefined): boolean {
   if (!message) return false;
-  const text = message.toLowerCase();
-  return text.includes(COOLDOWN_COLUMN);
+  return message.toLowerCase().includes(COOLDOWN_COLUMN);
 }
+
+/**
+ * Minimal untyped view of the client, used only for the optional cooldown
+ * column. The generated types do not know it, and it may not exist yet.
+ */
+interface LooseQuery {
+  from: (table: string) => {
+    select: (columns: string) => {
+      eq: (
+        column: string,
+        value: string,
+      ) => {
+        maybeSingle: () => Promise<{
+          data: Record<string, unknown> | null;
+          error: { message: string } | null;
+        }>;
+      };
+    };
+    update: (values: Record<string, unknown>) => {
+      eq: (
+        column: string,
+        value: string,
+      ) => Promise<{ error: { message: string } | null }>;
+    };
+  };
+}
+
+/** Last plan-email timestamp in ms, or null when unknown/unsupported. */
+async function readDurableCooldown(client: unknown, email: string): Promise<number | null> {
+  try {
+    const { data, error } = await (client as unknown as LooseQuery)
+      .from("newsletter_subscribers")
+      .select(`email_normalized, ${COOLDOWN_COLUMN}`)
+      .eq("email_normalized", email)
+      .maybeSingle();
+    if (error) {
+      if (missingCooldownColumn(error.message)) {
+        console.warn("Game Plan cooldown column absent; using in-memory window");
+      }
+      return null;
+    }
+    const value = data?.[COOLDOWN_COLUMN];
+    const at = typeof value === "string" ? Date.parse(value) : NaN;
+    return Number.isFinite(at) ? at : null;
+  } catch {
+    return null;
+  }
+}
+
+async function writeDurableCooldown(
+  client: unknown,
+  email: string,
+  at: string,
+): Promise<void> {
+  try {
+    const { error } = await (client as unknown as LooseQuery)
+      .from("newsletter_subscribers")
+      .update({ [COOLDOWN_COLUMN]: at })
+      .eq("email_normalized", email);
+    if (error) console.warn("Game Plan delivery timestamp not stored");
+  } catch {
+    console.warn("Game Plan delivery timestamp not stored");
+  }
+}
+
 
 /**
  * Stores/refreshes the subscriber, then requests the plan email unless the
