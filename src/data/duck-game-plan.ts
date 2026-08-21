@@ -575,6 +575,8 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Probe the thickest part early and often, and account for carryover: pull below your finish temperature, not at it.",
+    refinement:
+      "Probe early and pull below your finish temperature — carryover does the last few degrees.",
   },
   "crispy-skin": {
     risk: "Skin that turns leathery instead of crisp, usually because moisture and unrendered fat stayed put.",
@@ -585,6 +587,7 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Dry the skin, score through fat only, render gently, and pour off the fat as it collects so the skin fries instead of steaming.",
+    refinement: "Dry the skin before it meets heat: moisture is what stops it crisping.",
   },
   timing: {
     risk: "The duck and the rest of dinner landing at different times.",
@@ -595,6 +598,7 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Fix your serving time first, then subtract the rest, the cook, and the tempering — in that order.",
+    refinement: "Fix the serving time first, then subtract the rest, the cook and the tempering.",
   },
   "how-much-to-buy": {
     risk: "Buying by instinct and finding out duck yields less meat than it looks like it should.",
@@ -605,6 +609,7 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Plan on a 180 g cooked portion per person and buy against a 40% yield for a whole bird.",
+    refinement: "Buy against yield, not sticker weight: 180 g cooked per person, 40% on a whole bird.",
   },
   "what-to-serve": {
     risk: "A rich plate with nothing on it to cut through the fat.",
@@ -615,6 +620,48 @@ const CONCERN_BASE: Record<GamePlanConcern, ConcernOverlay> = {
     },
     criticalMove:
       "Build the plate around one sharp element and one bitter one, and use the rendered fat on the starch.",
+    refinement: "One sharp element, one bitter one, and the rendered fat on the starch.",
+  },
+};
+
+/**
+ * Cut+concern overrides: used when the generic concern move would be wrong for
+ * the cut in front of the reader (crisping a confit leg is not crisping a raw
+ * breast; a whole bird is judged at the thigh). Every line restates guidance
+ * from the same site pages the cut layer already links to.
+ */
+const CONCERN_BY_CUT: Partial<
+  Record<GamePlanCut, Partial<Record<GamePlanConcern, { criticalMove: string }>>>
+> = {
+  "whole-duck": {
+    overcooking: {
+      criticalMove:
+        "Judge the bird at the thigh, not the breast: at least 165°F (73.9°C), and usually 175–185°F (79–85°C) for legs that pull easily. Start checking before the low end of the time range.",
+    },
+    "crispy-skin": {
+      criticalMove:
+        "Dry the skin well before the bird goes in, and roast it on a rack so it is never sitting in the fat it sheds.",
+    },
+  },
+  "duck-legs": {
+    overcooking: {
+      criticalMove:
+        "Legs are far easier to undercook than to overcook: push past the 165°F (73.9°C) minimum to 175–185°F (79–85°C), where the meat pulls from the bone.",
+    },
+    "crispy-skin": {
+      criticalMove:
+        "Crisp legs at the end, not during the cook: once they are tender, finish skin-side down in a hot pan or a hot oven for 10–15 minutes.",
+    },
+  },
+  "duck-confit": {
+    overcooking: {
+      criticalMove:
+        "Confit has no pull temperature — the endpoint is a skewer meeting no resistance. Keep the fat at a poach, 190–210°F (88–99°C), and let time do the work.",
+    },
+    "crispy-skin": {
+      criticalMove:
+        "Crisping is a separate, final stage: lift the legs from the fat, scrape off the excess, and crisp skin-side down 10–15 minutes in a hot pan or a 425°F (218°C) oven.",
+    },
   },
 };
 
