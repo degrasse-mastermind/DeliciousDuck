@@ -98,6 +98,8 @@ export function buildWelcomeEventRequest(
  */
 export const WELCOME_EVENT_SCHEMA = {
   guide_url: "string",
+  game_plan_url: "string",
+  acquisition_source: "string",
   interest: "string",
   source_path: "string",
   unsubscribe_url: "string",
