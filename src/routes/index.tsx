@@ -49,19 +49,23 @@ function Home() {
       <ToolsSection />
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
         {/*
-          The Field Guide module is a conversion module as well as a newsletter
-          offer: `newsletter_offer_view` measures the funnel, while
-          `conversion_module_view` keeps the homepage module inventory complete
-          and comparable with the intent selector and the buying/gear module.
+          The primary acquisition module. The Duck Game Plan replaced the
+          Field Guide PDF as the signup promise here: it is a conversion module
+          as well as a newsletter offer, so `newsletter_offer_view` measures the
+          funnel while `conversion_module_view` keeps the homepage module
+          inventory complete and comparable with the intent selector and the
+          buying/gear module. The `starter-guide` id is kept so existing
+          in-content anchors to this module still land.
         */}
         <ModuleImpression
           placement={MODULE_PLACEMENTS.homeNewsletterOffer}
           moduleType="newsletter_offer"
-          destinationType="onsite_form"
+          destinationType="internal"
         >
-          <NewsletterSignup />
+          <GamePlanCta id="starter-guide" />
         </ModuleImpression>
       </section>
+
       <Monetization />
     </>
   );
