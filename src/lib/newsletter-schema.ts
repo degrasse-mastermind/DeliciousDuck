@@ -35,9 +35,21 @@ export const subscribeSchema = z.object({
    * version this build renders, so stored evidence can never drift from the UI.
    */
   consentVersion: z.literal(NEWSLETTER_CONSENT.version),
+  /**
+   * Optional first-party acquisition metadata from the Duck Game Plan.
+   *
+   * Finite enums only, so a signup can never carry free text. These describe
+   * what the visitor said they were cooking — never who they are.
+   */
+  acquisitionSource: z.enum(ACQUISITION_SOURCES).optional(),
+  cut: z.enum(GAME_PLAN_CUTS).optional(),
+  method: z.enum(GAME_PLAN_METHODS).optional(),
+  concern: z.enum(GAME_PLAN_CONCERNS).optional(),
+  partySizeBucket: z.enum(GAME_PLAN_PARTY_SIZES).optional(),
   /** Honeypot: must stay empty. Real users never see this field. */
   trap: z.string().max(0).optional(),
 });
+
 
 export type SubscribePayload = z.infer<typeof subscribeSchema>;
 
