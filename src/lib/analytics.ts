@@ -97,6 +97,8 @@ export const ANALYTICS_EVENTS = {
   gamePlanSignup: GAME_PLAN_EVENTS.signup,
   gamePlanResultView: GAME_PLAN_EVENTS.resultView,
   gamePlanInternalClick: GAME_PLAN_EVENTS.internalClick,
+  gamePlanEntryClick: GAME_PLAN_EVENTS.entryClick,
+
 } as const;
 
 
