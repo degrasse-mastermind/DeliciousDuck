@@ -77,44 +77,25 @@ export async function requestGamePlanEmail(data: GamePlanRequestPayload): Promis
     persist: () => persistSubscriber(data),
     loadDeliveryState: async () => {
       const memory = RECENT.get(email) ?? null;
-      const { data: row, error } = await supabaseAdmin
+      const { data: row } = await supabaseAdmin
         .from("newsletter_subscribers")
-        .select(`id, preference_token, ${COOLDOWN_COLUMN}`)
+        .select("id, preference_token")
         .eq("email_normalized", email)
         .maybeSingle();
 
-      if (error && missingCooldownColumn(error.message)) {
-        // Column not deployed yet: keep the subscriber path working and fall
-        // back to the in-memory cooldown for this instance.
-        console.warn("Game Plan cooldown column not present; using in-memory window");
-        const { data: fallback } = await supabaseAdmin
-          .from("newsletter_subscribers")
-          .select("id, preference_token")
-          .eq("email_normalized", email)
-          .maybeSingle();
-        return { token: fallback?.preference_token ?? null, lastRequestedAt: memory };
-      }
-      if (!row) return { token: null, lastRequestedAt: memory };
-
-      const durable = (row as Record<string, unknown>)[COOLDOWN_COLUMN];
-      const durableMs = typeof durable === "string" ? Date.parse(durable) : NaN;
-      const last = Number.isFinite(durableMs)
-        ? Math.max(durableMs, memory ?? 0)
-        : memory;
-      return { token: row.preference_token ?? null, lastRequestedAt: last };
+      // The durable cooldown column is optional: read it through an untyped
+      // view so a database without it degrades to the in-memory window instead
+      // of failing the request.
+      const durableAt = await readDurableCooldown(supabaseAdmin, email);
+      const last =
+        durableAt === null ? memory : Math.max(durableAt, memory ?? 0);
+      return { token: row?.preference_token ?? null, lastRequestedAt: last };
     },
     dispatch: (input) => dispatchGamePlanEvent(input, apiKey as string, fetch as never),
     recordDelivery: async (at) => {
       rememberRecent(email, Date.parse(at));
-      const { error } = await supabaseAdmin
-        .from("newsletter_subscribers")
-        .update({ [COOLDOWN_COLUMN]: at } as never)
-        .eq("email_normalized", email);
-      if (error && missingCooldownColumn(error.message)) {
-        console.warn("Game Plan delivery timestamp not stored: optional column is absent");
-      } else if (error) {
-        console.warn("Game Plan delivery timestamp not stored");
-      }
+      await writeDurableCooldown(supabaseAdmin, email, at);
     },
+
   });
 }
