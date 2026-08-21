@@ -69,11 +69,14 @@ export type Database = {
       }
       newsletter_subscribers: {
         Row: {
+          acquisition_source: string | null
+          concern: string | null
           consent_record: string
           consent_source_path: string | null
           consent_text_version: string | null
           consented_at: string | null
           created_at: string
+          cut: string | null
           email: string
           email_normalized: string
           first_content_path: string | null
@@ -84,6 +87,8 @@ export type Database = {
           last_resend_sync_at: string | null
           last_signup_at: string
           lifecycle_stage: string
+          method: string | null
+          party_size_bucket: string | null
           placement: string | null
           preference_token: string
           primary_interest: string | null
@@ -106,11 +111,14 @@ export type Database = {
           welcome_event_status: string
         }
         Insert: {
+          acquisition_source?: string | null
+          concern?: string | null
           consent_record?: string
           consent_source_path?: string | null
           consent_text_version?: string | null
           consented_at?: string | null
           created_at?: string
+          cut?: string | null
           email: string
           email_normalized: string
           first_content_path?: string | null
@@ -121,6 +129,8 @@ export type Database = {
           last_resend_sync_at?: string | null
           last_signup_at?: string
           lifecycle_stage?: string
+          method?: string | null
+          party_size_bucket?: string | null
           placement?: string | null
           preference_token?: string
           primary_interest?: string | null
@@ -143,11 +153,14 @@ export type Database = {
           welcome_event_status?: string
         }
         Update: {
+          acquisition_source?: string | null
+          concern?: string | null
           consent_record?: string
           consent_source_path?: string | null
           consent_text_version?: string | null
           consented_at?: string | null
           created_at?: string
+          cut?: string | null
           email?: string
           email_normalized?: string
           first_content_path?: string | null
@@ -158,6 +171,8 @@ export type Database = {
           last_resend_sync_at?: string | null
           last_signup_at?: string
           lifecycle_stage?: string
+          method?: string | null
+          party_size_bucket?: string | null
           placement?: string | null
           preference_token?: string
           primary_interest?: string | null
