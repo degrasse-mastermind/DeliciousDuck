@@ -271,7 +271,7 @@ const CUT_PLANS: Record<GamePlanCut, CutPlan> = {
     temperature: WHOLE_TEMP,
     rest: WHOLE_REST,
     timing:
-      "Plan on 2–2.5 hours at 350°F (177°C) for a 1.8–2 kg (4–4.5 lb) bird, 2.5–3 hours for 2.3–2.7 kg (5–6 lb), and 3–3.5 hours for 2.9–3.2 kg (6.5–7 lb). Most home ovens run 15–25°F off their dial, so treat the range as planning, not truth.",
+      "Plan on 2–2.5 hours at 350°F (177°C) for a 1.8–2 kg (4–4.5 lb) bird, 2.5–3 hours for 2.3–2.7 kg (5–6 lb), and 3–3.5 hours for 2.9–3.2 kg (6.5–7 lb). Ovens drift from their dial, so treat the range as planning and confirm with a thigh reading.",
     equipment: ROASTING_PAN,
     pairing: WHOLE_SIDES,
     saveTheFat: FAT_NOTE,
