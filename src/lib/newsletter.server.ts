@@ -251,32 +251,44 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     unsubscribed_at: null,
     updated_at: now,
     ...consentEvidence,
+    /**
+     * Finite Duck Game Plan selections, when the signup came from the planner.
+     * Additive and nullable; the fallback write below covers a database where
+     * the migration has not been applied yet.
+     */
+    ...acquisitionColumns(data),
   };
 
   // `preference_token` is selected because the welcome email must carry working
   // unsubscribe/preferences links. It never leaves the server except inside the
   // provider event payload; it is never returned to the browser.
   const selection = "id, welcome_event_status, primary_interest, preference_token";
-  const { data: row, error } =
+  const write = (body: Record<string, unknown>) =>
     decision.action === "create"
-      ? await supabaseAdmin
+      ? supabaseAdmin.from("newsletter_subscribers").insert(body).select(selection).single()
+      : supabaseAdmin
           .from("newsletter_subscribers")
-          .insert(payload)
-          .select(selection)
-          .single()
-      : await supabaseAdmin
-          .from("newsletter_subscribers")
-          .update(payload)
-          .eq("id", existing!.id)
+          .update(body)
           // Defensive: refuse the write if the row changed state concurrently.
+          .eq("id", existing!.id)
           .eq("status", "subscribed")
           .select(selection)
           .single();
+
+  let { data: row, error } = await write(payload);
+
+  // Acquisition columns are optional. If this deployment's database predates
+  // them, keep the subscriber and drop only the four extra fields.
+  if (error && isMissingAcquisitionColumn(error.message)) {
+    console.warn("Acquisition metadata skipped: optional columns are not present yet");
+    ({ data: row, error } = await write(withoutAcquisitionColumns(payload)));
+  }
 
   if (error || !row) {
     console.error(`Newsletter storage failed: ${error?.message ?? "no row returned"}`);
     throw new Error("newsletter_storage_error");
   }
+
 
   const apiKey = process.env["RESEND_API_KEY"];
   // Existing-row submissions stop here: local fields are refreshed, the provider
