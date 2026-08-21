@@ -806,8 +806,6 @@ export function resolveGamePlan(selection: GamePlanSelection): DuckGamePlan {
   };
   return plan;
 }
-  return plan;
-}
 
 /** True only when every question has been answered. */
 export function isCompleteSelection(value: PartialSelection): value is GamePlanSelection {
