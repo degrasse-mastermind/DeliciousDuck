@@ -17,7 +17,7 @@ const GUIDE = guideByPath("/learn/duck-breast-temperature-doneness")!;
 const FAQ = [
   {
     q: "What internal temperature should duck breast be?",
-    a: "Two answers, for two different questions. The USDA safe minimum internal temperature for poultry, including duck, is 165°F (73.9°C). The common restaurant target is medium-rare, pulled at 125–130°F (52–54°C) and finishing at 130–135°F (54–57°C) after a 5–8 minute rest — a texture convention, not a safety clearance.",
+    a: "Two answers, for two questions. The USDA safe minimum for poultry, duck included, is 165°F (73.9°C). The common restaurant target is medium-rare: pulled at 125–130°F (52–54°C), finishing at 130–135°F (54–57°C) after a 5–8 minute rest — a texture convention, not a safety clearance.",
   },
   {
     q: "What internal temperature is duck cooked at, beyond the breast?",

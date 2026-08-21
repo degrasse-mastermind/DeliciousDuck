@@ -10,7 +10,7 @@ import { SITE_URL } from "./site";
 export const STARTER_GUIDE = {
   path: "/guides/duck-cooking-starter-guide",
   title: "The Duck Cooking Starter Guide",
-  seoTitle: "Duck Cooking Starter Guide: Your First Duck | DeliciousDuck",
+  seoTitle: "Duck Cooking Starter Guide | DeliciousDuck",
   description:
     "A starter reference for cooking duck: how it differs from chicken, which cut to start with, five core techniques, safe temperatures and a shopping checklist.",
   teaser:
