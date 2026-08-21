@@ -353,7 +353,7 @@ const CUT_PLANS: Record<GamePlanCut, CutPlan> = {
       },
     ],
     saveTheFat:
-      "The cooking fat is the point: strain it once cool and reuse it. It gets better with each batch of legs.",
+      "The cooking fat is the point: strain it once cool, keep it refrigerated, and use it for the next batch of legs or for roast potatoes.",
     primary: {
       label: "Duck leg confit",
       href: "/cook/duck-leg-confit",
