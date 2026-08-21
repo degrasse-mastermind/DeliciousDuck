@@ -245,7 +245,7 @@ const CUT_PLANS: Record<GamePlanCut, CutPlan> = {
     equipment: THERMOMETER,
     pairing: BREAST_SIDES,
     saveTheFat:
-      "Pour the rendered fat into a jar as it collects — one pair of breasts gives you enough to roast potatoes in.",
+      "Pour the rendered fat into a jar as it collects, then strain it once it has cooled. It keeps in the fridge and it is the best roasting fat in your kitchen.",
     primary: {
       label: "Pan-seared duck breast",
       href: "/recipes/pan-seared-duck-breast",
