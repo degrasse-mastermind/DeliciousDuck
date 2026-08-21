@@ -742,10 +742,31 @@ export function resolveGamePlan(selection: GamePlanSelection): DuckGamePlan {
   const cut = CUT_PLANS[selection.cut];
   const overlay = METHOD_OVERLAYS[`${selection.cut}:${selection.method}`] ?? {};
   const concern = CONCERN_BASE[selection.concern];
+  const cutConcern = CONCERN_BY_CUT[selection.cut]?.[selection.concern];
 
   const primary = overlay.primary ?? cut.primary;
   const equipment = overlay.equipment ?? cut.equipment;
-  const criticalMove = concern.criticalMove ?? overlay.criticalMove ?? cut.criticalMove;
+
+  /**
+   * Precedence, most specific first. The method the reader chose outranks the
+   * generic worry, so a pan cook is never told to do an oven thing; the worry
+   * then rides along as `refinement` instead of being discarded.
+   */
+  let criticalMove: string;
+  let criticalMoveSource: DuckGamePlan["criticalMoveSource"];
+  if (overlay.criticalMove) {
+    criticalMove = overlay.criticalMove;
+    criticalMoveSource = "method";
+  } else if (cutConcern) {
+    criticalMove = cutConcern.criticalMove;
+    criticalMoveSource = "cut-concern";
+  } else if (concern.criticalMove) {
+    criticalMove = concern.criticalMove;
+    criticalMoveSource = "concern";
+  } else {
+    criticalMove = cut.criticalMove;
+    criticalMoveSource = "cut";
+  }
 
   const secondary = dedupeLinks(
     [...(concern.extra ? [concern.extra] : []), ...cut.secondary],
@@ -766,6 +787,7 @@ export function resolveGamePlan(selection: GamePlanSelection): DuckGamePlan {
       : `${CUT_LABELS[selection.cut]} · ${METHOD_LABELS[selection.method]} · ${PARTY_SIZE_LABELS[selection.partySize]}. Built around the thing you said you were worried about: ${CONCERN_LABELS[selection.concern].toLowerCase()}.`,
     risk: concern.risk,
     criticalMove,
+    criticalMoveSource,
     temperature: cut.temperature,
     showSafetyNote: selection.cut !== "not-bought-yet",
     timing: overlay.timing ?? cut.timing,
@@ -774,10 +796,16 @@ export function resolveGamePlan(selection: GamePlanSelection): DuckGamePlan {
     pairing,
     primary,
     secondary,
+    // The concern only refines when something more specific already won.
+    ...(criticalMoveSource === "method" || criticalMoveSource === "cut"
+      ? { refinement: concern.refinement }
+      : {}),
     ...(cut.rest ? { rest: cut.rest } : {}),
     ...(cut.saveTheFat ? { saveTheFat: cut.saveTheFat } : {}),
     ...(cut.commercial ? { commercial: cut.commercial } : {}),
   };
+  return plan;
+}
   return plan;
 }
 
