@@ -1,4 +1,10 @@
 import type { SubscribePayload } from "./newsletter-schema";
+import {
+  acquisitionColumns,
+  isMissingAcquisitionColumn,
+  withoutAcquisitionColumns,
+} from "./newsletter-acquisition";
+
 import { createProviderContact } from "./newsletter-provider-contact";
 import { decideWelcomeDispatch, dispatchWelcomeEvent } from "./newsletter-welcome-event";
 import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
