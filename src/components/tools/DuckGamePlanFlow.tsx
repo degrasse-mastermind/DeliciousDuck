@@ -365,6 +365,15 @@ export function DuckGamePlanFlow({
     headingRef.current?.focus();
   }, [step]);
 
+  /**
+   * After an accepted submission the form is replaced by the plan, so focus is
+   * moved to the delivery acknowledgement: it is the answer to what the visitor
+   * just did, and it precedes the plan in reading order.
+   */
+  useEffect(() => {
+    if (justDelivered) deliveredRef.current?.focus();
+  }, [justDelivered]);
+
   const methods = methodsForCut(selection.cut);
   const stepIndex = STEP_ORDER.indexOf(step);
 
