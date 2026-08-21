@@ -5,6 +5,7 @@ import { ArticleShell, Section, DataTable, StepList, Callout } from "@/component
 import { QuackFix } from "@/components/site/QuackFix";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
+import { GamePlanCta } from "@/components/site/GamePlanCta";
 import { STARTER_GUIDE } from "@/data/starter-guide";
 import { trackStarterGuidePrint, trackStarterGuideView } from "@/lib/analytics";
 import { articleSchema, breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
