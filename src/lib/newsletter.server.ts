@@ -367,7 +367,9 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
       token: dispatch.token,
       interest: data.interest,
       source_path: data.sourcePath,
+      acquisition_source: data.acquisitionSource,
     });
+
     await supabaseAdmin
       .from("newsletter_subscribers")
       .update({ welcome_event_status: "sent", welcome_event_at: new Date().toISOString() })
