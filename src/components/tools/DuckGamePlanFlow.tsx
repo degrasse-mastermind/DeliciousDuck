@@ -160,6 +160,18 @@ function PlanRow({ label, children }: { label: string; children: React.ReactNode
   );
 }
 
+/**
+ * The newsletter `interest` field is a fixed enum the server validates, so the
+ * planner maps its cut selection onto that enum instead of inventing a value.
+ */
+const INTEREST_FOR_CUT: Record<GamePlanCut, NewsletterInterest> = {
+  "duck-breast": "duck-breast",
+  "whole-duck": "whole-duck",
+  "duck-legs": "duck-fat",
+  "duck-confit": "duck-fat",
+  "not-bought-yet": "sourcing",
+};
+
 export function DuckGamePlanResult({
   selection,
   placement,
@@ -388,7 +400,7 @@ export function DuckGamePlanFlow({
         email: cleaned,
         source: "duck_game_plan",
         placement,
-        interest: "cooking",
+        interest: INTEREST_FOR_CUT[selection.cut],
         ...(sourcePath ? { sourcePath } : {}),
         consentVersion: NEWSLETTER_CONSENT.version,
         // Finite selections only — useful demand signal, no new personal data.
@@ -399,7 +411,11 @@ export function DuckGamePlanFlow({
         partySizeBucket: selection.partySize,
         trap,
       });
-      trackNewsletterSignup({ placement, source: "duck_game_plan", interest: "cooking" });
+      trackNewsletterSignup({
+        placement,
+        source: "duck_game_plan",
+        interest: INTEREST_FOR_CUT[selection.cut],
+      });
       trackGamePlanSignup({
         placement,
         selection,
