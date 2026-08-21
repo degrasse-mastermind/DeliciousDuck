@@ -91,7 +91,14 @@ export const ANALYTICS_EVENTS = {
   newsletterFormStart: IMPRESSION_EVENTS.newsletterFormStart,
   newsletterFormError: IMPRESSION_EVENTS.newsletterFormError,
   conversionModuleView: IMPRESSION_EVENTS.conversionModuleView,
+
+  gamePlanStart: GAME_PLAN_EVENTS.start,
+  gamePlanStepComplete: GAME_PLAN_EVENTS.stepComplete,
+  gamePlanSignup: GAME_PLAN_EVENTS.signup,
+  gamePlanResultView: GAME_PLAN_EVENTS.resultView,
+  gamePlanInternalClick: GAME_PLAN_EVENTS.internalClick,
 } as const;
+
 
 /** Current path, safe on the server. */
 export function currentPagePath(): string | undefined {
