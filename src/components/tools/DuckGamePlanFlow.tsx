@@ -306,14 +306,24 @@ export function DuckGamePlanResult({
 
 export function DuckGamePlanFlow({
   placement = "game-plan_tool",
-  onSubscribe = subscribeToNewsletter,
+  onSubscribe = requestGamePlanEmail,
 }: {
   placement?: GamePlanPlacement;
-  onSubscribe?: ((input: SubscribeInput) => Promise<SubscribeResult | void>) | undefined;
+  /**
+   * Defaults to the Game Plan delivery action, not the plain newsletter signup.
+   * The welcome email is send-once, so routing the planner through it left every
+   * returning subscriber with a result card and no email.
+   */
+  onSubscribe?: ((input: GamePlanEmailInput) => Promise<SubscribeResult | void>) | undefined;
 }) {
   const [selection, setSelection] = useState<PartialSelection>({});
   const [step, setStep] = useState<Step>("cut");
   const [confirmed, setConfirmed] = useState<GamePlanSelection | null>(null);
+  /**
+   * True only for a submission accepted in this interaction, so the delivery
+   * acknowledgement is not replayed when a stored plan is restored on refresh.
+   */
+  const [justDelivered, setJustDelivered] = useState(false);
   const [email, setEmail] = useState("");
   const [trap, setTrap] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -323,6 +333,7 @@ export function DuckGamePlanFlow({
   const emailRef = useRef<HTMLInputElement | null>(null);
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const restored = useRef(false);
+  const deliveredRef = useRef<HTMLDivElement | null>(null);
 
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
 
@@ -395,6 +406,7 @@ export function DuckGamePlanFlow({
   function restart() {
     clearStoredSelection();
     setConfirmed(null);
+    setJustDelivered(false);
     setSelection({});
     setStep("cut");
     setEmail("");
@@ -456,6 +468,7 @@ export function DuckGamePlanFlow({
       });
       writeStoredSelection(selection);
       setConfirmed(selection);
+      setJustDelivered(true);
     } catch (cause) {
       setError("We couldn't save your plan just now. Please try again in a moment.");
       emailRef.current?.focus();
@@ -466,7 +479,27 @@ export function DuckGamePlanFlow({
   }
 
   if (confirmed) {
-    return <DuckGamePlanResult selection={confirmed} placement={placement} onRestart={restart} />;
+    return (
+      <div>
+        {justDelivered && (
+          <div
+            ref={deliveredRef}
+            role="status"
+            aria-live="polite"
+            tabIndex={-1}
+            className="mb-5 rounded-sm border border-primary/40 bg-primary/5 p-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <p className="font-semibold text-foreground">Plan ready — check your inbox</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              We&rsquo;ve sent your Duck Game Plan to the address you entered. If it
+              isn&rsquo;t there in a few minutes, check spam or promotions, and make sure
+              the address you typed is right. Your plan is below either way.
+            </p>
+          </div>
+        )}
+        <DuckGamePlanResult selection={confirmed} placement={placement} onRestart={restart} />
+      </div>
+    );
   }
 
   const progress = `Step ${Math.min(stepIndex + 1, STEP_ORDER.length)} of ${STEP_ORDER.length}`;
