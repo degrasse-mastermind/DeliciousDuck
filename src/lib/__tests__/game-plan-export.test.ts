@@ -94,15 +94,15 @@ describe("planFileName", () => {
 });
 
 describe("duck_game_plan_export contract", () => {
-  it("allowlists exactly the permitted properties", () => {
+  it("allowlists exactly the four permitted properties", () => {
     expect([...GAME_PLAN_PROPERTY_ALLOWLIST[GAME_PLAN_EVENTS.export]].sort()).toEqual([
       "action",
       "placement",
       "recommendation_id",
       "result_type",
-      "source_path",
     ]);
   });
+
 
   it("emits only finite action values", () => {
     for (const action of GAME_PLAN_EXPORT_ACTIONS) {
