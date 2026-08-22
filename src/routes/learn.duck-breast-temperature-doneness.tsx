@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { distributionMetadata } from "@/lib/distribution-metadata";
 import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
 import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
 import { ArticleShell, Section, DataTable, Callout, FaqList } from "@/components/site/ArticleShell";
@@ -13,6 +14,7 @@ import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/learn/duck-breast-temperature-doneness")!;
+const DISTRIBUTION = distributionMetadata("/learn/duck-breast-temperature-doneness");
 
 const FAQ = [
   {
@@ -45,7 +47,13 @@ const FAQ = [
 
 export const Route = createFileRoute("/learn/duck-breast-temperature-doneness")({
   head: () => ({
-    ...pageMeta({ title: GUIDE.seoTitle, description: GUIDE.description, path: GUIDE.path, ogType: "article" }),
+    ...pageMeta({
+      title: GUIDE.seoTitle,
+      description: GUIDE.description,
+      path: GUIDE.path,
+      ogType: "article",
+      ...(DISTRIBUTION ? { image: DISTRIBUTION.primaryImage } : {}),
+    }),
     scripts: [
       ldScript(
         breadcrumbSchema([

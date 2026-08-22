@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { distributionMetadata } from "@/lib/distribution-metadata";
 import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
 import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
 import { ArticleShell, Section, StepList, Callout, DataTable } from "@/components/site/ArticleShell";
@@ -19,10 +20,17 @@ import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/cook/how-to-cook-duck-breast")!;
+const DISTRIBUTION = distributionMetadata("/cook/how-to-cook-duck-breast");
 
 export const Route = createFileRoute("/cook/how-to-cook-duck-breast")({
   head: () => ({
-    ...pageMeta({ title: GUIDE.seoTitle, description: GUIDE.description, path: GUIDE.path, ogType: "article" }),
+    ...pageMeta({
+      title: GUIDE.seoTitle,
+      description: GUIDE.description,
+      path: GUIDE.path,
+      ogType: "article",
+      ...(DISTRIBUTION ? { image: DISTRIBUTION.primaryImage } : {}),
+    }),
     scripts: [
       ldScript(
         breadcrumbSchema([
