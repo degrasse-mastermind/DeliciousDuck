@@ -321,8 +321,10 @@ export function DuckGamePlanFlow({
   const [step, setStep] = useState<Step>("cut");
   const [confirmed, setConfirmed] = useState<GamePlanSelection | null>(null);
   /**
-   * True only for a submission accepted in this interaction, so the delivery
+   * True only for a submission the server accepted in this interaction, so the
    * acknowledgement is not replayed when a stored plan is restored on refresh.
+   * The server's response is deliberately identical for every privacy-safe
+   * outcome, so this never means the browser knows an email was delivered.
    */
   const [justSubmitted, setJustSubmitted] = useState(false);
   const [email, setEmail] = useState("");
