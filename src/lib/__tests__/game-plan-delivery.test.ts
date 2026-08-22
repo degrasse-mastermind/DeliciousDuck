@@ -293,7 +293,7 @@ describe("planner submission UI contract", () => {
   });
 
   it("does not replay the acknowledgement for a plan restored from storage", () => {
-    expect(source).toContain("const [justDelivered, setJustDelivered] = useState(false);");
-    expect(source).toContain("{justDelivered && (");
+    expect(source).toContain("const [justSubmitted, setJustSubmitted] = useState(false);");
+    expect(source).toContain("{justSubmitted && (");
   });
 });
