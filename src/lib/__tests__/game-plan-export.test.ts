@@ -27,7 +27,9 @@ describe("planToText", () => {
       "TEMPERATURE",
       "TIMING",
       "EQUIPMENT",
-      "HOW MUCH",
+      "REST",
+      "WHAT TO SERVE",
+      "SAVE THE FAT",
       "START HERE",
     ]) {
       expect(text).toContain(label);
@@ -35,6 +37,7 @@ describe("planToText", () => {
     expect(text).toContain(plan.headline);
     expect(text).toContain(plan.summary);
     expect(text).toContain(plan.temperature);
+    if (plan.serving) expect(text).toContain("HOW MUCH");
   });
 
   it("serializes every internal link category as an absolute canonical URL", () => {
