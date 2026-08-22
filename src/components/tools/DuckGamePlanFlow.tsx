@@ -324,7 +324,7 @@ export function DuckGamePlanFlow({
    * True only for a submission accepted in this interaction, so the delivery
    * acknowledgement is not replayed when a stored plan is restored on refresh.
    */
-  const [justDelivered, setJustDelivered] = useState(false);
+  const [justSubmitted, setJustSubmitted] = useState(false);
   const [email, setEmail] = useState("");
   const [trap, setTrap] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -334,7 +334,7 @@ export function DuckGamePlanFlow({
   const emailRef = useRef<HTMLInputElement | null>(null);
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const restored = useRef(false);
-  const deliveredRef = useRef<HTMLDivElement | null>(null);
+  const acceptedRef = useRef<HTMLDivElement | null>(null);
 
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
 
@@ -371,8 +371,8 @@ export function DuckGamePlanFlow({
    * just did, and it precedes the plan in reading order.
    */
   useEffect(() => {
-    if (justDelivered) deliveredRef.current?.focus();
-  }, [justDelivered]);
+    if (justSubmitted) acceptedRef.current?.focus();
+  }, [justSubmitted]);
 
   const methods = methodsForCut(selection.cut);
   const stepIndex = STEP_ORDER.indexOf(step);
@@ -415,7 +415,7 @@ export function DuckGamePlanFlow({
   function restart() {
     clearStoredSelection();
     setConfirmed(null);
-    setJustDelivered(false);
+    setJustSubmitted(false);
     setSelection({});
     setStep("cut");
     setEmail("");
@@ -477,7 +477,7 @@ export function DuckGamePlanFlow({
       });
       writeStoredSelection(selection);
       setConfirmed(selection);
-      setJustDelivered(true);
+      setJustSubmitted(true);
     } catch (cause) {
       setError("We couldn't save your plan just now. Please try again in a moment.");
       emailRef.current?.focus();
@@ -490,9 +490,9 @@ export function DuckGamePlanFlow({
   if (confirmed) {
     return (
       <div>
-        {justDelivered && (
+        {justSubmitted && (
           <div
-            ref={deliveredRef}
+            ref={acceptedRef}
             role="status"
             aria-live="polite"
             tabIndex={-1}
