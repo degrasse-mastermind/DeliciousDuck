@@ -14,6 +14,7 @@ import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SketchBand } from "@/components/site/SketchFigure";
 import { SKETCH } from "@/lib/sketch-art";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { GamePlanCta } from "@/components/site/GamePlanCta";
 import { DUCK_BREAST_CLUSTER } from "@/lib/duck-breast-cluster";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
@@ -160,6 +161,11 @@ function Page() {
           for the full breakdown of pull temperature, carryover, and who should stick to 165°F.
         </p>
       </SafetyNote>
+
+      <GamePlanCta
+        tone="quiet"
+        className="mt-12"
+      />
 
       <Section id="ready-to-cook" heading="Ready to cook it">
         <p>
