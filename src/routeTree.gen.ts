@@ -19,6 +19,7 @@ import { Route as EditorialStandardsRouteImport } from './routes/editorial-stand
 import { Route as GearRouteImport } from './routes/gear'
 import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
 import { Route as SearchRouteImport } from './routes/search'
@@ -143,6 +144,11 @@ const IngredientsRoute = IngredientsRouteImport.update({
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -563,6 +569,7 @@ export interface FileRoutesByFullPath {
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
   '/search': typeof SearchRoute
@@ -645,6 +652,7 @@ export interface FileRoutesByTo {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/contact': typeof ContactRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -731,6 +739,7 @@ export interface FileRoutesById {
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
   '/search': typeof SearchRoute
@@ -820,6 +829,7 @@ export interface FileRouteTypes {
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/partners'
     | '/privacy'
     | '/recipes'
     | '/search'
@@ -902,6 +912,7 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/contact'
     | '/editorial-standards'
+    | '/partners'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -987,6 +998,7 @@ export interface FileRouteTypes {
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/partners'
     | '/privacy'
     | '/recipes'
     | '/search'
@@ -1075,6 +1087,7 @@ export interface RootRouteChildren {
   GearRoute: typeof GearRouteWithChildren
   IngredientsRoute: typeof IngredientsRouteWithChildren
   LearnRoute: typeof LearnRouteWithChildren
+  PartnersRoute: typeof PartnersRoute
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
   SearchRoute: typeof SearchRoute
@@ -1166,6 +1179,13 @@ declare module '@tanstack/react-router' {
       path: '/learn'
       fullPath: '/learn'
       preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -1881,6 +1901,7 @@ const rootRouteChildren: RootRouteChildren = {
   GearRoute: GearRouteWithChildren,
   IngredientsRoute: IngredientsRouteWithChildren,
   LearnRoute: LearnRouteWithChildren,
+  PartnersRoute: PartnersRoute,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
   SearchRoute: SearchRoute,

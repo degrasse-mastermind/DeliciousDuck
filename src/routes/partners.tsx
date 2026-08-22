@@ -80,7 +80,7 @@ function EmailFallback() {
 const SAMPLE_FORMATS: { format: string; title: string; body: string; detail: string }[] = [
   {
     format: "Sample format — recipe or tutorial",
-    title: "Seared duck breast with a producer&rsquo;s cherry preserve",
+    title: "Seared duck breast with a producer’s cherry preserve",
     body: "A full method page written the way our cooking guides are written: timing, pan temperature, doneness, and where your product genuinely belongs in the process.",
     detail: "Structured for search and for a cook standing at the stove.",
   },
@@ -175,10 +175,9 @@ function PartnersPage() {
           {SAMPLE_FORMATS.map((card) => (
             <li key={card.format} className="flex flex-col rounded-sm border border-border bg-card p-6">
               <p className="eyebrow text-primary">{card.format}</p>
-              <h3
-                className="mt-3 font-display text-xl leading-snug text-foreground"
-                dangerouslySetInnerHTML={{ __html: card.title }}
-              />
+              <h3 className="mt-3 font-display text-xl leading-snug text-foreground">
+                {card.title}
+              </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{card.body}</p>
               <p className="mt-4 border-t border-border pt-3 text-xs uppercase tracking-[0.12em] text-muted-foreground">
                 {card.detail}
