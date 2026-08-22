@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { distributionMetadata } from "@/lib/distribution-metadata";
 import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
 import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
 import { ArticleShell, Section, StepList, Callout, DataTable } from "@/components/site/ArticleShell";
@@ -13,16 +14,24 @@ import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SketchBand } from "@/components/site/SketchFigure";
 import { SKETCH } from "@/lib/sketch-art";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
+import { GamePlanCta } from "@/components/site/GamePlanCta";
 import { DUCK_BREAST_CLUSTER } from "@/lib/duck-breast-cluster";
 import { CommercialCallout } from "@/components/site/CommercialLink";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/cook/how-to-cook-duck-breast")!;
+const DISTRIBUTION = distributionMetadata("/cook/how-to-cook-duck-breast");
 
 export const Route = createFileRoute("/cook/how-to-cook-duck-breast")({
   head: () => ({
-    ...pageMeta({ title: GUIDE.seoTitle, description: GUIDE.description, path: GUIDE.path, ogType: "article" }),
+    ...pageMeta({
+      title: GUIDE.seoTitle,
+      description: GUIDE.description,
+      path: GUIDE.path,
+      ogType: "article",
+      ...(DISTRIBUTION ? { image: DISTRIBUTION.primaryImage } : {}),
+    }),
     scripts: [
       ldScript(
         breadcrumbSchema([
@@ -152,6 +161,11 @@ function Page() {
           for the full breakdown of pull temperature, carryover, and who should stick to 165°F.
         </p>
       </SafetyNote>
+
+      <GamePlanCta
+        tone="quiet"
+        className="mt-12"
+      />
 
       <Section id="ready-to-cook" heading="Ready to cook it">
         <p>
