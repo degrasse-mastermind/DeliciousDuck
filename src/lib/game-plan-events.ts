@@ -93,13 +93,9 @@ export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<Record<GamePlanEventName, re
       "result_type",
     ],
     duck_game_plan_entry_click: ["placement", "source_path", "destination_path"],
-    duck_game_plan_export: [
-      "placement",
-      "source_path",
-      "action",
-      "recommendation_id",
-      "result_type",
-    ],
+    // Exactly four properties by contract: no source_path, no destination_path,
+    // no filename, no URL, no prose.
+    duck_game_plan_export: ["placement", "action", "recommendation_id", "result_type"],
   };
 
 /**
