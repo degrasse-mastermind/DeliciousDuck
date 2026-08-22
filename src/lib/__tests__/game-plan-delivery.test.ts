@@ -266,7 +266,6 @@ describe("planner submission UI contract", () => {
     expect(source).not.toMatch(/delivery acknowledgement/);
   });
 
-
   it("still renders the plan after an accepted submission", () => {
     expect(source).toContain("<DuckGamePlanResult selection={confirmed}");
   });
