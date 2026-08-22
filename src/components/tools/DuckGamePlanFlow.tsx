@@ -369,8 +369,8 @@ export function DuckGamePlanFlow({
 
   /**
    * After an accepted submission the form is replaced by the plan, so focus is
-   * moved to the delivery acknowledgement: it is the answer to what the visitor
-   * just did, and it precedes the plan in reading order.
+   * moved to the acceptance acknowledgement: it is the answer to what the
+   * visitor just did, and it precedes the plan in reading order.
    */
   useEffect(() => {
     if (justSubmitted) acceptedRef.current?.focus();
