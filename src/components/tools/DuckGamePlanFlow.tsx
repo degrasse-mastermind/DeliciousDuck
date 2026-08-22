@@ -291,11 +291,11 @@ export function DuckGamePlanResult({
           </p>
         )}
 
-        <GamePlanExportActions plan={plan} />
+        <GamePlanExportActions plan={plan} placement={placement} />
 
         {onRestart && (
-
           <button
+            data-print-hide
             type="button"
             onClick={onRestart}
             className="mt-8 inline-flex items-center gap-2 text-sm text-primary underline underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
