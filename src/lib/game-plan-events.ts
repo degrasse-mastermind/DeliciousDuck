@@ -49,6 +49,10 @@ export type GamePlanStep = (typeof GAME_PLAN_STEPS)[number];
 export const GAME_PLAN_RESULT_TYPES = ["exact", "general"] as const;
 export type GamePlanResultType = (typeof GAME_PLAN_RESULT_TYPES)[number];
 
+/** The three ways a visitor can take the plan out of the browser. */
+export const GAME_PLAN_EXPORT_ACTIONS = ["print", "view", "download"] as const;
+export type GamePlanExportAction = (typeof GAME_PLAN_EXPORT_ACTIONS)[number];
+
 export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<
   Record<GamePlanEventName, readonly string[]>
 > = {
