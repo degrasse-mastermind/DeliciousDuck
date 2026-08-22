@@ -86,7 +86,9 @@ describe("absolutePlanUrl", () => {
 
 describe("planFileName", () => {
   it("is stable and sanitized", () => {
-    expect(planFileName(plan)).toBe(`duck-game-plan-${plan.recommendationId.replace("_", "-")}.txt`);
+    expect(planFileName(plan)).toBe(
+      `duck-game-plan-${plan.recommendationId.replace("_", "-")}.txt`,
+    );
     expect(planFileName(plan)).toMatch(/^duck-game-plan-[a-z0-9-]+\.txt$/);
   });
 });

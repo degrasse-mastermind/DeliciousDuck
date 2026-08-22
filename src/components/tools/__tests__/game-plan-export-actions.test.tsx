@@ -59,9 +59,9 @@ describe("export controls", () => {
       vi.advanceTimersByTime(1);
     });
     expect(document.activeElement).toBe(panel);
-    expect(screen.getByRole("button", { name: /hide plain text/i }).getAttribute("aria-expanded")).toBe(
-      "true",
-    );
+    expect(
+      screen.getByRole("button", { name: /hide plain text/i }).getAttribute("aria-expanded"),
+    ).toBe("true");
     vi.useRealTimers();
   });
 

@@ -54,7 +54,9 @@ export function planToText(plan: DuckGamePlan): string {
     ...section("How much", plan.serving),
     ...section(
       "What to serve",
-      plan.pairing.length ? plan.pairing.map((link) => `- ${linkLine(link)}`).join("\n") : undefined,
+      plan.pairing.length
+        ? plan.pairing.map((link) => `- ${linkLine(link)}`).join("\n")
+        : undefined,
     ),
     ...section("Save the fat", plan.saveTheFat),
     RULE,

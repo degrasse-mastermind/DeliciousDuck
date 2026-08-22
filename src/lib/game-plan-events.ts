@@ -53,55 +53,54 @@ export type GamePlanResultType = (typeof GAME_PLAN_RESULT_TYPES)[number];
 export const GAME_PLAN_EXPORT_ACTIONS = ["print", "view", "download"] as const;
 export type GamePlanExportAction = (typeof GAME_PLAN_EXPORT_ACTIONS)[number];
 
-export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<
-  Record<GamePlanEventName, readonly string[]>
-> = {
-  duck_game_plan_start: ["placement", "source_path"],
-  duck_game_plan_step_complete: [
-    "placement",
-    "source_path",
-    "step",
-    "cut",
-    "method",
-    "concern",
-    "party_size_bucket",
-  ],
-  duck_game_plan_signup: [
-    "placement",
-    "source_path",
-    "cut",
-    "method",
-    "concern",
-    "party_size_bucket",
-    "recommendation_id",
-    "result_type",
-  ],
-  duck_game_plan_result_view: [
-    "placement",
-    "source_path",
-    "cut",
-    "method",
-    "concern",
-    "party_size_bucket",
-    "recommendation_id",
-    "result_type",
-  ],
-  duck_game_plan_internal_click: [
-    "placement",
-    "source_path",
-    "destination_path",
-    "recommendation_id",
-    "result_type",
-  ],
-  duck_game_plan_entry_click: ["placement", "source_path", "destination_path"],
-  duck_game_plan_export: [
-    "placement",
-    "source_path",
-    "action",
-    "recommendation_id",
-    "result_type",
-  ],
-};
+export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<Record<GamePlanEventName, readonly string[]>> =
+  {
+    duck_game_plan_start: ["placement", "source_path"],
+    duck_game_plan_step_complete: [
+      "placement",
+      "source_path",
+      "step",
+      "cut",
+      "method",
+      "concern",
+      "party_size_bucket",
+    ],
+    duck_game_plan_signup: [
+      "placement",
+      "source_path",
+      "cut",
+      "method",
+      "concern",
+      "party_size_bucket",
+      "recommendation_id",
+      "result_type",
+    ],
+    duck_game_plan_result_view: [
+      "placement",
+      "source_path",
+      "cut",
+      "method",
+      "concern",
+      "party_size_bucket",
+      "recommendation_id",
+      "result_type",
+    ],
+    duck_game_plan_internal_click: [
+      "placement",
+      "source_path",
+      "destination_path",
+      "recommendation_id",
+      "result_type",
+    ],
+    duck_game_plan_entry_click: ["placement", "source_path", "destination_path"],
+    duck_game_plan_export: [
+      "placement",
+      "source_path",
+      "action",
+      "recommendation_id",
+      "result_type",
+    ],
+  };
 
 /**
  * Finite list of the placement labels actually used by current callers. A
@@ -159,7 +158,6 @@ export interface GamePlanEventInput {
   destinationPath?: string | undefined;
   action?: GamePlanExportAction | undefined;
 }
-
 
 export interface BuiltGamePlanEvent {
   name: GamePlanEventName;
