@@ -289,7 +289,10 @@ export function DuckGamePlanResult({
           </p>
         )}
 
+        <GamePlanExportActions plan={plan} />
+
         {onRestart && (
+
           <button
             type="button"
             onClick={onRestart}
