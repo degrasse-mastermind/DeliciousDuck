@@ -15,9 +15,9 @@ const { GamePlanExportActions } = await import("@/components/tools/GamePlanExpor
 
 const plan = resolveGamePlan({
   cut: "duck-breast",
-  method: "pan-sear",
+  method: "pan",
   concern: "crispy-skin",
-  partySize: "2",
+  partySize: "1-2",
 });
 
 function renderActions() {

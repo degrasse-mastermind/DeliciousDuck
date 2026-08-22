@@ -11,9 +11,9 @@ import { absolutePlanUrl, planFileName, planToText } from "@/lib/game-plan-expor
 
 const plan = resolveGamePlan({
   cut: "duck-breast",
-  method: "pan-sear",
+  method: "pan",
   concern: "crispy-skin",
-  partySize: "2",
+  partySize: "1-2",
 });
 
 describe("planToText", () => {
