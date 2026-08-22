@@ -91,6 +91,7 @@ export function sitemapEntries(): SitemapEntry[] {
     })),
     { path: "/about", changefreq: "yearly", priority: "0.5" },
     { path: "/contact", changefreq: "yearly", priority: "0.4" },
+    { path: "/partners", changefreq: "monthly", priority: "0.5" },
     { path: "/affiliate-disclosure", changefreq: "yearly", priority: "0.3" },
     { path: "/editorial-standards", changefreq: "yearly", priority: "0.3" },
     { path: "/privacy", changefreq: "yearly", priority: "0.2" },

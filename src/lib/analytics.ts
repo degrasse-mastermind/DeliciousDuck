@@ -53,6 +53,11 @@ import type {
   GamePlanPartySize,
   GamePlanSelection,
 } from "@/data/duck-game-plan";
+import {
+  buildPartnerInquiryClickEvent,
+  PARTNER_EVENTS,
+  type PartnerPlacement,
+} from "./partner-events";
 import { captureEvent } from "./posthog";
 import { analyticsEnabled, syncGaRoutePolicy } from "./analytics-gate";
 
@@ -100,6 +105,7 @@ export const ANALYTICS_EVENTS = {
   gamePlanInternalClick: GAME_PLAN_EVENTS.internalClick,
   gamePlanEntryClick: GAME_PLAN_EVENTS.entryClick,
   gamePlanExport: GAME_PLAN_EVENTS.export,
+  partnerInquiryClick: PARTNER_EVENTS.inquiryClick,
 } as const;
 
 /** Current path, safe on the server. */
@@ -845,4 +851,23 @@ export function trackGamePlanExport(params: {
     recommendationId: params.recommendationId,
     resultType: params.resultType,
   });
+}
+
+/* ------------------------------------------------------------------ *
+ * Partnerships (B2B)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Click on a partnership inquiry CTA on `/partners`.
+ *
+ * Exactly one property — a placement label from a closed allowlist. No brand
+ * name, email address, message body, URL, or query string is ever sent, and an
+ * unrecognised placement emits nothing at all.
+ */
+export function trackPartnerInquiryClick(params: { placement: PartnerPlacement }): void {
+  const event = buildPartnerInquiryClickEvent({ placement: params.placement });
+  if (!event) return;
+  if (!shouldSendClick(`partner|${event.params.placement}`)) return;
+  trackEvent(event.name, { ...event.params });
+  captureEvent(event.name, { ...event.params });
 }
