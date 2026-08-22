@@ -47,6 +47,8 @@ import type { NewsletterInterest } from "@/data/newsletter-contexts";
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
 import { DUCK_DROP } from "@/data/duck-drop";
 import { SafetyNote } from "@/components/site/SafetyNote";
+import { GamePlanExportActions } from "@/components/tools/GamePlanExportActions";
+
 import type { GamePlanPlacement } from "@/lib/game-plan-events";
 import { cn } from "@/lib/utils";
 
@@ -209,8 +211,13 @@ export function DuckGamePlanResult({
 
   return (
     <div data-placement={placement}>
-      <div className="rounded-sm border border-border bg-background p-6 lg:p-8">
+      <div
+        data-plan-print
+        data-print-block
+        className="rounded-sm border border-border bg-background p-6 lg:p-8"
+      >
         <span className="eyebrow text-primary">Your Duck Game Plan</span>
+
         <h2 className="mt-3 font-display text-2xl leading-tight lg:text-3xl">{plan.headline}</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{plan.summary}</p>
 
@@ -284,7 +291,10 @@ export function DuckGamePlanResult({
           </p>
         )}
 
+        <GamePlanExportActions plan={plan} />
+
         {onRestart && (
+
           <button
             type="button"
             onClick={onRestart}

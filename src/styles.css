@@ -256,4 +256,24 @@
     box-shadow: none !important;
     display: inline-block !important;
   }
+
+  /* Printing a Duck Game Plan: only the kitchen card goes on paper. */
+  body.dd-print-plan *:not([data-plan-print]):not([data-plan-print] *) {
+    visibility: hidden !important;
+  }
+
+  body.dd-print-plan [data-plan-print] {
+    visibility: visible !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.dd-print-plan [data-plan-print] a {
+    text-decoration: underline !important;
+  }
 }
+
