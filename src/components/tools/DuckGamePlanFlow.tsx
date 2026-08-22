@@ -500,11 +500,10 @@ export function DuckGamePlanFlow({
             tabIndex={-1}
             className="mb-5 rounded-sm border border-primary/40 bg-primary/5 p-5 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            <p className="font-semibold text-foreground">Plan ready — check your inbox</p>
+            <p className="font-semibold text-foreground">Your Duck Game Plan is ready</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              We&rsquo;ve sent your Duck Game Plan to the address you entered. If it isn&rsquo;t
-              there in a few minutes, check spam or promotions, and make sure the address you typed
-              is right. Your plan is below either way.
+              Your personalized plan is below. If this address can receive email from us, a copy
+              should arrive shortly. Check spam or promotions if you don&rsquo;t see it.
             </p>
           </div>
         )}
