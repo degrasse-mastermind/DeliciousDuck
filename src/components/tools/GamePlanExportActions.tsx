@@ -63,15 +63,13 @@ export function GamePlanExportActions({
   }
 
   function handleToggleText() {
-    setShowText((open) => {
-      const next = !open;
-      // Only an open counts as a "view": closing the panel is not a new export.
-      if (next) {
-        report("view");
-        window.setTimeout(() => textRef.current?.focus(), 0);
-      }
-      return next;
-    });
+    const next = !showText;
+    setShowText(next);
+    // Only an open counts as a "view": closing the panel is not a new export.
+    if (next) {
+      report("view");
+      window.setTimeout(() => textRef.current?.focus(), 0);
+    }
   }
 
   const buttonClass =
