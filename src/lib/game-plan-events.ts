@@ -32,6 +32,12 @@ export const GAME_PLAN_EVENTS = {
    * pollute result-level reporting.
    */
   entryClick: "duck_game_plan_entry_click",
+  /**
+   * The visitor took the plan out of the browser: print, plain-text view, or
+   * download. Carries the action taken and the plan it applies to — never a
+   * filename, URL, or any plan prose.
+   */
+  export: "duck_game_plan_export",
 } as const;
 
 export type GamePlanEventName = (typeof GAME_PLAN_EVENTS)[keyof typeof GAME_PLAN_EVENTS];
