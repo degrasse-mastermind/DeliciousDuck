@@ -32,6 +32,12 @@ export const GAME_PLAN_EVENTS = {
    * pollute result-level reporting.
    */
   entryClick: "duck_game_plan_entry_click",
+  /**
+   * The visitor took the plan out of the browser: print, plain-text view, or
+   * download. Carries the action taken and the plan it applies to — never a
+   * filename, URL, or any plan prose.
+   */
+  export: "duck_game_plan_export",
 } as const;
 
 export type GamePlanEventName = (typeof GAME_PLAN_EVENTS)[keyof typeof GAME_PLAN_EVENTS];
@@ -43,48 +49,58 @@ export type GamePlanStep = (typeof GAME_PLAN_STEPS)[number];
 export const GAME_PLAN_RESULT_TYPES = ["exact", "general"] as const;
 export type GamePlanResultType = (typeof GAME_PLAN_RESULT_TYPES)[number];
 
-export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<
-  Record<GamePlanEventName, readonly string[]>
-> = {
-  duck_game_plan_start: ["placement", "source_path"],
-  duck_game_plan_step_complete: [
-    "placement",
-    "source_path",
-    "step",
-    "cut",
-    "method",
-    "concern",
-    "party_size_bucket",
-  ],
-  duck_game_plan_signup: [
-    "placement",
-    "source_path",
-    "cut",
-    "method",
-    "concern",
-    "party_size_bucket",
-    "recommendation_id",
-    "result_type",
-  ],
-  duck_game_plan_result_view: [
-    "placement",
-    "source_path",
-    "cut",
-    "method",
-    "concern",
-    "party_size_bucket",
-    "recommendation_id",
-    "result_type",
-  ],
-  duck_game_plan_internal_click: [
-    "placement",
-    "source_path",
-    "destination_path",
-    "recommendation_id",
-    "result_type",
-  ],
-  duck_game_plan_entry_click: ["placement", "source_path", "destination_path"],
-};
+/** The three ways a visitor can take the plan out of the browser. */
+export const GAME_PLAN_EXPORT_ACTIONS = ["print", "view", "download"] as const;
+export type GamePlanExportAction = (typeof GAME_PLAN_EXPORT_ACTIONS)[number];
+
+export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<Record<GamePlanEventName, readonly string[]>> =
+  {
+    duck_game_plan_start: ["placement", "source_path"],
+    duck_game_plan_step_complete: [
+      "placement",
+      "source_path",
+      "step",
+      "cut",
+      "method",
+      "concern",
+      "party_size_bucket",
+    ],
+    duck_game_plan_signup: [
+      "placement",
+      "source_path",
+      "cut",
+      "method",
+      "concern",
+      "party_size_bucket",
+      "recommendation_id",
+      "result_type",
+    ],
+    duck_game_plan_result_view: [
+      "placement",
+      "source_path",
+      "cut",
+      "method",
+      "concern",
+      "party_size_bucket",
+      "recommendation_id",
+      "result_type",
+    ],
+    duck_game_plan_internal_click: [
+      "placement",
+      "source_path",
+      "destination_path",
+      "recommendation_id",
+      "result_type",
+    ],
+    duck_game_plan_entry_click: ["placement", "source_path", "destination_path"],
+    duck_game_plan_export: [
+      "placement",
+      "source_path",
+      "action",
+      "recommendation_id",
+      "result_type",
+    ],
+  };
 
 /**
  * Finite list of the placement labels actually used by current callers. A
@@ -140,8 +156,8 @@ export interface GamePlanEventInput {
   recommendationId?: string | undefined;
   resultType?: GamePlanResultType | undefined;
   destinationPath?: string | undefined;
+  action?: GamePlanExportAction | undefined;
 }
-
 
 export interface BuiltGamePlanEvent {
   name: GamePlanEventName;
@@ -174,6 +190,7 @@ export function buildGamePlanEvent(
       : undefined,
     result_type: member(GAME_PLAN_RESULT_TYPES, input.resultType),
     destination_path: safeGamePlanPath(input.destinationPath),
+    action: member(GAME_PLAN_EXPORT_ACTIONS, input.action),
   };
 
   const allowed = GAME_PLAN_PROPERTY_ALLOWLIST[name];

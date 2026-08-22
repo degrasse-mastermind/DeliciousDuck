@@ -41,10 +41,10 @@ describe("Game Plan events reach the PostHog boundary", () => {
     capture.mockClear();
   });
 
-  it("captures all six Game Plan events", async () => {
+  it("captures all seven Game Plan events", async () => {
     const { captureEvent } = await loadPostHog();
     const names = Object.values(GAME_PLAN_EVENTS);
-    expect(names).toHaveLength(6);
+    expect(names).toHaveLength(7);
     for (const name of names) {
       captureEvent(name, { placement: "game-plan_tool" });
     }
@@ -70,6 +70,30 @@ describe("Game Plan events reach the PostHog boundary", () => {
     const props = capture.mock.calls[0]?.[1] as Record<string, unknown>;
     expect(props).toEqual({ placement: "game-plan_tool", cut: "duck-breast" });
     expect(JSON.stringify(props)).not.toContain("@");
+  });
+});
+
+describe("export event at the capture boundary", () => {
+  beforeEach(() => capture.mockClear());
+
+  it("captures duck_game_plan_export with only the permitted properties", async () => {
+    const { captureEvent } = await loadPostHog();
+    captureEvent(GAME_PLAN_EVENTS.export, {
+      placement: "game-plan_tool",
+      action: "download",
+      recommendation_id: "duck-breast_pan",
+      result_type: "exact",
+      email: "a@b.com",
+      file_name: "duck-game-plan-duck-breast-pan.txt",
+    } as never);
+    expect(capture).toHaveBeenCalledTimes(1);
+    expect(capture.mock.calls[0]?.[0]).toBe("duck_game_plan_export");
+    expect(capture.mock.calls[0]?.[1]).toEqual({
+      placement: "game-plan_tool",
+      action: "download",
+      recommendation_id: "duck-breast_pan",
+      result_type: "exact",
+    });
   });
 });
 

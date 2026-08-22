@@ -2,21 +2,42 @@ import { useRef, useState } from "react";
 import { Download, FileText, Printer } from "lucide-react";
 
 import type { DuckGamePlan } from "@/data/duck-game-plan";
+import { trackGamePlanExport } from "@/lib/analytics";
+import type { GamePlanPlacement } from "@/lib/game-plan-events";
 import { planFileName, planToText } from "@/lib/game-plan-export";
 
 /**
  * Print / view / download actions for a rendered Duck Game Plan.
  *
  * Presentation only: nothing here changes the plan, the newsletter path, or the
- * analytics contracts. Printing isolates the plan card via the print stylesheet;
- * the plain-text view and the download share one serializer.
+ * delivery contracts. Printing isolates the plan card via the print stylesheet;
+ * the plain-text view and the download share one serializer. Each activation
+ * emits at most one `duck_game_plan_export` event carrying a finite action, the
+ * validated recommendation id, the result type and the placement — never a
+ * filename, URL, or any plan prose.
  */
-export function GamePlanExportActions({ plan }: { plan: DuckGamePlan }) {
+export function GamePlanExportActions({
+  plan,
+  placement,
+}: {
+  plan: DuckGamePlan;
+  placement: GamePlanPlacement;
+}) {
   const [showText, setShowText] = useState(false);
   const textRef = useRef<HTMLPreElement | null>(null);
 
+  function report(action: "print" | "view" | "download") {
+    trackGamePlanExport({
+      placement,
+      action,
+      recommendationId: plan.recommendationId,
+      resultType: plan.resultType,
+    });
+  }
+
   function handlePrint() {
     if (typeof window === "undefined") return;
+    report("print");
     document.body.classList.add("dd-print-plan");
     const cleanup = () => document.body.classList.remove("dd-print-plan");
     window.addEventListener("afterprint", cleanup, { once: true });
@@ -27,6 +48,7 @@ export function GamePlanExportActions({ plan }: { plan: DuckGamePlan }) {
 
   function handleDownload() {
     if (typeof window === "undefined") return;
+    report("download");
     const blob = new Blob([planToText(plan)], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
@@ -35,7 +57,19 @@ export function GamePlanExportActions({ plan }: { plan: DuckGamePlan }) {
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
-    URL.revokeObjectURL(url);
+    // Revoking synchronously cancels the download in stricter browsers; give
+    // the fetch a turn of the event loop first.
+    window.setTimeout(() => URL.revokeObjectURL(url), 10_000);
+  }
+
+  function handleToggleText() {
+    const next = !showText;
+    setShowText(next);
+    // Only an open counts as a "view": closing the panel is not a new export.
+    if (next) {
+      report("view");
+      window.setTimeout(() => textRef.current?.focus(), 0);
+    }
   }
 
   const buttonClass =
@@ -51,10 +85,7 @@ export function GamePlanExportActions({ plan }: { plan: DuckGamePlan }) {
         </button>
         <button
           type="button"
-          onClick={() => {
-            setShowText((open) => !open);
-            if (!showText) window.setTimeout(() => textRef.current?.focus(), 0);
-          }}
+          onClick={handleToggleText}
           aria-expanded={showText}
           aria-controls="dd-plan-text"
           className={buttonClass}
