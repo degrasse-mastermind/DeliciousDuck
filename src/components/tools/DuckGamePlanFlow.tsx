@@ -209,8 +209,12 @@ export function DuckGamePlanResult({
 
   return (
     <div data-placement={placement}>
-      <div className="rounded-sm border border-border bg-background p-6 lg:p-8">
-        <span className="eyebrow text-primary">Your Duck Game Plan</span>
+      <div
+        data-plan-print
+        data-print-block
+        className="rounded-sm border border-border bg-background p-6 lg:p-8"
+      >
+
         <h2 className="mt-3 font-display text-2xl leading-tight lg:text-3xl">{plan.headline}</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{plan.summary}</p>
 
