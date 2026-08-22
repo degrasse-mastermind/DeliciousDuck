@@ -76,26 +76,56 @@ describe("Game Plan events reach the PostHog boundary", () => {
 describe("export event at the capture boundary", () => {
   beforeEach(() => capture.mockClear());
 
-  it("captures duck_game_plan_export with only the permitted properties", async () => {
+  it("captures duck_game_plan_export with only the four permitted properties", async () => {
     const { captureEvent } = await loadPostHog();
     captureEvent(GAME_PLAN_EVENTS.export, {
       placement: "game-plan_tool",
       action: "download",
       recommendation_id: "duck-breast_pan",
       result_type: "exact",
+      source_path: "/tools/duck-game-plan",
+      destination_path: "/recipes/pan-seared-duck-breast",
       email: "a@b.com",
       file_name: "duck-game-plan-duck-breast-pan.txt",
+      url: "https://deliciousduck.com/tools/duck-game-plan?token=abc",
+      headline: "Score the skin, start it cold",
     } as never);
     expect(capture).toHaveBeenCalledTimes(1);
     expect(capture.mock.calls[0]?.[0]).toBe("duck_game_plan_export");
-    expect(capture.mock.calls[0]?.[1]).toEqual({
+    const props = capture.mock.calls[0]?.[1] as Record<string, unknown>;
+    expect(props).toEqual({
       placement: "game-plan_tool",
       action: "download",
       recommendation_id: "duck-breast_pan",
       result_type: "exact",
     });
+    expect(JSON.stringify(props)).not.toContain("@");
+    expect(JSON.stringify(props)).not.toContain("http");
+  });
+
+  it("emits exactly the four properties through the GA4 helper", async () => {
+    await loadPostHog();
+    const { trackGamePlanExport } = await import("@/lib/analytics");
+    const calls: unknown[][] = [];
+    (window as unknown as { gtag: (...a: unknown[]) => void }).gtag = (...a) => calls.push(a);
+    (window as unknown as { dataLayer: unknown[] }).dataLayer = [];
+    trackGamePlanExport({
+      placement: "game-plan_tool",
+      action: "print",
+      recommendationId: "duck-breast_pan",
+      resultType: "exact",
+    });
+    const props = (capture.mock.calls.at(-1)?.[1] ?? {}) as Record<string, unknown>;
+    expect(Object.keys(props).sort()).toEqual([
+      "action",
+      "placement",
+      "recommendation_id",
+      "result_type",
+    ]);
+    expect(props["action"]).toBe("print");
   });
 });
+
 
 describe("safeGamePlanPath", () => {
   it("accepts ordinary internal paths", () => {
