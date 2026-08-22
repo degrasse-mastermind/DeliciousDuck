@@ -152,8 +152,8 @@ function PartnersPage() {
         art={SKETCH.ducksFlight}
       />
 
-      <section className="mx-auto max-w-3xl px-5 pt-14 lg:px-8 lg:pt-20">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+      <section className="mx-auto max-w-7xl px-5 pt-12 lg:px-8 lg:pt-16">
+        <div className="flex max-w-3xl flex-col gap-4 sm:flex-row sm:items-center">
           <InquiryCta placement="partners_hero" label="Request a Founding Partner Slot" />
           <EmailFallback />
         </div>
