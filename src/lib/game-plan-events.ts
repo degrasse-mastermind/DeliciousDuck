@@ -94,6 +94,13 @@ export const GAME_PLAN_PROPERTY_ALLOWLIST: Readonly<
     "result_type",
   ],
   duck_game_plan_entry_click: ["placement", "source_path", "destination_path"],
+  duck_game_plan_export: [
+    "placement",
+    "source_path",
+    "action",
+    "recommendation_id",
+    "result_type",
+  ],
 };
 
 /**
@@ -150,6 +157,7 @@ export interface GamePlanEventInput {
   recommendationId?: string | undefined;
   resultType?: GamePlanResultType | undefined;
   destinationPath?: string | undefined;
+  action?: GamePlanExportAction | undefined;
 }
 
 
@@ -184,6 +192,7 @@ export function buildGamePlanEvent(
       : undefined,
     result_type: member(GAME_PLAN_RESULT_TYPES, input.resultType),
     destination_path: safeGamePlanPath(input.destinationPath),
+    action: member(GAME_PLAN_EXPORT_ACTIONS, input.action),
   };
 
   const allowed = GAME_PLAN_PROPERTY_ALLOWLIST[name];
