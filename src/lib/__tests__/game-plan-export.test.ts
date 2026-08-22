@@ -154,6 +154,34 @@ describe("duck_game_plan_export contract", () => {
     ]);
   });
 
+  it("builds exactly the four properties and never source_path", () => {
+    const event = buildGamePlanEvent(GAME_PLAN_EVENTS.export, {
+      placement: "game-plan_tool",
+      action: "download",
+      recommendationId: plan.recommendationId,
+      resultType: plan.resultType,
+      sourcePath: "/tools/duck-game-plan",
+    });
+    expect(Object.keys(event.params).sort()).toEqual([
+      "action",
+      "placement",
+      "recommendation_id",
+      "result_type",
+    ]);
+    expect(event.params["source_path"]).toBeUndefined();
+  });
+
+  it("keeps source_path for the other six Game Plan events", () => {
+    for (const name of Object.values(GAME_PLAN_EVENTS)) {
+      if (name === GAME_PLAN_EVENTS.export) continue;
+      const event = buildGamePlanEvent(name, {
+        placement: "game-plan_tool",
+        sourcePath: "/tools/duck-game-plan",
+      });
+      expect(event.params["source_path"]).toBe("/tools/duck-game-plan");
+    }
+  });
+
 
   it("emits only finite action values", () => {
     for (const action of GAME_PLAN_EXPORT_ACTIONS) {
