@@ -242,12 +242,30 @@ describe("planner submission UI contract", () => {
     expect(source).not.toContain("subscribeToNewsletter");
   });
 
-  it("announces delivery in a live region and moves focus to it", () => {
+  it("announces acceptance in a live region and moves focus to it", () => {
     expect(source).toContain('role="status"');
-    expect(source).toContain("Plan ready — check your inbox");
-    expect(source).toContain("if (justDelivered) deliveredRef.current?.focus()");
+    expect(source).toContain('aria-live="polite"');
+    expect(source).toContain("Your Duck Game Plan is ready");
+    expect(source).toContain("if (justSubmitted) acceptedRef.current?.focus()");
     expect(source).toContain("tabIndex={-1}");
   });
+
+  it("never claims delivery from the indistinguishable accepted response", () => {
+    expect(source).not.toContain("We&rsquo;ve sent your Duck Game Plan");
+    expect(source).not.toContain("We've sent your Duck Game Plan");
+    expect(source).not.toContain("We’ve sent your Duck Game Plan");
+    expect(source).toContain("Your personalized plan is below.");
+    expect(source).toContain("a copy");
+    expect(source).toContain("should arrive shortly");
+    expect(source).toContain("Check spam or promotions if you don&rsquo;t see it.");
+  });
+
+  it("names client state and comments for acceptance, not confirmed delivery", () => {
+    expect(source).not.toContain("justDelivered");
+    expect(source).not.toContain("deliveredRef");
+    expect(source).not.toMatch(/delivery acknowledgement/);
+  });
+
 
   it("still renders the plan after an accepted submission", () => {
     expect(source).toContain("<DuckGamePlanResult selection={confirmed}");
