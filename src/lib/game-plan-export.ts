@@ -56,7 +56,6 @@ function linkLine(link: PlanLink): string {
   return url ? `${label}\n  ${url}` : label;
 }
 
-
 function section(label: string, body: string | undefined): string[] {
   return body ? [`${label.toUpperCase()}`, body, ""] : [];
 }

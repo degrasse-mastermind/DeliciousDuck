@@ -134,7 +134,6 @@ describe("absolutePlanUrl", () => {
   });
 });
 
-
 describe("planFileName", () => {
   it("is stable and sanitized", () => {
     expect(planFileName(plan)).toBe(
@@ -181,7 +180,6 @@ describe("duck_game_plan_export contract", () => {
       expect(event.params["source_path"]).toBe("/tools/duck-game-plan");
     }
   });
-
 
   it("emits only finite action values", () => {
     for (const action of GAME_PLAN_EXPORT_ACTIONS) {

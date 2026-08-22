@@ -126,7 +126,6 @@ describe("export event at the capture boundary", () => {
   });
 });
 
-
 describe("safeGamePlanPath", () => {
   it("accepts ordinary internal paths", () => {
     expect(safeGamePlanPath("/tools/duck-game-plan")).toBe("/tools/duck-game-plan");
