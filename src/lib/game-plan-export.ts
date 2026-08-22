@@ -14,20 +14,48 @@ const RULE = "----------------------------------------";
 
 /**
  * A downloaded file outlives the page it came from, so every internal path is
- * written as a canonical absolute URL. Query strings and fragments are dropped:
- * a plan file carries no parameters of any kind.
+ * written as a canonical absolute URL. Query strings and fragments are always
+ * dropped — from relative and already-absolute inputs alike — so a plan file
+ * carries no parameters of any kind. Anything that is not a plain internal path
+ * or an http(s) URL (protocol-relative, `mailto:`, `javascript:`, `data:`,
+ * malformed, blank) is rejected with `null` rather than coerced into a
+ * deliciousduck.com URL.
  */
-export function absolutePlanUrl(href: string): string {
+export function absolutePlanUrl(href: unknown): string | null {
+  if (typeof href !== "string") return null;
   const trimmed = href.trim();
-  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (!trimmed) return null;
+  // Protocol-relative (and backslash-obfuscated) references are cross-origin.
+  if (/^[/\\]{2}/.test(trimmed)) return null;
+
+  if (/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) {
+    if (!/^https?:\/\//i.test(trimmed)) return null;
+    try {
+      const url = new URL(trimmed);
+      if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+      if (!url.hostname) return null;
+      if (url.username || url.password) return null;
+      url.search = "";
+      url.hash = "";
+      return url.toString();
+    } catch {
+      return null;
+    }
+  }
+
   const bare = (trimmed.split("#")[0] ?? "").split("?")[0] ?? "";
+  if (!bare) return null;
+  if (bare.includes("@")) return null;
   const path = bare.startsWith("/") ? bare : `/${bare}`;
   return `${SITE_URL}${path}`;
 }
 
 function linkLine(link: PlanLink): string {
-  return `${link.label}${link.note ? ` — ${link.note}` : ""}\n  ${absolutePlanUrl(link.href)}`;
+  const label = `${link.label}${link.note ? ` — ${link.note}` : ""}`;
+  const url = absolutePlanUrl(link.href);
+  return url ? `${label}\n  ${url}` : label;
 }
+
 
 function section(label: string, body: string | undefined): string[] {
   return body ? [`${label.toUpperCase()}`, body, ""] : [];
