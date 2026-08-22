@@ -47,6 +47,8 @@ import type { NewsletterInterest } from "@/data/newsletter-contexts";
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
 import { DUCK_DROP } from "@/data/duck-drop";
 import { SafetyNote } from "@/components/site/SafetyNote";
+import { GamePlanExportActions } from "@/components/tools/GamePlanExportActions";
+
 import type { GamePlanPlacement } from "@/lib/game-plan-events";
 import { cn } from "@/lib/utils";
 
