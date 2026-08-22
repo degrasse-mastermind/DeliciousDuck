@@ -7,12 +7,26 @@
  * reads on screen is exactly what lands in the file.
  */
 
+import { SITE_URL } from "@/data/site";
 import type { DuckGamePlan, PlanLink } from "@/data/duck-game-plan";
 
 const RULE = "----------------------------------------";
 
+/**
+ * A downloaded file outlives the page it came from, so every internal path is
+ * written as a canonical absolute URL. Query strings and fragments are dropped:
+ * a plan file carries no parameters of any kind.
+ */
+export function absolutePlanUrl(href: string): string {
+  const trimmed = href.trim();
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  const bare = (trimmed.split("#")[0] ?? "").split("?")[0] ?? "";
+  const path = bare.startsWith("/") ? bare : `/${bare}`;
+  return `${SITE_URL}${path}`;
+}
+
 function linkLine(link: PlanLink): string {
-  return `${link.label}${link.note ? ` — ${link.note}` : ""}\n  ${link.href}`;
+  return `${link.label}${link.note ? ` — ${link.note}` : ""}\n  ${absolutePlanUrl(link.href)}`;
 }
 
 function section(label: string, body: string | undefined): string[] {
@@ -56,7 +70,7 @@ export function planToText(plan: DuckGamePlan): string {
     lines.push("STILL SOURCING IT", linkLine(plan.commercial), "");
   }
 
-  lines.push("deliciousduck.com — every line above links to the full guide behind it.");
+  lines.push("deliciousduck.com — use the URLs above to open the full guides.");
   return lines.join("\n");
 }
 

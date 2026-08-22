@@ -42,6 +42,7 @@ import {
   type GamePlanPlacement,
   type GamePlanEventInput,
   type GamePlanEventName,
+  type GamePlanExportAction,
   type GamePlanResultType,
   type GamePlanStep,
 } from "./game-plan-events";
@@ -99,6 +100,7 @@ export const ANALYTICS_EVENTS = {
   gamePlanResultView: GAME_PLAN_EVENTS.resultView,
   gamePlanInternalClick: GAME_PLAN_EVENTS.internalClick,
   gamePlanEntryClick: GAME_PLAN_EVENTS.entryClick,
+  gamePlanExport: GAME_PLAN_EVENTS.export,
 
 } as const;
 
@@ -725,8 +727,8 @@ export function trackConversionModuleView(params: {
 /* ------------------------------------------------------------------ *
  * Duck Game Plan (acquisition funnel)
  *
- * Six events (start, step complete, signup, result view, internal click and
- * entry click), each with a closed property allowlist built by
+ * Seven events (start, step complete, signup, result view, internal click,
+ * entry click and export), each with a closed property allowlist built by
 
  * `@/lib/game-plan-events`. Payloads carry only finite enum members
  * (cut, method, concern, party-size bucket, result type), a validated
@@ -823,4 +825,22 @@ export function trackGamePlanEntryClick(params: {
   const key = ["game_plan_entry", params.destinationPath, params.placement].join("|");
   if (!shouldSendClick(key)) return;
   emitGamePlanEvent(GAME_PLAN_EVENTS.entryClick, params);
+}
+
+/**
+ * The plan left the browser: printed, viewed as plain text, or downloaded.
+ * Finite action enum only; no filename, URL, or plan prose is ever passed.
+ */
+export function trackGamePlanExport(params: {
+  placement: GamePlanPlacement;
+  action: GamePlanExportAction;
+  recommendationId: string;
+  resultType: GamePlanResultType;
+}): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.export, {
+    placement: params.placement,
+    action: params.action,
+    recommendationId: params.recommendationId,
+    resultType: params.resultType,
+  });
 }
