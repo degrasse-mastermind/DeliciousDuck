@@ -25,9 +25,6 @@ function printedText(root: HTMLElement): string {
 }
 
 describe("Game Plan print contract", () => {
-  const { container } = { container: document.createElement("div") };
-  void container;
-
   it("prints the kitchen card and excludes export and restart controls", () => {
     const { container: root } = render(
       <DuckGamePlanResult
