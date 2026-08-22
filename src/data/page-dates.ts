@@ -213,6 +213,10 @@ export const PAGE_DATES: Record<string, PageDates> = {
     "modified": "2026-08-18",
     "published": "2026-08-12"
   },
+  "/partners": {
+    "modified": "2026-08-22",
+    "published": "2026-08-22"
+  },
   "/privacy": {
     "modified": "2026-08-18",
     "published": "2026-08-12"
