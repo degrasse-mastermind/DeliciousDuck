@@ -58,6 +58,10 @@ export const indexingDiagnosticsFn = createServerFn({ method: "POST" })
 /**
  * Rolls the scheduled job's token. The schedule reads the same database row, so
  * the new value takes effect on the next run with no SQL edit and no copy-paste.
+ *
+ * Rotation is a credential change, so it requires the admin secret. Allowing the
+ * scheduled job's own token to roll itself would let a leaked cron token lock the
+ * owner out of the schedule; reading the dashboard stays open to either token.
  */
 export const rotateIndexingCronTokenFn = createServerFn({ method: "POST" })
   .validator(tokenInput)
@@ -67,10 +71,15 @@ export const rotateIndexingCronTokenFn = createServerFn({ method: "POST" })
     );
     const audience = await authorizeIndexingToken(data.token);
     if (!audience) return DENIED;
+    const { canRotateCronToken } = await import("./indexing-monitor");
+    if (!canRotateCronToken(audience)) {
+      return { ok: false as const, reason: "admin_token_required" as const, audience };
+    }
     const { rotateStoredCredential } = await import("./indexing-credential.server");
     const { rotatedAt } = await rotateStoredCredential();
     return { ok: true as const, rotatedAt, diagnostics: await indexingDiagnostics(audience) };
   });
+
 
 /**
  * Real indexing coverage from the URL Inspection API, read from stored history.

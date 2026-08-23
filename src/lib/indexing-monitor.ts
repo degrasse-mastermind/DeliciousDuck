@@ -252,6 +252,19 @@ export function resolveTokenAudience(
   return null;
 }
 
+/**
+ * Rotating the scheduled job's credential requires the admin secret.
+ *
+ * The dashboard deliberately accepts either owner token so the cron secret never
+ * has to be duplicated to read a report. Credential rotation is a different
+ * privilege: if the schedule's own token could roll itself, a leaked cron token
+ * would be enough to change the credential the owner relies on.
+ */
+export function canRotateCronToken(audience: TokenAudience | null): boolean {
+  return audience === "admin";
+}
+
+
 /** Bearer-header form of the same check, for the scheduled + diagnostics endpoints. */
 export function bearerToken(header: string | null): string {
   if (!header) return "";
