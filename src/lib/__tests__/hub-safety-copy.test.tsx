@@ -1,6 +1,16 @@
+// @vitest-environment happy-dom
+import { afterEach, describe, expect, it, vi } from "vitest";
+vi.mock("@tanstack/react-router", () => ({
+  Link: ({ to, children, ...rest }: any) => (
+    <a href={to} {...rest}>
+      {children}
+    </a>
+  ),
+}));
 import { readFileSync, existsSync } from "node:fs";
-import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { cleanup, render, screen } from "@testing-library/react";
+
+afterEach(() => cleanup());
 import { HubOrientation } from "@/components/site/HubOrientation";
 import { SourceNotes } from "@/components/site/SourceNotes";
 import { SOURCES } from "@/data/sources";
