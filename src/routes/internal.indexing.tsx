@@ -40,7 +40,15 @@ function when(iso: string | null): string {
   return new Date(iso).toISOString().replace("T", " ").slice(0, 16) + " UTC";
 }
 
-function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
+function Stat({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint?: string | undefined;
+}) {
   return (
     <div className="rounded-sm border border-border bg-card p-4">
       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
