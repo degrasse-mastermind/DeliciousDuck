@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { captureIndexingSnapshotFn, indexingReportFn } from "@/lib/indexing.functions";
+import {
+  captureIndexingSnapshotFn,
+  indexingDiagnosticsFn,
+  indexingReportFn,
+  rotateIndexingCronTokenFn,
+} from "@/lib/indexing.functions";
 
 /**
  * Internal indexing monitor — owner tool, not site content.
@@ -27,6 +32,21 @@ export const Route = createFileRoute("/internal/indexing")({
 });
 
 type Report = Extract<Awaited<ReturnType<typeof indexingReportFn>>, { ok: true }>["report"];
+type Diagnostics = Extract<
+  Awaited<ReturnType<typeof indexingDiagnosticsFn>>,
+  { ok: true }
+>["diagnostics"];
+
+const AUDIENCE_LABEL: Record<"admin" | "cron", string> = {
+  admin: "NEWSLETTER_ADMIN_TOKEN",
+  cron: "the indexing job token",
+};
+
+const VERDICT_LABEL: Record<Diagnostics["scheduledRun"]["status"], string> = {
+  ready: "The next scheduled run should succeed",
+  stale: "Configured, but recent scheduled runs are not landing",
+  blocked: "The next scheduled run would fail",
+};
 
 const PROCESSING_LABEL: Record<Report["processing"], string> = {
   processing: "Still processing — Google has not finished reading this submission",
@@ -63,8 +83,11 @@ function Stat({
 function IndexingMonitor() {
   const [token, setToken] = useState("");
   const [report, setReport] = useState<Report | null>(null);
-  const [state, setState] = useState<"idle" | "loading" | "capturing" | "denied" | "error">("idle");
+  const [state, setState] = useState<
+    "idle" | "loading" | "capturing" | "checking" | "rotating" | "denied" | "error"
+  >("idle");
   const [notice, setNotice] = useState<string | null>(null);
+  const [diagnostics, setDiagnostics] = useState<Diagnostics | null>(null);
 
   async function load() {
     if (!token.trim()) return;
@@ -81,6 +104,44 @@ function IndexingMonitor() {
       setState("idle");
     } catch {
       setReport(null);
+      setState("error");
+    }
+  }
+
+  async function runDiagnostics() {
+    if (!token.trim()) return;
+    setState("checking");
+    setNotice(null);
+    try {
+      const result = await indexingDiagnosticsFn({ data: { token: token.trim() } });
+      if (!result.ok) {
+        setDiagnostics(null);
+        setState("denied");
+        return;
+      }
+      setDiagnostics(result.diagnostics);
+      setState("idle");
+    } catch {
+      setState("error");
+    }
+  }
+
+  async function rotateToken() {
+    if (!token.trim()) return;
+    setState("rotating");
+    setNotice(null);
+    try {
+      const result = await rotateIndexingCronTokenFn({ data: { token: token.trim() } });
+      if (!result.ok) {
+        setState("denied");
+        return;
+      }
+      setDiagnostics(result.diagnostics);
+      setNotice(
+        "Scheduled job token rotated. The schedule reads it from the database, so nothing needs pasting into SQL.",
+      );
+      setState("idle");
+    } catch {
       setState("error");
     }
   }
@@ -133,7 +194,8 @@ function IndexingMonitor() {
         <label className="min-w-[16rem] flex-1">
           <span className="text-sm font-semibold text-foreground">Owner token</span>
           <span className="mt-0.5 block text-xs text-muted-foreground">
-            NEWSLETTER_ADMIN_TOKEN from the project&apos;s secrets. Not stored in the browser.
+            Either NEWSLETTER_ADMIN_TOKEN or the indexing job token (INDEXING_CRON_TOKEN, or the
+            rotating token stored in the database). Not stored in the browser.
           </span>
           <input
             type="password"
@@ -150,6 +212,13 @@ function IndexingMonitor() {
           {state === "loading" ? "Loading…" : "Load history"}
         </button>
         <button
+          onClick={runDiagnostics}
+          disabled={state === "loading" || state === "capturing" || state === "checking"}
+          className="rounded-sm border border-input bg-background px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent disabled:opacity-60"
+        >
+          {state === "checking" ? "Verifying…" : "Verify token & schedule"}
+        </button>
+        <button
           onClick={captureNow}
           disabled={state === "loading" || state === "capturing"}
           className="rounded-sm border border-input bg-background px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent disabled:opacity-60"
@@ -159,10 +228,30 @@ function IndexingMonitor() {
       </div>
 
       {state === "denied" && (
-        <p role="status" className="mt-4 text-sm text-destructive">
-          That token wasn&apos;t accepted. This page uses NEWSLETTER_ADMIN_TOKEN — not the cron
-          token.
-        </p>
+        <div
+          role="status"
+          className="mt-4 rounded-sm border border-destructive/40 bg-destructive/5 p-4 text-sm"
+        >
+          <p className="font-semibold text-destructive">not_authorized — token not accepted</p>
+          <p className="mt-1 text-foreground">
+            This page accepts <strong>either</strong> of two owner tokens, so you never have to
+            duplicate a secret:
+          </p>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
+            <li>
+              <code className="text-foreground">NEWSLETTER_ADMIN_TOKEN</code> — full access,
+              including rotating the scheduled job token.
+            </li>
+            <li>
+              <code className="text-foreground">INDEXING_CRON_TOKEN</code> (or the rotating token
+              currently stored for the schedule) — same dashboard access.
+            </li>
+          </ul>
+          <p className="mt-2 text-muted-foreground">
+            If you rotated the scheduled job token here, the old value stops working immediately —
+            use the current one or the admin token.
+          </p>
+        </div>
       )}
       {state === "error" && (
         <p role="status" className="mt-4 text-sm text-destructive">

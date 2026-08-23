@@ -95,6 +95,7 @@ import { Route as ToolsDuckPairingFinderRouteImport } from './routes/tools.duck-
 import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
 import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
+import { Route as ApiPublicIndexingDiagnosticsRouteImport } from './routes/api/public/indexing-diagnostics'
 import { Route as ApiPublicIndexingSnapshotRouteImport } from './routes/api/public/indexing-snapshot'
 import { Route as ApiWebhooksResendRouteImport } from './routes/api.webhooks.resend'
 
@@ -559,6 +560,12 @@ const ToolsWholeDuckServingCalculatorRoute =
     path: '/whole-duck-serving-calculator',
     getParentRoute: () => ToolsRoute,
   } as any)
+const ApiPublicIndexingDiagnosticsRoute =
+  ApiPublicIndexingDiagnosticsRouteImport.update({
+    id: '/api/public/indexing-diagnostics',
+    path: '/api/public/indexing-diagnostics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicIndexingSnapshotRoute =
   ApiPublicIndexingSnapshotRouteImport.update({
     id: '/api/public/indexing-snapshot',
@@ -658,6 +665,7 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
   '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
@@ -741,6 +749,7 @@ export interface FileRoutesByTo {
   '/learn': typeof LearnIndexRoute
   '/recipes': typeof RecipesIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
   '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
@@ -832,6 +841,7 @@ export interface FileRoutesById {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
   '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
@@ -924,6 +934,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/public/indexing-diagnostics'
     | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   fileRoutesByTo: FileRoutesByTo
@@ -1007,6 +1018,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/recipes'
     | '/tools'
+    | '/api/public/indexing-diagnostics'
     | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   id:
@@ -1097,6 +1109,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/public/indexing-diagnostics'
     | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   fileRoutesById: FileRoutesById
@@ -1132,6 +1145,7 @@ export interface RootRouteChildren {
   InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
   NewsletterPreferencesRoute: typeof NewsletterPreferencesRoute
   NewsletterUnsubscribeRoute: typeof NewsletterUnsubscribeRoute
+  ApiPublicIndexingDiagnosticsRoute: typeof ApiPublicIndexingDiagnosticsRoute
   ApiPublicIndexingSnapshotRoute: typeof ApiPublicIndexingSnapshotRoute
   ApiWebhooksResendRoute: typeof ApiWebhooksResendRoute
 }
@@ -1740,6 +1754,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsWholeDuckServingCalculatorRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/api/public/indexing-diagnostics': {
+      id: '/api/public/indexing-diagnostics'
+      path: '/api/public/indexing-diagnostics'
+      fullPath: '/api/public/indexing-diagnostics'
+      preLoaderRoute: typeof ApiPublicIndexingDiagnosticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/indexing-snapshot': {
       id: '/api/public/indexing-snapshot'
       path: '/api/public/indexing-snapshot'
@@ -1962,6 +1983,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
   NewsletterPreferencesRoute: NewsletterPreferencesRoute,
   NewsletterUnsubscribeRoute: NewsletterUnsubscribeRoute,
+  ApiPublicIndexingDiagnosticsRoute: ApiPublicIndexingDiagnosticsRoute,
   ApiPublicIndexingSnapshotRoute: ApiPublicIndexingSnapshotRoute,
   ApiWebhooksResendRoute: ApiWebhooksResendRoute,
 }
