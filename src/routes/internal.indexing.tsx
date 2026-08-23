@@ -26,7 +26,7 @@ export const Route = createFileRoute("/internal/indexing")({
   component: IndexingMonitor,
 });
 
-type Report = Awaited<ReturnType<typeof indexingReportFn>>;
+type Report = Extract<Awaited<ReturnType<typeof indexingReportFn>>, { ok: true }>["report"];
 
 const PROCESSING_LABEL: Record<Report["processing"], string> = {
   processing: "Still processing — Google has not finished reading this submission",
