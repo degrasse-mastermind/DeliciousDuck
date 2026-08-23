@@ -91,26 +91,48 @@ function LearnPage() {
             {
               heading: "What temperature should duck be cooked to?",
               paragraphs: [
-                "Two answers, and both are correct for different cuts. Whole birds and legs finish in the 175–180°F (79–82°C) range at the thigh, because that is where collagen turns to gelatine and the meat stops being chewy. Duck breast is treated as red meat: most kitchens pull it at 130–135°F (54–57°C) and serve it pink, above the 165°F (74°C) figure that poultry guidance sets as the safe minimum for all poultry including duck. That gap is a conscious culinary convention, not an oversight, and it is the same tradeoff people make with rare beef.",
-                "If you would rather not make that tradeoff, cook the breast further and lean on the fat and the sauce for moisture. Either way, an instant-read thermometer in the thickest part — not touching bone — is what decides it.",
+                "USDA recommends a safe minimum internal temperature of 165°F (74°C) for all poultry, and that includes duck — whole birds, legs, pieces, and breasts — measured with a food thermometer in the thickest part, away from bone. Cooked to that figure, a whole duck or a leg is exactly where you want it anyway: 165°F at the breast and 175–180°F (79–82°C) at the thigh is where connective tissue softens and the meat stops being chewy.",
+                "Many restaurants and classic French preparations serve duck breast pink, pulling it around 130–135°F (54–57°C). That is a culinary convention and it departs from USDA guidance — it is below the recommended safe minimum, so it carries a real risk that cooking to 165°F removes. The two are not equally safe, and duck is poultry, so the reasoning people apply to rare steak does not transfer. If you cook breast pink anyway, understand the tradeoff, buy from a source you trust, and do not serve it to young children, older adults, pregnant people, or anyone immunocompromised.",
+                "Either way, the thermometer decides it, not the clock. Our doneness guide lays out each range and what it looks like on the plate.",
+              ],
+              links: [
+                { label: "Breast temperature & doneness", to: "/learn/duck-breast-temperature-doneness" },
+                { label: "Doneness guide", to: "/tools/duck-doneness-guide" },
+                { label: "Whole-duck cooking time", to: "/learn/whole-duck-cooking-time" },
               ],
             },
             {
               heading: "Duck vs. chicken: why the habits do not transfer",
               paragraphs: [
-                "Duck is a waterfowl with a subcutaneous fat layer, dark muscle throughout, and far more connective tissue in the legs than a chicken carries. That means the breast behaves like a small steak, the legs behave like short ribs, and the skin needs a long low render before it can crisp. Chicken has none of those requirements, which is why chicken timings produce soft skin and grey duck.",
-                "It also changes the plate. A five- to six-pound Pekin yields far less meat than its weight suggests once the fat and frame are accounted for, so plan on one whole duck for three to four people, or a breast per person. Serve it against acidity — cherries, orange, verjus, pickled fruit — bitter greens, or something briny, and let the rendered fat do the work on the potatoes.",
+                "Duck is a waterfowl with a subcutaneous fat layer, dark muscle throughout, and far more connective tissue in the legs than a chicken carries. That means the legs behave like short ribs, the breast cooks far faster than the rest of the bird, and the skin needs a long low render before it can crisp. Chicken has none of those requirements, which is why chicken timings produce soft skin and disappointing duck. The safe minimum internal temperature is the same for both: 165°F (74°C).",
+                "It also changes the plate. A five- to six-pound Pekin yields far less meat than its weight suggests once the fat and frame are accounted for, so plan on one whole duck for three to four people, or one breast per person — and expect that to move with bird size, appetites, and how substantial your sides are. For a larger table, roast two birds rather than one big one. Serve duck against acidity — cherries, orange, verjus, pickled fruit — bitter greens, or something briny, and let the rendered fat do the work on the potatoes.",
+              ],
+              links: [
+                { label: "How much duck per person", to: "/buy/how-much-duck-per-person" },
+                { label: "Serving calculator", to: "/tools/whole-duck-serving-calculator" },
+                { label: "What to serve with duck", to: "/cook/what-to-serve-with-duck-breast" },
               ],
             },
             {
               heading: "Thawing, storing, and buying with confidence",
               paragraphs: [
-                "Most duck sold in the US arrives frozen. Thaw it in the refrigerator, allowing roughly 24 hours for every four to five pounds, and keep it on a tray because duck releases more liquid than you expect. Cold-water thawing is faster but demands a change of water every thirty minutes and cooking immediately after. Never thaw a whole duck on the counter.",
-                "Breeds matter more than labels. Pekin is the mild, fatty, widely available default and the right bird for a first roast. Moulard is bigger and leaner in the breast, prized for magret and for confit legs. Muscovy is leaner still with a deeper flavour. Wild duck is a different ingredient entirely. Where a claim here touches safety, storage, or thawing, it carries a source note so you can read the original guidance yourself.",
+                "Most duck sold in the US arrives frozen. USDA considers three thawing methods safe: in the refrigerator, in cold water, or in the microwave. Refrigerator thawing is the one to plan for — allow roughly 24 hours for every four to five pounds, and keep the bird on a tray because duck releases more liquid than you expect. Cold-water thawing is faster but demands a change of water every thirty minutes and cooking immediately afterwards. Never thaw a duck on the counter.",
+                "Store raw duck in the coldest part of the refrigerator and cook or freeze it within a day or two; refrigerate cooked duck within two hours and use it within three to four days, reheating leftovers to 165°F (74°C). Rendered fat should be strained and refrigerated in a clean sealed jar, or frozen if you want to keep it well beyond a few weeks — judge it by smell before you use it rather than by a date we cannot source.",
+                "Breeds matter more than labels. Pekin is the mild, fatty, widely available default and the right bird for a first roast. Moulard is bigger and leaner in the breast, prized for magret and for confit legs. Muscovy is leaner still with a deeper flavour. Wild duck is a different ingredient entirely. Every safety, thawing, and storage figure above comes from the USDA and FDA references at the foot of this page.",
+              ],
+              links: [
+                { label: "How to thaw duck", to: "/learn/how-to-thaw-duck" },
+                { label: "How to render duck fat", to: "/learn/how-to-render-duck-fat" },
+                { label: "How to choose duck", to: "/buy/how-to-choose-duck" },
               ],
             },
           ]}
         />
+
+        <SourceNotes
+          ids={["usdaPoultryTemp", "usdaPoultryPrep", "usdaThawing", "usdaLeftovers", "fdaColdStorage"]}
+        />
+
 
 
         <div className="mt-20 rounded-sm border border-border bg-cream p-6 lg:p-8">
