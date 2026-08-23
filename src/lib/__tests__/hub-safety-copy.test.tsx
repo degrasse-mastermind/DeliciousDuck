@@ -120,6 +120,49 @@ describe("hub food-safety copy", () => {
     }
   });
 
+  it("never claims cooking to 165°F removes or eliminates the risk", () => {
+    for (const hub of HUBS) {
+      const text = read(hub);
+      expect(text).not.toMatch(/risk that cooking to 165°F (removes|eliminates)/i);
+      expect(text).not.toMatch(/(removes|eliminates|erases) (all |the )?(food-safety )?risk/i);
+      expect(text).not.toMatch(/risk[- ]free/i);
+    }
+  });
+
+  it("does not offer reputable sourcing as a mitigation for cooking below the minimum", () => {
+    for (const hub of HUBS) {
+      const text = read(hub);
+      expect(text).not.toMatch(/source you trust/i);
+      expect(text).not.toMatch(/(reputable|trusted) (source|supplier|farm)/i);
+    }
+  });
+
+  it("keeps the vulnerable-population warning next to the pink-breast convention", () => {
+    const learn = read("src/routes/learn.index.tsx");
+    expect(learn).toMatch(/carries greater food-safety risk than cooking to the USDA-recommended minimum/);
+    expect(learn).toMatch(/young children, older adults, pregnant people, (or|and) anyone immunocompromised/);
+  });
+
+  it("does not use smell as a safety test or an unsupported fat storage duration", () => {
+    for (const hub of HUBS) {
+      const text = read(hub);
+      expect(text).not.toMatch(/smell it/i);
+      expect(text).not.toMatch(/judge it by smell/i);
+      expect(text).not.toMatch(/rather than (trusting )?a date/i);
+      expect(text).not.toMatch(/well beyond a few weeks/i);
+    }
+  });
+
+  it("uses the conservative rendered-fat storage wording where fat storage is discussed", () => {
+    for (const hub of HUBS) {
+      const text = read(hub);
+      if (!/rendered fat|the fat itself|rendered spoonful/i.test(text)) continue;
+      expect(text).toMatch(/refrigerate it promptly/i);
+      expect(text).toMatch(/freeze it for longer storage/i);
+      expect(text).toMatch(/signs of spoilage/i);
+    }
+  });
+
   it("avoids unsupported absolutes about non-stick pans", () => {
     const gear = read("src/routes/gear.index.tsx");
     expect(gear).not.toMatch(/weakest option/i);
