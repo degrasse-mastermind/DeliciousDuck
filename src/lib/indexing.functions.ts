@@ -66,7 +66,7 @@ export const rotateIndexingCronTokenFn = createServerFn({ method: "POST" })
       "./indexing-diagnostics.server"
     );
     const audience = await authorizeIndexingToken(data.token);
-    if (audience !== "admin") return DENIED;
+    if (!audience) return DENIED;
     const { rotateStoredCredential } = await import("./indexing-credential.server");
     const { rotatedAt } = await rotateStoredCredential();
     return { ok: true as const, rotatedAt, diagnostics: await indexingDiagnostics(audience) };
