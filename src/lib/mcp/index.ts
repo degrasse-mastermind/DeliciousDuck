@@ -1,4 +1,4 @@
-import { defineMcp } from "@lovable.dev/mcp-js";
+import { defineMcp, type McpDefinitionInput } from "@lovable.dev/mcp-js";
 
 import getDuckRecipe from "./tools/get-duck-recipe";
 import listDuckContent from "./tools/list-duck-content";
