@@ -397,8 +397,9 @@ function IndexingMonitor() {
             </button>
             <p className="text-xs text-muted-foreground">
               Mints a new random token in the database. The schedule reads it from there, so no SQL
-              edit and no value to copy.
+              edit and no value to copy. Requires <code>NEWSLETTER_ADMIN_TOKEN</code>.
             </p>
+
           </div>
         </section>
       )}
