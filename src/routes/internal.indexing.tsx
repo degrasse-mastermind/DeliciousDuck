@@ -26,7 +26,7 @@ export const Route = createFileRoute("/internal/indexing")({
   component: IndexingMonitor,
 });
 
-type Report = Awaited<ReturnType<typeof indexingReportFn>>;
+type Report = Extract<Awaited<ReturnType<typeof indexingReportFn>>, { ok: true }>["report"];
 
 const PROCESSING_LABEL: Record<Report["processing"], string> = {
   processing: "Still processing — Google has not finished reading this submission",
@@ -63,7 +63,7 @@ function Stat({
 function IndexingMonitor() {
   const [token, setToken] = useState("");
   const [report, setReport] = useState<Report | null>(null);
-  const [state, setState] = useState<"idle" | "loading" | "capturing" | "error">("idle");
+  const [state, setState] = useState<"idle" | "loading" | "capturing" | "denied" | "error">("idle");
   const [notice, setNotice] = useState<string | null>(null);
 
   async function load() {
@@ -71,7 +71,13 @@ function IndexingMonitor() {
     setState("loading");
     setNotice(null);
     try {
-      setReport(await indexingReportFn({ data: { token: token.trim() } }));
+      const result = await indexingReportFn({ data: { token: token.trim() } });
+      if (!result.ok) {
+        setReport(null);
+        setState("denied");
+        return;
+      }
+      setReport(result.report);
       setState("idle");
     } catch {
       setReport(null);
@@ -85,12 +91,18 @@ function IndexingMonitor() {
     setNotice(null);
     try {
       const result = await captureIndexingSnapshotFn({ data: { token: token.trim() } });
+      if (!result.ok) {
+        setReport(null);
+        setState("denied");
+        return;
+      }
+      const capture = result.capture;
       setReport(result.report);
       setNotice(
-        result.capture.status === "ok"
+        capture.status === "ok"
           ? "Snapshot recorded."
-          : result.capture.status === "selection_required"
-            ? `Several verified properties cover this site (${result.capture.candidates.join(", ")}). Pick one before monitoring can continue.`
+          : capture.status === "selection_required"
+            ? `Several verified properties cover this site (${capture.candidates.join(", ")}). Pick one before monitoring can continue.`
             : "No verified Search Console property covers this site.",
       );
       setState("idle");
@@ -146,10 +158,15 @@ function IndexingMonitor() {
         </button>
       </div>
 
+      {state === "denied" && (
+        <p role="status" className="mt-4 text-sm text-destructive">
+          That token wasn&apos;t accepted. This page uses NEWSLETTER_ADMIN_TOKEN — not the cron
+          token.
+        </p>
+      )}
       {state === "error" && (
         <p role="status" className="mt-4 text-sm text-destructive">
-          That request failed. Check the token, and that the Search Console connection is still
-          linked.
+          That request failed. Check that the Search Console connection is still linked.
         </p>
       )}
       {notice && (
