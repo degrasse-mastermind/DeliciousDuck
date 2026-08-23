@@ -159,7 +159,7 @@ function CookPage() {
               heading: "Fixing the three failures that actually happen",
               paragraphs: [
                 "Rubbery or soft skin means the fat never left. Start colder, go slower, pour off the fat as it collects, and dry the skin uncovered in the fridge for a few hours before cooking. Grey, overcooked breast means the pan was hot at the start, so the outside cooked before the fat rendered. Tough legs mean the opposite problem — they were pulled at a breast temperature and needed another hour.",
-                "Every rendered spoonful you pour off is worth keeping. Strain it into a clean jar, refrigerate it, and freeze it if you are keeping it well beyond a few weeks; smell it before each use, because fat eventually goes rancid. It turns potatoes, root vegetables, and next week's eggs into something better than the roast that produced it.",
+                "Every rendered spoonful you pour off is worth keeping. Strain rendered fat into a clean sealed container and refrigerate it promptly; freeze it for longer storage. Discard it if it shows signs of spoilage. It turns potatoes, root vegetables, and next week's eggs into something better than the roast that produced it.",
               ],
               links: [
                 { label: "Why duck skin isn't crispy", to: "/learn/why-duck-skin-isnt-crispy" },

@@ -126,7 +126,7 @@ function GearPage() {
               heading: "Thermometers, roasting pans, and fat storage",
               paragraphs: [
                 "An instant-read thermometer is the one piece of equipment that changes outcomes rather than convenience. USDA's safe minimum internal temperature for duck is 165°F (74°C), a whole bird's thigh wants 175–180°F (79–82°C) for tender connective tissue, and the pink 130–135°F (54–57°C) window some kitchens use for breast sits below that guidance — you cannot navigate any of it by timing intuition. Fast read time and a thin tip are worth paying for; app connectivity generally is not, for duck.",
-                "For roasting, a pan with sides deep enough to hold several cups of rendered fat, plus a rack to lift the bird clear of it, prevents both a smoking oven and a poached underside. For the fat itself, a wide-mouth glass jar and a fine strainer are enough: strain it while warm, refrigerate it sealed, freeze it if you are keeping it well beyond a few weeks, and smell it before use rather than trusting a date.",
+                "For roasting, a pan with sides deep enough to hold several cups of rendered fat, plus a rack to lift the bird clear of it, prevents both a smoking oven and a poached underside. For the fat itself, a wide-mouth glass jar and a fine strainer are enough: strain the fat into a clean sealed container and refrigerate it promptly, freeze it for longer storage, and discard it if it shows signs of spoilage.",
               ],
               links: [
                 { label: "Best thermometer for duck", to: "/gear/best-thermometer-for-duck" },
