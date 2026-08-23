@@ -94,6 +94,7 @@ import { Route as ToolsDuckPairingFinderRouteImport } from './routes/tools.duck-
 import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
 import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
+import { Route as ApiPublicIndexingSnapshotRouteImport } from './routes/api/public/indexing-snapshot'
 import { Route as ApiWebhooksResendRouteImport } from './routes/api.webhooks.resend'
 
 const IndexRoute = IndexRouteImport.update({
@@ -552,6 +553,12 @@ const ToolsWholeDuckServingCalculatorRoute =
     path: '/whole-duck-serving-calculator',
     getParentRoute: () => ToolsRoute,
   } as any)
+const ApiPublicIndexingSnapshotRoute =
+  ApiPublicIndexingSnapshotRouteImport.update({
+    id: '/api/public/indexing-snapshot',
+    path: '/api/public/indexing-snapshot',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiWebhooksResendRoute = ApiWebhooksResendRouteImport.update({
   id: '/api/webhooks/resend',
   path: '/api/webhooks/resend',
@@ -644,6 +651,7 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRoutesByTo {
@@ -725,6 +733,7 @@ export interface FileRoutesByTo {
   '/learn': typeof LearnIndexRoute
   '/recipes': typeof RecipesIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRoutesById {
@@ -814,6 +823,7 @@ export interface FileRoutesById {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRouteTypes {
@@ -904,6 +914,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -985,6 +996,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/recipes'
     | '/tools'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   id:
     | '__root__'
@@ -1073,6 +1085,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   fileRoutesById: FileRoutesById
 }
@@ -1106,6 +1119,7 @@ export interface RootRouteChildren {
   InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
   NewsletterPreferencesRoute: typeof NewsletterPreferencesRoute
   NewsletterUnsubscribeRoute: typeof NewsletterUnsubscribeRoute
+  ApiPublicIndexingSnapshotRoute: typeof ApiPublicIndexingSnapshotRoute
   ApiWebhooksResendRoute: typeof ApiWebhooksResendRoute
 }
 
@@ -1706,6 +1720,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsWholeDuckServingCalculatorRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/api/public/indexing-snapshot': {
+      id: '/api/public/indexing-snapshot'
+      path: '/api/public/indexing-snapshot'
+      fullPath: '/api/public/indexing-snapshot'
+      preLoaderRoute: typeof ApiPublicIndexingSnapshotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/webhooks/resend': {
       id: '/api/webhooks/resend'
       path: '/api/webhooks/resend'
@@ -1920,6 +1941,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
   NewsletterPreferencesRoute: NewsletterPreferencesRoute,
   NewsletterUnsubscribeRoute: NewsletterUnsubscribeRoute,
+  ApiPublicIndexingSnapshotRoute: ApiPublicIndexingSnapshotRoute,
   ApiWebhooksResendRoute: ApiWebhooksResendRoute,
 }
 export const routeTree = rootRouteImport
