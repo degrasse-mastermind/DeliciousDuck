@@ -9,8 +9,8 @@ import {
   rotateIndexingCronTokenFn,
 } from "@/lib/indexing.functions";
 
-/** Kept in sync with the server-side batch size, for the explanatory copy. */
-const COVERAGE_BATCH_LIMIT = 40;
+
+
 
 
 /**
@@ -138,11 +138,16 @@ function IndexingMonitor() {
       const capture = result.capture;
       setNotice(
         capture.status === "ok"
-          ? `Checked ${capture.checked} URLs: ${capture.indexed} indexed, ${capture.notIndexed} not indexed${capture.failed > 0 ? `, ${capture.failed} could not be checked` : ""}.`
+          ? `Inspected ${capture.checked} of ${capture.monitored} sitemap URLs: ${capture.indexed} indexed, ${capture.notIndexed} not indexed${capture.unresolved > 0 ? `, ${capture.unresolved} unresolved` : ""}. ${
+              capture.isComplete
+                ? "Stored as a full-site snapshot, so it counts towards growth."
+                : `Stored for diagnostics only — ${capture.incompleteReason ?? "the run did not cover the whole site"}`
+            }`
           : capture.status === "selection_required"
             ? `Several verified properties cover this site (${capture.candidates.join(", ")}). Pick one before coverage can be read.`
             : "No verified Search Console property covers this site.",
       );
+
       setState("idle");
     } catch {
       setState("error");
