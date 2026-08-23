@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
+  captureCoverageFn,
   captureIndexingSnapshotFn,
+  coverageReportFn,
   indexingDiagnosticsFn,
   indexingReportFn,
   rotateIndexingCronTokenFn,
 } from "@/lib/indexing.functions";
+
+/** Kept in sync with the server-side batch size, for the explanatory copy. */
+const COVERAGE_BATCH_LIMIT = 40;
+
 
 /**
  * Internal indexing monitor — owner tool, not site content.
