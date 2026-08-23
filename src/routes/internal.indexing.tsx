@@ -338,25 +338,19 @@ function IndexingMonitor() {
         <>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <Stat
-              label="Indexed URLs"
-              value={trend?.latestIndexed === null ? "—" : String(trend?.latestIndexed)}
-              hint={
-                trend?.coverage === null
-                  ? undefined
-                  : `${trend?.coverage}% of ${trend?.latestSubmitted} submitted`
-              }
+              label="URLs submitted"
+              value={trend?.latestSubmitted === null ? "—" : String(trend?.latestSubmitted)}
+              hint="URLs Google read from the sitemap"
             />
             <Stat
-              label="Trend"
-              value={
-                trend?.direction === "insufficient_data"
-                  ? "Need 2+ snapshots"
-                  : `${(trend?.netChange ?? 0) > 0 ? "+" : ""}${trend?.netChange} (${trend?.direction})`
-              }
-              hint="Net change across the stored window"
+              label="Indexed (API field)"
+              value={trend?.latestIndexed === null ? "—" : String(trend?.latestIndexed)}
+              hint="Google retired this field — it reports 0 for every sitemap. Use Search Console's Pages report for real coverage."
             />
             <Stat label="Errors" value={String(report.errorCount)} hint="Count only — Google does not expose the cause here" />
             <Stat label="Warnings" value={String(report.warningCount)} />
+          </div>
+
           </div>
 
           <dl className="mt-6 grid gap-3 rounded-sm border border-border p-5 text-sm sm:grid-cols-2">
