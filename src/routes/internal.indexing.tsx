@@ -306,14 +306,16 @@ function IndexingMonitor() {
           </p>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
             <li>
-              <code className="text-foreground">NEWSLETTER_ADMIN_TOKEN</code> — full access,
-              including rotating the scheduled job token.
+              <code className="text-foreground">NEWSLETTER_ADMIN_TOKEN</code> — reports, coverage
+              checks, diagnostics, and rotating the scheduled job token.
             </li>
             <li>
               <code className="text-foreground">INDEXING_CRON_TOKEN</code> (or the rotating token
-              currently stored for the schedule) — same dashboard access.
+              currently stored for the schedule) — reports, coverage checks, and diagnostics.
+              Rotation is admin-only.
             </li>
           </ul>
+
           <p className="mt-2 text-muted-foreground">
             If you rotated the scheduled job token here, the old value stops working immediately —
             use the current one or the admin token.
