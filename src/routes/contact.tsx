@@ -5,7 +5,7 @@ import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     ...pageMeta({
-      title: "Contact DeliciousDuck",
+      title: "Contact Us: Questions, Corrections & Partnerships | DeliciousDuck",
       description:
         "How to reach DeliciousDuck: one email address for general questions, factual and food-safety corrections, privacy requests, and partnership enquiries.",
       path: "/contact",
