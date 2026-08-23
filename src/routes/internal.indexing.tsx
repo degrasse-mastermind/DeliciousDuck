@@ -92,8 +92,9 @@ function Stat({
 function IndexingMonitor() {
   const [token, setToken] = useState("");
   const [report, setReport] = useState<Report | null>(null);
+  const [coverage, setCoverage] = useState<Coverage | null>(null);
   const [state, setState] = useState<
-    "idle" | "loading" | "capturing" | "checking" | "rotating" | "denied" | "error"
+    "idle" | "loading" | "capturing" | "inspecting" | "checking" | "rotating" | "denied" | "error"
   >("idle");
   const [notice, setNotice] = useState<string | null>(null);
   const [diagnostics, setDiagnostics] = useState<Diagnostics | null>(null);
@@ -103,19 +104,51 @@ function IndexingMonitor() {
     setState("loading");
     setNotice(null);
     try {
-      const result = await indexingReportFn({ data: { token: token.trim() } });
-      if (!result.ok) {
+      const [sitemap, cover] = await Promise.all([
+        indexingReportFn({ data: { token: token.trim() } }),
+        coverageReportFn({ data: { token: token.trim() } }),
+      ]);
+      if (!sitemap.ok || !cover.ok) {
         setReport(null);
+        setCoverage(null);
         setState("denied");
         return;
       }
-      setReport(result.report);
+      setReport(sitemap.report);
+      setCoverage(cover.coverage);
       setState("idle");
     } catch {
       setReport(null);
       setState("error");
     }
   }
+
+  /** Inspects the next rotating batch of URLs against Google's index. */
+  async function checkCoverageNow() {
+    if (!token.trim()) return;
+    setState("inspecting");
+    setNotice(null);
+    try {
+      const result = await captureCoverageFn({ data: { token: token.trim() } });
+      if (!result.ok) {
+        setState("denied");
+        return;
+      }
+      setCoverage(result.coverage);
+      const capture = result.capture;
+      setNotice(
+        capture.status === "ok"
+          ? `Checked ${capture.checked} URLs: ${capture.indexed} indexed, ${capture.notIndexed} not indexed${capture.failed > 0 ? `, ${capture.failed} could not be checked` : ""}.`
+          : capture.status === "selection_required"
+            ? `Several verified properties cover this site (${capture.candidates.join(", ")}). Pick one before coverage can be read.`
+            : "No verified Search Console property covers this site.",
+      );
+      setState("idle");
+    } catch {
+      setState("error");
+    }
+  }
+
 
   async function runDiagnostics() {
     if (!token.trim()) return;
