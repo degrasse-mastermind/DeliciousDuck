@@ -65,6 +65,7 @@ import { Route as InternalCommercialLinksRouteImport } from './routes/internal.c
 import { Route as InternalDuckDropStudioRouteImport } from './routes/internal.duck-drop-studio'
 import { Route as InternalGrowthDashboardRouteImport } from './routes/internal.growth-dashboard'
 import { Route as InternalIllustrationsRouteImport } from './routes/internal.illustrations'
+import { Route as InternalIndexingRouteImport } from './routes/internal.indexing'
 import { Route as InternalKitchenTestSheetRouteImport } from './routes/internal.kitchen-test-sheet'
 import { Route as InternalRevenueSwitchboardRouteImport } from './routes/internal.revenue-switchboard'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
@@ -94,6 +95,7 @@ import { Route as ToolsDuckPairingFinderRouteImport } from './routes/tools.duck-
 import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
 import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
+import { Route as ApiPublicIndexingSnapshotRouteImport } from './routes/api/public/indexing-snapshot'
 import { Route as ApiWebhooksResendRouteImport } from './routes/api.webhooks.resend'
 
 const IndexRoute = IndexRouteImport.update({
@@ -393,6 +395,11 @@ const InternalIllustrationsRoute = InternalIllustrationsRouteImport.update({
   path: '/internal/illustrations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InternalIndexingRoute = InternalIndexingRouteImport.update({
+  id: '/internal/indexing',
+  path: '/internal/indexing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InternalKitchenTestSheetRoute =
   InternalKitchenTestSheetRouteImport.update({
     id: '/internal/kitchen-test-sheet',
@@ -552,6 +559,12 @@ const ToolsWholeDuckServingCalculatorRoute =
     path: '/whole-duck-serving-calculator',
     getParentRoute: () => ToolsRoute,
   } as any)
+const ApiPublicIndexingSnapshotRoute =
+  ApiPublicIndexingSnapshotRouteImport.update({
+    id: '/api/public/indexing-snapshot',
+    path: '/api/public/indexing-snapshot',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiWebhooksResendRoute = ApiWebhooksResendRouteImport.update({
   id: '/api/webhooks/resend',
   path: '/api/webhooks/resend',
@@ -611,6 +624,7 @@ export interface FileRoutesByFullPath {
   '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/illustrations': typeof InternalIllustrationsRoute
+  '/internal/indexing': typeof InternalIndexingRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
@@ -644,6 +658,7 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRoutesByTo {
@@ -692,6 +707,7 @@ export interface FileRoutesByTo {
   '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/illustrations': typeof InternalIllustrationsRoute
+  '/internal/indexing': typeof InternalIndexingRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
@@ -725,6 +741,7 @@ export interface FileRoutesByTo {
   '/learn': typeof LearnIndexRoute
   '/recipes': typeof RecipesIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRoutesById {
@@ -781,6 +798,7 @@ export interface FileRoutesById {
   '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/illustrations': typeof InternalIllustrationsRoute
+  '/internal/indexing': typeof InternalIndexingRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
@@ -814,6 +832,7 @@ export interface FileRoutesById {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRouteTypes {
@@ -871,6 +890,7 @@ export interface FileRouteTypes {
     | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/illustrations'
+    | '/internal/indexing'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
@@ -904,6 +924,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -952,6 +973,7 @@ export interface FileRouteTypes {
     | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/illustrations'
+    | '/internal/indexing'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
@@ -985,6 +1007,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/recipes'
     | '/tools'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   id:
     | '__root__'
@@ -1040,6 +1063,7 @@ export interface FileRouteTypes {
     | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/illustrations'
+    | '/internal/indexing'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
@@ -1073,6 +1097,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   fileRoutesById: FileRoutesById
 }
@@ -1102,10 +1127,12 @@ export interface RootRouteChildren {
   InternalDuckDropStudioRoute: typeof InternalDuckDropStudioRoute
   InternalGrowthDashboardRoute: typeof InternalGrowthDashboardRoute
   InternalIllustrationsRoute: typeof InternalIllustrationsRoute
+  InternalIndexingRoute: typeof InternalIndexingRoute
   InternalKitchenTestSheetRoute: typeof InternalKitchenTestSheetRoute
   InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
   NewsletterPreferencesRoute: typeof NewsletterPreferencesRoute
   NewsletterUnsubscribeRoute: typeof NewsletterUnsubscribeRoute
+  ApiPublicIndexingSnapshotRoute: typeof ApiPublicIndexingSnapshotRoute
   ApiWebhooksResendRoute: typeof ApiWebhooksResendRoute
 }
 
@@ -1503,6 +1530,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InternalIllustrationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/internal/indexing': {
+      id: '/internal/indexing'
+      path: '/internal/indexing'
+      fullPath: '/internal/indexing'
+      preLoaderRoute: typeof InternalIndexingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/internal/kitchen-test-sheet': {
       id: '/internal/kitchen-test-sheet'
       path: '/internal/kitchen-test-sheet'
@@ -1705,6 +1739,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tools/whole-duck-serving-calculator'
       preLoaderRoute: typeof ToolsWholeDuckServingCalculatorRouteImport
       parentRoute: typeof ToolsRoute
+    }
+    '/api/public/indexing-snapshot': {
+      id: '/api/public/indexing-snapshot'
+      path: '/api/public/indexing-snapshot'
+      fullPath: '/api/public/indexing-snapshot'
+      preLoaderRoute: typeof ApiPublicIndexingSnapshotRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/webhooks/resend': {
       id: '/api/webhooks/resend'
@@ -1916,10 +1957,12 @@ const rootRouteChildren: RootRouteChildren = {
   InternalDuckDropStudioRoute: InternalDuckDropStudioRoute,
   InternalGrowthDashboardRoute: InternalGrowthDashboardRoute,
   InternalIllustrationsRoute: InternalIllustrationsRoute,
+  InternalIndexingRoute: InternalIndexingRoute,
   InternalKitchenTestSheetRoute: InternalKitchenTestSheetRoute,
   InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
   NewsletterPreferencesRoute: NewsletterPreferencesRoute,
   NewsletterUnsubscribeRoute: NewsletterUnsubscribeRoute,
+  ApiPublicIndexingSnapshotRoute: ApiPublicIndexingSnapshotRoute,
   ApiWebhooksResendRoute: ApiWebhooksResendRoute,
 }
 export const routeTree = rootRouteImport

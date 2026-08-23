@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      indexing_snapshots: {
+        Row: {
+          captured_at: string
+          error_count: number
+          id: string
+          indexed_count: number
+          is_pending: boolean
+          last_downloaded: string | null
+          last_submitted: string | null
+          site_url: string
+          sitemap_url: string
+          source: string
+          submitted_count: number
+          warning_count: number
+        }
+        Insert: {
+          captured_at?: string
+          error_count?: number
+          id?: string
+          indexed_count?: number
+          is_pending?: boolean
+          last_downloaded?: string | null
+          last_submitted?: string | null
+          site_url: string
+          sitemap_url: string
+          source?: string
+          submitted_count?: number
+          warning_count?: number
+        }
+        Update: {
+          captured_at?: string
+          error_count?: number
+          id?: string
+          indexed_count?: number
+          is_pending?: boolean
+          last_downloaded?: string | null
+          last_submitted?: string | null
+          site_url?: string
+          sitemap_url?: string
+          source?: string
+          submitted_count?: number
+          warning_count?: number
+        }
+        Relationships: []
+      }
       newsletter_provider_events: {
         Row: {
           created_at: string
