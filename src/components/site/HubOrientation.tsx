@@ -1,3 +1,5 @@
+import { Link } from "@tanstack/react-router";
+
 /**
  * Short orientation block for a pillar hub.
  *
@@ -6,6 +8,11 @@
  * arrives with — where do I start, and what does this section decide for me —
  * rather than padding word count.
  */
+export interface HubOrientationLink {
+  label: string;
+  to: string;
+}
+
 export function HubOrientation({
   heading,
   paragraphs,
@@ -14,7 +21,7 @@ export function HubOrientation({
   heading: string;
   paragraphs: string[];
   /** Optional deeper subsections, each answering one common question. */
-  sections?: { heading: string; paragraphs: string[] }[];
+  sections?: { heading: string; paragraphs: string[]; links?: HubOrientationLink[] }[];
 }) {
   return (
     <section
@@ -39,6 +46,18 @@ export function HubOrientation({
                   <p key={p.slice(0, 32)}>{p}</p>
                 ))}
               </div>
+              {s.links?.length ? (
+                <nav
+                  aria-label={`Go deeper: ${s.heading}`}
+                  className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.14em] text-primary"
+                >
+                  {s.links.map((l) => (
+                    <Link key={l.to} to={l.to} className="underline-offset-4 hover:underline">
+                      {l.label}
+                    </Link>
+                  ))}
+                </nav>
+              ) : null}
             </div>
           ))}
         </div>
@@ -46,4 +65,3 @@ export function HubOrientation({
     </section>
   );
 }
-
