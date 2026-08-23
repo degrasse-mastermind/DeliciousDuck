@@ -180,9 +180,19 @@ function IndexingMonitor() {
     try {
       const result = await rotateIndexingCronTokenFn({ data: { token: token.trim() } });
       if (!result.ok) {
+        // Rotation needs the admin secret even when the token was good enough to
+        // read the dashboard, so say which of the two is required.
+        if (result.reason === "admin_token_required") {
+          setNotice(
+            "Rotating the scheduled job token requires NEWSLETTER_ADMIN_TOKEN. The scheduled job's own token can read this dashboard but cannot roll its own credential.",
+          );
+          setState("idle");
+          return;
+        }
         setState("denied");
         return;
       }
+
       setDiagnostics(result.diagnostics);
       setNotice(
         "Scheduled job token rotated. The schedule reads it from the database, so nothing needs pasting into SQL.",
