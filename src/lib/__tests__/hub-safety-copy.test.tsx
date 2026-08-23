@@ -2,6 +2,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { HubOrientation } from "@/components/site/HubOrientation";
+import { SourceNotes } from "@/components/site/SourceNotes";
 import { SOURCES } from "@/data/sources";
 
 const HUBS = [
@@ -144,8 +145,8 @@ describe("hub safety sourcing", () => {
 
   it("renders source links as real anchors", () => {
     render(<SourceNotesFixture />);
-    const link = screen.getByRole("link", { name: SOURCES.usdaPoultryTemp!.label });
-    expect(link.getAttribute("href")).toBe(SOURCES.usdaPoultryTemp!.url);
+    const link = screen.getByRole("link", { name: SOURCES["usdaPoultryTemp"]!.label });
+    expect(link.getAttribute("href")).toBe(SOURCES["usdaPoultryTemp"]!.url);
   });
 });
 
@@ -170,6 +171,5 @@ describe("hub orientation internal links", () => {
 });
 
 function SourceNotesFixture() {
-  const { SourceNotes } = require("@/components/site/SourceNotes") as typeof import("@/components/site/SourceNotes");
   return <SourceNotes ids={["usdaPoultryTemp"]} />;
 }
