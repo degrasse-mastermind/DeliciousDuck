@@ -376,29 +376,23 @@ function IndexingMonitor() {
             </div>
           </dl>
 
-          <h2 className="mt-10 text-lg font-semibold text-foreground">Indexed count over time</h2>
+          <h2 className="mt-10 text-lg font-semibold text-foreground">Sitemap read history</h2>
           {recent.length === 0 ? (
             <p className="mt-2 text-sm text-muted-foreground">No snapshots recorded yet.</p>
           ) : (
             <div className="mt-3 overflow-x-auto">
-              <table className="w-full min-w-[32rem] text-sm">
+              <table className="w-full min-w-[24rem] text-sm">
                 <thead>
                   <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
                     <th scope="col" className="py-2">Snapshot</th>
-                    <th scope="col" className="py-2">Indexed</th>
-                    <th scope="col" className="py-2">Change</th>
-                    <th scope="col" className="py-2">Submitted</th>
+                    <th scope="col" className="py-2">URLs submitted</th>
                   </tr>
                 </thead>
                 <tbody>
                   {recent.map((point) => (
                     <tr key={point.capturedAt} className="border-b border-border/60">
                       <td className="py-2 text-muted-foreground">{when(point.capturedAt)}</td>
-                      <td className="py-2 font-semibold text-foreground">{point.indexedCount}</td>
-                      <td className="py-2 text-muted-foreground">
-                        {point.delta === null ? "—" : `${point.delta > 0 ? "+" : ""}${point.delta}`}
-                      </td>
-                      <td className="py-2 text-muted-foreground">{point.submittedCount}</td>
+                      <td className="py-2 font-semibold text-foreground">{point.submittedCount}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -413,6 +407,140 @@ function IndexingMonitor() {
           </p>
         </>
       )}
+
+      {coverage && (
+        <section className="mt-12 border-t border-border pt-8">
+          <h2 className="text-lg font-semibold text-foreground">Indexing coverage (real)</h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Per-URL indexing state read from Google&apos;s index with URL Inspection — the same
+            signal behind the Pages report, and the one that actually tracks growth. Each run checks
+            a rotating batch of up to {COVERAGE_BATCH_LIMIT} URLs to stay inside Google&apos;s
+            inspection quota, so the site-wide picture fills in over consecutive runs. This is a
+            read: nothing here requests indexing or a re-crawl.
+          </p>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <Stat
+              label="Indexed URLs"
+              value={String(coverage.indexedCount)}
+              hint={
+                coverage.coveragePercent === null
+                  ? "No URLs checked yet"
+                  : `${coverage.coveragePercent}% of the ${coverage.totalMonitored - coverage.neverCheckedCount} URLs checked so far`
+              }
+            />
+            <Stat
+              label="Not indexed"
+              value={String(coverage.notIndexedCount)}
+              hint="Checked, but Google's index does not hold them"
+            />
+            <Stat
+              label="Not yet checked"
+              value={String(coverage.neverCheckedCount)}
+              hint={`Of ${coverage.totalMonitored} sitemap URLs`}
+            />
+            <Stat
+              label="Growth"
+              value={
+                coverage.trend.direction === "insufficient_data"
+                  ? "Need 2+ checks"
+                  : `${(coverage.trend.netChange ?? 0) > 0 ? "+" : ""}${coverage.trend.netChange} (${coverage.trend.direction})`
+              }
+              hint="Indexed URLs per batch across the stored window"
+            />
+          </div>
+
+          <dl className="mt-6 grid gap-3 rounded-sm border border-border p-5 text-sm sm:grid-cols-2">
+            <div>
+              <dt className="font-semibold text-foreground">Property</dt>
+              <dd className="text-muted-foreground">{coverage.siteUrl ?? "—"}</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-foreground">Last coverage check</dt>
+              <dd className="text-muted-foreground">{when(coverage.capturedAt)}</dd>
+            </div>
+          </dl>
+
+          <h3 className="mt-8 text-base font-semibold text-foreground">
+            Google&apos;s coverage states
+          </h3>
+          {coverage.breakdown.length === 0 ? (
+            <p className="mt-2 text-sm text-muted-foreground">
+              No URLs checked yet — run &ldquo;Check coverage now&rdquo;.
+            </p>
+          ) : (
+            <ul className="mt-3 divide-y divide-border/60 text-sm">
+              {coverage.breakdown.map((row) => (
+                <li key={row.state} className="flex items-center justify-between gap-4 py-2">
+                  <span className="text-muted-foreground">{row.state}</span>
+                  <span className="font-semibold text-foreground">{row.count}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <h3 className="mt-8 text-base font-semibold text-foreground">Not indexed yet</h3>
+          {coverage.notIndexedUrls.length === 0 ? (
+            <p className="mt-2 text-sm text-muted-foreground">
+              Every checked URL is in Google&apos;s index.
+            </p>
+          ) : (
+            <div className="mt-3 overflow-x-auto">
+              <table className="w-full min-w-[36rem] text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                    <th scope="col" className="py-2">URL</th>
+                    <th scope="col" className="py-2">Google&apos;s state</th>
+                    <th scope="col" className="py-2">Last crawl</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {coverage.notIndexedUrls.map((row) => (
+                    <tr key={row.url} className="border-b border-border/60">
+                      <td className="py-2 text-foreground">
+                        {row.url.replace(/^https?:\/\/[^/]+/, "") || "/"}
+                      </td>
+                      <td className="py-2 text-muted-foreground">{row.coverageState ?? "—"}</td>
+                      <td className="py-2 text-muted-foreground">{when(row.lastCrawlTime)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <h3 className="mt-8 text-base font-semibold text-foreground">Indexed URLs over time</h3>
+          {coverageHistory.length === 0 ? (
+            <p className="mt-2 text-sm text-muted-foreground">No coverage checks recorded yet.</p>
+          ) : (
+            <div className="mt-3 overflow-x-auto">
+              <table className="w-full min-w-[32rem] text-sm">
+                <thead>
+                  <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                    <th scope="col" className="py-2">Check</th>
+                    <th scope="col" className="py-2">Indexed in batch</th>
+                    <th scope="col" className="py-2">Change</th>
+                    <th scope="col" className="py-2">URLs checked</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {coverageHistory.map((point) => (
+                    <tr key={point.capturedAt} className="border-b border-border/60">
+                      <td className="py-2 text-muted-foreground">{when(point.capturedAt)}</td>
+                      <td className="py-2 font-semibold text-foreground">{point.indexedCount}</td>
+                      <td className="py-2 text-muted-foreground">
+                        {point.delta === null ? "—" : `${point.delta > 0 ? "+" : ""}${point.delta}`}
+                      </td>
+                      <td className="py-2 text-muted-foreground">{point.checkedCount}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
+      )}
+
     </div>
   );
 }
