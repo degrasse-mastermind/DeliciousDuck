@@ -3,6 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { HubOrientation } from "@/components/site/HubOrientation";
 import { RecipeCard } from "@/components/site/RecipeCard";
+import { SourceNotes } from "@/components/site/SourceNotes";
+
 import { RECIPES } from "@/data/recipes";
 import { recipePath } from "@/data/recipe-content";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
