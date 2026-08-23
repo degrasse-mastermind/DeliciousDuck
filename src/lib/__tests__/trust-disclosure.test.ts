@@ -11,7 +11,11 @@ describe("contact route", () => {
 
   it("registers the /contact file route with unique metadata", () => {
     expect(src).toContain('createFileRoute("/contact")');
-    expect(src).toContain('title: "Contact DeliciousDuck"');
+    // The title deliberately differs from the H1 ("Contact DeliciousDuck") so
+    // the page does not trip duplicate h1/title reporting.
+    expect(src).toContain(
+      'title: "Contact Us: Questions, Corrections & Partnerships | DeliciousDuck"',
+    );
     expect(src).toContain('path: "/contact"');
   });
 
