@@ -124,7 +124,33 @@ function RecipesIndex() {
             "Rich duck also needs a plate built around it. Acidity, tart fruit, bitter greens, and briny or savoury accents cut through the fat far better than extra sweetness, and the rendered fat you collect belongs on the potatoes rather than in the bin.",
             "Pick by cut if you already have the duck, or by occasion if you are planning ahead. Confit and smoked duck are make-ahead dishes that suit a busy day; breast is a twenty-minute dinner that wants your full attention for the first ten.",
           ]}
+          sections={[
+            {
+              heading: "Easy duck recipes to start with",
+              paragraphs: [
+                "If you have never cooked duck, start with a pan-seared duck breast and a pan sauce. It is a twenty-minute dinner, it needs one pan and a thermometer, and it teaches the single skill everything else depends on: rendering the fat out of the skin slowly in a cold pan before the heat comes up. Once that clicks, duck à l'orange, cherry sauce, and a five-spice glaze are variations rather than new techniques.",
+                "The next step up is a whole roast duck — the Sunday-lunch or holiday centrepiece. It is more forgiving than a turkey because the bird bastes itself, but it needs the fat poured off during the roast and a thigh reading of 175–180°F (79–82°C) before you carve. Duck confit is the most impressive dish here and, oddly, one of the least stressful: the legs cook low and slow, then wait in their own fat until the day you want them.",
+              ],
+            },
+            {
+              heading: "Sauces, sides, and what to serve with duck",
+              paragraphs: [
+                "Duck wants a counterweight. Tart fruit is the classic answer — sour cherry, orange, plum, blackcurrant, rhubarb — and it works because acid cuts fat, not because it adds sweetness. Keep sugar restrained; a glaze that caramelises too far reads as dessert and buries the meat. Red-wine and port reductions, verjus, sherry vinegar, and pomegranate do the same job with less sugar.",
+                "For sides, think bitter and starchy. Frisée, radicchio, chicory, braised red cabbage, and mustardy greens all hold their own. Potatoes roasted in the fat you just poured off are non-negotiable, and duck-fat parsnips, celeriac, or white beans absorb it just as well. Something briny — olives, capers, cornichons, preserved lemon — sharpens a rich plate at the end.",
+              ],
+            },
+            {
+              heading: "Scaling, prepping ahead, and leftovers",
+              paragraphs: [
+                "Plan one whole duck for three to four people, or one breast per person; magret from a Moulard is large enough to serve two when sliced. For a bigger table, roast two birds rather than one large one — the timing barely changes and the skin crisps better with air around each bird.",
+                "Confit, rillettes, smoked breast, and duck ragù are all better made a day ahead, which makes them the right choice for a holiday menu where the oven is contested. Leftover roast duck shreds into ramen, tacos, hash, or a salad with citrus and bitter leaves, and the carcass makes a stock with more body than chicken. Refrigerate cooked duck within two hours and use it within three to four days.",
+                "Which duck you buy shapes the recipe too. Pekin is the mild, fatty, widely available bird behind most roast-duck and Peking-style recipes. Moulard gives you the large lean magret that suits searing and slicing, and its legs are the standard choice for confit. Muscovy is leaner with a deeper flavour, and wild duck needs its own fast, rare treatment rather than any of these timings. If a recipe specifies a breed, that is why.",
+
+              ],
+            },
+          ]}
         />
+
       </section>
     </>
   );
