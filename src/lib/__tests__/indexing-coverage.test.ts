@@ -3,10 +3,12 @@ import {
   aggregateCoverage,
   coveragePercent,
   coverageTrend,
-  failedInspection,
+  monitoredCoverageUrls,
   normalizeInspection,
-  selectInspectionBatch,
+  runCompleteness,
+  unresolvedCoverage,
 } from "../indexing-coverage";
+import { isSitemapEligiblePath } from "../sitemap";
 
 const inspection = (verdict: string, coverageState: string) => ({
   inspectionResult: {
@@ -24,38 +26,83 @@ const inspection = (verdict: string, coverageState: string) => ({
 
 describe("normalizeInspection", () => {
   it("treats only a PASS verdict as indexed", () => {
-    const pass = normalizeInspection("https://deliciousduck.com/cook", inspection("PASS", "Submitted and indexed"));
+    const pass = normalizeInspection(
+      "https://deliciousduck.com/cook",
+      inspection("PASS", "Submitted and indexed"),
+    );
+    expect(pass.state).toBe("indexed");
     expect(pass.isIndexed).toBe(true);
     expect(pass.coverageState).toBe("Submitted and indexed");
     expect(pass.lastCrawlTime).toBe("2026-08-20T10:00:00.000Z");
-
-    const neutral = normalizeInspection("https://deliciousduck.com/buy", inspection("NEUTRAL", "Discovered — currently not indexed"));
-    expect(neutral.isIndexed).toBe(false);
-    expect(neutral.coverageState).toBe("Discovered — currently not indexed");
   });
 
-  it("survives an empty or unexpected response without inventing state", () => {
+  it("counts documented negative verdicts as not indexed, with Google's reason", () => {
+    for (const verdict of ["NEUTRAL", "PARTIAL", "FAIL"]) {
+      const row = normalizeInspection(
+        "https://deliciousduck.com/buy",
+        inspection(verdict, "Discovered — currently not indexed"),
+      );
+      expect(row.state).toBe("not_indexed");
+      expect(row.isIndexed).toBe(false);
+      expect(row.inspectError).toBeNull();
+      expect(row.coverageState).toBe("Discovered — currently not indexed");
+    }
+  });
+
+  it("marks a missing inspectionResult unresolved rather than not indexed", () => {
     const row = normalizeInspection("https://deliciousduck.com/", {});
+    expect(row.state).toBe("unresolved");
     expect(row.isIndexed).toBe(false);
-    expect(row.verdict).toBeNull();
-    expect(row.coverageState).toBeNull();
-    expect(row.inspectError).toBeNull();
+    expect(row.inspectError).toBe("missing_inspection_result");
+  });
+
+  it("marks a missing indexStatusResult unresolved", () => {
+    const row = normalizeInspection("https://deliciousduck.com/", {
+      inspectionResult: { mobileUsabilityResult: { verdict: "PASS" } },
+    });
+    expect(row.state).toBe("unresolved");
+    expect(row.inspectError).toBe("missing_index_status_result");
+  });
+
+  it("marks a missing verdict unresolved but keeps the fields Google did send", () => {
+    const row = normalizeInspection("https://deliciousduck.com/", {
+      inspectionResult: { indexStatusResult: { coverageState: "URL is unknown to Google" } },
+    });
+    expect(row.state).toBe("unresolved");
+    expect(row.inspectError).toBe("missing_verdict");
+    expect(row.coverageState).toBe("URL is unknown to Google");
+  });
+
+  it("marks an unrecognised verdict unresolved and names it", () => {
+    const row = normalizeInspection(
+      "https://deliciousduck.com/",
+      inspection("VERDICT_UNSPECIFIED", "Unknown"),
+    );
+    expect(row.state).toBe("unresolved");
+    expect(row.inspectError).toBe("unrecognized_verdict_VERDICT_UNSPECIFIED");
+  });
+
+  it("survives a non-object response", () => {
+    for (const raw of [null, undefined, "boom", 42, []]) {
+      expect(normalizeInspection("https://deliciousduck.com/", raw).state).toBe("unresolved");
+    }
   });
 });
 
 describe("aggregateCoverage", () => {
-  it("counts indexed, not indexed, and failed checks separately", () => {
+  it("counts indexed, not indexed, and unresolved separately", () => {
     const totals = aggregateCoverage([
       normalizeInspection("a", inspection("PASS", "Submitted and indexed")),
       normalizeInspection("b", inspection("PASS", "Submitted and indexed")),
       normalizeInspection("c", inspection("NEUTRAL", "Crawled — currently not indexed")),
-      failedInspection("d", "search_console_request_failed_429"),
+      unresolvedCoverage("d", "search_console_request_failed_429"),
+      normalizeInspection("e", {}),
     ]);
     expect(totals).toMatchObject({
-      checkedCount: 4,
+      checkedCount: 5,
       indexedCount: 2,
       notIndexedCount: 1,
-      failedCount: 1,
+      unresolvedCount: 2,
     });
     expect(totals.breakdown).toEqual({
       "Submitted and indexed": 2,
@@ -64,13 +111,28 @@ describe("aggregateCoverage", () => {
   });
 });
 
+describe("runCompleteness", () => {
+  it("is complete only when every monitored URL resolved", () => {
+    expect(runCompleteness(3, { checkedCount: 3, unresolvedCount: 0 })).toEqual({
+      isComplete: true,
+      incompleteReason: null,
+    });
+    expect(runCompleteness(3, { checkedCount: 2, unresolvedCount: 0 }).isComplete).toBe(false);
+    expect(runCompleteness(3, { checkedCount: 3, unresolvedCount: 1 }).isComplete).toBe(false);
+    expect(runCompleteness(0, { checkedCount: 0, unresolvedCount: 0 }).isComplete).toBe(false);
+  });
+});
+
 describe("coverageTrend", () => {
-  const row = (captured_at: string, indexed_count: number) => ({
+  const row = (captured_at: string, indexed_count: number, is_complete = true) => ({
     captured_at,
     indexed_count,
     checked_count: 40,
+    monitored_count: 40,
     not_indexed_count: 40 - indexed_count,
-    failed_count: 0,
+    unresolved_count: 0,
+    is_complete,
+    incomplete_reason: null,
     breakdown: null,
   });
 
@@ -86,33 +148,47 @@ describe("coverageTrend", () => {
     expect(trend.direction).toBe("increasing");
   });
 
-  it("reports insufficient data for a single snapshot", () => {
+  it("excludes partial runs so growth compares like with like", () => {
+    const trend = coverageTrend([
+      row("2026-08-21T06:00:00Z", 10),
+      row("2026-08-22T06:00:00Z", 3, false),
+      row("2026-08-23T06:00:00Z", 14),
+    ]);
+    expect(trend.points.map((p) => p.indexedCount)).toEqual([10, 14]);
+    expect(trend.netChange).toBe(4);
+    expect(trend.excludedPartialRuns).toBe(1);
+  });
+
+  it("reports insufficient data for a single comparable snapshot", () => {
     expect(coverageTrend([row("2026-08-21T06:00:00Z", 4)]).direction).toBe("insufficient_data");
+    expect(coverageTrend([row("2026-08-21T06:00:00Z", 4, false)]).points).toHaveLength(0);
     expect(coverageTrend([]).netChange).toBeNull();
   });
 });
 
 describe("coveragePercent", () => {
-  it("is null with nothing checked and rounded to one decimal otherwise", () => {
+  it("is null with nothing resolved and rounded to one decimal otherwise", () => {
     expect(coveragePercent(0, 0)).toBeNull();
     expect(coveragePercent(1, 3)).toBe(33.3);
   });
 });
 
-describe("selectInspectionBatch", () => {
-  const urls = ["a", "b", "c", "d", "e"];
+describe("monitoredCoverageUrls", () => {
+  const urls = monitoredCoverageUrls();
 
-  it("takes a bounded slice and reports where the next run resumes", () => {
-    expect(selectInspectionBatch(urls, 2, 0)).toEqual({ batch: ["a", "b"], nextOffset: 2 });
-    expect(selectInspectionBatch(urls, 2, 2)).toEqual({ batch: ["c", "d"], nextOffset: 4 });
+  it("covers the canonical production sitemap set with absolute, deduplicated URLs", () => {
+    expect(urls.length).toBeGreaterThan(50);
+    expect(new Set(urls).size).toBe(urls.length);
+    expect(urls).toContain("https://deliciousduck.com/");
+    for (const url of urls) expect(url.startsWith("https://deliciousduck.com/")).toBe(true);
   });
 
-  it("wraps around the list so every URL is eventually checked", () => {
-    expect(selectInspectionBatch(urls, 3, 4)).toEqual({ batch: ["e", "a", "b"], nextOffset: 2 });
-    expect(selectInspectionBatch(urls, 10, 0).batch).toHaveLength(5);
-  });
-
-  it("handles empty input", () => {
-    expect(selectInspectionBatch([], 10, 0)).toEqual({ batch: [], nextOffset: 0 });
+  it("preserves every existing non-indexable exclusion", () => {
+    for (const url of urls) {
+      const path = url.replace("https://deliciousduck.com", "");
+      expect(isSitemapEligiblePath(path)).toBe(true);
+      expect(path).not.toMatch(/^\/(internal|api)\b/);
+      expect(path).not.toContain("$");
+    }
   });
 });
