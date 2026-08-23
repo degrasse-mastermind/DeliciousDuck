@@ -3,6 +3,8 @@ import { PageHeader } from "@/components/site/PageHeader";
 import { HubOrientation } from "@/components/site/HubOrientation";
 import { RecipeCard } from "@/components/site/RecipeCard";
 import { GuideCluster } from "@/components/site/GuideGrid";
+import { SourceNotes } from "@/components/site/SourceNotes";
+
 import { RECIPES } from "@/data/recipes";
 import { guidesByPillar } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
