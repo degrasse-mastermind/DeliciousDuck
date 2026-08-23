@@ -36,7 +36,7 @@ export function SourceNotes({
           <li key={s.id}>
             <a
               href={s.url}
-              rel="noopener noreferrer nofollow"
+              rel="noopener noreferrer"
               target="_blank"
               className="font-medium text-primary underline underline-offset-4"
             >

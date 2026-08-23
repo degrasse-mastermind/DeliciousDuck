@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { RecipeCard } from "@/components/site/RecipeCard";
 import { RECIPES } from "@/data/recipes";
 import { recipePath } from "@/data/recipe-content";
@@ -116,6 +117,14 @@ function RecipesIndex() {
           </Link>{" "}
           handle timing, scaling, and doneness.
         </p>
+        <HubOrientation
+          heading={"How these recipes are built"}
+          paragraphs={[
+            "Every recipe here gives you a target internal temperature alongside the timings, because duck varies more than its cooking times suggest. Bird weight, starting fridge temperature, pan material, and how much fat you pour off all move the clock. The thermometer is what makes the recipe repeatable.",
+            "Rich duck also needs a plate built around it. Acidity, tart fruit, bitter greens, and briny or savoury accents cut through the fat far better than extra sweetness, and the rendered fat you collect belongs on the potatoes rather than in the bin.",
+            "Pick by cut if you already have the duck, or by occasion if you are planning ahead. Confit and smoked duck are make-ahead dishes that suit a busy day; breast is a twenty-minute dinner that wants your full attention for the first ten.",
+          ]}
+        />
       </section>
     </>
   );
