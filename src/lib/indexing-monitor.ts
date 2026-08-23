@@ -209,3 +209,122 @@ export function authorizeCronRequest(
   }
   return diff === 0;
 }
+
+/* ------------------------------------------------------------------ *
+ * Token audience + scheduled-run diagnostics
+ * ------------------------------------------------------------------ */
+
+/** Which secret a supplied internal token matched. */
+export type TokenAudience = "admin" | "cron";
+
+export interface ConfiguredTokens {
+  admin?: string | undefined;
+  cron?: string | undefined;
+  /** Rotating token stored in the database, sent by the scheduled job. */
+  rotating?: string | undefined;
+}
+
+/** Constant-time-ish equality; false for empty/unset expectations. */
+export function tokensMatch(provided: string, expected: string | undefined): boolean {
+  if (!expected || !provided || provided.length !== expected.length) return false;
+  let diff = 0;
+  for (let i = 0; i < expected.length; i += 1) {
+    diff |= provided.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
+/**
+ * The internal indexing page accepts either owner secret, so the cron token
+ * never has to be duplicated into a second secret just to read the dashboard.
+ * Returns which one matched, or null when neither did.
+ */
+export function resolveTokenAudience(
+  token: string,
+  configured: ConfiguredTokens,
+): TokenAudience | null {
+  const trimmed = token.trim();
+  if (!trimmed) return null;
+  if (tokensMatch(trimmed, configured.admin)) return "admin";
+  if (tokensMatch(trimmed, configured.cron) || tokensMatch(trimmed, configured.rotating)) {
+    return "cron";
+  }
+  return null;
+}
+
+/** Bearer-header form of the same check, for the scheduled + diagnostics endpoints. */
+export function bearerToken(header: string | null): string {
+  if (!header) return "";
+  return header.startsWith("Bearer ") ? header.slice(7).trim() : header.trim();
+}
+
+export interface ScheduledRunInputs {
+  /** INDEXING_CRON_TOKEN present in the environment. */
+  envTokenConfigured: boolean;
+  /** A rotating token row exists in the database. */
+  rotatingTokenConfigured: boolean;
+  /** Search Console connector credentials present. */
+  searchConsoleConfigured: boolean;
+  /** Newest snapshot written by the scheduled job, if any. */
+  lastCronSnapshotAt: string | null;
+  now: Date;
+}
+
+export type ScheduledRunStatus = "ready" | "blocked" | "stale";
+
+export interface ScheduledRunVerdict {
+  status: ScheduledRunStatus;
+  /** Plain-language reasons; safe to render — never contains token values. */
+  findings: string[];
+  hoursSinceLastRun: number | null;
+}
+
+/** Hours after which a daily job that has run before is considered stale. */
+export const STALE_RUN_HOURS = 30;
+
+/**
+ * Would the next scheduled run succeed? Answers from configuration presence and
+ * the recency of the last cron-written snapshot — no token values are revealed.
+ */
+export function scheduledRunVerdict(input: ScheduledRunInputs): ScheduledRunVerdict {
+  const findings: string[] = [];
+  const hoursSinceLastRun =
+    input.lastCronSnapshotAt === null
+      ? null
+      : Math.max(
+          0,
+          Math.round(
+            ((input.now.getTime() - new Date(input.lastCronSnapshotAt).getTime()) / 3_600_000) * 10,
+          ) / 10,
+        );
+
+  if (!input.envTokenConfigured && !input.rotatingTokenConfigured) {
+    findings.push(
+      "No indexing token is configured, so the scheduled request cannot authenticate.",
+    );
+  }
+  if (input.rotatingTokenConfigured) {
+    findings.push("The scheduled job reads its token from the database, so rotation needs no SQL edit.");
+  } else if (input.envTokenConfigured) {
+    findings.push(
+      "The scheduled job is still using the INDEXING_CRON_TOKEN secret. Rotate to a database-held token to stop copying values into SQL.",
+    );
+  }
+  if (!input.searchConsoleConfigured) {
+    findings.push("The Search Console connection is not linked, so a run would fail before writing a snapshot.");
+  }
+
+  let status: ScheduledRunStatus = "ready";
+  if ((!input.envTokenConfigured && !input.rotatingTokenConfigured) || !input.searchConsoleConfigured) {
+    status = "blocked";
+  } else if (hoursSinceLastRun !== null && hoursSinceLastRun > STALE_RUN_HOURS) {
+    status = "stale";
+    findings.push(
+      `The last scheduled snapshot is ${hoursSinceLastRun} hours old, so recent runs are not landing.`,
+    );
+  } else if (hoursSinceLastRun === null) {
+    findings.push("No scheduled snapshot has been recorded yet — expected until the first run after publishing.");
+  }
+
+  return { status, findings, hoursSinceLastRun };
+}

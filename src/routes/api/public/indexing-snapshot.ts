@@ -14,13 +14,10 @@ export const Route = createFileRoute("/api/public/indexing-snapshot")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const { authorizeCronRequest } = await import("@/lib/indexing-monitor");
-        if (
-          !authorizeCronRequest(
-            request.headers.get("authorization"),
-            process.env["INDEXING_CRON_TOKEN"],
-          )
-        ) {
+        const { bearerToken } = await import("@/lib/indexing-monitor");
+        const { authorizeIndexingToken } = await import("@/lib/indexing-diagnostics.server");
+        // Accepts the rotating database-held token or the INDEXING_CRON_TOKEN secret.
+        if (!(await authorizeIndexingToken(bearerToken(request.headers.get("authorization"))))) {
           return new Response("Unauthorized", {
             status: 401,
             headers: { "cache-control": "private, no-store" },

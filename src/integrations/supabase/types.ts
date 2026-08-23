@@ -14,6 +14,24 @@ export type Database = {
   }
   public: {
     Tables: {
+      indexing_cron_credential: {
+        Row: {
+          id: number
+          rotated_at: string
+          token: string
+        }
+        Insert: {
+          id?: number
+          rotated_at?: string
+          token: string
+        }
+        Update: {
+          id?: number
+          rotated_at?: string
+          token?: string
+        }
+        Relationships: []
+      }
       indexing_snapshots: {
         Row: {
           captured_at: string
