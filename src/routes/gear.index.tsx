@@ -114,15 +114,24 @@ function GearPage() {
             {
               heading: "The best pan for duck breast",
               paragraphs: [
-                "A heavy stainless or carbon-steel skillet is the honest answer. Both hold steady heat through a long slow render and both build the browned residue a pan sauce is made from. Cast iron works and retains heat beautifully, though it is slower to respond when you need to back the heat off. Nonstick is the weakest option here — it cannot take the sustained contact time as well, and it gives you nothing to deglaze.",
+                "A heavy stainless or carbon-steel skillet is our default recommendation. Both hold steady heat through a long slow render and both build the browned residue a pan sauce is made from. Cast iron works and retains heat beautifully, though it is slower to respond when you need to back the heat off. A good non-stick pan will render and cook a breast perfectly well; what it gives up is browning at higher heat and the fond you would otherwise deglaze, and manufacturers usually cap it below the temperatures a final sear likes. If non-stick is what you own, use it and make the sauce separately.",
                 "Size matters more than material. Choose a pan where the breasts sit with space between them; crowded duck steams in its own rendering fat instead of crisping. If you cook two large magrets, that usually means a 12-inch skillet rather than a 10-inch one.",
+              ],
+              links: [
+                { label: "Best pan for duck breast", to: "/gear/best-pan-for-duck-breast" },
+                { label: "Best sauces for duck breast", to: "/cook/best-sauces-for-duck-breast" },
               ],
             },
             {
               heading: "Thermometers, roasting pans, and fat storage",
               paragraphs: [
-                "An instant-read thermometer is the one piece of equipment that changes outcomes rather than convenience. Duck lives in narrow windows — 130–135°F (54–57°C) for a pink breast, 175–180°F (79–82°C) at the thigh for a whole bird — and no amount of timing intuition reads those windows as reliably as a two-second probe. Fast read time and a thin tip are worth paying for; app connectivity generally is not, for duck.",
-                "For roasting, a pan with sides deep enough to hold several cups of rendered fat, plus a rack to lift the bird clear of it, prevents both a smoking oven and a poached underside. For the fat itself, a wide-mouth glass jar and a fine strainer are enough: strained duck fat keeps for months in the refrigerator and is the most valuable by-product in the kitchen.",
+                "An instant-read thermometer is the one piece of equipment that changes outcomes rather than convenience. USDA's safe minimum internal temperature for duck is 165°F (74°C), a whole bird's thigh wants 175–180°F (79–82°C) for tender connective tissue, and the pink 130–135°F (54–57°C) window some kitchens use for breast sits below that guidance — you cannot navigate any of it by timing intuition. Fast read time and a thin tip are worth paying for; app connectivity generally is not, for duck.",
+                "For roasting, a pan with sides deep enough to hold several cups of rendered fat, plus a rack to lift the bird clear of it, prevents both a smoking oven and a poached underside. For the fat itself, a wide-mouth glass jar and a fine strainer are enough: strain it while warm, refrigerate it sealed, freeze it if you are keeping it well beyond a few weeks, and smell it before use rather than trusting a date.",
+              ],
+              links: [
+                { label: "Best thermometer for duck", to: "/gear/best-thermometer-for-duck" },
+                { label: "Best roasting pan for duck", to: "/gear/best-roasting-pan-for-duck" },
+                { label: "How to render duck fat", to: "/learn/how-to-render-duck-fat" },
               ],
             },
             {
@@ -131,8 +140,14 @@ function GearPage() {
                 "Confit needs a vessel that fits the legs snugly in a single layer so a reasonable amount of fat covers them. That is a fit problem, not a premium-cookware problem — a 3.5- to 5-quart Dutch oven or a deep braiser you already own will usually do it, and a smaller pot beats a larger one because it needs less fat to submerge the same legs. Enamelled cast iron is ideal for oven stability; a straight-sided stainless brasier is a close second.",
                 "The rest of the list is short: a rack or plate for salting the legs overnight, a container to store them under their fat, and a skillet to crisp the skin at serving time. If a cheaper piece of kit does the job for duck, that is what we say — the guides below compare categories and named products on published specifications and state plainly who each option suits.",
               ],
+              links: [
+                { label: "Best Dutch oven for confit", to: "/gear/best-dutch-oven-for-duck-confit" },
+                { label: "Duck leg confit recipe", to: "/cook/duck-leg-confit" },
+                { label: "Best knife for scoring duck", to: "/gear/best-knife-for-scoring-duck" },
+              ],
             },
           ]}
+
         />
 
       </section>
