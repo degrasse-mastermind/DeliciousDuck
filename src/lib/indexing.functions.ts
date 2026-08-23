@@ -17,26 +17,29 @@ function tokenInput(input: unknown): { token: string } {
   return { token: typeof token === "string" ? token : "" };
 }
 
-function assertOwner(token: string): void {
+function isOwner(token: string): boolean {
   const expected = process.env["NEWSLETTER_ADMIN_TOKEN"];
-  if (!expected || token !== expected) throw new Error("not_authorized");
+  return Boolean(expected) && token === expected;
 }
 
-/** Stored snapshot history: last processed time, indexed trend, error counts. */
+/**
+ * Authorization failures are returned, not thrown: a wrong token is an ordinary
+ * outcome of a password field, and throwing surfaces it as an app runtime error.
+ */
 export const indexingReportFn = createServerFn({ method: "POST" })
   .validator(tokenInput)
   .handler(async ({ data }) => {
-    assertOwner(data.token);
+    if (!isOwner(data.token)) return { ok: false as const, reason: "not_authorized" as const };
     const { indexingReport } = await import("./indexing-monitor.server");
-    return await indexingReport();
+    return { ok: true as const, report: await indexingReport() };
   });
 
 /** Manual capture, for checking a change without waiting for the scheduled run. */
 export const captureIndexingSnapshotFn = createServerFn({ method: "POST" })
   .validator(tokenInput)
   .handler(async ({ data }) => {
-    assertOwner(data.token);
+    if (!isOwner(data.token)) return { ok: false as const, reason: "not_authorized" as const };
     const { captureIndexingSnapshot, indexingReport } = await import("./indexing-monitor.server");
     const capture = await captureIndexingSnapshot("manual");
-    return { capture, report: await indexingReport() };
+    return { ok: true as const, capture, report: await indexingReport() };
   });
