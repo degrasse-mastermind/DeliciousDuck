@@ -1,9 +1,16 @@
 /**
- * Server-only coverage capture: real indexing status per URL.
+ * Server-only coverage capture: real per-URL index status.
  *
- * Uses the URL Inspection API through the connector gateway, which reports the
- * state of Google's indexed version of a URL. It is a READ: it never requests
- * indexing, a re-crawl, or a live test, and it never resubmits the sitemap.
+ * Reads Google's index through the URL Inspection API via the connector
+ * gateway. It is a READ: it never requests indexing, a re-crawl, or a live
+ * test, and it never resubmits the sitemap. It complements Search Console's
+ * Pages/Indexing report rather than reproducing that report's dataset.
+ *
+ * Every run inspects the complete monitored set — the canonical, indexable
+ * production URLs in the live sitemap registry — so successive snapshots cover
+ * the same URLs and their indexed counts are genuinely comparable. A run that
+ * cannot resolve every URL is stored as partial for diagnostics and excluded
+ * from the site-wide growth trend.
  *
  * The property is always resolved from a live `GET /webmasters/v3/sites` call,
  * never hardcoded or derived from the target URL. Credentials are read from the
@@ -11,33 +18,27 @@
  */
 
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-import { sitemapPaths, SITEMAP_BASE_URL } from "./sitemap";
 import { resolveMonitoredProperty, gatewayRequest } from "./indexing-monitor.server";
 import {
   aggregateCoverage,
   coveragePercent,
   coverageTrend,
-  failedInspection,
+  monitoredCoverageUrls,
   normalizeInspection,
-  selectInspectionBatch,
+  runCompleteness,
+  unresolvedCoverage,
   type CoverageSnapshotRow,
   type CoverageTrend,
+  type IndexState,
   type UrlCoverage,
 } from "./indexing-coverage";
 
 /**
- * URLs inspected per run. URL Inspection is quota-limited per property (a daily
- * cap plus a per-minute cap), so a run checks a bounded slice and later runs
- * rotate through the rest of the site.
+ * Requests in flight at once. The monitored set is ~70 URLs against a daily
+ * per-property quota an order of magnitude larger, so the whole site fits in one
+ * run; concurrency stays low to sit well under the per-minute ceiling.
  */
-export const COVERAGE_BATCH_LIMIT = 40;
-
-/** Requests in flight at once — well under the per-minute ceiling. */
 const CONCURRENCY = 4;
-
-function monitoredUrls(): string[] {
-  return sitemapPaths().map((path) => `${SITEMAP_BASE_URL}${path}`);
-}
 
 async function inspectUrl(siteUrl: string, url: string): Promise<UrlCoverage> {
   try {
@@ -48,70 +49,72 @@ async function inspectUrl(siteUrl: string, url: string): Promise<UrlCoverage> {
     return normalizeInspection(url, raw);
   } catch (error) {
     const reason = error instanceof Error ? error.message : "inspection_failed";
-    return failedInspection(url, reason);
+    return unresolvedCoverage(url, reason);
   }
-}
-
-/** Where the next run should start, so runs rotate over the whole site. */
-async function nextOffset(): Promise<number> {
-  const { data } = await supabaseAdmin
-    .from("indexing_coverage_snapshots")
-    .select("checked_count")
-    .order("captured_at", { ascending: false })
-    .limit(200);
-  const checkedSoFar = (data ?? []).reduce(
-    (sum, row) => sum + ((row as { checked_count: number }).checked_count ?? 0),
-    0,
-  );
-  const total = monitoredUrls().length;
-  return total === 0 ? 0 : checkedSoFar % total;
 }
 
 export type CoverageCaptureResult =
   | {
       status: "ok";
       siteUrl: string;
+      monitored: number;
       checked: number;
       indexed: number;
       notIndexed: number;
-      failed: number;
+      unresolved: number;
+      /** True only when this run is a comparable full-site snapshot. */
+      isComplete: boolean;
+      incompleteReason: string | null;
       breakdown: Record<string, number>;
     }
   | { status: "selection_required"; candidates: string[] }
   | { status: "no_property" };
 
-/** Inspects one rotating batch of site URLs and stores the results. */
+/** Inspects the complete monitored URL set and stores the run. */
 export async function captureCoverageSnapshot(source: string): Promise<CoverageCaptureResult> {
   const resolution = await resolveMonitoredProperty();
   if (resolution.status !== "selected") return resolution;
   const siteUrl = resolution.siteUrl;
 
-  const { batch } = selectInspectionBatch(
-    monitoredUrls(),
-    COVERAGE_BATCH_LIMIT,
-    await nextOffset(),
-  );
-  if (batch.length === 0) {
-    return { status: "ok", siteUrl, checked: 0, indexed: 0, notIndexed: 0, failed: 0, breakdown: {} };
+  const monitored = monitoredCoverageUrls();
+  if (monitored.length === 0) {
+    return {
+      status: "ok",
+      siteUrl,
+      monitored: 0,
+      checked: 0,
+      indexed: 0,
+      notIndexed: 0,
+      unresolved: 0,
+      isComplete: false,
+      incompleteReason: "No monitored URLs to inspect.",
+      breakdown: {},
+    };
   }
 
   const rows: UrlCoverage[] = [];
-  for (let i = 0; i < batch.length; i += CONCURRENCY) {
-    const slice = batch.slice(i, i + CONCURRENCY);
-    rows.push(...(await Promise.all(slice.map((url) => inspectUrl(siteUrl, url)))));
+  for (let i = 0; i < monitored.length; i += CONCURRENCY) {
+    const slice = monitored.slice(i, i + CONCURRENCY);
+    rows.push(...(await Promise.all(slice.map((url: string) => inspectUrl(siteUrl, url)))));
   }
 
   const totals = aggregateCoverage(rows);
+  const { isComplete, incompleteReason } = runCompleteness(monitored.length, totals);
 
   const { data: inserted, error } = await supabaseAdmin
     .from("indexing_coverage_snapshots")
     .insert({
       site_url: siteUrl,
       source,
+      monitored_count: monitored.length,
       checked_count: totals.checkedCount,
       indexed_count: totals.indexedCount,
       not_indexed_count: totals.notIndexedCount,
-      failed_count: totals.failedCount,
+      unresolved_count: totals.unresolvedCount,
+      // Legacy column retained for older rows; mirrors unresolved.
+      failed_count: totals.unresolvedCount,
+      is_complete: isComplete,
+      incomplete_reason: incompleteReason,
       breakdown: totals.breakdown,
     })
     .select("id")
@@ -122,12 +125,16 @@ export async function captureCoverageSnapshot(source: string): Promise<CoverageC
   }
 
   const snapshotId = (inserted as { id: string }).id;
+
+  // The aggregate must never outlive its evidence: if the per-URL rows do not
+  // land, the snapshot is removed so no run can look complete without them.
   const { error: detailError } = await supabaseAdmin.from("indexing_url_coverage").insert(
     rows.map((row) => ({
       snapshot_id: snapshotId,
       site_url: siteUrl,
       url: row.url,
-      is_indexed: row.isIndexed,
+      index_state: row.state,
+      is_indexed: row.state === "indexed",
       verdict: row.verdict,
       coverage_state: row.coverageState,
       robots_txt_state: row.robotsTxtState,
@@ -140,21 +147,33 @@ export async function captureCoverageSnapshot(source: string): Promise<CoverageC
   );
   if (detailError) {
     console.error(`[indexing] coverage detail insert failed: ${detailError.message}`);
+    const { error: cleanupError } = await supabaseAdmin
+      .from("indexing_coverage_snapshots")
+      .delete()
+      .eq("id", snapshotId);
+    if (cleanupError) {
+      console.error(`[indexing] coverage snapshot rollback failed: ${cleanupError.message}`);
+    }
+    throw new Error("coverage_persist_failed");
   }
 
   return {
     status: "ok",
     siteUrl,
+    monitored: monitored.length,
     checked: totals.checkedCount,
     indexed: totals.indexedCount,
     notIndexed: totals.notIndexedCount,
-    failed: totals.failedCount,
+    unresolved: totals.unresolvedCount,
+    isComplete,
+    incompleteReason,
     breakdown: totals.breakdown,
   };
 }
 
 export interface CoverageUrlRow {
   url: string;
+  state: IndexState;
   isIndexed: boolean;
   coverageState: string | null;
   lastCrawlTime: string | null;
@@ -165,15 +184,21 @@ export interface CoverageUrlRow {
 export interface CoverageReport {
   siteUrl: string | null;
   capturedAt: string | null;
+  /** Captured_at of the newest comparable full-site snapshot, if any. */
+  lastCompleteAt: string | null;
+  lastRunWasComplete: boolean;
+  lastIncompleteReason: string | null;
   totalMonitored: number;
-  /** Latest known state per URL, across snapshots — the site-wide picture. */
+  /** Latest known state per URL, across runs — the site-wide picture. */
   indexedCount: number;
   notIndexedCount: number;
+  unresolvedCount: number;
   neverCheckedCount: number;
   coveragePercent: number | null;
   breakdown: Array<{ state: string; count: number }>;
   trend: CoverageTrend;
   notIndexedUrls: CoverageUrlRow[];
+  unresolvedUrls: CoverageUrlRow[];
 }
 
 /** Stored history only — the dashboard never calls Google during a page view. */
@@ -183,15 +208,17 @@ export async function coverageReport(snapshotLimit = 60): Promise<CoverageReport
       supabaseAdmin
         .from("indexing_coverage_snapshots")
         .select(
-          "captured_at, site_url, checked_count, indexed_count, not_indexed_count, failed_count, breakdown",
+          "captured_at, site_url, monitored_count, checked_count, indexed_count, not_indexed_count, unresolved_count, is_complete, incomplete_reason, breakdown",
         )
         .order("captured_at", { ascending: false })
         .limit(snapshotLimit),
       supabaseAdmin
         .from("indexing_url_coverage")
-        .select("url, is_indexed, coverage_state, last_crawl_time, captured_at, inspect_error")
+        .select(
+          "url, index_state, is_indexed, coverage_state, last_crawl_time, captured_at, inspect_error",
+        )
         .order("captured_at", { ascending: false })
-        .limit(2000),
+        .limit(4000),
     ]);
 
   if (snapshotError || urlError) {
@@ -203,11 +230,13 @@ export async function coverageReport(snapshotLimit = 60): Promise<CoverageReport
 
   const rows = (snapshots ?? []) as Array<CoverageSnapshotRow & { site_url: string }>;
   const latest = rows[0] ?? null;
+  const latestComplete = rows.find((row) => row.is_complete === true) ?? null;
 
   // Newest row per URL wins; the query is already newest-first.
   const latestByUrl = new Map<string, CoverageUrlRow>();
   for (const raw of (urlRows ?? []) as Array<{
     url: string;
+    index_state: string | null;
     is_indexed: boolean;
     coverage_state: string | null;
     last_crawl_time: string | null;
@@ -215,9 +244,20 @@ export async function coverageReport(snapshotLimit = 60): Promise<CoverageReport
     inspect_error: string | null;
   }>) {
     if (latestByUrl.has(raw.url)) continue;
+    const state: IndexState =
+      raw.index_state === "indexed" || raw.index_state === "not_indexed"
+        ? raw.index_state
+        : raw.index_state === "unresolved"
+          ? "unresolved"
+          : raw.inspect_error
+            ? "unresolved"
+            : raw.is_indexed
+              ? "indexed"
+              : "unresolved";
     latestByUrl.set(raw.url, {
       url: raw.url,
-      isIndexed: raw.is_indexed,
+      state,
+      isIndexed: state === "indexed",
       coverageState: raw.coverage_state,
       lastCrawlTime: raw.last_crawl_time,
       checkedAt: raw.captured_at,
@@ -225,14 +265,17 @@ export async function coverageReport(snapshotLimit = 60): Promise<CoverageReport
     });
   }
 
-  const monitored = monitoredUrls();
-  const checked = monitored.map((url) => latestByUrl.get(url)).filter(Boolean) as CoverageUrlRow[];
-  const indexedCount = checked.filter((r) => r.isIndexed && !r.inspectError).length;
-  const notIndexed = checked.filter((r) => !r.isIndexed && !r.inspectError);
+  const monitored = monitoredCoverageUrls();
+  const checked = monitored
+    .map((url: string) => latestByUrl.get(url))
+    .filter(Boolean) as CoverageUrlRow[];
+  const indexed = checked.filter((r) => r.state === "indexed");
+  const notIndexed = checked.filter((r) => r.state === "not_indexed");
+  const unresolved = checked.filter((r) => r.state === "unresolved");
 
   const breakdownTally = new Map<string, number>();
   for (const row of checked) {
-    if (row.inspectError) continue;
+    if (row.state === "unresolved") continue;
     const key = row.coverageState ?? "State not reported by Google";
     breakdownTally.set(key, (breakdownTally.get(key) ?? 0) + 1);
   }
@@ -240,15 +283,20 @@ export async function coverageReport(snapshotLimit = 60): Promise<CoverageReport
   return {
     siteUrl: latest?.site_url ?? null,
     capturedAt: latest?.captured_at ?? null,
+    lastCompleteAt: latestComplete?.captured_at ?? null,
+    lastRunWasComplete: latest?.is_complete === true,
+    lastIncompleteReason: latest?.is_complete === true ? null : (latest?.incomplete_reason ?? null),
     totalMonitored: monitored.length,
-    indexedCount,
+    indexedCount: indexed.length,
     notIndexedCount: notIndexed.length,
+    unresolvedCount: unresolved.length,
     neverCheckedCount: monitored.length - checked.length,
-    coveragePercent: coveragePercent(indexedCount, checked.length),
+    coveragePercent: coveragePercent(indexed.length, indexed.length + notIndexed.length),
     breakdown: [...breakdownTally.entries()]
       .map(([state, count]) => ({ state, count }))
       .sort((a, b) => b.count - a.count),
     trend: coverageTrend(rows),
     notIndexedUrls: notIndexed.slice(0, 50),
+    unresolvedUrls: unresolved.slice(0, 50),
   };
 }

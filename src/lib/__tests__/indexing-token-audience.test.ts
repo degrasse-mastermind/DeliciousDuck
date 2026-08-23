@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   bearerToken,
+  canRotateCronToken,
   resolveTokenAudience,
   scheduledRunVerdict,
   tokensMatch,
@@ -96,5 +97,13 @@ describe("scheduledRunVerdict", () => {
       now,
     });
     expect(verdict.findings.join(" ")).toMatch(/INDEXING_CRON_TOKEN secret/);
+  });
+});
+
+describe("canRotateCronToken", () => {
+  it("allows only the admin audience to roll the scheduled job credential", () => {
+    expect(canRotateCronToken("admin")).toBe(true);
+    expect(canRotateCronToken("cron")).toBe(false);
+    expect(canRotateCronToken(null)).toBe(false);
   });
 });

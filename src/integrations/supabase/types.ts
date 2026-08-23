@@ -21,10 +21,14 @@ export type Database = {
           checked_count: number
           failed_count: number
           id: string
+          incomplete_reason: string | null
           indexed_count: number
+          is_complete: boolean
+          monitored_count: number
           not_indexed_count: number
           site_url: string
           source: string
+          unresolved_count: number
         }
         Insert: {
           breakdown?: Json
@@ -32,10 +36,14 @@ export type Database = {
           checked_count?: number
           failed_count?: number
           id?: string
+          incomplete_reason?: string | null
           indexed_count?: number
+          is_complete?: boolean
+          monitored_count?: number
           not_indexed_count?: number
           site_url: string
           source?: string
+          unresolved_count?: number
         }
         Update: {
           breakdown?: Json
@@ -43,10 +51,14 @@ export type Database = {
           checked_count?: number
           failed_count?: number
           id?: string
+          incomplete_reason?: string | null
           indexed_count?: number
+          is_complete?: boolean
+          monitored_count?: number
           not_indexed_count?: number
           site_url?: string
           source?: string
+          unresolved_count?: number
         }
         Relationships: []
       }
@@ -119,6 +131,7 @@ export type Database = {
           coverage_state: string | null
           google_canonical: string | null
           id: string
+          index_state: string
           indexing_state: string | null
           inspect_error: string | null
           is_indexed: boolean
@@ -135,6 +148,7 @@ export type Database = {
           coverage_state?: string | null
           google_canonical?: string | null
           id?: string
+          index_state?: string
           indexing_state?: string | null
           inspect_error?: string | null
           is_indexed?: boolean
@@ -151,6 +165,7 @@ export type Database = {
           coverage_state?: string | null
           google_canonical?: string | null
           id?: string
+          index_state?: string
           indexing_state?: string | null
           inspect_error?: string | null
           is_indexed?: boolean

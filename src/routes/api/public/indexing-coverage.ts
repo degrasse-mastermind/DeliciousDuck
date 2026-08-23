@@ -4,14 +4,18 @@ import { createFileRoute } from "@tanstack/react-router";
  * Scheduled coverage check.
  *
  * Called by the same scheduler as /api/public/indexing-snapshot, with
- * `Authorization: Bearer <indexing job token>`. Reads Google's indexed version
- * of a bounded, rotating batch of site URLs via URL Inspection and stores the
- * result. It never requests indexing, a re-crawl, or a live test, and it never
- * resubmits the sitemap.
+ * `Authorization: Bearer <indexing job token>`. Reads Google's index status for
+ * the complete current sitemap URL set via URL Inspection and stores the run. It
+ * never requests indexing, a re-crawl, or a live test, and it never resubmits the
+ * sitemap.
+ *
+ * A run that cannot resolve every URL is stored as partial and reported as such,
+ * so its indexed count is never treated as a comparable full-site snapshot.
  *
  * Responses carry counts and Google's own coverage wording only — no
  * credentials, no property list, no PII.
  */
+
 export const Route = createFileRoute("/api/public/indexing-coverage")({
   server: {
     handlers: {

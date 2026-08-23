@@ -9,8 +9,8 @@ import {
   rotateIndexingCronTokenFn,
 } from "@/lib/indexing.functions";
 
-/** Kept in sync with the server-side batch size, for the explanatory copy. */
-const COVERAGE_BATCH_LIMIT = 40;
+
+
 
 
 /**
@@ -138,11 +138,16 @@ function IndexingMonitor() {
       const capture = result.capture;
       setNotice(
         capture.status === "ok"
-          ? `Checked ${capture.checked} URLs: ${capture.indexed} indexed, ${capture.notIndexed} not indexed${capture.failed > 0 ? `, ${capture.failed} could not be checked` : ""}.`
+          ? `Inspected ${capture.checked} of ${capture.monitored} sitemap URLs: ${capture.indexed} indexed, ${capture.notIndexed} not indexed${capture.unresolved > 0 ? `, ${capture.unresolved} unresolved` : ""}. ${
+              capture.isComplete
+                ? "Stored as a full-site snapshot, so it counts towards growth."
+                : `Stored for diagnostics only — ${capture.incompleteReason ?? "the run did not cover the whole site"}`
+            }`
           : capture.status === "selection_required"
             ? `Several verified properties cover this site (${capture.candidates.join(", ")}). Pick one before coverage can be read.`
             : "No verified Search Console property covers this site.",
       );
+
       setState("idle");
     } catch {
       setState("error");
@@ -175,9 +180,19 @@ function IndexingMonitor() {
     try {
       const result = await rotateIndexingCronTokenFn({ data: { token: token.trim() } });
       if (!result.ok) {
+        // Rotation needs the admin secret even when the token was good enough to
+        // read the dashboard, so say which of the two is required.
+        if (result.reason === "admin_token_required") {
+          setNotice(
+            "Rotating the scheduled job token requires NEWSLETTER_ADMIN_TOKEN. The scheduled job's own token can read this dashboard but cannot roll its own credential.",
+          );
+          setState("idle");
+          return;
+        }
         setState("denied");
         return;
       }
+
       setDiagnostics(result.diagnostics);
       setNotice(
         "Scheduled job token rotated. The schedule reads it from the database, so nothing needs pasting into SQL.",
@@ -291,14 +306,16 @@ function IndexingMonitor() {
           </p>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
             <li>
-              <code className="text-foreground">NEWSLETTER_ADMIN_TOKEN</code> — full access,
-              including rotating the scheduled job token.
+              <code className="text-foreground">NEWSLETTER_ADMIN_TOKEN</code> — reports, coverage
+              checks, diagnostics, and rotating the scheduled job token.
             </li>
             <li>
               <code className="text-foreground">INDEXING_CRON_TOKEN</code> (or the rotating token
-              currently stored for the schedule) — same dashboard access.
+              currently stored for the schedule) — reports, coverage checks, and diagnostics.
+              Rotation is admin-only.
             </li>
           </ul>
+
           <p className="mt-2 text-muted-foreground">
             If you rotated the scheduled job token here, the old value stops working immediately —
             use the current one or the admin token.
@@ -380,8 +397,9 @@ function IndexingMonitor() {
             </button>
             <p className="text-xs text-muted-foreground">
               Mints a new random token in the database. The schedule reads it from there, so no SQL
-              edit and no value to copy.
+              edit and no value to copy. Requires <code>NEWSLETTER_ADMIN_TOKEN</code>.
             </p>
+
           </div>
         </section>
       )}
@@ -464,11 +482,11 @@ function IndexingMonitor() {
         <section className="mt-12 border-t border-border pt-8">
           <h2 className="text-lg font-semibold text-foreground">Indexing coverage (real)</h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Per-URL indexing state read from Google&apos;s index with URL Inspection — the same
-            signal behind the Pages report, and the one that actually tracks growth. Each run checks
-            a rotating batch of up to {COVERAGE_BATCH_LIMIT} URLs to stay inside Google&apos;s
-            inspection quota, so the site-wide picture fills in over consecutive runs. This is a
-            read: nothing here requests indexing or a re-crawl.
+            Per-URL index status read from Google&apos;s URL Inspection API. This complements Search
+            Console&apos;s Pages/Indexing report and lets DeliciousDuck track the current sitemap URL
+            set directly. Each run inspects the complete sitemap set, so successive snapshots cover
+            the same URLs and their counts are comparable. Reading the index is all this does — it
+            never requests indexing or a re-crawl.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -477,28 +495,28 @@ function IndexingMonitor() {
               value={String(coverage.indexedCount)}
               hint={
                 coverage.coveragePercent === null
-                  ? "No URLs checked yet"
-                  : `${coverage.coveragePercent}% of the ${coverage.totalMonitored - coverage.neverCheckedCount} URLs checked so far`
+                  ? "No URLs resolved yet"
+                  : `${coverage.coveragePercent}% of the ${coverage.indexedCount + coverage.notIndexedCount} URLs Google answered on`
               }
             />
             <Stat
               label="Not indexed"
               value={String(coverage.notIndexedCount)}
-              hint="Checked, but Google's index does not hold them"
+              hint="Google answered, and its index does not hold them"
             />
             <Stat
-              label="Not yet checked"
-              value={String(coverage.neverCheckedCount)}
-              hint={`Of ${coverage.totalMonitored} sitemap URLs`}
+              label="Unresolved"
+              value={String(coverage.unresolvedCount + coverage.neverCheckedCount)}
+              hint={`Of ${coverage.totalMonitored} sitemap URLs — no usable answer yet, counted as neither`}
             />
             <Stat
               label="Growth"
               value={
                 coverage.trend.direction === "insufficient_data"
-                  ? "Need 2+ checks"
+                  ? "Need 2 full runs"
                   : `${(coverage.trend.netChange ?? 0) > 0 ? "+" : ""}${coverage.trend.netChange} (${coverage.trend.direction})`
               }
-              hint="Indexed URLs per batch across the stored window"
+              hint="Indexed URLs across full-site snapshots only"
             />
           </div>
 
@@ -509,17 +527,36 @@ function IndexingMonitor() {
             </div>
             <div>
               <dt className="font-semibold text-foreground">Last coverage check</dt>
-              <dd className="text-muted-foreground">{when(coverage.capturedAt)}</dd>
+              <dd className="text-muted-foreground">
+                {when(coverage.capturedAt)}
+                {coverage.capturedAt && !coverage.lastRunWasComplete && " — partial run"}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-foreground">Last full-site snapshot</dt>
+              <dd className="text-muted-foreground">{when(coverage.lastCompleteAt)}</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-foreground">Partial runs excluded from growth</dt>
+              <dd className="text-muted-foreground">{coverage.trend.excludedPartialRuns}</dd>
             </div>
           </dl>
+
+          {coverage.lastIncompleteReason && (
+            <p className="mt-3 max-w-2xl text-sm text-destructive">
+              Most recent run stored for diagnostics only: {coverage.lastIncompleteReason}
+            </p>
+          )}
+
 
           <h3 className="mt-8 text-base font-semibold text-foreground">
             Google&apos;s coverage states
           </h3>
           {coverage.breakdown.length === 0 ? (
             <p className="mt-2 text-sm text-muted-foreground">
-              No URLs checked yet — run &ldquo;Check coverage now&rdquo;.
+              Google has not answered on any URL yet — run &ldquo;Check coverage now&rdquo;.
             </p>
+
           ) : (
             <ul className="mt-3 divide-y divide-border/60 text-sm">
               {coverage.breakdown.map((row) => (
@@ -534,8 +571,9 @@ function IndexingMonitor() {
           <h3 className="mt-8 text-base font-semibold text-foreground">Not indexed yet</h3>
           {coverage.notIndexedUrls.length === 0 ? (
             <p className="mt-2 text-sm text-muted-foreground">
-              Every checked URL is in Google&apos;s index.
+              Every URL Google answered on is in its index.
             </p>
+
           ) : (
             <div className="mt-3 overflow-x-auto">
               <table className="w-full min-w-[36rem] text-sm">
@@ -561,18 +599,58 @@ function IndexingMonitor() {
             </div>
           )}
 
+          {coverage.unresolvedUrls.length > 0 && (
+            <>
+              <h3 className="mt-8 text-base font-semibold text-foreground">
+                Unresolved — no usable answer
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+                Counted as neither indexed nor not indexed, because Google returned nothing we can
+                read as an index state.
+              </p>
+              <div className="mt-3 overflow-x-auto">
+                <table className="w-full min-w-[36rem] text-sm">
+                  <thead>
+                    <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                      <th scope="col" className="py-2">URL</th>
+                      <th scope="col" className="py-2">Reason</th>
+                      <th scope="col" className="py-2">Attempted</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {coverage.unresolvedUrls.map((row) => (
+                      <tr key={row.url} className="border-b border-border/60">
+                        <td className="py-2 text-foreground">
+                          {row.url.replace(/^https?:\/\/[^/]+/, "") || "/"}
+                        </td>
+                        <td className="py-2 text-muted-foreground">{row.inspectError ?? "—"}</td>
+                        <td className="py-2 text-muted-foreground">{when(row.checkedAt)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+
           <h3 className="mt-8 text-base font-semibold text-foreground">Indexed URLs over time</h3>
+          <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+            Full-site snapshots only. Partial runs are stored for diagnostics but left out here,
+            because their counts cover a different set of URLs.
+          </p>
           {coverageHistory.length === 0 ? (
-            <p className="mt-2 text-sm text-muted-foreground">No coverage checks recorded yet.</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              No full-site coverage snapshot recorded yet.
+            </p>
           ) : (
             <div className="mt-3 overflow-x-auto">
               <table className="w-full min-w-[32rem] text-sm">
                 <thead>
                   <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                    <th scope="col" className="py-2">Check</th>
-                    <th scope="col" className="py-2">Indexed in batch</th>
+                    <th scope="col" className="py-2">Snapshot</th>
+                    <th scope="col" className="py-2">Indexed</th>
                     <th scope="col" className="py-2">Change</th>
-                    <th scope="col" className="py-2">URLs checked</th>
+                    <th scope="col" className="py-2">URLs inspected</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -583,13 +661,16 @@ function IndexingMonitor() {
                       <td className="py-2 text-muted-foreground">
                         {point.delta === null ? "—" : `${point.delta > 0 ? "+" : ""}${point.delta}`}
                       </td>
-                      <td className="py-2 text-muted-foreground">{point.checkedCount}</td>
+                      <td className="py-2 text-muted-foreground">
+                        {point.checkedCount} of {point.monitoredCount}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           )}
+
         </section>
       )}
 
