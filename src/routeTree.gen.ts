@@ -19,6 +19,7 @@ import { Route as EditorialStandardsRouteImport } from './routes/editorial-stand
 import { Route as GearRouteImport } from './routes/gear'
 import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
@@ -26,6 +27,8 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToolsRouteImport } from './routes/tools'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as ApiGenerateSketchRouteImport } from './routes/api/generate-sketch'
 import { Route as ApiSaveSketchRouteImport } from './routes/api/save-sketch'
 import { Route as ApiSketchBlobRouteImport } from './routes/api/sketch-blob'
@@ -65,6 +68,7 @@ import { Route as InternalCommercialLinksRouteImport } from './routes/internal.c
 import { Route as InternalDuckDropStudioRouteImport } from './routes/internal.duck-drop-studio'
 import { Route as InternalGrowthDashboardRouteImport } from './routes/internal.growth-dashboard'
 import { Route as InternalIllustrationsRouteImport } from './routes/internal.illustrations'
+import { Route as InternalIndexingRouteImport } from './routes/internal.indexing'
 import { Route as InternalKitchenTestSheetRouteImport } from './routes/internal.kitchen-test-sheet'
 import { Route as InternalRevenueSwitchboardRouteImport } from './routes/internal.revenue-switchboard'
 import { Route as LearnIndexRouteImport } from './routes/learn.index'
@@ -94,6 +98,10 @@ import { Route as ToolsDuckPairingFinderRouteImport } from './routes/tools.duck-
 import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
 import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as ApiPublicIndexingCoverageRouteImport } from './routes/api/public/indexing-coverage'
+import { Route as ApiPublicIndexingDiagnosticsRouteImport } from './routes/api/public/indexing-diagnostics'
+import { Route as ApiPublicIndexingSnapshotRouteImport } from './routes/api/public/indexing-snapshot'
 import { Route as ApiWebhooksResendRouteImport } from './routes/api.webhooks.resend'
 
 const IndexRoute = IndexRouteImport.update({
@@ -146,6 +154,11 @@ const LearnRoute = LearnRouteImport.update({
   path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PartnersRoute = PartnersRouteImport.update({
   id: '/partners',
   path: '/partners',
@@ -181,6 +194,18 @@ const ToolsRoute = ToolsRouteImport.update({
   path: '/tools',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiGenerateSketchRoute = ApiGenerateSketchRouteImport.update({
   id: '/api/generate-sketch',
   path: '/api/generate-sketch',
@@ -393,6 +418,11 @@ const InternalIllustrationsRoute = InternalIllustrationsRouteImport.update({
   path: '/internal/illustrations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InternalIndexingRoute = InternalIndexingRouteImport.update({
+  id: '/internal/indexing',
+  path: '/internal/indexing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InternalKitchenTestSheetRoute =
   InternalKitchenTestSheetRouteImport.update({
     id: '/internal/kitchen-test-sheet',
@@ -552,6 +582,30 @@ const ToolsWholeDuckServingCalculatorRoute =
     path: '/whole-duck-serving-calculator',
     getParentRoute: () => ToolsRoute,
   } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicIndexingCoverageRoute =
+  ApiPublicIndexingCoverageRouteImport.update({
+    id: '/api/public/indexing-coverage',
+    path: '/api/public/indexing-coverage',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicIndexingDiagnosticsRoute =
+  ApiPublicIndexingDiagnosticsRouteImport.update({
+    id: '/api/public/indexing-diagnostics',
+    path: '/api/public/indexing-diagnostics',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicIndexingSnapshotRoute =
+  ApiPublicIndexingSnapshotRouteImport.update({
+    id: '/api/public/indexing-snapshot',
+    path: '/api/public/indexing-snapshot',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiWebhooksResendRoute = ApiWebhooksResendRouteImport.update({
   id: '/api/webhooks/resend',
   path: '/api/webhooks/resend',
@@ -569,6 +623,7 @@ export interface FileRoutesByFullPath {
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
+  '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
@@ -576,6 +631,8 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/generate-sketch': typeof ApiGenerateSketchRoute
   '/api/save-sketch': typeof ApiSaveSketchRoute
   '/api/sketch-blob': typeof ApiSketchBlobRoute
@@ -611,6 +668,7 @@ export interface FileRoutesByFullPath {
   '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/illustrations': typeof InternalIllustrationsRoute
+  '/internal/indexing': typeof InternalIndexingRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
@@ -644,6 +702,10 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/indexing-coverage': typeof ApiPublicIndexingCoverageRoute
+  '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRoutesByTo {
@@ -652,11 +714,14 @@ export interface FileRoutesByTo {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/contact': typeof ContactRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/generate-sketch': typeof ApiGenerateSketchRoute
   '/api/save-sketch': typeof ApiSaveSketchRoute
   '/api/sketch-blob': typeof ApiSketchBlobRoute
@@ -692,6 +757,7 @@ export interface FileRoutesByTo {
   '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/illustrations': typeof InternalIllustrationsRoute
+  '/internal/indexing': typeof InternalIndexingRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
@@ -725,6 +791,10 @@ export interface FileRoutesByTo {
   '/learn': typeof LearnIndexRoute
   '/recipes': typeof RecipesIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/indexing-coverage': typeof ApiPublicIndexingCoverageRoute
+  '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRoutesById {
@@ -739,6 +809,7 @@ export interface FileRoutesById {
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
+  '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
@@ -746,6 +817,8 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/tools': typeof ToolsRouteWithChildren
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/generate-sketch': typeof ApiGenerateSketchRoute
   '/api/save-sketch': typeof ApiSaveSketchRoute
   '/api/sketch-blob': typeof ApiSketchBlobRoute
@@ -781,6 +854,7 @@ export interface FileRoutesById {
   '/internal/duck-drop-studio': typeof InternalDuckDropStudioRoute
   '/internal/growth-dashboard': typeof InternalGrowthDashboardRoute
   '/internal/illustrations': typeof InternalIllustrationsRoute
+  '/internal/indexing': typeof InternalIndexingRoute
   '/internal/kitchen-test-sheet': typeof InternalKitchenTestSheetRoute
   '/internal/revenue-switchboard': typeof InternalRevenueSwitchboardRoute
   '/learn/duck-breast-temperature-doneness': typeof LearnDuckBreastTemperatureDonenessRoute
@@ -814,6 +888,10 @@ export interface FileRoutesById {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/indexing-coverage': typeof ApiPublicIndexingCoverageRoute
+  '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
+  '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
 }
 export interface FileRouteTypes {
@@ -829,6 +907,7 @@ export interface FileRouteTypes {
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/mcp'
     | '/partners'
     | '/privacy'
     | '/recipes'
@@ -836,6 +915,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/api/generate-sketch'
     | '/api/save-sketch'
     | '/api/sketch-blob'
@@ -871,6 +952,7 @@ export interface FileRouteTypes {
     | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/illustrations'
+    | '/internal/indexing'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
@@ -904,6 +986,10 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/.mcp/invoke-tool/$tool'
+    | '/api/public/indexing-coverage'
+    | '/api/public/indexing-diagnostics'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -912,11 +998,14 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/contact'
     | '/editorial-standards'
+    | '/mcp'
     | '/partners'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/api/generate-sketch'
     | '/api/save-sketch'
     | '/api/sketch-blob'
@@ -952,6 +1041,7 @@ export interface FileRouteTypes {
     | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/illustrations'
+    | '/internal/indexing'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
@@ -985,6 +1075,10 @@ export interface FileRouteTypes {
     | '/learn'
     | '/recipes'
     | '/tools'
+    | '/.mcp/invoke-tool/$tool'
+    | '/api/public/indexing-coverage'
+    | '/api/public/indexing-diagnostics'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   id:
     | '__root__'
@@ -998,6 +1092,7 @@ export interface FileRouteTypes {
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/mcp'
     | '/partners'
     | '/privacy'
     | '/recipes'
@@ -1005,6 +1100,8 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/tools'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/api/generate-sketch'
     | '/api/save-sketch'
     | '/api/sketch-blob'
@@ -1040,6 +1137,7 @@ export interface FileRouteTypes {
     | '/internal/duck-drop-studio'
     | '/internal/growth-dashboard'
     | '/internal/illustrations'
+    | '/internal/indexing'
     | '/internal/kitchen-test-sheet'
     | '/internal/revenue-switchboard'
     | '/learn/duck-breast-temperature-doneness'
@@ -1073,6 +1171,10 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/.mcp/invoke-tool/$tool'
+    | '/api/public/indexing-coverage'
+    | '/api/public/indexing-diagnostics'
+    | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
   fileRoutesById: FileRoutesById
 }
@@ -1087,6 +1189,7 @@ export interface RootRouteChildren {
   GearRoute: typeof GearRouteWithChildren
   IngredientsRoute: typeof IngredientsRouteWithChildren
   LearnRoute: typeof LearnRouteWithChildren
+  McpRoute: typeof McpRoute
   PartnersRoute: typeof PartnersRoute
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
@@ -1094,6 +1197,8 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   ToolsRoute: typeof ToolsRouteWithChildren
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiGenerateSketchRoute: typeof ApiGenerateSketchRoute
   ApiSaveSketchRoute: typeof ApiSaveSketchRoute
   ApiSketchBlobRoute: typeof ApiSketchBlobRoute
@@ -1102,10 +1207,15 @@ export interface RootRouteChildren {
   InternalDuckDropStudioRoute: typeof InternalDuckDropStudioRoute
   InternalGrowthDashboardRoute: typeof InternalGrowthDashboardRoute
   InternalIllustrationsRoute: typeof InternalIllustrationsRoute
+  InternalIndexingRoute: typeof InternalIndexingRoute
   InternalKitchenTestSheetRoute: typeof InternalKitchenTestSheetRoute
   InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
   NewsletterPreferencesRoute: typeof NewsletterPreferencesRoute
   NewsletterUnsubscribeRoute: typeof NewsletterUnsubscribeRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ApiPublicIndexingCoverageRoute: typeof ApiPublicIndexingCoverageRoute
+  ApiPublicIndexingDiagnosticsRoute: typeof ApiPublicIndexingDiagnosticsRoute
+  ApiPublicIndexingSnapshotRoute: typeof ApiPublicIndexingSnapshotRoute
   ApiWebhooksResendRoute: typeof ApiWebhooksResendRoute
 }
 
@@ -1181,6 +1291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/partners': {
       id: '/partners'
       path: '/partners'
@@ -1228,6 +1345,20 @@ declare module '@tanstack/react-router' {
       path: '/tools'
       fullPath: '/tools'
       preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/generate-sketch': {
@@ -1503,6 +1634,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InternalIllustrationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/internal/indexing': {
+      id: '/internal/indexing'
+      path: '/internal/indexing'
+      fullPath: '/internal/indexing'
+      preLoaderRoute: typeof InternalIndexingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/internal/kitchen-test-sheet': {
       id: '/internal/kitchen-test-sheet'
       path: '/internal/kitchen-test-sheet'
@@ -1706,6 +1844,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsWholeDuckServingCalculatorRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/indexing-coverage': {
+      id: '/api/public/indexing-coverage'
+      path: '/api/public/indexing-coverage'
+      fullPath: '/api/public/indexing-coverage'
+      preLoaderRoute: typeof ApiPublicIndexingCoverageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/indexing-diagnostics': {
+      id: '/api/public/indexing-diagnostics'
+      path: '/api/public/indexing-diagnostics'
+      fullPath: '/api/public/indexing-diagnostics'
+      preLoaderRoute: typeof ApiPublicIndexingDiagnosticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/indexing-snapshot': {
+      id: '/api/public/indexing-snapshot'
+      path: '/api/public/indexing-snapshot'
+      fullPath: '/api/public/indexing-snapshot'
+      preLoaderRoute: typeof ApiPublicIndexingSnapshotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/webhooks/resend': {
       id: '/api/webhooks/resend'
       path: '/api/webhooks/resend'
@@ -1901,6 +2067,7 @@ const rootRouteChildren: RootRouteChildren = {
   GearRoute: GearRouteWithChildren,
   IngredientsRoute: IngredientsRouteWithChildren,
   LearnRoute: LearnRouteWithChildren,
+  McpRoute: McpRoute,
   PartnersRoute: PartnersRoute,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
@@ -1908,6 +2075,9 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   ToolsRoute: ToolsRouteWithChildren,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApiGenerateSketchRoute: ApiGenerateSketchRoute,
   ApiSaveSketchRoute: ApiSaveSketchRoute,
   ApiSketchBlobRoute: ApiSketchBlobRoute,
@@ -1916,10 +2086,15 @@ const rootRouteChildren: RootRouteChildren = {
   InternalDuckDropStudioRoute: InternalDuckDropStudioRoute,
   InternalGrowthDashboardRoute: InternalGrowthDashboardRoute,
   InternalIllustrationsRoute: InternalIllustrationsRoute,
+  InternalIndexingRoute: InternalIndexingRoute,
   InternalKitchenTestSheetRoute: InternalKitchenTestSheetRoute,
   InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
   NewsletterPreferencesRoute: NewsletterPreferencesRoute,
   NewsletterUnsubscribeRoute: NewsletterUnsubscribeRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ApiPublicIndexingCoverageRoute: ApiPublicIndexingCoverageRoute,
+  ApiPublicIndexingDiagnosticsRoute: ApiPublicIndexingDiagnosticsRoute,
+  ApiPublicIndexingSnapshotRoute: ApiPublicIndexingSnapshotRoute,
   ApiWebhooksResendRoute: ApiWebhooksResendRoute,
 }
 export const routeTree = rootRouteImport

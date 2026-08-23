@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { ToolListItem } from "@/components/site/ToolListItem";
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { SketchInterlude } from "@/components/site/SketchFigure";
@@ -60,11 +61,22 @@ function ToolsPage() {
           position="right"
         >
           <p>
-            Every calculator here comes from the same place our guides do: measured internal
-            temperatures, weighed birds, and timings we can repeat. Start with a number, then cook to
-            what you see.
+            Every calculator here starts from the same place our guides do: published temperature
+            targets, weight-based timing, and the variables that actually move the clock. Start with
+            a number, then cook to what you see.
           </p>
         </SketchInterlude>
+      </section>
+
+      <section className="mx-auto max-w-4xl px-5 pb-4 lg:px-8">
+        <HubOrientation
+          heading={"When to reach for a calculator"}
+          paragraphs={[
+            "These tools exist for the questions that stall a cook mid-plan: how long a bird of this weight needs, how much duck to buy for this many guests, what temperature counts as done for the result you want, and what to substitute when the duck fat runs out.",
+            "Use them as a starting number, then cook to what the thermometer and the pan tell you. A planner cannot see that your oven runs cool or that your duck went in half-thawed, so treat the output as a schedule to check against rather than a promise.",
+            "Nothing here needs an account and nothing leaves your browser. If a tool answers your question but you want the reasoning behind it, each one links to the guide that explains the underlying method.",
+          ]}
+        />
       </section>
 
       <section className="mx-auto max-w-7xl px-5 pb-24 lg:px-8">

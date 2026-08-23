@@ -97,7 +97,7 @@ function RowCta({
     return (
       <a
         href={link.href}
-        rel="noopener noreferrer nofollow"
+        rel="noopener noreferrer"
         target="_blank"
         onClick={() => registryLink && trackCommercialClick({ link: registryLink, placement })}
         className={CTA.commercial}
