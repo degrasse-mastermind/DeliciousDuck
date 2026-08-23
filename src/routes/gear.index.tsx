@@ -12,7 +12,7 @@ const GEAR_GUIDES = guidesByPillar("gear");
 
 const SKIP = [
   "Single-purpose duck presses and speciality gadgets.",
-  "Non-stick pans, which cannot take the heat a fat cap needs.",
+  "Non-stick pans for searing breast: they sear less well and leave nothing to deglaze.",
   "Dial thermometers that lag behind the actual temperature.",
 ];
 
