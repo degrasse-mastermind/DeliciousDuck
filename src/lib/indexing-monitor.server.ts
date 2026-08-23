@@ -153,3 +153,18 @@ export async function indexingReport(limit = 60): Promise<IndexingReport> {
     trend: indexedTrend(rows),
   };
 }
+
+/** Timestamp of the newest snapshot written by a given source (e.g. "cron"). */
+export async function lastSnapshotAt(source: string): Promise<string | null> {
+  const { data, error } = await supabaseAdmin
+    .from("indexing_snapshots")
+    .select("captured_at")
+    .eq("source", source)
+    .order("captured_at", { ascending: false })
+    .limit(1);
+  if (error) {
+    console.error(`[indexing] last snapshot read failed: ${error.message}`);
+    return null;
+  }
+  return (data?.[0]?.captured_at as string | undefined) ?? null;
+}
