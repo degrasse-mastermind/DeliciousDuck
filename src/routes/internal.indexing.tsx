@@ -554,8 +554,9 @@ function IndexingMonitor() {
           </h3>
           {coverage.breakdown.length === 0 ? (
             <p className="mt-2 text-sm text-muted-foreground">
-              No URLs checked yet — run &ldquo;Check coverage now&rdquo;.
+              Google has not answered on any URL yet — run &ldquo;Check coverage now&rdquo;.
             </p>
+
           ) : (
             <ul className="mt-3 divide-y divide-border/60 text-sm">
               {coverage.breakdown.map((row) => (
@@ -570,8 +571,9 @@ function IndexingMonitor() {
           <h3 className="mt-8 text-base font-semibold text-foreground">Not indexed yet</h3>
           {coverage.notIndexedUrls.length === 0 ? (
             <p className="mt-2 text-sm text-muted-foreground">
-              Every checked URL is in Google&apos;s index.
+              Every URL Google answered on is in its index.
             </p>
+
           ) : (
             <div className="mt-3 overflow-x-auto">
               <table className="w-full min-w-[36rem] text-sm">
@@ -597,18 +599,58 @@ function IndexingMonitor() {
             </div>
           )}
 
+          {coverage.unresolvedUrls.length > 0 && (
+            <>
+              <h3 className="mt-8 text-base font-semibold text-foreground">
+                Unresolved — no usable answer
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+                Counted as neither indexed nor not indexed, because Google returned nothing we can
+                read as an index state.
+              </p>
+              <div className="mt-3 overflow-x-auto">
+                <table className="w-full min-w-[36rem] text-sm">
+                  <thead>
+                    <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
+                      <th scope="col" className="py-2">URL</th>
+                      <th scope="col" className="py-2">Reason</th>
+                      <th scope="col" className="py-2">Attempted</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {coverage.unresolvedUrls.map((row) => (
+                      <tr key={row.url} className="border-b border-border/60">
+                        <td className="py-2 text-foreground">
+                          {row.url.replace(/^https?:\/\/[^/]+/, "") || "/"}
+                        </td>
+                        <td className="py-2 text-muted-foreground">{row.inspectError ?? "—"}</td>
+                        <td className="py-2 text-muted-foreground">{when(row.checkedAt)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+
           <h3 className="mt-8 text-base font-semibold text-foreground">Indexed URLs over time</h3>
+          <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+            Full-site snapshots only. Partial runs are stored for diagnostics but left out here,
+            because their counts cover a different set of URLs.
+          </p>
           {coverageHistory.length === 0 ? (
-            <p className="mt-2 text-sm text-muted-foreground">No coverage checks recorded yet.</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              No full-site coverage snapshot recorded yet.
+            </p>
           ) : (
             <div className="mt-3 overflow-x-auto">
               <table className="w-full min-w-[32rem] text-sm">
                 <thead>
                   <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                    <th scope="col" className="py-2">Check</th>
-                    <th scope="col" className="py-2">Indexed in batch</th>
+                    <th scope="col" className="py-2">Snapshot</th>
+                    <th scope="col" className="py-2">Indexed</th>
                     <th scope="col" className="py-2">Change</th>
-                    <th scope="col" className="py-2">URLs checked</th>
+                    <th scope="col" className="py-2">URLs inspected</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -619,13 +661,16 @@ function IndexingMonitor() {
                       <td className="py-2 text-muted-foreground">
                         {point.delta === null ? "—" : `${point.delta > 0 ? "+" : ""}${point.delta}`}
                       </td>
-                      <td className="py-2 text-muted-foreground">{point.checkedCount}</td>
+                      <td className="py-2 text-muted-foreground">
+                        {point.checkedCount} of {point.monitoredCount}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           )}
+
         </section>
       )}
 
