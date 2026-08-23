@@ -161,7 +161,7 @@ function RecipesIndex() {
               links: [
                 { label: "How much duck per person", to: "/buy/how-much-duck-per-person" },
                 { label: "Serving calculator", to: "/tools/whole-duck-serving-calculator" },
-                { label: "Recipe scaler", to: "/tools/duck-recipe-scaler" },
+                { label: "Recipe scaler", to: "/tools/recipe-scaler" },
                 { label: "Wild vs. farmed duck", to: "/learn/wild-duck-vs-farmed-duck" },
               ],
             },
