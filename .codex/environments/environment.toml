@@ -21,29 +21,40 @@ fail() {
 
 command -v git >/dev/null 2>&1 || fail "git is required"
 command -v node >/dev/null 2>&1 || fail "Node.js is required"
-command -v npm >/dev/null 2>&1 || fail "npm is required"
-
 [[ -f package.json ]] || fail "package.json was not found. Run this script from the DeliciousDuck repository root."
+[[ -f bun.lock ]] || fail "bun.lock was not found. This repository is Bun-managed; do not substitute npm install."
+
+# Install Bun only when the environment does not already provide it.
+if ! command -v bun >/dev/null 2>&1; then
+  command -v curl >/dev/null 2>&1 || fail "Bun is missing and curl is unavailable for bootstrap installation"
+  log "Bun not found; installing Bun for this Codex environment"
+  curl -fsSL https://bun.sh/install | bash
+  export BUN_INSTALL="${BUN_INSTALL:-$HOME/.bun}"
+  export PATH="$BUN_INSTALL/bin:$PATH"
+fi
+command -v bun >/dev/null 2>&1 || fail "Bun installation did not place bun on PATH"
 
 log "Repository: $(basename "$(pwd)")"
-log "Node: $(node --version); npm: $(npm --version)"
+log "Node: $(node --version); Bun: $(bun --version)"
 
-# Do not install from an ambiguous dependency state or rewrite the lockfile.
-if [[ -f package-lock.json ]]; then
-  log "Installing exact npm dependencies from package-lock.json"
-  npm ci --no-audit --no-fund
-elif [[ -f npm-shrinkwrap.json ]]; then
-  log "Installing exact npm dependencies from npm-shrinkwrap.json"
-  npm ci --no-audit --no-fund
+# Respect the committed Bun lockfile without rewriting dependency resolution.
+log "Installing exact dependencies from bun.lock"
+bun install --frozen-lockfile
+
+# Media tools are required for the Creative Studio sprint. In generic Codex
+# environments we report a precise blocker rather than silently using a private
+# Playwright ffmpeg binary or an incomplete substitute.
+if command -v ffmpeg >/dev/null 2>&1 && command -v ffprobe >/dev/null 2>&1; then
+  log "FFmpeg: $(ffmpeg -version | head -n 1)"
+  log "ffprobe: available"
 else
-  fail "No npm lockfile found. Commit package-lock.json before using Codex so installs remain reproducible."
+  log "FFmpeg/ffprobe not both available. Creative Studio video rendering must install a full FFmpeg distribution before render work."
 fi
 
-# Install Playwright's Chromium only when the project actually declares Playwright.
-# Failure here is non-fatal because some Codex images already provide a browser.
+# Install Playwright Chromium only when the current package actually declares it.
 if node -e 'const p=require("./package.json"); const d={...(p.dependencies||{}),...(p.devDependencies||{})}; process.exit(d["@playwright/test"]||d.playwright?0:1)' 2>/dev/null; then
   log "Playwright detected; ensuring Chromium is available"
-  npx playwright install chromium || log "Chromium installation skipped; Codex may use its preinstalled browser"
+  bunx playwright install chromium || log "Chromium installation skipped; Codex may use an existing browser installation"
 fi
 
 # Report configuration names only. Never print values or secrets.
@@ -55,6 +66,6 @@ else
 fi
 
 log "Running the production build as the setup health check"
-npm run build
+bun run build
 
-log "Setup complete. Use: npm run dev -- --host 0.0.0.0"'''
+log "Setup complete. Use: bun run dev -- --host 0.0.0.0"'''
