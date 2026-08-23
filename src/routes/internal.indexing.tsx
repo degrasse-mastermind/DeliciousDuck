@@ -351,7 +351,7 @@ function IndexingMonitor() {
             <Stat label="Warnings" value={String(report.warningCount)} />
           </div>
 
-          </div>
+
 
           <dl className="mt-6 grid gap-3 rounded-sm border border-border p-5 text-sm sm:grid-cols-2">
             <div>
