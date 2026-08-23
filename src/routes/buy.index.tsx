@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { HUB_SECTION_DIVIDER } from "@/components/site/HubDivider";
 import { HubSectionMark } from "@/components/site/HubSectionMark";
 import { GuideGrid } from "@/components/site/GuideGrid";
@@ -126,6 +127,14 @@ function BuyPage() {
           .
         </p>
 
+        <HubOrientation
+          heading={"Where to start when you buy duck"}
+          paragraphs={[
+            "If you have never bought duck before, the decision order is simpler than the label copy suggests: pick the cut that suits the dish, decide whether fresh or frozen fits your timeline, then judge the bird itself on skin and fat cap. Everything else on the packaging is secondary.",
+            "Most disappointing duck is bought, not cooked, badly. A torn fat cap will never crisp evenly, a bird that arrives soft after a warm courier run is a food-safety question rather than a cooking one, and a whole duck bought for six people will feed four. The guides below take those one at a time, with the quantity maths handled by the serving calculator.",
+            "Mail order is normal for duck in most of the country, and frozen is usually the safer order because it travels without a cold-chain gamble. Build the thaw into your plan before you check out — a whole bird needs a day or more in the fridge, not an afternoon.",
+          ]}
+        />
       </section>
     </>
   );

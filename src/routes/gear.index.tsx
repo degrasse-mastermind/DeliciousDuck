@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { HUB_SECTION_DIVIDER } from "@/components/site/HubDivider";
 import { HubSectionMark } from "@/components/site/HubSectionMark";
 import { GuideGrid } from "@/components/site/GuideGrid";
@@ -102,6 +103,14 @@ function GearPage() {
           </Link>{" "}
           — most gear questions about duck are really technique questions.
         </p>
+        <HubOrientation
+          heading={"What you actually need"}
+          paragraphs={[
+            "Three things decide duck: a pan that holds steady heat, an instant-read thermometer you trust, and a heatproof container for the fat you pour off. That is the whole essential list. Duck asks less of a kitchen than most centrepiece cooking because the bird supplies its own cooking fat.",
+            "Where equipment does matter, it is usually fit rather than brand. A confit needs a vessel that holds the legs snugly enough to submerge them in a sensible amount of fat, which is often a pot you already own. A roasting pan needs to be deep enough to hold rendered fat without it spitting over the oven floor.",
+            "The guides below work at the level of category and material, compare named products on published specifications, and say plainly who each option suits. If a cheaper piece of kit does the job for duck, that is what we say.",
+          ]}
+        />
       </section>
     </>
   );

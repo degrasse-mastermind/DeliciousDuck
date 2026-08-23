@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { RecipeCard } from "@/components/site/RecipeCard";
 import { GuideCluster } from "@/components/site/GuideGrid";
 import { RECIPES } from "@/data/recipes";
@@ -115,6 +116,14 @@ function CookPage() {
           </Link>{" "}
           match a technique to the duck in front of you.
         </p>
+        <HubOrientation
+          heading={"How to use the Cook section"}
+          paragraphs={[
+            "Duck rewards one habit above all others: render the fat before you chase colour. Breast goes into a cold, dry pan skin-side down so the fat has time to melt out; a whole bird needs its fat drawn off during the roast so the skin can dry and crisp instead of poaching. Almost every duck problem traces back to skipping that.",
+            "Start from whichever end you already know. If you have a cut in the fridge, use the cluster for that cut and follow the method through to sauce and sides. If you have a date and a guest count instead, start with the whole-duck planning guides, then come back for technique.",
+            "Recipes and technique guides do different jobs here. The recipes give you quantities, timings, and temperature targets for one specific dish; the guides explain the variable behind them so you can adapt when your bird, pan, or oven is not the one we describe.",
+          ]}
+        />
       </section>
     </>
   );
