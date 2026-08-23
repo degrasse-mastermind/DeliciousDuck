@@ -1,0 +1,35 @@
+{
+  "name": "deliciousduck-creative-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "render:visuals": "bun run src/scripts/render-visuals.ts",
+    "render:illustrations": "bun run src/scripts/render-illustrations.ts",
+    "render:videos": "bun run src/scripts/render-videos.ts",
+    "render:filmstrips": "bun run src/scripts/create-filmstrips.ts",
+    "render": "bun run render:visuals && bun run render:videos",
+    "qa": "bun run src/qa/run-qa.ts",
+    "qa:probe-specimen": "bun run src/qa/check-probe-specimen.ts",
+    "source:check": "bun run src/scripts/source-refresh.ts",
+    "source:refresh": "bun run src/scripts/source-refresh.ts --update",
+    "studio": "remotion studio src/video/index.ts --no-open"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.506",
+    "@remotion/bundler": "4.0.506",
+    "@remotion/google-fonts": "4.0.506",
+    "@remotion/media": "4.0.506",
+    "@remotion/renderer": "4.0.506",
+    "@remotion/transitions": "4.0.506",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "remotion": "4.0.506",
+    "sharp": "^0.34.3",
+    "typescript": "^5.8.3",
+    "zod": "^4.4.3"
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "captured_at": "2026-08-23T18:24:40.201Z",
+  "source_commit": "32cd7502ca3d0f9fe7af54b1485872ee5dbafc66",
+  "source_registry": "src/lib/distribution-metadata.ts",
+  "cluster": "duck-breast",
+  "pages": {
+    "cook": {
+      "path": "/cook/how-to-cook-duck-breast",
+      "canonical_url": "https://deliciousduck.com/cook/how-to-cook-duck-breast",
+      "title": "How to Cook Duck Breast",
+      "social_title": "Duck breast, cooked in a cold pan",
+      "pinterest_title": "How to Cook Duck Breast with Crispy Skin (Cold-Pan Method)",
+      "primary_image": "assets/hero-duck-breast.jpg",
+      "primary_image_alt": "Sliced duck breast with crisp rendered skin",
+      "claims": [
+        "Place skin-side down in a cold, dry pan.",
+        "Bring the heat up gradually over 8–12 minutes.",
+        "Pour off fat two or three times during the cook.",
+        "Flip when the skin is deep golden-brown, matte and firm.",
+        "Insert the thermometer through the side into the thickest part.",
+        "Rest 5–8 minutes, skin-side up, uncovered or loosely tented."
+      ]
+    },
+    "temperature": {
+      "path": "/learn/duck-breast-temperature-doneness",
+      "canonical_url": "https://deliciousduck.com/learn/duck-breast-temperature-doneness",
+      "title": "Duck Breast Temperature & Doneness",
+      "social_title": "What temperature should duck breast be?",
+      "pinterest_title": "Duck Breast Temperature Chart: Pull Temps, Carryover & Doneness",
+      "primary_image": "assets/thermometer.jpg",
+      "primary_image_alt": "Colored-pencil illustration of an instant-read thermometer",
+      "claims": [
+        "Probe through the side, horizontally, into the geometric centre of the thickest part.",
+        "Medium-rare: pull at 125–130°F (52–54°C); final 130–135°F (54–57°C).",
+        "Medium: pull at 135–140°F (57–60°C); final 140–145°F (60–63°C).",
+        "USDA safe minimum: final temperature 165°F (73.9°C) or above.",
+        "Lower-temperature doneness bands are culinary conventions, not safety clearances.",
+        "Rest 5–8 minutes; carryover varies with breast size and cooking intensity."
+      ]
+    },
+    "crisp": {
+      "path": "/learn/why-duck-skin-isnt-crispy",
+      "canonical_url": "https://deliciousduck.com/learn/why-duck-skin-isnt-crispy",
+      "title": "Why Your Duck Skin Isn't Crispy",
+      "social_title": "Why your duck skin isn't crispy",
+      "pinterest_title": "Why Duck Skin Isn't Crispy — 5 Causes and the Fix for Each",
+      "primary_image": "assets/duck-breast-pan.jpg",
+      "primary_image_alt": "Colored-pencil illustration of duck breast rendering in a pan",
+      "claims": [
+        "Pat the skin fully dry immediately before cooking.",
+        "Start in a cold or barely warm pan and raise heat gradually.",
+        "Leave visible gaps between pieces.",
+        "Pour off rendered fat when it pools around the breast.",
+        "Flip when the skin is matte and deep gold, not on a fixed timer.",
+        "Score through the fat cap before cooking.",
+        "Rest skin-side up, uncovered or loosely tented."
+      ]
+    },
+    "recipe": {
+      "path": "/recipes/pan-seared-duck-breast",
+      "canonical_url": "https://deliciousduck.com/recipes/pan-seared-duck-breast",
+      "title": "Pan-Seared Duck Breast",
+      "social_title": "Pan-seared duck breast",
+      "pinterest_title": "Pan-Seared Duck Breast Recipe (Crispy Skin, Rosy Centre)",
+      "primary_image": "assets/recipe-pan-seared.jpg",
+      "primary_image_alt": "Pan-seared duck breast sliced to show a rosy centre and crisp skin",
+      "claims": [
+        "Score the fat cap and start skin-side down in a cold, dry, unoiled pan.",
+        "Render over low heat for 12–18 minutes until thin, deep gold and crisp.",
+        "Pull at 130–135°F (54–57°C) for a rosy medium-rare and rest five minutes.",
+        "Cook to 165°F (74°C) for the official poultry safety minimum."
+      ]
+    }
+  },
+  "media_provenance": [
+    {
+      "studio_path": "assets/logo-duck.png",
+      "repository_path": "public/logo-duck.png",
+      "role": "brand mark"
+    },
+    {
+      "studio_path": "assets/hero-duck-breast.jpg",
+      "repository_path": "src/assets/hero-duck-breast.jpg",
+      "role": "approved food photograph"
+    },
+    {
+      "studio_path": "assets/recipe-pan-seared.jpg",
+      "repository_path": "src/assets/recipe-pan-seared.jpg",
+      "role": "approved recipe photograph; repository status stock-illustrative/untested"
+    },
+    {
+      "studio_path": "assets/duck-breast-pan.jpg",
+      "repository_path": "src/assets/sketch/duck-breast-pan.jpg",
+      "role": "approved illustration"
+    },
+    {
+      "studio_path": "assets/thermometer.jpg",
+      "repository_path": "src/assets/sketch/thermometer.jpg",
+      "role": "approved illustration"
+    },
+    {
+      "studio_path": "assets/scoring.jpg",
+      "repository_path": "src/assets/sketch/scoring.jpg",
+      "role": "approved illustration"
+    },
+    {
+      "studio_path": "assets/rendering-fat.jpg",
+      "repository_path": "src/assets/sketch/rendering-fat.jpg",
+      "role": "approved illustration"
+    },
+    {
+      "studio_path": "assets/sliced-breast.jpg",
+      "repository_path": "src/assets/sketch/sliced-breast.jpg",
+      "role": "approved illustration"
+    }
+  ],
+  "distribution_metadata": [
+    {
+      "path": "/cook/how-to-cook-duck-breast",
+      "canonical_url": "https://deliciousduck.com/cook/how-to-cook-duck-breast",
+      "title": "How to Cook Duck Breast: Crispy Skin, Juicy Centre | DeliciousDuck",
+      "description": "The cold-pan method for duck breast, step by step: scoring, gradual fat rendering, when to flip, thermometer targets, resting, and the five ways it goes wrong.",
+      "social_title": "Duck breast, cooked in a cold pan",
+      "social_description": "Start it cold, raise the heat slowly, pour off the fat: the method that renders the fat cap before the skin can burn.",
+      "pinterest_title": "How to Cook Duck Breast with Crispy Skin (Cold-Pan Method)",
+      "pinterest_description": "Scoring, gradual rendering, when to flip, the pull temperature to aim for, and how long to rest it — plus the five ways duck breast usually goes wrong.",
+      "primary_image": "https://deliciousduck.com/C:\\Users\\user\\Documents\\GitHub\\duck-kitchen-quest\\src\\assets\\sketch\\duck-breast-pan.jpg",
+      "primary_image_alt": "Colored-pencil sketch of a scored duck breast rendering skin-side down in a skillet"
+    },
+    {
+      "path": "/learn/duck-breast-temperature-doneness",
+      "canonical_url": "https://deliciousduck.com/learn/duck-breast-temperature-doneness",
+      "title": "Duck Internal Temperature & Doneness Chart | DeliciousDuck",
+      "description": "What internal temperature duck should reach: medium-rare at 130–135°F, the 165°F poultry minimum, plus legs, whole bird, carryover and probe placement.",
+      "social_title": "What temperature should duck breast be?",
+      "social_description": "Pull temperatures by doneness, how much carryover to expect during the rest, and where the 165°F poultry minimum applies.",
+      "pinterest_title": "Duck Breast Temperature Chart: Pull Temps, Carryover & Doneness",
+      "pinterest_description": "The numbers that matter for duck breast, legs and whole birds, with probe placement and the difference between kitchen convention and the official minimum.",
+      "primary_image": "https://deliciousduck.com/C:\\Users\\user\\Documents\\GitHub\\duck-kitchen-quest\\src\\assets\\sketch\\thermometer.jpg",
+      "primary_image_alt": "Colored-pencil sketch of an instant-read thermometer probing a duck breast"
+    },
+    {
+      "path": "/learn/why-duck-skin-isnt-crispy",
+      "canonical_url": "https://deliciousduck.com/learn/why-duck-skin-isnt-crispy",
+      "title": "Why Duck Skin Won't Get Crispy — and How to Fix It | DeliciousDuck",
+      "description": "A diagnostic guide to soft, chewy or blistered duck skin: seven symptoms, their likely causes, what to do right now, and how to prevent each one next time.",
+      "social_title": "Why your duck skin isn't crispy",
+      "social_description": "Wet skin, a hot start, a crowded pan, fat left in the pan, or a flip too early — and what still fixes it mid-cook.",
+      "pinterest_title": "Why Duck Skin Isn't Crispy — 5 Causes and the Fix for Each",
+      "pinterest_description": "Diagnose the failure you are mid-way through: what each cause looks and sounds like, what still rescues the cook, and what to change next time.",
+      "primary_image": "https://deliciousduck.com/C:\\Users\\user\\Documents\\GitHub\\duck-kitchen-quest\\src\\assets\\sketch\\duck-breast-pan.jpg",
+      "primary_image_alt": "Colored-pencil sketch of a scored duck breast rendering skin-side down in a skillet"
+    },
+    {
+      "path": "/recipes/pan-seared-duck-breast",
+      "canonical_url": "https://deliciousduck.com/recipes/pan-seared-duck-breast",
+      "title": "Pan-Seared Duck Breast",
+      "description": "Score, render cold, and finish hot for shatteringly crisp skin over a rosy, evenly cooked centre.",
+      "social_title": "Pan-seared duck breast",
+      "social_description": "Quantities, timings and rest in one place: render cold, finish hot, rest before slicing.",
+      "pinterest_title": "Pan-Seared Duck Breast Recipe (Crispy Skin, Rosy Centre)",
+      "pinterest_description": "A two-serving duck breast recipe with cold-pan rendering, thermometer targets, resting time and what to pour over the pan afterwards.",
+      "primary_image": "https://deliciousduck.com/C:\\Users\\user\\Documents\\GitHub\\duck-kitchen-quest\\src\\assets\\recipe-pan-seared.jpg",
+      "primary_image_alt": "Pan-Seared Duck Breast, finished and sliced"
+    }
+  ]
+}
