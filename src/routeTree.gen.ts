@@ -95,6 +95,7 @@ import { Route as ToolsDuckPairingFinderRouteImport } from './routes/tools.duck-
 import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
 import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
 import { Route as ToolsWholeDuckServingCalculatorRouteImport } from './routes/tools.whole-duck-serving-calculator'
+import { Route as ApiPublicIndexingCoverageRouteImport } from './routes/api/public/indexing-coverage'
 import { Route as ApiPublicIndexingDiagnosticsRouteImport } from './routes/api/public/indexing-diagnostics'
 import { Route as ApiPublicIndexingSnapshotRouteImport } from './routes/api/public/indexing-snapshot'
 import { Route as ApiWebhooksResendRouteImport } from './routes/api.webhooks.resend'
@@ -560,6 +561,12 @@ const ToolsWholeDuckServingCalculatorRoute =
     path: '/whole-duck-serving-calculator',
     getParentRoute: () => ToolsRoute,
   } as any)
+const ApiPublicIndexingCoverageRoute =
+  ApiPublicIndexingCoverageRouteImport.update({
+    id: '/api/public/indexing-coverage',
+    path: '/api/public/indexing-coverage',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicIndexingDiagnosticsRoute =
   ApiPublicIndexingDiagnosticsRouteImport.update({
     id: '/api/public/indexing-diagnostics',
@@ -665,6 +672,7 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/public/indexing-coverage': typeof ApiPublicIndexingCoverageRoute
   '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
   '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
@@ -749,6 +757,7 @@ export interface FileRoutesByTo {
   '/learn': typeof LearnIndexRoute
   '/recipes': typeof RecipesIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/api/public/indexing-coverage': typeof ApiPublicIndexingCoverageRoute
   '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
   '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
@@ -841,6 +850,7 @@ export interface FileRoutesById {
   '/learn/': typeof LearnIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/public/indexing-coverage': typeof ApiPublicIndexingCoverageRoute
   '/api/public/indexing-diagnostics': typeof ApiPublicIndexingDiagnosticsRoute
   '/api/public/indexing-snapshot': typeof ApiPublicIndexingSnapshotRoute
   '/api/webhooks/resend': typeof ApiWebhooksResendRoute
@@ -934,6 +944,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/public/indexing-coverage'
     | '/api/public/indexing-diagnostics'
     | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
@@ -1018,6 +1029,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/recipes'
     | '/tools'
+    | '/api/public/indexing-coverage'
     | '/api/public/indexing-diagnostics'
     | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
@@ -1109,6 +1121,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/recipes/'
     | '/tools/'
+    | '/api/public/indexing-coverage'
     | '/api/public/indexing-diagnostics'
     | '/api/public/indexing-snapshot'
     | '/api/webhooks/resend'
@@ -1145,6 +1158,7 @@ export interface RootRouteChildren {
   InternalRevenueSwitchboardRoute: typeof InternalRevenueSwitchboardRoute
   NewsletterPreferencesRoute: typeof NewsletterPreferencesRoute
   NewsletterUnsubscribeRoute: typeof NewsletterUnsubscribeRoute
+  ApiPublicIndexingCoverageRoute: typeof ApiPublicIndexingCoverageRoute
   ApiPublicIndexingDiagnosticsRoute: typeof ApiPublicIndexingDiagnosticsRoute
   ApiPublicIndexingSnapshotRoute: typeof ApiPublicIndexingSnapshotRoute
   ApiWebhooksResendRoute: typeof ApiWebhooksResendRoute
@@ -1754,6 +1768,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsWholeDuckServingCalculatorRouteImport
       parentRoute: typeof ToolsRoute
     }
+    '/api/public/indexing-coverage': {
+      id: '/api/public/indexing-coverage'
+      path: '/api/public/indexing-coverage'
+      fullPath: '/api/public/indexing-coverage'
+      preLoaderRoute: typeof ApiPublicIndexingCoverageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/indexing-diagnostics': {
       id: '/api/public/indexing-diagnostics'
       path: '/api/public/indexing-diagnostics'
@@ -1983,6 +2004,7 @@ const rootRouteChildren: RootRouteChildren = {
   InternalRevenueSwitchboardRoute: InternalRevenueSwitchboardRoute,
   NewsletterPreferencesRoute: NewsletterPreferencesRoute,
   NewsletterUnsubscribeRoute: NewsletterUnsubscribeRoute,
+  ApiPublicIndexingCoverageRoute: ApiPublicIndexingCoverageRoute,
   ApiPublicIndexingDiagnosticsRoute: ApiPublicIndexingDiagnosticsRoute,
   ApiPublicIndexingSnapshotRoute: ApiPublicIndexingSnapshotRoute,
   ApiWebhooksResendRoute: ApiWebhooksResendRoute,
