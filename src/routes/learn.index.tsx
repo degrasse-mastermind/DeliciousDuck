@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { HubOrientation } from "@/components/site/HubOrientation";
 import { GuideCluster } from "@/components/site/GuideGrid";
+import { SourceNotes } from "@/components/site/SourceNotes";
+
 import { guidesByPillar } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 
