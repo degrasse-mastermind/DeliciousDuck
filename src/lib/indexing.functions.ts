@@ -71,3 +71,28 @@ export const rotateIndexingCronTokenFn = createServerFn({ method: "POST" })
     const { rotatedAt } = await rotateStoredCredential();
     return { ok: true as const, rotatedAt, diagnostics: await indexingDiagnostics(audience) };
   });
+
+/**
+ * Real indexing coverage from the URL Inspection API, read from stored history.
+ * The sitemap `indexed` field is retired, so this is the growth signal.
+ */
+export const coverageReportFn = createServerFn({ method: "POST" })
+  .validator(tokenInput)
+  .handler(async ({ data }) => {
+    const { authorizeIndexingToken } = await import("./indexing-diagnostics.server");
+    const audience = await authorizeIndexingToken(data.token);
+    if (!audience) return DENIED;
+    const { coverageReport } = await import("./indexing-coverage.server");
+    return { ok: true as const, audience, coverage: await coverageReport() };
+  });
+
+/** Manual coverage check of the next rotating batch of URLs. */
+export const captureCoverageFn = createServerFn({ method: "POST" })
+  .validator(tokenInput)
+  .handler(async ({ data }) => {
+    const { authorizeIndexingToken } = await import("./indexing-diagnostics.server");
+    if (!(await authorizeIndexingToken(data.token))) return DENIED;
+    const { captureCoverageSnapshot, coverageReport } = await import("./indexing-coverage.server");
+    const capture = await captureCoverageSnapshot("manual");
+    return { ok: true as const, capture, coverage: await coverageReport() };
+  });
