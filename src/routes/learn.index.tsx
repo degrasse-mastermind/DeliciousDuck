@@ -85,7 +85,7 @@ function LearnPage() {
         <HubOrientation
           heading={"Why duck is cooked differently"}
           paragraphs={[
-            "Duck is a red-meat bird with a thick fat layer under the skin, which is why chicken habits fail on it. Breast is usually cooked to a medium-rare to medium range and rests pink; legs and whole birds need long enough for connective tissue to break down, well past the point where a chicken would be dry.",
+            "Duck is a dark-meated bird with a thick fat layer under the skin, which is why chicken habits fail on it. Legs and whole birds need long enough for connective tissue to break down, well past the point where a chicken would be dry, while the breast cooks in minutes. It is still poultry, so USDA's 165°F (74°C) safe minimum internal temperature applies to every cut of it.",
             "The fat is the other half of the difference. It has to be rendered out slowly before the skin can crisp, and what you pour off is one of the best cooking fats in the kitchen. Guides in this section cover scoring, rendering, and the diagnostic questions behind skin that stays soft.",
             "Read this section when you want to understand why a method works, then move to Cook or Tools when you want to execute it. Safety facts here \u2014 thawing, storage, and minimum internal temperatures \u2014 carry a source note so you can check the original guidance yourself.",
           ]}
