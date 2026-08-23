@@ -267,8 +267,16 @@ function IndexingMonitor() {
           disabled={state === "loading" || state === "capturing"}
           className="rounded-sm border border-input bg-background px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent disabled:opacity-60"
         >
-          {state === "capturing" ? "Checking…" : "Check now"}
+          {state === "capturing" ? "Checking…" : "Check sitemap now"}
         </button>
+        <button
+          onClick={checkCoverageNow}
+          disabled={state === "loading" || state === "capturing" || state === "inspecting"}
+          className="rounded-sm border border-input bg-background px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent disabled:opacity-60"
+        >
+          {state === "inspecting" ? "Inspecting…" : "Check coverage now"}
+        </button>
+
       </div>
 
       {state === "denied" && (
