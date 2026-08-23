@@ -145,7 +145,11 @@ async function main() {
       ...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi),
     ];
     if (scripts.length === 0) {
-      problems.push({ url, type: "coverage", message: "no JSON-LD found on this page" });
+      // Policy and standards pages carry no rich-result-eligible entity, so
+      // absent JSON-LD there is correct rather than a regression.
+      if (!SCHEMA_EXEMPT_PATHS.has(path)) {
+        problems.push({ url, type: "coverage", message: "no JSON-LD found on this page" });
+      }
       continue;
     }
     for (const match of scripts) {
