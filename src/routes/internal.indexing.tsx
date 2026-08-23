@@ -264,6 +264,76 @@ function IndexingMonitor() {
         </p>
       )}
 
+      {diagnostics && (
+        <section className="mt-6 rounded-sm border border-border p-5">
+          <h2 className="text-lg font-semibold text-foreground">Token &amp; schedule check</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Authenticated with <strong className="text-foreground">{AUDIENCE_LABEL[diagnostics.authenticatedAs]}</strong>.
+          </p>
+          <p
+            className={
+              "mt-3 text-sm font-semibold " +
+              (diagnostics.scheduledRun.status === "ready"
+                ? "text-foreground"
+                : "text-destructive")
+            }
+          >
+            {VERDICT_LABEL[diagnostics.scheduledRun.status]}
+          </p>
+          {diagnostics.scheduledRun.findings.length > 0 && (
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+              {diagnostics.scheduledRun.findings.map((finding) => (
+                <li key={finding}>{finding}</li>
+              ))}
+            </ul>
+          )}
+          <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+            <div>
+              <dt className="font-semibold text-foreground">Secrets configured</dt>
+              <dd className="text-muted-foreground">
+                NEWSLETTER_ADMIN_TOKEN: {diagnostics.tokens.adminSecretConfigured ? "yes" : "no"} ·
+                INDEXING_CRON_TOKEN: {diagnostics.tokens.cronSecretConfigured ? "yes" : "no"}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-foreground">Rotating schedule token</dt>
+              <dd className="text-muted-foreground">
+                {diagnostics.tokens.rotatingTokenConfigured
+                  ? `In use — rotated ${when(diagnostics.tokens.rotatingTokenRotatedAt)}`
+                  : "Not set up yet"}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-foreground">Search Console connection</dt>
+              <dd className="text-muted-foreground">
+                {diagnostics.searchConsoleConfigured ? "Linked" : "Not linked"}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-foreground">Last scheduled snapshot</dt>
+              <dd className="text-muted-foreground">
+                {when(diagnostics.lastScheduledSnapshotAt)}
+                {diagnostics.scheduledRun.hoursSinceLastRun !== null &&
+                  ` (${diagnostics.scheduledRun.hoursSinceLastRun}h ago)`}
+              </dd>
+            </div>
+          </dl>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <button
+              onClick={rotateToken}
+              disabled={state === "rotating"}
+              className="rounded-sm border border-input bg-background px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-accent disabled:opacity-60"
+            >
+              {state === "rotating" ? "Rotating…" : "Rotate scheduled job token"}
+            </button>
+            <p className="text-xs text-muted-foreground">
+              Mints a new random token in the database. The schedule reads it from there, so no SQL
+              edit and no value to copy.
+            </p>
+          </div>
+        </section>
+      )}
+
       {report && (
         <>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
