@@ -3,6 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { HubOrientation } from "@/components/site/HubOrientation";
 import { RecipeCard } from "@/components/site/RecipeCard";
+import { SourceNotes } from "@/components/site/SourceNotes";
+
 import { RECIPES } from "@/data/recipes";
 import { recipePath } from "@/data/recipe-content";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
@@ -50,11 +52,7 @@ function RecipesIndex() {
       />
 
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
-        <div
-          role="group"
-          aria-label="Filter recipes by cut"
-          className="mb-10 flex flex-wrap gap-2"
-        >
+        <div role="group" aria-label="Filter recipes by cut" className="mb-10 flex flex-wrap gap-2">
           {categories.map((category) => {
             const selected = category === active;
             const count =
@@ -105,7 +103,6 @@ function RecipesIndex() {
           </Link>
         </div>
 
-
         <p className="mt-16 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Want the technique behind the recipe? The{" "}
           <Link to="/cook" className="text-primary underline underline-offset-4">
@@ -129,7 +126,12 @@ function RecipesIndex() {
               heading: "Easy duck recipes to start with",
               paragraphs: [
                 "If you have never cooked duck, start with a pan-seared duck breast and a pan sauce. It is a twenty-minute dinner, it needs one pan and a thermometer, and it teaches the single skill everything else depends on: rendering the fat out of the skin slowly in a cold pan before the heat comes up. Once that clicks, duck à l'orange, cherry sauce, and a five-spice glaze are variations rather than new techniques.",
-                "The next step up is a whole roast duck — the Sunday-lunch or holiday centrepiece. It is more forgiving than a turkey because the bird bastes itself, but it needs the fat poured off during the roast and a thigh reading of 175–180°F (79–82°C) before you carve. Duck confit is the most impressive dish here and, oddly, one of the least stressful: the legs cook low and slow, then wait in their own fat until the day you want them.",
+                "The next step up is a whole roast duck — the Sunday-lunch or holiday centrepiece. It is more forgiving than a turkey because the bird bastes itself, but it needs the fat poured off during the roast and a thigh reading of 175–180°F (79–82°C) before you carve. USDA's safe minimum internal temperature for duck is 165°F (74°C); where a recipe here offers a pink breast range instead, it says so and explains that the choice departs from that guidance. Duck confit is the most impressive dish here and, oddly, one of the least stressful: the legs cook low and slow, then wait in their own fat until the day you want them.",
+              ],
+              links: [
+                { label: "How to cook duck breast", to: "/cook/how-to-cook-duck-breast" },
+                { label: "Whole roast duck", to: "/cook/whole-roast-duck" },
+                { label: "Doneness guide", to: "/tools/duck-doneness-guide" },
               ],
             },
             {
@@ -138,19 +140,30 @@ function RecipesIndex() {
                 "Duck wants a counterweight. Tart fruit is the classic answer — sour cherry, orange, plum, blackcurrant, rhubarb — and it works because acid cuts fat, not because it adds sweetness. Keep sugar restrained; a glaze that caramelises too far reads as dessert and buries the meat. Red-wine and port reductions, verjus, sherry vinegar, and pomegranate do the same job with less sugar.",
                 "For sides, think bitter and starchy. Frisée, radicchio, chicory, braised red cabbage, and mustardy greens all hold their own. Potatoes roasted in the fat you just poured off are non-negotiable, and duck-fat parsnips, celeriac, or white beans absorb it just as well. Something briny — olives, capers, cornichons, preserved lemon — sharpens a rich plate at the end.",
               ],
+              links: [
+                { label: "Best sauces for duck breast", to: "/cook/best-sauces-for-duck-breast" },
+                { label: "What to serve with duck", to: "/cook/what-to-serve-with-duck-breast" },
+                { label: "Pairing finder", to: "/tools/duck-pairing-finder" },
+              ],
             },
             {
               heading: "Scaling, prepping ahead, and leftovers",
               paragraphs: [
-                "Plan one whole duck for three to four people, or one breast per person; magret from a Moulard is large enough to serve two when sliced. For a bigger table, roast two birds rather than one large one — the timing barely changes and the skin crisps better with air around each bird.",
-                "Confit, rillettes, smoked breast, and duck ragù are all better made a day ahead, which makes them the right choice for a holiday menu where the oven is contested. Leftover roast duck shreds into ramen, tacos, hash, or a salad with citrus and bitter leaves, and the carcass makes a stock with more body than chicken. Refrigerate cooked duck within two hours and use it within three to four days.",
-                "Which duck you buy shapes the recipe too. Pekin is the mild, fatty, widely available bird behind most roast-duck and Peking-style recipes. Moulard gives you the large lean magret that suits searing and slicing, and its legs are the standard choice for confit. Muscovy is leaner with a deeper flavour, and wild duck needs its own fast, rare treatment rather than any of these timings. If a recipe specifies a breed, that is why.",
-
+                "Our baseline is one whole five- to six-pound duck for three to four people, or one breast per person; a large Moulard magret serves two when sliced. Treat that as a starting point rather than a rule — yield moves with bird size, how hungry the table is, and how substantial the sides are. For a bigger table, roast two birds rather than one large one: the timing barely changes and the skin crisps better with air around each bird.",
+                "Confit, rillettes, smoked breast, and duck ragù are all better made a day ahead, which makes them the right choice for a holiday menu where the oven is contested. Leftover roast duck shreds into ramen, tacos, hash, or a salad with citrus and bitter leaves, and the carcass makes a stock with more body than chicken. Refrigerate cooked duck within two hours, use it within three to four days, and reheat it to 165°F (74°C).",
+                "Which duck you buy shapes the recipe too. Pekin is the mild, fatty, widely available bird behind most roast-duck and Peking-style recipes. Moulard gives you the large lean magret that suits searing and slicing, and its legs are the standard choice for confit. Muscovy is leaner with a deeper flavour. Wild duck needs its own fast treatment because it carries almost no fat — and being poultry, it is covered by the same 165°F guidance, so serving it pink is a culinary choice made against that recommendation. If a recipe specifies a breed, that is why.",
+              ],
+              links: [
+                { label: "How much duck per person", to: "/buy/how-much-duck-per-person" },
+                { label: "Serving calculator", to: "/tools/whole-duck-serving-calculator" },
+                { label: "Recipe scaler", to: "/tools/recipe-scaler" },
+                { label: "Wild vs. farmed duck", to: "/learn/wild-duck-vs-farmed-duck" },
               ],
             },
           ]}
         />
 
+        <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep", "usdaLeftovers"]} />
       </section>
     </>
   );

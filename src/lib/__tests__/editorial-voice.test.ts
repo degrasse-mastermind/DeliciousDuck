@@ -15,12 +15,10 @@ function walk(dir: string): string[] {
   });
 }
 
-const publicFiles = [...walk(ROUTES), ...walk(COMPONENTS), ...walk(DATA)].filter(
-  (p) => {
-    const normalized = p.replace(/\\/g, "/");
-    return !normalized.includes("/routes/internal.") && !normalized.includes("/routes/api");
-  },
-);
+const publicFiles = [...walk(ROUTES), ...walk(COMPONENTS), ...walk(DATA)].filter((p) => {
+  const normalized = p.replace(/\\/g, "/");
+  return !normalized.includes("/routes/internal.") && !normalized.includes("/routes/api");
+});
 
 /**
  * Pages where the identity of the safety authority genuinely helps the reader:
@@ -34,6 +32,12 @@ const ATTRIBUTION_ALLOWED = [
   "routes/learn.duck-breast-temperature-doneness.tsx",
   "routes/learn.duck-vs-turkey-thanksgiving.tsx",
   "routes/guides.duck-cooking-starter-guide.tsx",
+  // Pillar hubs: each contrasts the pink culinary convention with the official
+  // safe minimum, which is exactly where naming the authority helps the reader.
+  "routes/learn.index.tsx",
+  "routes/cook.index.tsx",
+  "routes/gear.index.tsx",
+  "routes/recipes.index.tsx",
   "data/sources.ts",
   "data/acquisition-cluster.ts",
   "data/duck-drop.ts",
@@ -60,8 +64,9 @@ describe("editorial voice: quiet attribution", () => {
       (n, p) => n + (readFileSync(p, "utf8").match(/USDA/g)?.length ?? 0),
       0,
     );
-    // Registry notes plus the doneness/safety pages that need the attribution.
-    expect(total).toBeLessThanOrEqual(90);
+    // Registry notes, the doneness/safety pages, and the four pillar hubs that
+    // contrast the pink convention with the official safe minimum.
+    expect(total).toBeLessThanOrEqual(105);
   });
 
   it("keeps the centralised safety wording intact", async () => {
@@ -138,11 +143,12 @@ describe("editorial voice: unsupported claims", () => {
   });
 });
 
-
 describe("editorial voice: preferred safety vocabulary", () => {
   it("labels structural safety headings by the official minimum, not the authority", () => {
     const offenders = publicFiles
-      .filter((p) => /Food safety: the USDA number|USDA safety minimum/.test(readFileSync(p, "utf8")))
+      .filter((p) =>
+        /Food safety: the USDA number|USDA safety minimum/.test(readFileSync(p, "utf8")),
+      )
       .map((p) => p.replace(process.cwd() + "/", ""));
     expect(offenders).toEqual([]);
 
@@ -155,12 +161,12 @@ describe("editorial voice: preferred safety vocabulary", () => {
     expect(route).toContain("Why is duck breast sometimes served below the official safe minimum?");
     expect(route).not.toMatch(/Why does breast doneness differ from USDA guidance\?/);
     // One FAQ array feeds both the visible list and the schema.
-    expect(route.match(/Why is duck breast sometimes served below the official safe minimum\?/g))
-      .toHaveLength(1);
+    expect(
+      route.match(/Why is duck breast sometimes served below the official safe minimum\?/g),
+    ).toHaveLength(1);
     expect(route).toContain("165°F (73.9°C)");
   });
 });
-
 
 describe("editorial voice: the style guide is discoverable", () => {
   it("exists and is linked from the README", () => {
