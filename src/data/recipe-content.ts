@@ -17,6 +17,13 @@ export interface RecipeContent {
   slug: string;
   /** One-paragraph editorial intro under the H1. */
   intro: string;
+  /**
+   * Optional two-to-three sentence answer to the question the page is found
+   * for ("how do I cook this?"), placed above the recipe body. Every fact in
+   * it must already appear in the steps and temperature table below — it is a
+   * summary of this page, never a new claim.
+   */
+  answerFirst?: string;
   confidence: {
     cut: string;
     biggestRisk: string;
@@ -37,6 +44,12 @@ export interface RecipeContent {
    * something that has no doneness temperature.
    */
   verifyNote?: { label: string; body: string };
+  /**
+   * Caption under the recipe photograph, for anything shown in the shot that
+   * the ingredients do not include — so no garnish or sauce is implied to be
+   * part of the recipe.
+   */
+  imageCaption?: { text: string; to?: string; linkLabel?: string };
   /** Overrides the method-basis line's "how to read the numbers" clause. */
   guidanceNote?: string;
   quackFix: { symptom: string; cause: string; fixNow: string; prevent: string }[];
@@ -60,10 +73,393 @@ export interface RecipeContent {
 }
 
 export const RECIPE_CONTENT: Record<string, RecipeContent> = {
+  "peking-duck-at-home": {
+    slug: "peking-duck-at-home",
+    intro:
+      "Restaurant Peking duck runs on equipment no home kitchen has: a vertical oven, an air pump, days of hanging space. What travels home is the sequence — scald the skin, dry it hard, glaze it thin, roast it in two stages — and that sequence gets you genuinely lacquered, shatter-crisp skin off a domestic oven and a wire rack.",
+    confidence: {
+      cut: "Whole Pekin duck, 2–2.5 kg (4.5–5.5 lb)",
+      biggestRisk: "Rushing the drying stage — damp skin steams instead of lacquering",
+      essentialTechnique: "Boiling-water scald, then 12–24 hours uncovered in the fridge",
+      targetResult: "Glassy mahogany skin; thigh meat fully tender at 175–185°F (79–85°C)",
+      essentialTool: "A wire rack set over a deep roasting tray",
+      saveAfterwards: "The rendered fat in the tray, and the carcass for broth",
+    },
+    ingredientGroups: [
+      {
+        heading: "For the duck",
+        items: [
+          "1 whole Pekin duck, 2–2.5 kg (4.5–5.5 lb), fully thawed",
+          "2 litres (8 cups) water, for scalding",
+          "2 tbsp maltose or honey",
+          "1 tbsp Shaoxing wine (or dry sherry)",
+          "1 tbsp rice vinegar",
+          "1 tsp fine sea salt",
+        ],
+      },
+      {
+        heading: "To serve",
+        items: [
+          "12–16 thin Mandarin pancakes, steamed",
+          "6 scallions, cut into fine batons",
+          "½ cucumber, seeded and cut into batons",
+          "60 ml (¼ cup) hoisin or sweet bean sauce",
+        ],
+      },
+    ],
+    equipment: [
+      {
+        label: "Deep roasting tray and wire rack",
+        why: "The duck has to sit clear of its own rendering fat for the whole roast, and a domestic tray needs the depth to hold it.",
+        to: "/gear/best-roasting-pan-for-duck",
+        linkLabel: "Roasting pan buying guide",
+      },
+      {
+        label: "Instant-read thermometer",
+        why: "Whole-bird timings vary with weight and oven. Thigh temperature is the only reliable signal that the legs are done.",
+        to: "/gear/best-thermometer-for-duck",
+        linkLabel: "Thermometer buying guide",
+      },
+      {
+        label: "Fridge shelf space, uncovered",
+        why: "The drying stage is the recipe. Twelve to twenty-four hours of cold, moving air is what makes the skin lacquer rather than steam.",
+      },
+    ],
+    before: [
+      {
+        heading: "Loosen the skin, then scald it",
+        body: "Pat the duck dry and slide a finger or the handle of a spoon between skin and breast meat to separate them where you can, without tearing. Set the duck on a rack in the sink and ladle boiling water over it for a minute or two, turning, until the skin tightens and turns opaque. The scald shrinks the skin away from the fat and opens it to the glaze.",
+      },
+      {
+        heading: "Glaze and dry",
+        body: "Warm the maltose or honey with the wine, vinegar and salt until pourable, then brush a thin coat over the whole bird. Set it breast-up on a rack over a tray and refrigerate uncovered for 12–24 hours. The skin should feel dry and parchment-like before it goes near the oven — tacky skin means it needs longer.",
+      },
+    ],
+    steps: [
+      {
+        title: "Bring the duck to room temperature briefly",
+        body: "Take the duck out 30 minutes before roasting so the surface is not fridge-cold going in, and give it a second thin coat of glaze. Do not leave a whole bird out longer than that; perishable food should not sit between 40°F and 140°F for more than two hours in total.",
+      },
+      {
+        title: "Roast hot to set the skin",
+        body: "Heat the oven to 425°F (220°C) convection off. Roast the duck breast-up on the rack for 25 minutes, until the skin is tightening and colouring at the edges.",
+        watchFor:
+          "A little smoke from fat hitting the tray is normal. If it is more than a little, add a cup of water to the tray.",
+      },
+      {
+        title: "Drop the heat and render",
+        body: "Reduce to 325°F (165°C) and continue for 60–75 minutes, pouring the fat out of the tray twice along the way. This is where the fat cap leaves and the legs turn tender.",
+        watchFor:
+          "If the breast skin is racing ahead of the legs, tent the breast loosely with foil.",
+      },
+      {
+        title: "Finish hot for lacquer",
+        body: "Raise the heat back to 425°F (220°C) for a final 10–15 minutes to bring the skin to a deep, even mahogany with a glassy surface.",
+        watchFor:
+          "The sugars in the glaze can go from mahogany to bitter in a couple of minutes. Watch it, do not time it.",
+      },
+      {
+        title: "Check the thigh, then rest",
+        body: "Probe the thickest part of the thigh, avoiding bone: 175–185°F (79–85°C) means the legs are properly tender rather than merely safe. Rest, uncovered, on a rack for 15 minutes so the skin stays crisp.",
+        watchFor:
+          "The safe minimum internal temperature for all poultry, duck included, is 165°F (73.9°C). Whole-bird legs simply eat better well past it.",
+      },
+      {
+        title: "Carve skin first, then meat",
+        body: "Slice the crisp skin off in broad pieces and serve it separately — this is the part guests are waiting for. Then carve the breast into thin slices and pull the leg meat. Build pancakes with a smear of hoisin, scallion, cucumber, a slice of meat and a shard of skin.",
+      },
+    ],
+    temperatures: {
+      caption: "Oven stages and target temperatures",
+      columns: ["Stage", "Oven", "Time or target"],
+      rows: [
+        ["Set the skin", "425°F (220°C)", "25 minutes"],
+        ["Render", "325°F (165°C)", "60–75 minutes, drain fat twice"],
+        ["Lacquer", "425°F (220°C)", "10–15 minutes, watch closely"],
+        ["Thigh, for tenderness", "—", "175–185°F (79–85°C)"],
+        ["Poultry safe minimum", "—", "165°F (73.9°C)"],
+      ],
+    },
+    quackFix: [
+      {
+        symptom: "Skin is leathery rather than crisp",
+        cause: "Not dry enough before roasting, so the first stage steamed it.",
+        fixNow:
+          "Give it a further 8–10 minutes at 425°F (220°C) and serve the skin separately from the meat.",
+        prevent: "Let the glazed bird dry uncovered in the fridge for a full 24 hours next time.",
+      },
+      {
+        symptom: "Glaze turned dark and bitter",
+        cause: "Sugar burned during the final high-heat stage.",
+        fixNow: "Trim the darkest patches; the rest of the skin is still good.",
+        prevent:
+          "Glaze thinly, and treat the last stage as a watched 10 minutes rather than a set 15.",
+      },
+      {
+        symptom: "Breast dry by the time the legs were tender",
+        cause:
+          "Whole-bird cooking always pulls the breast past rosy — the fix is protection, not timing.",
+        fixNow: "Slice the breast thin and serve it with the pan juices and plenty of skin.",
+        prevent:
+          "Tent the breast with foil through the render stage, and carve legs and breast separately.",
+      },
+      {
+        symptom: "Kitchen filled with smoke",
+        cause: "Rendered fat pooling and overheating in the tray.",
+        fixNow: "Carefully pour the fat off and add a cup of water to the tray.",
+        prevent: "Drain the tray twice during the render stage, every time.",
+      },
+    ],
+    leftovers: [
+      {
+        part: "Rendered fat",
+        use: "Strain and keep it — this is the best batch of duck fat you will get all year.",
+        to: "/cook/ways-to-use-duck-fat",
+        linkLabel: "Fifteen uses for duck fat",
+      },
+      {
+        part: "Carcass",
+        use: "Simmer into a deep broth for noodles; the bones from a glazed bird make a darker stock than usual.",
+      },
+      {
+        part: "Leg and shoulder meat",
+        use: "Shred into pancakes, fried rice, or a cold salad the next day.",
+      },
+    ],
+    faq: [
+      {
+        q: "Can you make Peking duck without a special oven?",
+        a: "Yes. What a Peking oven gives you is fierce radiant heat and hanging airflow; a domestic oven with the bird on a wire rack over a deep tray gets close, provided you do the scald and the long uncovered dry.",
+      },
+      {
+        q: "Do I need maltose?",
+        a: "No. Maltose gives the most authentic glassy lacquer, but honey thinned with wine and vinegar browns very similarly. Use whichever you can get.",
+      },
+      {
+        q: "How long does the skin need to dry?",
+        a: "Twelve hours uncovered in the fridge is the minimum; twenty-four is better. The test is touch, not the clock — the skin should feel dry and papery, with no tackiness.",
+      },
+      {
+        q: "What duck should I buy?",
+        a: "A whole Pekin duck of 2–2.5 kg (4.5–5.5 lb). It is the breed the dish was built around and the one sold in most US supermarkets and online duck suppliers.",
+      },
+      {
+        q: "Is it safe to serve Peking duck with pink meat near the bone?",
+        a: "Cook whole duck until the thigh reads at least 165°F (73.9°C), the safe minimum for all poultry. In practice the legs taste better at 175–185°F (79–85°C), which puts safety well behind you.",
+      },
+    ],
+    related: [
+      "/cook/whole-roast-duck",
+      "/learn/why-duck-skin-isnt-crispy",
+      "/learn/how-to-render-duck-fat",
+      "/tools/whole-duck-serving-calculator",
+      "/tools/duck-doneness-guide",
+      "/recipes/roasted-whole-duck",
+      "/recipes/duck-a-lorange",
+    ],
+    sourcing: [
+      {
+        label: "Buying a whole duck",
+        why: "Pekin at 2–2.5 kg is the size this method is written for, and frozen whole birds need a full day or more of fridge thawing before the drying stage begins.",
+        to: "/buy/where-to-buy-duck-online",
+        linkLabel: "Where to buy duck online",
+      },
+    ],
+    sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep", "usdaThawing", "usdaDangerZone"],
+  },
+
+  "oven-roasted-duck-breast": {
+    slug: "oven-roasted-duck-breast",
+    intro:
+      "A skillet is the best way to cook two duck breasts and a stressful way to cook six. Rendering on the stovetop and finishing in the oven splits the job: you control the crisp by hand, then let steady oven heat bring four breasts to the same rosy centre at the same time.",
+    confidence: {
+      cut: "Skin-on duck breasts, 170–250 g (6–9 oz) each",
+      biggestRisk: "Moving to the oven before the fat cap has actually rendered",
+      essentialTechnique: "Low skillet render skin-side down, then a short oven finish",
+      targetResult: "Crisp rendered skin; centre pulled at 130–135°F (54–57°C) for rosy",
+      essentialTool: "An instant-read thermometer",
+      saveAfterwards: "The rendered fat, strained into a jar",
+    },
+    ingredientGroups: [
+      {
+        heading: "For the duck",
+        items: [
+          "4 skin-on duck breasts, about 170–250 g (6–9 oz) each",
+          "2 tsp fine sea salt (roughly 1% of the breast weight)",
+          "Freshly cracked black pepper, to finish",
+        ],
+      },
+      {
+        heading: "Optional pan jus",
+        items: [
+          "1 shallot, finely diced",
+          "80 ml (⅓ cup) red wine or cherry juice",
+          "160 ml (⅔ cup) chicken or duck stock",
+          "1 tsp red wine vinegar",
+          "20 g (1½ tbsp) cold unsalted butter",
+        ],
+      },
+    ],
+    equipment: [
+      {
+        label: "Oven-safe heavy skillet",
+        why: "The same pan renders on the stovetop and goes into the oven, so the skin never leaves the surface that crisped it.",
+        to: "/gear/best-pan-for-duck-breast",
+        linkLabel: "Pan buying guide",
+      },
+      {
+        label: "Instant-read thermometer",
+        why: "Four breasts of different thicknesses will not finish together. Probing each one is the only way to pull them all right.",
+        to: "/gear/best-thermometer-for-duck",
+        linkLabel: "Thermometer buying guide",
+      },
+      {
+        label: "Wire rack",
+        why: "Resting skin-side up on a rack keeps the crust you just built; a plate steams it soft.",
+      },
+    ],
+    before: [
+      {
+        heading: "Dry the skin and salt it",
+        body: "Pat the skin bone-dry and salt it. If you have a few hours, leave the breasts uncovered on a rack in the fridge — a drier surface renders faster and browns better. Heat the oven to 400°F (200°C) before you start rendering, so it is ready when the skin is.",
+      },
+      {
+        heading: "Score the fat cap",
+        body: "Cut a shallow 1 cm (⅜ in) crosshatch through skin and fat only, stopping short of the meat, to open drainage channels. If the knife shows red, you have gone too deep.",
+      },
+    ],
+    steps: [
+      {
+        title: "Render in a cold, dry pan",
+        body: "Lay the breasts skin-side down in an unheated, unoiled oven-safe skillet, then set the heat to low. Render for 10–15 minutes, pouring the fat off into a heatproof bowl every few minutes so the skin fries in a thin film rather than a pool.",
+        watchFor:
+          "The skin should be a deep, even amber and the fat cap noticeably thinner before the pan goes anywhere near the oven.",
+      },
+      {
+        title: "Transfer the pan to the oven",
+        body: "Leave the breasts skin-side down and slide the whole skillet into the 400°F (200°C) oven for 6–10 minutes, depending on thickness. Oven heat surrounds the meat, so thick and thin breasts even out instead of racing each other.",
+        watchFor:
+          "Thin breasts under 180 g can be done in as little as 5 minutes. Start checking early.",
+      },
+      {
+        title: "Probe every breast",
+        body: "Pull the pan out and probe each breast from the side into the centre of the thickest part. Take out any that have reached 130–135°F (54–57°C) for rosy, or 140–145°F (60–63°C) for medium, and return the rest for another two minutes.",
+      },
+      {
+        title: "Rest skin-side up",
+        body: "Rest on a wire rack for 5–10 minutes, skin-side up and uncovered. Carryover adds roughly 3–5°F, which is already counted in the pull temperatures above.",
+        watchFor:
+          "The safe minimum for all poultry, duck included, is 165°F (73.9°C). A rosy centre is a common culinary practice rather than a food-safety recommendation.",
+      },
+      {
+        title: "Optional: build a jus while they rest",
+        body: "Pour off all but a teaspoon of fat, soften the shallot, deglaze with wine or juice, reduce by half, add stock and reduce until it coats a spoon. Off the heat, whisk in the vinegar and cold butter. Slice the breasts across the grain and spoon the jus under the slices, not over the skin.",
+      },
+    ],
+    temperatures: {
+      caption: "Pull temperatures, before carryover",
+      columns: ["Result", "Pull temperature", "After rest"],
+      rows: [
+        ["Rare", "125–128°F (52–53°C)", "≈130°F (54°C)"],
+        ["Medium-rare (most common)", "130–135°F (54–57°C)", "≈135–138°F (57–59°C)"],
+        ["Medium", "140–145°F (60–63°C)", "≈145–150°F (63–66°C)"],
+        ["Poultry safe minimum", "165°F (73.9°C)", "Fully cooked through"],
+      ],
+    },
+    quackFix: [
+      {
+        symptom: "Skin softened in the oven",
+        cause:
+          "The breasts went in before the fat cap had rendered, so fat melted out under set skin.",
+        fixNow:
+          "Return the pan to low stovetop heat, skin-side down, for 3–5 minutes and pour off the fat.",
+        prevent: "Judge the move to the oven by the look of the fat cap, not the clock.",
+      },
+      {
+        symptom: "Some breasts overcooked while others were rare",
+        cause: "Mixed thicknesses pulled at the same moment.",
+        fixNow: "Nothing to fix afterwards — slice the overcooked ones thinner and serve with jus.",
+        prevent: "Probe each breast individually and remove them one at a time.",
+      },
+      {
+        symptom: "Grey band under the skin",
+        cause: "The render ran too hot, cooking the meat inward from the surface.",
+        fixNow: "Slice thin and serve with something sharp.",
+        prevent: "Keep the render on low; the oven supplies all the heat the meat needs.",
+      },
+      {
+        symptom: "Pan smoked in the oven",
+        cause: "Too much rendered fat left in the skillet.",
+        fixNow: "Drain the fat and continue.",
+        prevent: "Pour the fat off two or three times during the stovetop render.",
+      },
+    ],
+    leftovers: [
+      {
+        part: "Rendered fat",
+        use: "Strain and refrigerate. Four breasts give you a serious jar of it.",
+        to: "/cook/ways-to-use-duck-fat",
+        linkLabel: "Fifteen uses for duck fat",
+      },
+      {
+        part: "Cold cooked breast",
+        use: "Slice thin for sandwiches or a warm salad; avoid hard reheating.",
+      },
+      {
+        part: "Trimmed skin edges",
+        use: "Fry slowly into cracklings and salt them while hot.",
+      },
+    ],
+    faq: [
+      {
+        q: "What oven temperature is best for duck breast?",
+        a: "400°F (200°C) after a stovetop render. It is hot enough to finish a breast in 6–10 minutes without driving a thick grey band in from the surface.",
+      },
+      {
+        q: "Can I roast duck breast without searing it first?",
+        a: "You can, but the skin will not be as crisp. Duck skin needs slow, direct contact with a pan to render its fat; oven air alone leaves more of it behind.",
+      },
+      {
+        q: "How long does duck breast take in the oven?",
+        a: "6–10 minutes at 400°F (200°C) after a 10–15 minute stovetop render, depending on thickness. Times are a guide; the thermometer decides.",
+      },
+      {
+        q: "Is this better than pan-searing?",
+        a: "It is better for four or more breasts, or for thick Moulard breasts where a pan alone overcooks the outside. For two ordinary Pekin breasts, the skillet method is simpler.",
+      },
+      {
+        q: "Do I cover duck breast in the oven?",
+        a: "No. Covering traps steam and undoes the crisp skin you just spent fifteen minutes rendering.",
+      },
+    ],
+    related: [
+      "/cook/how-to-cook-duck-breast",
+      "/tools/duck-game-plan",
+      "/learn/duck-breast-temperature-doneness",
+      "/learn/why-duck-skin-isnt-crispy",
+      "/learn/how-to-score-duck-breast",
+      "/cook/best-sauces-for-duck-breast",
+      "/tools/duck-doneness-guide",
+      "/recipes/pan-seared-duck-breast",
+      "/recipes/air-fryer-duck-breast",
+    ],
+    sourcing: [
+      {
+        label: "Buying duck breast",
+        why: "Breast weights vary widely between suppliers, and cooking four at once makes matched sizes worth asking about. The cut guide covers formats and what to check on arrival.",
+        to: "/buy/where-to-buy-duck-breast-online",
+        linkLabel: "Where to buy duck breast online",
+      },
+    ],
+    sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
+  },
+
   "pan-seared-duck-breast": {
     slug: "pan-seared-duck-breast",
     intro:
       "Duck breast is a fat problem before it is a meat problem. Nearly everything that separates flabby, greasy skin from a crisp, glassy crust happens in the first ten minutes, at a temperature far lower than most people expect. Start the breast in a cold, dry pan, render patiently, and the finish takes care of itself.",
+    answerFirst:
+      "Score the fat cap, put the breasts skin-side down in a cold, dry, unoiled pan, and only then turn the heat to low. Render for 12\u201318 minutes until the skin is thin, deep gold and crisp, then flip briefly to finish. Pull the breast at 130\u2013135\u00b0F (54\u201357\u00b0C) in the centre for a rosy medium-rare and rest it five minutes, or cook to 165\u00b0F (74\u00b0C) for the official poultry safety minimum.",
     confidence: {
       cut: "Skin-on duck breast, 170–250 g (6–9 oz) each",
       biggestRisk: "Starting hot — the skin seizes and traps unrendered fat underneath",
@@ -121,17 +517,23 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         heading: "Score the fat cap",
         body: "Cut a 1 cm (⅜ in) crosshatch or parallel lines through the skin and fat, stopping just short of the meat. The cuts open channels for fat to escape and multiply the surface area that can brown. If the knife hits red, you have gone too deep.",
       },
+      {
+        heading: "Pick the pan, and know how it behaves",
+        body: "Stainless and cast iron both work, differently. Stainless answers the burner fast, so you can back off the moment the render gets loud, and its fond makes the better pan sauce. Cast iron holds a steady low heat and browns hard at the finish, but it lags when you turn the heat down. Either way, start dry and unoiled: skin sticking to stainless almost always means the pan was hot before the duck went in.",
+      },
     ],
     steps: [
       {
         title: "Start cold and dry",
         body: "Lay the breasts skin-side down in an unheated, unoiled pan and only then turn the heat to low. There is enough fat in the skin to fry the breast in itself; adding oil just delays the render.",
-        watchFor: "Silence for the first minute or two is normal. A loud sizzle immediately means the pan was already hot.",
+        watchFor:
+          "Silence for the first minute or two is normal. A loud sizzle immediately means the pan was already hot.",
       },
       {
         title: "Render slowly for 12–18 minutes",
         body: "Keep the heat low enough that the fat bubbles gently rather than spits. Pour off the liquid fat into a heatproof bowl every few minutes — a shallow pan browns; a deep pool of fat effectively deep-fries and steams. The skin should shrink, flatten and turn a deep, even amber.",
-        watchFor: "If the skin darkens fast while the fat cap is still thick, drop the heat further and extend the render.",
+        watchFor:
+          "If the skin darkens fast while the fat cap is still thick, drop the heat further and extend the render.",
       },
       {
         title: "Press if the breast curls",
@@ -140,12 +542,14 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Flip and finish",
         body: "Once the skin is crisp and the fat cap is thin, raise the heat slightly and flip. The meat side only needs 1–3 minutes depending on thickness — it is nearly cooked already from the long render.",
-        watchFor: "Probe from the side into the thickest part, keeping the tip in the centre of the muscle.",
+        watchFor:
+          "Probe from the side into the thickest part, keeping the tip in the centre of the muscle.",
       },
       {
         title: "Pull early, then rest",
         body: "Pull at 130–135°F (54–57°C) for rosy, 140–145°F (60–63°C) for medium. Rest skin-side up on a rack for 5–10 minutes; carryover adds roughly 3–5°F, and resting on a plate steams the crust you just spent twenty minutes building.",
-        watchFor: "The safe minimum for all poultry, duck included, is 165°F (73.9°C). Cooking to a lower temperature is a common culinary practice, not a food-safety recommendation.",
+        watchFor:
+          "The safe minimum for all poultry, duck included, is 165°F (73.9°C). Cooking to a lower temperature is a common culinary practice, not a food-safety recommendation.",
       },
       {
         title: "Optional: build a pan sauce while it rests",
@@ -166,13 +570,16 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         symptom: "Skin is soft and rubbery, not crisp",
         cause: "The render was too short or too hot, leaving fat under the skin.",
-        fixNow: "Return the breast skin-side down to a low pan for another 3–5 minutes, pouring off fat as it releases.",
-        prevent: "Treat the render as the recipe, not the preamble: 12–18 minutes on low with regular fat removal.",
+        fixNow:
+          "Return the breast skin-side down to a low pan for another 3–5 minutes, pouring off fat as it releases.",
+        prevent:
+          "Treat the render as the recipe, not the preamble: 12–18 minutes on low with regular fat removal.",
       },
       {
         symptom: "Skin browned fast but the fat cap is still thick",
         cause: "Heat was too high — the surface set before the fat could melt out.",
-        fixNow: "Lower the heat and continue; a slightly darker crust is better than an unrendered one.",
+        fixNow:
+          "Lower the heat and continue; a slightly darker crust is better than an unrendered one.",
         prevent: "Start in a cold pan and never let the fat spit.",
       },
       {
@@ -218,6 +625,10 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         a: "The safe minimum for all poultry, duck included, is 165°F (73.9°C). Serving duck breast rosy is a widespread restaurant and home practice, but it is a culinary choice rather than a food-safety recommendation. Anyone pregnant, elderly, very young, or immunocompromised should cook to the full 165°F.",
       },
       {
+        q: "Can I cook duck breast in a stainless steel pan?",
+        a: "Yes, and it is a good choice. Start it in a cold, dry stainless pan exactly as you would in cast iron — the skin releases its own fat within a couple of minutes and stops sticking. Stainless reacts faster to heat changes, so go by the sizzle; cast iron is steadier but slower to respond.",
+      },
+      {
         q: "Should I score in a crosshatch or in lines?",
         a: "Either works. Crosshatch gives slightly more surface area and drainage; parallel lines are easier to keep shallow. Depth matters far more than pattern.",
       },
@@ -231,6 +642,12 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/cook/what-to-serve-with-duck-breast",
       "/tools/duck-doneness-guide",
       "/tools/recipe-scaler",
+      "/recipes/air-fryer-duck-breast",
+      "/recipes/duck-a-lorange",
+      "/recipes/oven-roasted-duck-breast",
+      "/gear/best-pan-for-duck-breast",
+      "/gear/best-thermometer-for-duck",
+      "/gear/best-knife-for-scoring-duck",
     ],
     sourcing: [
       {
@@ -241,6 +658,268 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
     ],
     sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep"],
+  },
+
+  "air-fryer-duck-breast": {
+    slug: "air-fryer-duck-breast",
+    imageCaption: {
+      text: "Shown with an optional dark cherry sauce, which is not part of the recipe below.",
+      to: "/ingredients/cherry-plum-with-duck",
+      linkLabel: "Cherry and plum with duck",
+    },
+    intro:
+      "An air fryer crisps duck skin differently from a skillet: hot moving air browns the surface while the fat cap drains instead of frying. The method below renders low first, crisps hot briefly, and finishes on a thermometer rather than a timer.",
+    confidence: {
+      cut: "Skin-on duck breast, 170–250 g (6–9 oz) each",
+      biggestRisk: "The meat climbing past your target before the fat cap has rendered",
+      essentialTechnique: "Low render stage, then a short high-heat crisping stage, skin-side up",
+      targetResult:
+        "Skin rendered and crisp in patches, centre pulled at 130–135°F (54–57°C) for rosy",
+      essentialTool: "A fast instant-read thermometer",
+      saveAfterwards: "The fat collected in the drawer — strain it once cool",
+    },
+    ingredientGroups: [
+      {
+        heading: "For the duck",
+        items: [
+          "2 skin-on duck breasts, about 170–250 g (6–9 oz) each",
+          "1 tsp fine sea salt (or roughly 1% of the breast weight)",
+          "Freshly cracked black pepper, to finish",
+        ],
+      },
+    ],
+    equipment: [
+      {
+        label: "Instant-read thermometer",
+        why: "Air fryers vary by basket design, wattage, fan strength and preheat behaviour, so the timings here are starting ranges. A probe reading is the only thing that tells you where the centre actually is.",
+        to: "/gear/best-thermometer-for-duck",
+        linkLabel: "Thermometer buying guide",
+      },
+      {
+        label: "Sharp, thin-bladed knife",
+        why: "Scoring is a controlled cut through skin and fat only. A dull blade drags into the meat, which leaks juice into a basket you cannot deglaze.",
+        to: "/gear/best-knife-for-scoring-duck",
+        linkLabel: "Knife buying guide",
+      },
+      {
+        label: "Tongs and a heatproof container",
+        why: "Rendered fat pools under the basket while it is still dangerously hot. You want to move breasts with tongs and pour fat into something that will not soften or tip.",
+      },
+    ],
+    before: [
+      {
+        heading: "Dry the skin, then salt it",
+        body: "Pat the skin bone-dry with paper towel and salt it. Surface moisture has to boil off before browning starts, and in an air fryer that steam has nowhere useful to go. If you have a few hours, salt the skin and leave the breasts uncovered on a rack in the fridge — a drier surface browns sooner, which shortens the time the meat spends heating up.",
+      },
+      {
+        heading: "Score the fat cap, shallowly",
+        body: "Cut a 1 cm (⅜ in) crosshatch or parallel lines through skin and fat, stopping short of the meat. If the knife shows red you have gone too deep, and the cut will leak. The channels matter more here than in a pan: draining is the only way fat leaves an air fryer basket.",
+      },
+      {
+        heading: "Skip the preheat, and check your manual",
+        body: "A cold start buys the fat cap a few extra minutes of gentle rendering before the meat climbs, which is the whole difficulty of this cook. If your machine's instructions require a preheat, preheat at the lowest setting it allows and expect the render stage to run shorter. Do not add water to the drawer unless the manufacturer explicitly permits it.",
+      },
+      {
+        heading: "Cook two at most, with air between them",
+        body: "Duck breast needs airflow on all sides and room for fat to drain. Two breasts in a standard basket, not touching, is the practical limit for most machines; a crowded basket steams instead of browning and the two pieces finish at different times.",
+      },
+    ],
+    steps: [
+      {
+        title: "Set the breasts skin-side up",
+        body: "Lay the breasts in the basket skin-side up, not touching, and do not oil them. Skin-side up puts the fan directly on the surface you want dry and brown, and lets melted fat run down and away rather than sitting under the skin.",
+        watchFor:
+          "Any part of a breast touching the basket wall will brown differently. Give each piece a clear gap before you start.",
+      },
+      {
+        title: "Render low: 300–325°F (150–160°C) for 8–12 minutes",
+        body: "Run the low stage until the fat cap has visibly thinned, the skin has shrunk back and the surface has gone from pale and slack to matte, tacky and faintly golden. This is the stage that decides the result; rushing it is the single most common reason air-fried duck skin stays rubbery.",
+        watchFor:
+          "Fat should render steadily without spitting or smoking. Heavy smoke at this point means the setting is too high — drop it and add time.",
+      },
+      {
+        title: "Pause and drain the fat",
+        body: "Open the basket, lift the breasts onto a plate with tongs, and tip the collected fat into a heatproof container. Standing fat is what smokes, spits and eventually flares; draining it once mid-cook removes most of that risk. Let the fat cool before you cover or move it, and never pour hot fat into a sink or a thin plastic tub.",
+        watchFor:
+          "If the drawer is close to full at this point, drain it again before the crisping stage rather than after.",
+      },
+      {
+        title: "Crisp high: 390–400°F (200–205°C) for 3–6 minutes",
+        body: "Return the breasts skin-side up and raise the setting. This short window is where the crust forms. Check at three minutes and then every minute or so — the difference between deep amber and burnt is about ninety seconds at this temperature, and the meat is climbing fast now.",
+        watchFor:
+          "Pull the basket early if the thinnest edges darken ahead of the centre; those edges will keep browning on residual heat.",
+      },
+      {
+        title: "Measure, don't guess",
+        body: "Probe from the side into the thickest part, keeping the tip in the middle of the muscle and clear of the fat layer. Pull at 130–135°F (54–57°C) for rosy or 140–145°F (60–63°C) for medium. If the skin is not where you want it but the centre is close, stop cooking: the crust cannot be recovered from an overcooked breast, and a short pass under a hot grill afterwards is the safer trade.",
+        watchFor:
+          "The safe minimum for all poultry, duck included, is 165°F (73.9°C). Cooking to a lower temperature is a widespread culinary practice, not a food-safety recommendation.",
+      },
+      {
+        title: "Rest 5–10 minutes, skin-side up",
+        body: "Rest on a rack, uncovered, skin-side up. Carryover adds roughly 3–5°F, and resting on a plate or under foil traps steam against the crust you just built. Slice across the grain at a slight angle and season with pepper and flaky salt at the table.",
+        watchFor:
+          "A crust that softens during the rest was never fully rendered — extend the low stage next time rather than the high one.",
+      },
+    ],
+    temperatures: {
+      caption: "Starting ranges by breast thickness. Your machine will differ.",
+      columns: ["Breast", "Low render stage", "High crisp stage", "Pull at"],
+      rows: [
+        [
+          "Small, 170–190 g / thin fat cap",
+          "300–325°F (150–160°C), 8–9 min",
+          "390–400°F (200–205°C), 3–4 min",
+          "130–135°F (54–57°C) for rosy",
+        ],
+        [
+          "Medium, 190–220 g",
+          "300–325°F (150–160°C), 10–12 min",
+          "390–400°F (200–205°C), 4–5 min",
+          "130–135°F (54–57°C) for rosy",
+        ],
+        [
+          "Large, 220–250 g / thick fat cap",
+          "300–325°F (150–160°C), 12–14 min",
+          "390–400°F (200–205°C), 5–6 min",
+          "130–135°F (54–57°C) for rosy",
+        ],
+        ["Cooked through", "As above", "As above", "165°F (73.9°C), the safe minimum for poultry"],
+      ],
+    },
+    verifyNote: {
+      label: "Treat every time here as a starting point",
+      body: "Basket design, wattage, fan strength, preheat behaviour, breast size, skin thickness and fridge temperature all move these numbers, and small drawer machines run hotter at the top of the basket than large ones. Read the skin and the probe rather than the clock: the low stage ends when the fat cap has thinned and the surface has gone matte, and the cook ends at your pull temperature.",
+    },
+    guidanceNote:
+      "Times are starting ranges for a domestic basket air fryer; the thermometer and the look of the skin decide the finish.",
+    quackFix: [
+      {
+        symptom: "Skin is pale and rubbery when the meat is done",
+        cause:
+          "The low render stage was too short, so fat was still under the skin when the meat hit temperature.",
+        fixNow:
+          "Slice the breast, then crisp the skin side alone for a minute or two under a hot grill or in a dry pan. Do not put a cooked breast back into a 400°F basket.",
+        prevent:
+          "Judge the low stage by the fat cap, not the clock — matte, shrunken, faintly golden before you raise the heat.",
+      },
+      {
+        symptom: "Meat overcooked before the skin crisped",
+        cause: "Too much time at the high setting, or a machine that runs hotter than its dial.",
+        fixNow:
+          "Nothing recovers a grey breast. Slice thin, across the grain, and serve with something sharp.",
+        prevent:
+          "Start probing at the beginning of the crisping stage and accept a lighter crust when the centre reaches your target.",
+      },
+      {
+        symptom: "The kitchen fills with smoke",
+        cause: "Fat pooling in the drawer and hitting its smoke point, usually late in the cook.",
+        fixNow:
+          "Stop the machine, let it settle for a moment, then drain the fat with tongs and a heatproof container before continuing.",
+        prevent:
+          "Drain between stages as a matter of course, and keep the render stage at or below 325°F (160°C). Add water to the drawer only if the manufacturer says you may.",
+      },
+      {
+        symptom: "Skin sticks to the basket",
+        cause: "The breast was started skin-side down, or moved before the surface had set.",
+        fixNow:
+          "Slide a thin spatula under the whole piece rather than pulling with tongs, and lift it flat.",
+        prevent: "Cook skin-side up throughout, and leave the breasts alone during the low stage.",
+      },
+      {
+        symptom: "Browning is uneven across one breast",
+        cause: "Fan hot spots, a curling breast, or a piece too close to the basket wall.",
+        fixNow: "Rotate the breast 180° at the halfway point of the crisping stage.",
+        prevent:
+          "Leave a clear gap around each piece, and press a curling breast flat with a spatula early in the low stage.",
+      },
+      {
+        symptom: "Fat spatters up onto the element or the food",
+        cause: "A deep pool of hot fat plus high fan speed.",
+        fixNow:
+          "Pause, drain, and wipe the inside of the lid or shield once the machine has cooled. Do not throw liquid at hot fat.",
+        prevent: "Drain mid-cook, and do not run the high stage with a full drawer.",
+      },
+      {
+        symptom: "Two breasts finish minutes apart",
+        cause: "Different weights or thicknesses, or unequal airflow in the basket.",
+        fixNow:
+          "Pull the smaller one when it reaches temperature and let it rest while the larger finishes.",
+        prevent:
+          "Buy breasts of a similar weight where you can, probe each one separately, and never treat one reading as covering both.",
+      },
+    ],
+    leftovers: [
+      {
+        part: "Fat from the drawer",
+        use: "Strain it once cool and refrigerate it — how much you get depends on the size and breed of the breast.",
+        to: "/cook/ways-to-use-duck-fat",
+        linkLabel: "Ways to use duck fat",
+      },
+      {
+        part: "Cold cooked breast",
+        use: "Slice thin the next day for sandwiches or a warm salad. Refrigerate within two hours and use within 3–4 days.",
+      },
+      {
+        part: "Trimmed skin and edges",
+        use: "Render them slowly into cracklings while the breasts rest; salt while hot.",
+      },
+    ],
+    leftoversHeading: "Waste nothing from the basket",
+    leftoversIntro:
+      "The fat is the second reason to cook duck breast, and an air fryer collects it in one place for you.",
+    faq: [
+      {
+        q: "Should I preheat the air fryer for duck breast?",
+        a: "Not if your machine allows a cold start. Starting cold gives the fat cap a few extra minutes of gentle rendering before the meat climbs, which is the hardest part of this cook to get right. If the manufacturer's instructions require preheating, preheat at the lowest setting available and expect the low stage to run shorter.",
+      },
+      {
+        q: "Skin-side up or skin-side down?",
+        a: "Skin-side up throughout. The fan works on the top surface, so skin-side up dries and browns the skin while melted fat drains away from it. Skin-side down puts the skin in the fat that has just left it, and it tends to stick to the basket.",
+      },
+      {
+        q: "Is an air fryer better than a skillet for duck breast?",
+        a: "It is different, not better. The air fryer is more hands-off, contains most of the mess and needs no fat management beyond draining. A skillet gives you direct contact browning, continuous control of the render, and a pan you can build a sauce in. If crust quality is the priority, the skillet still has the advantage.",
+      },
+      {
+        q: "Can I put water in the drawer to stop the smoke?",
+        a: "Only if your manufacturer explicitly permits it — many do not, and water meeting hot fat or a heating element is a real hazard. Draining the rendered fat between stages solves the same problem without that risk.",
+      },
+      {
+        q: "How long does air fryer duck breast take?",
+        a: "Roughly 12–20 minutes of cooking for most breasts, split between a low render stage and a short high-heat stage, plus a 5–10 minute rest. Treat that as a starting range: basket design, wattage, fan strength, breast size and starting temperature all move it, which is why the finish is decided by a thermometer.",
+      },
+      {
+        q: "Can I cook duck breast from frozen in an air fryer?",
+        a: "Thaw it in the refrigerator first. A frozen breast releases water as it cooks, which stops the skin from browning, and the outside overcooks long before the centre is where you want it.",
+      },
+      {
+        q: "Do I need to add oil?",
+        a: "No. Skin-on duck breast releases plenty of its own fat, and added oil only increases what pools in the drawer — which is what smokes and spatters.",
+      },
+    ],
+    related: [
+      "/cook/how-to-cook-duck-breast",
+      "/learn/how-to-score-duck-breast",
+      "/learn/duck-breast-temperature-doneness",
+      "/learn/why-duck-skin-isnt-crispy",
+      "/cook/best-sauces-for-duck-breast",
+      "/cook/what-to-serve-with-duck-breast",
+      "/tools/duck-doneness-guide",
+      "/recipes/pan-seared-duck-breast",
+      "/recipes/duck-fat-roasted-potatoes",
+      "/recipes/oven-roasted-duck-breast",
+    ],
+    sourcing: [
+      {
+        label: "Buying duck breast",
+        why: "Breast weights and fat-cap thickness vary widely between suppliers, and both change the render stage. The cut-specific guide covers formats, weights and what to check when the box arrives.",
+        to: "/buy/where-to-buy-duck-breast-online",
+        linkLabel: "Where to buy duck breast online",
+      },
+    ],
+    linksInModuleOnly: true,
+    sourceIds: ["usdaPoultryTemp", "usdaPoultryPrep", "usdaLeftovers"],
   },
 
   "duck-leg-confit": {
@@ -303,7 +982,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Cure the legs",
         body: "Mix salt, garlic, thyme, bay and pepper. Rub over the legs, lay them skin-side up in a single layer, cover, and refrigerate 12–24 hours. Shorter gives lighter seasoning; longer gives a firmer, more intense result.",
-        watchFor: "More salt is not better. Above roughly 2% by weight the meat turns noticeably salty and dense.",
+        watchFor:
+          "More salt is not better. Above roughly 2% by weight the meat turns noticeably salty and dense.",
       },
       {
         title: "Rinse and dry thoroughly",
@@ -316,7 +996,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Poach low and slow",
         body: "Hold the fat at 190–210°F (88–99°C) for 2.5–3.5 hours — an oven set to 200–225°F (93–107°C) usually gets there. You want the occasional lazy bubble, never a simmer.",
-        watchFor: "Vigorous bubbling means the fat is too hot; the meat will fray and dry out even while sitting in fat.",
+        watchFor:
+          "Vigorous bubbling means the fat is too hot; the meat will fray and dry out even while sitting in fat.",
       },
       {
         title: "Test for doneness",
@@ -325,7 +1006,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Cool and store, or crisp now",
         body: "To store, cool the legs in their fat, then refrigerate submerged and use within 3–4 days. To serve, lift a leg out, scrape off excess fat, and crisp skin-side down in a dry hot pan or under a hot oven for 10–15 minutes until the skin shatters.",
-        watchFor: "Fat-sealed storage is a refrigerator technique, not shelf-stable preservation. Keep it cold.",
+        watchFor:
+          "Fat-sealed storage is a refrigerator technique, not shelf-stable preservation. Keep it cold.",
       },
     ],
     temperatures: {
@@ -348,7 +1030,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         symptom: "Finished legs taste too salty",
         cause: "Over-long cure, too much salt, or cure not rinsed off.",
-        fixNow: "Serve with unsalted starch — plain potatoes, lentils, bread — and a sharp, acidic salad.",
+        fixNow:
+          "Serve with unsalted starch — plain potatoes, lentils, bread — and a sharp, acidic salad.",
         prevent: "Weigh the salt at 1.5–2% of leg weight and rinse thoroughly.",
       },
       {
@@ -394,6 +1077,9 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/cook/ways-to-use-duck-fat",
       "/buy/duck-fat-buying-guide",
       "/tools/duck-fat-substitution-calculator",
+      "/recipes/duck-fat-roasted-potatoes",
+      "/recipes/roasted-whole-duck",
+      "/recipes/oven-roasted-duck-breast",
     ],
     sourcing: [
       {
@@ -417,6 +1103,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     slug: "roasted-whole-duck",
     intro:
       "A whole duck asks you to solve two problems at once: legs that want a long cook and a breast that does not. The two-stage roast — a long, low fat-rendering phase followed by a short, hot browning phase — is the most reliable way to get both right in a domestic oven.",
+    answerFirst:
+      "Roast a whole duck in two stages: 60\u201390 minutes at 300\u2013325\u00b0F (150\u2013165\u00b0C) breast-side up to render the fat, pouring it off as it collects, then a short blast at high heat to crisp the skin. The legs are ready at 175\u2013185\u00b0F (79\u201385\u00b0C) in the thickest part of the thigh, where the connective tissue has softened; probe there rather than trusting time. Dry the skin uncovered in the fridge overnight and keep the bird on a rack so it never sits in its own fat.",
     confidence: {
       cut: "Whole duck, typically 2–2.7 kg (4.5–6 lb)",
       biggestRisk: "Roasting hot the whole way, which dries the breast before the legs are tender",
@@ -482,7 +1170,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Stage one: render low, breast-side up",
         body: "Roast at 300–325°F (150–165°C) for roughly 60–90 minutes depending on weight. Fat should collect steadily in the tin.",
-        watchFor: "Pour off accumulated fat every 30 minutes — a deep pool spits and steams the underside.",
+        watchFor:
+          "Pour off accumulated fat every 30 minutes — a deep pool spits and steams the underside.",
       },
       {
         title: "Check the legs before browning",
@@ -491,7 +1180,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Stage two: brown hot and fast",
         body: "Raise the oven to 425–450°F (220–230°C) for 15–25 minutes until the skin is deep mahogany and tight. If you are glazing, brush in the last 10–15 minutes only — sugar burns quickly at this heat.",
-        watchFor: "Watch continuously in this stage; the gap between burnished and burnt is a few minutes.",
+        watchFor:
+          "Watch continuously in this stage; the gap between burnished and burnt is a few minutes.",
       },
       {
         title: "Rest properly",
@@ -506,7 +1196,11 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       caption: "Target temperatures for whole duck",
       columns: ["Part", "Target", "Why"],
       rows: [
-        ["Thigh / leg", "175–185°F (79–85°C)", "Connective tissue breaks down; meat becomes tender"],
+        [
+          "Thigh / leg",
+          "175–185°F (79–85°C)",
+          "Connective tissue breaks down; meat becomes tender",
+        ],
         ["Breast (culinary)", "135–145°F (57–63°C)", "Still juicy; commonly served slightly pink"],
         ["USDA recommendation", "165°F (73.9°C) throughout", "Food-safety minimum for all poultry"],
         ["Rest", "15–20 minutes", "Juice redistribution; carryover of several degrees"],
@@ -517,7 +1211,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         symptom: "Breast is dry by the time the legs are done",
         cause: "The whole roast ran too hot, so the breast overshot while the legs caught up.",
         fixNow: "Slice the breast thin and serve with the pan juices or a sharp fruit sauce.",
-        prevent: "Use the low-then-hot two-stage method, and shield the breast with foil if it runs ahead.",
+        prevent:
+          "Use the low-then-hot two-stage method, and shield the breast with foil if it runs ahead.",
       },
       {
         symptom: "Skin is pale and soft",
@@ -558,6 +1253,14 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         a: "Broadly 2–2.5 hours for a 2–2.7 kg (4.5–6 lb) bird using the two-stage method, but weight, oven accuracy and starting temperature all shift it. Use the cooking-time planner for a range and confirm with a thermometer.",
       },
       {
+        q: "What is the best way to cook a whole duck?",
+        a: "Two stages in a domestic oven: a long, low phase at 300–325°F (150–165°C) that renders the fat cap, then a short blast at high heat that crisps the skin. Cooking hot the whole way dries the breast before the legs are tender, and cooking low the whole way leaves the skin soft.",
+      },
+      {
+        q: "How do I prepare a whole duck before roasting?",
+        a: "Remove the giblets, dry the skin thoroughly and leave the bird uncovered in the fridge overnight if you can, season inside and out, and set it on a rack so it never sits in the fat it releases. Aromatics go in the cavity; stuffing does not.",
+      },
+      {
         q: "Should I stuff a whole duck?",
         a: "No. Stuffing insulates the cavity, extends the cook, and soaks up fat. Use citrus, garlic and herbs as aromatics instead.",
       },
@@ -573,6 +1276,15 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/learn/how-to-thaw-duck",
       "/tools/duck-cooking-time-planner",
       "/tools/whole-duck-serving-calculator",
+      "/recipes/duck-fat-roasted-potatoes",
+      "/recipes/duck-a-lorange",
+      "/ingredients/best-herbs-spices-for-duck",
+      "/recipes/peking-duck-at-home",
+      "/learn/duck-breast-temperature-doneness",
+      "/learn/thanksgiving-duck-dinner",
+      "/gear/best-roasting-pan-for-duck",
+      "/learn/how-to-render-duck-fat",
+      "/buy/where-to-buy-duck-online",
     ],
     sourcing: [
       {
@@ -656,12 +1368,14 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Smoke to temperature, not to time",
         body: "Smoke for roughly 1.5–2.5 hours depending on cut and size. Breast should reach 130–140°F (54–60°C); legs on a whole bird want 175–185°F (79–85°C).",
-        watchFor: "If the legs lag badly behind, separate the bird into breast and leg pieces next time and smoke them apart.",
+        watchFor:
+          "If the legs lag badly behind, separate the bird into breast and leg pieces next time and smoke them apart.",
       },
       {
         title: "Make the plum sauce while it smokes",
         body: "Simmer plums, shallot, vinegar, honey, soy, star anise and chilli for 20–25 minutes until collapsed and glossy. Blend for a smooth sauce or leave it chunky. It should taste distinctly sharp on its own — against duck fat it will read as balanced.",
-        watchFor: "Taste for acidity, not sweetness. Under-acidic plum sauce makes the whole plate cloying.",
+        watchFor:
+          "Taste for acidity, not sweetness. Under-acidic plum sauce makes the whole plate cloying.",
       },
       {
         title: "Finish hot for the skin",
@@ -671,7 +1385,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Rest and slice",
         body: "Rest 10 minutes, then slice the breast across the grain and serve with the plum sauce spooned alongside.",
-        watchFor: "The safe minimum for all poultry is 165°F (73.9°C); smoking to a lower breast temperature is a culinary choice.",
+        watchFor:
+          "The safe minimum for all poultry is 165°F (73.9°C); smoking to a lower breast temperature is a culinary choice.",
       },
     ],
     temperatures: {
@@ -689,7 +1404,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
         symptom: "Bitter, ashy flavour",
         cause: "Thick white smoke, or fat dripping onto coals.",
         fixNow: "Serve with extra plum sauce and acidic sides; the sharpness masks a lot.",
-        prevent: "Use a drip tray, fewer wood chunks, and wait for thin blue smoke before the bird goes in.",
+        prevent:
+          "Use a drip tray, fewer wood chunks, and wait for thin blue smoke before the bird goes in.",
       },
       {
         symptom: "Skin is leathery, not crisp",
@@ -740,6 +1456,9 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/learn/why-duck-skin-isnt-crispy",
       "/cook/what-to-serve-with-duck-breast",
       "/tools/duck-doneness-guide",
+      "/recipes/pan-seared-duck-breast",
+      "/recipes/duck-a-lorange",
+      "/ingredients/best-herbs-spices-for-duck",
     ],
     sourcing: [
       {
@@ -762,7 +1481,8 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       essentialTechnique: "Low render, hot finish, gastrique built on the drippings",
       targetResult: "Thigh at 175–185°F (79–85°C), mahogany skin, a sauce that coats a spoon",
       essentialTool: "An instant-read thermometer and a heavy saucepan",
-      saveAfterwards: "Rendered fat for potatoes, carcass for stock, orange zest strips for the sauce",
+      saveAfterwards:
+        "Rendered fat for potatoes, carcass for stock, orange zest strips for the sauce",
     },
     ingredientGroups: [
       {
@@ -790,10 +1510,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         heading: "Optional garnish",
-        items: [
-          "1 orange, peeled and cut into segments, pith removed",
-          "A few sprigs thyme",
-        ],
+        items: ["1 orange, peeled and cut into segments, pith removed", "A few sprigs thyme"],
       },
     ],
     equipment: [
@@ -840,12 +1557,14 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Stage one: render low, breast-side up",
         body: "Roast at 300–325°F (150–165°C) for roughly 60–90 minutes depending on weight, on a rack over a tin. Fat should collect steadily rather than spit.",
-        watchFor: "Pour the fat off into a heatproof bowl every 30 minutes. A deep pool in the tin smokes later and steams the underside now.",
+        watchFor:
+          "Pour the fat off into a heatproof bowl every 30 minutes. A deep pool in the tin smokes later and steams the underside now.",
       },
       {
         title: "Make the gastrique while the duck renders",
         body: "Melt the sugar in the dry saucepan over medium heat, without stirring, until it turns a deep amber caramel. Stand back and pour in the vinegar — it will seize and spit — then the orange juice and zest strips. Simmer until the caramel dissolves, add the stock, and reduce to roughly 250 ml (1 cup). Set aside off the heat.",
-        watchFor: "Pale caramel gives a flat, sweet sauce. Take it to the colour of dark honey, one shade before it smells acrid.",
+        watchFor:
+          "Pale caramel gives a flat, sweet sauce. Take it to the colour of dark honey, one shade before it smells acrid.",
       },
       {
         title: "Check the legs before you brown",
@@ -854,12 +1573,14 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Stage two: brown hot and fast",
         body: "Raise the oven to 425–450°F (220–230°C) for 15–25 minutes until the skin is deep mahogany and tight. Do not brush the sauce on the bird — the sugar in it will burn at this heat and you will lose both the skin and the sauce.",
-        watchFor: "Stay in the kitchen. The gap between burnished and bitter is a few minutes at this temperature.",
+        watchFor:
+          "Stay in the kitchen. The gap between burnished and bitter is a few minutes at this temperature.",
       },
       {
         title: "Rest the duck, finish the sauce",
         body: "Rest the bird 15–20 minutes, loosely tented. Spoon a tablespoon of the tin drippings into the gastrique and reduce until it coats a spoon, then taste: it should read sharp first and sweet second. Sharpen with lemon juice or a little more vinegar — those are the acid. If it tastes sharp but thin on bitter-orange character, a teaspoon of Seville marmalade adds that depth, though it adds sweetness with it, so re-taste and re-sharpen after. Whisk in the cold butter off the heat and season.",
-        watchFor: "If it tastes like dessert, add vinegar or lemon in half-teaspoons until the edge comes back.",
+        watchFor:
+          "If it tastes like dessert, add vinegar or lemon in half-teaspoons until the edge comes back.",
       },
       {
         title: "Carve and sauce the plate",
@@ -882,26 +1603,31 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         symptom: "The sauce tastes like marmalade",
         cause: "Too much sugar, under-caramelised, or not enough acid to balance it.",
-        fixNow: "Add red wine vinegar or lemon juice half a teaspoon at a time, reducing briefly between additions, until the sharpness leads. Marmalade will not fix this — it adds sweetness along with its bitter-orange depth.",
-        prevent: "Take the caramel to dark honey, keep the juice fresh rather than from concentrate, and taste before the butter goes in.",
+        fixNow:
+          "Add red wine vinegar or lemon juice half a teaspoon at a time, reducing briefly between additions, until the sharpness leads. Marmalade will not fix this — it adds sweetness along with its bitter-orange depth.",
+        prevent:
+          "Take the caramel to dark honey, keep the juice fresh rather than from concentrate, and taste before the butter goes in.",
       },
       {
         symptom: "The sauce is bitter in a harsh, chemical way",
         cause: "White pith went in with the zest, or the caramel went past amber into burnt.",
-        fixNow: "Strain out the zest, then soften what's left with a spoonful of stock and, if you have it, a teaspoon of marmalade for rounder bitterness.",
+        fixNow:
+          "Strain out the zest, then soften what's left with a spoonful of stock and, if you have it, a teaspoon of marmalade for rounder bitterness.",
         prevent: "Peel wide strips with no pith, and pull the caramel one shade early.",
       },
       {
         symptom: "Skin is pale and soft",
         cause: "The bird went in damp, or the hot stage was cut short.",
         fixNow: "Return it to a 450°F (230°C) oven for up to 10 minutes, watching closely.",
-        prevent: "Dry the skin uncovered in the fridge overnight and commit to the full hot finish.",
+        prevent:
+          "Dry the skin uncovered in the fridge overnight and commit to the full hot finish.",
       },
       {
         symptom: "Breast is dry by the time the legs are tender",
         cause: "The roast ran too hot, so the breast overshot while the legs caught up.",
         fixNow: "Slice the breast thin and serve it generously sauced.",
-        prevent: "Keep the low stage low, shield the breast with foil if it runs ahead, and probe both parts.",
+        prevent:
+          "Keep the low stage low, shield the breast with foil if it runs ahead, and probe both parts.",
       },
     ],
     leftovers: [
@@ -954,6 +1680,9 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/learn/how-to-carve-a-duck",
       "/tools/duck-cooking-time-planner",
       "/tools/whole-duck-serving-calculator",
+      "/recipes/roasted-whole-duck",
+      "/recipes/pan-seared-duck-breast",
+      "/recipes/peking-duck-at-home",
     ],
     sourcing: [
       {
@@ -975,9 +1704,11 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       cut: "Floury or all-rounder potatoes, 1.2 kg (2½ lb)",
       biggestRisk: "Cold fat and a crowded tray — both steam the potatoes instead of frying them",
       essentialTechnique: "Parboil, dry, rough the edges, then into preheated fat",
-      targetResult: "A shatter-crisp shell over a fluffy centre, evenly browned on two or three faces",
+      targetResult:
+        "A shatter-crisp shell over a fluffy centre, evenly browned on two or three faces",
       essentialTool: "A heavy metal roasting tray, not glass or ceramic",
-      saveAfterwards: "Strain and chill the fat left in the tray — it is good for at least one more roast",
+      saveAfterwards:
+        "Strain and chill the fat left in the tray — it is good for at least one more roast",
     },
     ingredientGroups: [
       {
@@ -1030,12 +1761,14 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Heat the oven and the fat",
         body: "Heat the oven to 220°C / 425°F (200°C / 400°F fan). Spoon the duck fat into a heavy metal roasting tray large enough to hold the potatoes in a single layer with gaps, and put the tray in the oven to heat.",
-        watchFor: "If the tray looks tight for 1.2 kg of potatoes, use two trays. Crowding is the most common reason roast potatoes come out pale.",
+        watchFor:
+          "If the tray looks tight for 1.2 kg of potatoes, use two trays. Crowding is the most common reason roast potatoes come out pale.",
       },
       {
         title: "Parboil for 8–10 minutes",
         body: "Put the cut potatoes in a large pan, cover with cold water, add the tablespoon of salt, and bring to a boil. Simmer 8–10 minutes from boiling — until a knife tip slides into the outer layer but meets resistance in the centre.",
-        watchFor: "Edges starting to fluff and blur is the signal you want. Pieces collapsing mean you have gone too far; drain immediately and handle them gently.",
+        watchFor:
+          "Edges starting to fluff and blur is the signal you want. Pieces collapsing mean you have gone too far; drain immediately and handle them gently.",
       },
       {
         title: "Drain and steam dry",
@@ -1049,17 +1782,20 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       {
         title: "Into the hot fat",
         body: "Pull the tray out and add the potatoes in one layer, turning each piece so it is coated, with a cut face against the metal. Leave a finger's width between pieces. Add the garlic and herbs now if you are using them.",
-        watchFor: "You should hear an immediate sizzle. Silence means the fat was not hot enough — give the tray a few more minutes in the oven next time.",
+        watchFor:
+          "You should hear an immediate sizzle. Silence means the fat was not hot enough — give the tray a few more minutes in the oven next time.",
       },
       {
         title: "Roast 25 minutes, then turn",
         body: "Roast undisturbed for 25 minutes, then turn each potato onto a fresh face and roast for another 20–30 minutes, turning once more if the browning looks uneven.",
-        watchFor: "Do not turn early. Potatoes need to release from the tray on their own; forcing them at 10 minutes tears the crust off.",
+        watchFor:
+          "Do not turn early. Potatoes need to release from the tray on their own; forcing them at 10 minutes tears the crust off.",
       },
       {
         title: "Finish and serve",
         body: "The potatoes are done when they are deep golden brown, sound hollow and hard when tapped with a spoon, and give no resistance to a skewer through the middle. Lift them out of the fat onto a warm dish, season with flaky salt and pepper, and serve straight away.",
-        watchFor: "Left sitting in the fat or covered with foil, the crust softens within minutes. Serve them uncovered.",
+        watchFor:
+          "Left sitting in the fat or covered with foil, the crust softens within minutes. Serve them uncovered.",
       },
     ],
     temperatures: {
@@ -1067,10 +1803,20 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       columns: ["Stage", "Setting", "Time", "What you are looking for"],
       rows: [
         ["Preheat fat in tray", "220°C / 425°F", "10–15 min", "Fat fully liquid and shimmering"],
-        ["Parboil", "Simmering water, salted", "8–10 min", "Knife enters the edge, centre still firm"],
+        [
+          "Parboil",
+          "Simmering water, salted",
+          "8–10 min",
+          "Knife enters the edge, centre still firm",
+        ],
         ["Steam dry", "Off heat, in the colander", "3–4 min", "Surface matte and dry to the touch"],
         ["First roast", "220°C / 425°F", "25 min", "Undersides set and releasing from the tray"],
-        ["After turning", "220°C / 425°F", "20–30 min", "Deep golden on two or three faces, hollow-sounding"],
+        [
+          "After turning",
+          "220°C / 425°F",
+          "20–30 min",
+          "Deep golden on two or three faces, hollow-sounding",
+        ],
       ],
     },
     guidanceNote: "Go by the visual and texture cues in the method rather than by the clock.",
@@ -1081,27 +1827,36 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     quackFix: [
       {
         symptom: "Pale and greasy rather than crisp",
-        cause: "The fat was cold when the potatoes went in, so they absorbed it instead of frying in it.",
-        fixNow: "Turn the oven up 10°C / 25°F and give them another 10–15 minutes, turning once. Some crust usually still comes.",
-        prevent: "Preheat the fat in the tray while the oven heats, and listen for a sizzle as the potatoes land.",
+        cause:
+          "The fat was cold when the potatoes went in, so they absorbed it instead of frying in it.",
+        fixNow:
+          "Turn the oven up 10°C / 25°F and give them another 10–15 minutes, turning once. Some crust usually still comes.",
+        prevent:
+          "Preheat the fat in the tray while the oven heats, and listen for a sizzle as the potatoes land.",
       },
       {
         symptom: "Smooth, hard shells with no craggy crust",
         cause: "Either a waxy potato or the roughing-up step was skipped.",
-        fixNow: "Nothing rescues the surface mid-roast; roast them to deep gold and enjoy them as they are.",
-        prevent: "Use a floury or all-rounder variety and shake the drained potatoes until the edges look fuzzy.",
+        fixNow:
+          "Nothing rescues the surface mid-roast; roast them to deep gold and enjoy them as they are.",
+        prevent:
+          "Use a floury or all-rounder variety and shake the drained potatoes until the edges look fuzzy.",
       },
       {
         symptom: "Insides gluey or waterlogged",
         cause: "Overboiled, or drained and dressed while still wet.",
-        fixNow: "Spread them further apart and keep roasting — extra time drives off some of the moisture.",
-        prevent: "Parboil to firm-centred only, then let them steam dry in the colander before the fat.",
+        fixNow:
+          "Spread them further apart and keep roasting — extra time drives off some of the moisture.",
+        prevent:
+          "Parboil to firm-centred only, then let them steam dry in the colander before the fat.",
       },
       {
         symptom: "Some burnt, some still pale",
         cause: "Uneven piece sizes, an overcrowded tray, or oven hot spots.",
-        fixNow: "Move the darkest pieces to the cooler edge of the tray and rotate the tray front to back.",
-        prevent: "Cut to an even size, leave gaps between pieces, and use two trays for larger batches.",
+        fixNow:
+          "Move the darkest pieces to the cooler edge of the tray and rotate the tray front to back.",
+        prevent:
+          "Cut to an even size, leave gaps between pieces, and use two trays for larger batches.",
       },
     ],
     leftoversHeading: "Save what's left",
@@ -1154,11 +1909,13 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       "/learn/how-to-render-duck-fat",
       "/ingredients/duck-fat-vs-butter-oil",
       "/tools/recipe-scaler",
+      "/recipes/duck-leg-confit",
+      "/recipes/roasted-whole-duck",
+      "/recipes/peking-duck-at-home",
     ],
     sourcing: [],
     sourceIds: [],
   },
-
 };
 
 export const recipeBySlug = (slug: string): Recipe | undefined =>
@@ -1183,4 +1940,3 @@ export const recipeNeedsDuckFat = (slug: string): boolean => {
     group.items.some((item) => /duck fat/i.test(item)),
   );
 };
-

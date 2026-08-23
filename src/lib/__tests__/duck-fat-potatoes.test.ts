@@ -32,8 +32,8 @@ describe("duck fat roasted potatoes: registration", () => {
   it("carries the photograph plus descriptive alt text", () => {
     expect(recipe!.image).toMatch(/duck-fat-roasted-potatoes-card/);
     expect(recipe!.imageAlt).toMatch(/duck fat roasted potatoes/i);
-    // No on-page illustration for this recipe: the photograph carries every role.
-    expect(recipe!.illustration).toBeUndefined();
+    // Photography-led by rule: the photograph carries every role.
+    expect("illustration" in recipe!).toBe(false);
     expect(ROUTE).toContain("image: recipe.image");
   });
 
@@ -163,22 +163,12 @@ describe("duck fat roasted potatoes: no inherited duck-meat template art or copy
   const rotation = sketchRotationForPath(PATH);
   const alts = rotation.map((art) => art.alt);
 
-  it("omits the three unrelated recipe illustrations", () => {
-    for (const banned of [
-      "Colored-pencil sketch of sliced duck breast on a plate with dark fruit sauce",
-      "Colored-pencil sketch of a spoon lifting glossy reduction sauce from a pan",
-      "Colored-pencil sketch of braised greens, roast potatoes and pickles in bowls",
-    ]) {
-      expect(alts, banned).not.toContain(banned);
-    }
-  });
-
-  it("keeps the duck-fat-and-potatoes illustration as the page's only drawing", () => {
-    expect(alts).toEqual([SKETCH.duckFat.alt]);
-    expect(sketchForPath(PATH)).toBe(SKETCH.duckFat);
-    // A single-entry rotation places no companion bands in the body.
+  it("carries no drawings at all: recipes are photography-led", () => {
+    expect(alts).toEqual([]);
+    expect(sketchForPath(PATH)).toBeNull();
+    expect(rotation).toEqual([]);
+    // The auto-layout itself still works for illustration-led templates.
     expect(sketchPlacements({ sections: 12 }).length).toBeGreaterThan(0);
-    expect(rotation.length).toBeLessThan(2);
   });
 
   it("does not substitute other unrelated recipe art for the meat rotation", () => {

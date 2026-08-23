@@ -14,6 +14,31 @@ export interface SourceRef {
 }
 
 export const SOURCES: Record<string, SourceRef> = {
+  fdcDuckMeat: {
+    id: "fdcDuckMeat",
+    label: "Duck, domesticated, meat only / meat and skin, cooked, roasted",
+    publisher: "USDA FoodData Central (SR Legacy)",
+    url: "https://fdc.nal.usda.gov/food-search?query=duck%20domesticated%20roasted",
+    note: "Per 100 g roasted: meat only about 201 kcal, 23.5 g protein, 11.2 g fat; meat with skin about 337 kcal, 19 g protein, 28.4 g fat.",
+    checked: "2026-08",
+  },
+  fdcDuckFat: {
+    id: "fdcDuckFat",
+    label: "Fat, duck",
+    publisher: "USDA FoodData Central (SR Legacy)",
+    url: "https://fdc.nal.usda.gov/food-search?query=duck%20fat",
+    note: "Duck fat is roughly one third saturated and about half monounsaturated by weight.",
+    checked: "2026-08",
+  },
+  fdcChickenCompare: {
+    id: "fdcChickenCompare",
+    label: "Chicken, broilers or fryers, roasted — breast and thigh",
+    publisher: "USDA FoodData Central (SR Legacy)",
+    url: "https://fdc.nal.usda.gov/food-search?query=chicken%20roasted%20breast%20meat%20only",
+    note: "Used only for the duck-versus-chicken comparison figures per 100 g cooked.",
+    checked: "2026-08",
+  },
+
   usdaPoultryTemp: {
     id: "usdaPoultryTemp",
     label: "Safe Minimum Internal Temperature Chart",
@@ -63,7 +88,6 @@ export const SOURCES: Record<string, SourceRef> = {
     checked: "2026-08",
   },
   usdaTurkeyRoasting: {
-
     id: "usdaTurkeyRoasting",
     label: "Let's Talk Turkey — A Consumer Guide to Safely Roasting a Turkey",
     publisher: "USDA Food Safety and Inspection Service",

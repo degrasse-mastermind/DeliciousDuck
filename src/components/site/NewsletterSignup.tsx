@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, Check, Clock, Download } from "lucide-react";
 import {
+  trackNewsletterFormError,
+  trackNewsletterFormStart,
   trackNewsletterIntent,
+  trackNewsletterOfferView,
   trackNewsletterPostsignupClick,
   trackNewsletterSignup,
 } from "@/lib/analytics";
+import { useModuleImpression } from "@/hooks/useModuleImpression";
 import {
   isNewsletterEnabled,
   subscribeToNewsletter,
@@ -34,11 +38,32 @@ import { LeadMagnetDownloadLink } from "@/components/site/TrackedLinks";
  * success state and the GA4 `newsletter_signup` conversion only fire after
  * durable storage succeeds; any failure keeps the form open.
  *
+ * Funnel measurement (GA4 + PostHog, both non-PII): `newsletter_offer_view`
+ * once the module is meaningfully visible, `newsletter_form_start` on the first
+ * real interaction with the field, `newsletter_form_error` with a categorical
+ * `error_type` when an attempt fails, and the existing `newsletter_signup` on
+ * success. Together they give offer view -> start -> error -> signup, with the
+ * view event deduped per session so a scroll back up cannot inflate it.
+ *
  * GA4: `newsletter_intent` covers interaction either way; `newsletter_signup`
  * is emitted once per successful subscription and never on mount;
  * `newsletter_postsignup_click` covers the "Start here" module. No event ever
  * carries the email address.
  */
+/**
+ * Maps a thrown failure onto the closed `error_type` allowlist. Anything we
+ * cannot confidently classify becomes `unknown` rather than leaking detail.
+ */
+function classifyFailure(cause: unknown): "network" | "server" | "unknown" {
+  const message = cause instanceof Error ? cause.message.toLowerCase() : "";
+  if (!message) return "unknown";
+  if (message.includes("fetch") || message.includes("network") || message.includes("offline")) {
+    return "network";
+  }
+  if (/\b(4\d\d|5\d\d)\b/.test(message) || message.includes("server")) return "server";
+  return "unknown";
+}
+
 export function NewsletterSignup({
   id = "starter-guide",
   interest = "general",
@@ -57,8 +82,31 @@ export function NewsletterSignup({
   const [intentSent, setIntentSent] = useState(false);
   const [signupSent, setSignupSent] = useState(false);
 
+  const [startSent, setStartSent] = useState(false);
+  /**
+   * Focus target after a failed submission: the field the reader must correct.
+   * The error paragraph is already linked with `aria-describedby`, so moving
+   * focus here announces the message with the field's own name and state.
+   */
+  const emailRef = useRef<HTMLInputElement | null>(null);
+
   const enabled = typeof onSubscribe === "function" && isNewsletterEnabled();
   const context = newsletterContext(interest);
+
+  /**
+   * One offer impression per session per placement, emitted when the module is
+   * actually visible rather than merely mounted below the fold.
+   */
+  const offerRef = useModuleImpression<HTMLElement>(() =>
+    trackNewsletterOfferView({ placement: id }),
+  );
+
+  /** First meaningful interaction with the form — focus or typing, once. */
+  function signalFormStart() {
+    if (startSent) return;
+    setStartSent(true);
+    trackNewsletterFormStart({ placement: id });
+  }
 
   /** One intent event per component instance — no double-firing. */
   function signalIntent(source: string) {
@@ -69,12 +117,28 @@ export function NewsletterSignup({
 
   const valid = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
 
+  /**
+   * Shows a failure and returns focus to the field the reader must fix. The
+   * message text is ours, never the server's — no raw message is rendered.
+   */
+  function failWith(message: string) {
+    setError(message);
+    emailRef.current?.focus();
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!onSubscribe || pending) return;
     const cleaned = email.trim().toLowerCase();
+    if (!cleaned) {
+      failWith("Please enter your email address.");
+      trackNewsletterFormError({ placement: id, errorType: "required" });
+      return;
+    }
     if (!valid(cleaned) || cleaned.length > 255) {
-      setError("Please enter a valid email address.");
+      failWith("Please enter a valid email address.");
+      // Category only — never the typed value.
+      trackNewsletterFormError({ placement: id, errorType: "invalid_format" });
       return;
     }
     setError(null);
@@ -102,8 +166,11 @@ export function NewsletterSignup({
         trackNewsletterSignup({ placement: id, source: "newsletter_form", interest });
       }
       setDone(true);
-    } catch {
-      setError("We couldn't sign you up just now. Please try again in a moment.");
+    } catch (cause) {
+      failWith("We couldn't sign you up just now. Please try again in a moment.");
+      // Coarse classification only: the raw message, response body and stack
+      // trace never reach analytics.
+      trackNewsletterFormError({ placement: id, errorType: classifyFailure(cause) });
     } finally {
       setPending(false);
     }
@@ -112,7 +179,9 @@ export function NewsletterSignup({
 
   return (
     <section
+      ref={offerRef}
       id={id}
+      data-placement={id}
       aria-labelledby={`${id}-heading`}
       className="scroll-mt-24 overflow-hidden rounded-sm bg-forest text-forest-foreground"
     >
@@ -123,12 +192,18 @@ export function NewsletterSignup({
             id={`${id}-heading`}
             className="mt-3 font-display text-3xl leading-tight lg:text-[2.75rem]"
           >
-            {FIELD_GUIDE.title}
+            Cooking duck tonight? Don&apos;t guess.
           </h2>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-forest-foreground/80">
-            {context.promise} Subscribers get it as a printable 16-page PDF, plus a short welcome
-            series and occasional DeliciousDuck recipes and guides.
+            {context.promise} Tell us what you&apos;re cooking in the{" "}
+            <a href="/tools/duck-game-plan" className="underline underline-offset-4">
+              Duck Game Plan
+            </a>{" "}
+            and we&apos;ll build your temperature, timing, crispy-skin and serving plan. Subscribers
+            also get the printable {FIELD_GUIDE.pages}-page {FIELD_GUIDE.title}, a short welcome
+            series, and occasional DeliciousDuck recipes and guides.
           </p>
+
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
             {context.bullets.map((point) => (
@@ -289,14 +364,27 @@ export function NewsletterSignup({
                   Email address
                 </label>
                 <input
+                  ref={emailRef}
                   id={`${id}-email`}
                   type="email"
                   name="email"
                   autoComplete="email"
+                  // Native semantics preserved: `type="email"` plus `required`
+                  // make the required/invalid state programmatically
+                  // determinable, while `noValidate` on the form keeps our own
+                  // accessible messaging (and the categorical error events).
+                  required
+                  aria-required="true"
                   maxLength={255}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onFocus={() => signalIntent("newsletter_form")}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    signalFormStart();
+                  }}
+                  onFocus={() => {
+                    signalIntent("newsletter_form");
+                    signalFormStart();
+                  }}
                   aria-invalid={error ? true : undefined}
                   aria-describedby={error ? `${id}-error` : undefined}
                   placeholder="you@example.com"

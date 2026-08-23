@@ -28,6 +28,10 @@ import roastingPans from "@/assets/sketch/roasting-pans.png";
 // Transparent-alpha master, drawn for the duck-breast buying guide: package
 // formats, a scale, and blank label shapes — no merchant marks, no prices.
 import duckBreastPackages from "@/assets/sketch/duck-breast-packages.png";
+// Drawn for the Thanksgiving planning hub: roast duck centrepiece, handwritten
+// timeline and checklist, platter, restrained autumn details. Its own hero, so
+// the hub never borrows the whole-roast or duck-versus-turkey drawings.
+import thanksgivingPlan from "@/assets/sketch/thanksgiving-plan.jpg";
 
 export type SketchArt = {
   src: string;
@@ -125,6 +129,10 @@ export const SKETCH = {
     src: thawing,
     alt: "Colored-pencil sketch of a covered tray thawing on a refrigerator shelf",
   },
+  thanksgivingPlan: {
+    src: thanksgivingPlan,
+    alt: "Colored-pencil sketch of a Thanksgiving planning scene: a roast duck on a serving platter beside a handwritten timeline and checklist",
+  },
   ovenRoast: {
     src: ovenRoast,
     alt: "Colored-pencil sketch of an open oven with a roasting tin under warm light",
@@ -170,6 +178,9 @@ const BY_PATH: Record<string, SketchKey> = {
   "/learn/how-to-render-duck-fat": "renderingFat",
   "/learn/wild-duck-vs-farmed-duck": "wildVsFarmed",
   "/learn/duck-vs-turkey-thanksgiving": "duckVsTurkey",
+  // Bound explicitly: the "thanksgiving" keyword would inherit the duck-and-
+  // turkey comparison drawing, but this hub assumes duck is already chosen.
+  "/learn/thanksgiving-duck-dinner": "thanksgivingPlan",
 
   "/buy": "buyingDuck",
   "/buy/where-to-buy-duck-online": "buyingDuck",
@@ -211,14 +222,10 @@ const BY_PATH: Record<string, SketchKey> = {
   "/tools/duck-fat-substitution-calculator": "duckFat",
   "/tools/duck-pairing-finder": "fruitPairings",
 
+  // Recipe hub only. Individual recipes are photography-led by rule — see
+  // PHOTOGRAPHY_LED_PREFIXES below — so no drawing is bound to a recipe slug.
   "/recipes": "slicedBreast",
-  "/recipes/pan-seared-duck-breast": "duckBreastPan",
-  "/recipes/duck-leg-confit": "confit",
-  "/recipes/roasted-whole-duck": "wholeRoastDuck",
-  // Bound explicitly: the keyword rules would match "orange" and reach for the
-  // fruit still life, but this page is a whole roast bird with a sauce.
-  "/recipes/duck-a-lorange": "wholeRoastDuck",
-  "/recipes/duck-fat-roasted-potatoes": "duckFat",
+
 
   "/guides/duck-cooking-starter-guide": "ducksFlight",
   "/search": "ducksFlight",
@@ -340,6 +347,22 @@ const BY_KEYWORD: Array<[string, SketchKey]> = [
 /** Routes that should stay illustration-free (internal, legal, utility). */
 const NO_ART_PREFIXES = ["/internal", "/privacy", "/terms", "/legal", "/api"];
 
+/**
+ * Site rule for visual media, applied here so no template can drift:
+ *
+ * - Commercial, learn, cook, gear, ingredients, tools and hub pages lead with
+ *   the colored-pencil illustration system.
+ * - Individual recipes lead with photography. A recipe's own bound photograph
+ *   is the first culinary visual on the page, and no drawing is placed above or
+ *   inside it — a generic sketch there competes with the dish and says less.
+ *
+ * The recipe hub (`/recipes`) is an index, not a recipe, so it keeps its art.
+ */
+const PHOTOGRAPHY_LED_PREFIXES = ["/recipes/"];
+
+
+
+
 /** Last-resort art for any content route we can't classify. */
 const SITE_DEFAULT: SketchKey = "ducksFlight";
 
@@ -372,6 +395,8 @@ export function sketchForPath(pathname: string): SketchArt | null {
 
   if (path === "/" || path === "") return null;
   if (NO_ART_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`))) return null;
+  if (PHOTOGRAPHY_LED_PREFIXES.some((p) => path.startsWith(p))) return null;
+
 
   const exact = BY_PATH[path];
   if (exact) return SKETCH[exact];
@@ -407,6 +432,8 @@ const GENERIC_ROTATION: SketchKey[] = ["ducksFlight", "duckFat", "spices", "side
  * "page illustration only, no companion bands".
  */
 const ROTATION_BY_PATH: Record<string, SketchKey[]> = {
+  // Holiday planning hub: oven, bird, board, table — never the turkey compare.
+  "/learn/thanksgiving-duck-dinner": ["ovenRoast", "carving", "sides"],
   "/recipes/duck-fat-roasted-potatoes": [],
   // Breast buying guide: the page's own package drawing carries it. The only
   // fitting companion is the skillet, and repeating one drawing down a buying

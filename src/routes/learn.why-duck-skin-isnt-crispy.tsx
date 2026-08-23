@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { distributionMetadata } from "@/lib/distribution-metadata";
 import { ArticleShell, Section, Callout } from "@/components/site/ArticleShell";
 import { QuackFix } from "@/components/site/QuackFix";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
@@ -10,10 +11,17 @@ import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 
 const GUIDE = guideByPath("/learn/why-duck-skin-isnt-crispy")!;
+const DISTRIBUTION = distributionMetadata("/learn/why-duck-skin-isnt-crispy");
 
 export const Route = createFileRoute("/learn/why-duck-skin-isnt-crispy")({
   head: () => ({
-    ...pageMeta({ title: GUIDE.seoTitle, description: GUIDE.description, path: GUIDE.path, ogType: "article" }),
+    ...pageMeta({
+      title: GUIDE.seoTitle,
+      description: GUIDE.description,
+      path: GUIDE.path,
+      ogType: "article",
+      ...(DISTRIBUTION ? { image: DISTRIBUTION.primaryImage } : {}),
+    }),
     scripts: [
       ldScript(
         breadcrumbSchema([

@@ -134,7 +134,7 @@ const SEEDS: SeedRow[] = [
     merchantId: "fossil-farms",
     category: "duck_source",
     useFor:
-      "A broad duck collection across breeds and cuts, plus prepared duck — useful when a recipe names a specific breed or an unusual cut.",
+      "A game and specialty meat retailer that sells duck by breed — the Pekin collection covers whole birds, breasts and legs, and Moulard is stocked separately when a recipe wants the bigger bird.",
     ctaLabel: "Shop duck at Fossil Farms",
   },
   {

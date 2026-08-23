@@ -1,9 +1,11 @@
 import panSeared from "@/assets/recipe-pan-seared.jpg";
+import pekingDuck from "@/assets/recipe-peking-duck.jpg";
+import ovenBreast from "@/assets/recipe-oven-roasted-duck-breast.jpg";
+import airFryerHero from "@/assets/recipe-air-fryer-duck-breast.jpg";
+import airFryerCard from "@/assets/recipe-air-fryer-duck-breast-card.jpg";
 import confit from "@/assets/recipe-confit.jpg";
-import wholeRoast from "@/assets/recipe-whole-roast.jpg";
 import smokedPlum from "@/assets/recipe-smoked-plum.jpg";
 import orangeCard from "@/assets/duck-a-lorange-card.jpg";
-import orangeIllustration from "@/assets/duck-a-lorange-illustration.jpg";
 import wholeRoastCard from "@/assets/roasted-whole-duck-card.jpg";
 import potatoesCard from "@/assets/duck-fat-roasted-potatoes-card.jpg";
 
@@ -24,12 +26,16 @@ export interface Recipe {
    */
   imageAlt?: string;
   /**
-   * Optional editorial illustration for the recipe detail page. Cards,
-   * listings, Recipe JSON-LD and social previews always use `image` (the
-   * photograph); only the detail page's prominent visual uses this.
+   * Optional smaller crop of the SAME photograph, used only by cards and
+   * listings. `image` stays the wide original, so Recipe JSON-LD and social
+   * previews always reference the durable full-size asset.
    */
-  illustration?: string;
-  illustrationAlt?: string;
+  cardImage?: string;
+  /**
+   * Recipes are photography-led site-wide, so there is no illustration field:
+   * every recipe surface (card, detail hero, JSON-LD, social) reads `image`.
+   * Drawings belong to commercial and learn templates.
+   */
   category: string;
   cuisine?: string;
   prepTimeMinutes: number;
@@ -105,11 +111,7 @@ export const RECIPES: Recipe[] = [
     description:
       "A whole duck roasted in two stages, served with a bitter-orange gastrique built from the pan drippings \u2014 sharp and glossy rather than sweet.",
     image: orangeCard,
-    imageAlt:
-      "Whole roast Duck \u00e0 l\u2019Orange with crisp mahogany skin and orange gastrique",
-    illustration: orangeIllustration,
-    illustrationAlt:
-      "Colored-pencil illustration of a whole roast Duck \u00e0 l\u2019Orange on a platter with oranges",
+    imageAlt: "Whole roast Duck \u00e0 l\u2019Orange with crisp mahogany skin and orange gastrique",
     category: "Whole duck",
     cuisine: "French",
     prepTimeMinutes: 30,
@@ -142,11 +144,7 @@ export const RECIPES: Recipe[] = [
     description:
       "A two-stage roast that renders the fat cap, keeps the breast juicy, and gets the legs fully tender.",
     image: wholeRoastCard,
-    imageAlt:
-      "Whole roasted duck with crisp mahogany skin, roast potatoes and thyme",
-    illustration: wholeRoast,
-    illustrationAlt:
-      "Whole roasted duck resting on a platter with roast potatoes, thyme and a charred shallot",
+    imageAlt: "Whole roasted duck with crisp mahogany skin, roast potatoes and thyme",
     category: "Whole duck",
     prepTimeMinutes: 20,
     cookTimeMinutes: 135,
@@ -185,6 +183,60 @@ export const RECIPES: Recipe[] = [
     recipeYield: "Serves 4 as a side",
     difficulty: "Easy",
     keyTechnique: "Parboil, rough up, roast in preheated fat",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "air-fryer-duck-breast",
+    name: "Air Fryer Duck Breast",
+    description:
+      "Air fryer duck breast with crisp skin: render the fat gently, finish at high heat, and use a thermometer while managing smoke and hot rendered fat.",
+    image: airFryerHero,
+    cardImage: airFryerCard,
+    imageAlt:
+      "Sliced air fryer duck breast with crisp golden-brown skin and a rosy centre, served with an optional dark cherry sauce that is not part of the recipe below",
+    category: "Duck breast",
+    prepTimeMinutes: 15,
+    cookTimeMinutes: 20,
+    recipeYield: "2 servings",
+    difficulty: "Easy",
+    keyTechnique: "Two-stage air frying, skin-side up",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "peking-duck-at-home",
+    name: "Peking Duck at Home",
+    description:
+      "A home cook's route to lacquered, shatter-crisp Peking-style duck: air-dry, scald, glaze, and roast, served with pancakes, scallion and hoisin.",
+    image: pekingDuck,
+    imageAlt:
+      "Whole Peking-style duck with lacquered mahogany skin beside sliced skin, thin pancakes, scallion, cucumber and hoisin",
+    category: "Whole duck",
+    cuisine: "Chinese",
+    prepTimeMinutes: 45,
+    cookTimeMinutes: 105,
+    recipeYield: "4 servings",
+    difficulty: "Advanced",
+    keyTechnique: "Scalding and air-drying the skin, then a two-temperature roast",
+    verification: "editorialDraft",
+    validation: UNTESTED("1.0"),
+  },
+  {
+    slug: "oven-roasted-duck-breast",
+    name: "Oven-Roasted Duck Breast",
+    description:
+      "Duck breast rendered in a skillet and finished in the oven — the steadier route to crisp skin and an even rosy centre when you are cooking four or more.",
+    image: ovenBreast,
+    imageAlt:
+      "Sliced oven-roasted duck breast with golden crisp skin and a rosy centre, with a spoon of pan jus",
+    category: "Duck breast",
+    cuisine: "French",
+    prepTimeMinutes: 15,
+    cookTimeMinutes: 30,
+    recipeYield: "4 servings",
+    difficulty: "Easy",
+    keyTechnique: "Skillet render, oven finish, thermometer pull",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },

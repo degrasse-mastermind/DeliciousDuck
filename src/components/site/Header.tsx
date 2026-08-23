@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { NAV_LINKS } from "@/data/site";
 import { Wordmark } from "./Wordmark";
@@ -7,9 +7,38 @@ import { CTA } from "@/lib/cta";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchToggleRef = useRef<HTMLButtonElement>(null);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
+
+  /**
+   * The desktop search field expands in place rather than in a dialog, so it
+   * needs no focus trap — Tab must keep moving through the header. What keyboard
+   * users do need is a way out: Escape closes the field and returns focus to the
+   * toggle that opened it, so focus is never left on a removed element.
+   */
+  function closeSearch() {
+    setSearchOpen(false);
+    // Restore focus after React removes the field from the DOM.
+    requestAnimationFrame(() => searchToggleRef.current?.focus());
+  }
+
+  /** Same contract for the phone menu: Escape closes it, focus returns. */
+  function closeMenu() {
+    setOpen(false);
+    requestAnimationFrame(() => menuToggleRef.current?.focus());
+  }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header
+      // Escape closes the phone menu wherever focus sits — on the toggle
+      // itself, on a nav link, or in the menu's search field — and focus
+      // returns to the toggle, never to a removed element.
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && open) closeMenu();
+      }}
+      className="sticky top-0 z-50 border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+    >
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-5 lg:h-20 lg:gap-4 lg:px-8">
         <Link
           to="/"
@@ -32,26 +61,30 @@ export function Header() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                to="/about"
-                className="eyebrow text-foreground/70 transition-colors hover:text-primary"
-                activeProps={{ className: "text-primary" }}
-              >
-                ABOUT
-              </Link>
-            </li>
           </ul>
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <SearchField />
+          {searchOpen ? (
+            <SearchField autoFocus onSubmit={() => setSearchOpen(false)} onDismiss={closeSearch} />
+          ) : (
+            <button
+              ref={searchToggleRef}
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              aria-expanded={false}
+              aria-label="Search DeliciousDuck"
+              className="inline-flex size-10 items-center justify-center rounded-sm border border-border text-foreground/70 transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            >
+              <Search aria-hidden="true" className="size-4" />
+            </button>
+          )}
           <Link
             to="/tools"
             hash="starter-guide"
             className={CTA.primary}
           >
-            Get the Free Guide
+            Free Guide
           </Link>
         </div>
 
@@ -69,6 +102,7 @@ export function Header() {
         </Link>
 
         <button
+          ref={menuToggleRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
@@ -97,7 +131,7 @@ export function Header() {
               ))}
             </ul>
             <div className="mt-4 space-y-3">
-              <SearchField id="mobile-search" onSubmit={() => setOpen(false)} />
+              <SearchField id="mobile-search" onSubmit={() => setOpen(false)} onDismiss={closeMenu} />
               <Link
                 to="/tools"
                 hash="starter-guide"
@@ -114,13 +148,30 @@ export function Header() {
   );
 }
 
-function SearchField({ id = "site-search", onSubmit }: { id?: string; onSubmit?: () => void }) {
+function SearchField({
+  id = "site-search",
+  onSubmit,
+  onDismiss,
+  autoFocus = false,
+}: {
+  id?: string;
+  onSubmit?: () => void;
+  /** Escape handler — closes an expandable search and restores focus. */
+  onDismiss?: () => void;
+  autoFocus?: boolean;
+}) {
   return (
     <form
       role="search"
       method="get"
       action="/search"
       onSubmit={onSubmit}
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && onDismiss) {
+          event.stopPropagation();
+          onDismiss();
+        }
+      }}
       className="relative flex items-center"
     >
       <label htmlFor={id} className="sr-only">
@@ -136,6 +187,7 @@ function SearchField({ id = "site-search", onSubmit }: { id?: string; onSubmit?:
         type="search"
         required
         placeholder="Search duck recipes"
+        autoFocus={autoFocus}
         className="h-10 w-full rounded-sm border border-input bg-card pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground lg:w-56"
       />
     </form>

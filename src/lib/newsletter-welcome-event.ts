@@ -15,6 +15,9 @@ export const WELCOME_EVENT_NAME = "newsletter.subscribed";
 export const WELCOME_EVENT_SEND_URL = "https://api.resend.com/events/send";
 export const WELCOME_EVENT_DEFINE_URL = "https://api.resend.com/events";
 
+/** Site-relative path of the Duck Game Plan planner. */
+export const GAME_PLAN_PATH = "/tools/duck-game-plan";
+
 export interface WelcomeEventInput {
   readonly email: string;
   readonly guideUrl: string;
@@ -23,10 +26,21 @@ export interface WelcomeEventInput {
   readonly token: string;
   readonly interest?: string | undefined;
   readonly sourcePath?: string | undefined;
+  /**
+   * How this subscriber arrived. `duck_game_plan` lets the welcome automation
+   * lead back to the planner instead of the PDF.
+   */
+  readonly acquisitionSource?: string | undefined;
 }
 
 export interface WelcomeEventData {
   readonly guide_url: string;
+  /**
+   * Absolute URL of the Duck Game Plan. Additive: `guide_url` still carries the
+   * Field Guide PDF, so an unmodified template keeps working unchanged.
+   */
+  readonly game_plan_url: string;
+  readonly acquisition_source: string;
   readonly interest: string;
   readonly source_path: string;
   readonly unsubscribe_url: string;
@@ -38,12 +52,15 @@ export function buildWelcomeEventData(input: WelcomeEventInput): WelcomeEventDat
   const links = mailboxLinks(input.baseUrl, input.token);
   return {
     guide_url: input.guideUrl,
+    game_plan_url: `${input.baseUrl.replace(/\/$/, "")}${GAME_PLAN_PATH}`,
+    acquisition_source: input.acquisitionSource ?? "newsletter_form",
     interest: input.interest ?? "general",
     source_path: input.sourcePath ?? "",
     unsubscribe_url: links.unsubscribe,
     preferences_url: links.preferences,
   };
 }
+
 
 export interface ProviderJsonRequest {
   readonly url: string;
@@ -81,6 +98,8 @@ export function buildWelcomeEventRequest(
  */
 export const WELCOME_EVENT_SCHEMA = {
   guide_url: "string",
+  game_plan_url: "string",
+  acquisition_source: "string",
   interest: "string",
   source_path: "string",
   unsubscribe_url: "string",

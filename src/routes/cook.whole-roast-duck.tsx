@@ -18,6 +18,8 @@ import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "
 import { NewsletterSignup } from "@/components/site/NewsletterSignup";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 const GUIDE = guideByPath("/cook/whole-roast-duck")!;
 
@@ -281,6 +283,14 @@ function WholeRoastDuckPage() {
           },
         ]}
       />
+
+      <ThanksgivingHubLink
+        placement={THANKSGIVING_INBOUND_PLACEMENTS.wholeRoastMethod}
+        className="mt-10"
+      >
+        Roasting this for a holiday puts the same method inside a much tighter calendar — order
+        date, thaw days, one oven and a table waiting. The dated version is our
+      </ThanksgivingHubLink>
 
       <ConversionPaths
         sourcePath="/cook/whole-roast-duck"

@@ -46,7 +46,7 @@ export const INGREDIENTS: IngredientEntry[] = [
     title: "Best Herbs & Spices for Duck",
     seoTitle: "Best Herbs & Spices for Duck: A Flavor-Pairing Guide | DeliciousDuck",
     description:
-      "Herbs and spices for duck organised by flavour family — woody herbs, warm spices, peppery heat, aromatic seeds and berries, fresh finishing herbs — with a method-by-method matrix.",
+      "Herbs and spices for duck by flavour family: woody herbs, warm spices, peppery heat, seeds and berries, fresh finishing herbs — plus a method-by-method matrix.",
     teaser: "Five flavour families, why each suits duck fat, and where each one clashes.",
     cluster: "seasoning-prep",
     minutes: 11,
@@ -63,7 +63,7 @@ export const INGREDIENTS: IngredientEntry[] = [
     title: "How to Season Duck",
     seoTitle: "How to Season Duck: Salt, Timing & Flavour Layers | DeliciousDuck",
     description:
-      "The six ways duck gets seasoned — surface salt, dry brine, cure-style, finishing salt, glazes and aromatic rubs — plus timing, skin drying, and why wet rubs sabotage crisp skin.",
+      "The six ways duck gets seasoned — salt, dry brine, cure, finishing salt, glaze, rub — plus timing, skin drying, and why wet rubs cost you crisp skin.",
     teaser: "Six seasoning layers, what each one is for, and the order they belong in.",
     cluster: "seasoning-prep",
     minutes: 12,
@@ -78,9 +78,9 @@ export const INGREDIENTS: IngredientEntry[] = [
   {
     path: "/ingredients/duck-marinade-guide",
     title: "Duck Marinades",
-    seoTitle: "Duck Marinades: What Helps, What Hurts & When to Use Them | DeliciousDuck",
+    seoTitle: "Duck Marinades: What Helps, What Hurts | DeliciousDuck",
     description:
-      "What a marinade can and cannot do to duck: skin-on versus skinless, wild versus farmed, the roles of acid, salt, sugar and oil, and flavour templates instead of fixed recipes.",
+      "What a marinade can and cannot do to duck: skin-on or skinless, wild or farmed, the roles of acid, salt, sugar and oil, and flavour templates to build on.",
     teaser: "When a marinade earns its place — and when it just softens your skin.",
     cluster: "seasoning-prep",
     minutes: 11,
@@ -114,7 +114,7 @@ export const INGREDIENTS: IngredientEntry[] = [
     title: "Duck Fat vs Butter, Olive Oil & Neutral Oil",
     seoTitle: "Duck Fat vs Butter, Olive Oil & Neutral Oil | DeliciousDuck",
     description:
-      "When duck fat genuinely beats butter, olive oil or a neutral oil — flavour, browning behaviour, water content, roasting, frying and pastry use cases, plus cost and waste logic.",
+      "When duck fat genuinely beats butter, olive oil or a neutral oil: flavour, browning, water content, roasting, frying and pastry — plus cost and waste.",
     teaser: "A reference table for choosing the fat, not defaulting to it.",
     cluster: "fat-medium",
     minutes: 11,
@@ -124,6 +124,7 @@ export const INGREDIENTS: IngredientEntry[] = [
       "/cook/ways-to-use-duck-fat",
       "/buy/duck-fat-buying-guide",
       "/ingredients/best-acid-for-duck",
+      "/learn/is-duck-healthy",
     ],
   },
   {
@@ -131,7 +132,7 @@ export const INGREDIENTS: IngredientEntry[] = [
     title: "Why Orange Works With Duck",
     seoTitle: "Why Orange Works With Duck — Without Being Too Sweet | DeliciousDuck",
     description:
-      "The mechanics behind duck and orange: zest oils, acid, bitterness, juice reduction, stock and vinegar support, sauce placement that keeps skin crisp, and orange varieties compared.",
+      "The mechanics behind duck and orange: zest oils, acid, bitterness, juice reduction, sauce placement that keeps skin crisp, and orange varieties compared.",
     teaser: "Zest, acid and bitterness — the three levers that keep it from cloying.",
     cluster: "fruit-acid",
     minutes: 10,
@@ -141,14 +142,15 @@ export const INGREDIENTS: IngredientEntry[] = [
       "/cook/how-to-cook-duck-breast",
       "/cook/whole-roast-duck",
       "/ingredients/cherry-plum-with-duck",
+      "/recipes/duck-a-lorange",
     ],
   },
   {
     path: "/ingredients/cherry-plum-with-duck",
     title: "Cherry, Plum & Stone Fruit With Duck",
-    seoTitle: "Cherry, Plum & Stone Fruit With Duck: A Pairing Framework | DeliciousDuck",
+    seoTitle: "Cherry, Plum & Stone Fruit With Duck | DeliciousDuck",
     description:
-      "How stone fruit pairs with duck: acidity, tannin and sugar balance, fresh versus dried fruit, wine and vinegar support, and a matrix matching fruit to breast, confit and smoked duck.",
+      "How stone fruit pairs with duck: acidity, tannin and sugar balance, fresh versus dried fruit, and a matrix matching fruit to breast, confit and smoked duck.",
     teaser: "Fruit acidity, tannin and sugar matched to the way you cooked the duck.",
     cluster: "fruit-acid",
     minutes: 10,
@@ -158,6 +160,7 @@ export const INGREDIENTS: IngredientEntry[] = [
       "/ingredients/best-acid-for-duck",
       "/tools/duck-pairing-finder",
       "/cook/how-to-cook-duck-breast",
+      "/recipes/smoked-duck-with-plum-sauce",
     ],
   },
   {
@@ -165,7 +168,7 @@ export const INGREDIENTS: IngredientEntry[] = [
     title: "The Best Acids for Duck",
     seoTitle: "Best Acids for Duck: Vinegar, Citrus, Wine & Pickles | DeliciousDuck",
     description:
-      "Acid is the structural counterweight to duck fat. Sherry, red wine, cider and rice vinegar, citrus, wine reductions, pickles and mustard compared, with a method-and-occasion matrix.",
+      "Acid is the counterweight to duck fat. Sherry, red wine, cider and rice vinegar, citrus, reductions, pickles and mustard compared, method by method.",
     teaser: "Why acid does more for duck than any other seasoning decision.",
     cluster: "pairing-logic",
     minutes: 11,
@@ -175,6 +178,7 @@ export const INGREDIENTS: IngredientEntry[] = [
       "/ingredients/duck-fat-vs-butter-oil",
       "/ingredients/orange-with-duck",
       "/tools/duck-pairing-finder",
+      "/recipes/smoked-duck-with-plum-sauce",
     ],
   },
 ];

@@ -19,6 +19,7 @@ import { Route as EditorialStandardsRouteImport } from './routes/editorial-stand
 import { Route as GearRouteImport } from './routes/gear'
 import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
 import { Route as SearchRouteImport } from './routes/search'
@@ -74,6 +75,9 @@ import { Route as LearnHowToCarveADuckRouteImport } from './routes/learn.how-to-
 import { Route as LearnHowToRenderDuckFatRouteImport } from './routes/learn.how-to-render-duck-fat'
 import { Route as LearnHowToScoreDuckBreastRouteImport } from './routes/learn.how-to-score-duck-breast'
 import { Route as LearnHowToThawDuckRouteImport } from './routes/learn.how-to-thaw-duck'
+import { Route as LearnIsDuckHealthyRouteImport } from './routes/learn.is-duck-healthy'
+import { Route as LearnThanksgivingDuckDinnerRouteImport } from './routes/learn.thanksgiving-duck-dinner'
+import { Route as LearnWhatDoesDuckTasteLikeRouteImport } from './routes/learn.what-does-duck-taste-like'
 import { Route as LearnWholeDuckCookingTimeRouteImport } from './routes/learn.whole-duck-cooking-time'
 import { Route as LearnWhyDuckSkinIsntCrispyRouteImport } from './routes/learn.why-duck-skin-isnt-crispy'
 import { Route as LearnWildDuckVsFarmedDuckRouteImport } from './routes/learn.wild-duck-vs-farmed-duck'
@@ -85,6 +89,7 @@ import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as ToolsDuckCookingTimePlannerRouteImport } from './routes/tools.duck-cooking-time-planner'
 import { Route as ToolsDuckDonenessGuideRouteImport } from './routes/tools.duck-doneness-guide'
 import { Route as ToolsDuckFatSubstitutionCalculatorRouteImport } from './routes/tools.duck-fat-substitution-calculator'
+import { Route as ToolsDuckGamePlanRouteImport } from './routes/tools.duck-game-plan'
 import { Route as ToolsDuckPairingFinderRouteImport } from './routes/tools.duck-pairing-finder'
 import { Route as ToolsRecipeScalerRouteImport } from './routes/tools.recipe-scaler'
 import { Route as ToolsWhatShouldICookRouteImport } from './routes/tools.what-should-i-cook'
@@ -139,6 +144,11 @@ const IngredientsRoute = IngredientsRouteImport.update({
 const LearnRoute = LearnRouteImport.update({
   id: '/learn',
   path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnersRoute = PartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -439,6 +449,23 @@ const LearnHowToThawDuckRoute = LearnHowToThawDuckRouteImport.update({
   path: '/how-to-thaw-duck',
   getParentRoute: () => LearnRoute,
 } as any)
+const LearnIsDuckHealthyRoute = LearnIsDuckHealthyRouteImport.update({
+  id: '/is-duck-healthy',
+  path: '/is-duck-healthy',
+  getParentRoute: () => LearnRoute,
+} as any)
+const LearnThanksgivingDuckDinnerRoute =
+  LearnThanksgivingDuckDinnerRouteImport.update({
+    id: '/thanksgiving-duck-dinner',
+    path: '/thanksgiving-duck-dinner',
+    getParentRoute: () => LearnRoute,
+  } as any)
+const LearnWhatDoesDuckTasteLikeRoute =
+  LearnWhatDoesDuckTasteLikeRouteImport.update({
+    id: '/what-does-duck-taste-like',
+    path: '/what-does-duck-taste-like',
+    getParentRoute: () => LearnRoute,
+  } as any)
 const LearnWholeDuckCookingTimeRoute =
   LearnWholeDuckCookingTimeRouteImport.update({
     id: '/whole-duck-cooking-time',
@@ -499,6 +526,11 @@ const ToolsDuckFatSubstitutionCalculatorRoute =
     path: '/duck-fat-substitution-calculator',
     getParentRoute: () => ToolsRoute,
   } as any)
+const ToolsDuckGamePlanRoute = ToolsDuckGamePlanRouteImport.update({
+  id: '/duck-game-plan',
+  path: '/duck-game-plan',
+  getParentRoute: () => ToolsRoute,
+} as any)
 const ToolsDuckPairingFinderRoute = ToolsDuckPairingFinderRouteImport.update({
   id: '/duck-pairing-finder',
   path: '/duck-pairing-finder',
@@ -537,6 +569,7 @@ export interface FileRoutesByFullPath {
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
   '/search': typeof SearchRoute
@@ -587,6 +620,9 @@ export interface FileRoutesByFullPath {
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
   '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/is-duck-healthy': typeof LearnIsDuckHealthyRoute
+  '/learn/thanksgiving-duck-dinner': typeof LearnThanksgivingDuckDinnerRoute
+  '/learn/what-does-duck-taste-like': typeof LearnWhatDoesDuckTasteLikeRoute
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
@@ -596,6 +632,7 @@ export interface FileRoutesByFullPath {
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/duck-game-plan': typeof ToolsDuckGamePlanRoute
   '/tools/duck-pairing-finder': typeof ToolsDuckPairingFinderRoute
   '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
   '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
@@ -615,6 +652,7 @@ export interface FileRoutesByTo {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/contact': typeof ContactRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -663,6 +701,9 @@ export interface FileRoutesByTo {
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
   '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/is-duck-healthy': typeof LearnIsDuckHealthyRoute
+  '/learn/thanksgiving-duck-dinner': typeof LearnThanksgivingDuckDinnerRoute
+  '/learn/what-does-duck-taste-like': typeof LearnWhatDoesDuckTasteLikeRoute
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
@@ -672,6 +713,7 @@ export interface FileRoutesByTo {
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/duck-game-plan': typeof ToolsDuckGamePlanRoute
   '/tools/duck-pairing-finder': typeof ToolsDuckPairingFinderRoute
   '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
   '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
@@ -697,6 +739,7 @@ export interface FileRoutesById {
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
+  '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
   '/search': typeof SearchRoute
@@ -747,6 +790,9 @@ export interface FileRoutesById {
   '/learn/how-to-render-duck-fat': typeof LearnHowToRenderDuckFatRoute
   '/learn/how-to-score-duck-breast': typeof LearnHowToScoreDuckBreastRoute
   '/learn/how-to-thaw-duck': typeof LearnHowToThawDuckRoute
+  '/learn/is-duck-healthy': typeof LearnIsDuckHealthyRoute
+  '/learn/thanksgiving-duck-dinner': typeof LearnThanksgivingDuckDinnerRoute
+  '/learn/what-does-duck-taste-like': typeof LearnWhatDoesDuckTasteLikeRoute
   '/learn/whole-duck-cooking-time': typeof LearnWholeDuckCookingTimeRoute
   '/learn/why-duck-skin-isnt-crispy': typeof LearnWhyDuckSkinIsntCrispyRoute
   '/learn/wild-duck-vs-farmed-duck': typeof LearnWildDuckVsFarmedDuckRoute
@@ -756,6 +802,7 @@ export interface FileRoutesById {
   '/tools/duck-cooking-time-planner': typeof ToolsDuckCookingTimePlannerRoute
   '/tools/duck-doneness-guide': typeof ToolsDuckDonenessGuideRoute
   '/tools/duck-fat-substitution-calculator': typeof ToolsDuckFatSubstitutionCalculatorRoute
+  '/tools/duck-game-plan': typeof ToolsDuckGamePlanRoute
   '/tools/duck-pairing-finder': typeof ToolsDuckPairingFinderRoute
   '/tools/recipe-scaler': typeof ToolsRecipeScalerRoute
   '/tools/what-should-i-cook': typeof ToolsWhatShouldICookRoute
@@ -782,6 +829,7 @@ export interface FileRouteTypes {
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/partners'
     | '/privacy'
     | '/recipes'
     | '/search'
@@ -832,6 +880,9 @@ export interface FileRouteTypes {
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
     | '/learn/how-to-thaw-duck'
+    | '/learn/is-duck-healthy'
+    | '/learn/thanksgiving-duck-dinner'
+    | '/learn/what-does-duck-taste-like'
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
@@ -841,6 +892,7 @@ export interface FileRouteTypes {
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
+    | '/tools/duck-game-plan'
     | '/tools/duck-pairing-finder'
     | '/tools/recipe-scaler'
     | '/tools/what-should-i-cook'
@@ -860,6 +912,7 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/contact'
     | '/editorial-standards'
+    | '/partners'
     | '/privacy'
     | '/search'
     | '/sitemap.xml'
@@ -908,6 +961,9 @@ export interface FileRouteTypes {
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
     | '/learn/how-to-thaw-duck'
+    | '/learn/is-duck-healthy'
+    | '/learn/thanksgiving-duck-dinner'
+    | '/learn/what-does-duck-taste-like'
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
@@ -917,6 +973,7 @@ export interface FileRouteTypes {
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
+    | '/tools/duck-game-plan'
     | '/tools/duck-pairing-finder'
     | '/tools/recipe-scaler'
     | '/tools/what-should-i-cook'
@@ -941,6 +998,7 @@ export interface FileRouteTypes {
     | '/gear'
     | '/ingredients'
     | '/learn'
+    | '/partners'
     | '/privacy'
     | '/recipes'
     | '/search'
@@ -991,6 +1049,9 @@ export interface FileRouteTypes {
     | '/learn/how-to-render-duck-fat'
     | '/learn/how-to-score-duck-breast'
     | '/learn/how-to-thaw-duck'
+    | '/learn/is-duck-healthy'
+    | '/learn/thanksgiving-duck-dinner'
+    | '/learn/what-does-duck-taste-like'
     | '/learn/whole-duck-cooking-time'
     | '/learn/why-duck-skin-isnt-crispy'
     | '/learn/wild-duck-vs-farmed-duck'
@@ -1000,6 +1061,7 @@ export interface FileRouteTypes {
     | '/tools/duck-cooking-time-planner'
     | '/tools/duck-doneness-guide'
     | '/tools/duck-fat-substitution-calculator'
+    | '/tools/duck-game-plan'
     | '/tools/duck-pairing-finder'
     | '/tools/recipe-scaler'
     | '/tools/what-should-i-cook'
@@ -1025,6 +1087,7 @@ export interface RootRouteChildren {
   GearRoute: typeof GearRouteWithChildren
   IngredientsRoute: typeof IngredientsRouteWithChildren
   LearnRoute: typeof LearnRouteWithChildren
+  PartnersRoute: typeof PartnersRoute
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
   SearchRoute: typeof SearchRoute
@@ -1116,6 +1179,13 @@ declare module '@tanstack/react-router' {
       path: '/learn'
       fullPath: '/learn'
       preLoaderRoute: typeof LearnRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partners': {
+      id: '/partners'
+      path: '/partners'
+      fullPath: '/partners'
+      preLoaderRoute: typeof PartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -1503,6 +1573,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnHowToThawDuckRouteImport
       parentRoute: typeof LearnRoute
     }
+    '/learn/is-duck-healthy': {
+      id: '/learn/is-duck-healthy'
+      path: '/is-duck-healthy'
+      fullPath: '/learn/is-duck-healthy'
+      preLoaderRoute: typeof LearnIsDuckHealthyRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/thanksgiving-duck-dinner': {
+      id: '/learn/thanksgiving-duck-dinner'
+      path: '/thanksgiving-duck-dinner'
+      fullPath: '/learn/thanksgiving-duck-dinner'
+      preLoaderRoute: typeof LearnThanksgivingDuckDinnerRouteImport
+      parentRoute: typeof LearnRoute
+    }
+    '/learn/what-does-duck-taste-like': {
+      id: '/learn/what-does-duck-taste-like'
+      path: '/what-does-duck-taste-like'
+      fullPath: '/learn/what-does-duck-taste-like'
+      preLoaderRoute: typeof LearnWhatDoesDuckTasteLikeRouteImport
+      parentRoute: typeof LearnRoute
+    }
     '/learn/whole-duck-cooking-time': {
       id: '/learn/whole-duck-cooking-time'
       path: '/whole-duck-cooking-time'
@@ -1578,6 +1669,13 @@ declare module '@tanstack/react-router' {
       path: '/duck-fat-substitution-calculator'
       fullPath: '/tools/duck-fat-substitution-calculator'
       preLoaderRoute: typeof ToolsDuckFatSubstitutionCalculatorRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/duck-game-plan': {
+      id: '/tools/duck-game-plan'
+      path: '/duck-game-plan'
+      fullPath: '/tools/duck-game-plan'
+      preLoaderRoute: typeof ToolsDuckGamePlanRouteImport
       parentRoute: typeof ToolsRoute
     }
     '/tools/duck-pairing-finder': {
@@ -1723,6 +1821,9 @@ interface LearnRouteChildren {
   LearnHowToRenderDuckFatRoute: typeof LearnHowToRenderDuckFatRoute
   LearnHowToScoreDuckBreastRoute: typeof LearnHowToScoreDuckBreastRoute
   LearnHowToThawDuckRoute: typeof LearnHowToThawDuckRoute
+  LearnIsDuckHealthyRoute: typeof LearnIsDuckHealthyRoute
+  LearnThanksgivingDuckDinnerRoute: typeof LearnThanksgivingDuckDinnerRoute
+  LearnWhatDoesDuckTasteLikeRoute: typeof LearnWhatDoesDuckTasteLikeRoute
   LearnWholeDuckCookingTimeRoute: typeof LearnWholeDuckCookingTimeRoute
   LearnWhyDuckSkinIsntCrispyRoute: typeof LearnWhyDuckSkinIsntCrispyRoute
   LearnWildDuckVsFarmedDuckRoute: typeof LearnWildDuckVsFarmedDuckRoute
@@ -1738,6 +1839,9 @@ const LearnRouteChildren: LearnRouteChildren = {
   LearnHowToRenderDuckFatRoute: LearnHowToRenderDuckFatRoute,
   LearnHowToScoreDuckBreastRoute: LearnHowToScoreDuckBreastRoute,
   LearnHowToThawDuckRoute: LearnHowToThawDuckRoute,
+  LearnIsDuckHealthyRoute: LearnIsDuckHealthyRoute,
+  LearnThanksgivingDuckDinnerRoute: LearnThanksgivingDuckDinnerRoute,
+  LearnWhatDoesDuckTasteLikeRoute: LearnWhatDoesDuckTasteLikeRoute,
   LearnWholeDuckCookingTimeRoute: LearnWholeDuckCookingTimeRoute,
   LearnWhyDuckSkinIsntCrispyRoute: LearnWhyDuckSkinIsntCrispyRoute,
   LearnWildDuckVsFarmedDuckRoute: LearnWildDuckVsFarmedDuckRoute,
@@ -1763,6 +1867,7 @@ interface ToolsRouteChildren {
   ToolsDuckCookingTimePlannerRoute: typeof ToolsDuckCookingTimePlannerRoute
   ToolsDuckDonenessGuideRoute: typeof ToolsDuckDonenessGuideRoute
   ToolsDuckFatSubstitutionCalculatorRoute: typeof ToolsDuckFatSubstitutionCalculatorRoute
+  ToolsDuckGamePlanRoute: typeof ToolsDuckGamePlanRoute
   ToolsDuckPairingFinderRoute: typeof ToolsDuckPairingFinderRoute
   ToolsRecipeScalerRoute: typeof ToolsRecipeScalerRoute
   ToolsWhatShouldICookRoute: typeof ToolsWhatShouldICookRoute
@@ -1775,6 +1880,7 @@ const ToolsRouteChildren: ToolsRouteChildren = {
   ToolsDuckDonenessGuideRoute: ToolsDuckDonenessGuideRoute,
   ToolsDuckFatSubstitutionCalculatorRoute:
     ToolsDuckFatSubstitutionCalculatorRoute,
+  ToolsDuckGamePlanRoute: ToolsDuckGamePlanRoute,
   ToolsDuckPairingFinderRoute: ToolsDuckPairingFinderRoute,
   ToolsRecipeScalerRoute: ToolsRecipeScalerRoute,
   ToolsWhatShouldICookRoute: ToolsWhatShouldICookRoute,
@@ -1795,6 +1901,7 @@ const rootRouteChildren: RootRouteChildren = {
   GearRoute: GearRouteWithChildren,
   IngredientsRoute: IngredientsRouteWithChildren,
   LearnRoute: LearnRouteWithChildren,
+  PartnersRoute: PartnersRoute,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
   SearchRoute: SearchRoute,

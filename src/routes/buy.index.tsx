@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HUB_SECTION_DIVIDER } from "@/components/site/HubDivider";
+import { HubSectionMark } from "@/components/site/HubSectionMark";
 import { GuideGrid } from "@/components/site/GuideGrid";
 import { guidesByPillar } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
@@ -60,20 +62,24 @@ function BuyPage() {
       />
 
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
+        <HubSectionMark mark="buy-guides" />
         <h2 className="font-display text-3xl text-foreground">Sourcing guides</h2>
         <GuideGrid guides={guidesByPillar("buy")} />
 
-        <h2 className="mt-20 font-display text-3xl text-foreground">
-          Four things to check before you buy
-        </h2>
-        <dl className="mt-8 grid gap-x-12 gap-y-8 md:grid-cols-2">
+        <div className={HUB_SECTION_DIVIDER}>
+          <HubSectionMark mark="buy-checks" />
+          <h2 className="font-display text-3xl text-foreground">
+            Four things to check before you buy
+          </h2>
+          <dl className="mt-8 grid gap-x-12 gap-y-8 md:grid-cols-2">
           {CHECKS.map((check) => (
             <div key={check.title} className="border-t border-border pt-5">
               <dt className="font-display text-xl text-foreground">{check.title}</dt>
               <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">{check.body}</dd>
             </div>
-          ))}
-        </dl>
+            ))}
+          </dl>
+        </div>
 
         <p className="mt-10 text-sm leading-relaxed text-muted-foreground">
           Each of those checks has a page of its own:{" "}

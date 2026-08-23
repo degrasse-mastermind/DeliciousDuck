@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
+import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
 import { ArticleShell, Section, DataTable, StepList } from "@/components/site/ArticleShell";
 import { QuackFix } from "@/components/site/QuackFix";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
@@ -182,6 +184,14 @@ function Page() {
         eyebrow="Choosing the blade"
         intro="The knife decision this cut actually depends on."
       />
+
+      <AirFryerRecipeLink
+        placement={AIR_FRYER_INBOUND_PLACEMENTS.scoringGuide}
+        className="mt-10"
+      >
+        Scoring matters even more in an air fryer, where draining is the only way fat leaves the
+        basket.
+      </AirFryerRecipeLink>
 
       <RelatedGuides paths={GUIDE.related} />
     </ArticleShell>

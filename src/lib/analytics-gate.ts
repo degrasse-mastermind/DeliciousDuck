@@ -10,9 +10,14 @@
  * 2. Path — internal tooling under `/internal/` and raw endpoints under
  *    `/api/` never emit anything, even on a canonical host.
  *
+ * A third condition is browser-local: a browser explicitly marked for QA (see
+ * `@/lib/qa-exclusion`) emits nothing at all, on any host or path.
+ *
  * Everything here is pure and browser-independent apart from the two explicit
  * `window` readers at the bottom, so the gating rules are unit-testable.
  */
+
+import { QA_EXCLUSION_KEY, QA_EXCLUSION_VALUE, qaExclusionActive } from "./qa-exclusion";
 
 /** The only hosts allowed to emit production analytics. */
 export const PRODUCTION_ANALYTICS_HOSTS = [
@@ -52,6 +57,8 @@ export function shouldEmitAnalytics(input: {
  */
 export function analyticsEnabled(pathOverride?: string): boolean {
   if (typeof window === "undefined" || !window.location) return false;
+  // Founder / QA browsers opt out locally and permanently until cleared.
+  if (qaExclusionActive()) return false;
   return shouldEmitAnalytics({
     hostname: window.location.hostname,
     path: pathOverride ?? window.location.pathname,
@@ -153,7 +160,11 @@ export function gtagBootstrapScript(measurementId: string): string {
         var blocked = ${blocked};
         var disableKey = ${disableKey};
         var host = (location.hostname || '').toLowerCase().replace(/\\.$/, '');
-        var hostOk = hosts.indexOf(host) !== -1;
+        var qaExcluded = false;
+        try {
+          qaExcluded = localStorage.getItem(${JSON.stringify(QA_EXCLUSION_KEY)}) === ${JSON.stringify(QA_EXCLUSION_VALUE)};
+        } catch (e) { /* storage unavailable */ }
+        var hostOk = hosts.indexOf(host) !== -1 && !qaExcluded;
         function pathAllowedFor(path) {
           path = path || '/';
           var bare = path.split('#')[0].split('?')[0] || '/';

@@ -47,6 +47,8 @@
   --color-gold-soft: var(--gold-soft);
   --color-gold-foreground: var(--gold-foreground);
   --color-cream: var(--cream);
+  --color-cranberry: var(--cranberry);
+  --color-cranberry-foreground: var(--cranberry-foreground);
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -75,6 +77,9 @@
   --forest: oklch(0.32 0.045 155);
   --forest-deep: oklch(0.24 0.04 158);
   --forest-foreground: oklch(0.97 0.012 110);
+
+  --cranberry: oklch(0.72 0.14 20);
+  --cranberry-foreground: oklch(0.24 0.04 158);
 
   --gold: oklch(0.72 0.12 78);
   --gold-soft: oklch(0.88 0.07 88);
@@ -110,26 +115,12 @@
   --sidebar-ring: oklch(0.72 0.12 78);
 }
 
-.dark {
-  --background: oklch(0.19 0.02 250);
-  --foreground: oklch(0.97 0.008 100);
-  --cream: oklch(0.26 0.02 250);
-  --card: oklch(0.23 0.02 250);
-  --card-foreground: oklch(0.97 0.008 100);
-  --popover: oklch(0.23 0.02 250);
-  --popover-foreground: oklch(0.97 0.008 100);
-  --primary: oklch(0.62 0.09 155);
-  --primary-foreground: oklch(0.16 0.02 250);
-  --secondary: oklch(0.27 0.02 250);
-  --secondary-foreground: oklch(0.96 0.008 100);
-  --muted: oklch(0.27 0.02 250);
-  --muted-foreground: oklch(0.72 0.015 200);
-  --accent: oklch(0.76 0.12 78);
-  --accent-foreground: oklch(0.18 0.02 250);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 18%);
-  --ring: oklch(0.76 0.12 78);
-}
+/* No dark theme ships on this site: the brand is a warm paper-and-ink
+   publication and nothing toggles a `.dark` class. The dead `.dark` token block
+   was removed rather than left to rot. The class-based `dark` variant above is
+   intentionally kept so any stray `dark:` utility stays inert instead of
+   activating from the visitor's OS preference. */
+
 
 @layer base {
   * {
@@ -181,6 +172,16 @@
   }
 }
 
+/* Subtle pencil-on-paper hatch for editorial surfaces. Token-driven, so it
+   follows the theme instead of shipping a background image. */
+@utility paper-grain {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--forest-foreground) 4%, transparent) 0 1px,
+    transparent 1px 6px
+  );
+}
+
 /* ---------------------------------------------------------------------------
    Print styles — used by the Starter Guide quick reference. Keeps the
    checklist / temperature / technique blocks readable on 1–2 sheets.
@@ -230,4 +231,49 @@
   section {
     box-shadow: none !important;
   }
+
+  /* Illustrations are chrome on paper; a print-kept figure opts back in. */
+  img,
+  svg,
+  figure {
+    display: none !important;
+  }
+
+  [data-print-keep] img,
+  [data-print-keep] figure {
+    display: block !important;
+  }
+
+  /* Checklist boxes print as clear empty squares, never as a filled control. */
+  input[type="checkbox"] {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 11pt !important;
+    height: 11pt !important;
+    border: 1pt solid #111 !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    display: inline-block !important;
+  }
+
+  /* Printing a Duck Game Plan: only the kitchen card goes on paper. */
+  body.dd-print-plan *:not([data-plan-print]):not([data-plan-print] *) {
+    visibility: hidden !important;
+  }
+
+  body.dd-print-plan [data-plan-print] {
+    visibility: visible !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
+  body.dd-print-plan [data-plan-print] a {
+    text-decoration: underline !important;
+  }
 }
+

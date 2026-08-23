@@ -8,10 +8,22 @@ import {
   StepList,
 } from "@/components/site/ArticleShell";
 import { ShopThisGuide } from "@/components/site/Commerce";
+import { AirFryerMethodCompare } from "@/components/site/AirFryerMethodCompare";
+import { NewsletterSignup } from "@/components/site/NewsletterSignup";
+import { ModuleImpression } from "@/components/site/ModuleImpression";
+import { MODULE_PLACEMENTS } from "@/lib/impression-events";
+import {
+  AIR_FRYER_INBOUND_PLACEMENTS,
+  AIR_FRYER_NEWSLETTER_PLACEMENT,
+} from "@/data/air-fryer-inbound";
+import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
 import { RecipeConversionPaths } from "@/components/site/ConversionPaths";
 import { DuckFatDecision } from "@/components/site/DuckFatDecision";
+import { Photograph } from "@/components/site/Photograph";
+import { PHOTO_SIZES } from "@/lib/photo-sources";
 import { DuckConfidenceCard } from "@/components/site/DuckConfidenceCard";
 import { QuackFix } from "@/components/site/QuackFix";
+import { AnswerFirst } from "@/components/site/AnswerFirst";
 import { RecipeTrustBox } from "@/components/site/RecipeTrustBox";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
@@ -33,6 +45,8 @@ import {
   pageMeta,
   recipeSchema,
 } from "@/lib/seo";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 export const Route = createFileRoute("/recipes/$slug")({
   loader: ({ params }) => {
@@ -130,28 +144,58 @@ function RecipePage() {
         { name: "Recipes", to: "/recipes" },
         { name: recipe.name, to: path },
       ]}
-      meta={`Prep ${formatMinutes(recipe.prepTimeMinutes)} · Cook ${formatMinutes(
-        recipe.cookTimeMinutes,
-      )} · Total ${formatMinutes(totalTimeMinutes(recipe))} · ${recipe.recipeYield} · ${
-        recipe.difficulty
-      }`}
+      stats={[
+        { label: "Prep", value: formatMinutes(recipe.prepTimeMinutes) },
+        { label: "Cook", value: formatMinutes(recipe.cookTimeMinutes) },
+        { label: "Total", value: formatMinutes(totalTimeMinutes(recipe)) },
+        { label: "Serves", value: recipe.recipeYield.replace(" servings", "") },
+        { label: "Level", value: recipe.difficulty },
+      ]}
       sidebar={
         <DuckConfidenceCard
           data={{ ...content.confidence, difficulty: recipe.difficulty }}
         />
       }
     >
-      <img
-        src={recipe.illustration ?? recipe.image}
-        alt={
-          recipe.illustration
-            ? (recipe.illustrationAlt ?? `${recipe.name}, illustrated`)
-            : (recipe.imageAlt ?? `${recipe.name}, finished and sliced`)
-        }
-        width={1024}
-        height={768}
-        className="aspect-[4/3] w-full rounded-sm object-cover"
-      />
+      <figure className="m-0">
+        {/* Recipes are photography-led by site rule: the dish photograph is the
+            first culinary visual, never a drawing. It is also the page's largest
+            paint, so it loads eagerly with responsive WebP sources. */}
+        <Photograph
+          src={recipe.image}
+          alt={recipe.imageAlt ?? `${recipe.name}, finished and sliced`}
+          sizes={PHOTO_SIZES.hero}
+          ratio="3/2"
+          priority
+        />
+        {content.imageCaption ? (
+          <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            {content.imageCaption.text}
+            {content.imageCaption.to && (
+              <>
+                {" "}
+                <Link
+                  to={content.imageCaption.to}
+                  className="text-primary underline underline-offset-4"
+                >
+                  {content.imageCaption.linkLabel ?? "Read the pairing guide"}
+                </Link>
+                .
+              </>
+            )}
+          </figcaption>
+        ) : (
+          /* Every hero photo gets a caption: it names what the reader is looking
+             at rather than leaving the largest image on the page unlabelled. */
+          <figcaption className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            {recipe.imageAlt ?? `${recipe.name}, finished and ready to serve`}
+          </figcaption>
+        )}
+      </figure>
+
+      {/* Summarises the method already set out below, for readers (and answer
+          engines) that want the short version before the full recipe. */}
+      {content.answerFirst ? <AnswerFirst answer={content.answerFirst} /> : null}
 
       <RecipeTrustBox
         recipe={recipe}
@@ -200,11 +244,20 @@ function RecipePage() {
       </Section>
 
       {showConversionModule && !linksInModuleOnly && (
-        <RecipeConversionPaths
-          slug={slug}
-          equipment={content.equipment}
-          sourcing={content.sourcing}
-        />
+        // One impression for the whole recipe equipment/sourcing module — the
+        // honest denominator for the per-link internal_conversion_click events
+        // inside it, never one impression per child link.
+        <ModuleImpression
+          placement={MODULE_PLACEMENTS.recipeEquipment}
+          moduleType="recipe_equipment"
+          destinationType="internal"
+        >
+          <RecipeConversionPaths
+            slug={slug}
+            equipment={content.equipment}
+            sourcing={content.sourcing}
+          />
+        </ModuleImpression>
       )}
 
 
@@ -245,6 +298,16 @@ function RecipePage() {
         items={content.quackFix}
         intro="The four ways this recipe usually goes wrong, what to do about it mid-cook, and how to stop it happening again."
       />
+
+      {slug === "air-fryer-duck-breast" && (
+        <>
+          <AirFryerMethodCompare />
+          <div className="mt-16">
+            <NewsletterSignup id={AIR_FRYER_NEWSLETTER_PLACEMENT} interest="duck-breast" />
+          </div>
+        </>
+      )}
+
 
       {slug === "pan-seared-duck-breast" && (
         <DuckBreastJourney
@@ -297,7 +360,37 @@ function RecipePage() {
         </Callout>
       )}
 
+      {slug === "roasted-whole-duck" && (
+        <ThanksgivingHubLink
+          placement={THANKSGIVING_INBOUND_PLACEMENTS.roastedWholeDuckRecipe}
+          className="mt-10"
+        >
+          Cooking this bird for Thanksgiving? The recipe is the easy part; the calendar is not.
+          Order date, thaw days, a single-oven order of play and a printable checklist live in our
+        </ThanksgivingHubLink>
+      )}
+
+      {slug === "duck-fat-roasted-potatoes" && (
+        <ThanksgivingHubLink
+          placement={THANKSGIVING_INBOUND_PLACEMENTS.duckFatPotatoes}
+          className="mt-10"
+        >
+          On a holiday table these are best roasted earlier in the day and re-crisped while the bird
+          rests, which is exactly how they are scheduled in our
+        </ThanksgivingHubLink>
+      )}
+
       <DuckFatDecision sourcePath={path} />
+
+      {slug === "pan-seared-duck-breast" && (
+        <AirFryerRecipeLink
+          placement={AIR_FRYER_INBOUND_PLACEMENTS.panSearedRecipe}
+          className="mt-10"
+        >
+          Want the same result without an open pan spitting fat across the hob? The tradeoffs are
+          real, and they are laid out in
+        </AirFryerRecipeLink>
+      )}
 
       <FaqList items={content.faq} />
 

@@ -6,6 +6,8 @@ import { SourceNotes } from "@/components/site/SourceNotes";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { SourceMark } from "@/components/site/SourceMark";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 const GUIDE = guideByPath("/learn/how-to-thaw-duck")!;
 
@@ -179,6 +181,15 @@ function HowToThawDuckPage() {
           (6 lb) bird, that means starting the thaw roughly two days before you plan to cook it.
         </p>
       </Callout>
+
+      <ThanksgivingHubLink
+        placement={THANKSGIVING_INBOUND_PLACEMENTS.thawingGuide}
+        className="mt-8"
+      >
+        Thawing for a holiday is the one case where the date matters more than the method — the
+        delivery date, the thaw days and the roast hour all have to agree. The dated version of that
+        is our
+      </ThanksgivingHubLink>
 
       <FaqList items={FAQ} />
 

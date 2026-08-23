@@ -203,12 +203,55 @@ const THANKSGIVING: AcquisitionPageMeta = {
   ],
 };
 
+const THANKSGIVING_PLAN_HUB: AcquisitionPageMeta = {
+  path: "/learn/thanksgiving-duck-dinner",
+  intent: "How do I plan and cook a whole Thanksgiving dinner around duck?",
+  answer:
+    "Plan it backward from dinner. Choose your table size first, take the bird count from the serving calculator, and order two to three weeks out so you can confirm size, format and delivery date; if it arrives frozen, move it to the refrigerator two or three days ahead — about 24 hours of thawing per 4 to 5 lb. Salt it uncovered overnight, roast it on a rack so it never sits in its own fat, and finish at 165°F (73.9°C) in the thigh. Roast the duck-fat potatoes earlier in the day and re-crisp them while the bird rests for twenty minutes, and build the menu around acidity and bitter greens rather than more butter.",
+  byline: BYLINE,
+  updated: "2026-08-19",
+  basedOn: [
+    "USDA safe-handling guidance for poultry: refrigerator thawing, the 165°F minimum internal temperature, danger-zone limits, leftover windows, and cooking stuffing separately.",
+    "USDA's duck and goose guidance, including its approximate planning range of 30 to 35 min/lb at 350°F for a 4 to 6 lb whole duckling and its advice not to stuff a whole duckling.",
+    "Our own whole-duck pages for the roast workflow, carving order, and fat handling, plus the published planning assumptions inside our whole-duck serving calculator.",
+    "Menu logic from our own pairing and ingredient guides: acidity, tart fruit, bitter leaves, savoury accents, and restrained sweetness against rich dark meat.",
+  ],
+  evidenceBasis:
+    "Primary food-safety guidance for temperature, thawing, stuffing, and storage, plus our own stated planning assumptions for serving numbers and oven scheduling. Holiday duck pricing, formats and availability vary by seller, region and season, so confirm them with your own seller.",
+  sourceIds: [
+    "usdaPoultryTemp",
+    "usdaPoultryPrep",
+    "usdaThawing",
+    "usdaDangerZone",
+    "usdaLeftovers",
+    "usdaStuffing",
+  ],
+  funnel: [
+    {
+      to: "/tools/whole-duck-serving-calculator",
+      label: "Whole-duck serving calculator",
+      why: "Settle the bird count before the order date: guest count in, number of birds and raw weight out.",
+    },
+    {
+      to: "/buy/where-to-buy-duck-online",
+      label: "Where to buy duck online",
+      why: "Ordering early is what lets you confirm size, format and a delivery date you can plan the thaw around.",
+    },
+    {
+      to: "/cook/whole-roast-duck",
+      label: "How to roast a whole duck",
+      why: "The full workflow on the day, from drying the skin to resting and carving the bird.",
+    },
+  ],
+};
+
 export const ACQUISITION_PAGES: AcquisitionPageMeta[] = [
   CUTS,
   QUANTITY,
   FRESH_FROZEN,
   SELECTION,
   THANKSGIVING,
+  THANKSGIVING_PLAN_HUB,
 ];
 
 

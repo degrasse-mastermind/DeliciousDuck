@@ -14,6 +14,7 @@ const ROUTE_FILE: Record<string, string> = {
   "/buy/fresh-vs-frozen-duck": "src/routes/buy.fresh-vs-frozen-duck.tsx",
   "/buy/how-to-choose-duck": "src/routes/buy.how-to-choose-duck.tsx",
   "/learn/duck-vs-turkey-thanksgiving": "src/routes/learn.duck-vs-turkey-thanksgiving.tsx",
+  "/learn/thanksgiving-duck-dinner": "src/routes/learn.thanksgiving-duck-dinner.tsx",
 };
 
 
@@ -165,11 +166,22 @@ describe("acquisition cluster route files", () => {
   it("renders transparency, sources and a funnel band", () => {
     for (const page of ACQUISITION_PAGES) {
       const code = src(page.path);
-      expect(code).toContain("<AnswerFirst page={PAGE} />");
+      // Exactly one short-answer block per page: ArticleShell renders it from
+      // the guide registry when the guide has an `answer`, otherwise the route
+      // renders the acquisition-page version itself.
+      const shellAnswer = Boolean(guideByPath(page.path)?.answer);
+      expect(code.includes("<AnswerFirst page={PAGE} />")).toBe(!shellAnswer);
       expect(code).toContain("<ArticleByline page={PAGE} />");
       expect(code).toContain("<ArticleBasis page={PAGE} />");
       expect(code).toContain("<SourceNotes ids={PAGE.sourceIds} />");
-      expect(code).toContain("items={PAGE.funnel}");
+      // The Thanksgiving hub replaces the generic funnel band with its own
+      // tracked plan, table-choice and commercial modules, so that every
+      // destination on the page is offered exactly once.
+      if (page.path !== "/learn/thanksgiving-duck-dinner") {
+        expect(code).toContain("items={PAGE.funnel}");
+      } else {
+        expect(code).toContain("<ThanksgivingCommercialModule />");
+      }
     }
   });
 

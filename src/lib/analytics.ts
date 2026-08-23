@@ -25,6 +25,39 @@ import {
   ENGAGEMENT_EVENTS,
 } from "./engagement-events";
 import type { CommercialLinkEntry } from "@/data/commercial-links";
+import {
+  buildImpressionEvent,
+  impressionDedupeKey,
+  IMPRESSION_EVENTS,
+  markImpressionOnce,
+  type DestinationType,
+  type ImpressionEventInput,
+  type ImpressionEventName,
+  type ModuleType,
+  type NewsletterErrorType,
+} from "./impression-events";
+import {
+  buildGamePlanEvent,
+  GAME_PLAN_EVENTS,
+  type GamePlanPlacement,
+  type GamePlanEventInput,
+  type GamePlanEventName,
+  type GamePlanExportAction,
+  type GamePlanResultType,
+  type GamePlanStep,
+} from "./game-plan-events";
+import type {
+  GamePlanConcern,
+  GamePlanCut,
+  GamePlanMethod,
+  GamePlanPartySize,
+  GamePlanSelection,
+} from "@/data/duck-game-plan";
+import {
+  buildPartnerInquiryClickEvent,
+  PARTNER_EVENTS,
+  type PartnerPlacement,
+} from "./partner-events";
 import { captureEvent } from "./posthog";
 import { analyticsEnabled, syncGaRoutePolicy } from "./analytics-gate";
 
@@ -52,11 +85,27 @@ export const ANALYTICS_EVENTS = {
   calculatorComplete: "calculator_complete",
   starterGuideView: "starter_guide_view",
   starterGuidePrint: "starter_guide_print",
+  planPrint: "plan_print",
+
   duckBreastClusterClick: CLUSTER_CLICK_EVENT,
   internalConversionClick: CONVERSION_PATH_CLICK_EVENT,
   commercialPageView: ENGAGEMENT_EVENTS.commercialPageView,
   leadMagnetDownload: ENGAGEMENT_EVENTS.leadMagnetDownload,
   outboundSocialClick: ENGAGEMENT_EVENTS.outboundSocialClick,
+
+  newsletterOfferView: IMPRESSION_EVENTS.newsletterOfferView,
+  newsletterFormStart: IMPRESSION_EVENTS.newsletterFormStart,
+  newsletterFormError: IMPRESSION_EVENTS.newsletterFormError,
+  conversionModuleView: IMPRESSION_EVENTS.conversionModuleView,
+
+  gamePlanStart: GAME_PLAN_EVENTS.start,
+  gamePlanStepComplete: GAME_PLAN_EVENTS.stepComplete,
+  gamePlanSignup: GAME_PLAN_EVENTS.signup,
+  gamePlanResultView: GAME_PLAN_EVENTS.resultView,
+  gamePlanInternalClick: GAME_PLAN_EVENTS.internalClick,
+  gamePlanEntryClick: GAME_PLAN_EVENTS.entryClick,
+  gamePlanExport: GAME_PLAN_EVENTS.export,
+  partnerInquiryClick: PARTNER_EVENTS.inquiryClick,
 } as const;
 
 /** Current path, safe on the server. */
@@ -77,7 +126,6 @@ export function normalizedPath(raw = currentPagePath()): string | undefined {
   if (!path) return "/";
   return path.startsWith("/") ? path : `/${path}`;
 }
-
 
 /** Drop undefined values so GA never receives empty parameters. */
 function clean(params: GtagParams): GtagParams {
@@ -224,10 +272,7 @@ export function trackEmailLanding(): void {
 
   const existing = emailAttribution();
   try {
-    window.sessionStorage.setItem(
-      EMAIL_ATTRIBUTION_KEY,
-      JSON.stringify({ campaign, content }),
-    );
+    window.sessionStorage.setItem(EMAIL_ATTRIBUTION_KEY, JSON.stringify({ campaign, content }));
   } catch {
     /* storage unavailable — attribution is best-effort only */
   }
@@ -270,7 +315,6 @@ export function trackDuckDropCtaClick(params: {
  * editor. The `newsletter_interest_selected` event name is kept in
  * ANALYTICS_EVENTS for a future emailed preference page.
  */
-
 
 /** Hostname as a coarse merchant label — never a partnership claim. */
 /**
@@ -338,7 +382,6 @@ export function trackNewsletterSignup(params: {
     interest: params.interest,
     source_path: normalizedPath(path),
   });
-
 }
 
 /** Click inside the post-signup "Start here while you wait" module. No PII. */
@@ -388,6 +431,18 @@ export function trackStarterGuidePrint(params: { path: string }): void {
   trackEvent(ANALYTICS_EVENTS.starterGuidePrint, {
     page_path: params.path,
     content_slug: contentSlugFromPath(params.path),
+  });
+}
+
+/**
+ * User printed a page's planning checklist. Same shape as the Starter Guide
+ * print event plus the stable placement of the control. No PII.
+ */
+export function trackPlanPrint(params: { placement: string; path: string }): void {
+  trackEvent(ANALYTICS_EVENTS.planPrint, {
+    page_path: params.path,
+    content_slug: contentSlugFromPath(params.path),
+    placement: params.placement,
   });
 }
 
@@ -541,7 +596,6 @@ export function trackCommercialPageView(params: { path?: string | undefined } = 
   }
 }
 
-
 /**
  * The visitor actually clicked a lead-magnet download link (the Duck
  * Fundamentals Field Guide PDF). Never fired on render or on signup success —
@@ -559,7 +613,12 @@ export function trackLeadMagnetDownload(params: {
       placement: params.placement,
       sourcePath: currentPagePath(),
     });
-    const key = ["lead_magnet", event.params.asset_id, event.params.placement, event.params.source_path].join("|");
+    const key = [
+      "lead_magnet",
+      event.params.asset_id,
+      event.params.placement,
+      event.params.source_path,
+    ].join("|");
     if (!shouldSendClick(key)) return;
     trackEvent(event.name, { ...event.params });
     captureEvent(event.name, { ...event.params });
@@ -581,10 +640,234 @@ export function trackOutboundSocialClick(params: {
       placement: params.placement,
       sourcePath: currentPagePath(),
     });
-    const key = ["social", event.params.platform, event.params.placement, event.params.source_path].join("|");
+    const key = [
+      "social",
+      event.params.platform,
+      event.params.placement,
+      event.params.source_path,
+    ].join("|");
     if (!shouldSendClick(key)) return;
     trackEvent(event.name, { ...event.params });
   } catch {
     // Never block the outbound click.
   }
+}
+
+/* ------------------------------------------------------------------ *
+ * Impression + newsletter-funnel events (measurement closure sprint)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Emit one of the four allowlisted impression/funnel events, once per browser
+ * session per event + placement + normalized path.
+ *
+ * The payload is produced entirely by `buildImpressionEvent`, so a caller
+ * cannot smuggle an email address, typed value, raw server message, query
+ * string, hash, or arbitrary attribute into GA4 or PostHog: unlisted keys are
+ * dropped and `error_type` must be one of the five documented categories.
+ */
+function emitImpressionEvent(
+  name: ImpressionEventName,
+  input: Omit<ImpressionEventInput, "sourcePath">,
+): void {
+  try {
+    const path = normalizedPath();
+    const event = buildImpressionEvent(name, { ...input, sourcePath: path });
+    if (!markImpressionOnce(impressionDedupeKey(name, input.placement, path))) return;
+    trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
+  } catch {
+    // Analytics is best-effort and must never break a render or a submit.
+  }
+}
+
+/** A newsletter module became meaningfully visible. Not a mount, not a click. */
+export function trackNewsletterOfferView(params: { placement: string }): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.newsletterOfferView, {
+    placement: params.placement,
+  });
+}
+
+/** First meaningful interaction with the email field or the submit flow. */
+export function trackNewsletterFormStart(params: { placement: string }): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.newsletterFormStart, {
+    placement: params.placement,
+  });
+}
+
+/**
+ * A signup attempt failed. `errorType` is a closed category — never the typed
+ * address, the raw message, the response body, or a stack trace.
+ */
+export function trackNewsletterFormError(params: {
+  placement: string;
+  errorType: NewsletterErrorType;
+}): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.newsletterFormError, {
+    placement: params.placement,
+    errorType: params.errorType,
+  });
+}
+
+/**
+ * One impression per high-value conversion module. The honest denominator for
+ * the click events already measured inside those modules; it never replaces or
+ * reclassifies `internal_conversion_click`, `affiliate_click`, or
+ * `merchant_click`.
+ */
+export function trackConversionModuleView(params: {
+  placement: string;
+  moduleType: ModuleType;
+  destinationType: DestinationType;
+  intent?: string | undefined;
+}): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.conversionModuleView, {
+    placement: params.placement,
+    moduleType: params.moduleType,
+    destinationType: params.destinationType,
+    intent: params.intent,
+  });
+}
+
+/* ------------------------------------------------------------------ *
+ * Duck Game Plan (acquisition funnel)
+ *
+ * Seven events (start, step complete, signup, result view, internal click,
+ * entry click and export), each with a closed property allowlist built by
+
+ * `@/lib/game-plan-events`. Payloads carry only finite enum members
+ * (cut, method, concern, party-size bucket, result type), a validated
+ * `recommendation_id`, a placement label, and normalized same-origin paths.
+ * The visitor's email address is never passed to any of these helpers.
+ * ------------------------------------------------------------------ */
+
+function emitGamePlanEvent(
+  name: GamePlanEventName,
+  input: Omit<GamePlanEventInput, "sourcePath">,
+): void {
+  try {
+    const event = buildGamePlanEvent(name, { ...input, sourcePath: normalizedPath() });
+    trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
+  } catch {
+    // Analytics is best-effort and must never break the planner.
+  }
+}
+
+/** The visitor began the planner: first answer selected, once per flow. */
+export function trackGamePlanStart(params: { placement: GamePlanPlacement }): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.start, { placement: params.placement });
+}
+
+/** One completed question. `step` is one of the five documented step names. */
+export function trackGamePlanStepComplete(params: {
+  placement: GamePlanPlacement;
+  step: GamePlanStep;
+  cut?: GamePlanCut | undefined;
+  method?: GamePlanMethod | undefined;
+  concern?: GamePlanConcern | undefined;
+  partySize?: GamePlanPartySize | undefined;
+}): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.stepComplete, params);
+}
+
+/** Successful signup from inside the planner. Never carries the address. */
+export function trackGamePlanSignup(params: {
+  placement: GamePlanPlacement;
+  selection: GamePlanSelection;
+  recommendationId: string;
+  resultType: GamePlanResultType;
+}): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.signup, {
+    placement: params.placement,
+    cut: params.selection.cut,
+    method: params.selection.method,
+    concern: params.selection.concern,
+    partySize: params.selection.partySize,
+    recommendationId: params.recommendationId,
+    resultType: params.resultType,
+  });
+}
+
+/** The personalized plan was rendered. Deduped by the caller per plan. */
+export function trackGamePlanResultView(params: {
+  placement: GamePlanPlacement;
+  selection: GamePlanSelection;
+  recommendationId: string;
+  resultType: GamePlanResultType;
+}): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.resultView, {
+    placement: params.placement,
+    cut: params.selection.cut,
+    method: params.selection.method,
+    concern: params.selection.concern,
+    partySize: params.selection.partySize,
+    recommendationId: params.recommendationId,
+    resultType: params.resultType,
+  });
+}
+
+/** Click on a link inside a rendered plan. Path only, never a full URL. */
+export function trackGamePlanInternalClick(params: {
+  placement: GamePlanPlacement;
+  destinationPath: string;
+  recommendationId: string;
+  resultType: GamePlanResultType;
+}): void {
+  const key = ["game_plan_click", params.destinationPath, params.placement].join("|");
+  if (!shouldSendClick(key)) return;
+  emitGamePlanEvent(GAME_PLAN_EVENTS.internalClick, params);
+}
+
+/**
+ * Click on an entry CTA into the planner, before any question is answered.
+ *
+ * Separate from `trackGamePlanInternalClick` on purpose: an entry click has no
+ * recommendation, so it carries only placement, source path and destination
+ * path. No synthetic recommendation id ever reaches result-level reporting.
+ */
+export function trackGamePlanEntryClick(params: {
+  placement: GamePlanPlacement;
+  destinationPath: string;
+}): void {
+  const key = ["game_plan_entry", params.destinationPath, params.placement].join("|");
+  if (!shouldSendClick(key)) return;
+  emitGamePlanEvent(GAME_PLAN_EVENTS.entryClick, params);
+}
+
+/**
+ * The plan left the browser: printed, viewed as plain text, or downloaded.
+ * Finite action enum only; no filename, URL, or plan prose is ever passed.
+ */
+export function trackGamePlanExport(params: {
+  placement: GamePlanPlacement;
+  action: GamePlanExportAction;
+  recommendationId: string;
+  resultType: GamePlanResultType;
+}): void {
+  emitGamePlanEvent(GAME_PLAN_EVENTS.export, {
+    placement: params.placement,
+    action: params.action,
+    recommendationId: params.recommendationId,
+    resultType: params.resultType,
+  });
+}
+
+/* ------------------------------------------------------------------ *
+ * Partnerships (B2B)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Click on a partnership inquiry CTA on `/partners`.
+ *
+ * Exactly one property — a placement label from a closed allowlist. No brand
+ * name, email address, message body, URL, or query string is ever sent, and an
+ * unrecognised placement emits nothing at all.
+ */
+export function trackPartnerInquiryClick(params: { placement: PartnerPlacement }): void {
+  const event = buildPartnerInquiryClickEvent({ placement: params.placement });
+  if (!event) return;
+  if (!shouldSendClick(`partner|${event.params.placement}`)) return;
+  trackEvent(event.name, { ...event.params });
+  captureEvent(event.name, { ...event.params });
 }

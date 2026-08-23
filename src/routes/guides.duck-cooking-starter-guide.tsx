@@ -5,6 +5,7 @@ import { ArticleShell, Section, DataTable, StepList, Callout } from "@/component
 import { QuackFix } from "@/components/site/QuackFix";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { UseTheWholeDuck } from "@/components/site/UseTheWholeDuck";
+import { GamePlanCta } from "@/components/site/GamePlanCta";
 import { STARTER_GUIDE } from "@/data/starter-guide";
 import { trackStarterGuidePrint, trackStarterGuideView } from "@/lib/analytics";
 import { articleSchema, breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
@@ -37,21 +38,29 @@ export const Route = createFileRoute("/guides/duck-cooking-starter-guide")({
   component: StarterGuidePage,
 });
 
-const CHECKLIST: { item: string; why: string; to?: string }[] = [
+/**
+ * `anchor` is required alongside `to`: a checklist row links out with a phrase
+ * that names its destination, never a bare "Read more". Generic anchors give
+ * crawlers and screen-reader link lists nothing to go on.
+ */
+const CHECKLIST: { item: string; why: string; to?: string; anchor?: string }[] = [
   {
     item: "Instant-read thermometer",
     why: "The only way to know where a duck breast or leg actually is inside. Buy this before anything else.",
     to: "/gear/best-thermometer-for-duck",
+    anchor: "How to choose a duck thermometer",
   },
   {
     item: "Heavy skillet you trust on low heat",
     why: "Duck breast starts in a cold, dry pan and renders slowly; thin pans run hot and scorch the fat.",
     to: "/gear/best-pan-for-duck-breast",
+    anchor: "Choosing a pan for duck breast",
   },
   {
     item: "Small sharp knife with a controllable tip",
     why: "Scoring is shallow, precise work. A large blade makes depth harder to feel.",
     to: "/gear/best-knife-for-scoring-duck",
+    anchor: "Choosing a knife for scoring skin",
   },
   {
     item: "Paper towels",
@@ -65,6 +74,7 @@ const CHECKLIST: { item: string; why: string; to?: string }[] = [
     item: "Heatproof jar or container",
     why: "For the rendered fat you pour off — the most valuable byproduct in the kitchen.",
     to: "/learn/how-to-render-duck-fat",
+    anchor: "How to render and store duck fat",
   },
 ];
 
@@ -97,13 +107,18 @@ function StarterGuidePage() {
           Print the quick reference
         </button>
         <span className="text-sm text-muted-foreground">
-          Prints the checklist, temperatures, and technique block only. The printable 16-page{" "}
-          <Link to="/" hash="starter-guide" className="text-primary underline underline-offset-4">
-            field guide is the free subscriber download
+          Prints the checklist, temperatures, and technique block only. Want a plan for the duck
+
+          you&apos;re actually cooking?{" "}
+          <Link to="/tools/duck-game-plan" className="text-primary underline underline-offset-4">
+            Build your Duck Game Plan
           </Link>
           .
         </span>
       </div>
+
+      <GamePlanCta id="game-plan_starter-guide" tone="quiet" className="mb-10" />
+
 
       <Section id="start-here" heading="Start here: duck is not chicken">
         <p>
@@ -289,7 +304,7 @@ function StarterGuidePage() {
                     <>
                       {" "}
                       <Link to={entry.to} className="text-primary underline underline-offset-4">
-                        Read more
+                        {entry.anchor ?? entry.item}
                       </Link>
                       .
                     </>

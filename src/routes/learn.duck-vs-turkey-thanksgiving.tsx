@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleShell, Callout, DataTable, FaqList, Section } from "@/components/site/ArticleShell";
-import { AnswerFirst, ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
+import { ArticleBasis, ArticleByline } from "@/components/site/AcquisitionArticle";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { VerdictChoice } from "@/components/site/VerdictChoice";
 import { SketchSlot } from "@/components/site/SketchSlot";
@@ -14,6 +14,8 @@ import { acquisitionPage } from "@/data/acquisition-cluster";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
+import { ThanksgivingHubLink } from "@/components/site/ThanksgivingPlan";
+import { THANKSGIVING_INBOUND_PLACEMENTS } from "@/data/thanksgiving-hub";
 
 const GUIDE = guideByPath("/learn/duck-vs-turkey-thanksgiving")!;
 const PAGE = acquisitionPage("/learn/duck-vs-turkey-thanksgiving")!;
@@ -59,7 +61,7 @@ const FAQ = [
   },
   {
     q: "Can I cook duck and turkey in the same oven?",
-    a: "You can, but not comfortably at the same time. Both birds want air around them, the two planning charts assume different oven settings, and a duck sheds a lot of fat that has to go somewhere. If you want both, roast the duck first, rest it while the turkey finishes, and carve the duck last.",
+    a: "You can, but not comfortably at the same time. Both birds want air around them, the two planning charts assume different oven settings, and a duck sheds a lot of fat that has to go somewhere. If you want both, time the duck so its 20-minute rest lands inside the turkey's last stretch of cooking or its own rest, and carve the duck last. If the two schedules will not meet there, use a second oven or serve portioned duck — breasts or confit legs — rather than leaving a whole cooked duck standing for a long wait.",
   },
   {
     q: "Does duck need a different internal temperature than turkey?",
@@ -110,7 +112,6 @@ function Page() {
          into a comparison argument. */
       autoSketch={false}
     >
-      <AnswerFirst page={PAGE} />
 
       <ArticleByline page={PAGE} />
 
@@ -758,6 +759,11 @@ function Page() {
           </Link>{" "}
           guide is a framework for judging them, not a price list.
         </p>
+        <ThanksgivingHubLink placement={THANKSGIVING_INBOUND_PLACEMENTS.duckVsTurkey}>
+          If duck is the call, the planning is a separate job: order date, thaw schedule, a
+          single-oven order of play, a printable checklist and a menu built against the richness.
+          That all lives in our
+        </ThanksgivingHubLink>
       </Section>
 
       <ArticleBasis page={PAGE} />

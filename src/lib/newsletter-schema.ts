@@ -1,6 +1,17 @@
 import { z } from "zod";
 import { NEWSLETTER_INTERESTS } from "@/data/newsletter-contexts";
+import {
+  GAME_PLAN_CONCERNS,
+  GAME_PLAN_CUTS,
+  GAME_PLAN_METHODS,
+  GAME_PLAN_PARTY_SIZES,
+} from "@/data/duck-game-plan";
 import { NEWSLETTER_CONSENT } from "./newsletter-consent";
+
+/** The only acquisition sources this build recognises. */
+export const ACQUISITION_SOURCES = ["duck_game_plan"] as const;
+export type AcquisitionSource = (typeof ACQUISITION_SOURCES)[number];
+
 
 /** Client-safe validation + shared constants for the newsletter flow. */
 
@@ -24,9 +35,21 @@ export const subscribeSchema = z.object({
    * version this build renders, so stored evidence can never drift from the UI.
    */
   consentVersion: z.literal(NEWSLETTER_CONSENT.version),
+  /**
+   * Optional first-party acquisition metadata from the Duck Game Plan.
+   *
+   * Finite enums only, so a signup can never carry free text. These describe
+   * what the visitor said they were cooking — never who they are.
+   */
+  acquisitionSource: z.enum(ACQUISITION_SOURCES).optional(),
+  cut: z.enum(GAME_PLAN_CUTS).optional(),
+  method: z.enum(GAME_PLAN_METHODS).optional(),
+  concern: z.enum(GAME_PLAN_CONCERNS).optional(),
+  partySizeBucket: z.enum(GAME_PLAN_PARTY_SIZES).optional(),
   /** Honeypot: must stay empty. Real users never see this field. */
   trap: z.string().max(0).optional(),
 });
+
 
 export type SubscribePayload = z.infer<typeof subscribeSchema>;
 
@@ -36,3 +59,20 @@ export type SubscribePayload = z.infer<typeof subscribeSchema>;
  * preference link will need its own schema, keyed on the emailed token.
  */
 
+
+/**
+ * A Duck Game Plan delivery request.
+ *
+ * Same shape as a signup, but the four finite selections and the acquisition
+ * source are required: this endpoint's whole purpose is to email the plan those
+ * selections resolve to, so a request without them is not a Game Plan request.
+ */
+export const gamePlanRequestSchema = subscribeSchema.extend({
+  acquisitionSource: z.literal("duck_game_plan"),
+  cut: z.enum(GAME_PLAN_CUTS),
+  method: z.enum(GAME_PLAN_METHODS),
+  concern: z.enum(GAME_PLAN_CONCERNS),
+  partySizeBucket: z.enum(GAME_PLAN_PARTY_SIZES),
+});
+
+export type GamePlanRequestPayload = z.infer<typeof gamePlanRequestSchema>;
