@@ -158,10 +158,15 @@ function IndexingMonitor() {
         </button>
       </div>
 
+      {state === "denied" && (
+        <p role="status" className="mt-4 text-sm text-destructive">
+          That token wasn&apos;t accepted. This page uses NEWSLETTER_ADMIN_TOKEN — not the cron
+          token.
+        </p>
+      )}
       {state === "error" && (
         <p role="status" className="mt-4 text-sm text-destructive">
-          That request failed. Check the token, and that the Search Console connection is still
-          linked.
+          That request failed. Check that the Search Console connection is still linked.
         </p>
       )}
       {notice && (
