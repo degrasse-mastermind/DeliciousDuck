@@ -16,6 +16,14 @@ dist-ssr
 .nitro
 *.local
 
+# Creative Studio generated media/cache. Source, manifests, tests, and package
+# files remain trackable; only generated outputs are ignored.
+creative-studio/renders/
+creative-studio/output/
+creative-studio/temp/
+creative-studio/.remotion/
+creative-studio/.cache/
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
