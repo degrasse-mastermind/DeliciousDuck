@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { breadcrumbSchema, ldScript, pageMeta } from "@/lib/seo";
 
 export const Route = createFileRoute("/contact")({
@@ -121,6 +122,14 @@ function ContactPage() {
           </Link>
           .
         </p>
+        <HubOrientation
+          heading={"What to expect when you write"}
+          paragraphs={[
+            "One person reads this mailbox, so a clear subject line and the URL of the page you are asking about will get you a faster, more useful answer. Corrections to a temperature, a timing, or a food-safety statement are read first and, where they hold up, the page is updated and the change noted.",
+            "We cannot tell you whether the duck in your fridge is still safe to cook, because that depends on how it has been stored and handled and we cannot see it. For anything time-sensitive, use the storage and thawing guidance in the Learn section and err on the side of caution.",
+            "Commercial enquiries are welcome and are handled on the terms set out in our editorial standards: coverage is not for sale, sponsored work is labelled, and affiliate relationships never decide a recommendation.",
+          ]}
+        />
       </section>
     </>
   );
