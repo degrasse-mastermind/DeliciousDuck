@@ -216,6 +216,8 @@ function IndexingMonitor() {
 
   const trend = report?.trend;
   const recent = trend ? [...trend.points].reverse().slice(0, 14) : [];
+  const coverageHistory = coverage ? [...coverage.trend.points].reverse().slice(0, 14) : [];
+
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-12">
