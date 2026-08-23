@@ -61,15 +61,14 @@ function ToolsPage() {
           position="right"
         >
           <p>
-            Every calculator here comes from the same place our guides do: measured internal
-            temperatures, weighed birds, and timings we can repeat. Start with a number, then cook to
-            what you see.
+            Every calculator here starts from the same place our guides do: published temperature
+            targets, weight-based timing, and the variables that actually move the clock. Start with
+            a number, then cook to what you see.
           </p>
         </SketchInterlude>
       </section>
 
-      <section className="mx-auto max-w-7xl px-5 pb-24 lg:px-8">
-        <NewsletterSignup />
+      <section className="mx-auto max-w-4xl px-5 pb-4 lg:px-8">
         <HubOrientation
           heading={"When to reach for a calculator"}
           paragraphs={[
@@ -78,6 +77,10 @@ function ToolsPage() {
             "Nothing here needs an account and nothing leaves your browser. If a tool answers your question but you want the reasoning behind it, each one links to the guide that explains the underlying method.",
           ]}
         />
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 pb-24 lg:px-8">
+        <NewsletterSignup />
       </section>
     </>
   );

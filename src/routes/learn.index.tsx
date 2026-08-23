@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { GuideCluster } from "@/components/site/GuideGrid";
 import { guidesByPillar } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
@@ -77,6 +78,15 @@ function LearnPage() {
           heading="Wild duck"
           intro="Why techniques that work on a farmed Pekin can ruin a wild bird."
           guides={LEARN_GUIDES.filter((g) => g.cluster === "wild-duck")}
+        />
+
+        <HubOrientation
+          heading={"Why duck is cooked differently"}
+          paragraphs={[
+            "Duck is a red-meat bird with a thick fat layer under the skin, which is why chicken habits fail on it. Breast is usually cooked to a medium-rare to medium range and rests pink; legs and whole birds need long enough for connective tissue to break down, well past the point where a chicken would be dry.",
+            "The fat is the other half of the difference. It has to be rendered out slowly before the skin can crisp, and what you pour off is one of the best cooking fats in the kitchen. Guides in this section cover scoring, rendering, and the diagnostic questions behind skin that stays soft.",
+            "Read this section when you want to understand why a method works, then move to Cook or Tools when you want to execute it. Safety facts here \u2014 thawing, storage, and minimum internal temperatures \u2014 carry a source note so you can check the original guidance yourself.",
+          ]}
         />
 
         <div className="mt-20 rounded-sm border border-border bg-cream p-6 lg:p-8">
