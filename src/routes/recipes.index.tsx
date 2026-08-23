@@ -52,11 +52,7 @@ function RecipesIndex() {
       />
 
       <section className="mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
-        <div
-          role="group"
-          aria-label="Filter recipes by cut"
-          className="mb-10 flex flex-wrap gap-2"
-        >
+        <div role="group" aria-label="Filter recipes by cut" className="mb-10 flex flex-wrap gap-2">
           {categories.map((category) => {
             const selected = category === active;
             const count =
@@ -106,7 +102,6 @@ function RecipesIndex() {
             </span>
           </Link>
         </div>
-
 
         <p className="mt-16 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Want the technique behind the recipe? The{" "}
@@ -169,8 +164,6 @@ function RecipesIndex() {
         />
 
         <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep", "usdaLeftovers"]} />
-
-
       </section>
     </>
   );

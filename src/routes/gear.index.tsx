@@ -65,7 +65,6 @@ function GearPage() {
           intro="Before you shop, work out whether the pot in your cupboard already does the job."
         />
 
-
         <div className={`${HUB_SECTION_DIVIDER} grid gap-10 lg:grid-cols-2`}>
           <div>
             <HubSectionMark mark="gear-skip" />
@@ -142,17 +141,18 @@ function GearPage() {
                 "The rest of the list is short: a rack or plate for salting the legs overnight, a container to store them under their fat, and a skillet to crisp the skin at serving time. If a cheaper piece of kit does the job for duck, that is what we say — the guides below compare categories and named products on published specifications and state plainly who each option suits.",
               ],
               links: [
-                { label: "Best Dutch oven for confit", to: "/gear/best-dutch-oven-for-duck-confit" },
+                {
+                  label: "Best Dutch oven for confit",
+                  to: "/gear/best-dutch-oven-for-duck-confit",
+                },
                 { label: "Duck leg confit recipe", to: "/cook/duck-leg-confit" },
                 { label: "Best knife for scoring duck", to: "/gear/best-knife-for-scoring-duck" },
               ],
             },
           ]}
-
         />
 
         <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep"]} />
-
       </section>
     </>
   );

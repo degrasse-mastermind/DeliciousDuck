@@ -91,7 +91,9 @@ describe("hub food-safety copy", () => {
       if (/130[–-]135°F/.test(text)) {
         expect(text).toMatch(/165°F/);
         expect(text).toMatch(/USDA/);
-        expect(text).toMatch(/depart|below (that|the) (guidance|recommend)|against that (guidance|recommendation)/i);
+        expect(text).toMatch(
+          /depart|below (that|the) (guidance|recommend)|against that (guidance|recommendation)/i,
+        );
       }
     }
   });
@@ -164,7 +166,11 @@ describe("hub orientation internal links", () => {
   const routeFileFor = (path: string) => {
     const segments = path.replace(/^\//, "").split("/");
     const base = segments.join(".");
-    return [`src/routes/${base}.tsx`, `src/routes/${base}/index.tsx`, `src/routes/${base}.index.tsx`];
+    return [
+      `src/routes/${base}.tsx`,
+      `src/routes/${base}/index.tsx`,
+      `src/routes/${base}.index.tsx`,
+    ];
   };
 
   it("points every new hub subsection link at an existing route file", () => {

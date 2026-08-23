@@ -98,7 +98,10 @@ function LearnPage() {
                 "Either way, the thermometer decides it, not the clock. Our doneness guide lays out each range and what it looks like on the plate.",
               ],
               links: [
-                { label: "Breast temperature & doneness", to: "/learn/duck-breast-temperature-doneness" },
+                {
+                  label: "Breast temperature & doneness",
+                  to: "/learn/duck-breast-temperature-doneness",
+                },
                 { label: "Doneness guide", to: "/tools/duck-doneness-guide" },
                 { label: "Whole-duck cooking time", to: "/learn/whole-duck-cooking-time" },
               ],
@@ -132,10 +135,14 @@ function LearnPage() {
         />
 
         <SourceNotes
-          ids={["usdaPoultryTemp", "usdaPoultryPrep", "usdaThawing", "usdaLeftovers", "fdaColdStorage"]}
+          ids={[
+            "usdaPoultryTemp",
+            "usdaPoultryPrep",
+            "usdaThawing",
+            "usdaLeftovers",
+            "fdaColdStorage",
+          ]}
         />
-
-
 
         <div className="mt-20 rounded-sm border border-border bg-cream p-6 lg:p-8">
           <h2 className="font-display text-2xl text-foreground">Put it into practice</h2>

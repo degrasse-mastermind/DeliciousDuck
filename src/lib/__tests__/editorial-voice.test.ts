@@ -15,12 +15,10 @@ function walk(dir: string): string[] {
   });
 }
 
-const publicFiles = [...walk(ROUTES), ...walk(COMPONENTS), ...walk(DATA)].filter(
-  (p) => {
-    const normalized = p.replace(/\\/g, "/");
-    return !normalized.includes("/routes/internal.") && !normalized.includes("/routes/api");
-  },
-);
+const publicFiles = [...walk(ROUTES), ...walk(COMPONENTS), ...walk(DATA)].filter((p) => {
+  const normalized = p.replace(/\\/g, "/");
+  return !normalized.includes("/routes/internal.") && !normalized.includes("/routes/api");
+});
 
 /**
  * Pages where the identity of the safety authority genuinely helps the reader:
@@ -145,11 +143,12 @@ describe("editorial voice: unsupported claims", () => {
   });
 });
 
-
 describe("editorial voice: preferred safety vocabulary", () => {
   it("labels structural safety headings by the official minimum, not the authority", () => {
     const offenders = publicFiles
-      .filter((p) => /Food safety: the USDA number|USDA safety minimum/.test(readFileSync(p, "utf8")))
+      .filter((p) =>
+        /Food safety: the USDA number|USDA safety minimum/.test(readFileSync(p, "utf8")),
+      )
       .map((p) => p.replace(process.cwd() + "/", ""));
     expect(offenders).toEqual([]);
 
@@ -162,12 +161,12 @@ describe("editorial voice: preferred safety vocabulary", () => {
     expect(route).toContain("Why is duck breast sometimes served below the official safe minimum?");
     expect(route).not.toMatch(/Why does breast doneness differ from USDA guidance\?/);
     // One FAQ array feeds both the visible list and the schema.
-    expect(route.match(/Why is duck breast sometimes served below the official safe minimum\?/g))
-      .toHaveLength(1);
+    expect(
+      route.match(/Why is duck breast sometimes served below the official safe minimum\?/g),
+    ).toHaveLength(1);
     expect(route).toContain("165°F (73.9°C)");
   });
 });
-
 
 describe("editorial voice: the style guide is discoverable", () => {
   it("exists and is linked from the README", () => {

@@ -89,8 +89,8 @@ function CookPage() {
             The starter four
           </h2>
           <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            Full recipe pages with ingredients, step-by-step method, temperature targets, and
-            Recipe structured data. Start here, then follow the technique guides above.
+            Full recipe pages with ingredients, step-by-step method, temperature targets, and Recipe
+            structured data. Start here, then follow the technique guides above.
           </p>
           <p className="mt-3">
             <Link to="/recipes" className="text-primary underline underline-offset-4">
@@ -113,7 +113,10 @@ function CookPage() {
             Use the whole-duck serving calculator
           </Link>{" "}
           , or let{" "}
-          <Link to="/tools/what-should-i-cook" className="text-primary underline underline-offset-4">
+          <Link
+            to="/tools/what-should-i-cook"
+            className="text-primary underline underline-offset-4"
+          >
             the method finder
           </Link>{" "}
           match a technique to the duck in front of you.
@@ -168,8 +171,6 @@ function CookPage() {
         />
 
         <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep", "usdaThawing"]} />
-
-
       </section>
     </>
   );
