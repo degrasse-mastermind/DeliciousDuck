@@ -482,11 +482,11 @@ function IndexingMonitor() {
         <section className="mt-12 border-t border-border pt-8">
           <h2 className="text-lg font-semibold text-foreground">Indexing coverage (real)</h2>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Per-URL indexing state read from Google&apos;s index with URL Inspection — the same
-            signal behind the Pages report, and the one that actually tracks growth. Each run checks
-            a rotating batch of up to {COVERAGE_BATCH_LIMIT} URLs to stay inside Google&apos;s
-            inspection quota, so the site-wide picture fills in over consecutive runs. This is a
-            read: nothing here requests indexing or a re-crawl.
+            Per-URL index status read from Google&apos;s URL Inspection API. This complements Search
+            Console&apos;s Pages/Indexing report and lets DeliciousDuck track the current sitemap URL
+            set directly. Each run inspects the complete sitemap set, so successive snapshots cover
+            the same URLs and their counts are comparable. Reading the index is all this does — it
+            never requests indexing or a re-crawl.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -495,28 +495,28 @@ function IndexingMonitor() {
               value={String(coverage.indexedCount)}
               hint={
                 coverage.coveragePercent === null
-                  ? "No URLs checked yet"
-                  : `${coverage.coveragePercent}% of the ${coverage.totalMonitored - coverage.neverCheckedCount} URLs checked so far`
+                  ? "No URLs resolved yet"
+                  : `${coverage.coveragePercent}% of the ${coverage.indexedCount + coverage.notIndexedCount} URLs Google answered on`
               }
             />
             <Stat
               label="Not indexed"
               value={String(coverage.notIndexedCount)}
-              hint="Checked, but Google's index does not hold them"
+              hint="Google answered, and its index does not hold them"
             />
             <Stat
-              label="Not yet checked"
-              value={String(coverage.neverCheckedCount)}
-              hint={`Of ${coverage.totalMonitored} sitemap URLs`}
+              label="Unresolved"
+              value={String(coverage.unresolvedCount + coverage.neverCheckedCount)}
+              hint={`Of ${coverage.totalMonitored} sitemap URLs — no usable answer yet, counted as neither`}
             />
             <Stat
               label="Growth"
               value={
                 coverage.trend.direction === "insufficient_data"
-                  ? "Need 2+ checks"
+                  ? "Need 2 full runs"
                   : `${(coverage.trend.netChange ?? 0) > 0 ? "+" : ""}${coverage.trend.netChange} (${coverage.trend.direction})`
               }
-              hint="Indexed URLs per batch across the stored window"
+              hint="Indexed URLs across full-site snapshots only"
             />
           </div>
 
@@ -527,9 +527,27 @@ function IndexingMonitor() {
             </div>
             <div>
               <dt className="font-semibold text-foreground">Last coverage check</dt>
-              <dd className="text-muted-foreground">{when(coverage.capturedAt)}</dd>
+              <dd className="text-muted-foreground">
+                {when(coverage.capturedAt)}
+                {coverage.capturedAt && !coverage.lastRunWasComplete && " — partial run"}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-foreground">Last full-site snapshot</dt>
+              <dd className="text-muted-foreground">{when(coverage.lastCompleteAt)}</dd>
+            </div>
+            <div>
+              <dt className="font-semibold text-foreground">Partial runs excluded from growth</dt>
+              <dd className="text-muted-foreground">{coverage.trend.excludedPartialRuns}</dd>
             </div>
           </dl>
+
+          {coverage.lastIncompleteReason && (
+            <p className="mt-3 max-w-2xl text-sm text-destructive">
+              Most recent run stored for diagnostics only: {coverage.lastIncompleteReason}
+            </p>
+          )}
+
 
           <h3 className="mt-8 text-base font-semibold text-foreground">
             Google&apos;s coverage states
