@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      indexing_coverage_snapshots: {
+        Row: {
+          breakdown: Json
+          captured_at: string
+          checked_count: number
+          failed_count: number
+          id: string
+          indexed_count: number
+          not_indexed_count: number
+          site_url: string
+          source: string
+        }
+        Insert: {
+          breakdown?: Json
+          captured_at?: string
+          checked_count?: number
+          failed_count?: number
+          id?: string
+          indexed_count?: number
+          not_indexed_count?: number
+          site_url: string
+          source?: string
+        }
+        Update: {
+          breakdown?: Json
+          captured_at?: string
+          checked_count?: number
+          failed_count?: number
+          id?: string
+          indexed_count?: number
+          not_indexed_count?: number
+          site_url?: string
+          source?: string
+        }
+        Relationships: []
+      }
       indexing_cron_credential: {
         Row: {
           id: number
@@ -76,6 +112,65 @@ export type Database = {
           warning_count?: number
         }
         Relationships: []
+      }
+      indexing_url_coverage: {
+        Row: {
+          captured_at: string
+          coverage_state: string | null
+          google_canonical: string | null
+          id: string
+          indexing_state: string | null
+          inspect_error: string | null
+          is_indexed: boolean
+          last_crawl_time: string | null
+          page_fetch_state: string | null
+          robots_txt_state: string | null
+          site_url: string
+          snapshot_id: string | null
+          url: string
+          verdict: string | null
+        }
+        Insert: {
+          captured_at?: string
+          coverage_state?: string | null
+          google_canonical?: string | null
+          id?: string
+          indexing_state?: string | null
+          inspect_error?: string | null
+          is_indexed?: boolean
+          last_crawl_time?: string | null
+          page_fetch_state?: string | null
+          robots_txt_state?: string | null
+          site_url: string
+          snapshot_id?: string | null
+          url: string
+          verdict?: string | null
+        }
+        Update: {
+          captured_at?: string
+          coverage_state?: string | null
+          google_canonical?: string | null
+          id?: string
+          indexing_state?: string | null
+          inspect_error?: string | null
+          is_indexed?: boolean
+          last_crawl_time?: string | null
+          page_fetch_state?: string | null
+          robots_txt_state?: string | null
+          site_url?: string
+          snapshot_id?: string | null
+          url?: string
+          verdict?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "indexing_url_coverage_snapshot_id_fkey"
+            columns: ["snapshot_id"]
+            isOneToOne: false
+            referencedRelation: "indexing_coverage_snapshots"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       newsletter_provider_events: {
         Row: {
