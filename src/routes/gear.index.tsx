@@ -5,6 +5,7 @@ import { HUB_SECTION_DIVIDER } from "@/components/site/HubDivider";
 import { HubSectionMark } from "@/components/site/HubSectionMark";
 import { GuideGrid } from "@/components/site/GuideGrid";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
+import { SourceNotes } from "@/components/site/SourceNotes";
 import { guidesByPillar } from "@/data/guides";
 import { breadcrumbSchema, itemListSchema, ldScript, pageMeta } from "@/lib/seo";
 
@@ -149,6 +150,8 @@ function GearPage() {
           ]}
 
         />
+
+        <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep"]} />
 
       </section>
     </>
