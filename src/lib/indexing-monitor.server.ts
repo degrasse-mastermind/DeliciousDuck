@@ -49,10 +49,41 @@ async function gatewayGet(path: string): Promise<unknown> {
   return await res.json();
 }
 
+/**
+ * Shared gateway caller for the other indexing modules (URL Inspection posts a
+ * JSON body). The provider's status and body are logged on failure and never
+ * silently swallowed.
+ */
+export async function gatewayRequest(
+  path: string,
+  init: { method: "GET" | "POST"; body?: unknown } = { method: "GET" },
+): Promise<unknown> {
+  const res = await fetch(`${GATEWAY}${path}`, {
+    method: init.method,
+    headers: { ...gatewayHeaders(), ...(init.body ? { "Content-Type": "application/json" } : {}) },
+    ...(init.body ? { body: JSON.stringify(init.body) } : {}),
+  });
+  if (!res.ok) {
+    const body = await res.text();
+    console.error(`[indexing] gateway request failed [${res.status}]: ${body}`);
+    throw new Error(`search_console_request_failed_${res.status}`);
+  }
+  return await res.json();
+}
+
 async function listVerifiedProperties(): Promise<SiteEntry[]> {
   const json = (await gatewayGet("/webmasters/v3/sites")) as { siteEntry?: SiteEntry[] };
   return json.siteEntry ?? [];
 }
+
+/**
+ * Resolves the property to read, live from Google every time — never
+ * hardcoded, never derived from the target URL.
+ */
+export async function resolveMonitoredProperty() {
+  return resolveSiteUrl(await listVerifiedProperties(), MONITORED_SITE_URL);
+}
+
 
 export type CaptureResult =
   | { status: "ok"; snapshot: SitemapSnapshot; processing: ReturnType<typeof processingState> }
