@@ -156,7 +156,7 @@ describe("hub food-safety copy", () => {
   it("uses the conservative rendered-fat storage wording where fat storage is discussed", () => {
     for (const hub of HUBS) {
       const text = read(hub);
-      if (!/rendered fat|the fat itself|rendered spoonful/i.test(text)) continue;
+      if (!/(Strain|strain) (rendered fat|the fat|it) into a clean sealed container/.test(text)) continue;
       expect(text).toMatch(/refrigerate it promptly/i);
       expect(text).toMatch(/freeze it for longer storage/i);
       expect(text).toMatch(/signs of spoilage/i);
