@@ -77,24 +77,14 @@ function isRecord(value: unknown): value is Record<string, unknown> {
  * as a URL dropping out of the index.
  */
 export function normalizeInspection(url: string, raw: unknown): UrlCoverage {
-  const base = {
-    url,
-    verdict: null,
-    coverageState: null,
-    robotsTxtState: null,
-    indexingState: null,
-    pageFetchState: null,
-    googleCanonical: null,
-    lastCrawlTime: null,
-  };
-
   if (!isRecord(raw)) return unresolvedCoverage(url, "inspection_response_not_an_object");
 
   const result = raw["inspectionResult"];
-  if (!isRecord(result)) return { ...unresolvedCoverage(url, "missing_inspection_result"), ...base };
+  if (!isRecord(result)) return unresolvedCoverage(url, "missing_inspection_result");
 
   const status = result["indexStatusResult"];
   if (!isRecord(status)) return unresolvedCoverage(url, "missing_index_status_result");
+
 
   const verdict = str(status["verdict"]);
   const shared = {
