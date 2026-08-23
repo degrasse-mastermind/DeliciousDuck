@@ -42,6 +42,9 @@ type Diagnostics = Extract<
   Awaited<ReturnType<typeof indexingDiagnosticsFn>>,
   { ok: true }
 >["diagnostics"];
+type Coverage = Extract<Awaited<ReturnType<typeof coverageReportFn>>, { ok: true }>["coverage"];
+
+
 
 const AUDIENCE_LABEL: Record<"admin" | "cron", string> = {
   admin: "NEWSLETTER_ADMIN_TOKEN",
