@@ -139,8 +139,12 @@ describe("hub food-safety copy", () => {
 
   it("keeps the vulnerable-population warning next to the pink-breast convention", () => {
     const learn = read("src/routes/learn.index.tsx");
-    expect(learn).toMatch(/carries greater food-safety risk than cooking to the USDA-recommended minimum/);
-    expect(learn).toMatch(/young children, older adults, pregnant people, (or|and) anyone immunocompromised/);
+    expect(learn).toMatch(
+      /carries greater food-safety risk than cooking to the USDA-recommended minimum/,
+    );
+    expect(learn).toMatch(
+      /young children, older adults, pregnant people, (or|and) anyone immunocompromised/,
+    );
   });
 
   it("does not use smell as a safety test or an unsupported fat storage duration", () => {
@@ -156,7 +160,8 @@ describe("hub food-safety copy", () => {
   it("uses the conservative rendered-fat storage wording where fat storage is discussed", () => {
     for (const hub of HUBS) {
       const text = read(hub);
-      if (!/(Strain|strain) (rendered fat|the fat|it) into a clean sealed container/.test(text)) continue;
+      if (!/(Strain|strain) (rendered fat|the fat|it) into a clean sealed container/.test(text))
+        continue;
       expect(text).toMatch(/refrigerate it promptly/i);
       expect(text).toMatch(/freeze it for longer storage/i);
       expect(text).toMatch(/signs of spoilage/i);
