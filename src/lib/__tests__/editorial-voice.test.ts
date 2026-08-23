@@ -34,6 +34,12 @@ const ATTRIBUTION_ALLOWED = [
   "routes/learn.duck-breast-temperature-doneness.tsx",
   "routes/learn.duck-vs-turkey-thanksgiving.tsx",
   "routes/guides.duck-cooking-starter-guide.tsx",
+  // Pillar hubs: each contrasts the pink culinary convention with the official
+  // safe minimum, which is exactly where naming the authority helps the reader.
+  "routes/learn.index.tsx",
+  "routes/cook.index.tsx",
+  "routes/gear.index.tsx",
+  "routes/recipes.index.tsx",
   "data/sources.ts",
   "data/acquisition-cluster.ts",
   "data/duck-drop.ts",
@@ -60,8 +66,9 @@ describe("editorial voice: quiet attribution", () => {
       (n, p) => n + (readFileSync(p, "utf8").match(/USDA/g)?.length ?? 0),
       0,
     );
-    // Registry notes plus the doneness/safety pages that need the attribution.
-    expect(total).toBeLessThanOrEqual(90);
+    // Registry notes, the doneness/safety pages, and the four pillar hubs that
+    // contrast the pink convention with the official safe minimum.
+    expect(total).toBeLessThanOrEqual(105);
   });
 
   it("keeps the centralised safety wording intact", async () => {
