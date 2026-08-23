@@ -9,9 +9,12 @@
 export function HubOrientation({
   heading,
   paragraphs,
+  sections,
 }: {
   heading: string;
   paragraphs: string[];
+  /** Optional deeper subsections, each answering one common question. */
+  sections?: { heading: string; paragraphs: string[] }[];
 }) {
   return (
     <section
@@ -26,6 +29,21 @@ export function HubOrientation({
           <p key={p.slice(0, 32)}>{p}</p>
         ))}
       </div>
+      {sections?.length ? (
+        <div className="mt-10 space-y-8">
+          {sections.map((s) => (
+            <div key={s.heading}>
+              <h3 className="font-display text-xl text-foreground">{s.heading}</h3>
+              <div className="mt-3 space-y-4 text-base leading-relaxed text-muted-foreground">
+                {s.paragraphs.map((p) => (
+                  <p key={p.slice(0, 32)}>{p}</p>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </section>
   );
 }
+
