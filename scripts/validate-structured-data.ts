@@ -23,6 +23,9 @@ interface Problem {
   message: string;
 }
 
+/** Utility pages with no schema-eligible entity — see the coverage check below. */
+const SCHEMA_EXEMPT_PATHS = new Set(["/privacy", "/terms", "/editorial-standards"]);
+
 const REQUIRED_FIELDS: Record<string, string[]> = {
   Article: ["headline"],
   NewsArticle: ["headline"],
