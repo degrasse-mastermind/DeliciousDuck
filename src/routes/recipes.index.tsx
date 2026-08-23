@@ -144,6 +144,8 @@ function RecipesIndex() {
               paragraphs: [
                 "Plan one whole duck for three to four people, or one breast per person; magret from a Moulard is large enough to serve two when sliced. For a bigger table, roast two birds rather than one large one — the timing barely changes and the skin crisps better with air around each bird.",
                 "Confit, rillettes, smoked breast, and duck ragù are all better made a day ahead, which makes them the right choice for a holiday menu where the oven is contested. Leftover roast duck shreds into ramen, tacos, hash, or a salad with citrus and bitter leaves, and the carcass makes a stock with more body than chicken. Refrigerate cooked duck within two hours and use it within three to four days.",
+                "Which duck you buy shapes the recipe too. Pekin is the mild, fatty, widely available bird behind most roast-duck and Peking-style recipes. Moulard gives you the large lean magret that suits searing and slicing, and its legs are the standard choice for confit. Muscovy is leaner with a deeper flavour, and wild duck needs its own fast, rare treatment rather than any of these timings. If a recipe specifies a breed, that is why.",
+
               ],
             },
           ]}
