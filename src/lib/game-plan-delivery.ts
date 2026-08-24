@@ -260,6 +260,8 @@ export function decideGamePlanDelivery(input: {
 /** Internal-only result of a delivery attempt. Never returned to the browser. */
 export type GamePlanDeliveryResult =
   | "requested"
+  /** Stored, but the address has not completed double opt-in yet. */
+  | "skipped_unconfirmed"
   | "skipped_suppressed"
   | "skipped_cooldown"
   | "skipped_no_token"
@@ -268,7 +270,11 @@ export type GamePlanDeliveryResult =
 
 export interface GamePlanDeliveryDeps {
   /** Stores/refreshes the subscriber using the existing newsletter rules. */
-  readonly persist: () => Promise<{ outcome: SignupOutcome }>;
+  readonly persist: () => Promise<{
+    outcome: SignupOutcome;
+    /** Double opt-in state. Absent is treated as unconfirmed (fail closed). */
+    confirmed?: boolean;
+  }>;
   /** Mailbox token + last plan-email timestamp for this address. */
   readonly loadDeliveryState: () => Promise<{
     token: unknown;
@@ -292,11 +298,18 @@ export interface GamePlanDeliveryDeps {
 export async function runGamePlanDelivery(
   deps: GamePlanDeliveryDeps,
 ): Promise<{ outcome: SignupOutcome; delivery: GamePlanDeliveryResult }> {
-  const { outcome } = await deps.persist();
+  const { outcome, confirmed } = await deps.persist();
   const nowMs = (deps.now ?? Date.now)();
 
   if (outcome === "blocked_suppressed") {
     return { outcome, delivery: "skipped_suppressed" };
+  }
+
+  // Double opt-in: an unconfirmed address receives only the confirmation email,
+  // which `persist` has already handled. The plan is sent on confirmation, so
+  // nobody can have a plan mailed to an address they do not control.
+  if (confirmed !== true) {
+    return { outcome, delivery: "skipped_unconfirmed" };
   }
 
   const state = await deps.loadDeliveryState();
