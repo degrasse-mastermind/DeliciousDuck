@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { ArrowRight, Check, Clock, Download } from "lucide-react";
 import {
+  trackNewsletterConfirmRequired,
   trackNewsletterFormError,
   trackNewsletterFormStart,
   trackNewsletterIntent,
@@ -164,6 +165,10 @@ export function NewsletterSignup({
       if (!signupSent) {
         setSignupSent(true);
         trackNewsletterSignup({ placement: id, source: "newsletter_form", interest });
+        // Double opt-in: the honest end of the on-page funnel is "confirmation
+        // asked for", not "subscribed". The real conversion fires on the
+        // confirmation page once the mailbox proves itself.
+        trackNewsletterConfirmRequired({ placement: id });
       }
       setDone(true);
     } catch (cause) {
@@ -275,11 +280,15 @@ export function NewsletterSignup({
                 >
                   <Check className="size-6" />
                 </span>
-                <h3 className="mt-4 font-display text-2xl">
-                  You&apos;re on the DeliciousDuck list
-                </h3>
+                <h3 className="mt-4 font-display text-2xl">Check your inbox</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  You&apos;re subscribed. You can download the field guide right now:
+                  We&apos;ve sent a confirmation email from hello@deliciousduck.com. Press the
+                  button in it and your emails start — we confirm every address first, so nobody
+                  can be signed up by someone else. No email arrived within a few minutes? Check
+                  spam, then try again.
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  You don&apos;t have to wait for any of it. Download the field guide right now:
                 </p>
 
                 {/*
@@ -299,15 +308,14 @@ export function NewsletterSignup({
                 </LeadMagnetDownloadLink>
                 <p className="mt-3 text-xs text-muted-foreground">
                   Printable PDF, 16 pages — yours right now, no email needed. Any emails come
-                  from hello@deliciousduck.com.
-
+                  from hello@deliciousduck.com, and every one has a one-click unsubscribe.
                 </p>
               </div>
 
               {/* Deepen the session honestly: on-site reading, not a claim about email. */}
               <div className="mt-6 border-t border-border pt-5">
                 <h4 className="text-xs font-semibold uppercase tracking-[0.14em] text-foreground">
-                  Start here while you wait
+                  Start here while you confirm
                 </h4>
                 <ul className="mt-3 space-y-2.5">
                   {context.startHere.map((link) => (
