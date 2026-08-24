@@ -10,6 +10,7 @@ import { decideWelcomeDispatch, dispatchWelcomeEvent } from "./newsletter-welcom
 import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
 import { decideSignup, providerPlan } from "./newsletter-status";
 import type { SignupOutcome } from "./newsletter-response";
+import type { ConfirmationSendResult } from "./newsletter-confirmation";
 
 import { SITE } from "@/data/site";
 import { FIELD_GUIDE_URL } from "@/data/starter-guide";
@@ -212,7 +213,13 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     // Generic only: never log the stored status or the address, because logs are
     // a side channel that would reveal exactly the list state the response hides.
     console.warn("Newsletter signup ignored: address is not eligible for signup");
-    return { outcome: "blocked_suppressed", resendSync: "pending", welcomeEvent: "pending" };
+    return {
+      outcome: "blocked_suppressed",
+      resendSync: "pending",
+      welcomeEvent: "pending",
+      confirmed: false,
+      confirmation: "skipped_already_confirmed",
+    };
   }
 
   const priorInterests: string[] = Array.isArray(existing?.interests) ? existing.interests : [];
