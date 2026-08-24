@@ -630,8 +630,8 @@ export function DuckGamePlanFlow({
           </h2>
           <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
             Your plan appears right here as soon as you sign up — no waiting on an email. We&apos;ll
-            email you a confirmation link; press it and we&apos;ll send the plan so it&apos;s in your
-            pocket at the stove, and start you on {DUCK_DROP.name}: six short emails on the
+            email you a confirmation link; press it and we&apos;ll send the plan so it&apos;s in
+            your pocket at the stove, and start you on {DUCK_DROP.name}: six short emails on the
             fundamentals.
           </p>
 

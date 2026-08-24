@@ -108,7 +108,6 @@ export function createWebhookStore(): WebhookStore {
       if (error) throw new Error("subscriber_suppression_error");
       return data && data.length > 0 ? "applied" : "unchanged";
     },
-
   };
 }
 

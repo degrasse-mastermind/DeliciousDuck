@@ -141,7 +141,6 @@ async function sendWelcomeEvent(
   );
 }
 
-
 /**
  * Durably stores the subscriber, then — for a genuinely new row only —
  * best-effort syncs to Resend. Throws only when durable storage fails.
@@ -173,7 +172,6 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   confirmed: boolean;
   confirmation: ConfirmationSendResult;
 }> {
-
   const emailNormalized = data.email.trim().toLowerCase();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
@@ -320,14 +318,12 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     throw new Error("newsletter_storage_error");
   }
 
-
   // Double opt-in gate. A stored row is not yet a subscriber: until it confirms,
   // the only mail it may ever receive is the confirmation itself — no provider
   // contact, no segment write, no welcome, no Game Plan. That is the whole point
   // of double opt-in, and it is enforced here rather than in any UI.
-  const { isAddressConfirmed, sendConfirmationEmail } = await import(
-    "./newsletter-confirmation.server"
-  );
+  const { isAddressConfirmed, sendConfirmationEmail } =
+    await import("./newsletter-confirmation.server");
   const confirmed = await isAddressConfirmed(emailNormalized);
   if (!confirmed) {
     const confirmation = await sendConfirmationEmail(emailNormalized);
@@ -458,8 +454,6 @@ export async function activateConfirmedSubscriber(rowId: string): Promise<{
   }
 }
 
-
-
 /**
  * Internal retry utility for rows that never reached Resend.
  * Returns counts only — never subscriber emails.
@@ -519,7 +513,6 @@ export async function resyncPendingSubscribers(limit = 200): Promise<{
  * The `preference_token` column is left in place unused, ready for a future
  * emailed preference link (where the emailed link proves mailbox ownership).
  */
-
 
 /**
  * Aggregate-only list health for the internal dashboard.

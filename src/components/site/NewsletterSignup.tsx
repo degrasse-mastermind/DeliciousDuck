@@ -181,7 +181,6 @@ export function NewsletterSignup({
     }
   }
 
-
   return (
     <section
       ref={offerRef}
@@ -208,7 +207,6 @@ export function NewsletterSignup({
             also get the printable {FIELD_GUIDE.pages}-page {FIELD_GUIDE.title}, a short welcome
             series, and occasional DeliciousDuck recipes and guides.
           </p>
-
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
             {context.bullets.map((point) => (
@@ -249,9 +247,9 @@ export function NewsletterSignup({
               </span>
               <h3 className="mt-4 font-display text-2xl">Not open yet</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                The list isn&apos;t open yet. Email delivery isn&apos;t connected, so
-                we&apos;re not collecting addresses — there is no form here because signing up
-                would go nowhere. When the guide and the list are ready, the form appears here.
+                The list isn&apos;t open yet. Email delivery isn&apos;t connected, so we&apos;re not
+                collecting addresses — there is no form here because signing up would go nowhere.
+                When the guide and the list are ready, the form appears here.
               </p>
               <p
                 className="mt-4 text-sm leading-relaxed text-muted-foreground"
@@ -283,9 +281,9 @@ export function NewsletterSignup({
                 <h3 className="mt-4 font-display text-2xl">Check your inbox</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
                   We&apos;ve sent a confirmation email from hello@deliciousduck.com. Press the
-                  button in it and your emails start — we confirm every address first, so nobody
-                  can be signed up by someone else. No email arrived within a few minutes? Check
-                  spam, then try again.
+                  button in it and your emails start — we confirm every address first, so nobody can
+                  be signed up by someone else. No email arrived within a few minutes? Check spam,
+                  then try again.
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground">
                   You don&apos;t have to wait for any of it. Download the field guide right now:
@@ -307,8 +305,8 @@ export function NewsletterSignup({
                   Download your field guide
                 </LeadMagnetDownloadLink>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  Printable PDF, 16 pages — yours right now, no email needed. Any emails come
-                  from hello@deliciousduck.com, and every one has a one-click unsubscribe.
+                  Printable PDF, 16 pages — yours right now, no email needed. Any emails come from
+                  hello@deliciousduck.com, and every one has a one-click unsubscribe.
                 </p>
               </div>
 
@@ -360,7 +358,6 @@ export function NewsletterSignup({
                 token-linked preference page, where the emailed link itself is
                 proof of mailbox ownership.
               */}
-
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate className="space-y-4">
