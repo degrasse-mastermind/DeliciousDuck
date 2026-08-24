@@ -168,7 +168,11 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   outcome: SignupOutcome;
   resendSync: ResendSync;
   welcomeEvent: WelcomeEvent;
+  /** Double opt-in state after this submission. Never returned to a browser. */
+  confirmed: boolean;
+  confirmation: ConfirmationSendResult;
 }> {
+
   const emailNormalized = data.email.trim().toLowerCase();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
