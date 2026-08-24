@@ -45,6 +45,7 @@ import {
 
 import type { NewsletterInterest } from "@/data/newsletter-contexts";
 import { NEWSLETTER_CONSENT } from "@/lib/newsletter-consent";
+import { trackNewsletterConfirmRequired } from "@/lib/analytics";
 import { DUCK_DROP } from "@/data/duck-drop";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { GamePlanExportActions } from "@/components/tools/GamePlanExportActions";
@@ -481,6 +482,7 @@ export function DuckGamePlanFlow({
         source: "duck_game_plan",
         interest: INTEREST_FOR_CUT[selection.cut],
       });
+      trackNewsletterConfirmRequired({ placement });
       trackGamePlanSignup({
         placement,
         selection,
@@ -512,8 +514,10 @@ export function DuckGamePlanFlow({
           >
             <p className="font-semibold text-foreground">Your Duck Game Plan is ready</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Your personalized plan is below. If this address can receive email from us, a copy
-              should arrive shortly. Check spam or promotions if you don&rsquo;t see it.
+              Your personalized plan is below — read, print or download it right now. We&rsquo;ve
+              also sent a confirmation email from hello@deliciousduck.com: press the button in it
+              and we&rsquo;ll email you this plan. We confirm every address first, so nobody can be
+              signed up by someone else. Check spam or promotions if you don&rsquo;t see it.
             </p>
           </div>
         )}
@@ -626,8 +630,9 @@ export function DuckGamePlanFlow({
           </h2>
           <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground">
             Your plan appears right here as soon as you sign up — no waiting on an email. We&apos;ll
-            also send it to you so it&apos;s in your pocket at the stove, and start you on{" "}
-            {DUCK_DROP.name}: six short emails on the fundamentals.
+            email you a confirmation link; press it and we&apos;ll send the plan so it&apos;s in your
+            pocket at the stove, and start you on {DUCK_DROP.name}: six short emails on the
+            fundamentals.
           </p>
 
           {!enabled ? (
