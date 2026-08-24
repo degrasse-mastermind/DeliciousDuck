@@ -44,7 +44,8 @@ export const RESEND_DELIVERY_EVENTS = {
   "email.delivery_delayed": "delivery_delayed",
 } as const;
 
-export type DeliveryEventType = (typeof RESEND_DELIVERY_EVENTS)[keyof typeof RESEND_DELIVERY_EVENTS];
+export type DeliveryEventType =
+  (typeof RESEND_DELIVERY_EVENTS)[keyof typeof RESEND_DELIVERY_EVENTS];
 
 export interface MappedDeliveryEvent {
   name: string;
@@ -66,7 +67,7 @@ function sendTag(data: Record<string, unknown>): string | null {
       (tag as { name?: unknown }).name === "type" &&
       typeof (tag as { value?: unknown }).value === "string"
     ) {
-      return ((tag as { value: string }).value).slice(0, 40);
+      return (tag as { value: string }).value.slice(0, 40);
     }
   }
   return null;
@@ -134,7 +135,6 @@ export function weakerStatuses(target: ProviderStatus): SubscriberStatus[] {
   return (Object.keys(SEVERITY) as SubscriberStatus[]).filter((s) => SEVERITY[s] < ceiling);
 }
 
-
 /** Conservative RFC-ish shape check; we never construct an address ourselves. */
 export function normalizeEmail(value: unknown): string | null {
   if (typeof value !== "string") return null;
@@ -199,9 +199,7 @@ export function mapResendEvent(payload: unknown): MappedEvent | null {
 
   if (!status) return null;
 
-  const email = name.startsWith("email.")
-    ? firstEmail(data["to"])
-    : firstEmail(data["email"]);
+  const email = name.startsWith("email.") ? firstEmail(data["to"]) : firstEmail(data["email"]);
   if (!email) return null;
 
   return { name, status, email, occurredAt, detail: detail.slice(0, 120) };
@@ -309,11 +307,11 @@ export async function handleResendWebhook(input: {
   // fail-closed refusal, not an application fault, and Svix retries 503 too.
   if (!input.hasSecret) return { status: 503, body: "unavailable", internal: "no_secret" };
 
-
   const headers: Record<string, string> = {};
   for (const [key, value] of Object.entries(input.headers)) headers[key.toLowerCase()] = value;
   for (const required of REQUIRED_HEADERS) {
-    if (!headers[required]) return { status: 400, body: "bad request", internal: "missing_headers" };
+    if (!headers[required])
+      return { status: 400, body: "bad request", internal: "missing_headers" };
   }
 
   let payload: unknown;
@@ -409,4 +407,3 @@ export async function handleResendWebhook(input: {
     return { status: 500, body: "error", internal: "storage_error" };
   }
 }
-

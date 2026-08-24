@@ -11,11 +11,7 @@ import {
   isPlausibleConfirmationToken,
 } from "../newsletter-confirmation";
 import { runGamePlanDelivery } from "../game-plan-delivery";
-import {
-  handleResendWebhook,
-  mapResendDeliveryEvent,
-  mapResendEvent,
-} from "../newsletter-webhook";
+import { handleResendWebhook, mapResendDeliveryEvent, mapResendEvent } from "../newsletter-webhook";
 
 const TOKEN = "3f2a1b4c-5d6e-4f70-8a9b-0c1d2e3f4a5b";
 const KEY = "re_test_key";
@@ -90,15 +86,15 @@ describe("decideConfirmationSend", () => {
 
 describe("decideConfirmToken", () => {
   it("confirms a pending, subscribed row", () => {
-    expect(
-      decideConfirmToken({ status: "subscribed", confirmation_status: "pending" }),
-    ).toEqual({ action: "confirm" });
+    expect(decideConfirmToken({ status: "subscribed", confirmation_status: "pending" })).toEqual({
+      action: "confirm",
+    });
   });
 
   it("is idempotent for an already confirmed row", () => {
-    expect(
-      decideConfirmToken({ status: "subscribed", confirmation_status: "confirmed" }),
-    ).toEqual({ action: "already" });
+    expect(decideConfirmToken({ status: "subscribed", confirmation_status: "confirmed" })).toEqual({
+      action: "already",
+    });
   });
 
   it("never revives a suppressed address, and ignores unknown tokens", () => {
@@ -166,7 +162,10 @@ describe("Game Plan delivery is gated on confirmation", () => {
     return {
       dispatch,
       deps: {
-        persist: async () => ({ outcome: "created" as const, ...(confirmed === undefined ? {} : { confirmed }) }),
+        persist: async () => ({
+          outcome: "created" as const,
+          ...(confirmed === undefined ? {} : { confirmed }),
+        }),
         loadDeliveryState: async () => ({ token: "abcdefghijklmnop", lastRequestedAt: null }),
         recordDelivery: async () => {},
         dispatch,
