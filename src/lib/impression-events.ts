@@ -18,6 +18,14 @@ export const IMPRESSION_EVENTS = {
   newsletterFormStart: "newsletter_form_start",
   newsletterFormError: "newsletter_form_error",
   conversionModuleView: "conversion_module_view",
+  /**
+   * A submission was accepted and a confirmation email was asked for. Under
+   * double opt-in this is the honest end of the on-page funnel: the reader is
+   * not a subscriber until the mailbox confirms.
+   */
+  newsletterConfirmRequired: "newsletter_confirm_required",
+  /** The emailed confirmation link was used successfully. The real conversion. */
+  newsletterConfirmed: "newsletter_confirmed",
 } as const;
 
 export type ImpressionEventName =
@@ -62,6 +70,8 @@ export const IMPRESSION_PROPERTY_ALLOWLIST: Readonly<
     "content_slug",
     "error_type",
   ],
+  newsletter_confirm_required: ["placement", "source_path", "content_type", "content_slug"],
+  newsletter_confirmed: ["placement", "source_path", "content_type", "content_slug"],
   conversion_module_view: [
     "placement",
     "source_path",
