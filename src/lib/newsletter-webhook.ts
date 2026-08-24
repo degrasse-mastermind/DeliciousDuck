@@ -31,6 +31,71 @@ export const RESEND_EVENT_STATUS = {
 export type ResendEventName = keyof typeof RESEND_EVENT_STATUS;
 
 /**
+ * Delivery-outcome events. These never change subscriber status — they are
+ * recorded so acquisition performance can be measured on provider facts
+ * (attempted -> delivered) instead of on our own optimism about a 200 response.
+ *
+ * Engagement events (`opened`, `clicked`) are deliberately still ignored: they
+ * are unreliable, privacy-noisy, and nothing in this app should act on them.
+ */
+export const RESEND_DELIVERY_EVENTS = {
+  "email.sent": "sent",
+  "email.delivered": "delivered",
+  "email.delivery_delayed": "delivery_delayed",
+} as const;
+
+export type DeliveryEventType = (typeof RESEND_DELIVERY_EVENTS)[keyof typeof RESEND_DELIVERY_EVENTS];
+
+export interface MappedDeliveryEvent {
+  name: string;
+  eventType: DeliveryEventType;
+  email: string;
+  occurredAt: string | null;
+  /** Event name plus the send's own `type` tag, when present. No payload. */
+  detail: string;
+}
+
+/** Reads our own `type` tag off a send, so plan/confirmation mail is separable. */
+function sendTag(data: Record<string, unknown>): string | null {
+  const tags = data["tags"];
+  if (!Array.isArray(tags)) return null;
+  for (const tag of tags) {
+    if (
+      tag &&
+      typeof tag === "object" &&
+      (tag as { name?: unknown }).name === "type" &&
+      typeof (tag as { value?: unknown }).value === "string"
+    ) {
+      return ((tag as { value: string }).value).slice(0, 40);
+    }
+  }
+  return null;
+}
+
+/**
+ * Maps a verified delivery-outcome payload. Returns null for anything that is
+ * not one of the three delivery events, so nothing else can be logged as one.
+ */
+export function mapResendDeliveryEvent(payload: unknown): MappedDeliveryEvent | null {
+  if (!payload || typeof payload !== "object") return null;
+  const envelope = payload as ResendEnvelope;
+  const name = typeof envelope.type === "string" ? envelope.type : "";
+  const eventType = RESEND_DELIVERY_EVENTS[name as keyof typeof RESEND_DELIVERY_EVENTS];
+  if (!eventType) return null;
+  const data = (envelope.data ?? {}) as Record<string, unknown>;
+  const email = firstEmail(data["to"]);
+  if (!email) return null;
+  const tag = sendTag(data);
+  return {
+    name,
+    eventType,
+    email,
+    occurredAt: typeof envelope.created_at === "string" ? envelope.created_at : null,
+    detail: (tag ? `${name}:${tag}` : name).slice(0, 120),
+  };
+}
+
+/**
  * Severity ladder. A verified event may only move a subscriber UP this ladder.
  *
  * Consequences, deliberately: no webhook input can ever return an address to
@@ -156,6 +221,20 @@ export interface WebhookStore {
   }): Promise<"inserted" | "duplicate">;
   findSubscriber(email: string): Promise<{ id: string; status: string } | null>;
   /**
+   * Optional delivery-outcome log. Must be idempotent on
+   * (provider, provider_event_id) exactly like `insertEvent`. Optional so a
+   * store that only cares about suppression stays valid.
+   */
+  insertDeliveryEvent?(event: {
+    providerEventId: string;
+    eventType: DeliveryEventType;
+    email: string;
+    subscriberId: string | null;
+    occurredAt: string | null;
+    receivedAt: string;
+    detail: string;
+  }): Promise<"inserted" | "duplicate">;
+  /**
    * Atomic conditional transition. MUST update the row only while its stored
    * status is one of `fromStatuses`, in a single statement — no read-then-write.
    * Returns "unchanged" when the guard did not match, which is the normal
@@ -189,6 +268,7 @@ export interface WebhookOutcome {
     | "replay"
     | "applied"
     | "no_transition"
+    | "delivery_logged"
     | "storage_error";
 }
 
@@ -246,7 +326,31 @@ export async function handleResendWebhook(input: {
   }
 
   const mapped = mapResendEvent(payload);
-  if (!mapped) return { status: 200, body: "ok", internal: "ignored_event" };
+  if (!mapped) {
+    // Delivery outcomes are logged, never acted on: no status change, no
+    // suppression, no effect on any send decision.
+    const delivery = mapResendDeliveryEvent(payload);
+    const log = input.store.insertDeliveryEvent;
+    if (delivery && log) {
+      try {
+        const subscriber = await input.store.findSubscriber(delivery.email);
+        await log.call(input.store, {
+          providerEventId: headers["svix-id"]!,
+          eventType: delivery.eventType,
+          email: delivery.email,
+          subscriberId: subscriber?.id ?? null,
+          occurredAt: delivery.occurredAt,
+          receivedAt: now(),
+          detail: delivery.detail,
+        });
+        return { status: 200, body: "ok", internal: "delivery_logged" };
+      } catch {
+        // Retryable: a delivery log is worth a redelivery, never a lost event.
+        return { status: 500, body: "error", internal: "storage_error" };
+      }
+    }
+    return { status: 200, body: "ok", internal: "ignored_event" };
+  }
 
   const receivedAt = now();
   const providerEventId = headers["svix-id"]!;

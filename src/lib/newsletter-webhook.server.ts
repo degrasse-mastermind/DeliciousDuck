@@ -42,6 +42,24 @@ export function createWebhookStore(): WebhookStore {
       return data ? { id: data.id, status: String(data.status) } : null;
     },
 
+    async insertDeliveryEvent(event) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { error } = await supabaseAdmin.from("newsletter_provider_events").insert({
+        provider: "resend",
+        provider_event_id: event.providerEventId,
+        event_type: event.eventType,
+        email_normalized: event.email,
+        subscriber_id: event.subscriberId,
+        occurred_at: event.occurredAt,
+        received_at: event.receivedAt,
+        verified: true,
+        detail: event.detail,
+      });
+      if (!error) return "inserted";
+      if (error.code === "23505") return "duplicate";
+      throw new Error("provider_event_storage_error");
+    },
+
     async insertEvent(event) {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const { error } = await supabaseAdmin.from("newsletter_provider_events").insert({
