@@ -10,6 +10,7 @@ import { decideWelcomeDispatch, dispatchWelcomeEvent } from "./newsletter-welcom
 import { NEWSLETTER_CONSENT, privacyPolicyUrl } from "./newsletter-consent";
 import { decideSignup, providerPlan } from "./newsletter-status";
 import type { SignupOutcome } from "./newsletter-response";
+import type { ConfirmationSendResult } from "./newsletter-confirmation";
 
 import { SITE } from "@/data/site";
 import { FIELD_GUIDE_URL } from "@/data/starter-guide";
@@ -140,7 +141,6 @@ async function sendWelcomeEvent(
   );
 }
 
-
 /**
  * Durably stores the subscriber, then — for a genuinely new row only —
  * best-effort syncs to Resend. Throws only when durable storage fails.
@@ -168,6 +168,9 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
   outcome: SignupOutcome;
   resendSync: ResendSync;
   welcomeEvent: WelcomeEvent;
+  /** Double opt-in state after this submission. Never returned to a browser. */
+  confirmed: boolean;
+  confirmation: ConfirmationSendResult;
 }> {
   const emailNormalized = data.email.trim().toLowerCase();
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -208,7 +211,13 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     // Generic only: never log the stored status or the address, because logs are
     // a side channel that would reveal exactly the list state the response hides.
     console.warn("Newsletter signup ignored: address is not eligible for signup");
-    return { outcome: "blocked_suppressed", resendSync: "pending", welcomeEvent: "pending" };
+    return {
+      outcome: "blocked_suppressed",
+      resendSync: "pending",
+      welcomeEvent: "pending",
+      confirmed: false,
+      confirmation: "skipped_already_confirmed",
+    };
   }
 
   const priorInterests: string[] = Array.isArray(existing?.interests) ? existing.interests : [];
@@ -309,17 +318,75 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     throw new Error("newsletter_storage_error");
   }
 
-
-  const apiKey = process.env["RESEND_API_KEY"];
-  // Existing-row submissions stop here: local fields are refreshed, the provider
-  // is untouched. This is the provider-idempotency guarantee.
-  if (!apiKey || !plan.syncContact) {
-    return { outcome, resendSync: "pending", welcomeEvent: "pending" };
+  // Double opt-in gate. A stored row is not yet a subscriber: until it confirms,
+  // the only mail it may ever receive is the confirmation itself — no provider
+  // contact, no segment write, no welcome, no Game Plan. That is the whole point
+  // of double opt-in, and it is enforced here rather than in any UI.
+  const { isAddressConfirmed, sendConfirmationEmail } =
+    await import("./newsletter-confirmation.server");
+  const confirmed = await isAddressConfirmed(emailNormalized);
+  if (!confirmed) {
+    const confirmation = await sendConfirmationEmail(emailNormalized);
+    return {
+      outcome,
+      resendSync: "pending",
+      welcomeEvent: "pending",
+      confirmed: false,
+      confirmation,
+    };
   }
 
-  let contactId: string | null = null;
+  // Confirmed already: existing-row submissions stop here — local fields are
+  // refreshed, the provider is untouched. This is the provider-idempotency
+  // guarantee. A genuinely new row is only ever activated by confirming.
+  if (!plan.syncContact) {
+    return {
+      outcome,
+      resendSync: "pending",
+      welcomeEvent: "pending",
+      confirmed: true,
+      confirmation: "skipped_already_confirmed",
+    };
+  }
+
+  const activation = await activateConfirmedSubscriber(row.id);
+  return { ...activation, outcome, confirmed: true, confirmation: "skipped_already_confirmed" };
+}
+
+/**
+ * Everything a confirmed subscriber is entitled to, in one place: the provider
+ * contact, the interest segment, and the send-once welcome email. Called after a
+ * confirmation link is used, and for an already-confirmed new row.
+ *
+ * Every step is best-effort and independently recorded. None of them can undo
+ * the subscription, and none of them are ever reached by an unconfirmed row.
+ */
+export async function activateConfirmedSubscriber(rowId: string): Promise<{
+  resendSync: ResendSync;
+  welcomeEvent: WelcomeEvent;
+}> {
+  const apiKey = process.env["RESEND_API_KEY"];
+  if (!apiKey) return { resendSync: "pending", welcomeEvent: "pending" };
+
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data: row, error: readError } = await supabaseAdmin
+    .from("newsletter_subscribers")
+    .select(
+      "id, email_normalized, status, welcome_event_status, primary_interest, preference_token, interest, source_path",
+    )
+    .eq("id", rowId)
+    .maybeSingle();
+
+  if (readError || !row) return { resendSync: "pending", welcomeEvent: "pending" };
+  // Suppression stays authoritative even here.
+  if (row.status !== "subscribed") return { resendSync: "pending", welcomeEvent: "skipped" };
+
+  const emailNormalized = row.email_normalized;
+  const acquisitionSource =
+    (row as unknown as { acquisition_source?: string | null }).acquisition_source ?? undefined;
+
   try {
-    contactId = await pushToResend(emailNormalized, apiKey);
+    const contactId = await pushToResend(emailNormalized, apiKey);
     await supabaseAdmin
       .from("newsletter_subscribers")
       .update({
@@ -337,18 +404,20 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
         last_resend_sync_at: new Date().toISOString(),
       })
       .eq("id", row.id);
-    return { outcome, resendSync: "error", welcomeEvent: "pending" };
+    return { resendSync: "error", welcomeEvent: "pending" };
   }
 
-  if (plan.syncSegment) {
-    await syncInterestSegment(emailNormalized, apiKey, (row.primary_interest as string | null) ?? null);
-  }
+  await syncInterestSegment(
+    emailNormalized,
+    apiKey,
+    (row.primary_interest as string | null) ?? null,
+  );
 
-  // One gate in front of every welcome request: not a new row, already welcomed,
-  // or no usable mailbox token. A missing token would mean dead unsubscribe /
-  // preferences links, so we send nothing and leave the row pending instead.
+  // One gate in front of every welcome request: already welcomed, or no usable
+  // mailbox token. A missing token would mean dead unsubscribe / preferences
+  // links, so we send nothing and leave the row pending instead.
   const dispatch = decideWelcomeDispatch({
-    sendWelcome: plan.sendWelcome,
+    sendWelcome: true,
     welcomeEventStatus: row.welcome_event_status,
     token: row.preference_token,
     apiKey,
@@ -357,34 +426,33 @@ export async function persistSubscriber(data: SubscribePayload): Promise<{
     if (dispatch.reason === "no_token" || dispatch.reason === "no_api_key") {
       // Reason only — never the token, the address, or the stored status.
       console.warn(`Welcome event skipped: ${dispatch.reason}`);
-      return { outcome, resendSync: "synced", welcomeEvent: "pending" };
+      return { resendSync: "synced", welcomeEvent: "pending" };
     }
-    return { outcome, resendSync: "synced", welcomeEvent: "skipped" };
+    return { resendSync: "synced", welcomeEvent: "skipped" };
   }
 
   try {
     await sendWelcomeEvent(emailNormalized, apiKey, {
       token: dispatch.token,
-      interest: data.interest,
-      source_path: data.sourcePath,
-      acquisition_source: data.acquisitionSource,
+      ...(row.interest ? { interest: row.interest } : {}),
+      ...(row.source_path ? { source_path: row.source_path } : {}),
+      ...(acquisitionSource ? { acquisition_source: acquisitionSource } : {}),
     });
 
     await supabaseAdmin
       .from("newsletter_subscribers")
       .update({ welcome_event_status: "sent", welcome_event_at: new Date().toISOString() })
       .eq("id", row.id);
-    return { outcome, resendSync: "synced", welcomeEvent: "sent" };
+    return { resendSync: "synced", welcomeEvent: "sent" };
   } catch (err) {
     console.error(`Welcome event failed: ${err instanceof Error ? err.message : "unknown"}`);
     await supabaseAdmin
       .from("newsletter_subscribers")
       .update({ welcome_event_status: "error", welcome_event_at: new Date().toISOString() })
       .eq("id", row.id);
-    return { outcome, resendSync: "synced", welcomeEvent: "error" };
+    return { resendSync: "synced", welcomeEvent: "error" };
   }
 }
-
 
 /**
  * Internal retry utility for rows that never reached Resend.
@@ -445,7 +513,6 @@ export async function resyncPendingSubscribers(limit = 200): Promise<{
  * The `preference_token` column is left in place unused, ready for a future
  * emailed preference link (where the emailed link proves mailbox ownership).
  */
-
 
 /**
  * Aggregate-only list health for the internal dashboard.

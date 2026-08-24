@@ -47,7 +47,7 @@ function deps(overrides: Partial<GamePlanDeliveryDeps> = {}): {
       selection: SELECTION,
       baseUrl: "https://deliciousduck.com",
       apiKey: "re_test_key",
-      persist: async () => ({ outcome: "created" as SignupOutcome }),
+      persist: async () => ({ outcome: "created" as SignupOutcome, confirmed: true }),
       loadDeliveryState: async () => ({ token: TOKEN, lastRequestedAt: null }),
       recordDelivery,
       dispatch,
@@ -66,14 +66,14 @@ describe("Game Plan delivery decisions", () => {
   });
 
   it("delivers for an existing active subscriber, unlike the send-once welcome", async () => {
-    const h = deps({ persist: async () => ({ outcome: "active_duplicate" }) });
+    const h = deps({ persist: async () => ({ outcome: "active_duplicate" as SignupOutcome, confirmed: true }) });
     const result = await runGamePlanDelivery(h.deps);
     expect(result.delivery).toBe("requested");
     expect(h.dispatch).toHaveBeenCalledTimes(1);
   });
 
   it("also delivers for a legacy active duplicate", async () => {
-    const h = deps({ persist: async () => ({ outcome: "legacy_active_duplicate" }) });
+    const h = deps({ persist: async () => ({ outcome: "legacy_active_duplicate" as SignupOutcome, confirmed: true }) });
     expect((await runGamePlanDelivery(h.deps)).delivery).toBe("requested");
   });
 
@@ -254,9 +254,10 @@ describe("planner submission UI contract", () => {
     expect(source).not.toContain("We&rsquo;ve sent your Duck Game Plan");
     expect(source).not.toContain("We've sent your Duck Game Plan");
     expect(source).not.toContain("We’ve sent your Duck Game Plan");
-    expect(source).toContain("Your personalized plan is below.");
-    expect(source).toContain("a copy");
-    expect(source).toContain("should arrive shortly");
+    expect(source).toContain("Your personalized plan is below");
+    // Double opt-in: the panel asks for confirmation instead of claiming a send.
+    expect(source).toContain("confirmation email from hello@deliciousduck.com");
+    expect(source).toContain("nobody can be");
     expect(source).toContain("Check spam or promotions if you don&rsquo;t see it.");
   });
 

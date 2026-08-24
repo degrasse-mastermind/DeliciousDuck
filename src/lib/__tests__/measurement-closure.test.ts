@@ -51,12 +51,15 @@ beforeEach(() => {
 });
 
 describe("event contracts", () => {
-  it("names exactly the four new events", () => {
+  it("names exactly the impression + newsletter funnel events", () => {
     expect(Object.values(IMPRESSION_EVENTS)).toEqual([
       "newsletter_offer_view",
       "newsletter_form_start",
       "newsletter_form_error",
       "conversion_module_view",
+      // Double opt-in funnel: asked-for confirmation, then the real conversion.
+      "newsletter_confirm_required",
+      "newsletter_confirmed",
     ]);
   });
 
@@ -110,7 +113,9 @@ describe("event contracts", () => {
   it("mirrors the GA4 allowlist in PostHog", () => {
     const posthogSource = readFileSync("src/lib/posthog.ts", "utf8");
     expect(posthogSource).toContain("IMPRESSION_PROPERTY_ALLOWLIST");
-    expect(Object.keys(IMPRESSION_PROPERTY_ALLOWLIST)).toHaveLength(4);
+    expect(Object.keys(IMPRESSION_PROPERTY_ALLOWLIST)).toHaveLength(
+      Object.values(IMPRESSION_EVENTS).length,
+    );
   });
 });
 

@@ -18,10 +18,17 @@ export const IMPRESSION_EVENTS = {
   newsletterFormStart: "newsletter_form_start",
   newsletterFormError: "newsletter_form_error",
   conversionModuleView: "conversion_module_view",
+  /**
+   * A submission was accepted and a confirmation email was asked for. Under
+   * double opt-in this is the honest end of the on-page funnel: the reader is
+   * not a subscriber until the mailbox confirms.
+   */
+  newsletterConfirmRequired: "newsletter_confirm_required",
+  /** The emailed confirmation link was used successfully. The real conversion. */
+  newsletterConfirmed: "newsletter_confirmed",
 } as const;
 
-export type ImpressionEventName =
-  (typeof IMPRESSION_EVENTS)[keyof typeof IMPRESSION_EVENTS];
+export type ImpressionEventName = (typeof IMPRESSION_EVENTS)[keyof typeof IMPRESSION_EVENTS];
 
 /** Closed categorical allowlist for newsletter form failures. */
 export const NEWSLETTER_ERROR_TYPES = [
@@ -55,13 +62,9 @@ export const IMPRESSION_PROPERTY_ALLOWLIST: Readonly<
 > = {
   newsletter_offer_view: ["placement", "source_path", "content_type", "content_slug"],
   newsletter_form_start: ["placement", "source_path", "content_type", "content_slug"],
-  newsletter_form_error: [
-    "placement",
-    "source_path",
-    "content_type",
-    "content_slug",
-    "error_type",
-  ],
+  newsletter_form_error: ["placement", "source_path", "content_type", "content_slug", "error_type"],
+  newsletter_confirm_required: ["placement", "source_path", "content_type", "content_slug"],
+  newsletter_confirmed: ["placement", "source_path", "content_type", "content_slug"],
   conversion_module_view: [
     "placement",
     "source_path",
@@ -164,7 +167,8 @@ function readSessionSet(): Set<string> {
     const raw = window.sessionStorage.getItem(SESSION_STORE_KEY);
     if (!raw) return memorySent;
     const parsed = JSON.parse(raw) as unknown;
-    if (Array.isArray(parsed)) for (const key of parsed) if (typeof key === "string") memorySent.add(key);
+    if (Array.isArray(parsed))
+      for (const key of parsed) if (typeof key === "string") memorySent.add(key);
   } catch {
     /* storage unavailable — in-memory dedupe still applies */
   }
