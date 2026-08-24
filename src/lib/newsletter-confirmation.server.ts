@@ -25,12 +25,18 @@ import { SITE } from "@/data/site";
 
 const TABLE = "newsletter_subscribers";
 
+/** The stored address for a row we already hold. Never logged or returned. */
+function emailOf(row: { email_normalized: string }): string {
+  return row.email_normalized;
+}
+
 /** Columns the confirmation flow needs. Never returned to a browser. */
 const COLUMNS =
-  "id, status, confirmation_status, confirmation_token, confirmation_sent_at, confirmation_sent_count, preference_token, acquisition_source, cut, method, concern, party_size_bucket";
+  "id, email_normalized, status, confirmation_status, confirmation_token, confirmation_sent_at, confirmation_sent_count, preference_token, acquisition_source, cut, method, concern, party_size_bucket";
 
 interface Row {
   id: string;
+  email_normalized: string;
   status: string;
   confirmation_status: string;
   confirmation_token: string | null;
@@ -177,6 +183,20 @@ export async function confirmSubscription(token: unknown): Promise<ConfirmResult
   try {
     const { activateConfirmedSubscriber } = await import("./newsletter.server");
     await activateConfirmedSubscriber(row!.id);
+
+    // Planner signups asked for one specific plan before confirming. Now that the
+    // mailbox is proven, send exactly that plan from the stored enum selections.
+    if (row!.acquisition_source === "duck_game_plan") {
+      const { sendStoredGamePlanEmail } = await import("./game-plan-delivery.server");
+      await sendStoredGamePlanEmail({
+        email: emailOf(row!),
+        token: row!.preference_token,
+        cut: row!.cut,
+        method: row!.method,
+        concern: row!.concern,
+        partySizeBucket: row!.party_size_bucket,
+      });
+    }
   } catch (cause) {
     // The subscription stands regardless: delivery is retryable, consent is not.
     console.error(
