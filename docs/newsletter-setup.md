@@ -121,3 +121,51 @@ group by 1;
   `welcomeTriggered` is false the UI links to the guide on-site instead of
   claiming an email was sent.
 - `RESEND_API_KEY` is read inside server handlers only, never logged or returned.
+
+## Double opt-in (current behaviour)
+
+A stored row is **not** a subscriber until the mailbox confirms.
+
+| Column | Meaning |
+| --- | --- |
+| `confirmation_status` | `pending` \| `confirmed` |
+| `confirmation_token` | Opaque UUID, delivered only to the mailbox |
+| `confirmation_sent_at` / `confirmation_sent_count` | Cooldown (10 min) and lifetime cap (5) |
+| `confirmed_at` | When the link was pressed |
+
+Flow:
+
+1. Any signup (form or Duck Game Plan) stores/refreshes the row as usual, then
+   sends exactly one kind of mail: the confirmation
+   (`src/lib/newsletter-confirmation.ts` decides, `*.server.ts` dispatches).
+2. While `pending` there is **no** provider contact, no segment write, no
+   welcome email and no Game Plan email. Enforced in `persistSubscriber` and in
+   `runGamePlanDelivery` (`skipped_unconfirmed`, fails closed when unknown).
+3. `/newsletter/confirm?c=<token>` is read-only on GET — scanners must not be
+   able to opt someone in. The POST runs `confirmSubscription`, which is
+   idempotent, never revives a suppressed address, then activates the row:
+   provider contact, interest segment, send-once welcome, and (for planner
+   signups) the plan email built from the stored enum selections.
+4. Existing subscribers were backfilled as `confirmed`, so nobody was re-prompted.
+
+Responses stay indistinguishable: the browser always gets `{ subscribed: true }`,
+so cooldown, suppression, membership and confirmation state cannot be probed.
+
+## Delivery measurement
+
+- `newsletter_confirm_required` — submission accepted, confirmation asked for.
+- `newsletter_confirmed` — the emailed link was used. **Mark this one as the GA4
+  conversion**; `newsletter_signup` is now an attempt, not an acquisition.
+- Provider outcomes land in `newsletter_provider_events` via the verified Resend
+  webhook: `sent`, `delivered`, `delivery_delayed` (logged only, never acted on)
+  alongside the existing suppression events. `detail` carries our own send tag
+  (`email.delivered:game_plan`, `:confirmation`) so each stream is separable.
+  Engagement (`opened`, `clicked`) is still ignored on purpose.
+
+## Outstanding action for the owner (DNS, not code)
+
+`deliciousduck.com` SPF is currently `v=spf1 include:secureserver.net -all`,
+which does not authorise Resend. DKIM passes, so mail is delivered, but the SPF
+failure measurably raises spam placement. Add Resend's include to the existing
+SPF record (one record only — never a second `v=spf1` TXT), and consider a
+`p=none` DMARC record to start collecting reports.
