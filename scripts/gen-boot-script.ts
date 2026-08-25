@@ -12,12 +12,15 @@
  */
 import { createHash } from "node:crypto";
 import { writeFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { GA_MEASUREMENT_ID } from "../src/lib/analytics";
 import { gtagBootstrapScript } from "../src/lib/analytics-gate";
 import { minifyInlineScript } from "../src/lib/inline-script";
 import { qaExclusionBootstrapScript } from "../src/lib/qa-exclusion";
+
+const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 
 /** The exact bytes that must be served at /dd-boot.js. */
 export function bootScriptSource(): string {
@@ -43,9 +46,9 @@ export const BOOT_SCRIPT_SRC = "/dd-boot.js?v=${version}";
 
 if (import.meta.main) {
   const source = bootScriptSource();
-  writeFileSync(resolve(import.meta.dir, "../public/dd-boot.js"), `${source}\n`, "utf8");
+  writeFileSync(resolve(SCRIPT_DIR, "../public/dd-boot.js"), `${source}\n`, "utf8");
   writeFileSync(
-    resolve(import.meta.dir, "../src/lib/boot-script.ts"),
+    resolve(SCRIPT_DIR, "../src/lib/boot-script.ts"),
     bootScriptModule(bootScriptVersion(source)),
     "utf8",
   );
