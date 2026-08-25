@@ -23,6 +23,7 @@ import {
 import { capturePostHogPageView, initPostHog, syncPostHogRoutePolicy } from "@/lib/posthog";
 import { ensureGtagLoaded, gtagBootstrapScript, syncGaRoutePolicy } from "@/lib/analytics-gate";
 import { qaExclusionBootstrapScript, syncQaExclusionFromLocation } from "@/lib/qa-exclusion";
+import { minifyInlineScript } from "@/lib/inline-script";
 
 
 
@@ -157,7 +158,7 @@ function RootShell({ children }: { children: ReactNode }) {
           marked with ?dd_qa=1 never loads gtag.js at all.
         */}
         <script
-          dangerouslySetInnerHTML={{ __html: qaExclusionBootstrapScript() }}
+          dangerouslySetInnerHTML={{ __html: minifyInlineScript(qaExclusionBootstrapScript()) }}
         />
         {/*
           Google Analytics 4 — the tag is injected by this bootstrap only on the
@@ -166,7 +167,7 @@ function RootShell({ children }: { children: ReactNode }) {
         */}
         <script
           dangerouslySetInnerHTML={{
-            __html: gtagBootstrapScript(GA_MEASUREMENT_ID),
+            __html: minifyInlineScript(gtagBootstrapScript(GA_MEASUREMENT_ID)),
           }}
         />
       </head>
@@ -186,8 +187,6 @@ function RootComponent() {
   // subsequent SPA route.
   const firstView = useRef(true);
   useEffect(() => {
-    // Apply / expose the browser-local QA exclusion before any SDK comes up.
-    syncQaExclusionFromLocation();
     // Apply / expose the browser-local QA exclusion before any SDK comes up.
     syncQaExclusionFromLocation();
     // Campaign-level newsletter attribution for this session (no PII).
