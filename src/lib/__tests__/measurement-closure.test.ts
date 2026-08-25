@@ -51,12 +51,15 @@ beforeEach(() => {
 });
 
 describe("event contracts", () => {
-  it("names exactly the four new events", () => {
+  it("names exactly the impression + newsletter funnel events", () => {
     expect(Object.values(IMPRESSION_EVENTS)).toEqual([
       "newsletter_offer_view",
       "newsletter_form_start",
       "newsletter_form_error",
       "conversion_module_view",
+      // Double opt-in funnel: asked-for confirmation, then the real conversion.
+      "newsletter_confirm_required",
+      "newsletter_confirmed",
     ]);
   });
 
@@ -110,7 +113,9 @@ describe("event contracts", () => {
   it("mirrors the GA4 allowlist in PostHog", () => {
     const posthogSource = readFileSync("src/lib/posthog.ts", "utf8");
     expect(posthogSource).toContain("IMPRESSION_PROPERTY_ALLOWLIST");
-    expect(Object.keys(IMPRESSION_PROPERTY_ALLOWLIST)).toHaveLength(4);
+    expect(Object.keys(IMPRESSION_PROPERTY_ALLOWLIST)).toHaveLength(
+      Object.values(IMPRESSION_EVENTS).length,
+    );
   });
 });
 
@@ -197,8 +202,11 @@ describe("QA exclusion", () => {
     expect(QA_EXCLUSION_VALUE).toBe("1");
     // The bootstrap must consult exclusion before injecting gtag.
     expect(gateSource.indexOf("qaExcluded")).toBeLessThan(gateSource.indexOf("var hostOk"));
-    expect(rootSource).toContain("qaExclusionBootstrapScript()");
+    // The document loads the QA bootstrap as part of the /dd-boot.js asset.
+    expect(rootSource).toContain("<script src={BOOT_SCRIPT_SRC} />");
+    expect(readFileSync("public/dd-boot.js", "utf8")).toContain(QA_EXCLUSION_KEY);
     expect(rootSource).toContain("syncQaExclusionFromLocation()");
+
   });
 });
 

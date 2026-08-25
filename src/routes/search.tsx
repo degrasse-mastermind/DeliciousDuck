@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { GUIDES } from "@/data/guides";
 import { STARTER_GUIDE } from "@/data/starter-guide";
 import { INGREDIENTS } from "@/data/ingredients";
@@ -210,7 +211,17 @@ function SearchPage() {
             ))}
           </p>
         )}
+
+        <HubOrientation
+          heading="How search works here"
+          paragraphs={[
+            "This searches a fixed index of every published page — recipes, technique guides, buying guides, ingredient pairings, and calculators. It runs in your browser against titles, summaries, and a short list of related terms, so results appear instantly and nothing you type is sent anywhere or stored.",
+            "Short, concrete queries work best. A cut (breast, legs, whole duck), a technique (confit, scoring, rendering), a number (165°F, cooking time), or a piece of gear (thermometer, roasting pan) will land on the page that answers it. Long questions match fewer pages because every word has to appear somewhere in the entry.",
+            "If a search comes back empty, drop a word rather than rephrasing the whole thing — \"duck fat storage\" narrows to nothing where \"duck fat\" reaches the rendering and buying guides that cover it. Section browsing is often faster when you are still deciding what to cook: the cooking hub sorts pages by method, and the tools hub answers how long, how hot, and how much.",
+          ]}
+        />
       </section>
+
     </>
   );
 }

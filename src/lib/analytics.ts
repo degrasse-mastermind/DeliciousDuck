@@ -710,6 +710,28 @@ export function trackNewsletterFormError(params: {
 }
 
 /**
+ * The submission was accepted and a confirmation email was requested. Fires in
+ * place of a "you're subscribed" claim, because under double opt-in nobody is
+ * subscribed until the mailbox confirms. Carries no address.
+ */
+export function trackNewsletterConfirmRequired(params: { placement: string }): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.newsletterConfirmRequired, {
+    placement: params.placement,
+  });
+}
+
+/**
+ * The emailed confirmation link was used. This is the event to mark as the
+ * acquisition conversion in GA4 — it is the first point at which a real,
+ * deliverable subscriber exists.
+ */
+export function trackNewsletterConfirmed(params: { placement: string }): void {
+  emitImpressionEvent(IMPRESSION_EVENTS.newsletterConfirmed, {
+    placement: params.placement,
+  });
+}
+
+/**
  * One impression per high-value conversion module. The honest denominator for
  * the click events already measured inside those modules; it never replaces or
  * reclassifies `internal_conversion_click`, `affiliate_click`, or

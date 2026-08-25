@@ -153,3 +153,58 @@ export async function requestGamePlanEmail(data: GamePlanRequestPayload): Promis
     },
   });
 }
+
+/**
+ * Sends the plan email for a subscriber who has just confirmed, using the
+ * selections stored with their signup.
+ *
+ * Needed because double opt-in defers delivery: at submission time the address
+ * is unverified, so nothing is sent. The moment the mailbox proves itself, the
+ * plan the reader asked for is delivered from stored, finite enum selections —
+ * no free text and no client input are involved at this point.
+ */
+export async function sendStoredGamePlanEmail(row: {
+  readonly email: string;
+  readonly token: unknown;
+  readonly cut: string | null;
+  readonly method: string | null;
+  readonly concern: string | null;
+  readonly partySizeBucket: string | null;
+}): Promise<GamePlanDeliveryResult> {
+  const apiKey = process.env["RESEND_API_KEY"];
+  const { cut, method, concern, partySizeBucket } = row;
+  if (!cut || !method || !concern || !partySizeBucket) return "skipped_no_token";
+  if (typeof row.token !== "string" || row.token === "") return "skipped_no_token";
+  if (!apiKey) return "skipped_no_api_key";
+
+  const email = row.email.trim().toLowerCase();
+  try {
+    await dispatchGamePlanEmail(
+      {
+        email,
+        selection: {
+          cut,
+          method,
+          concern,
+          partySize: partySizeBucket,
+        } as unknown as GamePlanSelection,
+        baseUrl: SITE.baseUrl,
+        token: row.token,
+      },
+      apiKey,
+      fetch as never,
+    );
+  } catch (cause) {
+    // Classification only — never the address, token, or provider body.
+    console.error(
+      `Game Plan delivery failed: ${cause instanceof Error ? cause.message : "unknown"}`,
+    );
+    return "error";
+  }
+
+  const at = new Date().toISOString();
+  rememberRecent(email, Date.parse(at));
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  await writeDurableCooldown(supabaseAdmin, email, at);
+  return "requested";
+}

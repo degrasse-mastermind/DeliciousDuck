@@ -244,6 +244,11 @@ export type Database = {
         Row: {
           acquisition_source: string | null
           concern: string | null
+          confirmation_sent_at: string | null
+          confirmation_sent_count: number
+          confirmation_status: string
+          confirmation_token: string
+          confirmed_at: string | null
           consent_record: string
           consent_source_path: string | null
           consent_text_version: string | null
@@ -287,6 +292,11 @@ export type Database = {
         Insert: {
           acquisition_source?: string | null
           concern?: string | null
+          confirmation_sent_at?: string | null
+          confirmation_sent_count?: number
+          confirmation_status?: string
+          confirmation_token?: string
+          confirmed_at?: string | null
           consent_record?: string
           consent_source_path?: string | null
           consent_text_version?: string | null
@@ -330,6 +340,11 @@ export type Database = {
         Update: {
           acquisition_source?: string | null
           concern?: string | null
+          confirmation_sent_at?: string | null
+          confirmation_sent_count?: number
+          confirmation_status?: string
+          confirmation_token?: string
+          confirmed_at?: string | null
           consent_record?: string
           consent_source_path?: string | null
           consent_text_version?: string | null

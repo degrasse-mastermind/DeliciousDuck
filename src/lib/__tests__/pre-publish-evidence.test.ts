@@ -302,10 +302,12 @@ describe("QA exclusion behaviour", () => {
     const inject = script.indexOf("googletagmanager.com");
     expect(qaCheck).toBeGreaterThan(-1);
     expect(qaCheck).toBeLessThan(inject);
-    // The QA bootstrap itself runs before the gtag bootstrap in the document.
-    expect(rootSource.indexOf("qaExclusionBootstrapScript()")).toBeLessThan(
-      rootSource.indexOf("gtagBootstrapScript(GA_MEASUREMENT_ID)"),
-    );
+    // The QA bootstrap runs before the gtag bootstrap inside the single
+    // blocking /dd-boot.js asset the document loads in <head>.
+    const boot = read("public/dd-boot.js");
+    expect(boot.indexOf(QA_EXCLUSION_KEY)).toBeLessThan(boot.indexOf("disableKey"));
+    expect(rootSource).toContain("<script src={BOOT_SCRIPT_SRC} />");
+
   });
 
   it("disabling QA restores normal behaviour", () => {
