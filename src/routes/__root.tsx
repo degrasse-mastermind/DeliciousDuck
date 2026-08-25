@@ -154,22 +154,14 @@ function RootShell({ children }: { children: ReactNode }) {
           content: "0a7d07f1-b741-4412-8973-aefb551b0262",
         })}
         {/*
-          Founder / QA exclusion. Runs before any tag is injected so a browser
-          marked with ?dd_qa=1 never loads gtag.js at all.
+          Analytics bootstrap (founder/QA exclusion + the GA4 host/route gate).
+          Served as one blocking same-origin asset instead of inline source: it
+          still runs before any tag is requested, but the bytes are cached once
+          per visitor rather than re-shipped in every rendered document.
+          Regenerate with `bun scripts/gen-boot-script.ts`.
         */}
-        <script
-          dangerouslySetInnerHTML={{ __html: minifyInlineScript(qaExclusionBootstrapScript()) }}
-        />
-        {/*
-          Google Analytics 4 — the tag is injected by this bootstrap only on the
-          canonical public hosts and outside /internal/* and /api/*, so preview,
-          editor, and localhost sessions never contact googletagmanager.com.
-        */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: minifyInlineScript(gtagBootstrapScript(GA_MEASUREMENT_ID)),
-          }}
-        />
+        <script src={BOOT_SCRIPT_SRC} />
+
       </head>
       <body>
         {children}
