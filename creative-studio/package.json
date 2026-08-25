@@ -13,7 +13,10 @@
     "qa:probe-specimen": "bun run src/qa/check-probe-specimen.ts",
     "source:check": "bun run src/scripts/source-refresh.ts",
     "source:refresh": "bun run src/scripts/source-refresh.ts --update",
-    "studio": "remotion studio src/video/index.ts --no-open"
+    "studio": "remotion studio src/video/index.ts --no-open",
+    "distribution:generate": "node --experimental-strip-types src/distribution/generate.ts",
+    "distribution:qa": "node --experimental-strip-types src/distribution/qa.ts",
+    "distribution:import": "node --experimental-strip-types src/distribution/import-performance.ts"
   },
   "dependencies": {
     "@remotion/cli": "4.0.506",
