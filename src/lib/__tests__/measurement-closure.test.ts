@@ -202,8 +202,11 @@ describe("QA exclusion", () => {
     expect(QA_EXCLUSION_VALUE).toBe("1");
     // The bootstrap must consult exclusion before injecting gtag.
     expect(gateSource.indexOf("qaExcluded")).toBeLessThan(gateSource.indexOf("var hostOk"));
-    expect(rootSource).toContain("qaExclusionBootstrapScript()");
+    // The document loads the QA bootstrap as part of the /dd-boot.js asset.
+    expect(rootSource).toContain("<script src={BOOT_SCRIPT_SRC} />");
+    expect(readFileSync("public/dd-boot.js", "utf8")).toContain(QA_EXCLUSION_KEY);
     expect(rootSource).toContain("syncQaExclusionFromLocation()");
+
   });
 });
 
