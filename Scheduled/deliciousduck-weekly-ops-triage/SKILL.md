@@ -1,0 +1,6 @@
+---
+name: deliciousduck-weekly-ops-triage
+description: This is the weekly DeliciousDuck ops triage for David (solo founder of deliciousduck.com, an authority/niche + affiliate marketing site). R…
+---
+
+This is the weekly DeliciousDuck ops triage for David (solo founder of deliciousduck.com, an authority/niche + affiliate marketing site). Read project memory first: call project_memory_read with no file to list it, then read team-routing.md and deliciousduck-site.md (and any project/feedback-type files) for current context. Then reason as the deliciousduck-team COO would (use the Agent tool with subagent_type "deliciousduck-team:coo" if available in this environment; otherwise adopt that lens directly): triage whatever open work, half-finished initiatives, or recent decisions are visible in project memory or the connected DeliciousDuck folder, and identify the single highest-leverage move for the week ahead plus 2-4 supporting priorities. Follow the project's standing instructions: recommendation first, terse, no hedging unless a tradeoff genuinely matters, end with the one next action. Do not ask clarifying questions — this runs unattended; state any assumptions you make and proceed. Send the result as a concise message so it can reach David's phone/email.
