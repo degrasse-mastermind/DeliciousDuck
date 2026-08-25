@@ -21,9 +21,10 @@ import {
   trackPageView,
 } from "@/lib/analytics";
 import { capturePostHogPageView, initPostHog, syncPostHogRoutePolicy } from "@/lib/posthog";
-import { ensureGtagLoaded, gtagBootstrapScript, syncGaRoutePolicy } from "@/lib/analytics-gate";
-import { qaExclusionBootstrapScript, syncQaExclusionFromLocation } from "@/lib/qa-exclusion";
-import { minifyInlineScript } from "@/lib/inline-script";
+import { ensureGtagLoaded, syncGaRoutePolicy } from "@/lib/analytics-gate";
+import { syncQaExclusionFromLocation } from "@/lib/qa-exclusion";
+import { BOOT_SCRIPT_SRC } from "@/lib/boot-script";
+
 
 
 
