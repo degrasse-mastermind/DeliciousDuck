@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { PageHeader } from "@/components/site/PageHeader";
+import { HubOrientation } from "@/components/site/HubOrientation";
 import { GUIDES } from "@/data/guides";
 import { STARTER_GUIDE } from "@/data/starter-guide";
 import { INGREDIENTS } from "@/data/ingredients";
