@@ -16,6 +16,10 @@
  * reserved for a genuinely active tracking URL.
  */
 
+import { LEAD_MAGNET_META } from "@/data/starter-guide";
+
+
+
 export const ENGAGEMENT_EVENTS = {
   commercialPageView: "commercial_page_view",
   leadMagnetDownload: "lead_magnet_download",
