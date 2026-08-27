@@ -26,7 +26,13 @@ export const IMPRESSION_EVENTS = {
   newsletterConfirmRequired: "newsletter_confirm_required",
   /** The emailed confirmation link was used successfully. The real conversion. */
   newsletterConfirmed: "newsletter_confirmed",
+  /**
+   * A reader clicked the secondary premium-waitlist CTA under a generated Duck
+   * Game Plan. Demand-validation signal only — no checkout exists.
+   */
+  premiumWaitlistCtaClick: "premium_waitlist_cta_click",
 } as const;
+
 
 export type ImpressionEventName = (typeof IMPRESSION_EVENTS)[keyof typeof IMPRESSION_EVENTS];
 
