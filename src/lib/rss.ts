@@ -22,6 +22,8 @@ import { RECIPES } from "@/data/recipes";
 import { STARTER_GUIDE } from "@/data/starter-guide";
 import { PAGE_DATES } from "@/data/page-dates";
 import { SITE } from "@/data/site";
+import { sketchForPath } from "@/lib/sketch-art";
+import { absUrl } from "@/lib/seo";
 
 export const RSS_PATH = "/rss.xml";
 
@@ -31,11 +33,43 @@ export interface FeedItem {
   description: string;
   /** ISO date (YYYY-MM-DD). */
   date: string;
+  /**
+   * Absolute URL of the same hero image that backs the page's `og:image`.
+   * Omitted when the page genuinely has no image in the content data.
+   */
+  image?: string;
 }
 
 const FALLBACK_DATE = "2026-08-27";
 
 const publishedDate = (path: string): string => PAGE_DATES[path]?.published ?? FALLBACK_DATE;
+
+/**
+ * The article-page image source, resolved exactly the way the pages and
+ * `distribution-metadata` resolve `og:image`: the bound illustration for a
+ * given route. Returns undefined when a path has no art bound to it.
+ */
+function articleImage(path: string): { image: string } | Record<string, never> {
+  const art = sketchForPath(path);
+  return art?.src ? { image: absUrl(art.src) } : {};
+}
+
+/** MIME type for an enclosure, derived from the real asset extension. */
+export function imageMimeType(url: string): string {
+  const ext = (url.split("?")[0] ?? "").toLowerCase().match(/\.([a-z0-9]+)$/)?.[1];
+  switch (ext) {
+    case "png":
+      return "image/png";
+    case "webp":
+      return "image/webp";
+    case "gif":
+      return "image/gif";
+    case "svg":
+      return "image/svg+xml";
+    default:
+      return "image/jpeg";
+  }
+}
 
 /** Every feed-eligible article and recipe, newest first. */
 export function feedItems(): FeedItem[] {
