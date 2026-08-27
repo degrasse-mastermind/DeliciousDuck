@@ -70,7 +70,9 @@ export const IMPRESSION_PROPERTY_ALLOWLIST: Readonly<
   newsletter_form_start: ["placement", "source_path", "content_type", "content_slug"],
   newsletter_form_error: ["placement", "source_path", "content_type", "content_slug", "error_type"],
   newsletter_confirm_required: ["placement", "source_path", "content_type", "content_slug"],
+  premium_waitlist_cta_click: ["placement", "source_path", "content_type", "content_slug"],
   newsletter_confirmed: ["placement", "source_path", "content_type", "content_slug"],
+
   conversion_module_view: [
     "placement",
     "source_path",
