@@ -26,7 +26,13 @@ export const IMPRESSION_EVENTS = {
   newsletterConfirmRequired: "newsletter_confirm_required",
   /** The emailed confirmation link was used successfully. The real conversion. */
   newsletterConfirmed: "newsletter_confirmed",
+  /**
+   * A reader clicked the secondary premium-waitlist CTA under a generated Duck
+   * Game Plan. Demand-validation signal only — no checkout exists.
+   */
+  premiumWaitlistCtaClick: "premium_waitlist_cta_click",
 } as const;
+
 
 export type ImpressionEventName = (typeof IMPRESSION_EVENTS)[keyof typeof IMPRESSION_EVENTS];
 
@@ -64,7 +70,9 @@ export const IMPRESSION_PROPERTY_ALLOWLIST: Readonly<
   newsletter_form_start: ["placement", "source_path", "content_type", "content_slug"],
   newsletter_form_error: ["placement", "source_path", "content_type", "content_slug", "error_type"],
   newsletter_confirm_required: ["placement", "source_path", "content_type", "content_slug"],
+  premium_waitlist_cta_click: ["placement", "source_path", "content_type", "content_slug"],
   newsletter_confirmed: ["placement", "source_path", "content_type", "content_slug"],
+
   conversion_module_view: [
     "placement",
     "source_path",
@@ -250,6 +258,9 @@ export const MODULE_PLACEMENTS = {
   recipeEquipment: "recipe_equipment_module",
   guideOfferGroup: "commercial_offer_group_module",
   seasonalBanner: "home_announcement_thanksgiving_hub",
+  /** Fake-door premium waitlist under a generated Duck Game Plan. */
+  gamePlanPremiumWaitlist: "duck_game_plan_premium_waitlist",
 } as const;
+
 
 export type ModulePlacement = (typeof MODULE_PLACEMENTS)[keyof typeof MODULE_PLACEMENTS];
