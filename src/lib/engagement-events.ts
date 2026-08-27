@@ -149,13 +149,22 @@ export function buildCommercialPageViewEvent(input: {
  * lead_magnet_download
  * ------------------------------------------------------------------ */
 
-/** The only parameters allowed on `lead_magnet_download`. */
+/**
+ * The only parameters allowed on `lead_magnet_download`.
+ *
+ * `lead_magnet_name` / `_version` / `_pages` were added additively when the
+ * public asset became the 28-page playbook. The event name and `asset_id` are
+ * deliberately unchanged so historical reporting still lines up.
+ */
 export const LEAD_MAGNET_DOWNLOAD_PARAMS = [
   "asset_id",
   "asset_format",
   "placement",
   "source_path",
   "content_slug",
+  "lead_magnet_name",
+  "lead_magnet_version",
+  "lead_magnet_pages",
 ] as const;
 
 export interface LeadMagnetDownloadEvent {
@@ -166,6 +175,9 @@ export interface LeadMagnetDownloadEvent {
     placement: string;
     source_path: string;
     content_slug: string;
+    lead_magnet_name: string;
+    lead_magnet_version: number;
+    lead_magnet_pages: number;
   };
 }
 
@@ -192,6 +204,9 @@ export function buildLeadMagnetDownloadEvent(input: {
       placement: input.placement,
       source_path: source,
       content_slug: slugForPath(source),
+      lead_magnet_name: LEAD_MAGNET_META.name,
+      lead_magnet_version: LEAD_MAGNET_META.version,
+      lead_magnet_pages: LEAD_MAGNET_META.pages,
     },
   };
 }
