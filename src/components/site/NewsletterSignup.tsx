@@ -204,8 +204,8 @@ export function NewsletterSignup({
               Duck Game Plan
             </a>{" "}
             and we&apos;ll build your temperature, timing, crispy-skin and serving plan. Subscribers
-            also get the printable {FIELD_GUIDE.pages}-page {FIELD_GUIDE.title}, a short welcome
-            series, and occasional DeliciousDuck recipes and guides.
+            also get {FIELD_GUIDE.title}, the printable {FIELD_GUIDE.pages}-page playbook, a short
+            welcome series, and occasional DeliciousDuck recipes and guides.
           </p>
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
