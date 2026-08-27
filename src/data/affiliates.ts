@@ -233,6 +233,8 @@ export const MERCHANTS: Merchant[] = [
       approvalConfirmed: true,
       trackingUrlPresent: true,
       disclosureVerified: true,
+      testClickComplete: true,
+      ga4AffiliateVerified: true,
     },
     internalNote:
       "Approved by Amazon Associates in 2026-08 and activated with tracking ID deliciousduck-20. Equipment/gear categories only. Owner still needs to complete a live test click and confirm GA4 reports affiliate=true. No commission terms recorded here until the program's fee schedule has been read.",
