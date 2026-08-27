@@ -258,6 +258,9 @@ export const MODULE_PLACEMENTS = {
   recipeEquipment: "recipe_equipment_module",
   guideOfferGroup: "commercial_offer_group_module",
   seasonalBanner: "home_announcement_thanksgiving_hub",
+  /** Fake-door premium waitlist under a generated Duck Game Plan. */
+  gamePlanPremiumWaitlist: "duck_game_plan_premium_waitlist",
 } as const;
+
 
 export type ModulePlacement = (typeof MODULE_PLACEMENTS)[keyof typeof MODULE_PLACEMENTS];
