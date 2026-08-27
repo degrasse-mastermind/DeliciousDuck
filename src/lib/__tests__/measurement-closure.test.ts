@@ -60,6 +60,9 @@ describe("event contracts", () => {
       // Double opt-in funnel: asked-for confirmation, then the real conversion.
       "newsletter_confirm_required",
       "newsletter_confirmed",
+      // Fake-door premium waitlist CTA under a generated Duck Game Plan.
+      "premium_waitlist_cta_click",
+
     ]);
   });
 

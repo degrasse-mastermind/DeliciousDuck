@@ -751,6 +751,26 @@ export function trackConversionModuleView(params: {
   });
 }
 
+/**
+ * The secondary premium-waitlist CTA under a generated Duck Game Plan was
+ * clicked. Not session-deduped: for a demand-validation test every deliberate
+ * click is a signal. The payload still goes through `buildImpressionEvent`, so
+ * it carries only the allowlisted placement/path properties — never an address.
+ */
+export function trackPremiumWaitlistCtaClick(params: { placement: string }): void {
+  try {
+    const event = buildImpressionEvent(IMPRESSION_EVENTS.premiumWaitlistCtaClick, {
+      placement: params.placement,
+      sourcePath: normalizedPath(),
+    });
+    trackEvent(event.name, { ...event.params });
+    captureEvent(event.name, { ...event.params });
+  } catch {
+    // Analytics is best-effort and must never break an interaction.
+  }
+}
+
+
 /* ------------------------------------------------------------------ *
  * Duck Game Plan (acquisition funnel)
  *
