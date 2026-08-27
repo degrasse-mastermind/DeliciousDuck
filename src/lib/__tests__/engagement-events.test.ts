@@ -221,6 +221,9 @@ describe("lead_magnet_download", () => {
       placement: "field-guide_postsignup",
       source_path: "/cook/how-to-cook-duck-breast",
       content_slug: "how-to-cook-duck-breast",
+      lead_magnet_name: "duck_the_fundamentals",
+      lead_magnet_version: 2,
+      lead_magnet_pages: 28,
     });
   });
 

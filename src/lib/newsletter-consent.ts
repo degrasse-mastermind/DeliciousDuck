@@ -21,12 +21,12 @@
 
 export const NEWSLETTER_CONSENT = {
   /** Stable identifier stored on every consented row. Bump on any text change. */
-  version: "2026-08-18.v2",
+  version: "2026-08-27.v3",
   /** Rendered verbatim beside the submit button. */
   text:
-    "Get the 16-page Field Guide, a 6-part starter series, and occasional recipes and buying " +
-    "guidance. Unsubscribe anytime. Emails come from hello@deliciousduck.com; we store your " +
-    "address and the page you signed up from.",
+    "Get Duck the Fundamentals — the 28-page no-panic playbook — a 6-part starter series, and " +
+    "occasional recipes and buying guidance. Unsubscribe anytime. Emails come from " +
+    "hello@deliciousduck.com; we store your address and the page you signed up from.",
   /** Stable version of the policy in force when this consent text shipped. */
   privacyPolicyVersion: "2026-08-13",
   privacyPolicyPath: "/privacy",
@@ -40,6 +40,7 @@ export type NewsletterConsentVersion = typeof NEWSLETTER_CONSENT.version;
  */
 export const KNOWN_CONSENT_VERSIONS = [
   NEWSLETTER_CONSENT.version,
+  "2026-08-18.v2",
   "2026-08-13.v1",
 ] as const;
 

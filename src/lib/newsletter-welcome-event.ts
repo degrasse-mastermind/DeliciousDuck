@@ -37,7 +37,7 @@ export interface WelcomeEventData {
   readonly guide_url: string;
   /**
    * Absolute URL of the Duck Game Plan. Additive: `guide_url` still carries the
-   * Field Guide PDF, so an unmodified template keeps working unchanged.
+   * playbook PDF, so an unmodified template keeps working unchanged.
    */
   readonly game_plan_url: string;
   readonly acquisition_source: string;

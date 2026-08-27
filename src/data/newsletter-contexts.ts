@@ -7,7 +7,7 @@
  * two or three on-site links we show after a real signup.
  *
  * There is no second lead magnet, no gated bonus, and no variant that implies
- * one. Every context delivers the same 16-page PDF.
+ * one. Every context delivers the same 28-page playbook PDF.
  */
 
 /** Controlled, non-PII interest enum. Stored in the database and sent to GA4. */
@@ -45,7 +45,7 @@ const CONTEXTS: Record<NewsletterInterest, NewsletterContext> = {
     interest: "duck-breast",
     eyebrow: "Crisp skin, on purpose",
     promise:
-      "If you want skin that shatters and a breast you can call at the right temperature, the field guide is the short version: scoring depth, cold-pan rendering, and the numbers to pull at.",
+      "If you want skin that shatters and a breast you can call at the right temperature, the playbook is the short version: scoring depth, cold-pan rendering, and the numbers to pull at.",
     bullets: [
       "Scoring depth and cold-pan rendering, step by step",
       "Pull temperatures and carryover for breast, with a rest plan",
@@ -74,7 +74,7 @@ const CONTEXTS: Record<NewsletterInterest, NewsletterContext> = {
     interest: "whole-duck",
     eyebrow: "Plan the whole bird",
     promise:
-      "Roasting a whole duck is a timing problem before it is a cooking problem. The field guide carries the planning timeline, from thawing to resting.",
+      "Roasting a whole duck is a timing problem before it is a cooking problem. The playbook carries the planning timeline, from thawing to resting.",
     bullets: [
       "A planning timeline from thawing through carving",
       "Fat rendering and basting decisions for a whole bird",
@@ -103,7 +103,7 @@ const CONTEXTS: Record<NewsletterInterest, NewsletterContext> = {
     interest: "duck-fat",
     eyebrow: "Waste nothing",
     promise:
-      "Duck fat is the second thing you buy a duck for. The field guide covers rendering it cleanly and managing it while you cook.",
+      "Duck fat is the second thing you buy a duck for. The playbook covers rendering it cleanly and managing it while you cook.",
     bullets: [
       "Rendering fat cleanly and storing what you keep",
       "Fat management while searing, so skin crisps instead of steaming",
@@ -132,7 +132,7 @@ const CONTEXTS: Record<NewsletterInterest, NewsletterContext> = {
     interest: "sourcing",
     eyebrow: "Buy the right duck",
     promise:
-      "Most disappointing duck dinners start at the point of purchase. The field guide includes the shopping checklist we use before anything hits a pan.",
+      "Most disappointing duck dinners start at the point of purchase. The playbook includes the shopping checklist we use before anything hits a pan.",
     bullets: [
       "What to check on the label, and what breed choice changes",
       "A first-duck shopping checklist you can take to the counter",
@@ -161,7 +161,7 @@ const CONTEXTS: Record<NewsletterInterest, NewsletterContext> = {
     interest: "wild-duck",
     eyebrow: "Wild birds, different rules",
     promise:
-      "Wild duck is leaner and less forgiving than farmed. The field guide gives you the temperature and technique baseline to adjust from.",
+      "Wild duck is leaner and less forgiving than farmed. The playbook gives you the temperature and technique baseline to adjust from.",
     bullets: [
       "Temperature guidance and the USDA baseline for wild birds",
       "Why lean breast needs a different pan approach",

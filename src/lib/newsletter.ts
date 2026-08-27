@@ -35,7 +35,7 @@ export const NEWSLETTER_CONFIG: NewsletterConfig = {
   provider: "supabase+resend",
   status: "configured",
   sourceOfTruth: "database",
-  leadMagnet: "Duck Fundamentals: The Field Guide (printable 16-page PDF)",
+  leadMagnet: "Duck the Fundamentals — the no-panic playbook (printable 28-page PDF)",
   senderIdentity: "DeliciousDuck <hello@deliciousduck.com>",
   segmentId: RESEND_AUDIENCE_ID,
 };
@@ -69,7 +69,7 @@ export interface SubscribeInput {
  * Deliberately one field. Welcome/email state, the stored interest, whether the
  * address was already on the list, whether it is suppressed, and any preference
  * token are all withheld: each is a signal someone could use to test an
- * arbitrary address against our list. The Field Guide download works from a
+ * arbitrary address against our list. The playbook download works from a
  * static path and needs none of them.
  */
 export interface SubscribeResult {

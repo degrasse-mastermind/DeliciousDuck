@@ -84,7 +84,7 @@ export function Header() {
             hash="starter-guide"
             className={CTA.primary}
           >
-            Free Guide
+            Free Playbook
           </Link>
         </div>
 
@@ -98,7 +98,7 @@ export function Header() {
           data-mobile-guide-cta
           className={`shrink-0 ${CTA.primaryCompact} lg:hidden`}
         >
-          Free Guide
+          Free Playbook
         </Link>
 
         <button
@@ -138,7 +138,7 @@ export function Header() {
                 onClick={() => setOpen(false)}
                 className="inline-flex h-11 w-full items-center justify-center rounded-sm bg-primary px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary-foreground"
               >
-                Get the Free Guide
+                Get the Playbook
               </Link>
             </div>
           </nav>

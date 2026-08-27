@@ -27,7 +27,7 @@ import { LeadMagnetDownloadLink } from "@/components/site/TrackedLinks";
 /**
  * Honest-by-default signup, with contextual promises.
  *
- * One component, one data model, one real lead magnet: the Field Guide PDF.
+ * One component, one data model, one real lead magnet: the Duck the Fundamentals playbook PDF.
  * The `interest` prop selects a cluster-specific promise and post-signup link
  * set from `@/data/newsletter-contexts` — it never changes what subscribers
  * actually receive.
@@ -204,8 +204,8 @@ export function NewsletterSignup({
               Duck Game Plan
             </a>{" "}
             and we&apos;ll build your temperature, timing, crispy-skin and serving plan. Subscribers
-            also get the printable {FIELD_GUIDE.pages}-page {FIELD_GUIDE.title}, a short welcome
-            series, and occasional DeliciousDuck recipes and guides.
+            also get {FIELD_GUIDE.title}, the printable {FIELD_GUIDE.pages}-page playbook, a short
+            welcome series, and occasional DeliciousDuck recipes and guides.
           </p>
 
           <ul className="mt-6 space-y-2 text-sm text-forest-foreground/80">
@@ -286,7 +286,7 @@ export function NewsletterSignup({
                   then try again.
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  You don&apos;t have to wait for any of it. Download the field guide right now:
+                  You don&apos;t have to wait for any of it. Download the playbook right now:
                 </p>
 
                 {/*
@@ -298,15 +298,16 @@ export function NewsletterSignup({
                   placement={`${id}_postsignup`}
                   target="_blank"
                   rel="noopener"
-                  aria-label={`Download your field guide: ${FIELD_GUIDE.title} (PDF, 16 pages, opens in a new tab)`}
+                  aria-label={`Download your playbook: ${FIELD_GUIDE.title} — ${FIELD_GUIDE.descriptor} (PDF, ${FIELD_GUIDE.pages} pages, opens in a new tab)`}
                   className={`mt-4 w-full ${CTA.primary}`}
                 >
                   <Download aria-hidden="true" className="size-4" />
-                  Download your field guide
+                  Get the Playbook
                 </LeadMagnetDownloadLink>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  Printable PDF, 16 pages — yours right now, no email needed. Any emails come from
-                  hello@deliciousduck.com, and every one has a one-click unsubscribe.
+                  Printable PDF, {FIELD_GUIDE.pages} pages — yours right now, no email needed. Any
+                  emails come from hello@deliciousduck.com, and every one has a one-click
+                  unsubscribe.
                 </p>
               </div>
 
@@ -419,7 +420,7 @@ export function NewsletterSignup({
                 aria-describedby={`${id}-consent`}
                 className={`w-full ${CTA.primary} disabled:opacity-70`}
               >
-                {pending ? "Signing you up…" : "Get the field guide"}
+                {pending ? "Signing you up…" : "Send Me the Playbook"}
               </button>
               {/*
                 Consent language. Rendered verbatim from the shared module that

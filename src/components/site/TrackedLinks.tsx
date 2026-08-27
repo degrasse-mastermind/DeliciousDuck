@@ -9,7 +9,7 @@ export const FIELD_GUIDE_ASSET_ID = "duck-fundamentals-field-guide";
 /**
  * Reusable lead-magnet download link.
  *
- * Every live download surface for the Field Guide PDF must use this component
+ * Every live download surface for the playbook PDF must use this component
  * rather than an ad hoc `onClick`, so `lead_magnet_download` fires exactly once
  * per real click with the same allowlisted, PII-free payload everywhere.
  * Tracking is fire-and-forget and can never block the download.

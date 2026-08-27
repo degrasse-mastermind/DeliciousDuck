@@ -50,7 +50,7 @@ function Home() {
       <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8">
         {/*
           The primary acquisition module. The Duck Game Plan replaced the
-          Field Guide PDF as the signup promise here: it is a conversion module
+          playbook PDF as the signup promise here: it is a conversion module
           as well as a newsletter offer, so `newsletter_offer_view` measures the
           funnel while `conversion_module_view` keeps the homepage module
           inventory complete and comparable with the intent selector and the
