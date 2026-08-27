@@ -64,6 +64,7 @@ describe("thanksgiving hub plan", () => {
       "/gear/best-roasting-pan-for-duck",
       "/gear/best-thermometer-for-duck",
       "/recipes/duck-fat-roasted-potatoes",
+      "/buy/duck-fat-buying-guide",
     ]) {
       expect(destinations).toContain(expected);
     }
@@ -99,6 +100,7 @@ describe("thanksgiving hub plan", () => {
       "/buy/where-to-buy-duck-online",
       "/gear/best-roasting-pan-for-duck",
       "/gear/best-thermometer-for-duck",
+      "/buy/duck-fat-buying-guide",
     ]);
     // The generic funnel band is gone, so nothing re-offers those destinations.
     expect(code).not.toContain("items={PAGE.funnel}");

@@ -38,6 +38,7 @@ const FUNNEL: Record<string, string[]> = {
   "/cook/ways-to-use-duck-fat": [FAT],
   "/ingredients/duck-fat-vs-butter-oil": [FAT],
   "/tools/duck-fat-substitution-calculator": [FAT],
+  "/tools/duck-game-plan": [FAT, THERMOMETER],
 };
 
 /** Feeder path -> the route file that must render the module. */

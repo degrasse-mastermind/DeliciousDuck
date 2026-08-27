@@ -176,6 +176,18 @@ export const THANKSGIVING_PLAN: ThanksgivingPlanStep[] = [
     linkIn: "plan",
     kind: "recipe",
   },
+  {
+    stage: "serve",
+    when: "Made ahead, if the render falls short",
+    task: "Buy rendered duck fat instead",
+    why: "One duck's drippings may not stretch across a full holiday spread — potatoes for a crowd, plus everything else. A tub of rendered fat covers the gap without an extra render mid-week.",
+    to: "/buy/duck-fat-buying-guide",
+    linkLabel: "Buying guide for rendered duck fat",
+    intent: "sourcing",
+    placement: "thanksgiving_hub_duck_fat_buying_guide",
+    linkIn: "commercial",
+    kind: "guide",
+  },
 ];
 
 /** Steps for one stage, in plan order, whose link the plan grid owns. */

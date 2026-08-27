@@ -78,6 +78,26 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     reason:
       "Readers who care about the fat profile usually want a jar of rendered fat before they want a whole bird.",
   },
+  {
+    placement: "game_plan_to_duck_fat_buying",
+    sourcePath: "/tools/duck-game-plan",
+    destination: "/buy/duck-fat-buying-guide",
+    intent: "sourcing",
+    direction: "cornerstone_to_commercial",
+    anchor: "How to choose duck fat worth buying",
+    reason:
+      "The plan calls rendered fat part of the yield on every cut — worth having a jar ready before the fat comes off the pan.",
+  },
+  {
+    placement: "game_plan_to_thermometer_guide",
+    sourcePath: "/tools/duck-game-plan",
+    destination: "/gear/best-thermometer-for-duck",
+    intent: "temperature_verification",
+    direction: "cornerstone_to_commercial",
+    anchor: "How to choose a thermometer for duck",
+    reason:
+      "The plan calls doneness by temperature, not colour — a fast, reliable read is what makes that call possible.",
+  },
   /* --- cornerstone -> commercial ---------------------------------- */
   {
     placement: "score_breast_to_knife_guide",

@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/site/PageHeader";
 import { ToolAssumptions } from "@/components/tools/ToolAssumptions";
 import { DuckGamePlanFlow } from "@/components/tools/DuckGamePlanFlow";
+import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 
 /**
@@ -152,6 +153,12 @@ function GamePlanPage() {
             ]}
           />
 
+          <ConversionPaths
+            sourcePath="/tools/duck-game-plan"
+            eyebrow="Before you cook"
+            heading="Two things worth having on hand"
+            intro="Both come up in the plan above, before you ever open a recipe."
+          />
         </div>
       </section>
     </>
