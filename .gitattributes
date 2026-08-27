@@ -1,0 +1,15 @@
+# Normalize line endings to LF in the repo regardless of OS/editor,
+# so Windows checkouts stop showing every file as "modified" with
+# identical insertion/deletion counts (a CRLF/LF flip, not real edits).
+* text=auto eol=lf
+
+# Binary assets — never touch line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
