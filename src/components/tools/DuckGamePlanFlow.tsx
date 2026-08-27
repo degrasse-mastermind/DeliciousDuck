@@ -49,6 +49,8 @@ import { trackNewsletterConfirmRequired } from "@/lib/analytics";
 import { DUCK_DROP } from "@/data/duck-drop";
 import { SafetyNote } from "@/components/site/SafetyNote";
 import { GamePlanExportActions } from "@/components/tools/GamePlanExportActions";
+import { GamePlanPremiumWaitlist } from "@/components/tools/GamePlanPremiumWaitlist";
+
 
 import type { GamePlanPlacement } from "@/lib/game-plan-events";
 import { cn } from "@/lib/utils";
