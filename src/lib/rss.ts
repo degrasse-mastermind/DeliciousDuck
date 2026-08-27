@@ -79,24 +79,28 @@ export function feedItems(): FeedItem[] {
       title: STARTER_GUIDE.title,
       description: STARTER_GUIDE.description,
       date: publishedDate(STARTER_GUIDE.path),
+      ...articleImage(STARTER_GUIDE.path),
     },
     ...GUIDES.map((g) => ({
       path: g.path,
       title: g.title,
       description: g.description,
       date: publishedDate(g.path),
+      ...articleImage(g.path),
     })),
     ...INGREDIENTS.map((i) => ({
       path: i.path,
       title: i.title,
       description: i.description,
       date: publishedDate(i.path),
+      ...articleImage(i.path),
     })),
     ...RECIPES.map((r) => ({
       path: `/recipes/${r.slug}`,
       title: r.name,
       description: r.description,
       date: r.datePublished,
+      ...(r.image ? { image: absUrl(r.image) } : {}),
     })),
   ];
 
