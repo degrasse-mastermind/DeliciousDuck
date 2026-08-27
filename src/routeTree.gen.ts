@@ -23,6 +23,7 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -173,6 +174,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const RecipesRoute = RecipesRouteImport.update({
   id: '/recipes',
   path: '/recipes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -633,6 +639,7 @@ export interface FileRoutesByFullPath {
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -724,6 +731,7 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -821,6 +829,7 @@ export interface FileRoutesById {
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -920,6 +929,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/privacy'
     | '/recipes'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -1011,6 +1021,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/partners'
     | '/privacy'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -1107,6 +1118,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/privacy'
     | '/recipes'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -1205,6 +1217,7 @@ export interface RootRouteChildren {
   PartnersRoute: typeof PartnersRoute
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
+  RssDotxmlRoute: typeof RssDotxmlRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -1330,6 +1343,13 @@ declare module '@tanstack/react-router' {
       path: '/recipes'
       fullPath: '/recipes'
       preLoaderRoute: typeof RecipesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -2091,6 +2111,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnersRoute: PartnersRoute,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
+  RssDotxmlRoute: RssDotxmlRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
