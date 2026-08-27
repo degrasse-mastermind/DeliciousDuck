@@ -163,7 +163,7 @@ describe("comparison table mobile affordance", () => {
 });
 
 describe("mobile header lead-magnet CTA", () => {
-  it("adds a compact Free Guide button below lg only", () => {
+  it("adds a compact Free Playbook button below lg only", () => {
     expect(header).toContain("data-mobile-guide-cta");
     const cta = header.slice(header.indexOf("data-mobile-guide-cta"));
     expect(cta).toContain("lg:hidden");
@@ -171,7 +171,7 @@ describe("mobile header lead-magnet CTA", () => {
     expect(cta).toContain("bg-primary");
     expect(cta).toContain("text-primary-foreground");
     expect(cta).toContain("focus-visible:outline");
-    expect(header).toContain("Free Guide");
+    expect(header).toContain("Free Playbook");
   });
 
   it("links the existing lead-magnet destination", () => {
@@ -183,6 +183,6 @@ describe("mobile header lead-magnet CTA", () => {
     expect(header).toContain('className="hidden items-center gap-3 lg:flex"');
     expect(header).toContain('aria-label="Search DeliciousDuck"');
     expect(header).toContain("<SearchField");
-    expect(header).toContain("Free Guide");
+    expect(header).toContain("Free Playbook");
   });
 });

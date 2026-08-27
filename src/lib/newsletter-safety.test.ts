@@ -35,7 +35,7 @@ describe("consent versioning", () => {
   });
 
   it("renders consent text that names the emails, the sender, and opt-out", () => {
-    expect(NEWSLETTER_CONSENT.text).toContain("Field");
+    expect(NEWSLETTER_CONSENT.text).toContain("Duck the Fundamentals");
     expect(NEWSLETTER_CONSENT.text).toContain("hello@deliciousduck.com");
     expect(NEWSLETTER_CONSENT.text.toLowerCase()).toContain("unsubscribe");
   });
