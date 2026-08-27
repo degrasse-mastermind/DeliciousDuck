@@ -286,7 +286,7 @@ export function NewsletterSignup({
                   then try again.
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  You don&apos;t have to wait for any of it. Download the field guide right now:
+                  You don&apos;t have to wait for any of it. Download the playbook right now:
                 </p>
 
                 {/*
@@ -298,15 +298,16 @@ export function NewsletterSignup({
                   placement={`${id}_postsignup`}
                   target="_blank"
                   rel="noopener"
-                  aria-label={`Download your field guide: ${FIELD_GUIDE.title} (PDF, 16 pages, opens in a new tab)`}
+                  aria-label={`Download your playbook: ${FIELD_GUIDE.title} — ${FIELD_GUIDE.descriptor} (PDF, ${FIELD_GUIDE.pages} pages, opens in a new tab)`}
                   className={`mt-4 w-full ${CTA.primary}`}
                 >
                   <Download aria-hidden="true" className="size-4" />
-                  Download your field guide
+                  Get the Playbook
                 </LeadMagnetDownloadLink>
                 <p className="mt-3 text-xs text-muted-foreground">
-                  Printable PDF, 16 pages — yours right now, no email needed. Any emails come from
-                  hello@deliciousduck.com, and every one has a one-click unsubscribe.
+                  Printable PDF, {FIELD_GUIDE.pages} pages — yours right now, no email needed. Any
+                  emails come from hello@deliciousduck.com, and every one has a one-click
+                  unsubscribe.
                 </p>
               </div>
 
