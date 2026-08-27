@@ -16,6 +16,7 @@ import { Route as BuyRouteImport } from './routes/buy'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookRouteImport } from './routes/cook'
 import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
+import { Route as FeedRouteImport } from './routes/feed'
 import { Route as GearRouteImport } from './routes/gear'
 import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
@@ -23,6 +24,7 @@ import { Route as McpRouteImport } from './routes/mcp'
 import { Route as PartnersRouteImport } from './routes/partners'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -140,6 +142,11 @@ const EditorialStandardsRoute = EditorialStandardsRouteImport.update({
   path: '/editorial-standards',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeedRoute = FeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GearRoute = GearRouteImport.update({
   id: '/gear',
   path: '/gear',
@@ -173,6 +180,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const RecipesRoute = RecipesRouteImport.update({
   id: '/recipes',
   path: '/recipes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -626,6 +638,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/feed': typeof FeedRoute
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
@@ -633,6 +646,7 @@ export interface FileRoutesByFullPath {
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -721,9 +735,11 @@ export interface FileRoutesByTo {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/contact': typeof ContactRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/feed': typeof FeedRoute
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -814,6 +830,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/feed': typeof FeedRoute
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
@@ -821,6 +838,7 @@ export interface FileRoutesById {
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -913,6 +931,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cook'
     | '/editorial-standards'
+    | '/feed'
     | '/gear'
     | '/ingredients'
     | '/learn'
@@ -920,6 +939,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/privacy'
     | '/recipes'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -1008,9 +1028,11 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/contact'
     | '/editorial-standards'
+    | '/feed'
     | '/mcp'
     | '/partners'
     | '/privacy'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -1100,6 +1122,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cook'
     | '/editorial-standards'
+    | '/feed'
     | '/gear'
     | '/ingredients'
     | '/learn'
@@ -1107,6 +1130,7 @@ export interface FileRouteTypes {
     | '/partners'
     | '/privacy'
     | '/recipes'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -1198,6 +1222,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CookRoute: typeof CookRouteWithChildren
   EditorialStandardsRoute: typeof EditorialStandardsRoute
+  FeedRoute: typeof FeedRoute
   GearRoute: typeof GearRouteWithChildren
   IngredientsRoute: typeof IngredientsRouteWithChildren
   LearnRoute: typeof LearnRouteWithChildren
@@ -1205,6 +1230,7 @@ export interface RootRouteChildren {
   PartnersRoute: typeof PartnersRoute
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
+  RssDotxmlRoute: typeof RssDotxmlRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -1283,6 +1309,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EditorialStandardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gear': {
       id: '/gear'
       path: '/gear'
@@ -1330,6 +1363,13 @@ declare module '@tanstack/react-router' {
       path: '/recipes'
       fullPath: '/recipes'
       preLoaderRoute: typeof RecipesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -2084,6 +2124,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CookRoute: CookRouteWithChildren,
   EditorialStandardsRoute: EditorialStandardsRoute,
+  FeedRoute: FeedRoute,
   GearRoute: GearRouteWithChildren,
   IngredientsRoute: IngredientsRouteWithChildren,
   LearnRoute: LearnRouteWithChildren,
@@ -2091,6 +2132,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartnersRoute: PartnersRoute,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
+  RssDotxmlRoute: RssDotxmlRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
