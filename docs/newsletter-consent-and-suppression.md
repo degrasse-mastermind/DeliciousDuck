@@ -114,8 +114,9 @@ receives the same weekly issue, so nothing is withheld. The replacement belongs 
 emailed, token-linked preference page, where the emailed link itself proves mailbox
 ownership. The `preference_token` column stays in the schema, unused, for that purpose.
 
-The Field Guide download is unaffected: it is a static path
-(`/downloads/duck-fundamentals-field-guide.pdf`) rendered on success, and never depended on
+The playbook download is unaffected: it is a static path
+(`/downloads/duck-the-fundamentals-playbook.pdf`, with the legacy
+`/downloads/duck-fundamentals-field-guide.pdf` still serving the same bytes) rendered on success, and never depended on
 any response field.
 
 

@@ -102,9 +102,12 @@ group by 1;
 
 ## Lead magnet + welcome email (current behaviour)
 
-- The lead magnet is a printable 16-page PDF, "Duck Fundamentals: The Field Guide",
-  served as a stable public asset at `/downloads/duck-fundamentals-field-guide.pdf`
-  (`FIELD_GUIDE` in `src/data/starter-guide.ts`). The web article
+- The lead magnet is a printable 28-page PDF, "Duck the Fundamentals — the no-panic
+  playbook for cooking seriously good duck", served as a stable public asset at
+  `/downloads/duck-the-fundamentals-playbook.pdf`, with the legacy path
+  `/downloads/duck-fundamentals-field-guide.pdf` permanently serving byte-identical
+  bytes (`FIELD_GUIDE` in `src/data/starter-guide.ts` — the symbol keeps its
+  historical name so analytics ids, placements and consent plumbing stay stable). The web article
   `/guides/duck-cooking-starter-guide` stays as the free on-site companion.
   The download button appears only in the post-signup success state.
 - After the subscriber row is durably stored and the Resend contact is synced, the
