@@ -44,6 +44,13 @@ export interface Recipe {
   difficulty: "Easy" | "Intermediate" | "Advanced";
   keyTechnique: string;
   /**
+   * Publication date (YYYY-MM-DD) for this recipe. Recipes live in this shared
+   * data module rather than one route file each, so there is no git-derived
+   * per-URL date: this field is the source of truth for the RSS feed's
+   * `pubDate`. Set it when a recipe is first published and leave it alone.
+   */
+  datePublished: string;
+  /**
    * Trust gate. "editorialDraft" = structured launch content following
    * established technique and published safety guidance, not yet cooked and
    * checked in our own kitchen. "kitchenVerified" may only be set once that
@@ -102,6 +109,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "2 servings",
     difficulty: "Easy",
     keyTechnique: "Cold-pan rendering",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
@@ -119,6 +127,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Intermediate",
     keyTechnique: "Two-stage roasting with a caramel gastrique",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
@@ -135,6 +144,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Intermediate",
     keyTechnique: "Low-temperature fat poaching",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
@@ -151,6 +161,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Intermediate",
     keyTechnique: "Two-stage roasting",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
@@ -166,6 +177,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Advanced",
     keyTechnique: "Low-and-slow smoking",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
@@ -183,6 +195,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "Serves 4 as a side",
     difficulty: "Easy",
     keyTechnique: "Parboil, rough up, roast in preheated fat",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
@@ -201,6 +214,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "2 servings",
     difficulty: "Easy",
     keyTechnique: "Two-stage air frying, skin-side up",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
@@ -219,6 +233,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Advanced",
     keyTechnique: "Scalding and air-drying the skin, then a two-temperature roast",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
@@ -237,6 +252,7 @@ export const RECIPES: Recipe[] = [
     recipeYield: "4 servings",
     difficulty: "Easy",
     keyTechnique: "Skillet render, oven finish, thermometer pull",
+    datePublished: "2026-08-27",
     verification: "editorialDraft",
     validation: UNTESTED("1.0"),
   },
