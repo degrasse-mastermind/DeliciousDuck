@@ -23,16 +23,40 @@ export const STARTER_GUIDE_URL = `${SITE_URL}${STARTER_GUIDE.path}`;
 
 
 /**
- * Duck Fundamentals: The Field Guide — the printable 16-page PDF that
- * subscribers receive. Served as a stable public asset.
+ * Duck the Fundamentals — the printable 28-page playbook subscribers receive.
+ * Served as a stable public asset.
+ *
+ * The exported symbol keeps its historical name (`FIELD_GUIDE`) on purpose: the
+ * internal lead-magnet identity, analytics asset id, placements, segments and
+ * consent plumbing all key off it, and only the *public* title changed.
  */
 export const FIELD_GUIDE = {
-  path: "/downloads/duck-fundamentals-field-guide.pdf",
-  title: "Duck Fundamentals: The Field Guide",
+  path: "/downloads/duck-the-fundamentals-playbook.pdf",
+  /**
+   * Permanent legacy path. Serves byte-identical bytes so links already in
+   * inboxes, emails and indexes keep working forever.
+   */
+  legacyPath: "/downloads/duck-fundamentals-field-guide.pdf",
+  title: "Duck the Fundamentals",
+  descriptor: "The no-panic playbook for cooking seriously good duck",
   description:
-    "A printable 16-page guide to buying, preparing, cooking, carving, troubleshooting, and making every part of the duck count.",
-  pages: 16,
+    "A printable 28-page playbook: cut-specific routes, a command center, whole-duck, breast and leg plans, temperature and probe guidance, Duck SOS troubleshooting, menus, and detachable kitchen sheets.",
+  pages: 28,
+} as const;
+
+/**
+ * Non-breaking public metadata for analytics payloads. The historical internal
+ * id stays `duck-fundamentals-field-guide`; these fields describe the version
+ * of the asset actually delivered.
+ */
+export const LEAD_MAGNET_META = {
+  name: "duck_the_fundamentals",
+  version: 2,
+  pages: FIELD_GUIDE.pages,
 } as const;
 
 /** Absolute URL used in the Resend welcome event payload. */
 export const FIELD_GUIDE_URL = `${SITE_URL}${FIELD_GUIDE.path}`;
+
+/** Absolute legacy URL, kept for reference/redirect parity. */
+export const FIELD_GUIDE_LEGACY_URL = `${SITE_URL}${FIELD_GUIDE.legacyPath}`;
