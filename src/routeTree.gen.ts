@@ -16,6 +16,7 @@ import { Route as BuyRouteImport } from './routes/buy'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookRouteImport } from './routes/cook'
 import { Route as EditorialStandardsRouteImport } from './routes/editorial-standards'
+import { Route as FeedRouteImport } from './routes/feed'
 import { Route as GearRouteImport } from './routes/gear'
 import { Route as IngredientsRouteImport } from './routes/ingredients'
 import { Route as LearnRouteImport } from './routes/learn'
@@ -139,6 +140,11 @@ const CookRoute = CookRouteImport.update({
 const EditorialStandardsRoute = EditorialStandardsRouteImport.update({
   id: '/editorial-standards',
   path: '/editorial-standards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedRoute = FeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GearRoute = GearRouteImport.update({
@@ -632,6 +638,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/feed': typeof FeedRoute
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
@@ -728,6 +735,7 @@ export interface FileRoutesByTo {
   '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/contact': typeof ContactRoute
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/feed': typeof FeedRoute
   '/mcp': typeof McpRoute
   '/partners': typeof PartnersRoute
   '/privacy': typeof PrivacyRoute
@@ -822,6 +830,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/cook': typeof CookRouteWithChildren
   '/editorial-standards': typeof EditorialStandardsRoute
+  '/feed': typeof FeedRoute
   '/gear': typeof GearRouteWithChildren
   '/ingredients': typeof IngredientsRouteWithChildren
   '/learn': typeof LearnRouteWithChildren
@@ -922,6 +931,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cook'
     | '/editorial-standards'
+    | '/feed'
     | '/gear'
     | '/ingredients'
     | '/learn'
@@ -1018,6 +1028,7 @@ export interface FileRouteTypes {
     | '/affiliate-disclosure'
     | '/contact'
     | '/editorial-standards'
+    | '/feed'
     | '/mcp'
     | '/partners'
     | '/privacy'
@@ -1111,6 +1122,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/cook'
     | '/editorial-standards'
+    | '/feed'
     | '/gear'
     | '/ingredients'
     | '/learn'
@@ -1210,6 +1222,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CookRoute: typeof CookRouteWithChildren
   EditorialStandardsRoute: typeof EditorialStandardsRoute
+  FeedRoute: typeof FeedRoute
   GearRoute: typeof GearRouteWithChildren
   IngredientsRoute: typeof IngredientsRouteWithChildren
   LearnRoute: typeof LearnRouteWithChildren
@@ -1294,6 +1307,13 @@ declare module '@tanstack/react-router' {
       path: '/editorial-standards'
       fullPath: '/editorial-standards'
       preLoaderRoute: typeof EditorialStandardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gear': {
@@ -2104,6 +2124,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CookRoute: CookRouteWithChildren,
   EditorialStandardsRoute: EditorialStandardsRoute,
+  FeedRoute: FeedRoute,
   GearRoute: GearRouteWithChildren,
   IngredientsRoute: IngredientsRouteWithChildren,
   LearnRoute: LearnRouteWithChildren,
