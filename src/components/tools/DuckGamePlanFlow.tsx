@@ -307,6 +307,9 @@ export function DuckGamePlanResult({
         )}
       </div>
 
+      <GamePlanPremiumWaitlist interest={INTEREST_FOR_CUT[selection.cut]} />
+
+
       {plan.showSafetyNote && (
         <div className="mt-6">
           <SafetyNote heading="Food safety: the official minimum" />
