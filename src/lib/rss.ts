@@ -132,6 +132,7 @@ export function rfc822(isoDate: string): string {
 export function rssXml(baseUrl: string = SITE.url): string {
   const items = feedItems().map((item) => {
     const url = `${baseUrl}${item.path}`;
+    const image = item.image;
     return [
       `    <item>`,
       `      <title>${escapeXml(item.title)}</title>`,
@@ -139,6 +140,13 @@ export function rssXml(baseUrl: string = SITE.url): string {
       `      <description>${escapeXml(item.description)}</description>`,
       `      <pubDate>${rfc822(item.date)}</pubDate>`,
       `      <guid isPermaLink="true">${escapeXml(url)}</guid>`,
+      ...(image
+        ? [
+            `      <enclosure url="${escapeXml(image)}" type="${imageMimeType(image)}" length="0" />`,
+            `      <media:thumbnail url="${escapeXml(image)}" />`,
+            `      <media:content url="${escapeXml(image)}" medium="image" type="${imageMimeType(image)}" />`,
+          ]
+        : []),
       `    </item>`,
     ].join("\n");
   });
@@ -147,7 +155,7 @@ export function rssXml(baseUrl: string = SITE.url): string {
 
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
-    `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">`,
+    `<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/">`,
     `  <channel>`,
     `    <title>${escapeXml(SITE.name)}</title>`,
     `    <link>${escapeXml(baseUrl)}</link>`,
