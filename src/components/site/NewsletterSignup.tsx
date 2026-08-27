@@ -27,7 +27,7 @@ import { LeadMagnetDownloadLink } from "@/components/site/TrackedLinks";
 /**
  * Honest-by-default signup, with contextual promises.
  *
- * One component, one data model, one real lead magnet: the Field Guide PDF.
+ * One component, one data model, one real lead magnet: the Duck the Fundamentals playbook PDF.
  * The `interest` prop selects a cluster-specific promise and post-signup link
  * set from `@/data/newsletter-contexts` — it never changes what subscribers
  * actually receive.
@@ -420,7 +420,7 @@ export function NewsletterSignup({
                 aria-describedby={`${id}-consent`}
                 className={`w-full ${CTA.primary} disabled:opacity-70`}
               >
-                {pending ? "Signing you up…" : "Get the field guide"}
+                {pending ? "Signing you up…" : "Send Me the Playbook"}
               </button>
               {/*
                 Consent language. Rendered verbatim from the shared module that

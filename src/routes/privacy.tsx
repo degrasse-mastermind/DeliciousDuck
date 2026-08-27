@@ -49,7 +49,7 @@ const SECTIONS: { heading: string; body: React.ReactNode }[] = [
           &ldquo;sourcing&rdquo;) and the page path itself, so the emails we send match what you
           were reading; if you sign up from more than one page we keep the list of those topics. The
           address is then passed to our email provider, Resend, so we can send you a welcome email
-          containing a download link for Duck Fundamentals: The Field Guide (a printable 16-page
+          containing a download link for Duck the Fundamentals, the no-panic playbook (a printable 28-page
           PDF) and occasional recipes and guides. That topic label and page path are sent to Resend
           with the welcome email so it can be tailored. We do not ask for your name and do not
           attach the address to your browsing.

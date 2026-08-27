@@ -32,7 +32,7 @@ export const Route = createFileRoute("/newsletter/confirm")({
       {
         name: "description",
         content:
-          "Confirm your email address to receive your Duck Game Plan, the printable field guide and The Duck Drop.",
+          "Confirm your email address to receive your Duck Game Plan, the printable Duck the Fundamentals playbook and The Duck Drop.",
       },
       { property: "og:title", content: "Confirm your DeliciousDuck subscription" },
       {
@@ -84,7 +84,7 @@ function ConfirmPage() {
         <div className="mt-5 space-y-4 text-base leading-relaxed text-muted-foreground">
           <p>
             {state === "confirmed"
-              ? "Thanks — your address is confirmed. If you built a duck game plan, it's on its way to your inbox now, along with the printable field guide and The Duck Drop."
+              ? "Thanks — your address is confirmed. If you built a duck game plan, it's on its way to your inbox now, along with the printable Duck the Fundamentals playbook and The Duck Drop."
               : "This address was already confirmed, so there was nothing left to do. Your emails come from hello@deliciousduck.com."}
           </p>
           <p>
@@ -94,7 +94,7 @@ function ConfirmPage() {
             </Link>{" "}
             and download the {FIELD_GUIDE.pages}-page{" "}
             <a href={FIELD_GUIDE.path} className="font-medium text-primary underline">
-              field guide
+              {FIELD_GUIDE.title} playbook
             </a>{" "}
             right now.
           </p>
@@ -125,7 +125,7 @@ function ConfirmPage() {
           </p>
           <p>
             Once confirmed you get your duck game plan (if you built one), the printable{" "}
-            {FIELD_GUIDE.pages}-page field guide, and The Duck Drop. You can unsubscribe from any
+            {FIELD_GUIDE.pages}-page {FIELD_GUIDE.title} playbook, and The Duck Drop. You can unsubscribe from any
             email in one click.
           </p>
           <button

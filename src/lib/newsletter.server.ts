@@ -104,7 +104,7 @@ async function pushToResend(email: string, apiKey: string): Promise<string | nul
 
 /**
  * Fires the Resend custom event that triggers the welcome email carrying the
- * Field Guide download link plus the subscriber's absolute unsubscribe and
+ * Playbook download link plus the subscriber's absolute unsubscribe and
  * preferences links. Send-on-first-subscribe: callers skip this when the row
  * already has `welcome_event_status = "sent"`, so repeat signups don't spam.
  *

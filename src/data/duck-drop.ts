@@ -480,7 +480,7 @@ export const LIFECYCLE_PLAN: LifecyclePhase[] = [
     stage: "welcome",
     window: "Days 0–13",
     whatHappens:
-      "The existing six-part welcome series runs, triggered on first subscribe. The field guide download link travels in the first email and is also shown on-site immediately.",
+      "The existing six-part welcome series runs, triggered on first subscribe. The playbook download link travels in the first email and is also shown on-site immediately.",
     dataBasis: "Subscribe timestamp and welcome-event status, both stored per row in our database.",
   },
   {

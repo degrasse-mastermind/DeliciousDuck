@@ -404,7 +404,7 @@ function GrowthDashboard() {
         <SectionHeading eyebrow="5 · Email" title="Email economics" />
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Contextual capture means each cluster asks for the email in its own words while delivering
-          the same field guide. These fields track whether that is working. Pull counts from GA4
+          the same playbook. These fields track whether that is working. Pull counts from GA4
           (filtered by the <code>interest</code> and <code>source_path</code> parameters) and sync
           status from the subscribers table.
         </p>

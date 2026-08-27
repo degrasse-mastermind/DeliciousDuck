@@ -25,7 +25,7 @@ export interface HomeIntentRoute {
   label: string;
   /** One practical sentence. */
   blurb: string;
-  /** Internal route, or the same-page anchor for the Field Guide signup. */
+  /** Internal route, or the same-page anchor for the playbook signup. */
   to: string;
   /** True when the CTA scrolls to a section on this page instead of routing. */
   anchor?: boolean;
@@ -65,10 +65,10 @@ export const HOMEPAGE_INTENT_ROUTES: HomeIntentRoute[] = [
     placement: "home_intent_field_guide",
     label: "New to duck entirely",
     blurb:
-      "Get the printable Field Guide: buying, prepping, cooking, carving and troubleshooting on sixteen pages.",
+      "Get Duck the Fundamentals: the printable 28-page playbook with cut-specific routes, temperature and probe guidance, Duck SOS troubleshooting and detachable kitchen sheets.",
     to: `#${FIELD_GUIDE_ANCHOR_ID}`,
     anchor: true,
-    ctaLabel: "Get the Field Guide",
+    ctaLabel: "Get the Playbook",
     intent: "audience_signup",
   },
 ];

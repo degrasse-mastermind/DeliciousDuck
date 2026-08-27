@@ -598,7 +598,7 @@ export function trackCommercialPageView(params: { path?: string | undefined } = 
 
 /**
  * The visitor actually clicked a lead-magnet download link (the Duck
- * Fundamentals Field Guide PDF). Never fired on render or on signup success —
+ * the Fundamentals playbook PDF). Never fired on render or on signup success —
  * only on the click itself.
  */
 export function trackLeadMagnetDownload(params: {
