@@ -188,9 +188,11 @@ export const MERCHANTS: Merchant[] = [
       approvalConfirmed: true,
       trackingUrlPresent: true,
       disclosureVerified: true,
+      testClickComplete: true,
+      ga4AffiliateVerified: true,
     },
     internalNote:
-      "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link, which is now the canonical registry URL. Owner still needs a live test click and GA4 affiliate=true confirmation. No liver deep link supplied, so liver is not monetized.",
+      "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link, which is now the canonical registry URL. Live test click completed and GA4 affiliate=true confirmed by owner on 2026-08-27. No liver deep link supplied, so liver is not monetized.",
   },
 
 
@@ -237,7 +239,7 @@ export const MERCHANTS: Merchant[] = [
       ga4AffiliateVerified: true,
     },
     internalNote:
-      "Approved by Amazon Associates in 2026-08 and activated with tracking ID deliciousduck-20. Equipment/gear categories only. Owner still needs to complete a live test click and confirm GA4 reports affiliate=true. No commission terms recorded here until the program's fee schedule has been read.",
+      "Approved by Amazon Associates in 2026-08 and activated with tracking ID deliciousduck-20. Equipment/gear categories only. Live test click completed and GA4 affiliate=true confirmed by owner on 2026-08-27. No commission terms recorded here until the program's fee schedule has been read.",
   },
 
   /* ---------------------------------------------------------------- *
