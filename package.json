@@ -10,6 +10,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "test:structured-data": "bun run scripts/validate-structured-data.ts"
   },
   "dependencies": {

@@ -256,6 +256,8 @@ describe("conversion click event", () => {
       [
         "/learn/what-does-duck-taste-like -> /buy/where-to-buy-duck-breast-online [sourcing] #taste_guide_to_breast_sourcing",
         "/learn/is-duck-healthy -> /buy/duck-fat-buying-guide [sourcing] #health_guide_to_duck_fat_buying",
+        "/tools/duck-game-plan -> /buy/duck-fat-buying-guide [sourcing] #game_plan_to_duck_fat_buying",
+        "/tools/duck-game-plan -> /gear/best-thermometer-for-duck [temperature_verification] #game_plan_to_thermometer_guide",
         "/learn/how-to-score-duck-breast -> /gear/best-knife-for-scoring-duck [equipment] #score_breast_to_knife_guide",
         "/learn/whole-duck-cooking-time -> /gear/best-thermometer-for-duck [temperature_verification] #whole_duck_timing_to_thermometer_guide",
         "/learn/how-to-thaw-duck -> /buy/where-to-buy-duck-online [sourcing] #thaw_duck_to_sourcing_guide",
