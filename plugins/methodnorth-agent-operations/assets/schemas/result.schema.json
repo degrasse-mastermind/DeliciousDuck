@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://methodnorth.example/schemas/agent-operations-result.json",
+  "title": "Agent Operations Specialist Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "task_id",
+    "business_role",
+    "work_mode",
+    "status",
+    "summary",
+    "deliverables",
+    "validation",
+    "risks",
+    "blockers"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "task_id": { "type": "string" },
+    "business_role": { "type": "string" },
+    "work_mode": { "enum": ["plan", "implement", "review", "qa"] },
+    "status": { "enum": ["completed", "blocked", "failed", "not_verified"] },
+    "summary": { "type": "string", "minLength": 1 },
+    "deliverables": { "type": "array", "items": { "type": "string" } },
+    "validation": { "type": "array", "items": { "type": "string" } },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "owner_decisions": { "type": "array", "items": { "type": "string" } }
+  }
+}

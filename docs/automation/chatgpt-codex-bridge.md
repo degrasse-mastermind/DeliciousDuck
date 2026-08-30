@@ -4,22 +4,24 @@
 
 The repository uses GitHub as the durable handoff and audit layer:
 
-1. ChatGPT or another trusted dispatcher sends a `codex-task` repository dispatch with a scoped task, one role, and optional GitHub issue and ChatGPT conversation identifiers.
-2. `.github/workflows/codex-task.yml` runs the selected Codex role through the official Codex GitHub Action.
-3. Planner, reviewer, and QA results are written to the workflow summary and optional issue.
-4. Implementer changes are packaged as a patch in the unprivileged Codex job, applied in a fresh job, and opened as a pull request. They are never pushed directly to `main`.
+1. ChatGPT or another trusted dispatcher sends a `codex-task` repository dispatch with an approved task ID, an accountable business role, a delivery mode, and optional GitHub issue and ChatGPT conversation identifiers.
+2. `.github/workflows/codex-task.yml` validates the owner-approval flag and combines the selected business charter with the delivery-mode prompt before running the official Codex GitHub Action.
+3. Planning, review, and QA results are written to the workflow summary and optional issue.
+4. Approved implementation changes are packaged as a patch in the unprivileged Codex job, applied in a fresh job, and opened as a pull request. They are never pushed directly to `main`.
 5. If ChatGPT Workspace Agent credentials are configured, the final result is sent to that agent using the stable `conversation_key`.
 
-## Role contract
+## Role and permission contract
 
-| Role          | Purpose                                          | Repository access         | Output                     |
-| ------------- | ------------------------------------------------ | ------------------------- | -------------------------- |
-| `planner`     | Discovery, acceptance criteria, sequencing, risk | Read-only                 | Plan                       |
-| `implementer` | Focused code or automation change                | Workspace write           | Reviewable PR              |
-| `reviewer`    | Regression, security, privacy, editorial review  | Read-only                 | Findings                   |
-| `qa`          | Independent acceptance validation                | No intended product edits | PASS/FAIL/BLOCKED evidence |
+The business role supplies domain judgment: `coo`, `cmo`, `growth-marketer`, `content-creator`, `product-manager`, `cto`, or `cfo`. The delivery mode independently controls how the role works:
 
-The same roles exist locally under `.codex/agents/`. A ChatGPT handoff should include `Role: <role>` so `AGENTS.md` routes it consistently in local Codex.
+| Delivery mode | Purpose                                          | Repository access | Output                     |
+| ------------- | ------------------------------------------------ | ----------------- | -------------------------- |
+| `plan`        | Discovery, acceptance criteria, sequencing, risk | Read-only         | Plan                       |
+| `implement`   | Focused code, content, or automation change      | Workspace write   | Reviewable PR              |
+| `review`      | Regression, security, business, editorial review | Read-only         | Findings                   |
+| `qa`          | Independent acceptance validation                | Read-only         | PASS/FAIL/BLOCKED evidence |
+
+Only an explicit owner-approved dispatch runs. This approval does not authorize merge, deploy, publication, spending, external messaging, production-data changes, credential changes, or scope expansion.
 
 ## Required GitHub configuration
 
@@ -39,8 +41,11 @@ Send a trusted GitHub REST request to `POST /repos/degrasse-mastermind/Delicious
 {
   "event_type": "codex-task",
   "client_payload": {
-    "role": "planner",
-    "task": "Define the outcome, scope, constraints, and acceptance criteria here.",
+    "task_id": "DD-2026-001",
+    "business_role": "cto",
+    "work_mode": "review",
+    "task": "Review the current automation against the linked issue scope and acceptance criteria.",
+    "owner_approved": true,
     "issue_number": "123",
     "conversation_key": "deliciousduck-task-123"
   }
@@ -62,7 +67,7 @@ No generic repository webhook is created without a real receiver. When a receive
 ## Safe operating sequence
 
 1. Plan in ChatGPT and create or link a GitHub issue.
-2. Dispatch one explicit role.
+2. Approve the exact task contract and dispatch one business role in one delivery mode.
 3. Review the GitHub result or implementation PR.
 4. Require CI and CodeQL to pass.
 5. Merge through the protected path. Lovable remains exempt so its connected-branch sync is not broken.

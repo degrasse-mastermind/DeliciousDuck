@@ -1,0 +1,18 @@
+{
+  "name": "methodnorth-agent-operations",
+  "version": "0.1.0",
+  "description": "Reusable role-based operations orchestration with durable task contracts and approval gates.",
+  "author": {
+    "name": "MethodNorth Technologies"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "MethodNorth Agent Operations",
+    "shortDescription": "Coordinate approved role-based work.",
+    "longDescription": "A reusable operating-system layer for role routing, owner approvals, durable task records, specialist evidence, and final executive synthesis.",
+    "developerName": "MethodNorth Technologies",
+    "category": "Productivity",
+    "capabilities": ["Role routing", "Task contracts", "Approval gates", "Executive synthesis"],
+    "defaultPrompt": "Coordinate this task through the configured roles, approval gates, and durable task ledger."
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://methodnorth.example/schemas/agent-operations-integrations.json",
+  "title": "Agent Operations Integration Policy",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy", "integrations"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direct_role_credentials",
+        "executive_dispatch_role",
+        "external_writes_require_separate_owner_approval"
+      ],
+      "properties": {
+        "direct_role_credentials": { "const": false },
+        "executive_dispatch_role": { "type": "string", "minLength": 3 },
+        "external_writes_require_separate_owner_approval": { "const": true }
+      }
+    },
+    "integrations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "type", "status", "allowed_actions", "prohibited_actions"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "type": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["enabled", "disabled", "pending-credentials"] },
+          "allowed_actions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string" }
+          },
+          "prohibited_actions": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Agent Operations Orchestrator"
+  short_description: "Coordinate approved role-based work safely."
+  default_prompt: "Use $agent-operations-orchestrator to coordinate this task through the configured roles and approval gates."
+policy:
+  allow_implicit_invocation: true

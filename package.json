@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:structured-data": "bun run scripts/validate-structured-data.ts"
+    "test:structured-data": "bun run scripts/validate-structured-data.ts",
+    "agent-ops:validate": "node plugins/methodnorth-agent-operations/scripts/validate-project.mjs ."
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
