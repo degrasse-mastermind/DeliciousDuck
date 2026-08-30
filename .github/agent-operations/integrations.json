@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "policy": {
+    "direct_role_credentials": false,
+    "executive_dispatch_role": "deliciousduck-team:coo",
+    "external_writes_require_separate_owner_approval": true
+  },
+  "integrations": [
+    {
+      "id": "github-ledger",
+      "type": "github",
+      "status": "enabled",
+      "allowed_actions": ["create-task", "comment-result", "open-review-pull-request"],
+      "prohibited_actions": ["merge", "deploy", "rewrite-history"]
+    },
+    {
+      "id": "chatgpt-coo-callback",
+      "type": "chatgpt-workspace-agent",
+      "status": "pending-credentials",
+      "allowed_actions": ["return-result"],
+      "prohibited_actions": ["publish-agent", "change-agent-settings"]
+    },
+    {
+      "id": "zapier-operations-courier",
+      "type": "zapier",
+      "status": "disabled",
+      "allowed_actions": [
+        "create-approved-task",
+        "create-approved-draft",
+        "send-approved-notification"
+      ],
+      "prohibited_actions": ["publish", "spend", "send-unapproved-message", "change-credentials"]
+    }
+  ]
+}

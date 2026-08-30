@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "task_id": "DD-2026-001",
+  "objective": "Produce an evidence-backed technical health review for the current main branch.",
+  "business_role": "deliciousduck-team:cto",
+  "work_mode": "review",
+  "scope": ["Repository configuration", "Continuous integration and dependency hygiene"],
+  "out_of_scope": ["Production changes", "Deployment", "Credential changes"],
+  "acceptance_criteria": [
+    "Report confirmed findings separately from unknowns",
+    "Link each actionable repository finding to evidence"
+  ],
+  "dependencies": [],
+  "authority": {
+    "repository": "read-only",
+    "external": "none"
+  },
+  "approval": {
+    "status": "approved",
+    "revision": 1,
+    "approved_by": "owner",
+    "approved_at": "2026-08-30T00:00:00Z"
+  }
+}

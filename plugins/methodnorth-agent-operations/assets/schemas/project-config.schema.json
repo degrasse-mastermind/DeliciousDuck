@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://methodnorth.example/schemas/agent-operations-project-config.json",
+  "title": "Agent Operations Project Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project", "approval_policy", "roles"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "task_prefix", "role_namespace", "executive_role"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "task_prefix": { "type": "string", "pattern": "^[A-Z][A-Z0-9]{1,9}$" },
+        "role_namespace": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$" },
+        "executive_role": { "type": "string", "minLength": 3 }
+      }
+    },
+    "approval_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dispatch_requires_owner_approval", "blocked_actions"],
+      "properties": {
+        "dispatch_requires_owner_approval": { "type": "boolean" },
+        "blocked_actions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "slug", "name", "prompt_file", "allowed_modes"],
+        "properties": {
+          "id": { "type": "string", "minLength": 3 },
+          "slug": { "type": "string", "pattern": "^[a-z][a-z0-9-]{1,62}$" },
+          "name": { "type": "string", "minLength": 1 },
+          "prompt_file": {
+            "type": "string",
+            "pattern": "^\\.github/agent-operations/roles/[a-z0-9-]+\\.md$"
+          },
+          "allowed_modes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": { "enum": ["plan", "implement", "review", "qa"] }
+          }
+        }
+      }
+    }
+  }
+}

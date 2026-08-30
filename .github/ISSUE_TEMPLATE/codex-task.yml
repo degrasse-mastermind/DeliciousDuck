@@ -3,14 +3,36 @@ description: Define a scoped, evidence-backed task for a DeliciousDuck agent rol
 title: "[Task] "
 labels: [agent:triage]
 body:
-  - type: dropdown
-    id: role
+  - type: input
+    id: task_id
     attributes:
-      label: Agent role
+      label: Task ID
+      description: Stable identifier in DD-YYYY-NNN format.
+      placeholder: DD-2026-001
+    validations:
+      required: true
+  - type: dropdown
+    id: business_role
+    attributes:
+      label: Accountable business role
       options:
-        - planner
-        - implementer
-        - reviewer
+        - coo
+        - cmo
+        - growth-marketer
+        - content-creator
+        - product-manager
+        - cto
+        - cfo
+    validations:
+      required: true
+  - type: dropdown
+    id: work_mode
+    attributes:
+      label: Delivery mode
+      options:
+        - plan
+        - implement
+        - review
         - qa
     validations:
       required: true
@@ -36,6 +58,19 @@ body:
       placeholder: One verifiable criterion per line.
     validations:
       required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and handoffs
+      description: List predecessor tasks, supporting roles, and the role that receives the result.
+  - type: checkboxes
+    id: approval
+    attributes:
+      label: Owner approval
+      description: Approval is required before this issue is dispatched to an agent.
+      options:
+        - label: I approve dispatch of this exact task contract.
+          required: true
   - type: textarea
     id: evidence
     attributes:

@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "project": {
+    "id": "deliciousduck",
+    "name": "DeliciousDuck",
+    "task_prefix": "DD",
+    "role_namespace": "deliciousduck-team",
+    "executive_role": "deliciousduck-team:coo"
+  },
+  "approval_policy": {
+    "dispatch_requires_owner_approval": true,
+    "blocked_actions": [
+      "merge",
+      "deploy",
+      "publish",
+      "spend",
+      "send-external-message",
+      "change-production-data",
+      "change-credentials",
+      "rewrite-published-history"
+    ]
+  },
+  "roles": [
+    {
+      "id": "deliciousduck-team:coo",
+      "slug": "coo",
+      "name": "COO",
+      "prompt_file": ".github/agent-operations/roles/coo.md",
+      "allowed_modes": ["plan", "review"]
+    },
+    {
+      "id": "deliciousduck-team:cmo",
+      "slug": "cmo",
+      "name": "CMO",
+      "prompt_file": ".github/agent-operations/roles/cmo.md",
+      "allowed_modes": ["plan", "implement", "review"]
+    },
+    {
+      "id": "deliciousduck-team:growth-marketer",
+      "slug": "growth-marketer",
+      "name": "Growth/Digital Marketer",
+      "prompt_file": ".github/agent-operations/roles/growth-marketer.md",
+      "allowed_modes": ["plan", "implement", "review", "qa"]
+    },
+    {
+      "id": "deliciousduck-team:content-creator",
+      "slug": "content-creator",
+      "name": "Content Creator",
+      "prompt_file": ".github/agent-operations/roles/content-creator.md",
+      "allowed_modes": ["plan", "implement", "review", "qa"]
+    },
+    {
+      "id": "deliciousduck-team:product-manager",
+      "slug": "product-manager",
+      "name": "Product Manager",
+      "prompt_file": ".github/agent-operations/roles/product-manager.md",
+      "allowed_modes": ["plan", "implement", "review", "qa"]
+    },
+    {
+      "id": "deliciousduck-team:cto",
+      "slug": "cto",
+      "name": "CTO",
+      "prompt_file": ".github/agent-operations/roles/cto.md",
+      "allowed_modes": ["plan", "implement", "review", "qa"]
+    },
+    {
+      "id": "deliciousduck-team:cfo",
+      "slug": "cfo",
+      "name": "CFO",
+      "prompt_file": ".github/agent-operations/roles/cfo.md",
+      "allowed_modes": ["plan", "implement", "review"]
+    }
+  ]
+}
