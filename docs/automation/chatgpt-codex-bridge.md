@@ -81,6 +81,8 @@ Send a trusted GitHub REST request to `POST /repos/degrasse-mastermind/Delicious
 
 Every repeated dispatch field must match the contract. The bridge fails before Codex when the task ID, role, mode, approved revision, approval owner, approval timestamp, issue number, conversation key, or callback approval diverges. A callback approval of `false` prevents transmission even when a conversation key and credentials exist. Only a trusted ChatGPT plugin/MCP tool or server-side automation should hold the GitHub credential that sends this request. Do not place a GitHub token in a chat, issue body, client-side app, Codespace image, or repository file.
 
+Manual `workflow_dispatch` stays within GitHub's ten-input limit by taking the conversation key only from the complete approved task contract. Repository dispatches must still repeat the conversation key in `client_payload`, where it is cross-checked against the contract. The validated repository authority also controls the Codex sandbox: `implement` requires `pull-request`, while `plan`, `review`, and `qa` require `read-only`.
+
 ## Workspace Agent callback outcomes
 
 The callback requests beta run tracking with `OpenAI-Beta: workspace_agent_runs=v1`. A trigger is accepted only on HTTP `202`. The bridge classifies `401` as unauthenticated, `403` as forbidden, `404` as not found, and `409` as not runnable, without printing the response body. Accepted triggers must return a safe ChatGPT conversation URL and an `apirun_...` identifier. The bridge polls that run with bounded retries and marks the workflow successful only when the run reaches `completed`.

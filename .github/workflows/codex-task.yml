@@ -47,10 +47,6 @@ on:
         description: GitHub issue number bound to the approved task contract
         required: true
         type: string
-      conversation_key:
-        description: Stable conversation key bound to the contract; does not authorize callback
-        required: true
-        type: string
   repository_dispatch:
     types: [codex-task]
 
@@ -97,7 +93,8 @@ jobs:
           OWNER_APPROVED: ${{ github.event.client_payload.owner_approved || inputs.owner_approved }}
           CALLBACK_APPROVED: ${{ github.event.client_payload.callback_approved || inputs.callback_approved }}
           ISSUE_NUMBER: ${{ github.event.client_payload.issue_number || inputs.issue_number }}
-          CONVERSATION_KEY: ${{ github.event.client_payload.conversation_key || inputs.conversation_key }}
+          CONVERSATION_KEY: ${{ github.event.client_payload.conversation_key }}
+          DISPATCH_EVENT: ${{ github.event_name }}
           PROMPT_OUTPUT: ${{ runner.temp }}/codex-prompt.md
         run: node plugins/methodnorth-agent-operations/scripts/prepare-task.mjs
 
@@ -108,7 +105,7 @@ jobs:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt-file: ${{ runner.temp }}/codex-prompt.md
           output-file: ${{ runner.temp }}/codex-output.md
-          sandbox: ${{ steps.prepare.outputs.work-mode == 'implement' && 'workspace-write' || 'read-only' }}
+          sandbox: ${{ steps.prepare.outputs.repository-authority == 'pull-request' && 'workspace-write' || 'read-only' }}
           effort: high
           safety-strategy: drop-sudo
           allow-users: degrasse-mastermind

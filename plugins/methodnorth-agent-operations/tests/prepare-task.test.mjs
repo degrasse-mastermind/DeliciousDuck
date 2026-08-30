@@ -53,6 +53,39 @@ describe("task contract validation", () => {
   });
 
   it.each([
+    ["implement", "read-only", "pull-request"],
+    ["implement", "working-tree", "pull-request"],
+    ["plan", "pull-request", "read-only"],
+    ["review", "working-tree", "read-only"],
+    ["qa", "pull-request", "read-only"],
+  ])(
+    "rejects %s mode with %s repository authority",
+    (workMode, repositoryAuthority, requiredAuthority) => {
+      expect(() =>
+        validateTaskContract(
+          {
+            ...contract,
+            work_mode: workMode,
+            authority: { ...contract.authority, repository: repositoryAuthority },
+          },
+          { ...expected, workMode },
+        ),
+      ).toThrow(`authority.repository must be ${requiredAuthority} for ${workMode} mode`);
+    },
+  );
+
+  it.each(["plan", "review", "qa"])("accepts read-only authority for %s mode", (workMode) => {
+    const readOnlyContract = {
+      ...contract,
+      work_mode: workMode,
+      authority: { ...contract.authority, repository: "read-only" },
+    };
+    expect(validateTaskContract(readOnlyContract, { ...expected, workMode })).toEqual(
+      readOnlyContract,
+    );
+  });
+
+  it.each([
     ["task_id", "DD-2026-999", "task_id does not match"],
     ["business_role", "deliciousduck-team:cmo", "business_role does not match"],
     ["work_mode", "review", "work_mode does not match"],
@@ -157,6 +190,14 @@ describe("task prompt preparation", () => {
     expect(workflow).toContain("PUBLISH_RESULT: ${{ needs.publish-changes.result }}");
     expect(workflow).toContain("PR_URL: ${{ needs.publish-changes.outputs.pull-request-url }}");
     expect(workflow).toContain("steps.reconcile.outputs.overall-status != 'completed'");
+    const manualInputs = workflow
+      .slice(workflow.indexOf("  workflow_dispatch:"), workflow.indexOf("  repository_dispatch:"))
+      .match(/^      [a-z_]+:$/gm);
+    expect(manualInputs).toHaveLength(10);
+    expect(workflow).toContain("DISPATCH_EVENT: ${{ github.event_name }}");
+    expect(workflow).toContain(
+      "sandbox: ${{ steps.prepare.outputs.repository-authority == 'pull-request' && 'workspace-write' || 'read-only' }}",
+    );
   });
 
   it("writes a prompt only after the approval gate and dispatch fields match", async () => {
@@ -184,10 +225,46 @@ describe("task prompt preparation", () => {
     await prepareTask(environment);
     expect(await readFile(promptPath, "utf8")).toContain(JSON.stringify(contract, null, 2));
     expect(await readFile(outputPath, "utf8")).toContain("task-revision=1");
+    expect(await readFile(outputPath, "utf8")).toContain("repository-authority=pull-request");
 
     await expect(prepareTask({ ...environment, OWNER_APPROVED: "false" })).rejects.toThrow(
       "Owner approval is required",
     );
     await expect(prepareTask({ ...environment, TASK_CONTRACT: "{" })).rejects.toThrow("valid JSON");
+  });
+
+  it("uses the contract conversation key for manual dispatch but requires it to be repeated for repository dispatch", async () => {
+    const directory = await mkdtemp(join(tmpdir(), "dd-agent-ops-dispatch-"));
+    temporaryDirectories.push(directory);
+    const common = {
+      GITHUB_WORKSPACE: process.cwd(),
+      BUSINESS_ROLE: "cto",
+      WORK_MODE: "implement",
+      TASK_ID: "DD-2026-002",
+      APPROVED_REVISION: "1",
+      APPROVED_BY: "repository-owner",
+      APPROVED_AT: "2026-08-30T12:50:03Z",
+      TASK_CONTRACT: JSON.stringify(contract),
+      OWNER_APPROVED: "true",
+      CALLBACK_APPROVED: "false",
+      ISSUE_NUMBER: "18",
+      PROMPT_OUTPUT: join(directory, "prompt.md"),
+    };
+
+    const manualOutput = join(directory, "manual-output.txt");
+    await prepareTask({
+      ...common,
+      DISPATCH_EVENT: "workflow_dispatch",
+      GITHUB_OUTPUT: manualOutput,
+    });
+    expect(await readFile(manualOutput, "utf8")).toContain("conversation-key=dd-2026-002");
+
+    await expect(
+      prepareTask({
+        ...common,
+        DISPATCH_EVENT: "repository_dispatch",
+        GITHUB_OUTPUT: join(directory, "repository-output.txt"),
+      }),
+    ).rejects.toThrow("conversation_key does not match dispatch");
   });
 });

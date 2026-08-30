@@ -81,6 +81,12 @@ export function validateTaskContract(contract, expected) {
     repositoryAuthorities.has(contract.authority.repository),
     "authority.repository is invalid",
   );
+  const requiredRepositoryAuthority =
+    contract.work_mode === "implement" ? "pull-request" : "read-only";
+  assert(
+    contract.authority.repository === requiredRepositoryAuthority,
+    `authority.repository must be ${requiredRepositoryAuthority} for ${contract.work_mode} mode`,
+  );
   assert(externalAuthorities.has(contract.authority.external), "authority.external is invalid");
 
   assert(contract.approval && typeof contract.approval === "object", "approval is invalid");
@@ -170,7 +176,6 @@ export async function prepareTask(environment = process.env) {
   const workMode = environment.WORK_MODE ?? "";
   const taskId = environment.TASK_ID ?? "";
   const issueNumber = environment.ISSUE_NUMBER ?? "";
-  const conversationKey = environment.CONVERSATION_KEY ?? "";
   const approvedRevisionText = environment.APPROVED_REVISION ?? "";
   const approvedBy = environment.APPROVED_BY ?? "";
   const approvedAt = environment.APPROVED_AT ?? "";
@@ -189,8 +194,6 @@ export async function prepareTask(environment = process.env) {
   if (!/^[0-9]+$/.test(approvedRevisionText))
     throw new Error("Approved revision must contain digits only");
   if (!/^[0-9]+$/.test(issueNumber)) throw new Error("Issue number must contain digits only");
-  if (conversationKey.includes("\n") || conversationKey.includes("\r"))
-    throw new Error("Conversation key must be a single line");
 
   let contract;
   try {
@@ -198,6 +201,10 @@ export async function prepareTask(environment = process.env) {
   } catch {
     throw new Error("Task contract must be valid JSON");
   }
+  const conversationKey =
+    environment.DISPATCH_EVENT === "repository_dispatch"
+      ? (environment.CONVERSATION_KEY ?? "")
+      : (contract?.conversation_key ?? "");
 
   validateTaskContract(contract, {
     taskId,
@@ -231,7 +238,7 @@ export async function prepareTask(environment = process.env) {
   if (environment.GITHUB_OUTPUT) {
     await writeFile(
       environment.GITHUB_OUTPUT,
-      `business-role=${roleId}\nwork-mode=${workMode}\ntask-id=${taskId}\ntask-revision=${contract.approval.revision}\nissue-number=${issueNumber}\nconversation-key=${conversationKey}\ncallback-approved=${contract.callback.approved}\ncallback-idempotency-key=${contract.callback.idempotency_key ?? ""}\n`,
+      `business-role=${roleId}\nwork-mode=${workMode}\nrepository-authority=${contract.authority.repository}\ntask-id=${taskId}\ntask-revision=${contract.approval.revision}\nissue-number=${issueNumber}\nconversation-key=${conversationKey}\ncallback-approved=${contract.callback.approved}\ncallback-idempotency-key=${contract.callback.idempotency_key ?? ""}\n`,
       { flag: "a" },
     );
   }
