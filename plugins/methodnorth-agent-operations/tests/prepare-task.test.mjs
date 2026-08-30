@@ -171,16 +171,25 @@ describe("task prompt preparation", () => {
     expect(prompt).toContain('"issue_number": 18');
   });
 
-  it("keeps callback transmission behind the separate validated approval output", async () => {
+  it("keeps durable routing outside the time-limited Codex job", async () => {
     const workflow = await readFile(
       join(process.cwd(), ".github/workflows/codex-task.yml"),
       "utf8",
     );
     expect(workflow).toContain("CALLBACK_APPROVED:");
-    expect(workflow).toContain("if: needs.codex.outputs.callback-approved == 'true'");
+    expect(workflow).toContain("name: validate-approved-task");
+    expect(workflow).toContain("needs: prepare");
+    expect(workflow).toContain("needs: [prepare, codex, publish-changes]");
     expect(workflow).toContain(
-      "IDEMPOTENCY_KEY: ${{ needs.codex.outputs.callback-idempotency-key }}",
+      "if: always() && needs.prepare.result == 'success' && needs.codex.result != 'skipped'",
     );
+    expect(workflow).toContain("if: needs.prepare.outputs.callback-approved == 'true'");
+    expect(workflow).toContain(
+      "IDEMPOTENCY_KEY: ${{ needs.prepare.outputs.callback-idempotency-key }}",
+    );
+    expect(workflow).toContain("ISSUE_NUMBER: ${{ needs.prepare.outputs.issue-number }}");
+    expect(workflow).not.toContain("needs.codex.outputs.callback-approved");
+    expect(workflow).not.toContain("needs.codex.outputs.issue-number");
     expect(workflow).toContain("return-workspace-agent-result.mjs");
     expect(workflow).toContain("continue-on-error: true");
     expect(workflow).toContain("reconcile-agent-result.mjs");
@@ -196,8 +205,13 @@ describe("task prompt preparation", () => {
     expect(manualInputs).toHaveLength(10);
     expect(workflow).toContain("DISPATCH_EVENT: ${{ github.event_name }}");
     expect(workflow).toContain(
-      "sandbox: ${{ steps.prepare.outputs.repository-authority == 'pull-request' && 'workspace-write' || 'read-only' }}",
+      "sandbox: ${{ needs.prepare.outputs.repository-authority == 'pull-request' && 'workspace-write' || 'read-only' }}",
     );
+    expect(
+      workflow.match(
+        /run: node plugins\/methodnorth-agent-operations\/scripts\/prepare-task\.mjs/g,
+      ),
+    ).toHaveLength(2);
   });
 
   it("writes a prompt only after the approval gate and dispatch fields match", async () => {

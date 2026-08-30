@@ -38,7 +38,11 @@ export function reconcileAgentResult({
     : "not-required";
   let normalizedCallbackStatus = "not-approved";
   if (callbackApproved) {
-    normalizedCallbackStatus = callbackStatuses.has(callbackStatus) ? callbackStatus : "blocked";
+    normalizedCallbackStatus = callbackStatus
+      ? callbackStatuses.has(callbackStatus)
+        ? callbackStatus
+        : "blocked"
+      : "not-attempted";
   }
 
   let overallStatus =

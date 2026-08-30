@@ -39,11 +39,22 @@ describe("final task-ledger reconciliation", () => {
     expect(result.markdown).toContain(`Overall status: **${overallStatus}**`);
   });
 
-  it("fails closed when an approved callback has no recognized result", () => {
+  it("distinguishes an approved callback with no attempt result from not approved", () => {
     const result = reconcileAgentResult({
       ...base,
       callbackApproved: true,
       callbackStatus: "",
+    });
+    expect(result.callbackStatus).toBe("not-attempted");
+    expect(result.overallStatus).toBe("blocked");
+    expect(result.markdown).toContain("Callback status: **not-attempted**");
+  });
+
+  it("fails closed when an approved callback has an unrecognized result", () => {
+    const result = reconcileAgentResult({
+      ...base,
+      callbackApproved: true,
+      callbackStatus: "unexpected",
     });
     expect(result.callbackStatus).toBe("blocked");
     expect(result.overallStatus).toBe("blocked");
@@ -57,6 +68,20 @@ describe("final task-ledger reconciliation", () => {
     });
     expect(result.overallStatus).toBe("failed");
   });
+
+  it.each(["cancelled", "timed-out", "failure"])(
+    "keeps an approved callback distinct when Codex is %s and no callback output exists",
+    (codexStatus) => {
+      const result = reconcileAgentResult({
+        ...base,
+        codexStatus,
+        callbackApproved: true,
+        callbackStatus: "",
+      });
+      expect(result.callbackStatus).toBe("not-attempted");
+      expect(result.overallStatus).toBe("failed");
+    },
+  );
 
   it("completes required implementation publishing only with a successful job and valid PR URL", () => {
     const result = reconcileAgentResult({
