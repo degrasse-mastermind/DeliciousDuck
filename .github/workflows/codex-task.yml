@@ -1,0 +1,206 @@
+name: Codex task bridge
+
+on:
+  workflow_dispatch:
+    inputs:
+      role:
+        description: Agent role
+        required: true
+        type: choice
+        options: [planner, implementer, reviewer, qa]
+      task:
+        description: Scoped task and acceptance criteria
+        required: true
+        type: string
+      issue_number:
+        description: Optional GitHub issue number for the result
+        required: false
+        type: string
+      conversation_key:
+        description: Optional ChatGPT Workspace Agent conversation key
+        required: false
+        type: string
+  repository_dispatch:
+    types: [codex-task]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codex-task-${{ github.event.client_payload.conversation_key || inputs.conversation_key || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  codex:
+    name: run-${{ github.event.client_payload.role || inputs.role }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    outputs:
+      final-message: ${{ steps.run-codex.outputs.final-message }}
+      has-changes: ${{ steps.capture.outputs.has-changes }}
+      role: ${{ steps.prepare.outputs.role }}
+      issue-number: ${{ steps.prepare.outputs.issue-number }}
+      conversation-key: ${{ steps.prepare.outputs.conversation-key }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Prepare trusted role prompt
+        id: prepare
+        shell: bash
+        env:
+          REQUESTED_ROLE: ${{ github.event.client_payload.role || inputs.role }}
+          REQUESTED_TASK: ${{ github.event.client_payload.task || inputs.task }}
+          ISSUE_NUMBER: ${{ github.event.client_payload.issue_number || inputs.issue_number }}
+          CONVERSATION_KEY: ${{ github.event.client_payload.conversation_key || inputs.conversation_key }}
+        run: |
+          case "$REQUESTED_ROLE" in
+            planner|implementer|reviewer|qa) role="$REQUESTED_ROLE" ;;
+            *) echo "Unsupported role: $REQUESTED_ROLE" >&2; exit 2 ;;
+          esac
+          cp ".github/codex/prompts/$role.md" "$RUNNER_TEMP/codex-prompt.md"
+          printf '\n## Task from the trusted dispatcher\n\n%s\n' "$REQUESTED_TASK" >> "$RUNNER_TEMP/codex-prompt.md"
+          printf 'role=%s\n' "$role" >> "$GITHUB_OUTPUT"
+          printf 'issue-number=%s\n' "$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
+          printf 'conversation-key=%s\n' "$CONVERSATION_KEY" >> "$GITHUB_OUTPUT"
+
+      - name: Run Codex
+        id: run-codex
+        uses: openai/codex-action@86365089eb2b84e0a8fb0717b304f8bdcb13b20e # v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: ${{ runner.temp }}/codex-prompt.md
+          output-file: ${{ runner.temp }}/codex-output.md
+          sandbox: ${{ steps.prepare.outputs.role == 'implementer' && 'workspace-write' || 'read-only' }}
+          effort: high
+          safety-strategy: drop-sudo
+          allow-users: degrasse-mastermind
+
+      - name: Capture implementation patch
+        id: capture
+        if: steps.prepare.outputs.role == 'implementer'
+        shell: bash
+        run: |
+          git diff --binary -- . > "$RUNNER_TEMP/codex.patch"
+          if [[ -s "$RUNNER_TEMP/codex.patch" ]]; then
+            echo "has-changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has-changes=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload implementation patch
+        if: steps.capture.outputs.has-changes == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: codex-patch-${{ github.run_id }}
+          path: ${{ runner.temp }}/codex.patch
+          if-no-files-found: error
+          retention-days: 7
+
+  publish-changes:
+    name: open-implementation-pr
+    needs: codex
+    if: needs.codex.outputs.role == 'implementer' && needs.codex.outputs.has-changes == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    outputs:
+      pull-request-url: ${{ steps.pr.outputs.url }}
+    steps:
+      - name: Check out main
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Download implementation patch
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: codex-patch-${{ github.run_id }}
+          path: ${{ runner.temp }}
+
+      - name: Apply, commit, and push review branch
+        id: branch
+        shell: bash
+        run: |
+          branch="codex/implementer-${GITHUB_RUN_ID}"
+          git switch -c "$branch"
+          git apply --index --3way "$RUNNER_TEMP/codex.patch"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: apply Codex implementer task"
+          git push --set-upstream origin "$branch"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Open pull request
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ steps.branch.outputs.branch }}
+        shell: bash
+        run: |
+          url="$(gh pr create --base main --head "$BRANCH" --title "Codex implementer task" --body "Automated Codex implementation from workflow run $GITHUB_RUN_ID. Review and merge only after CI and human review.")"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+  report:
+    name: report-result
+    needs: [codex, publish-changes]
+    if: always() && needs.codex.result != 'skipped'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      issues: write
+    steps:
+      - name: Build result
+        shell: bash
+        env:
+          ROLE: ${{ needs.codex.outputs.role }}
+          FINAL_MESSAGE: ${{ needs.codex.outputs.final-message }}
+          PR_URL: ${{ needs.publish-changes.outputs.pull-request-url }}
+          CODEX_RESULT: ${{ needs.codex.result }}
+        run: |
+          {
+            printf '## Codex %s result\n\n' "${ROLE:-unknown}"
+            printf 'Workflow status: **%s**\n\n' "$CODEX_RESULT"
+            if [[ -n "$PR_URL" ]]; then printf 'Implementation PR: %s\n\n' "$PR_URL"; fi
+            printf '%s\n' "${FINAL_MESSAGE:-No final message was produced. Inspect the workflow logs.}"
+          } > "$RUNNER_TEMP/result.md"
+          cat "$RUNNER_TEMP/result.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on linked issue
+        if: needs.codex.outputs.issue-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ needs.codex.outputs.issue-number }}
+        run: gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/result.md"
+
+      - name: Return result to ChatGPT Workspace Agent
+        if: needs.codex.outputs.conversation-key != ''
+        env:
+          CHATGPT_AGENT_ACCESS_TOKEN: ${{ secrets.CHATGPT_AGENT_ACCESS_TOKEN }}
+          CHATGPT_AGENT_ID: ${{ vars.CHATGPT_AGENT_ID }}
+          CONVERSATION_KEY: ${{ needs.codex.outputs.conversation-key }}
+        shell: bash
+        run: |
+          if [[ -z "$CHATGPT_AGENT_ACCESS_TOKEN" || -z "$CHATGPT_AGENT_ID" ]]; then
+            echo "ChatGPT callback not configured; result remains in GitHub." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          jq -n \
+            --arg conversation_key "$CONVERSATION_KEY" \
+            --rawfile input "$RUNNER_TEMP/result.md" \
+            '{conversation_key: $conversation_key, input: $input}' > "$RUNNER_TEMP/chatgpt-callback.json"
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Authorization: Bearer $CHATGPT_AGENT_ACCESS_TOKEN" \
+            --header "Content-Type: application/json" \
+            --header "Idempotency-Key: $GITHUB_RUN_ID" \
+            --data-binary @"$RUNNER_TEMP/chatgpt-callback.json" \
+            "https://api.chatgpt.com/v1/workspace_agents/$CHATGPT_AGENT_ID/trigger" \
+            > "$RUNNER_TEMP/chatgpt-callback-response.json"
+          jq -r '"ChatGPT callback queued: " + (.conversation_url // "URL not returned")' "$RUNNER_TEMP/chatgpt-callback-response.json" >> "$GITHUB_STEP_SUMMARY"

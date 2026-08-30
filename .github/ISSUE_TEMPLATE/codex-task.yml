@@ -1,0 +1,43 @@
+name: Codex task
+description: Define a scoped, evidence-backed task for a DeliciousDuck agent role.
+title: "[Task] "
+labels: [agent:triage]
+body:
+  - type: dropdown
+    id: role
+    attributes:
+      label: Agent role
+      options:
+        - planner
+        - implementer
+        - reviewer
+        - qa
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe the result, not just the activity.
+      placeholder: What should be true when this task is complete?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and constraints
+      description: Include files, systems, publication boundaries, and actions that are not authorized.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: One verifiable criterion per line.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Source context
+      description: Link plans, screenshots, prior decisions, or production evidence. Do not paste secrets.

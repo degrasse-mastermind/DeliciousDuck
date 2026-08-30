@@ -21,6 +21,24 @@ npm i
 npm run dev
 ```
 
+This repository is Bun-managed. For an exact local setup on Windows, clone the repository and run:
+
+```powershell
+.\codex-setup.ps1
+bun run dev -- --host 0.0.0.0
+```
+
+GitHub Codespaces is configured under `.devcontainer/` and runs the locked install, type-check, and production build when the container is created.
+
+## Development automation
+
+- Pull requests and `main` run type-check, Vitest, and a production build.
+- CodeQL scans JavaScript/TypeScript changes and runs weekly.
+- Dependabot groups routine npm and GitHub Actions updates.
+- Project-scoped Codex roles live in `.codex/agents/`.
+- The optional ChatGPT ↔ Codex workflow is documented in [docs/automation/chatgpt-codex-bridge.md](docs/automation/chatgpt-codex-bridge.md).
+- Releases use semantic tags (`vMAJOR.MINOR.PATCH`) and are validated before GitHub release notes are created.
+
 ## Built with
 
 - TanStack Start
