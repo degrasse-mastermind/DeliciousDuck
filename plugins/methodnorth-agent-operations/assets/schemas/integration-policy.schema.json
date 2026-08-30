@@ -26,11 +26,42 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "type", "status", "allowed_actions", "prohibited_actions"],
+        "required": [
+          "id",
+          "type",
+          "status",
+          "configuration_status",
+          "verification",
+          "allowed_actions",
+          "prohibited_actions"
+        ],
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
           "type": { "type": "string", "minLength": 1 },
           "status": { "enum": ["enabled", "disabled", "pending-credentials"] },
+          "configuration_status": { "enum": ["configured", "not-configured"] },
+          "verification": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["status"],
+            "properties": {
+              "status": { "enum": ["not-tested", "verified", "blocked"] },
+              "reason_code": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]{1,80}$"
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": { "status": { "const": "blocked" } },
+                  "required": ["status"]
+                },
+                "then": { "required": ["reason_code"] },
+                "else": { "not": { "required": ["reason_code"] } }
+              }
+            ]
+          },
           "allowed_actions": {
             "type": "array",
             "uniqueItems": true,

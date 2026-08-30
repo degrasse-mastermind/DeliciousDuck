@@ -20,5 +20,10 @@
     "revision": 1,
     "approved_by": "owner",
     "approved_at": "2026-08-30T00:00:00Z"
-  }
+  },
+  "callback": {
+    "approved": false
+  },
+  "conversation_key": "dd-2026-001",
+  "issue_number": 123
 }

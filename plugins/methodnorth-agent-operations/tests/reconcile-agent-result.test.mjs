@@ -1,0 +1,115 @@
+import { describe, expect, it } from "vitest";
+import { reconcileAgentResult } from "../scripts/reconcile-agent-result.mjs";
+
+const base = {
+  baseResult: "## DD-2026-002\n\nCodex task status: **success**\n",
+  codexStatus: "success",
+  workMode: "review",
+  hasChanges: false,
+  publishResult: "skipped",
+  pullRequestUrl: "",
+};
+
+describe("final task-ledger reconciliation", () => {
+  it("records no callback approval without transmitting or downgrading a successful task", () => {
+    const result = reconcileAgentResult({ ...base, callbackApproved: false });
+    expect(result.callbackStatus).toBe("not-approved");
+    expect(result.publishingStatus).toBe("not-required");
+    expect(result.overallStatus).toBe("completed");
+    expect(result.markdown).toContain("Publishing status: **not-required**");
+    expect(result.markdown).toContain("Callback status: **not-approved**");
+    expect(result.markdown).toContain("Overall status: **completed**");
+  });
+
+  it.each([
+    ["completed", "completed"],
+    ["blocked", "blocked"],
+    ["timed-out", "blocked"],
+    ["failed", "failed"],
+  ])("reconciles callback %s to overall %s", (callbackStatus, overallStatus) => {
+    const result = reconcileAgentResult({
+      ...base,
+      callbackApproved: true,
+      callbackStatus,
+      callbackDetail: "safe-classification",
+    });
+    expect(result.callbackStatus).toBe(callbackStatus);
+    expect(result.overallStatus).toBe(overallStatus);
+    expect(result.markdown).toContain(`Callback status: **${callbackStatus}**`);
+    expect(result.markdown).toContain(`Overall status: **${overallStatus}**`);
+  });
+
+  it("fails closed when an approved callback has no recognized result", () => {
+    const result = reconcileAgentResult({
+      ...base,
+      callbackApproved: true,
+      callbackStatus: "",
+    });
+    expect(result.callbackStatus).toBe("blocked");
+    expect(result.overallStatus).toBe("blocked");
+  });
+
+  it("never masks a failed Codex task as completed", () => {
+    const result = reconcileAgentResult({
+      ...base,
+      codexStatus: "failure",
+      callbackApproved: false,
+    });
+    expect(result.overallStatus).toBe("failed");
+  });
+
+  it("completes required implementation publishing only with a successful job and valid PR URL", () => {
+    const result = reconcileAgentResult({
+      ...base,
+      workMode: "implement",
+      hasChanges: true,
+      publishResult: "success",
+      pullRequestUrl: "https://github.com/degrasse-mastermind/DeliciousDuck/pull/19",
+      callbackApproved: false,
+    });
+    expect(result.publishingStatus).toBe("completed");
+    expect(result.overallStatus).toBe("completed");
+  });
+
+  it.each([
+    ["failure", "https://github.com/degrasse-mastermind/DeliciousDuck/pull/19"],
+    ["success", ""],
+    ["success", "https://example.com/degrasse-mastermind/DeliciousDuck/pull/19"],
+  ])("fails required publishing for result %s and URL %s", (publishResult, pullRequestUrl) => {
+    const result = reconcileAgentResult({
+      ...base,
+      workMode: "implement",
+      hasChanges: true,
+      publishResult,
+      pullRequestUrl,
+      callbackApproved: false,
+    });
+    expect(result.publishingStatus).toBe("failed");
+    expect(result.overallStatus).toBe("failed");
+  });
+
+  it("does not require publishing when implementation produced no changes", () => {
+    const result = reconcileAgentResult({
+      ...base,
+      workMode: "implement",
+      hasChanges: false,
+      callbackApproved: false,
+    });
+    expect(result.publishingStatus).toBe("not-required");
+    expect(result.overallStatus).toBe("completed");
+  });
+
+  it("does not downgrade a publishing failure to blocked", () => {
+    const result = reconcileAgentResult({
+      ...base,
+      workMode: "implement",
+      hasChanges: true,
+      publishResult: "failure",
+      pullRequestUrl: "",
+      callbackApproved: true,
+      callbackStatus: "blocked",
+    });
+    expect(result.publishingStatus).toBe("failed");
+    expect(result.overallStatus).toBe("failed");
+  });
+});

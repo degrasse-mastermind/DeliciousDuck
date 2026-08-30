@@ -14,6 +14,7 @@ Required fields:
 - `authority`: allowed repository and external actions.
 - `approval`: owner identity, status, timestamp, and approved revision.
 - `conversation_key`: stable callback thread identifier when configured.
+- `callback`: separate external-write approval plus an idempotency key when the result may be returned to a Workspace Agent. A conversation key alone never authorizes transmission.
 
 Task states:
 
@@ -24,3 +25,4 @@ Task states:
 Specialist results must identify the task, role, work mode, status, summary, deliverables, validation evidence, risks, blockers, and requested owner decisions. Do not mark acceptance criteria complete without evidence.
 
 Use one idempotency key per task revision and action. Never reuse it for a materially changed request.
+The dispatch callback flag must exactly match the contract. An unapproved callback must not carry an idempotency key or run, even when credentials and a conversation key are configured.
