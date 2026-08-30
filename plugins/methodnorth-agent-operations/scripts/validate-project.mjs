@@ -10,10 +10,11 @@ const integrations = JSON.parse(
 const errors = [];
 
 if (config.schema_version !== "1.0") errors.push("schema_version must be 1.0");
-if (!config.project?.id) errors.push("project.id is required");
+if (!/^[a-z][a-z0-9-]{1,62}$/.test(config.project?.id ?? "")) errors.push("project.id is invalid");
 if (!/^[A-Z][A-Z0-9]{1,9}$/.test(config.project?.task_prefix ?? ""))
   errors.push("project.task_prefix is invalid");
-if (!config.project?.role_namespace) errors.push("project.role_namespace is required");
+if (!/^[a-z][a-z0-9-]{1,62}$/.test(config.project?.role_namespace ?? ""))
+  errors.push("project.role_namespace is invalid");
 if (!Array.isArray(config.roles) || config.roles.length === 0)
   errors.push("at least one role is required");
 if (integrations.schema_version !== "1.0")

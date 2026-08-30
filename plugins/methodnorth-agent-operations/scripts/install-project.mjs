@@ -11,15 +11,36 @@ for (let index = 2; index < process.argv.length; index += 2) {
 }
 
 const target = resolve(args.get("target") ?? process.cwd());
-const projectId =
-  args.get("project-id") ??
-  basename(target)
+const identifierPattern = /^[a-z][a-z0-9-]{1,62}$/;
+
+function normalizeDefaultIdentifier(value) {
+  let normalized = value
     .toLowerCase()
-    .replace(/[^a-z0-9-]/g, "-");
+    .replace(/[^a-z0-9-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  if (!/^[a-z]/.test(normalized)) normalized = `project-${normalized || "installation"}`;
+  normalized = normalized.slice(0, 63).replace(/-+$/g, "");
+  return normalized.length >= 2 ? normalized : `${normalized}-project`;
+}
+
+const projectId = args.get("project-id") ?? normalizeDefaultIdentifier(basename(target));
 const projectName = args.get("project-name") ?? basename(target);
 const taskPrefix = (args.get("task-prefix") ?? "TASK").toUpperCase();
-const roleNamespace = args.get("role-namespace") ?? `${projectId}-team`;
+const roleNamespace = args.get("role-namespace") ?? normalizeDefaultIdentifier(`${projectId}-team`);
 const force = args.get("force") === "true";
+
+if (!identifierPattern.test(projectId))
+  throw new Error(
+    "project-id must start with a letter and contain 2-63 lowercase letters, digits, or hyphens",
+  );
+if (!identifierPattern.test(roleNamespace))
+  throw new Error(
+    "role-namespace must start with a letter and contain 2-63 lowercase letters, digits, or hyphens",
+  );
+if (!/^[A-Z][A-Z0-9]{1,9}$/.test(taskPrefix))
+  throw new Error(
+    "task-prefix must start with a letter and contain 2-10 uppercase letters or digits",
+  );
 const configDir = resolve(target, ".github/agent-operations");
 const rolesDir = resolve(configDir, "roles");
 const configPath = resolve(configDir, "project.json");

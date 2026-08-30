@@ -47,9 +47,18 @@
       "properties": {
         "status": { "enum": ["draft", "approved", "declined", "revoked"] },
         "revision": { "type": "integer", "minimum": 1 },
-        "approved_by": { "type": "string" },
+        "approved_by": { "type": "string", "minLength": 1 },
         "approved_at": { "type": "string", "format": "date-time" }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "status": { "const": "approved" } },
+            "required": ["status"]
+          },
+          "then": { "required": ["approved_by", "approved_at"] }
+        }
+      ]
     },
     "conversation_key": { "type": "string", "pattern": "^[A-Za-z0-9._:-]{1,160}$" },
     "issue_number": { "type": "integer", "minimum": 1 }
