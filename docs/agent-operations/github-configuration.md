@@ -14,10 +14,13 @@ Verified on August 30, 2026.
 - Codespaces detects `.devcontainer/devcontainer.json`, installs with Bun's frozen lockfile, and runs typecheck and build during setup.
 - Role and delivery-mode labels exist alongside the existing task labels.
 
+## Configured but not fully activated
+
+- The Workspace Agent callback credentials and API channel are configured, but end-to-end activation is not yet verified. The first controlled callback delivered its input and returned `409` because the agent run was not in a runnable state. Do not retry until the bridge-hardening change is reviewed and merged and a new callback action is explicitly approved.
+
 ## Intentionally not configured yet
 
 - No generic repository webhook exists because there is no approved receiver. Add one only with a concrete HTTPS endpoint, signature verification, delivery deduplication, and a narrow event list.
-- The Workspace Agent callback remains inactive until `CHATGPT_AGENT_ACCESS_TOKEN` and `CHATGPT_AGENT_ID` are configured.
 - Zapier remains disabled in the integration policy until the private operations plugin, action allowlist, destination allowlist, and approval receipt are ready.
 - No Codespaces API key is stored. Create a separate project-scoped key for Codespaces rather than copying the local-development key.
 - No release tag exists yet. Create a semantic tag only for an intentional, validated release.

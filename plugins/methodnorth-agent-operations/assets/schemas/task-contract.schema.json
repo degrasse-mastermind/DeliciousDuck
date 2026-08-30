@@ -15,7 +15,10 @@
     "acceptance_criteria",
     "dependencies",
     "authority",
-    "approval"
+    "approval",
+    "callback",
+    "conversation_key",
+    "issue_number"
   ],
   "properties": {
     "schema_version": { "const": "1.0" },
@@ -57,6 +60,28 @@
             "required": ["status"]
           },
           "then": { "required": ["approved_by", "approved_at"] }
+        }
+      ]
+    },
+    "callback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approved"],
+      "properties": {
+        "approved": { "type": "boolean" },
+        "idempotency_key": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{1,200}$"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "approved": { "const": true } },
+            "required": ["approved"]
+          },
+          "then": { "required": ["idempotency_key"] },
+          "else": { "not": { "required": ["idempotency_key"] } }
         }
       ]
     },

@@ -6,12 +6,12 @@ This repository is the first project installation of a reusable, COO-led operati
 
 1. Discuss an objective with the COO in ChatGPT.
 2. The COO drafts a stable task contract with a task ID, accountable business role, delivery mode, scope, acceptance criteria, dependencies, and prohibited actions.
-3. The owner approves the exact contract.
-4. GitHub dispatches the task to the selected role. The workflow combines that role's charter with a delivery prompt for `plan`, `implement`, `review`, or `qa`.
+3. The owner approves the exact contract revision in the durable ledger.
+4. GitHub dispatches the complete structured contract to the selected role. Before Codex starts, the bridge validates the task ID, role, mode, issue, conversation key, approval identity, timestamp, and revision against the dispatch inputs. The workflow then combines the validated contract with that role's charter and a delivery prompt for `plan`, `implement`, `review`, or `qa`.
 5. Codex returns evidence to the linked GitHub issue. Implementation mode may open a review branch and pull request, but it never merges or deploys.
-6. Specialist work returns to the COO. When all dependencies are complete, the COO produces the final synthesis and requests any next owner decision.
+6. Specialist work returns to the COO. A configured API callback is accepted only when ChatGPT returns `202`; the bridge then polls the returned run ID to a terminal state. When all dependencies are complete, the COO produces the final synthesis and requests any next owner decision.
 
-Business accountability and delivery permissions are separate. A CTO can plan, implement, review, or test; selecting the CTO does not itself grant write access. Only an owner-approved `implement` task receives a writable Codex sandbox.
+Business accountability and delivery permissions are separate. A CTO can plan, implement, review, or test; selecting the CTO does not itself grant write access. Only an owner-approved `implement` task receives a writable Codex sandbox. A conversation key does not authorize a callback: the contract and dispatch must separately approve that external write and bind it to an idempotency key.
 
 Roles never receive Zapier or provider credentials directly. They request a permitted operation through the task contract; the COO confirms the approved action, and the courier executes only an allowlisted action against an allowlisted destination. The integration policy remains disabled until those controls and credentials are configured.
 
@@ -38,11 +38,11 @@ node plugins/methodnorth-agent-operations/scripts/install-project.mjs \
 
 Then customize every generated role charter, install the workflow and issue template, run the validator, and provision independent OpenAI, ChatGPT Workspace Agent, GitHub, Zapier, deployment, and data-provider credentials. Never clone `.env` files, tokens, production IDs, task history, or business data.
 
-## Configuration still requiring the owner
+## Activation state still requiring the owner
 
-- Publish the COO Workspace Agent and record its channel ID.
-- Create a Workspace Agent access token and save it as the GitHub Actions secret `CHATGPT_AGENT_ACCESS_TOKEN`.
-- Add the published channel ID as the GitHub Actions variable `CHATGPT_AGENT_ID`.
+- The private COO Workspace Agent, API channel, access-token secret, and channel variable are configured. The first callback delivered its input but the agent run did not complete, so activation remains unverified.
+- Review and merge the bridge-hardening pull request through the protected path before authorizing another callback test.
+- Authorize a new task revision and one callback only after the merged workflow can capture a run ID and distinguish accepted, completed, failed, and non-runnable outcomes.
 - Configure the private operations plugin and Zapier connections with minimum permissions and destination allowlists.
 - Add GitHub environment protections and rulesets after reviewing the proposed branch and deployment policy.
 

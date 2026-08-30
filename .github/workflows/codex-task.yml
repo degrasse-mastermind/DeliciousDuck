@@ -17,8 +17,20 @@ on:
         required: true
         type: choice
         options: [plan, implement, review, qa]
-      task:
-        description: Scoped task and acceptance criteria
+      approved_revision:
+        description: Exact approved task-contract revision
+        required: true
+        type: string
+      approved_by:
+        description: Owner identity recorded on the approved contract
+        required: true
+        type: string
+      approved_at:
+        description: Approval timestamp recorded on the approved contract
+        required: true
+        type: string
+      task_contract:
+        description: Complete approved task contract as JSON
         required: true
         type: string
       owner_approved:
@@ -26,13 +38,18 @@ on:
         required: true
         default: false
         type: boolean
+      callback_approved:
+        description: I separately approve returning this task result to the Workspace Agent
+        required: true
+        default: false
+        type: boolean
       issue_number:
-        description: Optional GitHub issue number for the result
-        required: false
+        description: GitHub issue number bound to the approved task contract
+        required: true
         type: string
       conversation_key:
-        description: Optional ChatGPT Workspace Agent conversation key
-        required: false
+        description: Stable conversation key bound to the contract; does not authorize callback
+        required: true
         type: string
   repository_dispatch:
     types: [codex-task]
@@ -55,8 +72,11 @@ jobs:
       business-role: ${{ steps.prepare.outputs.business-role }}
       work-mode: ${{ steps.prepare.outputs.work-mode }}
       task-id: ${{ steps.prepare.outputs.task-id }}
+      task-revision: ${{ steps.prepare.outputs.task-revision }}
       issue-number: ${{ steps.prepare.outputs.issue-number }}
       conversation-key: ${{ steps.prepare.outputs.conversation-key }}
+      callback-approved: ${{ steps.prepare.outputs.callback-approved }}
+      callback-idempotency-key: ${{ steps.prepare.outputs.callback-idempotency-key }}
     steps:
       - name: Check out repository
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
@@ -70,8 +90,12 @@ jobs:
           BUSINESS_ROLE: ${{ github.event.client_payload.business_role || inputs.business_role }}
           WORK_MODE: ${{ github.event.client_payload.work_mode || inputs.work_mode }}
           TASK_ID: ${{ github.event.client_payload.task_id || inputs.task_id }}
-          TASK_OBJECTIVE: ${{ github.event.client_payload.task || inputs.task }}
+          APPROVED_REVISION: ${{ github.event.client_payload.approved_revision || inputs.approved_revision }}
+          APPROVED_BY: ${{ github.event.client_payload.approved_by || inputs.approved_by }}
+          APPROVED_AT: ${{ github.event.client_payload.approved_at || inputs.approved_at }}
+          TASK_CONTRACT: ${{ github.event_name == 'repository_dispatch' && toJSON(github.event.client_payload.task_contract) || inputs.task_contract }}
           OWNER_APPROVED: ${{ github.event.client_payload.owner_approved || inputs.owner_approved }}
+          CALLBACK_APPROVED: ${{ github.event.client_payload.callback_approved || inputs.callback_approved }}
           ISSUE_NUMBER: ${{ github.event.client_payload.issue_number || inputs.issue_number }}
           CONVERSATION_KEY: ${{ github.event.client_payload.conversation_key || inputs.conversation_key }}
           PROMPT_OUTPUT: ${{ runner.temp }}/codex-prompt.md
@@ -164,8 +188,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
+      contents: read
       issues: write
     steps:
+      - name: Check out callback helper
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+
       - name: Build result
         shell: bash
         env:
@@ -192,27 +222,11 @@ jobs:
         run: gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/result.md"
 
       - name: Return result to ChatGPT Workspace Agent
-        if: needs.codex.outputs.conversation-key != ''
+        if: needs.codex.outputs.callback-approved == 'true'
         env:
           CHATGPT_AGENT_ACCESS_TOKEN: ${{ secrets.CHATGPT_AGENT_ACCESS_TOKEN }}
           CHATGPT_AGENT_ID: ${{ vars.CHATGPT_AGENT_ID }}
           CONVERSATION_KEY: ${{ needs.codex.outputs.conversation-key }}
-        shell: bash
-        run: |
-          if [[ -z "$CHATGPT_AGENT_ACCESS_TOKEN" || -z "$CHATGPT_AGENT_ID" ]]; then
-            echo "ChatGPT callback not configured; result remains in GitHub." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-          jq -n \
-            --arg conversation_key "$CONVERSATION_KEY" \
-            --rawfile input "$RUNNER_TEMP/result.md" \
-            '{conversation_key: $conversation_key, input: $input}' > "$RUNNER_TEMP/chatgpt-callback.json"
-          curl --fail-with-body --silent --show-error \
-            --request POST \
-            --header "Authorization: Bearer $CHATGPT_AGENT_ACCESS_TOKEN" \
-            --header "Content-Type: application/json" \
-            --header "Idempotency-Key: $GITHUB_RUN_ID" \
-            --data-binary @"$RUNNER_TEMP/chatgpt-callback.json" \
-            "https://api.chatgpt.com/v1/workspace_agents/$CHATGPT_AGENT_ID/trigger" \
-            > "$RUNNER_TEMP/chatgpt-callback-response.json"
-          jq -r '"ChatGPT callback queued: " + (.conversation_url // "URL not returned")' "$RUNNER_TEMP/chatgpt-callback-response.json" >> "$GITHUB_STEP_SUMMARY"
+          CALLBACK_INPUT_FILE: ${{ runner.temp }}/result.md
+          IDEMPOTENCY_KEY: ${{ needs.codex.outputs.callback-idempotency-key }}
+        run: node plugins/methodnorth-agent-operations/scripts/return-workspace-agent-result.mjs

@@ -4,11 +4,11 @@
 
 The repository uses GitHub as the durable handoff and audit layer:
 
-1. ChatGPT or another trusted dispatcher sends a `codex-task` repository dispatch with an approved task ID, an accountable business role, a delivery mode, and optional GitHub issue and ChatGPT conversation identifiers.
-2. `.github/workflows/codex-task.yml` validates the owner-approval flag and combines the selected business charter with the delivery-mode prompt before running the official Codex GitHub Action.
+1. ChatGPT or another trusted dispatcher sends a `codex-task` repository dispatch with the complete approved JSON task contract plus matching task ID, revision, accountable business role, delivery mode, GitHub issue, and ChatGPT conversation identifiers.
+2. `.github/workflows/codex-task.yml` validates the contract and rejects incomplete, unapproved, malformed, or conflicting inputs before combining the complete contract with the selected business charter and delivery-mode prompt.
 3. Planning, review, and QA results are written to the workflow summary and optional issue.
 4. Approved implementation changes are packaged as a patch in the unprivileged Codex job, applied in a fresh job, and opened as a pull request. They are never pushed directly to `main`.
-5. If ChatGPT Workspace Agent credentials are configured, the final result is sent to that agent using the stable `conversation_key`.
+5. A stable `conversation_key` does not authorize transmission. Only a contract with a separately approved callback and matching dispatch flag may return the final result. That callback uses its contract-bound idempotency key, requests a trigger run ID, safely classifies HTTP failures, and polls the accepted run to `completed` or `failed` without logging credentials or unrestricted response bodies.
 
 ## Role and permission contract
 
@@ -44,15 +44,46 @@ Send a trusted GitHub REST request to `POST /repos/degrasse-mastermind/Delicious
     "task_id": "DD-2026-001",
     "business_role": "cto",
     "work_mode": "review",
-    "task": "Review the current automation against the linked issue scope and acceptance criteria.",
+    "approved_revision": 1,
+    "approved_by": "repository-owner",
+    "approved_at": "2026-08-30T12:23:29Z",
+    "task_contract": {
+      "schema_version": "1.0",
+      "task_id": "DD-2026-001",
+      "objective": "Review the current automation against the approved scope and acceptance criteria.",
+      "business_role": "deliciousduck-team:cto",
+      "work_mode": "review",
+      "scope": ["Approved repository automation files"],
+      "out_of_scope": ["Implementation", "Merge", "Deploy", "Credential changes"],
+      "acceptance_criteria": ["Return evidence-backed findings or explicit residual gaps"],
+      "dependencies": [],
+      "authority": { "repository": "read-only", "external": "approved-actions" },
+      "approval": {
+        "status": "approved",
+        "revision": 1,
+        "approved_by": "repository-owner",
+        "approved_at": "2026-08-30T12:23:29Z"
+      },
+      "callback": {
+        "approved": true,
+        "idempotency_key": "DD-2026-001-r1-callback"
+      },
+      "issue_number": 123,
+      "conversation_key": "deliciousduck-task-123"
+    },
     "owner_approved": true,
+    "callback_approved": true,
     "issue_number": "123",
     "conversation_key": "deliciousduck-task-123"
   }
 }
 ```
 
-Only a trusted ChatGPT plugin/MCP tool or server-side automation should hold the GitHub credential that sends this request. Do not place a GitHub token in a chat, issue body, client-side app, Codespace image, or repository file.
+Every repeated dispatch field must match the contract. The bridge fails before Codex when the task ID, role, mode, approved revision, approval owner, approval timestamp, issue number, conversation key, or callback approval diverges. A callback approval of `false` prevents transmission even when a conversation key and credentials exist. Only a trusted ChatGPT plugin/MCP tool or server-side automation should hold the GitHub credential that sends this request. Do not place a GitHub token in a chat, issue body, client-side app, Codespace image, or repository file.
+
+## Workspace Agent callback outcomes
+
+The callback requests beta run tracking with `OpenAI-Beta: workspace_agent_runs=v1`. A trigger is accepted only on HTTP `202`. The bridge classifies `401` as unauthenticated, `403` as forbidden, `404` as not found, and `409` as not runnable, without printing the response body. Accepted triggers must return a safe ChatGPT conversation URL and an `apirun_...` identifier. The bridge polls that run with bounded retries and marks the workflow successful only when the run reaches `completed`.
 
 ## Important ChatGPT boundary
 

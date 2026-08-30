@@ -16,7 +16,7 @@
     {
       "id": "chatgpt-coo-callback",
       "type": "chatgpt-workspace-agent",
-      "status": "pending-credentials",
+      "status": "enabled",
       "allowed_actions": ["return-result"],
       "prohibited_actions": ["publish-agent", "change-agent-settings"]
     },
