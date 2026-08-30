@@ -58,15 +58,14 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  codex:
-    name: run-${{ github.event.client_payload.business_role || inputs.business_role }}-${{ github.event.client_payload.work_mode || inputs.work_mode }}
+  prepare:
+    name: validate-approved-task
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 5
     outputs:
-      final-message: ${{ steps.run-codex.outputs.final-message }}
-      has-changes: ${{ steps.capture.outputs.has-changes }}
       business-role: ${{ steps.prepare.outputs.business-role }}
       work-mode: ${{ steps.prepare.outputs.work-mode }}
+      repository-authority: ${{ steps.prepare.outputs.repository-authority }}
       task-id: ${{ steps.prepare.outputs.task-id }}
       task-revision: ${{ steps.prepare.outputs.task-revision }}
       issue-number: ${{ steps.prepare.outputs.issue-number }}
@@ -98,6 +97,39 @@ jobs:
           PROMPT_OUTPUT: ${{ runner.temp }}/codex-prompt.md
         run: node plugins/methodnorth-agent-operations/scripts/prepare-task.mjs
 
+  codex:
+    name: run-${{ github.event.client_payload.business_role || inputs.business_role }}-${{ github.event.client_payload.work_mode || inputs.work_mode }}
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    outputs:
+      final-message: ${{ steps.run-codex.outputs.final-message }}
+      has-changes: ${{ steps.capture.outputs.has-changes }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Rebuild validated task prompt
+        id: prepare-prompt
+        env:
+          BUSINESS_ROLE: ${{ github.event.client_payload.business_role || inputs.business_role }}
+          WORK_MODE: ${{ github.event.client_payload.work_mode || inputs.work_mode }}
+          TASK_ID: ${{ github.event.client_payload.task_id || inputs.task_id }}
+          APPROVED_REVISION: ${{ github.event.client_payload.approved_revision || inputs.approved_revision }}
+          APPROVED_BY: ${{ github.event.client_payload.approved_by || inputs.approved_by }}
+          APPROVED_AT: ${{ github.event.client_payload.approved_at || inputs.approved_at }}
+          TASK_CONTRACT: ${{ github.event_name == 'repository_dispatch' && toJSON(github.event.client_payload.task_contract) || inputs.task_contract }}
+          OWNER_APPROVED: ${{ github.event.client_payload.owner_approved || inputs.owner_approved }}
+          CALLBACK_APPROVED: ${{ github.event.client_payload.callback_approved || inputs.callback_approved }}
+          ISSUE_NUMBER: ${{ github.event.client_payload.issue_number || inputs.issue_number }}
+          CONVERSATION_KEY: ${{ github.event.client_payload.conversation_key }}
+          DISPATCH_EVENT: ${{ github.event_name }}
+          PROMPT_OUTPUT: ${{ runner.temp }}/codex-prompt.md
+        run: node plugins/methodnorth-agent-operations/scripts/prepare-task.mjs
+
       - name: Run Codex
         id: run-codex
         uses: openai/codex-action@86365089eb2b84e0a8fb0717b304f8bdcb13b20e # v1
@@ -105,14 +137,14 @@ jobs:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
           prompt-file: ${{ runner.temp }}/codex-prompt.md
           output-file: ${{ runner.temp }}/codex-output.md
-          sandbox: ${{ steps.prepare.outputs.repository-authority == 'pull-request' && 'workspace-write' || 'read-only' }}
+          sandbox: ${{ needs.prepare.outputs.repository-authority == 'pull-request' && 'workspace-write' || 'read-only' }}
           effort: high
           safety-strategy: drop-sudo
           allow-users: degrasse-mastermind
 
       - name: Capture implementation patch
         id: capture
-        if: steps.prepare.outputs.work-mode == 'implement'
+        if: needs.prepare.outputs.work-mode == 'implement'
         shell: bash
         run: |
           git diff --binary -- . > "$RUNNER_TEMP/codex.patch"
@@ -133,8 +165,8 @@ jobs:
 
   publish-changes:
     name: open-implementation-pr
-    needs: codex
-    if: needs.codex.outputs.work-mode == 'implement' && needs.codex.outputs.has-changes == 'true'
+    needs: [prepare, codex]
+    if: needs.prepare.outputs.work-mode == 'implement' && needs.codex.outputs.has-changes == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -159,12 +191,12 @@ jobs:
         id: branch
         shell: bash
         run: |
-          branch="codex/${{ needs.codex.outputs.task-id }}-${GITHUB_RUN_ID}"
+          branch="codex/${{ needs.prepare.outputs.task-id }}-${GITHUB_RUN_ID}"
           git switch -c "$branch"
           git apply --index --3way "$RUNNER_TEMP/codex.patch"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: apply ${{ needs.codex.outputs.task-id }}"
+          git commit -m "chore: apply ${{ needs.prepare.outputs.task-id }}"
           git push --set-upstream origin "$branch"
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
 
@@ -175,13 +207,13 @@ jobs:
           BRANCH: ${{ steps.branch.outputs.branch }}
         shell: bash
         run: |
-          url="$(gh pr create --base main --head "$BRANCH" --title "${{ needs.codex.outputs.task-id }}: Codex implementation" --body "Approved agent implementation from workflow run $GITHUB_RUN_ID. Business role: ${{ needs.codex.outputs.business-role }}. Review and merge only after CI and human review.")"
+          url="$(gh pr create --base main --head "$BRANCH" --title "${{ needs.prepare.outputs.task-id }}: Codex implementation" --body "Approved agent implementation from workflow run $GITHUB_RUN_ID. Business role: ${{ needs.prepare.outputs.business-role }}. Review and merge only after CI and human review.")"
           echo "url=$url" >> "$GITHUB_OUTPUT"
 
   report:
     name: report-result
-    needs: [codex, publish-changes]
-    if: always() && needs.codex.result != 'skipped'
+    needs: [prepare, codex, publish-changes]
+    if: always() && needs.prepare.result == 'success' && needs.codex.result != 'skipped'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -196,9 +228,9 @@ jobs:
       - name: Build task result
         shell: bash
         env:
-          BUSINESS_ROLE: ${{ needs.codex.outputs.business-role }}
-          WORK_MODE: ${{ needs.codex.outputs.work-mode }}
-          TASK_ID: ${{ needs.codex.outputs.task-id }}
+          BUSINESS_ROLE: ${{ needs.prepare.outputs.business-role }}
+          WORK_MODE: ${{ needs.prepare.outputs.work-mode }}
+          TASK_ID: ${{ needs.prepare.outputs.task-id }}
           FINAL_MESSAGE: ${{ needs.codex.outputs.final-message }}
           PR_URL: ${{ needs.publish-changes.outputs.pull-request-url }}
           CODEX_RESULT: ${{ needs.codex.result }}
@@ -212,14 +244,14 @@ jobs:
 
       - name: Return result to ChatGPT Workspace Agent
         id: callback
-        if: needs.codex.outputs.callback-approved == 'true'
+        if: needs.prepare.outputs.callback-approved == 'true'
         continue-on-error: true
         env:
           CHATGPT_AGENT_ACCESS_TOKEN: ${{ secrets.CHATGPT_AGENT_ACCESS_TOKEN }}
           CHATGPT_AGENT_ID: ${{ vars.CHATGPT_AGENT_ID }}
-          CONVERSATION_KEY: ${{ needs.codex.outputs.conversation-key }}
+          CONVERSATION_KEY: ${{ needs.prepare.outputs.conversation-key }}
           CALLBACK_INPUT_FILE: ${{ runner.temp }}/result.md
-          IDEMPOTENCY_KEY: ${{ needs.codex.outputs.callback-idempotency-key }}
+          IDEMPOTENCY_KEY: ${{ needs.prepare.outputs.callback-idempotency-key }}
         run: node plugins/methodnorth-agent-operations/scripts/return-workspace-agent-result.mjs
 
       - name: Reconcile final result
@@ -228,20 +260,20 @@ jobs:
         env:
           RESULT_FILE: ${{ runner.temp }}/result.md
           CODEX_RESULT: ${{ needs.codex.result }}
-          WORK_MODE: ${{ needs.codex.outputs.work-mode }}
+          WORK_MODE: ${{ needs.prepare.outputs.work-mode }}
           HAS_CHANGES: ${{ needs.codex.outputs.has-changes }}
           PUBLISH_RESULT: ${{ needs.publish-changes.result }}
           PR_URL: ${{ needs.publish-changes.outputs.pull-request-url }}
-          CALLBACK_APPROVED: ${{ needs.codex.outputs.callback-approved }}
+          CALLBACK_APPROVED: ${{ needs.prepare.outputs.callback-approved }}
           CALLBACK_STATUS: ${{ steps.callback.outputs.callback-status }}
           CALLBACK_DETAIL: ${{ steps.callback.outputs.callback-detail }}
         run: node plugins/methodnorth-agent-operations/scripts/reconcile-agent-result.mjs
 
       - name: Comment final result on linked issue
-        if: needs.codex.outputs.issue-number != ''
+        if: needs.prepare.outputs.issue-number != ''
         env:
           GH_TOKEN: ${{ github.token }}
-          ISSUE_NUMBER: ${{ needs.codex.outputs.issue-number }}
+          ISSUE_NUMBER: ${{ needs.prepare.outputs.issue-number }}
         run: gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/result.md"
 
       - name: Fail when the reconciled task did not complete

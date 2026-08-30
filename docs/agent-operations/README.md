@@ -7,9 +7,9 @@ This repository is the first project installation of a reusable, COO-led operati
 1. Discuss an objective with the COO in ChatGPT.
 2. The COO drafts a stable task contract with a task ID, accountable business role, delivery mode, scope, acceptance criteria, dependencies, and prohibited actions.
 3. The owner approves the exact contract revision in the durable ledger.
-4. GitHub dispatches the complete structured contract to the selected role. Before Codex starts, the bridge validates the task ID, role, mode, issue, conversation key, approval identity, timestamp, and revision against the dispatch inputs. The workflow then combines the validated contract with that role's charter and a delivery prompt for `plan`, `implement`, `review`, or `qa`.
+4. GitHub dispatches the complete structured contract to the selected role. Before the time-limited Codex job starts, a short preparation job validates the task ID, role, mode, issue, conversation key, callback decision, approval identity, timestamp, and revision against the dispatch inputs and retains the safe routing outputs. Codex revalidates the same contract, then combines it with that role's charter and a delivery prompt for `plan`, `implement`, `review`, or `qa`.
 5. Codex returns evidence to the linked GitHub issue. Implementation mode may open a review branch and pull request, but it never merges or deploys.
-6. Specialist work returns to the COO. A configured API callback is accepted only when ChatGPT returns `202`; the bridge then polls the returned run ID to a terminal state. The linked issue is updated only after callback handling so its final result distinguishes `not-approved`, `completed`, `blocked`, `failed`, and `timed-out` callback outcomes. When all dependencies are complete, the COO produces the final synthesis and requests any next owner decision.
+6. Specialist work returns to the COO. A configured API callback is accepted only when ChatGPT returns `202`; the bridge then polls the returned run ID to a terminal state. The linked issue is updated only after callback handling so its final result distinguishes `not-approved`, `not-attempted`, `completed`, `blocked`, `failed`, and `timed-out` callback outcomes. Because routing comes from the preparation job, a Codex timeout cannot erase an already-approved callback decision or the linked issue destination. When all dependencies are complete, the COO produces the final synthesis and requests any next owner decision.
 
 Business accountability and delivery permissions are separate. A CTO can plan, implement, review, or test; selecting the CTO does not itself grant write access. Only an owner-approved `implement` task receives a writable Codex sandbox. A conversation key does not authorize a callback: the contract and dispatch must separately approve that external write and bind it to an idempotency key.
 
@@ -43,9 +43,8 @@ Fresh installations record the GitHub ledger as configured but `not-tested`. Cha
 ## Activation state still requiring the owner
 
 - The private COO Workspace Agent, API channel, access-token secret, and channel variable are configured. The integration policy records configuration separately from verification: the callback is currently `configured` but `blocked` with the safe reason code `agent-not-runnable`. The first callback delivered its input but the agent run did not complete, so activation remains unverified.
-- Review and merge the bridge-hardening pull request through the protected path before authorizing another callback test.
-- Authorize a new task revision and one callback only after the merged workflow can capture a run ID and distinguish accepted, completed, failed, and non-runnable outcomes.
-- Configure the private operations plugin and Zapier connections with minimum permissions and destination allowlists.
-- Add GitHub environment protections and rulesets after reviewing the proposed branch and deployment policy.
+- The bridge-hardening pull request is merged. The next controlled review reached the Codex time limit before producing a result, which exposed that issue and callback routing still depended on outputs from the cancelled job; no callback or issue result comment was produced.
+- Review and merge the focused timeout-reconciliation change through the protected path before authorizing another activation test. A later test requires a new exact task revision and separate approval for one callback.
+- Keep Zapier disabled until the private operations interface, action allowlist, destination allowlist, and separate external-write approval flow are implemented and reviewed.
 
 The local OpenAI development key is already stored in the ignored `.env.local` file. It is not copied into GitHub automatically.
