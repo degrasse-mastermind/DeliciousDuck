@@ -154,7 +154,9 @@ describe("task prompt preparation", () => {
     expect(workflow.indexOf("Reconcile final result")).toBeLessThan(
       workflow.indexOf("Comment final result on linked issue"),
     );
-    expect(workflow).toContain("steps.callback.outcome != 'success'");
+    expect(workflow).toContain("PUBLISH_RESULT: ${{ needs.publish-changes.result }}");
+    expect(workflow).toContain("PR_URL: ${{ needs.publish-changes.outputs.pull-request-url }}");
+    expect(workflow).toContain("steps.reconcile.outputs.overall-status != 'completed'");
   });
 
   it("writes a prompt only after the approval gate and dispatch fields match", async () => {

@@ -113,7 +113,7 @@ const integrations = {
       type: "github",
       status: "enabled",
       configuration_status: "configured",
-      verification: { status: "verified" },
+      verification: { status: "not-tested" },
       allowed_actions: ["create-task", "comment-result", "open-review-pull-request"],
       prohibited_actions: ["merge", "deploy", "rewrite-history"],
     },

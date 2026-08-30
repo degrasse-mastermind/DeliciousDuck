@@ -226,10 +226,15 @@ jobs:
         run: node plugins/methodnorth-agent-operations/scripts/return-workspace-agent-result.mjs
 
       - name: Reconcile final result
+        id: reconcile
         if: always()
         env:
           RESULT_FILE: ${{ runner.temp }}/result.md
           CODEX_RESULT: ${{ needs.codex.result }}
+          WORK_MODE: ${{ needs.codex.outputs.work-mode }}
+          HAS_CHANGES: ${{ needs.codex.outputs.has-changes }}
+          PUBLISH_RESULT: ${{ needs.publish-changes.result }}
+          PR_URL: ${{ needs.publish-changes.outputs.pull-request-url }}
           CALLBACK_APPROVED: ${{ needs.codex.outputs.callback-approved }}
           CALLBACK_STATUS: ${{ steps.callback.outputs.callback-status }}
           CALLBACK_DETAIL: ${{ steps.callback.outputs.callback-detail }}
@@ -242,6 +247,6 @@ jobs:
           ISSUE_NUMBER: ${{ needs.codex.outputs.issue-number }}
         run: gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/result.md"
 
-      - name: Fail when an approved callback did not complete
-        if: needs.codex.outputs.callback-approved == 'true' && steps.callback.outcome != 'success'
+      - name: Fail when the reconciled task did not complete
+        if: always() && steps.reconcile.outputs.overall-status != 'completed'
         run: exit 1

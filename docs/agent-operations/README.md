@@ -38,6 +38,8 @@ node plugins/methodnorth-agent-operations/scripts/install-project.mjs \
 
 Then customize every generated role charter, install the workflow and issue template, run the validator, and provision independent OpenAI, ChatGPT Workspace Agent, GitHub, Zapier, deployment, and data-provider credentials. Never clone `.env` files, tokens, production IDs, task history, or business data.
 
+Fresh installations record the GitHub ledger as configured but `not-tested`. Change its verification state to `verified` only after a controlled project-specific test produces durable evidence; configuration alone is not verification.
+
 ## Activation state still requiring the owner
 
 - The private COO Workspace Agent, API channel, access-token secret, and channel variable are configured. The integration policy records configuration separately from verification: the callback is currently `configured` but `blocked` with the safe reason code `agent-not-runnable`. The first callback delivered its input but the agent run did not complete, so activation remains unverified.
