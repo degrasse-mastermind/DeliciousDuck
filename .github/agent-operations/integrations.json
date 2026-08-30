@@ -10,6 +10,8 @@
       "id": "github-ledger",
       "type": "github",
       "status": "enabled",
+      "configuration_status": "configured",
+      "verification": { "status": "verified" },
       "allowed_actions": ["create-task", "comment-result", "open-review-pull-request"],
       "prohibited_actions": ["merge", "deploy", "rewrite-history"]
     },
@@ -17,6 +19,8 @@
       "id": "chatgpt-coo-callback",
       "type": "chatgpt-workspace-agent",
       "status": "enabled",
+      "configuration_status": "configured",
+      "verification": { "status": "blocked", "reason_code": "agent-not-runnable" },
       "allowed_actions": ["return-result"],
       "prohibited_actions": ["publish-agent", "change-agent-settings"]
     },
@@ -24,6 +28,8 @@
       "id": "zapier-operations-courier",
       "type": "zapier",
       "status": "disabled",
+      "configuration_status": "not-configured",
+      "verification": { "status": "not-tested" },
       "allowed_actions": [
         "create-approved-task",
         "create-approved-draft",

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import {
+  classifyCallbackOutcome,
   classifyHttpStatus,
   triggerWorkspaceAgent,
 } from "../scripts/return-workspace-agent-result.mjs";
@@ -29,6 +30,16 @@ function sequenceFetch(...responses) {
 }
 
 describe("Workspace Agent callback", () => {
+  it("maps safe callback errors to reconciled ledger outcomes", () => {
+    expect(classifyCallbackOutcome(new Error("Workspace Agent run timed out"))).toBe("timed-out");
+    expect(classifyCallbackOutcome(new Error("Workspace Agent run failed (run_failed)"))).toBe(
+      "failed",
+    );
+    expect(
+      classifyCallbackOutcome(new Error("Workspace Agent trigger failed (not-runnable)")),
+    ).toBe("blocked");
+  });
+
   it("requests a run ID, preserves idempotency, and polls to completed", async () => {
     const fetchImpl = sequenceFetch(
       jsonResponse(

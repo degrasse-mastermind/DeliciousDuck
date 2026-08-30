@@ -16,7 +16,7 @@ Verified on August 30, 2026.
 
 ## Configured but not fully activated
 
-- The Workspace Agent callback credentials and API channel are configured, but end-to-end activation is not yet verified. The first controlled callback delivered its input and returned `409` because the agent run was not in a runnable state. Do not retry until the bridge-hardening change is reviewed and merged and a new callback action is explicitly approved.
+- The Workspace Agent callback credentials and API channel are configured, but end-to-end activation is not yet verified. Machine-readable integration state records `configuration_status: configured` and `verification.status: blocked` with the non-sensitive reason code `agent-not-runnable`. The first controlled callback delivered its input and returned `409` because the agent run was not in a runnable state. Do not retry until the bridge-hardening change is reviewed and merged and a new callback action is explicitly approved.
 
 ## Intentionally not configured yet
 

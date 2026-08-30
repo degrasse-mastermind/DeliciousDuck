@@ -1,5 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { validateIntegrationPolicy } from "./validate-integration-policy.mjs";
 
 const root = resolve(process.argv[2] ?? process.cwd());
 const configPath = resolve(root, ".github/agent-operations/project.json");
@@ -25,6 +26,7 @@ if (integrations.policy?.external_writes_require_separate_owner_approval !== tru
   errors.push("external writes must require separate owner approval");
 if (integrations.policy?.executive_dispatch_role !== config.project?.executive_role)
   errors.push("integration executive role must match project executive role");
+errors.push(...validateIntegrationPolicy(integrations));
 
 const ids = new Set();
 const slugs = new Set();

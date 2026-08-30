@@ -186,7 +186,7 @@ jobs:
     needs: [codex, publish-changes]
     if: always() && needs.codex.result != 'skipped'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
       contents: read
       issues: write
@@ -196,7 +196,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Build result
+      - name: Build task result
         shell: bash
         env:
           BUSINESS_ROLE: ${{ needs.codex.outputs.business-role }}
@@ -208,21 +208,15 @@ jobs:
         run: |
           {
             printf '## %s · %s · %s\n\n' "${TASK_ID:-unknown-task}" "${BUSINESS_ROLE:-unknown-role}" "${WORK_MODE:-unknown-mode}"
-            printf 'Workflow status: **%s**\n\n' "$CODEX_RESULT"
+            printf 'Codex task status: **%s**\n\n' "$CODEX_RESULT"
             if [[ -n "$PR_URL" ]]; then printf 'Implementation PR: %s\n\n' "$PR_URL"; fi
             printf '%s\n' "${FINAL_MESSAGE:-No final message was produced. Inspect the workflow logs.}"
           } > "$RUNNER_TEMP/result.md"
-          cat "$RUNNER_TEMP/result.md" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Comment on linked issue
-        if: needs.codex.outputs.issue-number != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-          ISSUE_NUMBER: ${{ needs.codex.outputs.issue-number }}
-        run: gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/result.md"
 
       - name: Return result to ChatGPT Workspace Agent
+        id: callback
         if: needs.codex.outputs.callback-approved == 'true'
+        continue-on-error: true
         env:
           CHATGPT_AGENT_ACCESS_TOKEN: ${{ secrets.CHATGPT_AGENT_ACCESS_TOKEN }}
           CHATGPT_AGENT_ID: ${{ vars.CHATGPT_AGENT_ID }}
@@ -230,3 +224,24 @@ jobs:
           CALLBACK_INPUT_FILE: ${{ runner.temp }}/result.md
           IDEMPOTENCY_KEY: ${{ needs.codex.outputs.callback-idempotency-key }}
         run: node plugins/methodnorth-agent-operations/scripts/return-workspace-agent-result.mjs
+
+      - name: Reconcile final result
+        if: always()
+        env:
+          RESULT_FILE: ${{ runner.temp }}/result.md
+          CODEX_RESULT: ${{ needs.codex.result }}
+          CALLBACK_APPROVED: ${{ needs.codex.outputs.callback-approved }}
+          CALLBACK_STATUS: ${{ steps.callback.outputs.callback-status }}
+          CALLBACK_DETAIL: ${{ steps.callback.outputs.callback-detail }}
+        run: node plugins/methodnorth-agent-operations/scripts/reconcile-agent-result.mjs
+
+      - name: Comment final result on linked issue
+        if: needs.codex.outputs.issue-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ needs.codex.outputs.issue-number }}
+        run: gh issue comment "$ISSUE_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/result.md"
+
+      - name: Fail when an approved callback did not complete
+        if: needs.codex.outputs.callback-approved == 'true' && steps.callback.outcome != 'success'
+        run: exit 1

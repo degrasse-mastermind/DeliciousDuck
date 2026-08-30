@@ -149,6 +149,12 @@ describe("task prompt preparation", () => {
       "IDEMPOTENCY_KEY: ${{ needs.codex.outputs.callback-idempotency-key }}",
     );
     expect(workflow).toContain("return-workspace-agent-result.mjs");
+    expect(workflow).toContain("continue-on-error: true");
+    expect(workflow).toContain("reconcile-agent-result.mjs");
+    expect(workflow.indexOf("Reconcile final result")).toBeLessThan(
+      workflow.indexOf("Comment final result on linked issue"),
+    );
+    expect(workflow).toContain("steps.callback.outcome != 'success'");
   });
 
   it("writes a prompt only after the approval gate and dispatch fields match", async () => {

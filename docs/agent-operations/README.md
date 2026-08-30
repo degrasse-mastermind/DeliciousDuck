@@ -9,7 +9,7 @@ This repository is the first project installation of a reusable, COO-led operati
 3. The owner approves the exact contract revision in the durable ledger.
 4. GitHub dispatches the complete structured contract to the selected role. Before Codex starts, the bridge validates the task ID, role, mode, issue, conversation key, approval identity, timestamp, and revision against the dispatch inputs. The workflow then combines the validated contract with that role's charter and a delivery prompt for `plan`, `implement`, `review`, or `qa`.
 5. Codex returns evidence to the linked GitHub issue. Implementation mode may open a review branch and pull request, but it never merges or deploys.
-6. Specialist work returns to the COO. A configured API callback is accepted only when ChatGPT returns `202`; the bridge then polls the returned run ID to a terminal state. When all dependencies are complete, the COO produces the final synthesis and requests any next owner decision.
+6. Specialist work returns to the COO. A configured API callback is accepted only when ChatGPT returns `202`; the bridge then polls the returned run ID to a terminal state. The linked issue is updated only after callback handling so its final result distinguishes `not-approved`, `completed`, `blocked`, `failed`, and `timed-out` callback outcomes. When all dependencies are complete, the COO produces the final synthesis and requests any next owner decision.
 
 Business accountability and delivery permissions are separate. A CTO can plan, implement, review, or test; selecting the CTO does not itself grant write access. Only an owner-approved `implement` task receives a writable Codex sandbox. A conversation key does not authorize a callback: the contract and dispatch must separately approve that external write and bind it to an idempotency key.
 
@@ -40,7 +40,7 @@ Then customize every generated role charter, install the workflow and issue temp
 
 ## Activation state still requiring the owner
 
-- The private COO Workspace Agent, API channel, access-token secret, and channel variable are configured. The first callback delivered its input but the agent run did not complete, so activation remains unverified.
+- The private COO Workspace Agent, API channel, access-token secret, and channel variable are configured. The integration policy records configuration separately from verification: the callback is currently `configured` but `blocked` with the safe reason code `agent-not-runnable`. The first callback delivered its input but the agent run did not complete, so activation remains unverified.
 - Review and merge the bridge-hardening pull request through the protected path before authorizing another callback test.
 - Authorize a new task revision and one callback only after the merged workflow can capture a run ID and distinguish accepted, completed, failed, and non-runnable outcomes.
 - Configure the private operations plugin and Zapier connections with minimum permissions and destination allowlists.

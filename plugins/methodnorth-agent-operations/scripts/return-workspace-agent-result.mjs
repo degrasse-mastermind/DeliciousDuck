@@ -16,6 +16,13 @@ export function classifyHttpStatus(status) {
   return classifications.get(status) ?? `http-${status}`;
 }
 
+export function classifyCallbackOutcome(error) {
+  const message = error instanceof Error ? error.message : String(error);
+  if (message.includes("timed out")) return "timed-out";
+  if (message.includes("run failed")) return "failed";
+  return "blocked";
+}
+
 function assertSafeConfiguration({ agentId, conversationKey, idempotencyKey, input }) {
   if (!/^agtch_[A-Za-z0-9]+$/.test(agentId))
     throw new Error("Workspace Agent trigger ID is invalid");
@@ -137,9 +144,20 @@ async function appendSummary(path, message) {
   if (path) await appendFile(path, `${message}\n`, "utf8");
 }
 
+async function appendOutput(path, values) {
+  if (!path) return;
+  const lines = Object.entries(values).map(([key, value]) => {
+    const safeValue = String(value)
+      .replace(/[\r\n]+/g, " ")
+      .slice(0, 300);
+    return `${key}=${safeValue}`;
+  });
+  await appendFile(path, `${lines.join("\n")}\n`, "utf8");
+}
+
 export async function main(environment = process.env) {
-  const input = await readFile(resolve(environment.CALLBACK_INPUT_FILE ?? ""), "utf8");
   try {
+    const input = await readFile(resolve(environment.CALLBACK_INPUT_FILE ?? ""), "utf8");
     const result = await triggerWorkspaceAgent({
       token: environment.CHATGPT_AGENT_ACCESS_TOKEN ?? "",
       agentId: environment.CHATGPT_AGENT_ID ?? "",
@@ -147,12 +165,21 @@ export async function main(environment = process.env) {
       idempotencyKey: environment.IDEMPOTENCY_KEY ?? "",
       input,
     });
+    await appendOutput(environment.GITHUB_OUTPUT, {
+      "callback-status": "completed",
+      "callback-detail": `run-${result.runId}`,
+    });
     await appendSummary(
       environment.GITHUB_STEP_SUMMARY,
       `ChatGPT callback completed: ${result.conversationUrl} (run ${result.runId})`,
     );
     console.log(`Workspace Agent callback completed (run ${result.runId})`);
   } catch (error) {
+    const callbackStatus = classifyCallbackOutcome(error);
+    await appendOutput(environment.GITHUB_OUTPUT, {
+      "callback-status": callbackStatus,
+      "callback-detail": error.message,
+    });
     await appendSummary(
       environment.GITHUB_STEP_SUMMARY,
       `ChatGPT callback blocked: ${error.message}`,
