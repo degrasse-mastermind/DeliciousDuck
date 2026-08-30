@@ -1,4 +1,4 @@
-import { access, mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { basename, resolve } from "node:path";
 
 const args = new Map();
@@ -25,14 +25,15 @@ const rolesDir = resolve(configDir, "roles");
 const configPath = resolve(configDir, "project.json");
 const integrationsPath = resolve(configDir, "integrations.json");
 
-for (const protectedPath of [configPath, integrationsPath]) {
+async function writeGenerated(path, content, { skipExisting = false } = {}) {
   try {
-    await access(protectedPath);
-    if (!force)
-      throw new Error(`${protectedPath} already exists; review it or rerun with --force true`);
+    await writeFile(path, content, { encoding: "utf8", flag: force ? "w" : "wx" });
   } catch (error) {
-    if (error.code !== "ENOENT") throw error;
+    if (error.code !== "EEXIST") throw error;
+    if (skipExisting) return false;
+    throw new Error(`${path} already exists; review it or rerun with --force true`);
   }
+  return true;
 }
 
 const roleDefinitions = [
@@ -77,7 +78,7 @@ const config = {
 };
 
 await mkdir(rolesDir, { recursive: true });
-await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`, "utf8");
+await writeGenerated(configPath, `${JSON.stringify(config, null, 2)}\n`);
 const integrations = {
   schema_version: "1.0",
   policy: {
@@ -113,18 +114,12 @@ const integrations = {
     },
   ],
 };
-await writeFile(integrationsPath, `${JSON.stringify(integrations, null, 2)}\n`, "utf8");
+await writeGenerated(integrationsPath, `${JSON.stringify(integrations, null, 2)}\n`);
 
 for (const [slug, name] of roleDefinitions) {
   const path = resolve(rolesDir, `${slug}.md`);
-  try {
-    await access(path);
-    if (!force) continue;
-  } catch (error) {
-    if (error.code !== "ENOENT") throw error;
-  }
   const content = `# ${name}\n\nYou are the ${name} for ${projectName}. Work only within the approved task contract and the repository's instructions.\n\n## Project-specific charter\n\nReplace this section with the role's responsibilities, decision rights, source requirements, quality bar, and prohibited actions before dispatching work.\n\n## Reporting\n\nReturn status, summary, deliverables, validation evidence, risks, blockers, owner decisions, and links to the COO through the durable task ledger.\n`;
-  await writeFile(path, content, "utf8");
+  await writeGenerated(path, content, { skipExisting: true });
 }
 
 console.log(`Installed agent-operations configuration for ${projectName} at ${target}`);
