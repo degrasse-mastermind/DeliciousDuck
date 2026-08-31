@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const callbackStatuses = new Set(["completed", "blocked", "failed", "timed-out"]);
+const callbackStepOutcomes = new Set(["success", "failure", "cancelled", "skipped"]);
 
 function isValidPullRequestUrl(value) {
   if (typeof value !== "string" || !value.trim()) return false;
@@ -18,6 +19,41 @@ function isValidPullRequestUrl(value) {
   }
 }
 
+export function resolvePublishingStatus({ workMode, hasChanges, publishResult, pullRequestUrl }) {
+  const publishingRequired = workMode === "implement" && hasChanges === true;
+  return publishingRequired
+    ? publishResult === "success" && isValidPullRequestUrl(pullRequestUrl)
+      ? "completed"
+      : "failed"
+    : "not-required";
+}
+
+export function buildPreCallbackResult({
+  baseResult,
+  codexStatus,
+  workMode,
+  hasChanges,
+  publishResult,
+  pullRequestUrl,
+  callbackApproved,
+}) {
+  const normalizedCodexStatus = codexStatus || "unknown";
+  const publishingStatus = resolvePublishingStatus({
+    workMode,
+    hasChanges,
+    publishResult,
+    pullRequestUrl,
+  });
+  const callbackStatus = callbackApproved ? "attempting" : "not-approved";
+  const overallStatus = callbackApproved
+    ? "pending-callback-reconciliation"
+    : normalizedCodexStatus === "success" && publishingStatus !== "failed"
+      ? "completed"
+      : "failed";
+  const markdown = `${baseResult.trimEnd()}\n\nPublishing status: **${publishingStatus}**\n\nCallback status: **${callbackStatus}**\n\nOverall status: **${overallStatus}**\n`;
+  return { publishingStatus, callbackStatus, overallStatus, markdown };
+}
+
 export function reconcileAgentResult({
   baseResult,
   codexStatus,
@@ -28,41 +64,61 @@ export function reconcileAgentResult({
   callbackApproved,
   callbackStatus,
   callbackDetail,
+  callbackStepOutcome,
 }) {
   const normalizedCodexStatus = codexStatus || "unknown";
-  const publishingRequired = workMode === "implement" && hasChanges === true;
-  const publishingStatus = publishingRequired
-    ? publishResult === "success" && isValidPullRequestUrl(pullRequestUrl)
-      ? "completed"
-      : "failed"
-    : "not-required";
+  const publishingStatus = resolvePublishingStatus({
+    workMode,
+    hasChanges,
+    publishResult,
+    pullRequestUrl,
+  });
+  const normalizedStepOutcome = callbackStepOutcomes.has(callbackStepOutcome)
+    ? callbackStepOutcome
+    : "skipped";
   let normalizedCallbackStatus = "not-approved";
+  let derivedCallbackDetail = "";
   if (callbackApproved) {
-    normalizedCallbackStatus = callbackStatus
-      ? callbackStatuses.has(callbackStatus)
-        ? callbackStatus
-        : "blocked"
-      : "not-attempted";
+    if (callbackStatuses.has(callbackStatus)) {
+      normalizedCallbackStatus = callbackStatus;
+    } else if (callbackStatus) {
+      normalizedCallbackStatus = "blocked";
+      derivedCallbackDetail = "unrecognized-callback-result";
+    } else if (normalizedStepOutcome === "failure" || normalizedStepOutcome === "cancelled") {
+      normalizedCallbackStatus = "attempted-no-result";
+      derivedCallbackDetail = `callback-step-${normalizedStepOutcome}-without-result`;
+    } else if (normalizedStepOutcome === "success") {
+      normalizedCallbackStatus = "blocked";
+      derivedCallbackDetail = "callback-step-success-without-result";
+    } else {
+      normalizedCallbackStatus = "not-attempted";
+      derivedCallbackDetail = "callback-step-skipped";
+    }
   }
 
   let overallStatus =
     normalizedCodexStatus === "success" && publishingStatus !== "failed" ? "completed" : "failed";
   if (overallStatus !== "failed" && callbackApproved && normalizedCallbackStatus !== "completed") {
-    overallStatus = normalizedCallbackStatus === "failed" ? "failed" : "blocked";
+    overallStatus =
+      normalizedCallbackStatus === "failed" || normalizedCallbackStatus === "attempted-no-result"
+        ? "failed"
+        : "blocked";
   }
 
-  const safeDetail =
-    callbackApproved && typeof callbackDetail === "string" && callbackDetail.trim()
-      ? ` (${callbackDetail.trim()})`
-      : "";
+  const callbackEvidence =
+    typeof callbackDetail === "string" && callbackDetail.trim()
+      ? callbackDetail.trim()
+      : derivedCallbackDetail;
+  const safeDetail = callbackApproved && callbackEvidence ? ` (${callbackEvidence})` : "";
   const markdown = `${baseResult.trimEnd()}\n\nPublishing status: **${publishingStatus}**\n\nCallback status: **${normalizedCallbackStatus}**${safeDetail}\n\nOverall status: **${overallStatus}**\n`;
   return { publishingStatus, callbackStatus: normalizedCallbackStatus, overallStatus, markdown };
 }
 
 export async function main(environment = process.env) {
   const resultPath = resolve(environment.RESULT_FILE ?? "");
-  const baseResult = await readFile(resultPath, "utf8");
-  const result = reconcileAgentResult({
+  const baseResultPath = resolve(environment.BASE_RESULT_FILE ?? environment.RESULT_FILE ?? "");
+  const baseResult = await readFile(baseResultPath, "utf8");
+  const common = {
     baseResult,
     codexStatus: environment.CODEX_RESULT ?? "",
     workMode: environment.WORK_MODE ?? "",
@@ -70,11 +126,19 @@ export async function main(environment = process.env) {
     publishResult: environment.PUBLISH_RESULT ?? "",
     pullRequestUrl: environment.PR_URL ?? "",
     callbackApproved: String(environment.CALLBACK_APPROVED).toLowerCase() === "true",
-    callbackStatus: environment.CALLBACK_STATUS ?? "",
-    callbackDetail: environment.CALLBACK_DETAIL ?? "",
-  });
+  };
+  const phase = environment.RECONCILIATION_PHASE ?? "final";
+  const result =
+    phase === "pre-callback"
+      ? buildPreCallbackResult(common)
+      : reconcileAgentResult({
+          ...common,
+          callbackStatus: environment.CALLBACK_STATUS ?? "",
+          callbackDetail: environment.CALLBACK_DETAIL ?? "",
+          callbackStepOutcome: environment.CALLBACK_STEP_OUTCOME ?? "",
+        });
   await writeFile(resultPath, result.markdown, "utf8");
-  if (environment.GITHUB_STEP_SUMMARY)
+  if (phase === "final" && environment.GITHUB_STEP_SUMMARY)
     await appendFile(environment.GITHUB_STEP_SUMMARY, result.markdown, "utf8");
   if (environment.GITHUB_OUTPUT) {
     await appendFile(
@@ -84,7 +148,7 @@ export async function main(environment = process.env) {
     );
   }
   console.log(
-    `Reconciled task result: publishing=${result.publishingStatus}, callback=${result.callbackStatus}, overall=${result.overallStatus}`,
+    `${phase === "pre-callback" ? "Prepared callback" : "Reconciled task"} result: publishing=${result.publishingStatus}, callback=${result.callbackStatus}, overall=${result.overallStatus}`,
   );
 }
 

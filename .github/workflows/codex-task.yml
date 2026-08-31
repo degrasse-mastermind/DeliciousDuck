@@ -240,7 +240,20 @@ jobs:
             printf 'Codex task status: **%s**\n\n' "$CODEX_RESULT"
             if [[ -n "$PR_URL" ]]; then printf 'Implementation PR: %s\n\n' "$PR_URL"; fi
             printf '%s\n' "${FINAL_MESSAGE:-No final message was produced. Inspect the workflow logs.}"
-          } > "$RUNNER_TEMP/result.md"
+          } > "$RUNNER_TEMP/base-result.md"
+
+      - name: Build pre-callback result
+        env:
+          BASE_RESULT_FILE: ${{ runner.temp }}/base-result.md
+          RESULT_FILE: ${{ runner.temp }}/callback-result.md
+          RECONCILIATION_PHASE: pre-callback
+          CODEX_RESULT: ${{ needs.codex.result }}
+          WORK_MODE: ${{ needs.prepare.outputs.work-mode }}
+          HAS_CHANGES: ${{ needs.codex.outputs.has-changes }}
+          PUBLISH_RESULT: ${{ needs.publish-changes.result }}
+          PR_URL: ${{ needs.publish-changes.outputs.pull-request-url }}
+          CALLBACK_APPROVED: ${{ needs.prepare.outputs.callback-approved }}
+        run: node plugins/methodnorth-agent-operations/scripts/reconcile-agent-result.mjs
 
       - name: Return result to ChatGPT Workspace Agent
         id: callback
@@ -250,7 +263,7 @@ jobs:
           CHATGPT_AGENT_ACCESS_TOKEN: ${{ secrets.CHATGPT_AGENT_ACCESS_TOKEN }}
           CHATGPT_AGENT_ID: ${{ vars.CHATGPT_AGENT_ID }}
           CONVERSATION_KEY: ${{ needs.prepare.outputs.conversation-key }}
-          CALLBACK_INPUT_FILE: ${{ runner.temp }}/result.md
+          CALLBACK_INPUT_FILE: ${{ runner.temp }}/callback-result.md
           IDEMPOTENCY_KEY: ${{ needs.prepare.outputs.callback-idempotency-key }}
         run: node plugins/methodnorth-agent-operations/scripts/return-workspace-agent-result.mjs
 
@@ -258,6 +271,7 @@ jobs:
         id: reconcile
         if: always()
         env:
+          BASE_RESULT_FILE: ${{ runner.temp }}/base-result.md
           RESULT_FILE: ${{ runner.temp }}/result.md
           CODEX_RESULT: ${{ needs.codex.result }}
           WORK_MODE: ${{ needs.prepare.outputs.work-mode }}
@@ -267,6 +281,7 @@ jobs:
           CALLBACK_APPROVED: ${{ needs.prepare.outputs.callback-approved }}
           CALLBACK_STATUS: ${{ steps.callback.outputs.callback-status }}
           CALLBACK_DETAIL: ${{ steps.callback.outputs.callback-detail }}
+          CALLBACK_STEP_OUTCOME: ${{ steps.callback.outcome }}
         run: node plugins/methodnorth-agent-operations/scripts/reconcile-agent-result.mjs
 
       - name: Comment final result on linked issue

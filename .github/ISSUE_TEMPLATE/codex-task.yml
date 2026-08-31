@@ -40,7 +40,7 @@ body:
     id: outcome
     attributes:
       label: Desired outcome
-      description: Describe the result, not just the activity.
+      description: Describe the result, not just the activity. Repeat every operative instruction in the machine task contract; do not rely on this issue as the agent's instruction source.
       placeholder: What should be true when this task is complete?
     validations:
       required: true
@@ -48,14 +48,15 @@ body:
     id: scope
     attributes:
       label: Scope and constraints
-      description: Include files, systems, publication boundaries, and actions that are not authorized.
+      description: Include every file, system, operative question, output constraint, publication boundary, and unauthorized action in the machine task contract as well as this ledger.
     validations:
       required: true
   - type: textarea
     id: acceptance
     attributes:
       label: Acceptance criteria
-      placeholder: One verifiable criterion per line.
+      description: These criteria must be copied into the machine task contract so the dispatched prompt is self-contained.
+      placeholder: One verifiable, self-contained criterion per line.
     validations:
       required: true
   - type: textarea
@@ -75,4 +76,4 @@ body:
     id: evidence
     attributes:
       label: Source context
-      description: Link plans, screenshots, prior decisions, or production evidence. Do not paste secrets.
+      description: Link supporting evidence only. Links do not replace operative instructions in the machine task contract. Do not paste secrets.

@@ -158,13 +158,25 @@ describe("task contract validation", () => {
 
 describe("task prompt preparation", () => {
   it("renders the complete validated contract into the prompt", () => {
+    const selfContainedContract = {
+      ...contract,
+      acceptance_criteria: [
+        "Question 1: confirm the preparation job validates before Codex.",
+        "Return PASS, FAIL, or BLOCKED in no more than 400 words.",
+      ],
+    };
     const prompt = buildTaskPrompt({
       rolePrompt: "# CTO\n\nOwn the architecture.",
       deliveryPrompt: "Role: implementer\n\nWork only in scope.",
-      contract,
+      contract: selfContainedContract,
     });
+    expect(prompt).toContain("## Self-contained execution boundary");
+    expect(prompt).toContain("complete source of operative instructions");
+    expect(prompt).toContain("not a source of missing questions or constraints");
     expect(prompt).toContain("## Validated approved task contract");
-    expect(prompt).toContain(JSON.stringify(contract, null, 2));
+    expect(prompt).toContain(JSON.stringify(selfContainedContract, null, 2));
+    expect(prompt).toContain("Question 1: confirm the preparation job validates before Codex.");
+    expect(prompt).toContain("Return PASS, FAIL, or BLOCKED in no more than 400 words.");
     expect(prompt).toContain('"out_of_scope"');
     expect(prompt).toContain('"acceptance_criteria"');
     expect(prompt).toContain('"approved_by": "repository-owner"');
@@ -191,10 +203,20 @@ describe("task prompt preparation", () => {
     expect(workflow).not.toContain("needs.codex.outputs.callback-approved");
     expect(workflow).not.toContain("needs.codex.outputs.issue-number");
     expect(workflow).toContain("return-workspace-agent-result.mjs");
+    expect(workflow).toContain("name: Build pre-callback result");
+    expect(workflow).toContain("RECONCILIATION_PHASE: pre-callback");
+    expect(workflow).toContain("CALLBACK_INPUT_FILE: ${{ runner.temp }}/callback-result.md");
+    expect(workflow).toContain("CALLBACK_STEP_OUTCOME: ${{ steps.callback.outcome }}");
     expect(workflow).toContain("continue-on-error: true");
     expect(workflow).toContain("reconcile-agent-result.mjs");
     expect(workflow.indexOf("Reconcile final result")).toBeLessThan(
       workflow.indexOf("Comment final result on linked issue"),
+    );
+    expect(workflow.indexOf("Build pre-callback result")).toBeLessThan(
+      workflow.indexOf("Return result to ChatGPT Workspace Agent"),
+    );
+    expect(workflow.indexOf("Return result to ChatGPT Workspace Agent")).toBeLessThan(
+      workflow.indexOf("Reconcile final result"),
     );
     expect(workflow).toContain("PUBLISH_RESULT: ${{ needs.publish-changes.result }}");
     expect(workflow).toContain("PR_URL: ${{ needs.publish-changes.outputs.pull-request-url }}");
