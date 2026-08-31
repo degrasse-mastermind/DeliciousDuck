@@ -44,14 +44,14 @@ export function buildPreCallbackResult({
     publishResult,
     pullRequestUrl,
   });
+  const taskStatus =
+    normalizedCodexStatus === "success" && publishingStatus !== "failed" ? "completed" : "failed";
   const callbackStatus = callbackApproved ? "attempting" : "not-approved";
-  const overallStatus = callbackApproved
+  const reconciliationStatus = callbackApproved
     ? "pending-callback-reconciliation"
-    : normalizedCodexStatus === "success" && publishingStatus !== "failed"
-      ? "completed"
-      : "failed";
-  const markdown = `${baseResult.trimEnd()}\n\nPublishing status: **${publishingStatus}**\n\nCallback status: **${callbackStatus}**\n\nOverall status: **${overallStatus}**\n`;
-  return { publishingStatus, callbackStatus, overallStatus, markdown };
+    : "not-required";
+  const markdown = `${baseResult.trimEnd()}\n\nPublishing status: **${publishingStatus}**\n\nTask status: **${taskStatus}**\n\nCallback status: **${callbackStatus}**\n\nReconciliation status: **${reconciliationStatus}**\n`;
+  return { publishingStatus, taskStatus, callbackStatus, reconciliationStatus, markdown };
 }
 
 export function reconcileAgentResult({
@@ -141,14 +141,18 @@ export async function main(environment = process.env) {
   if (phase === "final" && environment.GITHUB_STEP_SUMMARY)
     await appendFile(environment.GITHUB_STEP_SUMMARY, result.markdown, "utf8");
   if (environment.GITHUB_OUTPUT) {
-    await appendFile(
-      environment.GITHUB_OUTPUT,
-      `publishing-status=${result.publishingStatus}\noverall-status=${result.overallStatus}\n`,
-      "utf8",
-    );
+    const outputs =
+      phase === "pre-callback"
+        ? `publishing-status=${result.publishingStatus}\ntask-status=${result.taskStatus}\nreconciliation-status=${result.reconciliationStatus}\n`
+        : `publishing-status=${result.publishingStatus}\noverall-status=${result.overallStatus}\n`;
+    await appendFile(environment.GITHUB_OUTPUT, outputs, "utf8");
   }
+  const statusSummary =
+    phase === "pre-callback"
+      ? `task=${result.taskStatus}, callback=${result.callbackStatus}, reconciliation=${result.reconciliationStatus}`
+      : `callback=${result.callbackStatus}, overall=${result.overallStatus}`;
   console.log(
-    `${phase === "pre-callback" ? "Prepared callback" : "Reconciled task"} result: publishing=${result.publishingStatus}, callback=${result.callbackStatus}, overall=${result.overallStatus}`,
+    `${phase === "pre-callback" ? "Prepared callback" : "Reconciled task"} result: publishing=${result.publishingStatus}, ${statusSummary}`,
   );
 }
 

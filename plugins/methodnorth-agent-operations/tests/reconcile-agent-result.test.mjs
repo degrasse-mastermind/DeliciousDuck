@@ -17,19 +17,53 @@ describe("final task-ledger reconciliation", () => {
   it("builds a truthful pending callback payload with known execution and publishing results", () => {
     const result = buildPreCallbackResult({ ...base, callbackApproved: true });
     expect(result.publishingStatus).toBe("not-required");
+    expect(result.taskStatus).toBe("completed");
     expect(result.callbackStatus).toBe("attempting");
-    expect(result.overallStatus).toBe("pending-callback-reconciliation");
+    expect(result.reconciliationStatus).toBe("pending-callback-reconciliation");
     expect(result.markdown).toContain("Codex task status: **success**");
     expect(result.markdown).toContain("Publishing status: **not-required**");
+    expect(result.markdown).toContain("Task status: **completed**");
     expect(result.markdown).toContain("Callback status: **attempting**");
-    expect(result.markdown).toContain("Overall status: **pending-callback-reconciliation**");
+    expect(result.markdown).toContain("Reconciliation status: **pending-callback-reconciliation**");
+    expect(result.markdown).not.toContain("Overall status:");
     expect(result.markdown).not.toContain("Callback status: **completed**");
   });
 
-  it("renders a final pre-callback result when no callback was approved", () => {
+  it("renders a terminal task result with no reconciliation when no callback was approved", () => {
     const result = buildPreCallbackResult({ ...base, callbackApproved: false });
+    expect(result.taskStatus).toBe("completed");
     expect(result.callbackStatus).toBe("not-approved");
-    expect(result.overallStatus).toBe("completed");
+    expect(result.reconciliationStatus).toBe("not-required");
+  });
+
+  it.each(["failure", "cancelled", "timed-out"])(
+    "preserves terminal Codex %s while callback reconciliation remains pending",
+    (codexStatus) => {
+      const result = buildPreCallbackResult({
+        ...base,
+        codexStatus,
+        callbackApproved: true,
+      });
+      expect(result.taskStatus).toBe("failed");
+      expect(result.callbackStatus).toBe("attempting");
+      expect(result.reconciliationStatus).toBe("pending-callback-reconciliation");
+      expect(result.markdown).toContain("Task status: **failed**");
+      expect(result.markdown).not.toContain("Callback status: **failed**");
+    },
+  );
+
+  it("preserves a required publishing failure while callback reconciliation remains pending", () => {
+    const result = buildPreCallbackResult({
+      ...base,
+      workMode: "implement",
+      hasChanges: true,
+      publishResult: "failure",
+      callbackApproved: true,
+    });
+    expect(result.publishingStatus).toBe("failed");
+    expect(result.taskStatus).toBe("failed");
+    expect(result.callbackStatus).toBe("attempting");
+    expect(result.reconciliationStatus).toBe("pending-callback-reconciliation");
   });
 
   it("records no callback approval without transmitting or downgrading a successful task", () => {
