@@ -126,7 +126,7 @@ const SEEDS: SeedRow[] = [
     merchantId: "tastyduck-jurgielewicz",
     category: "duck_source",
     useFor:
-      "Whole ducks, breasts, legs and sampler kits from a family producer — a straightforward first order if you are not sure which cut you want yet.",
+      "A family producer whose current shop lists whole duck and duck parts; check the seller's listing for the specific cut and availability.",
     ctaLabel: "Shop duck at TastyDuck",
   },
   {
@@ -148,7 +148,7 @@ const SEEDS: SeedRow[] = [
   {
     /**
      * US Wellness is monetized for rendered duck fat ONLY. Their live duck
-     * collection (reviewed 2026-08-18) does not list whole duck, breast or leg
+     * collection (fetched 2026-09-24) does not list whole duck, breast or leg
      * quarters, so there is deliberately no US Wellness duck_source row.
      */
     id: "us-wellness-duck-fat",

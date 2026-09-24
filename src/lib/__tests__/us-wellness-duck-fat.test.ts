@@ -228,7 +228,7 @@ describe("public copy makes no duck-meat or stock claims for US Wellness", () =>
   });
 
   it("records the manual catalogue review in internal data only", () => {
-    expect(US_WELLNESS_CATALOGUE_REVIEW.reviewedDate).toBe("2026-08-18");
+    expect(US_WELLNESS_CATALOGUE_REVIEW.reviewedDate).toBe("2026-09-24");
     expect(US_WELLNESS_CATALOGUE_REVIEW.products.map((p) => p.orderableAtReview)).toEqual([
       true,
       false,
@@ -263,7 +263,7 @@ describe("disclosure precedes the US Wellness affiliate CTA", () => {
     expect(callout).toBeGreaterThan(banner);
     expect(text).toMatch(/us-wellness-duck-fat/);
     // Positive evidence framing stays put.
-    expect(text.replace(/\s+/g, " ")).toContain("published catalogues, reviewed 2026-08-18");
+    expect(text.replace(/\s+/g, " ")).toContain("Both catalogues were checked 2026-09-24");
   });
 
   it("renders the disclosure banner before the specialty note on the sourcing page", () => {

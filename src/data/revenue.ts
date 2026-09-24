@@ -74,7 +74,7 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
     useCase: "Reader wants one duck-first order covering a bird, cuts and fat",
     directUrl: "https://culverduck.com/shop/",
     status: "category-placeholder",
-    lastVerified: "2026-08-18",
+    lastVerified: "2026-09-24",
     editorialRelationship: "/buy/where-to-buy-duck-online (lead option), /buy/duck-fat-buying-guide (fat alternative)",
     handsOn: "untested",
     note: "No affiliate program confirmed, so links stay direct and unpaid. Their feedback form invites cross-promotional contact: partnership outreach is the next action, not an application.",
@@ -82,14 +82,14 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
   {
     id: "sourcing-tastyduck",
     merchantId: "tastyduck-jurgielewicz",
-    name: "Whole duck, breasts, legs and sampler kits",
-    useCase: "Reader is buying duck for the first time and wants a sampler",
+    name: "Whole duck and duck parts",
+    useCase: "Reader is buying duck for the first time and wants to browse a duck-focused shop",
     directUrl: "https://tastyduck.com/shop/",
     status: "category-placeholder",
-    lastVerified: "2026-08-18",
+    lastVerified: "2026-09-24",
     editorialRelationship: "/buy/where-to-buy-duck-online (first-order option)",
     handsOn: "untested",
-    note: "No affiliate program confirmed; direct and unpaid. Feedback form invites cross-promotional contact — partnership prospect.",
+    note: "Direct shop fetched 2026-09-24: navigation lists Whole Duck and Duck Parts. The rendered response did not expose current SKU-level breast, leg or sampler details; check the seller listing before making a specific recommendation. No affiliate program confirmed; links stay direct and unpaid.",
   },
   {
     id: "sourcing-fossil-farms",
@@ -98,10 +98,10 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
     useCase: "Reader needs a specific duck type or an unusual cut",
     directUrl: "https://www.fossilfarms.com/collections/pekin-duck-meat",
     status: "category-placeholder",
-    lastVerified: "2026-08-18",
+    lastVerified: "2026-09-24",
     editorialRelationship: "/buy/where-to-buy-duck-online (specialist option)",
     handsOn: "untested",
-    note: "Re-checked 2026-08-19: the combined duck landing page now 404s, so this points at the Pekin collection. No public affiliate program confirmed; direct and unpaid. Partnership prospect worth an outreach email.",
+    note: "Pekin collection fetched 2026-09-24: current listings include Pekin duck breast, whole duck and legs. The old combined duck landing page was replaced by breed-specific collections. No public affiliate program confirmed; links stay direct and unpaid.",
   },
   {
     id: "sourcing-wild-fork",
@@ -137,7 +137,7 @@ export const DEEP_LINKS: DeepLinkEntry[] = [
     lastVerified: "2026-08-18",
     editorialRelationship: "/buy/duck-fat-buying-guide (primary duck fat slot)",
     handsOn: "untested",
-    note: "Live duck collection reviewed 2026-08-18: rendered duck fat and duck livers only, no whole duck, breast or leg quarters. Monetized on the verified duck fat deep link (US_WELLNESS_DUCK_FAT_URL in src/data/affiliates.ts), which is now the canonical registry URL. Duck-meat sourcing slots were removed. Liver stays unmonetized until the owner supplies a liver deep link.",
+    note: "Live duck collection and individual product listings reviewed 2026-09-24: rendered duck fat is available; duck livers are listed but sold out; no whole duck, breast or leg quarters appear. Monetized on the canonical duck-fat deep link (US_WELLNESS_DUCK_FAT_URL in src/data/affiliates.ts). Duck-meat sourcing slots were removed. Liver stays unmonetized until the owner supplies a liver deep link.",
   },
 
 
@@ -244,7 +244,7 @@ export const PAGE_REVENUE_MAP: PageRevenueMap[] = [
         role: "secondary",
         merchantId: "tastyduck-jurgielewicz",
         deepLinkId: "sourcing-tastyduck",
-        intent: "First duck order or sampler kit",
+        intent: "Browse whole duck or duck parts from a duck-focused producer",
         placement: "Sellers comparison and callout CTA — direct, unpaid",
       },
       {

@@ -267,7 +267,7 @@ function Page() {
 
       <CommercialCallout
         heading="Best current options for ordering duck online"
-        intro="Four sellers whose public catalogues list duck by the cut, ordered by how well each solves a common reader problem rather than by whether it pays us. Catalogues reviewed 2026-08-18."
+        intro="Four sellers whose public catalogues list duck by the cut, ordered by how well each solves a common reader problem rather than by whether it pays us. Each seller link shows when its catalogue was last checked. Stock and local availability change; confirm details with the seller before ordering."
         placement="buy_duck_primary_options"
         linkIds={[
           "culver-duck",
