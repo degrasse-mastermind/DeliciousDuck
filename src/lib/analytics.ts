@@ -81,6 +81,7 @@ export const ANALYTICS_EVENTS = {
   newsletterPostsignupClick: "newsletter_postsignup_click",
   newsletterInterestSelected: "newsletter_interest_selected",
   emailLandingView: "email_landing_view",
+  pinterestLandingView: "pinterest_landing_view",
   duckDropCtaClick: "duck_drop_cta_click",
   calculatorComplete: "calculator_complete",
   starterGuideView: "starter_guide_view",
@@ -353,8 +354,8 @@ export function trackPinterestLanding(): void {
     pinterest_pin: attribution.pin,
     source_path: currentPagePath(),
   };
-  trackEvent("pinterest_landing_view", paramsForEvent);
-  captureEvent("pinterest_landing_view", paramsForEvent);
+  trackEvent(ANALYTICS_EVENTS.pinterestLandingView, paramsForEvent);
+  captureEvent(ANALYTICS_EVENTS.pinterestLandingView, paramsForEvent);
 }
 
 /**
