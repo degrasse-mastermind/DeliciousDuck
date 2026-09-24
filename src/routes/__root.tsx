@@ -18,6 +18,7 @@ import {
   GA_MEASUREMENT_ID,
   trackCommercialPageView,
   trackEmailLanding,
+  trackPinterestLanding,
   trackPageView,
 } from "@/lib/analytics";
 import { capturePostHogPageView, initPostHog, syncPostHogRoutePolicy } from "@/lib/posthog";
@@ -202,6 +203,8 @@ function RootComponent() {
     // /internal/* or /api/* loaded neither SDK, so both come up here the first
     // time it reaches a public route.
     initPostHog(pathname);
+    // Attribute the two approved Pinterest Pins through later commercial clicks.
+    trackPinterestLanding();
     const gaLoad = ensureGtagLoaded(GA_MEASUREMENT_ID, pathname);
     // Manual PostHog pageview per navigation, including the first load.
     capturePostHogPageView(pathname);
@@ -236,4 +239,3 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
-

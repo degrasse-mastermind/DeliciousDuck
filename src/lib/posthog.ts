@@ -77,6 +77,8 @@ const POSTHOG_EVENT_PROPERTY_ALLOWLIST: Readonly<Record<string, readonly string[
     "placement",
     "destination_host",
     "affiliate",
+    "pinterest_campaign",
+    "pinterest_pin",
   ],
   merchant_click: [
     "commercial_link_id",
@@ -88,7 +90,10 @@ const POSTHOG_EVENT_PROPERTY_ALLOWLIST: Readonly<Record<string, readonly string[
     "placement",
     "destination_host",
     "affiliate",
+    "pinterest_campaign",
+    "pinterest_pin",
   ],
+  pinterest_landing_view: ["pinterest_campaign", "pinterest_pin", "source_path"],
   commercial_page_view: [
     "page_path",
     "source_path",
