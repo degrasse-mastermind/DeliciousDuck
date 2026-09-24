@@ -148,7 +148,7 @@ export const US_WELLNESS_STOREFRONT_URL_HISTORICAL = "https://grasslandbeefllc.s
  * the live collection actually contained when these placements were written.
  */
 export const US_WELLNESS_CATALOGUE_REVIEW = {
-  reviewedDate: "2026-08-18",
+  reviewedDate: "2026-09-24",
   collectionUrl: "https://grasslandbeef.com/collections/duck",
   /** Products rendered by the live collection page at review time. */
   products: [
@@ -157,7 +157,7 @@ export const US_WELLNESS_CATALOGUE_REVIEW = {
   ],
   /** Categories the live collection did NOT contain, despite older cached results. */
   absentAtReview: ["Whole duck", "Duck breast", "Duck leg quarters", "General duck meat"],
-  note: "Older indexed or cached results still show whole duck, breast and leg quarters. They are not current and must not power CTAs or copy. Only rendered duck fat is treated as a live US Wellness duck use case.",
+  note: "Live collection and product listings reviewed 2026-09-24: Duck Fat 1 quart is available and Pastured Duck Livers 5 lb are sold out; no whole duck, breast or leg quarters appear. Older indexed or cached results are not current and must not power CTAs or copy. Only rendered duck fat is treated as a live US Wellness duck use case.",
 } as const;
 
 export const MERCHANTS: Merchant[] = [
@@ -178,8 +178,8 @@ export const MERCHANTS: Merchant[] = [
     track: "affiliate",
     allowedCategories: ["Rendered duck fat"],
     excludedCategories: [
-      "Whole duck, duck breast, duck leg quarters and general duck meat — absent from the live collection reviewed 2026-08-18",
-      "Duck liver — in the collection but sold out at review, and no liver deep link has been supplied",
+      "Whole duck, duck breast, duck leg quarters and general duck meat — absent from the live collection reviewed 2026-09-24",
+      "Duck liver — listed but sold out at review; no liver deep link has been supplied",
     ],
     termsNotes:
       "Duck CTAs must use the verified duck fat deep link (US_WELLNESS_DUCK_FAT_URL). Do not repeat the merchant's own production or health claims; we have not substantiated them.",
@@ -192,7 +192,7 @@ export const MERCHANTS: Merchant[] = [
       ga4AffiliateVerified: true,
     },
     internalNote:
-      "Live duck collection manually reviewed 2026-08-18: only Duck Fat 1 quart (available at review) and Pastured Duck Livers 5 lb (sold out at review). No whole duck, breast or leg quarters. Duck-meat sourcing placements were removed; the monetized use case is rendered duck fat via the verified xJoWgR deep link, which is now the canonical registry URL. Live test click completed and GA4 affiliate=true confirmed by owner on 2026-08-27. No liver deep link supplied, so liver is not monetized.",
+      "Live duck collection and product listings reviewed 2026-09-24: Duck Fat 1 quart is available and Pastured Duck Livers 5 lb are sold out; no whole duck, breast or leg quarters appear. Duck-meat sourcing placements were removed; the monetized use case remains rendered duck fat via the canonical xJoWgR deep link. The destination link itself was last owner-tested 2026-08-27 and has not been re-tested in this review. No liver deep link supplied, so liver is not monetized.",
   },
 
 
@@ -253,11 +253,11 @@ export const MERCHANTS: Merchant[] = [
     status: "candidate",
     directUrl: "https://culverduck.com/shop/",
     statusReviewed: "2026-08-18",
-    lastCheckedDate: "2026-08-18",
+    lastCheckedDate: "2026-09-24",
     track: "partnership-prospect",
     activation: { ...NOTHING_VERIFIED },
     internalNote:
-      "Duck producer with a direct-to-consumer shop reviewed 2026-08-18: whole duck, raw breast, legs, ground duck, duck fat, confit, smoked breast, stuffed duck and halal duck. No affiliate program has been confirmed, so every link stays plain and unpaid. Their site feedback form explicitly invites cross-promotional opportunities, which makes them a partnership prospect to contact — not an affiliate.",
+      "Direct-to-consumer shop fetched 2026-09-24: the live catalogue spans whole duck, raw and smoked breast, duck legs, ground duck, rendered duck fat, confit, stuffed duck and halal duck. No affiliate program has been confirmed, so links stay plain and unpaid. Cross-promotion remains a prospect only; no relationship is claimed.",
   },
   {
     id: "tastyduck-jurgielewicz",
@@ -265,11 +265,11 @@ export const MERCHANTS: Merchant[] = [
     status: "candidate",
     directUrl: "https://tastyduck.com/shop/",
     statusReviewed: "2026-08-18",
-    lastCheckedDate: "2026-08-18",
+    lastCheckedDate: "2026-09-24",
     track: "partnership-prospect",
     activation: { ...NOTHING_VERIFIED },
     internalNote:
-      "Family duck producer whose shop, reviewed 2026-08-18, lists whole duck, breasts, legs, sampler kits and prepared products. No affiliate program confirmed; links stay direct and unpaid. Their feedback form invites cross-promotional opportunities, so treat as a partnership prospect to contact.",
+      "Family duck producer whose direct shop was fetched 2026-09-24 and lists whole duck and duck breast among its current products. No affiliate program confirmed; links stay direct and unpaid. Other product details should be checked on the seller site before making a specific recommendation.",
   },
   {
     id: "fossil-farms",
@@ -277,11 +277,11 @@ export const MERCHANTS: Merchant[] = [
     status: "candidate",
     directUrl: "https://www.fossilfarms.com/collections/pekin-duck-meat",
     statusReviewed: "2026-08-18",
-    lastCheckedDate: "2026-08-18",
+    lastCheckedDate: "2026-09-24",
     track: "partnership-prospect",
     activation: { ...NOTHING_VERIFIED },
     internalNote:
-      "Game and specialty meat retailer. Re-checked 2026-08-19: the old combined /collections/duck landing is gone (404) and duck is now split by breed, so the link points at the Pekin collection — the breed most home recipes assume. Moulard sits at /collections/moulard-duck-meat if a page ever needs the larger breed. No public affiliate program confirmed; links stay direct and unpaid. Partnership prospect worth an outreach email.",
+      "The Pekin collection was fetched 2026-09-24 and listed Pekin duck breast, whole duck and legs. The old combined /collections/duck landing was replaced by breed-specific collections, so this link points at Pekin. No public affiliate program confirmed; links stay direct and unpaid.",
   },
   {
     id: "wild-fork",
