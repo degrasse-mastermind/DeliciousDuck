@@ -81,6 +81,7 @@ export const ANALYTICS_EVENTS = {
   newsletterPostsignupClick: "newsletter_postsignup_click",
   newsletterInterestSelected: "newsletter_interest_selected",
   emailLandingView: "email_landing_view",
+  pinterestLandingView: "pinterest_landing_view",
   duckDropCtaClick: "duck_drop_cta_click",
   calculatorComplete: "calculator_complete",
   starterGuideView: "starter_guide_view",
@@ -233,6 +234,12 @@ function shouldSendClick(key: string): boolean {
  * ------------------------------------------------------------------ */
 
 const EMAIL_ATTRIBUTION_KEY = "dd_email_attribution";
+const PINTEREST_ATTRIBUTION_KEY = "dd_pinterest_attribution";
+const PINTEREST_CAMPAIGN = "buyer-guide-sprint-20260924";
+const PINTEREST_PIN_CONTENT = new Set([
+  "duck-online-compare-v01",
+  "duck-fat-format-choice-v01",
+]);
 
 export interface EmailAttribution {
   campaign?: string | undefined;
@@ -284,6 +291,71 @@ export function trackEmailLanding(): void {
     page_path: currentPagePath(),
     content_slug: contentSlugFromPath(),
   });
+}
+
+export interface PinterestAttribution {
+  campaign: typeof PINTEREST_CAMPAIGN;
+  pin: string;
+}
+
+/**
+ * Reads the allowlisted Pinterest campaign attribution for this browser session.
+ * Only the known campaign and Pin IDs are retained; raw query strings never leave
+ * the landing URL or enter storage.
+ */
+export function pinterestAttribution(): PinterestAttribution | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(PINTEREST_ATTRIBUTION_KEY);
+    if (!raw) return null;
+    const value = JSON.parse(raw) as Partial<PinterestAttribution>;
+    if (
+      value.campaign !== PINTEREST_CAMPAIGN ||
+      typeof value.pin !== "string" ||
+      !PINTEREST_PIN_CONTENT.has(value.pin)
+    ) {
+      return null;
+    }
+    return { campaign: value.campaign, pin: value.pin };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Captures only the two published Pinterest Pin IDs, once per browser session.
+ * This allows subsequent affiliate and merchant clicks to be attributed without
+ * forwarding arbitrary query parameters or storing visitor identifiers.
+ */
+export function trackPinterestLanding(): void {
+  if (typeof window === "undefined") return;
+  const params = new URLSearchParams(window.location.search);
+  if (
+    params.get("utm_source") !== "pinterest" ||
+    params.get("utm_medium") !== "social" ||
+    params.get("utm_campaign") !== PINTEREST_CAMPAIGN
+  ) {
+    return;
+  }
+  const pin = params.get("utm_content");
+  if (!pin || !PINTEREST_PIN_CONTENT.has(pin)) return;
+
+  const attribution: PinterestAttribution = { campaign: PINTEREST_CAMPAIGN, pin };
+  const existing = pinterestAttribution();
+  try {
+    window.sessionStorage.setItem(PINTEREST_ATTRIBUTION_KEY, JSON.stringify(attribution));
+  } catch {
+    /* storage unavailable — attribution is best-effort only */
+  }
+  if (existing?.campaign === attribution.campaign && existing.pin === attribution.pin) return;
+
+  const paramsForEvent = {
+    pinterest_campaign: attribution.campaign,
+    pinterest_pin: attribution.pin,
+    source_path: currentPagePath(),
+  };
+  trackEvent(ANALYTICS_EVENTS.pinterestLandingView, paramsForEvent);
+  captureEvent(ANALYTICS_EVENTS.pinterestLandingView, paramsForEvent);
 }
 
 /**
@@ -539,6 +611,13 @@ export function trackCommercialClick(input: {
       placement: input.placement,
       sourcePath: currentPagePath(),
     });
+    const attribution = pinterestAttribution();
+    const attributionParams = attribution
+      ? {
+          pinterest_campaign: attribution.campaign,
+          pinterest_pin: attribution.pin,
+        }
+      : {};
     const key = [
       "commercial",
       event.params.commercial_link_id,
@@ -546,8 +625,8 @@ export function trackCommercialClick(input: {
       event.params.source_path,
     ].join("|");
     if (!shouldSendClick(key)) return;
-    trackEvent(event.name, { ...event.params });
-    captureEvent(event.name, { ...event.params });
+    trackEvent(event.name, { ...event.params, ...attributionParams });
+    captureEvent(event.name, { ...event.params, ...attributionParams });
   } catch {
     // Analytics is best-effort. Never let it break an outbound click.
   }

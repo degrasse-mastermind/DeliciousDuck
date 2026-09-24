@@ -77,6 +77,8 @@ const POSTHOG_EVENT_PROPERTY_ALLOWLIST: Readonly<Record<string, readonly string[
     "placement",
     "destination_host",
     "affiliate",
+    "pinterest_campaign",
+    "pinterest_pin",
   ],
   merchant_click: [
     "commercial_link_id",
@@ -88,7 +90,10 @@ const POSTHOG_EVENT_PROPERTY_ALLOWLIST: Readonly<Record<string, readonly string[
     "placement",
     "destination_host",
     "affiliate",
+    "pinterest_campaign",
+    "pinterest_pin",
   ],
+  pinterest_landing_view: ["pinterest_campaign", "pinterest_pin", "source_path"],
   commercial_page_view: [
     "page_path",
     "source_path",
@@ -147,6 +152,25 @@ export function initPostHog(path?: string): void {
       capture_pageleave: false,
       autocapture: false,
       disable_session_recording: true,
+      // PostHog enriches custom events with default URL properties after
+      // captureEvent's allowlist runs. Strip query strings and fragments from
+      // every URL property before anything is sent (unsubscribe tokens can
+      // otherwise leak via $current_url).
+      before_send: (event) => {
+        if (!event) return event;
+        const properties = { ...event.properties };
+        for (const key of ["$current_url", "$referrer", "$initial_referrer", "$previous_url"]) {
+          const value = properties[key];
+          if (typeof value !== "string") continue;
+          try {
+            const url = new URL(value, window.location.origin);
+            properties[key] = `${url.origin}${url.pathname}`;
+          } catch {
+            delete properties[key];
+          }
+        }
+        return { ...event, properties };
+      },
     });
   } catch {
     // Analytics must never break the app.
