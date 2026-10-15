@@ -7,7 +7,7 @@
  *
  * Hard rules (do not relax):
  * - Destinations are seeded ONLY from URLs already present and verifiable in the
- *   codebase (today: the merchant registry in `src/data/affiliates.ts`).
+ *   codebase, including researched product identities in `src/data/amazon.ts`.
  * - Relationship state is DERIVED from that merchant registry, never asserted
  *   here. A pending application can never render as an affiliate link.
  * - No prices, ratings, discounts, commission rates, or invented tracking
@@ -21,7 +21,7 @@ import {
   isUsableUrl,
   type Merchant,
 } from "./affiliates";
-import { amazonCategoryUrl, type AmazonCategoryId } from "./amazon";
+import { amazonCategoryUrl, amazonProductUrl, type AmazonCategoryId } from "./amazon";
 
 /**
  * Commercial relationship for a destination.
@@ -106,6 +106,7 @@ interface SeedRow {
    * URL (Amazon category Special Links). Built centrally — never hand-written.
    */
   url?: string;
+  lastVerified?: string;
 }
 
 /**
@@ -113,6 +114,26 @@ interface SeedRow {
  * No new merchants, programs, or URLs may be invented here.
  */
 const SEEDS: SeedRow[] = [
+  {
+    id: "amazon-tp19h-thermometer",
+    merchantId: "amazon",
+    category: "thermometer",
+    url: amazonProductUrl("amazon-tp19h-thermometer"),
+    lastVerified: "2026-10-15",
+    useFor:
+      "TempPro (formerly ThermoPro) TP19H / TempSwift PLUS: everyday spot checks, with a folding probe, rotating backlit display, temperature lock and calibration. Not for leaving in the oven.",
+    ctaLabel: "Check availability on Amazon",
+  },
+  {
+    id: "amazon-tp16-thermometer",
+    merchantId: "amazon",
+    category: "thermometer",
+    url: amazonProductUrl("amazon-tp16-thermometer"),
+    lastVerified: "2026-10-15",
+    useFor:
+      "TempPro TP16 / TempTrack CORE: whole-roast monitoring with a single wired probe and adjustable temperature alarm. Keep the display outside the oven and check other bird locations separately.",
+    ctaLabel: "Check availability on Amazon",
+  },
   {
     id: "culver-duck",
     merchantId: "culver-duck",
@@ -222,7 +243,7 @@ export const COMMERCIAL_LINKS: CommercialLinkEntry[] = [...SEEDS, ...AMAZON_SEED
       category: seed.category,
       relationship,
       disclosureLabel: DISCLOSURE_LABELS[relationship],
-      lastVerified: merchant.lastCheckedDate ?? merchant.statusReviewed,
+        lastVerified: seed.lastVerified ?? merchant.lastCheckedDate ?? merchant.statusReviewed,
       useFor: seed.useFor,
       ...(seed.ctaLabel ? { ctaLabel: seed.ctaLabel } : {}),
     },
@@ -358,7 +379,7 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
   {
     path: "/gear/best-thermometer-for-duck",
     placement: "thermometer_options",
-    linkIds: ["amazon-instant-read-thermometer", "amazon-leave-in-probe-thermometer"],
+    linkIds: ["amazon-tp19h-thermometer", "amazon-tp16-thermometer"],
   },
   {
     path: "/gear/best-knife-for-scoring-duck",

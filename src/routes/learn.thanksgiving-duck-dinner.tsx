@@ -46,7 +46,7 @@ const FAQ = [
   },
   {
     q: "What temperature is a whole Thanksgiving duck done at?",
-    a: "165°F (73.9°C) in the thickest part of the thigh, away from bone — the safe minimum internal temperature for all poultry. For planning only, a whole duckling of 4 to 6 lb runs roughly 30 to 35 min/lb in a 350°F oven, and a whole duckling should not be stuffed. Cook the stuffing separately in a casserole.",
+    a: "A measured 165°F (74°C) in the innermost thigh and wing and the thickest part of the breast, avoiding bone — the safe minimum internal temperature for all poultry. For planning only, a whole duckling of 4 to 6 lb runs roughly 30 to 35 min/lb in a 350°F oven, and a whole duckling should not be stuffed. Cook the stuffing separately in a casserole.",
   },
   {
     q: "Can I roast a duck and a turkey in the same oven?",
@@ -169,6 +169,23 @@ function Page() {
           </p>
         </Callout>
       </Section>
+
+      <Callout label="Small-table equipment check">
+        <p>
+          Check the pan and rack fit your oven, leave refrigerator space for thawing, and check your
+          thermometer’s battery and accuracy according to its instructions. Keep equipment that
+          already works. For an everyday spot-check choice and an optional wired probe for whole
+          roasts, see our{" "}
+          <Link
+            to="/gear/best-thermometer-for-duck"
+            className="text-primary underline underline-offset-4"
+          >
+            two researched thermometer choices
+          </Link>
+          . One leave-in probe reads only one location; check the other parts of the bird
+          separately.
+        </p>
+      </Callout>
 
       <Section id="oven" heading="One oven, several dishes, a lot of fat">
         <p>
@@ -293,7 +310,8 @@ function Page() {
         <SafetyNote>
           <p>
             All poultry has a safe minimum internal temperature of 165°F (73.9°C), read in the
-            thickest part of the thigh away from bone. Thaw in the refrigerator — about 24 hours per 4
+            innermost thigh and wing and the thickest part of the breast, avoiding bone. Do not rely
+            on color or an assumed rise during resting. Thaw in the refrigerator — about 24 hours
             to 5 lb — never on the counter. Do not stuff a whole duckling. Perishable food should not
             sit between 40°F and 140°F (4.4°C and 60°C) for more than two hours, or one hour above
             90°F (32.2°C), and cooked duck keeps three to four days refrigerated, reheated to 165°F
@@ -313,7 +331,7 @@ function Page() {
           for where the two diverge.
         </p>
         <SourceNotes
-          ids={PAGE.sourceIds}
+          ids={[...PAGE.sourceIds, "usdaDuckMeasuredTemperature", "usdaFoodThermometers"]}
           id="safety-sources"
           heading="Safety references"
         />

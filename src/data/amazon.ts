@@ -4,8 +4,8 @@
  * Rules (do not relax):
  * - Every Amazon destination the site renders is built here, so the Associates
  *   tag is never hardcoded on a page.
- * - Only relevant search/category destinations are used. No named product
- *   claims, no prices, no ratings or review counts (Amazon customer reviews may
+ * - Relevant category destinations and verified product ASINs are used. No
+ *   prices, ratings or review counts (Amazon customer reviews may
  *   only be shown through an approved Amazon API, which we do not use).
  * - Amazon Special Links are website-only. They must never be placed in email,
  *   newsletters, downloadable PDFs, or SMS.
@@ -67,4 +67,16 @@ export type AmazonCategoryId = keyof typeof AMAZON_CATEGORIES;
 
 export function amazonCategoryUrl(id: AmazonCategoryId): string {
   return amazonSearchUrl(AMAZON_CATEGORIES[id]);
+}
+
+/** Verified model identities, reviewed 2026-10-15; see docs/thermometer-experiment-brief.md. */
+export const AMAZON_PRODUCTS = {
+  "amazon-tp19h-thermometer": "B07XXSYLL8",
+  "amazon-tp16-thermometer": "B017613C3C",
+} as const;
+
+export function amazonProductUrl(id: keyof typeof AMAZON_PRODUCTS): string {
+  const url = new URL("https://" + AMAZON_HOST + "/dp/" + AMAZON_PRODUCTS[id]);
+  url.searchParams.set("tag", AMAZON_TAG);
+  return url.toString();
 }

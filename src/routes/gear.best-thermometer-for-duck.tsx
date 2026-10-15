@@ -4,6 +4,7 @@ import { DisclosureBanner, ComparisonCard, ComparisonTable, ShopThisGuide, Evalu
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { SafetyNote } from "@/components/site/SafetyNote";
+import { SourceNotes } from "@/components/site/SourceNotes";
 import { THERMOMETERS, THERMOMETER_FACTORS } from "@/data/comparisons";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
@@ -94,8 +95,8 @@ function Page() {
 
       <CommercialCallout
         heading="The thermometer most duck cooks need first"
-        intro="An instant-read thermometer handles breast, legs, and spot checks. Add a leave-in probe only if whole-bird roasting is a regular job."
-        linkIds={["amazon-instant-read-thermometer"]}
+        intro="Our everyday choice is the TempPro TP19H for spot checks. Add the TP16 wired probe only if you regularly monitor whole roasts. These picks are based on manufacturer specifications and model listings, not hands-on tests."
+        linkIds={["amazon-tp19h-thermometer"]}
         placement="thermometer_early_option"
       />
 
@@ -266,18 +267,20 @@ function Page() {
       />
 
       <CommercialCallout
-        heading="Browse the two thermometer categories"
-        intro="One instant-read for spot checks, one leave-in probe for long roasts. Category links only — we name no models and publish no prices or ratings."
+        heading="Two researched choices, for two different jobs"
+        intro="Choose TP19H for everyday spot checks or TP16 for a whole roast. If your existing thermometer reads reliably, keep using it."
         placement="thermometer_options"
-        linkIds={["amazon-instant-read-thermometer", "amazon-leave-in-probe-thermometer"]}
+        linkIds={["amazon-tp19h-thermometer", "amazon-tp16-thermometer"]}
         criteria={[
-          "A published read time and accuracy figure from the manufacturer.",
-          "A thin probe tip, so a duck breast does not drain through the hole.",
-          "For a leave-in probe: an oven-safe cable and a settable alarm.",
-          "Water resistance that matches how you actually clean it.",
+          "TP19H has motion wake and a AAA battery. Its IP65 rating supports rinsing, not submersion or dishwasher cleaning.",
+          "TP16 has a magnetic/tabletop display and a AAA battery. It monitors one location and has no wireless remote monitoring.",
+          "Keep the TP16 display outside the oven and follow the manufacturer’s probe and cable limits.",
+          "For a whole bird, verify the innermost thigh and wing and thickest breast, avoiding bone.",
         ]}
-        footnote="Category links, not product recommendations. Check the retailer's own listing for specifications, availability, and terms."
+        footnote="Model identities and specifications reviewed October 15, 2026. Check the listing before purchase; availability and terms can change."
       />
+
+      <SourceNotes ids={["tempproTp19h", "tempproTp16"]} heading="Selection sources" />
 
       <ShopThisGuide
         items={[
