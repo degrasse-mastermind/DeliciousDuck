@@ -185,12 +185,6 @@ function RootComponent() {
     syncQaExclusionFromLocation();
     // Campaign-level newsletter attribution for this session (no PII).
     trackEmailLanding();
-    // One `commercial_page_view` per navigation that enters a commercial
-    // route. The helper suppresses effect replay for the same navigation, so
-    // A -> B -> A still counts twice for A, and non-commercial routes emit
-    // nothing.
-
-    trackCommercialPageView({ path: pathname });
     // Re-apply the per-route PostHog policy first: a client-side navigation
     // into /internal or /api must silence autocapture, page-leave and session
     // recording, and returning to a public route restores them.
@@ -203,6 +197,11 @@ function RootComponent() {
     // /internal/* or /api/* loaded neither SDK, so both come up here the first
     // time it reaches a public route.
     initPostHog(pathname);
+    // Initialize before recording the visit: the helper dedupes immediately,
+    // so a capture attempted before PostHog is ready cannot be retried.
+    // One event per commercial navigation; effect replay is suppressed while
+    // A -> B -> A still counts twice for A. Non-commercial routes emit nothing.
+    trackCommercialPageView({ path: pathname });
     // Attribute the two approved Pinterest Pins through later commercial clicks.
     trackPinterestLanding();
     const gaLoad = ensureGtagLoaded(GA_MEASUREMENT_ID, pathname);
