@@ -14,6 +14,38 @@ export interface SourceRef {
 }
 
 export const SOURCES: Record<string, SourceRef> = {
+  tempproTp19h: {
+    id: "tempproTp19h",
+    label: "TP19H / TempSwift PLUS specifications",
+    publisher: "TempPro",
+    url: "https://temppro.com/products/tp19h-instant-read-meat-thermometer",
+    note: "Manufacturer specifications; not a hands-on test. Read-speed claims omitted because documentation differs.",
+    checked: "2026-10-15",
+  },
+  tempproTp16: {
+    id: "tempproTp16",
+    label: "TP16 / TempTrack CORE specifications",
+    publisher: "TempPro",
+    url: "https://temppro.com/products/tp16-leave-in-meat-thermometer",
+    note: "Single wired probe and adjustable alarm; the display stays outside the oven.",
+    checked: "2026-10-15",
+  },
+  usdaDuckMeasuredTemperature: {
+    id: "usdaDuckMeasuredTemperature",
+    label: "Recommended cooking times for duck and goose",
+    publisher: "USDA Food Safety and Inspection Service",
+    url: "https://ask.fsis.usda.gov/article/What-are-recommended-cooking-times-for-duck-and-goose",
+    note: "Measure at least 165°F; check the innermost thigh and wing and thickest breast, avoiding bone.",
+    checked: "2026-10-15",
+  },
+  usdaFoodThermometers: {
+    id: "usdaFoodThermometers",
+    label: "Food Thermometers",
+    publisher: "USDA Food Safety and Inspection Service",
+    url: "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/food-thermometers",
+    note: "Use a food thermometer and proper placement; color is not a reliable safety check.",
+    checked: "2026-10-15",
+  },
   fdcDuckMeat: {
     id: "fdcDuckMeat",
     label: "Duck, domesticated, meat only / meat and skin, cooked, roasted",

@@ -197,10 +197,7 @@ describe("confit vessel guide — commerce", () => {
     const thermometer = COMMERCIAL_PLACEMENTS.find(
       (p) => p.placement === "thermometer_options",
     )!;
-    expect(thermometer.linkIds).toEqual([
-      "amazon-instant-read-thermometer",
-      "amazon-leave-in-probe-thermometer",
-    ]);
+    expect(thermometer.linkIds).toEqual(["amazon-tp19h-thermometer", "amazon-tp16-thermometer"]);
   });
 });
 

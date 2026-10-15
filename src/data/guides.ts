@@ -122,7 +122,7 @@ export const GUIDES: GuideEntry[] = [
     kind: "reference",
     minutes: 9,
     answer:
-      "Pull duck breast at 130–135°F (54–57°C) in the centre for the rosy, medium-rare finish restaurants serve, then rest five minutes while carryover takes it a few degrees higher. Cook it to 165°F (74°C) if you want the official poultry safety minimum, accepting a firmer, greyer centre. Measure into the thickest part from the side, never through the skin.",
+      "The poultry safety minimum is a measured 165°F (74°C) for duck, including breast. Check the thickest part from the side before removal; do not rely on color or an assumed rise while resting. Medium-rare at 130–135°F (54–57°C) is a culinary texture convention below that safety recommendation, not a safe equivalent.",
     related: [
       "/cook/how-to-cook-duck-breast",
       "/tools/duck-doneness-guide",

@@ -19,7 +19,7 @@ const DISTRIBUTION = distributionMetadata("/learn/duck-breast-temperature-donene
 const FAQ = [
   {
     q: "What internal temperature should duck breast be?",
-    a: "Two answers, for two questions. The USDA safe minimum for poultry, duck included, is 165°F (73.9°C). The common restaurant target is medium-rare: pulled at 125–130°F (52–54°C), finishing at 130–135°F (54–57°C) after a 5–8 minute rest — a texture convention, not a safety clearance.",
+    a: "Two answers, for two questions. The USDA safe minimum for poultry, duck included, is 165°F (73.9°C). Medium-rare at 130–135°F (54–57°C) is a culinary texture convention below USDA’s recommended minimum, not a safety clearance. Measure 165°F before removal; do not assume resting will supply the difference.",
   },
   {
     q: "What internal temperature is duck cooked at, beyond the breast?",
@@ -28,15 +28,15 @@ const FAQ = [
 
   {
     q: "What temperature is medium duck breast?",
-    a: "Pull at 135–140°F (57–60°C) and it settles at 140–145°F (60–63°C) after resting, giving a pale pink centre that is firmer than medium-rare but still moist.",
+    a: "Medium at 140–145°F (60–63°C) describes a culinary texture preference below the USDA minimum. It is not a safe equivalent to a measured 165°F.",
   },
   {
     q: "Is pink duck breast safe to eat?",
-    a: "Pink at 130–135°F is a texture choice, not a safety endpoint. Only 165°F (73.9°C) removes the safety question, and colour is an unreliable proxy for doneness in either direction. Cook to 165°F for very young, elderly, pregnant, or immunocompromised diners.",
+    a: "Pink at 130–135°F is a texture choice, not a safety endpoint. USDA recommends measuring at least 165°F (74°C); color cannot establish safety. Proper handling and avoiding cross-contamination still matter. Cook to 165°F for very young, elderly, pregnant, or immunocompromised diners.",
   },
   {
     q: "How much does duck breast carry over while resting?",
-    a: "A thick magret breast (350–450 g) can climb 8–10°F (4.5–5.5°C) off the heat; a smaller Pekin breast (150–200 g) usually climbs only 4–6°F (2–3°C). Hard, fast cooking increases carryover because the surface-to-centre gradient is steeper.",
+    a: "Carryover varies with thickness and cooking conditions. Measure rather than assume a fixed rise, and reach the recommended minimum before removing duck from the heat.",
   },
   {
     q: "Where do you put the thermometer in a duck breast?",
@@ -90,66 +90,53 @@ function Page() {
     >
       <Section id="two-numbers" heading="Two different numbers, two different jobs">
         <p>
-          Duck breast temperature guidance splits into two categories that get conflated
-          constantly: a food-safety minimum set by USDA, and a set of culinary conventions used to
-          hit a particular texture. They answer different questions. The safety number answers
-          "is this free of the pathogens poultry can carry." The culinary numbers answer "what
-          texture am I aiming for," and assume you accept the trade-offs that come with a
-          lower-temperature centre.
+          Duck breast temperature guidance splits into two categories that get conflated constantly:
+          a food-safety minimum set by USDA, and a set of culinary conventions used to hit a
+          particular texture. They answer different questions. USDA recommends a measured minimum
+          internal temperature of 165°F (74°C) for duck, including breasts and whole birds. Lower
+          culinary temperatures describe texture preferences below that recommendation; proper
+          handling and avoiding cross-contamination still matter.
         </p>
       </Section>
 
       <SafetyNote heading="The official safety minimum" />
 
-      <Section id="doneness-table" heading="Doneness table: pull temperature, final temperature, appearance">
+      <Callout label="One thermometer recommendation">
+        For everyday spot checks, our specification-based choice is the TempPro TP19H. If your
+        current thermometer works reliably, keep using it. See the{" "}
+        <a
+          href="/gear/best-thermometer-for-duck"
+          className="text-primary underline underline-offset-4"
+        >
+          two thermometer choices and their limitations
+        </a>
+        .
+      </Callout>
+
+      <Section id="doneness-table" heading="Doneness reference: measured temperatures">
         <p>
-          "Pull temperature" is the internal reading at which you take the breast off the heat.
-          "Final temperature" is what it reaches a few minutes later, after carryover cooking has
-          run its course during the rest. The gap between the two is carryover, covered in detail
-          below.
+          These culinary bands describe texture, not safety. Every temperature below 165°F is below
+          USDA's recommended minimum. Carryover varies; no fixed temperature rise during resting is
+          promised.
         </p>
         <DataTable
           caption="Duck breast doneness reference"
-          columns={["Target", "Pull temp", "Final temp (after rest)", "Appearance", "Texture", "Category"]}
+          columns={["Target", "Measured internal temperature", "Meaning"]}
           rows={[
-            [
-              "Rare",
-              "115–120°F (46–49°C)",
-              "120–125°F (49–52°C)",
-              "Deep red throughout, very soft",
-              "Very tender, almost yielding",
-              "Culinary convention only — not a USDA-recognised safe endpoint",
-            ],
+            ["Rare", "120–125°F (49–52°C)", "Culinary convention only; below the safety minimum"],
             [
               "Medium-rare",
-              "125–130°F (52–54°C)",
               "130–135°F (54–57°C)",
-              "Rosy pink centre, browned edges",
-              "Tender, moist, the common restaurant target",
-              "Culinary convention only",
+              "Culinary convention only; below the safety minimum",
             ],
+            ["Medium", "140–145°F (60–63°C)", "Culinary convention only; below the safety minimum"],
             [
-              "Medium",
-              "135–140°F (57–60°C)",
-              "140–145°F (60–63°C)",
-              "Pale pink centre",
-              "Firmer, still moist",
-              "Culinary convention only",
-            ],
-            [
-              "Well done / USDA safe minimum",
-              "160°F (71°C)",
-              "165°F (73.9°C) or above",
-              "No pink, opaque throughout",
-              "Firm, denser, more prone to drying if overshot",
-              "Meets USDA's 165°F minimum internal temperature",
+              "USDA safe minimum",
+              "165°F (74°C) measured before removal",
+              "Confirm with a food thermometer; do not rely on color or assumed carryover",
             ],
           ]}
         />
-        <p className="text-sm text-muted-foreground">
-          Pull temperatures assume you rest the breast for 5–8 minutes afterward. If you plan to
-          serve immediately with no rest, pull closer to your final target instead.
-        </p>
       </Section>
 
       <Section id="other-cuts" heading="Duck temperature beyond the breast: legs, thighs and whole bird">
@@ -168,14 +155,14 @@ function Page() {
               "A few degrees decide rosy versus grey; see the table above",
             ],
             [
-              "Whole duck, thigh",
+              "Whole duck (thigh texture target)",
               "175–185°F (79–85°C)",
-              "Above the 165°F minimum by choice — the legs only pull easily once connective tissue softens",
+              "For safety, measure at least 165°F in the innermost thigh and wing and the thickest part of the breast, avoiding bone. Higher thigh temperatures are a texture preference.",
             ],
             [
               "Duck legs, confit",
               "Fat held at 190–210°F (88–99°C) until a skewer meets no resistance",
-              "Texture, not temperature, is the endpoint; the meat passes 165°F long before it is tender",
+              "Measure the meat at 165°F or above for the safety minimum, then assess tenderness separately; fat temperature alone does not establish the meat temperature.",
             ],
           ]}
         />
@@ -197,7 +184,7 @@ function Page() {
           <a href="/recipes/oven-roasted-duck-breast" className="text-primary underline underline-offset-4">
             oven-roasted duck breast recipe
           </a>{" "}
-          uses the same pull temperatures.
+          also requires checking the internal temperature.
         </p>
       </Section>
 
@@ -205,22 +192,12 @@ function Page() {
 
       <Section id="carryover" heading="Why carryover varies by thickness and pan heat">
         <p>
-          Carryover cooking happens because the outer layers of the meat are hotter than the
-          centre at the moment you stop applying heat, and that heat keeps migrating inward while
-          the surface cools. The size of the effect depends mainly on two things: how thick the
-          cut is, and how hot the outer layers got before you pulled it.
+          Heat can continue moving from the hotter outer layers toward the centre after cooking.
+          Carryover varies with the cut and cooking conditions; a fixed rise cannot be guaranteed.
         </p>
-        <p>
-          A thick magret duck breast (350–450 g / 12–16 oz) holds more residual heat in its
-          outer layers relative to its core, so it can carry over 8–10°F (4.5–5.5°C) after
-          leaving the pan. A smaller Pekin breast (150–200 g / 5–7 oz) carries over less, often
-          only 4–6°F (2–3°C), because there's less thermal mass storing heat near the surface. A
-          breast finished over high, aggressive heat also tends to carry over more than one
-          finished gently, because the temperature gradient between surface and centre is steeper.
-        </p>
-        <Callout label="Rule of thumb">
-          Pull thicker breasts further under target than thin ones, and pull anything cooked hard
-          and fast further under target than something cooked gently.
+        <Callout label="Measure the minimum before removal">
+          Check that duck has reached 165°F (74°C) before taking it off the heat. Resting is not a
+          substitute for that measurement.
         </Callout>
       </Section>
 
@@ -294,9 +271,9 @@ function Page() {
           actual internal temperature would suggest.
         </p>
         <p>
-          The practical takeaway: treat 165°F as the number that removes the safety question
-          entirely, and treat anything below it as a deliberate trade you're making for texture —
-          one worth reconsidering for very young, elderly, pregnant, or immunocompromised diners.
+          The practical takeaway: measure at least 165°F (74°C), keep raw poultry separate from
+          ready-to-eat food, and use proper handling. Lower temperatures carry risk, especially for
+          young children, older adults, pregnant people and immunocompromised diners.
         </p>
       </Section>
 
@@ -323,7 +300,14 @@ function Page() {
 
       <FaqList items={FAQ} />
 
-      <SourceNotes ids={["usdaPoultryTemp", "usdaPoultryPrep"]} />
+      <SourceNotes
+        ids={[
+          "usdaPoultryTemp",
+          "usdaPoultryPrep",
+          "usdaDuckMeasuredTemperature",
+          "usdaFoodThermometers",
+        ]}
+      />
 
       <DecisionNextSteps
         heading="The tools these numbers assume"
@@ -344,8 +328,8 @@ function Page() {
         placement={AIR_FRYER_INBOUND_PLACEMENTS.donenessGuide}
         className="mt-10"
       >
-        These same pull temperatures decide an air fryer cook, where timings shift between machines
-        and the probe is all you have.
+        Measured internal temperatures also guide an air fryer cook, where timings shift between
+        machines and the probe is all you have.
       </AirFryerRecipeLink>
 
       <RelatedGuides paths={GUIDE.related} />
