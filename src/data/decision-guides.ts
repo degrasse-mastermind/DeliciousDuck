@@ -187,23 +187,23 @@ const THERMOMETER: DecisionGuideMeta = {
   evaluationStandard:
     "We compare thermometer types against the three duck cooks that actually stress them — a breast that passes its window in seconds, a whole bird that runs for hours, and a low, slow confit — and describe the specifications that decide each case.",
   methodology: [
-    "Published manufacturer specifications for the categories described: stated read time, probe dimensions, temperature range, stated accuracy, and water-resistance rating.",
+    "Published manufacturer specifications and model listings for the TP19H and TP16, alongside category requirements: stated read time, probe dimensions, temperature range, stated accuracy, and water-resistance rating.",
     "The temperature targets and probe placement on our own duck doneness and cooking-time pages.",
     "Standard verification practice any cook can run at home: an ice-bath check and a boiling-water check.",
   ],
   evidenceBasis:
-    "Published manufacturer specifications for each category — stated read time, probe dimensions, temperature range, stated accuracy, and water resistance — read against the temperature targets on our doneness and cooking-time pages.",
-  updated: "2026-08-13",
+    "Published manufacturer specifications and model listings reviewed October 15, 2026, alongside category requirements — stated read time, probe dimensions, temperature range, stated accuracy, and water resistance — read against the temperature targets on our doneness and cooking-time pages.",
+  updated: "2026-10-26",
   byline: "DeliciousDuck Editorial",
   quickPicks: [
     {
       situation: "You mostly cook duck breast",
-      choice: "Fast, thin-tipped instant-read",
+      choice: "TempPro TP19H instant-read",
       why: "The doneness window on a breast is measured in seconds, and a thin tip doesn't drain the muscle you just cooked.",
     },
     {
       situation: "You roast whole ducks",
-      choice: "Leave-in probe with an alarm",
+      choice: "TempPro TP16 wired probe with an alarm",
       why: "It watches a two-hour cook without you opening the oven, which is what actually costs you heat.",
     },
     {
