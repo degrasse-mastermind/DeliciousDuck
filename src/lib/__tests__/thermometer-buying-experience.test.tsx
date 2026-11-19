@@ -1,8 +1,9 @@
 // @vitest-environment happy-dom
 import { Suspense, type ComponentType, type ReactNode } from "react";
-import { cleanup, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AMAZON_TAG } from "@/data/amazon";
+import { trackDuckBreastClusterClick } from "@/lib/analytics";
 
 const path = "/gear/best-thermometer-for-duck";
 // Supply route context only; render the real page and commercial components.
@@ -17,6 +18,17 @@ vi.mock("@tanstack/react-router", async (importOriginal) => ({
     </a>
   ),
 }));
+
+vi.mock("@/lib/analytics", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/analytics")>()),
+  trackDuckBreastClusterClick: vi.fn(),
+}));
+
+const { Route: DonenessRoute } = await import("@/routes/learn.duck-breast-temperature-doneness");
+const Doneness = DonenessRoute.options.component as ComponentType & {
+  preload?: () => Promise<unknown>;
+};
+await Doneness.preload?.();
 
 const { Route } = await import("@/routes/gear.best-thermometer-for-duck");
 const Component = Route.options.component as ComponentType & { preload?: () => Promise<unknown> };
@@ -40,6 +52,9 @@ describe("thermometer guide buying experience", () => {
     expect(callout.compareDocumentPosition(advice) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 
     const disclosure = screen.getByLabelText("Affiliate disclosure");
+    const anchor = document.getElementById("thermometer_options");
+    expect(anchor?.contains(disclosure)).toBe(true);
+    expect(anchor?.contains(callout)).toBe(true);
     expect(
       disclosure.compareDocumentPosition(callout) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
@@ -50,6 +65,27 @@ describe("thermometer guide buying experience", () => {
       expect(url.searchParams.getAll("tag")).toEqual([AMAZON_TAG]);
       expect(product.rel).toBe("sponsored nofollow noopener");
     }
+  });
+
+  it("routes the late doneness card to the disclosed picks with its own click placement", async () => {
+    const { container } = render(
+      <Suspense fallback={null}>
+        <Doneness />
+      </Suspense>,
+    );
+    const link = await screen.findByRole("link", {
+      name: "Compare two researched thermometer options and their limitations",
+    });
+    expect(link.getAttribute("href")).toBe("/gear/best-thermometer-for-duck#thermometer_options");
+    expect(link.closest("aside")?.textContent).toContain("A reading settles in a few seconds");
+    expect(container.querySelector('a[href*="thermoworks.com"]')).toBeNull();
+    link.addEventListener("click", (event) => event.preventDefault());
+    fireEvent.click(link);
+    expect(trackDuckBreastClusterClick).toHaveBeenCalledExactlyOnceWith({
+      destinationPath: "/gear/best-thermometer-for-duck",
+      destinationGroup: "buying",
+      placement: "doneness_thermometer_card",
+    });
   });
 
   it("removes obsolete seller cards while retaining category education and research limits", async () => {

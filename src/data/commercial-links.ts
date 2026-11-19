@@ -353,11 +353,6 @@ export const COMMERCIAL_PLACEMENTS: CommercialPlacement[] = [
     linkIds: ["thermoworks-thermometer"],
   },
   {
-    path: "/learn/duck-breast-temperature-doneness",
-    placement: "temperature_gear",
-    linkIds: ["thermoworks-thermometer"],
-  },
-  {
     path: "/learn/why-duck-skin-isnt-crispy",
     placement: "crisp_skin_gear",
     linkIds: ["thermoworks-thermometer"],
