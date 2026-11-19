@@ -90,21 +90,23 @@ function Page() {
 
       <QuickDecision guide={DG} />
 
-      <DisclosureBanner />
+      <div id="thermometer_options" className="scroll-mt-24">
+        <DisclosureBanner />
 
-      <CommercialCallout
-        heading="Two researched choices, for two different jobs"
-        intro="Start with the TempPro TP19H for everyday spot checks. Add the TP16 wired probe only if you regularly monitor whole roasts. If your existing thermometer reads reliably, keep using it. These picks are based on manufacturer specifications and model listings, not hands-on tests."
-        placement="thermometer_options"
-        linkIds={["amazon-tp19h-thermometer", "amazon-tp16-thermometer"]}
-        criteria={[
-          "TP19H has motion wake and a AAA battery. Its IP65 rating supports rinsing, not submersion or dishwasher cleaning.",
-          "TP16 has a magnetic/tabletop display and a AAA battery. It monitors one location and has no wireless remote monitoring.",
-          "Keep the TP16 display outside the oven and follow the manufacturer’s probe and cable limits.",
-          "For a whole bird, verify the innermost thigh and wing and thickest breast, avoiding bone.",
-        ]}
-        footnote="Model identities and specifications reviewed October 15, 2026. Check the listing before purchase; availability and terms can change."
-      />
+        <CommercialCallout
+          heading="Two researched choices, for two different jobs"
+          intro="Start with the TempPro TP19H for everyday spot checks. Add the TP16 wired probe only if you regularly monitor whole roasts. If your existing thermometer reads reliably, keep using it. These picks are based on manufacturer specifications and model listings, not hands-on tests."
+          placement="thermometer_options"
+          linkIds={["amazon-tp19h-thermometer", "amazon-tp16-thermometer"]}
+          criteria={[
+            "TP19H has motion wake and a AAA battery. Its IP65 rating supports rinsing, not submersion or dishwasher cleaning.",
+            "TP16 has a magnetic/tabletop display and a AAA battery. It monitors one location and has no wireless remote monitoring.",
+            "Keep the TP16 display outside the oven and follow the manufacturer’s probe and cable limits.",
+            "For a whole bird, verify the innermost thigh and wing and thickest breast, avoiding bone.",
+          ]}
+          footnote="Model identities and specifications reviewed October 15, 2026. Check the listing before purchase; availability and terms can change."
+        />
+      </div>
 
       <SourceNotes ids={["tempproTp19h", "tempproTp16"]} heading="Selection sources" />
 

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { distributionMetadata } from "@/lib/distribution-metadata";
+import { trackDuckBreastClusterClick } from "@/lib/analytics";
 import { AirFryerRecipeLink } from "@/components/site/AirFryerRecipeLink";
 import { AIR_FRYER_INBOUND_PLACEMENTS } from "@/data/air-fryer-inbound";
 import { ArticleShell, Section, DataTable, Callout, FaqList } from "@/components/site/ArticleShell";
@@ -9,7 +10,6 @@ import { RelatedGuides } from "@/components/site/RelatedGuides";
 import { guideByPath } from "@/data/guides";
 import { articleSchema, breadcrumbSchema, faqSchema, ldScript, pageMeta } from "@/lib/seo";
 import { DuckBreastJourney } from "@/components/site/DuckBreastJourney";
-import { CommercialCallout } from "@/components/site/CommercialLink";
 import { DecisionNextSteps } from "@/components/site/DecisionGuide";
 import { ConversionPaths } from "@/components/site/ConversionPaths";
 
@@ -277,26 +277,45 @@ function Page() {
         </p>
       </Section>
 
-      <CommercialCallout
-        heading="The one tool these numbers depend on"
-        intro="Every temperature on this page assumes a probe you can trust to read quickly and repeatably at the thickest part of the breast."
-        placement="temperature_gear"
-        linkIds={["thermoworks-thermometer"]}
-        criteria={[
-          "A reading settles in a few seconds, so the breast is not overshooting while you wait.",
-          "The probe tip is thin enough to enter from the side without tearing the fat cap.",
-          "Stated accuracy is tight enough that a 130°F target is not really a 135°F one.",
-        ]}
-        footnote={
-          <>
-            Then use those readings inside the method in{" "}
-            <a href="/cook/how-to-cook-duck-breast" className="text-primary underline underline-offset-4">
-              how to cook duck breast
-            </a>
-            .
-          </>
-        }
-      />
+      <Callout label="The one tool these numbers depend on">
+        <p>
+          Every temperature on this page assumes a probe you can trust to read quickly and
+          repeatably at the thickest part of the breast.
+        </p>
+        <ul className="list-disc space-y-1 pl-5">
+          <li>
+            A reading settles in a few seconds, so the breast is not overshooting while you wait.
+          </li>
+          <li>The probe tip is thin enough to enter from the side without tearing the fat cap.</li>
+          <li>Stated accuracy is tight enough that a 130°F target is not really a 135°F one.</li>
+        </ul>
+        <p>
+          <a
+            href="/gear/best-thermometer-for-duck#thermometer_options"
+            onClick={() =>
+              trackDuckBreastClusterClick({
+                destinationPath: "/gear/best-thermometer-for-duck",
+                destinationGroup: "buying",
+                placement: "doneness_thermometer_card",
+              })
+            }
+            className="text-primary underline underline-offset-4"
+          >
+            Compare two researched thermometer options and their limitations
+          </a>
+          .
+        </p>
+        <p>
+          Then use those readings inside the method in{" "}
+          <a
+            href="/cook/how-to-cook-duck-breast"
+            className="text-primary underline underline-offset-4"
+          >
+            how to cook duck breast
+          </a>
+          .
+        </p>
+      </Callout>
 
       <FaqList items={FAQ} />
 

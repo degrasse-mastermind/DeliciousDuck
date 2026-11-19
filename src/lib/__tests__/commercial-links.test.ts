@@ -213,11 +213,12 @@ describe("placements and journeys", () => {
     }
   });
 
-  it("covers the three commercial journeys", () => {
+  it("covers merchant destinations on the sourcing, cooking and gear routes", () => {
     const paths = COMMERCIAL_PLACEMENTS.map((p) => p.path);
     expect(paths).toContain("/buy/where-to-buy-duck-online");
     expect(paths).toContain("/cook/how-to-cook-duck-breast");
-    expect(paths).toContain("/learn/duck-breast-temperature-doneness");
+    expect(paths).toContain("/gear/best-thermometer-for-duck");
+    expect(paths).not.toContain("/learn/duck-breast-temperature-doneness");
   });
 
   it("gives duck-breast readers a thermometer step and points sourcing at our own guide", () => {
