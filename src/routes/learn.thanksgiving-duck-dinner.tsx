@@ -217,7 +217,7 @@ function Page() {
             [
               "Final 30 minutes",
               "Duck, oven turned up to finish the skin",
-              "Thermometer in the thigh, sauce finished",
+              "Thermometer check in the thigh, wing and breast; sauce finished",
             ],
             [
               "Rest, 20 minutes",
@@ -321,7 +321,7 @@ function Page() {
         <p>
           The lower pull temperatures you see quoted for duck are a restaurant convention for a
           seared, pink <em>breast</em>, and they are a separate question from a whole holiday bird.
-          For a centrepiece you are serving to a table of guests, use the thigh reading above and see{" "}
+          For a centrepiece you are serving to a table of guests, verify at least 165°F (73.9°C) in all three spots above before taking it out of the oven and see{" "}
           <Link
             to="/learn/duck-breast-temperature-doneness"
             className="text-primary underline underline-offset-4"
@@ -364,7 +364,7 @@ function Page() {
             [
               "Dry breast, underdone legs",
               "Carved to the clock instead of a thermometer",
-              "Read the thigh, rest 20 minutes, and take the legs off first when you carve",
+              "Confirm 165°F (73.9°C) in the thigh, wing and breast before resting 20 minutes, then take the legs off first when you carve",
             ],
           ]}
         />

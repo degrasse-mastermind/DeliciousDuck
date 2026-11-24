@@ -207,7 +207,7 @@ const THANKSGIVING_PLAN_HUB: AcquisitionPageMeta = {
   path: "/learn/thanksgiving-duck-dinner",
   intent: "How do I plan and cook a whole Thanksgiving dinner around duck?",
   answer:
-    "Plan it backward from dinner. Choose your table size first, take the bird count from the serving calculator, and order two to three weeks out so you can confirm size, format and delivery date; if it arrives frozen, move it to the refrigerator two or three days ahead — about 24 hours of thawing per 4 to 5 lb. Salt it uncovered overnight, roast it on a rack so it never sits in its own fat, and finish at 165°F (73.9°C) in the thigh. Roast the duck-fat potatoes earlier in the day and re-crisp them while the bird rests for twenty minutes, and build the menu around acidity and bitter greens rather than more butter.",
+    "Plan it backward from dinner. Choose your table size first, take the bird count from the serving calculator, and order two to three weeks out so you can confirm size, format and delivery date; if it arrives frozen, move it to the refrigerator two or three days ahead — about 24 hours of thawing per 4 to 5 lb. Salt it uncovered overnight, roast it on a rack so it never sits in its own fat, and verify at least 165°F (73.9°C) in the innermost thigh and wing and the thickest part of the breast, avoiding bone, before taking the duck out. Roast the duck-fat potatoes earlier in the day and re-crisp them while the bird rests for twenty minutes, and build the menu around acidity and bitter greens rather than more butter.",
   byline: BYLINE,
   updated: "2026-08-19",
   basedOn: [

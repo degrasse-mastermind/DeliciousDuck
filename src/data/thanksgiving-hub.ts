@@ -144,7 +144,7 @@ export const THANKSGIVING_PLAN: ThanksgivingPlanStep[] = [
     stage: "cook",
     when: "The last half hour",
     task: "Call it by temperature",
-    why: "The clock gets you close; a reading in the thickest part of the thigh is what actually ends the roast.",
+    why: "The clock gets you close; confirm at least 165°F (73.9°C) in the thigh, wing and breast before taking the duck out.",
     to: "/gear/best-thermometer-for-duck",
     linkLabel: "Thermometers for duck",
     intent: "equipment",
@@ -341,7 +341,7 @@ export const THANKSGIVING_CHECKLIST: ThanksgivingChecklistGroup[] = [
     heading: "Roasting day",
     items: [
       "Duck goes in at the scheduled time; fat poured off into a heatproof jar as it collects",
-      "Thigh reads 165°F (73.9°C) away from bone before the bird comes out",
+      "Thigh, wing and breast each reach at least 165°F (73.9°C), avoiding bone, before the bird comes out",
       "Bird rests while the potatoes re-crisp uncovered",
       "Carve after the rest: legs off at the joint first, then the breasts, then sliced",
     ],

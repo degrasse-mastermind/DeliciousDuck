@@ -267,7 +267,7 @@ export const GUIDES: GuideEntry[] = [
     kind: "reference",
     minutes: 9,
     answer:
-      "A 5–6 lb (2.3–2.7 kg) whole duck takes roughly 2 to 2½ hours at 325°F (163°C), or about 20–25 minutes per pound, plus a 15–20 minute rest. Time is only a planning tool: the bird is done when the thigh reads 175°F (79°C) and the skin is deep and taut.",
+      "A 5–6 lb (2.3–2.7 kg) whole duck takes roughly 2 to 2½ hours at 325°F (163°C), or about 20–25 minutes per pound, plus a 15–20 minute rest. Use time only to plan: before removing the duck from the oven, verify at least 165°F (73.9°C) in the innermost thigh and wing and thickest part of the breast, avoiding bone. A 175°F (79°C) thigh is a texture target, not a safety check for the whole bird.",
     related: [
       "/tools/duck-cooking-time-planner",
       "/tools/whole-duck-serving-calculator",

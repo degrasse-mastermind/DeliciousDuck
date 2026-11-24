@@ -1104,12 +1104,12 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
     intro:
       "A whole duck asks you to solve two problems at once: legs that want a long cook and a breast that does not. The two-stage roast — a long, low fat-rendering phase followed by a short, hot browning phase — is the most reliable way to get both right in a domestic oven.",
     answerFirst:
-      "Roast a whole duck in two stages: 60\u201390 minutes at 300\u2013325\u00b0F (150\u2013165\u00b0C) breast-side up to render the fat, pouring it off as it collects, then a short blast at high heat to crisp the skin. The legs are ready at 175\u2013185\u00b0F (79\u201385\u00b0C) in the thickest part of the thigh, where the connective tissue has softened; probe there rather than trusting time. Dry the skin uncovered in the fridge overnight and keep the bird on a rack so it never sits in its own fat.",
+      "Roast a whole duck in two stages: 60\u201390 minutes at 300\u2013325\u00b0F (150\u2013165\u00b0C) breast-side up to render the fat, pouring it off as it collects, then a short blast at high heat to crisp the skin. Before taking the bird out, confirm at least 165\u00b0F (73.9\u00b0C) in the innermost thigh and wing and the thickest part of the breast, avoiding bone. The legs can be more tender at 175\u2013185\u00b0F (79\u201385\u00b0C); that is an optional texture target. Dry the skin uncovered in the fridge overnight and keep the bird on a rack so it never sits in its own fat.",
     confidence: {
       cut: "Whole duck, typically 2–2.7 kg (4.5–6 lb)",
       biggestRisk: "Roasting hot the whole way, which dries the breast before the legs are tender",
       essentialTechnique: "Low fat-rendering stage, then a short high-heat browning stage",
-      targetResult: "Legs tender at 175–185°F (79–85°C); breast still juicy",
+      targetResult: "Thigh, wing and breast at least 165°F (73.9°C); 175–185°F (79–85°C) is optional for leg tenderness",
       essentialTool: "A roasting rack that keeps the bird out of its own fat",
       saveAfterwards: "A jar of rendered fat and a carcass for stock",
     },
@@ -1143,7 +1143,7 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         label: "Instant-read thermometer",
-        why: "Breast and thigh finish at very different temperatures; you need to check both.",
+        why: "Use it to check the thigh, wing and breast before taking the whole duck out of the oven.",
         to: "/gear/best-thermometer-for-duck",
         linkLabel: "Thermometer buying guide",
       },
@@ -1175,11 +1175,11 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       },
       {
         title: "Check the legs before browning",
-        body: "Probe the thickest part of the thigh, avoiding bone. Legs should be heading for 175–185°F (79–85°C), where connective tissue has broken down and the meat gives easily.",
+        body: "Check the innermost thigh, avoiding bone, to see how the legs are progressing. A leg temperature of 175–185°F (79–85°C) is optional for texture. Confirm the three safety readings after browning.",
       },
       {
         title: "Stage two: brown hot and fast",
-        body: "Raise the oven to 425–450°F (220–230°C) for 15–25 minutes until the skin is deep mahogany and tight. If you are glazing, brush in the last 10–15 minutes only — sugar burns quickly at this heat.",
+        body: "Raise the oven to 425–450°F (220–230°C) for 15–25 minutes until the skin is deep mahogany and tight. If you are glazing, brush in the last 10–15 minutes only — sugar burns quickly at this heat. Before taking the bird out, check the innermost thigh and wing and the thickest part of the breast, avoiding bone. Keep cooking if any reading is below 165°F (73.9°C).",
         watchFor:
           "Watch continuously in this stage; the gap between burnished and burnt is a few minutes.",
       },
@@ -1197,12 +1197,11 @@ export const RECIPE_CONTENT: Record<string, RecipeContent> = {
       columns: ["Part", "Target", "Why"],
       rows: [
         [
-          "Thigh / leg",
+          "Thigh / leg (optional texture target)",
           "175–185°F (79–85°C)",
           "Connective tissue breaks down; meat becomes tender",
         ],
-        ["Breast (culinary)", "135–145°F (57–63°C)", "Still juicy; commonly served slightly pink"],
-        ["USDA recommendation", "165°F (73.9°C) throughout", "Food-safety minimum for all poultry"],
+        ["USDA whole-duck minimum", "165°F (73.9°C) or higher in all three spots", "Check the innermost thigh and wing and the thickest part of the breast, avoiding bone"],
         ["Rest", "15–20 minutes", "Juice redistribution; carryover of several degrees"],
       ],
     },
