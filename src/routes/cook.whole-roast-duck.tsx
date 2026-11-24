@@ -59,7 +59,7 @@ const FAQ = [
     },
     {
       q: "Can I stuff the cavity?",
-      a: "You can, but a filled cavity slows heat penetration and complicates the thigh temperature check — see the cooking-time guide for how much longer to plan.",
+      a: "You can, but a filled cavity slows heat penetration and complicates confirming the safe temperature in all three spots — see the cooking-time guide for how much longer to plan.",
     },
     {
       q: "Why is my duck taking longer than the planning range?",
@@ -85,7 +85,7 @@ function WholeRoastDuckPage() {
             difficulty: "Intermediate",
             biggestRisk: "Flabby skin from a wet bird, or dry breast from overshooting the thigh target",
             essentialTechnique: "Uncovered fridge dry, then low-render before a hot finish",
-            targetResult: "165°F (73.9°C) minimum in the thigh, shatter-crisp skin",
+            targetResult: "165°F (73.9°C) minimum in the thigh, wing and breast; shatter-crisp skin",
             essentialTool: "Instant-read thermometer and a roasting rack",
             saveAfterwards: "Rendered fat and the carcass for stock",
           }}
@@ -212,8 +212,8 @@ function WholeRoastDuckPage() {
             body: "Raise the oven to 425–450°F (218–232°C) for the last 20–30 minutes to colour and crisp the skin.",
           },
           {
-            title: "Check temperature in two places",
-            body: "Probe the thickest part of the thigh, avoiding bone, and the thickest part of the breast. Both need to read at least 165°F (73.9°C).",
+            title: "Check temperature in three places",
+            body: "Probe the innermost thigh and wing and the thickest part of the breast, avoiding bone. All three must reach at least 165°F (73.9°C) before you take the bird out of the oven.",
           },
           {
             title: "Rest",
@@ -228,11 +228,10 @@ function WholeRoastDuckPage() {
 
       <SafetyNote>
         <p>
-          A whole duck's legs and thighs are dense, well-worked muscle and generally still taste
-          good well past 165°F, so cooking to the safe minimum in the thigh is not a compromise
-          here the way it can be for a stand-alone breast. Don't estimate doneness by juice colour
-          or time alone — a thermometer reading in both the thigh and breast is the only reliable
-          check.
+          A whole duck's legs and thighs are dense, well-worked muscle and can become more tender
+          above the safety minimum. Don't estimate doneness by juice colour or time alone: confirm
+          at least 165°F (73.9°C) in the innermost thigh and wing and the thickest part of the
+          breast, avoiding bone.
         </p>
       </SafetyNote>
 
@@ -250,12 +249,12 @@ function WholeRoastDuckPage() {
             symptom: "Breast meat is dry by the time legs are done",
             cause: "A single flat internal temperature target ignores that breast and thigh cook at different rates.",
             fixNow: "Nothing recovers dry breast meat; slice thin and serve with a sauce to compensate.",
-            prevent: "Check the breast a few minutes before you expect it to finish, and pull earlier if the legs still need time — or tent the breast with foil partway through.",
+            prevent: "If the breast is heating faster than the legs, tent it with foil partway through. Keep roasting until the thigh, wing and breast all reach the safe minimum.",
           },
           {
             symptom: "Legs are still pink or tough at the thigh joint near the bone",
             cause: "The joint area cooks slower than the surrounding flesh and the probe missed the true thickest point.",
-            fixNow: "Return the bird to the oven and recheck every 10 minutes until the thigh clears 165°F (73.9°C).",
+            fixNow: "If any of the three spots is below 165°F (73.9°C), continue roasting and recheck until all three meet the minimum.",
             prevent: "Probe close to but not touching the bone, and check both legs — they don't always finish evenly.",
           },
           {

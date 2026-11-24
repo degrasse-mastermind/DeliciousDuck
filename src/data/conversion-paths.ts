@@ -117,7 +117,7 @@ export const CONVERSION_PATHS: ConversionPath[] = [
     direction: "cornerstone_to_commercial",
     anchor: "How to choose a thermometer for whole duck",
     reason:
-      "Every range on this page is a planning estimate; the thigh reading is what actually ends the roast.",
+      "Every range on this page is a planning estimate; confirm at least 165°F (73.9°C) in the thigh, wing and breast before taking the bird out.",
   },
   {
     placement: "thaw_duck_to_sourcing_guide",

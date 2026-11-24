@@ -101,11 +101,15 @@ function WholeDuckCookingTimePage() {
           caption="Whole duck planning ranges (unstuffed, fridge-cold start)"
           columns={["Weight", "Low oven, 300–325°F (149–163°C)", "Moderate oven, 350°F (177°C)", "Hot oven, 425–450°F (218–232°C)", "Verify with a thermometer"]}
           rows={[
-            ["1.8–2.0 kg (4–4.5 lb)", "2.5–3 hr", "2–2.5 hr", "1.25–1.5 hr", "Thigh ≥165°F (73.9°C)"],
-            ["2.3–2.7 kg (5–6 lb)", "3–3.5 hr", "2.5–3 hr", "1.5–1.75 hr", "Thigh ≥165°F (73.9°C)"],
-            ["2.9–3.2 kg (6.5–7 lb)", "3.5–4 hr", "3–3.5 hr", "1.75–2 hr", "Thigh ≥165°F (73.9°C)"],
+            ["1.8–2.0 kg (4–4.5 lb)", "2.5–3 hr", "2–2.5 hr", "1.25–1.5 hr", "Thigh, wing and breast ≥165°F (73.9°C)"],
+            ["2.3–2.7 kg (5–6 lb)", "3–3.5 hr", "2.5–3 hr", "1.5–1.75 hr", "Thigh, wing and breast ≥165°F (73.9°C)"],
+            ["2.9–3.2 kg (6.5–7 lb)", "3.5–4 hr", "3–3.5 hr", "1.75–2 hr", "Thigh, wing and breast ≥165°F (73.9°C)"],
           ]}
         />
+        <p className="text-sm text-muted-foreground">
+          Check the innermost thigh and wing and the thickest part of the breast, avoiding bone.
+          All three must reach at least 165°F (73.9°C) before you remove the bird from the oven.
+        </p>
         <p className="text-sm text-muted-foreground">
           A hot, uninterrupted oven roasts fastest but crisps unevenly without a low-render stage
           first; most whole-duck methods, including our own, combine a low stage with a hot finish
@@ -146,7 +150,7 @@ function WholeDuckCookingTimePage() {
           safe temperature along with the bird, and it slows heat penetration to the surrounding
           meat because the filling insulates the cavity walls. A stuffed whole duck commonly needs
           20–40 minutes longer than the unstuffed ranges above, and the stuffing itself must also
-          reach 165°F (73.9°C) — check it with the thermometer, not just the thigh. If timing
+          reach 165°F (73.9°C) — use a thermometer to check it in addition to the three spots in the bird. If timing
           precision matters for your dinner, cook aromatics loosely and stuffing separately.
         </p>
       </Section>
@@ -166,7 +170,7 @@ function WholeDuckCookingTimePage() {
       <ConversionPaths
         sourcePath="/learn/whole-duck-cooking-time"
         eyebrow="Verify the finish"
-        intro="These ranges plan the roast; a probe reading ends it."
+        intro="These ranges plan the roast; three thermometer readings confirm the finish."
       />
 
       <RelatedGuides paths={GUIDE.related} />
